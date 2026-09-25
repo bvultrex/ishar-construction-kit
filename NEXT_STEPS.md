@@ -92,3 +92,14 @@ Grow from verified schemas outward, not from speculative UI inward.
 - Draft PR #1 is the integration gate; CI runs typecheck + production build.
 
 Next after the first green playable build: harden project migrations, add/delete entity workflows, improve map editing, then expand runtime systems without coupling them to unverified proprietary formats.
+
+
+## Crawler-first follow-up
+
+User test of the first runnable slice passed functionally but exposed the wrong presentation model: it felt like a text adventure. The next test checkpoint therefore requires a visual first-person dungeon loop, not further text-flow polish.
+
+- Done: X/Y dungeon grid + start facing in authored schema.
+- Done: grid topology validation and live Builder map.
+- Done: perspective viewport with turn/step navigation and keyboard controls.
+- Done: encounters in viewport and five-slot party HUD scaffold.
+- Next: user test of the crawler build, then doors/interactions, party expansion, richer combat and stronger original visual identity.
