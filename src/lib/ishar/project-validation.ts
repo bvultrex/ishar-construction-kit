@@ -1,3 +1,4 @@
+import { directionBetween } from "./dungeon";
 import type { AuthoredGame } from "./types";
 
 export interface ProjectProblem {
@@ -30,8 +31,27 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
     seen.add(key);
   }
 
+  const occupied = new Map<string, string>();
   for (const location of game.locations) {
-    for (const exit of location.exits) if (!locationIds.has(exit)) problems.push({ path: `location.${location.id}.exits`, message: `Ausgang verweist auf unbekannten Ort "${exit}".` });
+    const coordinateKey = `${location.x},${location.y}`;
+    const occupant = occupied.get(coordinateKey);
+    if (occupant) problems.push({ path: `location.${location.id}`, message: `Rasterfeld ${coordinateKey} ist bereits von "${occupant}" belegt.` });
+    occupied.set(coordinateKey, location.id);
+
+    for (const exit of location.exits) {
+      const target = game.locations.find((candidate) => candidate.id === exit);
+      if (!target) {
+        problems.push({ path: `location.${location.id}.exits`, message: `Ausgang verweist auf unbekannten Ort "${exit}".` });
+        continue;
+      }
+      if (!directionBetween(location, target)) {
+        problems.push({ path: `location.${location.id}.exits`, message: `"${exit}" liegt nicht direkt nördlich, östlich, südlich oder westlich im Raster.` });
+      }
+      if (!target.exits.includes(location.id)) {
+        problems.push({ path: `location.${location.id}.exits`, message: `Verbindung zu "${exit}" ist nicht beidseitig.` });
+      }
+    }
+
     for (const item of location.itemIds) if (!itemIds.has(item)) problems.push({ path: `location.${location.id}.itemIds`, message: `Unbekanntes Item "${item}".` });
     if (location.encounterId && !encounterIds.has(location.encounterId)) problems.push({ path: `location.${location.id}.encounterId`, message: `Unbekannte Begegnung "${location.encounterId}".` });
   }
