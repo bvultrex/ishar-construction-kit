@@ -146,10 +146,14 @@ export interface AuthoredItem {
   description: string;
 }
 
+export type Direction = "north" | "east" | "south" | "west";
+
 export interface AuthoredLocation {
   id: string;
   name: string;
   description: string;
+  x: number;
+  y: number;
   exits: string[];
   itemIds: string[];
   encounterId?: string;
@@ -174,6 +178,7 @@ export interface AuthoredQuest {
 
 export interface AuthoredGame {
   startLocationId: string;
+  startFacing: Direction;
   characters: AuthoredCharacter[];
   items: AuthoredItem[];
   locations: AuthoredLocation[];
