@@ -69,3 +69,14 @@ Only build authoring systems after their schemas are verified:
 - build/export pipeline
 
 Grow from verified schemas outward, not from speculative UI inward.
+
+## 2026-09-26 checkpoint and path to 1.0
+
+- Done: six real 8,359-byte Ishar 2 saves pass byte-identical codec identity roundtrips; synthetic slot-0 HP +1 changes only offset 997. Details and hashes in `AUDIT.md`.
+- Next RE control: game-produced before/after pair with displayed values, ideally a 16-bit value crossing a byte boundary; test gold separately. Synthetic editor patches establish write isolation, not field semantics.
+- Define the original project schema and target runtime/export with one complete acceptance example: location, encounter, item, quest and ending.
+- Build persistent authoring and reference validation for that vertical slice: party, map, events, items, encounters, quest and dialogue.
+- Prove an exported project can be reopened, run and completed end to end. Continue evidence-gated original-game import research in parallel rather than waiting for every proprietary format.
+
+- Triage legacy Ishar 1 research against original bytes: `CONT*.FIC` 54×90 addressing, `EN1.FIC` template tables and ALIS A1 repack behavior. Track evidence separately from Ishar 2 save offsets.
+- At the 1.0 design checkpoint choose and document the executable target and legal asset workflow, informed by the existing Ishar 1 Workbench compatibility research. Keep a complete authored RPG as the acceptance criterion.

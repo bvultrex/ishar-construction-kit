@@ -91,3 +91,13 @@ Observed corpus facts:
 The recovery phase is complete enough to resume reverse engineering.
 
 Next: validate the candidate character maps against the supplied real saves, record controlled diffs and only then deepen items, spells and world formats.
+
+## 2026-09-26 evidence checkpoint
+
+Six real Ishar 2 saves passed byte-identical codec identity patches. Synthetic slot-0 HP +1 changed exactly offset 997 in each save. The supplied HEX guide and corpus support five-member BE candidate arrays; field meanings and gold structure still require game-produced controls. See `AUDIT.md` for hashes and offsets. Original files remain outside Git.
+
+## Build 1.0 target
+
+A usable 1.0 lets an author create and reopen an original project, define a small complete RPG (party/characters, world/maps, items, encounters, quests and text), validate references, and export a documented playable package for a specified runtime. Save inspection/import is a research and migration aid, not the main output. The runtime and export format need a concrete design checkpoint; unknown original file formats need not block an original-data authoring path.
+
+The older Ishar 1 Python Workbench supplies candidate template, map, script and quest findings. Its `EN1.FIC` tables are distinct from `.SAV` fields. Its original-engine patch workflow could inform a future compatibility export, but no code or derived game assets have been imported into this repository. The 1.0 export/runtime decision must account for both an original-format compatibility path and an original-data runtime path without claiming either is already implemented.
