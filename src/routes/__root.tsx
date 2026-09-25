@@ -1,10 +1,14 @@
 import { createRootRoute, HeadContent, Link, Outlet, Scripts } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { useKit } from "@/lib/store";
 import appCss from "../styles.css?url";
 
 const APP_NAME = "Ishar Construction Kit";
 
 const nav = [
   ["/", "Overview"],
+  ["/author", "Adventure Builder"],
+  ["/playtest", "Playtest"],
   ["/characters", "Character Lab"],
   ["/files", "File Lab"],
   ["/knowledge", "Knowledge"],
@@ -26,6 +30,9 @@ export const Route = createRootRoute({
 });
 
 function Root() {
+  const hydrateProject = useKit((s) => s.hydrateProject);
+  useEffect(() => hydrateProject(), [hydrateProject]);
+
   return (
     <html lang="de" suppressHydrationWarning>
       <head><HeadContent /></head>
