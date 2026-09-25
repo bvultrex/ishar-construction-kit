@@ -133,6 +133,54 @@ export interface DiffHunk {
   b: number;
 }
 
+export interface AuthoredCharacter {
+  id: string;
+  name: string;
+  hp: number;
+  attack: number;
+}
+
+export interface AuthoredItem {
+  id: string;
+  name: string;
+  description: string;
+}
+
+export interface AuthoredLocation {
+  id: string;
+  name: string;
+  description: string;
+  exits: string[];
+  itemIds: string[];
+  encounterId?: string;
+  ending?: boolean;
+}
+
+export interface AuthoredEncounter {
+  id: string;
+  name: string;
+  enemyHp: number;
+  enemyAttack: number;
+  victoryText: string;
+  questId?: string;
+}
+
+export interface AuthoredQuest {
+  id: string;
+  title: string;
+  objective: string;
+  completedText: string;
+}
+
+export interface AuthoredGame {
+  startLocationId: string;
+  characters: AuthoredCharacter[];
+  items: AuthoredItem[];
+  locations: AuthoredLocation[];
+  encounters: AuthoredEncounter[];
+  quests: AuthoredQuest[];
+}
+
 export interface KitProject {
   format: "ishar-ck-project";
   version: 1;
@@ -142,4 +190,5 @@ export interface KitProject {
   sourceGames: GameId[];
   nameOverlays: Record<string, string>;
   modules: Record<string, { status: "planned" | "audit" | "partial" | "ready"; notes: string }>;
+  game: AuthoredGame;
 }
