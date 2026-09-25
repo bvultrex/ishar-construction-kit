@@ -101,3 +101,10 @@ Six real Ishar 2 saves passed byte-identical codec identity patches. Synthetic s
 A usable 1.0 lets an author create and reopen an original project, define a small complete RPG (party/characters, world/maps, items, encounters, quests and text), validate references, and export a documented playable package for a specified runtime. Save inspection/import is a research and migration aid, not the main output. The runtime and export format need a concrete design checkpoint; unknown original file formats need not block an original-data authoring path.
 
 The older Ishar 1 Python Workbench supplies candidate template, map, script and quest findings. Its `EN1.FIC` tables are distinct from `.SAV` fields. Its original-engine patch workflow could inform a future compatibility export, but no code or derived game assets have been imported into this repository. The 1.0 export/runtime decision must account for both an original-format compatibility path and an original-data runtime path without claiming either is already implemented.
+
+
+## 2026-09-26 playable vertical slice
+
+Draft PR #1 adds the first original-data authoring-to-runtime path. The project now contains a starter adventure schema for characters, locations, items, encounters and quests; local browser persistence; import/export; reference validation; an Adventure Builder; and a browser Playtest that can be completed from start to ending. This is deliberately separate from original Ishar save/file compatibility research.
+
+Acceptance path: edit the starter project, keep validation green, start Playtest, defeat the guardian, reach the ending location, export the project JSON, reopen it and replay it.
