@@ -108,3 +108,10 @@ The older Ishar 1 Python Workbench supplies candidate template, map, script and 
 Draft PR #1 adds the first original-data authoring-to-runtime path. The project now contains a starter adventure schema for characters, locations, items, encounters and quests; local browser persistence; import/export; reference validation; an Adventure Builder; and a browser Playtest that can be completed from start to ending. This is deliberately separate from original Ishar save/file compatibility research.
 
 Acceptance path: edit the starter project, keep validation green, start Playtest, defeat the guardian, reach the ending location, export the project JSON, reopen it and replay it.
+
+
+## 2026-09-26 product correction: crawler-first runtime
+
+The first runnable authoring slice proved persistence, validation, combat, completion and import/export, but user testing correctly identified that its button-and-text presentation behaved like a text adventure. The runtime target is therefore now explicit: **grid-based first-person dungeon crawler**.
+
+Current branch adds X/Y dungeon geometry, facing, cardinal topology validation, live map authoring, perspective dungeon rendering, relative movement/turning, keyboard controls, viewport encounters and a five-slot party HUD scaffold. Text remains secondary UI. This is the basis for the playable 1.0 runtime; original Ishar binary compatibility remains a parallel research track.
