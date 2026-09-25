@@ -1,74 +1,71 @@
 # Ishar Construction Kit — Next Steps
 
-## P0 — harden the recovered core
+## Recovery checkpoint completed
 
-- Fix the three TypeScript errors without changing binary behavior.
-- Add focused tests around field read/write, `patchParty`, identity round-trip and Silmarils old-packer decode.
-- Make the existing `selfTest()` part of `npm test`.
-- Keep original Ishar archives permanently excluded from Git.
+- recovered Ishar core into GitHub
+- restored standalone TanStack/Vite shell
+- restored five core workbench routes
+- fixed recovered TypeScript errors
+- Character Lab loads local saves and exports surgical patches
+- File Lab inventories local ZIPs/files
+- `npm run typecheck` passes
+- `npm run build` passes
+- original Ishar corpora remain excluded from Git
 
-## P1 — restore the application shell
-
-Create/restore:
-
-- `src/router.tsx`
-- `src/routes/__root.tsx`
-- `src/routes/index.tsx`
-
-Then build a workbench shell using dark stone, parchment, copper and sage.
-
-Core pages:
-
-1. **Overview** — module readiness, loaded corpora, next audit targets.
-2. **Character Lab** — party slots, stats, class/race, skills, inventory, spell bytes, patch/diff preview.
-3. **File Lab** — ZIP/folder inventory, classification, magic, entropy, strings, Silmarils header/unpack status.
-4. **Knowledge** — known/suspected/unknown ledger and next tests.
-5. **Project** — Construction Kit project metadata and module roadmap.
-
-## P2 — complete brand identity
-
-- Keep recovered `public/favicon.svg` unless 16px QA finds a problem.
-- Create `src/lib/og/site.json` for title `Ishar Construction Kit`, non-game website identity, custom card and dark-stone theme.
-- Create a 1200×630 `public/og.jpg` with original workbench imagery.
-- Do not add an X game banner.
-
-## P3 — real corpus validation
-
-Use local copies only.
+## P0 — real-save validation
 
 ### Ishar 2 first
 
-- load several 8,359-byte saves
-- compare known in-game values to decoded values
-- run identity patch and assert zero byte differences
-- alter one controlled stat in a copy and verify in-game
-- resolve endianness conclusively
+- inspect several 8,359-byte saves
+- match known in-game values to candidate offsets
+- conclusively resolve endian
+- run identity patch and require zero unintended differences
+- perform one-value controlled edits in copies
+- record fixture hash, action, offsets and interpretation in the audit
 
 ### Ishar 1 second
 
-- repeat with 5,216-byte saves
-- verify public DEBUG offsets
-- compare Ishar 2 `IMP2.SAV` against Ishar 1 layout to study the import bridge
+- verify 5,216-byte save layout
+- verify the public DEBUG offsets
+- compare Ishar 2 `IMP2.SAV` against Ishar 1 saves to study the import bridge
 
-## P4 — deepen the format model
+## P1 — deepen Character Lab
+
+- inventory slot editor/view
+- raw spell-byte inspector
+- before/after byte diff panel
+- warnings for unverified fields
+- export validation summary
+- optional project overlays for names and future metadata
+
+## P2 — deepen File Lab
+
+- hex/string inspector
+- Silmarils packed-header detail
+- old-packer unpack preview
+- side-by-side file comparison
+- classification filters and unknown-file queue
+
+## P3 — format research
 
 After character maps are hardened:
 
-- item IDs/templates
+- item ID/template table
 - learned-spell semantics
-- multilingual text resources
-- `.FIC` structures across both games
-- quest/persistence flags from controlled saves
+- multilingual `TEXTIN*.IO` / `MESSAGE*.IO`
+- `.FIC` structures across Ishar 1 and 2
+- quest/persistence flags from controlled before/after saves
 
-## P5 — construction-kit authoring
+## P4 — construction-kit authoring
 
-Only after codecs are verified:
+Only build authoring systems after their schemas are verified:
 
-- character/race/class definitions
-- item/spell authoring
+- races/classes/characters
+- items/spells
 - map/event editor
-- NPC/quest/dialogue editors
-- validation/dependency graph
-- export/build pipeline
+- NPC/enemy editor
+- quests/dialogue
+- dependency validation
+- build/export pipeline
 
 Grow from verified schemas outward, not from speculative UI inward.
