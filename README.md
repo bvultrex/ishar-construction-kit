@@ -26,3 +26,8 @@ Start here:
 - [HANDOFF.md](HANDOFF.md)
 - [AUDIT.md](AUDIT.md)
 - [NEXT_STEPS.md](NEXT_STEPS.md)
+
+
+## First playable slice
+
+The workbench/playable-slice branch / draft PR #1 contains the first end-to-end original project workflow: edit a tiny adventure in **Adventure Builder**, validate references, run it in **Playtest**, and export/reopen the project JSON. Original Ishar files are still used only by the research labs and are not required for this authored runtime path.
