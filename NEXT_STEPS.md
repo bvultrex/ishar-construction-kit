@@ -80,3 +80,15 @@ Grow from verified schemas outward, not from speculative UI inward.
 
 - Triage legacy Ishar 1 research against original bytes: `CONT*.FIC` 54×90 addressing, `EN1.FIC` template tables and ALIS A1 repack behavior. Track evidence separately from Ishar 2 save offsets.
 - At the 1.0 design checkpoint choose and document the executable target and legal asset workflow, informed by the existing Ishar 1 Workbench compatibility research. Keep a complete authored RPG as the acceptance criterion.
+
+
+## Playable slice checkpoint
+
+- Added original project schema: character, item, location, encounter, quest and start/ending references.
+- Added browser persistence plus project import/export and reset.
+- Added reference validation before playtest.
+- Added Adventure Builder for the starter vertical slice.
+- Added browser Playtest with movement, combat, quest completion, inventory pickup, defeat/reset and ending.
+- Draft PR #1 is the integration gate; CI runs typecheck + production build.
+
+Next after the first green playable build: harden project migrations, add/delete entity workflows, improve map editing, then expand runtime systems without coupling them to unverified proprietary formats.
