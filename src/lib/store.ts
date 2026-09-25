@@ -1,8 +1,10 @@
 import { create } from "zustand";
 import type { CharacterView, Endian, FileRecord, GameId, KitProject } from "./ishar/types";
-import { emptyProject } from "./ishar/project";
+import { emptyProject, normalizeProject } from "./ishar/project";
 import { createDemoSave, readParty } from "./ishar/save-codec";
 import { ISHAR1_SAVE, ISHAR2_SAVE } from "./ishar/save-maps";
+
+const PROJECT_STORAGE_KEY = "ishar-ck-project-v1";
 
 interface KitState {
   game: GameId;
@@ -28,6 +30,8 @@ interface KitState {
   setInventory: (records: FileRecord[], source: string) => void;
   setLab: (name: string, bytes: Uint8Array) => void;
   setProject: (project: KitProject) => void;
+  hydrateProject: () => void;
+  resetProject: (name?: string) => void;
   setField: (id: string | null) => void;
   patchCharacter: (slot: number, patch: Partial<CharacterView>) => void;
 }
@@ -44,6 +48,11 @@ function parseParty(
     o[Number(k)] = v;
   });
   return readParty(bytes, map, endian, o);
+}
+
+function persistProject(project: KitProject) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(PROJECT_STORAGE_KEY, JSON.stringify(project));
 }
 
 export const useKit = create<KitState>((set, get) => ({
@@ -98,6 +107,7 @@ export const useKit = create<KitState>((set, get) => ({
       overlays[k] = v;
     });
     const project = { ...get().project, nameOverlays: overlays };
+    persistProject(project);
     set({
       game: "ishar2",
       endian: "be",
@@ -116,13 +126,32 @@ export const useKit = create<KitState>((set, get) => ({
   setSlot: (selectedSlot) => set({ selectedSlot }),
   setInventory: (inventory, inventorySource) => set({ inventory, inventorySource }),
   setLab: (labName, labBytes) => set({ labName, labBytes }),
-  setProject: (project) => set({ project }),
+  setProject: (project) => {
+    persistProject(project);
+    set({ project });
+  },
+  hydrateProject: () => {
+    if (typeof window === "undefined") return;
+    const raw = window.localStorage.getItem(PROJECT_STORAGE_KEY);
+    if (!raw) return;
+    try {
+      set({ project: normalizeProject(JSON.parse(raw)) });
+    } catch {
+      window.localStorage.removeItem(PROJECT_STORAGE_KEY);
+    }
+  },
+  resetProject: (name) => {
+    const project = emptyProject(name);
+    persistProject(project);
+    set({ project });
+  },
   setField: (selectedFieldId) => set({ selectedFieldId }),
   patchCharacter: (slot, patch) => {
     const party = get().party.map((c) => (c.slot === slot ? { ...c, ...patch } : c));
     const project = { ...get().project };
     if (patch.overlayName !== undefined) {
       project.nameOverlays = { ...project.nameOverlays, [String(slot)]: patch.overlayName };
+      persistProject(project);
     }
     set({ party, project });
   },
