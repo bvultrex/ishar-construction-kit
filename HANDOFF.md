@@ -93,3 +93,36 @@ A previous 60-byte `Cont1.fic` claim conflicts with the supplied DOS corpora, wh
 - regression fixtures are synthetic or metadata-only, never copyrighted originals
 - UI exposes the new verified knowledge
 - docs and GitHub are updated in the same checkpoint
+
+
+## 2026-09-26 — Dungeon-crawler runtime decision
+
+User feedback on the first runnable slice: the end-to-end workflow worked as planned, but the runtime felt like a text adventure rather than a dungeon crawler. Treat this as a product correction, not cosmetic polish.
+
+### Runtime direction
+
+The authored 1.0 runtime is a **grid-based first-person dungeon crawler**. Room text, quest text and logs are supporting UI only. The primary play surface must be visual dungeon navigation.
+
+Implemented on `workbench/playable-slice` after that feedback:
+
+- authored locations have integer X/Y dungeon coordinates
+- project has a starting facing direction
+- validation rejects overlapping cells, diagonal/non-adjacent links and one-way links
+- Adventure Builder shows a live dungeon grid
+- Playtest renders a perspective corridor/room view from the grid
+- player turns left/right and steps forward/back relative to facing
+- WASD and arrow-key controls
+- side passages and blocking walls are rendered from topology
+- active encounters appear directly in the viewport
+- five-slot party HUD scaffold is visible below the viewport
+- room/quest/inventory/log text moved to secondary sidebar UI
+- starter adventure expanded into a small multi-turn dungeon with a branch, encounter and ending
+
+### Near-term crawler work
+
+1. verify the new crawler build with user playtest
+2. replace placeholder geometry with a stronger Ishar-like visual language without shipping original assets
+3. add doors, blocked/locked transitions and interaction targets
+4. expand party to multiple authored members and combat selection
+5. add map/event authoring on top of the grid
+6. preserve original-game format research as a separate compatibility/import track
