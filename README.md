@@ -6,7 +6,19 @@ The project is intentionally **not** a distribution of Ishar game data. Original
 
 ## Recovery checkpoint
 
-The current source was recovered on 2026-09-25 from a Grok App Builder workspace export after the chat-side project state became unavailable.
+The source was recovered on 2026-09-25 from a Grok App Builder workspace export after the chat-side project state became unavailable.
+
+The recovery checkpoint is now **standalone and buildable**:
+
+- Ishar 1 / Ishar 2 candidate save maps restored
+- surgical save patch/readback/diff core restored
+- Silmarils file classification and old-packer groundwork restored
+- Zustand project/store state restored
+- Overview, Character Lab, File Lab, Knowledge and Project routes restored
+- Character Lab loads local `.SAV` files and exports patched copies
+- File Lab inventories local ZIPs/files without uploading original data
+- `npm run typecheck` passes
+- `npm run build` passes
 
 Start here:
 
@@ -14,5 +26,3 @@ Start here:
 - [HANDOFF.md](HANDOFF.md)
 - [AUDIT.md](AUDIT.md)
 - [NEXT_STEPS.md](NEXT_STEPS.md)
-
-The recovered implementation includes Ishar save/domain logic and application state, but the UI route shell was not present in the export and is the next major build step.
