@@ -1,0 +1,20 @@
+node_modules/
+dist/
+.output/
+.vercel/
+.env*
+!.env.example
+
+# Local reverse-engineering corpora / copyrighted source material
+Ishar1.zip
+Ishar2.zip
+Ishar1/
+Ishar2/
+corpus/
+fixtures/original/
+
+# Local analysis output
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
