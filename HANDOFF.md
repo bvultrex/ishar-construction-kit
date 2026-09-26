@@ -267,3 +267,18 @@ New default flow in Asset Lab:
 Manual manifest ZIP/folder import remains available under **Expertenmodus**.
 
 Important: this is an automatic ingestion/orchestration path, not yet a claim that proprietary Ishar raw bitmap formats are decoded. The architecture is now ready for those decoders: future format support can improve the same one-ZIP workflow without changing user interaction.
+
+
+## 2026-09-26 — Safer test-build packaging
+
+Chrome flagged the downloadable test ZIP as potentially harmful. Inspection confirmed the artifact contained executable helper scripts (`START_TEST_BUILD.cmd` and `START_TEST_BUILD.sh`).
+
+Packaging was changed so CI test artifacts no longer include executable launch scripts. The artifact now contains:
+
+- `dist/`
+- `package.json`
+- `package-lock.json`
+- `scripts/serve-build.mjs`
+- `README_TEST_BUILD.txt`
+
+The README contains manual Node/PowerShell startup instructions. This reduces browser/AV risk heuristics without bypassing or weakening security controls. Do not tell users to disable Safe Browsing or antivirus to obtain a build.

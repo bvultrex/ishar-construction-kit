@@ -50,7 +50,6 @@ jobs:
             package.json
             package-lock.json
             scripts/serve-build.mjs
-            START_TEST_BUILD.cmd
-            START_TEST_BUILD.sh
+            README_TEST_BUILD.txt
           if-no-files-found: error
           retention-days: 14
