@@ -118,6 +118,7 @@ function AssetsPage() {
     </div> : <>
       <div className="stats-grid file-stats">
         <article><span>Pack</span><strong>{pack.manifest.name}</strong></article>
+        <article><span>Renderprofil</span><strong>{pack.manifest.renderProfileId ?? "custom"}</strong></article>
         <article><span>Tilesets</span><strong>{pack.manifest.tilesets.length}</strong></article>
         <article><span>Layer</span><strong>{entries.length}</strong></article>
         <article><span>Dateien</span><strong>{pack.fileCount}</strong></article>
