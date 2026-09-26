@@ -124,8 +124,9 @@ function AssetsPage() {
 
   const entries = pack ? [...pack.manifest.shared, ...pack.manifest.tilesets.flatMap((tileset) => tileset.entries)] : [];
   const displayedAssets = [...(pack?.discoveredAssets ?? [])].sort((a,b)=>{
-    const at=a.assetKind==="terrain" ? 1 : 0;
-    const bt=b.assetKind==="terrain" ? 1 : 0;
+    const rank=(asset: typeof a)=>asset.assetKind==="terrain" ? 3 : asset.assetKind==="composite" ? 2 : asset.assetKind==="sprite" ? 1 : 0;
+    const at=rank(a);
+    const bt=rank(b);
     if(at!==bt) return bt-at;
     const af=a.visualStatus==="flat-color" ? 1 : 0;
     const bf=b.visualStatus==="flat-color" ? 1 : 0;
@@ -158,6 +159,7 @@ function AssetsPage() {
         <article><span>Flat/Masken</span><strong>{autoReport.alisFlatColorAssets}</strong></article>
         <article><span>Paletten</span><strong>{autoReport.alisPaletteResources}</strong></article>
         <article><span>Composites</span><strong>{autoReport.alisCompositeResources}</strong></article>
+        <article><span>Composite-Vorschau</span><strong>{autoReport.alisCompositePreviews}</strong></article>
         <article><span>Zugeordnet</span><strong>{autoReport.mappedImages}</strong></article>
       </div>
       <article className="stone-card"><h2>Automatik-Bericht</h2><ul>{autoReport.notes.map((note,index)=><li key={index}>{note}</li>)}</ul><p className="muted">{autoReport.candidateResources} mögliche Ressourcencontainer untersucht · {autoReport.decodedOldPacker} Old-Packer + {autoReport.decodedA1Packer} A1 entpackt · {autoReport.alisTablesFound} ALIS-Grafiktabellen · {autoReport.alisPaletteResources} Paletten · {autoReport.alisCompositeResources} Composites · {autoReport.failedPackedDecode} Decode-Fehler.</p>{autoReport.alisImagesSkippedForBudget>0 && <p className="muted">{autoReport.alisImagesSkippedForBudget} Bilder wurden wegen des Browser-Speicherlimits nur katalogisiert/übersprungen.</p>}</article>
@@ -194,15 +196,15 @@ function AssetsPage() {
         <p className="muted">Automatisch erkannte Kategorien werden markiert. Unklare Grafiken bleiben sichtbar, aber werden nicht blind in den Dungeon gerendert.</p>
         <div className="asset-discovery-grid">{displayedAssets.slice(0,240).map((asset)=><article className={asset.assetKind==="terrain" ? "terrain-asset-card" : ""} key={asset.id}>
           <img src={asset.url} alt=""/>
-          <strong>{asset.assetKind==="terrain" ? "Terrain-Textur" : (asset.suggestedRole ?? "unzugeordnet")}</strong>
-          <small>{asset.width && asset.height ? `${asset.width}×${asset.height} · ` : ""}{asset.assetKind==="terrain" ? "ALIS 0x1C/0x1E" : asset.source==="alis" ? "ALIS Sprite" : "Standardbild"}</small>
+          <strong>{asset.assetKind==="terrain" ? "Terrain-Textur" : asset.assetKind==="composite" ? "Composite" : (asset.suggestedRole ?? "unzugeordnet")}</strong>
+          <small>{asset.width && asset.height ? `${asset.width}×${asset.height} · ` : ""}{asset.assetKind==="terrain" ? "ALIS 0x1C/0x1E" : asset.assetKind==="composite" ? "ALIS 0xFF zusammengesetzt" : asset.source==="alis" ? "ALIS Sprite" : "Standardbild"}</small>
           <code title={asset.path}>{asset.path}</code>
           <div className="asset-card-badges">
-            <span className={"badge " + (asset.assetKind==="terrain" ? "confirmed" : asset.runtimeAssigned ? "confirmed" : asset.suggestedRole ? "suspected" : "unknown")}>{asset.assetKind==="terrain" ? "Terrain" : asset.runtimeAssigned ? "Runtime" : asset.suggestedRole ? "Vorschlag" : "prüfen"}</span>
+            <span className={"badge " + (asset.assetKind==="terrain" || asset.assetKind==="composite" ? "confirmed" : asset.runtimeAssigned ? "confirmed" : asset.suggestedRole ? "suspected" : "unknown")}>{asset.assetKind==="terrain" ? "Terrain" : asset.assetKind==="composite" ? "Composite" : asset.runtimeAssigned ? "Runtime" : asset.suggestedRole ? "Vorschlag" : "prüfen"}</span>
             {asset.paletteStatus && <span className={"badge " + (asset.paletteStatus==="embedded" ? "confirmed" : "suspected")}>Palette: {asset.paletteStatus}</span>}
             {asset.visualStatus==="flat-color" && <span className="badge unknown">einfarbig / Maske?</span>}
           </div>
-          {asset.visualStatus!=="flat-color" ? <div className="asset-quick-map">
+          {asset.assetKind==="composite" ? <small className="muted">Zusammengesetzte Vorschau aus mehreren ALIS-Grafikbausteinen. Noch nicht als kachelbare Oberfläche behandeln.</small> : asset.visualStatus!=="flat-color" ? <div className="asset-quick-map">
             <button onClick={()=>assignPreview(asset,"dungeon-base")}>Basis</button>
             <button className="secondary" onClick={()=>assignPreview(asset,"wall.front")}>Wand</button>
             <button className="secondary" onClick={()=>assignPreview(asset,"surface.floor")}>Boden</button>
