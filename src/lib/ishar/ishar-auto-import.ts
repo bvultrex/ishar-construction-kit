@@ -1107,6 +1107,9 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     if(!rendered) continue;
     const id=safeId(composite.sourcePath)+"-composite-"+composite.entryIndex;
     const url=URL.createObjectURL(rendered.blob);
+    const sceneAssignments=detectedGame==="ishar2" ? dungeonSceneAssignments(composite.sourcePath,composite.entryIndex) : [];
+    const runtimeAssigned=sceneAssignments.some((a)=>!!urls[`${a.tilesetId}-${a.role}-${a.depth}`]);
+    const module=composite.sourcePath.replace(/\\/g,"/").split("/").pop()?.toUpperCase();
     discoveredAssets.push({
       id,
       path:`[COMPOSITE] ${composite.sourcePath} · ALIS #${composite.entryIndex}`,
@@ -1116,8 +1119,16 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       visualStatus:rendered.paletteSuspect ? "palette-suspect" : "normal",
       width:rendered.width,
       height:rendered.height,
-      runtimeAssigned:detectedGame==="ishar2" && dungeonSceneAssignments(composite.sourcePath,composite.entryIndex)
-        .some((a)=>!!urls[`${a.tilesetId}-${a.role}-${a.depth}`]),
+      runtimeAssigned,
+      knownUse:runtimeAssigned && sceneAssignments.some((a)=>a.role.startsWith("opening."))
+        ? "Seitendurchgang im Playtest · Rollenbelegung rekonstruiert"
+        : runtimeAssigned && sceneAssignments.some((a)=>a.role==="door.front.open")
+          ? "Offener Türrahmen im Playtest · Rollenbelegung rekonstruiert"
+          : module==="DJ1.IO" && composite.entryIndex>=114 && composite.entryIndex<=119
+            ? "Hängelampe an Ketten · kein Türblatt"
+            : module==="DJ2.IO" && composite.entryIndex>=77 && composite.entryIndex<=80
+              ? "Buntglas · kein allgemeines Türblatt"
+              : undefined,
     });
     alisCompositePreviews++;
   }
@@ -1141,7 +1152,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
 
   const candidateResources=inventory.filter((record)=>record.silm || record.ext===".IO" || record.ext===".FIC").length;
   const notes=[
-    sceneEntries.size ? `${Array.from(sceneEntries.values()).flat().length} Dungeon-Szenenebenen automatisch geladen (DJ1/DJ2). Höhenstaffelung skriptbelegt; Bildschirmursprung aus Bildanschlüssen rekonstruiert. FDJ-Boden und Farbfläche sowie Türrahmen integriert; geschlossenes Türblatt ist ein Toolkit-Ersatz.` : "Keine unterstützte DJ1/DJ2-Szenengeometrie geladen.",
+    sceneEntries.size ? `${Array.from(sceneEntries.values()).flat().length} Dungeon-Szenenebenen automatisch geladen (DJ1/DJ2). Höhenstaffelung skriptbelegt; Bildschirmursprung aus Bildanschlüssen rekonstruiert. FDJ-Boden und Farbfläche sowie Türrahmen integriert; DJ1-Durchgangsbögen als eigene Szenenebenen zugeordnet. Originale Türblätter bleiben ungeklärt.` : "Keine unterstützte DJ1/DJ2-Szenengeometrie geladen.",
     detectedGame==="unknown" ? "Spielversion konnte aus Dateinamen/-größen nicht sicher erkannt werden." : gameLabel+" wurde anhand des lokalen Dateibestands erkannt.",
     "Renderprofil: "+renderProfile.label+" · Drawspace "+renderProfile.drawWidth+"×"+renderProfile.drawHeight+" · Pixel-Aspekt Y "+renderProfile.pixelAspectY+".",
     decodedOldPacker ? decodedOldPacker+" Datei(en) mit altem Silmarils-Packer wurden für die Bildsuche entpackt." : "Keine Old-Packer-Ressource musste entpackt werden.",
@@ -1204,7 +1215,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   };
 
   const pack: LoadedAssetPack={
-    sceneLayoutVersion:4,
+    sceneLayoutVersion:7,
     manifest,
     urls,
     paths,

@@ -14,12 +14,17 @@ export function dungeonSceneAssignments(sourcePath: string, index: number) {
   const name=sourcePath.replace(/\\/g,"/").split("/").pop()?.toUpperCase();
   const base=name==="DJ1.IO" ? 47 : name==="DJ2.IO" ? 35 : undefined;
   if(base===undefined) return [];
+  const tilesetId=name==="DJ1.IO" ? "ishar2-dj1" : "ishar2-dj2";
+  const entry=(role:DungeonAssetRole,depth:number,mirror=false)=>({tilesetId,role,depth:depth as DungeonAssetDepth,x:0,y:0,width:0,height:0,mirror});
+  if(name==="DJ1.IO" && index>=73 && index<=76) {
+    const depth=index-73;
+    return [entry("opening.right",depth),entry("opening.left",depth,true)];
+  }
   const side=index-base, front=index-(base+12), doorway=index-(base+16);
   const depth=side>=0 && side<4 ? side : front>=0 && front<4 ? front : doorway>=0 && doorway<4 ? doorway : undefined;
   if(depth===undefined) return [];
 
   const outer=DUNGEON_FRAMES[depth]!, inner=DUNGEON_FRAMES[depth+1]!;
-  const tilesetId=name==="DJ1.IO" ? "ishar2-dj1" : "ishar2-dj2";
   const rect=(role:DungeonAssetRole,x:number,y:number,width:number,height:number,mirror=false)=>
     ({tilesetId,role,depth:depth as DungeonAssetDepth,x,y,width,height,mirror});
   return side>=0 && side<4 ? [

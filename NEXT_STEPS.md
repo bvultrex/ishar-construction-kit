@@ -167,3 +167,10 @@ the local corpus. Trace exact scene placement and roles before runtime binding.
 Automatic DJ1/DJ2 walls and startup asset restoration are implemented. Next priority: original camera/decor placement evidence and remaining dungeon composites; see HANDOFF.md.
 
 FDJ floor/solid ceiling and original door surrounds are integrated. Next: identify original door leaves/animation and original camera parameters; closed leaves currently use a procedural placeholder.
+
+2026-09-26 passage checkpoint: DJ1 #73–76 are now assigned as near-to-far
+side-passage arches and automatically restored from the local ZIP. DJ1 #114–119
+are hanging lamps, not closed doors; DJ2 #77–80 are stained glass. Continue the
+door search in remaining resource modules and script draw paths; only promote a
+closed-door role after visual and resource evidence. The current wooden leaf is
+a clearly documented placeholder.

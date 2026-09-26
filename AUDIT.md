@@ -255,3 +255,26 @@ New evidence: DJ1 code 0x2270/0x2284/0x2297/0x22aa and DJ2 corresponding tail co
 Cache revision4 reimports configured local original source and replaces only generated layer IDs; authored overrides and project rooms remain. Legacy/non-native tilesets retain CK projection. Without configured source, old caches require reimport to receive native coordinates. Legacy fitter remains only for old cache migration fallback and is not used for revision4 scenes.
 
 Validation: long isolated corridor shows four native wall distances without the previous downward frieze wave. Closed original arch+placeholder leaf renders one depth, open arch passes view to four depths. Fixture does not modify user project. Native seam/centering tests added; typecheck, A1, palette, scene tests and production build passed. Ceiling interpretation/source origin remain documented reconstruction; the procedural closed wooden leaf is still NOT original Ishar door artwork.
+
+## 2026-09-26 — Side-passage graphics and door-leaf audit
+
+Mapped DJ1 #73–76 as side-passage arch/column overlays for four corridor depths,
+mirroring them for the opposite side. The passage role and projection are
+reconstruction, whereas the bitmap contents are directly inspected. Removed
+the duplicate aperture polygon and its bright synthetic outline when original
+passage art is present. The cached pack migration now updates composite
+previews and role labels along with layers, preserving existing preview URLs.
+
+Rejected a tentative DJ1 #114–116 closed-door assignment after component
+inspection and fixture rendering showed hanging chain lamps. DJ1 #117–119 are
+related variants; DJ2 #77–80 are stained-glass panels. None is evidence of a
+generic closed door leaf. Original open surrounds remain DJ1 #63–66 / DJ2
+#51–54, and the closed leaf remains a procedural placeholder. No original
+resource bytes were committed.
+
+Typecheck, A1 fixtures, palette regressions, scene assignments and production
+build passed. The real browser cache reimported successfully: all four DJ1
+right-passage roles are loaded, the false closed-door layers are gone, and the
+catalogue explicitly distinguishes reconstructed arches, hanging lamps and
+stained glass. Visual corridor and closed-door fixtures show the corresponding
+rendering without touching the user's authored project.

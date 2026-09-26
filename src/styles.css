@@ -95,6 +95,7 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .dungeon-wall{fill:#342b21;stroke:#594735;stroke-width:1.5}.depth-1 .dungeon-wall{fill:#30271e}.depth-2 .dungeon-wall{fill:#2a221b}.depth-3 .dungeon-wall{fill:#241e18}
 .dungeon-back-wall{fill:#302820;stroke:#796047;stroke-width:2}.dungeon-mortar{stroke:#574638;stroke-width:2;opacity:.7}
 .dungeon-opening{fill:#060504;stroke:#8b6c4d;stroke-width:2}.side-opening{filter:drop-shadow(0 0 5px #000)}
+.dungeon-opening.native-opening{stroke:none;filter:none}
 .dungeon-vignette{fill:#000;opacity:.33;pointer-events:none}
 .viewport-topbar{position:absolute;left:12px;right:12px;top:10px;display:flex;justify-content:space-between;align-items:center;color:#e8dcc4;text-shadow:0 2px 4px #000;font-family:Georgia,serif;font-size:14px;letter-spacing:.04em}
 .viewport-topbar strong{display:grid;place-items:center;width:34px;height:34px;border:1px solid #8f704e;background:#0d0b09cc;color:#d2ad7d}

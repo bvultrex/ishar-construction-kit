@@ -889,3 +889,38 @@ New evidence: DJ1 code 0x2270/0x2284/0x2297/0x22aa and DJ2 corresponding tail co
 Cache revision4 reimports configured local original source and replaces only generated layer IDs; authored overrides and project rooms remain. Legacy/non-native tilesets retain CK projection. Without configured source, old caches require reimport to receive native coordinates. Legacy fitter remains only for old cache migration fallback and is not used for revision4 scenes.
 
 Validation: long isolated corridor shows four native wall distances without the previous downward frieze wave. Closed original arch+placeholder leaf renders one depth, open arch passes view to four depths. Fixture does not modify user project. Native seam/centering tests added; typecheck, A1, palette, scene tests and production build passed. Ceiling interpretation/source origin remain documented reconstruction; the procedural closed wooden leaf is still NOT original Ishar door artwork.
+
+## 2026-09-26 — Side passages and missing door assets
+
+User confirmed the previous wall/ceiling progress and identified the next two
+gaps: missing original door graphics in the catalogue and missing side-passage
+graphics in the corridor. DJ1 composite #73–76 were inspected as progressively
+smaller arch/column images and assigned to `opening.right` depths 0–3, mirrored
+for `opening.left`. The native placement uses the existing centered script X/Z
+projection. Role, mirroring and topology gating are reconstruction; the archive
+does not yet prove the exact original door/passage logic. The redundant black
+aperture polygon and bright synthetic outline were removed/suppressed for
+native passage art, then checked in an isolated corridor fixture.
+
+The apparent DJ1 #114–116 door leaves were a false lead. Component inspection
+and browser rendering show hanging lamps on chains; DJ1 #117–119 are related.
+DJ2 #77–80 are stained glass. The assignment to `door.front.closed` was removed
+and regression tests guard against these misclassifications. The open original
+frames remain DJ1 #63–66 / DJ2 #51–54. Closed doors still use the procedural
+wooden leaf because no original leaf has been established. Search remaining
+module tables and scripted drawing paths next; never label a candidate as an
+original door merely because it fits the aperture.
+
+Cache layout version 7 reimports the local ZIP and refreshes generated layers,
+composite catalogue metadata and preview URLs, preserving manually selected
+roles and the user's authored project. `npm run typecheck`, `npm run test:a1`,
+`npm run test:palettes`, `npm run test:scenes`, and `npm run build` are the
+validation commands. Original DOS asset bytes and temporary visual fixtures
+stay outside Git.
+
+All five commands passed. Browser validation used the real cached Ishar 2 pack:
+four `opening.right` layers loaded, no `door.front.closed` layer remained, and
+the gallery labels DJ1 #73 as reconstructed passage and #114 as a hanging lamp.
+The isolated corridor rendered side arches on both sides; its closed-door view
+rendered the original frame over the procedural wooden leaf with no lamp overlay.
+The loopback production preview remains on port 4175 with `ISHAR_LOCAL_ZIP`.

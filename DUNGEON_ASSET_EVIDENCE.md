@@ -105,3 +105,21 @@ repeatable wall/floor/ceiling textures. Unlisted IDs remain unclassified by this
 ## Runtime checkpoint (2026-09-26)
 
 DJ1 47–50 / 59–62 and DJ2 35–38 / 47–50 now feed automatically selected, palette-resolved wall layers at depths 0–3. Left layers mirror the right family. This is a CK camera reconstruction supported by indexed draw expressions, not a verified original scene renderer. The other listed composites remain candidates. See HANDOFF.md for script offsets, projection assumptions and browser validation.
+
+## Door and side-passage audit (2026-09-26)
+
+DJ1 #73–76 combine stone arch/column artwork with four progressively smaller
+scene sprites. They are now mapped to right-side passages at depths 0–3, with
+mirrored copies on the left. The sprite content and dimensions are inspected;
+the passage role, mirror and topology placement are a CK reconstruction. The
+native sprites remain unwarped and the fallback aperture no longer adds an
+artificial bright outline.
+
+DJ1 #114–119 were tested as prospective closed-door graphics, but inspection of
+their component images and a rendered fixture identified hanging chain lamps.
+They are **not** door leaves. DJ2 #77–80 contain stained-glass artwork and are
+likewise not generic door leaves. The inspected DJ1/DJ2 bitmap families do not
+yet establish an original closed door panel. DJ1 #63–66 and DJ2 #51–54 are
+open door *surrounds* only; the closed panel remains an explicit procedural
+placeholder. Other module tables and scripted drawing paths need investigation
+before claiming that Ishar's original door leaves have been found.

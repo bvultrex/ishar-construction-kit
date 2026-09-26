@@ -18,6 +18,16 @@ for(const [module,base] of [['DJ1.IO',47],['DJ2.IO',35]]) {
   assert.equal(assign(module,base+16)[0].role,'door.front.open','Door frames are open surrounds, not closed leaves');
 }
 assert.deepEqual(assign('OTHER.IO',47),[]);
+for(let depth=0;depth<4;depth++) {
+  const openings=assign('DJ1.IO',73+depth);
+  assert.deepEqual(openings.map(a=>a.role),['opening.right','opening.left']);
+  assert.equal(openings[0].depth,depth);
+  assert.equal(openings[1].mirror,true);
+}
+for(const index of [77,78,114,115,116,117,118,119])
+  assert.deepEqual(assign('DJ1.IO',index),[],`DJ1 #${index} is not a verified door leaf`);
+for(const index of [77,78,79,80])
+  assert.deepEqual(assign('DJ2.IO',index),[],`DJ2 #${index} is stained glass, not a generic door leaf`);
 assert.deepEqual(position(0,57,96,102),{x:-47,y:-107});
 assert.deepEqual(position(32,20,9,7),{x:28,y:-23});
 console.log('Dungeon scene assignment / centered X-Z projection tests passed');

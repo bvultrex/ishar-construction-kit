@@ -249,8 +249,6 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         <polygon className="dungeon-floor" fill="url(#fallback-floor-pattern)" points={points([[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]])}/>
         <polygon className="dungeon-wall side-left" fill="url(#fallback-wall-pattern)" points={points([[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]])}/>
         <polygon className="dungeon-wall side-right" fill="url(#fallback-wall-pattern)" points={points([[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]])}/>
-        {leftOpen && <polygon className="dungeon-opening side-opening" points={points([[outer.l+5,outer.t+34],[inner.l-2,inner.t+20],[inner.l-2,inner.b-20],[outer.l+5,outer.b-34]])}/>}
-        {rightOpen && <polygon className="dungeon-opening side-opening" points={points([[inner.r+2,inner.t+20],[outer.r-5,outer.t+34],[outer.r-5,outer.b-34],[inner.r+2,inner.b-20]])}/>}
         {!forward && <>
           <rect className="dungeon-back-wall" fill="url(#fallback-wall-pattern)" x={inner.l} y={inner.t} width={inner.r-inner.l} height={inner.b-inner.t}/>
           <line className="dungeon-mortar" x1={inner.l} y1={(inner.t+inner.b)/2} x2={inner.r} y2={(inner.t+inner.b)/2}/>
@@ -260,17 +258,17 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         {renderDiscoveredTexture(pack, cell.floorAssetId, {kind:"polygon",points:[[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]]}, depth as DungeonAssetDepth, "floor") ?? renderPolygonAsset(pack, "surface.floor", [[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]], depth as DungeonAssetDepth, cell.tilesetId)}
         {!leftOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]]}, depth as DungeonAssetDepth, "wall-left") ?? renderPolygonAsset(pack, "wall.left", [[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]], depth as DungeonAssetDepth, cell.tilesetId))}
         {!rightOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]]}, depth as DungeonAssetDepth, "wall-right") ?? renderPolygonAsset(pack, "wall.right", [[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]], depth as DungeonAssetDepth, cell.tilesetId))}
-        {leftOpen && <polygon className="dungeon-opening side-opening" points={points([[outer.l+5,outer.t+34],[inner.l-2,inner.t+20],[inner.l-2,inner.b-20],[outer.l+5,outer.b-34]])}/>}
-        {rightOpen && <polygon className="dungeon-opening side-opening" points={points([[inner.r+2,inner.t+20],[outer.r-5,outer.t+34],[outer.r-5,outer.b-34],[inner.r+2,inner.b-20]])}/>}
+        {leftOpen && <polygon className={`dungeon-opening ${nativeScene && assetFor(pack,"opening.left",depth as DungeonAssetDepth,cell.tilesetId) ? "native-opening" : "side-opening"}`} points={points([[outer.l+5,outer.t+34],[inner.l-2,inner.t+20],[inner.l-2,inner.b-20],[outer.l+5,outer.b-34]])}/>}
+        {rightOpen && <polygon className={`dungeon-opening ${nativeScene && assetFor(pack,"opening.right",depth as DungeonAssetDepth,cell.tilesetId) ? "native-opening" : "side-opening"}`} points={points([[inner.r+2,inner.t+20],[outer.r-5,outer.t+34],[outer.r-5,outer.b-34],[inner.r+2,inner.b-20]])}/>}
         {leftOpen && renderAsset(pack, "opening.left", depth as DungeonAssetDepth, cell.tilesetId)}
         {rightOpen && renderAsset(pack, "opening.right", depth as DungeonAssetDepth, cell.tilesetId)}
         {!forward && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"rect",x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, "wall-front") ?? renderRectAsset(pack, "wall.front", {x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, cell.tilesetId))}
-        {forwardDoor && renderRectAsset(pack, forwardDoorOpen ? "door.front.open" : "door.front.closed", {x:inner.l+12,y:inner.t+4,width:Math.max(20,inner.r-inner.l-24),height:Math.max(30,inner.b-inner.t-8)}, depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id)}
+        {forwardDoor && !forwardDoorOpen && renderRectAsset(pack, "door.front.closed", {x:inner.l+12,y:inner.t+4,width:Math.max(20,inner.r-inner.l-24),height:Math.max(30,inner.b-inner.t-8)}, depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id)}
         {forwardDoor && !forwardDoorOpen && !assetFor(pack, "door.front.closed", depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id) && <g className="fallback-door">
           <rect x={inner.l + 12} y={inner.t + 4} width={Math.max(20, inner.r-inner.l-24)} height={Math.max(30, inner.b-inner.t-8)} rx="2" style={{fill:"url(#fallback-door-panel)"}}/>
           <circle cx={(inner.l+inner.r)/2+(inner.r-inner.l)*0.09} cy={(inner.t+inner.b)/2} r="4"/>
         </g>}
-        {forwardDoor && !forwardDoorOpen && !assetFor(pack,"door.front.closed",depth as DungeonAssetDepth,cell.tilesetId,forwardDoor.id) && renderAsset(pack,"door.front.open",depth as DungeonAssetDepth,cell.tilesetId,forwardDoor.id)}
+        {forwardDoor && renderAsset(pack,"door.front.open",depth as DungeonAssetDepth,cell.tilesetId,forwardDoor.id)}
       </g>
     );
 
