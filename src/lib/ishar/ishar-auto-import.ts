@@ -79,16 +79,42 @@ function directImageMime(path: string) {
   return undefined;
 }
 
-function detectGame(records: FileRecord[]): GameId {
-  const has = (predicate: (record: FileRecord) => boolean) => records.some(predicate);
-  if (has((record)=>baseName(record.path).toUpperCase()==="IMP2.SAV")) return "ishar2";
-  if (has((record)=>/^CONT\d+\.FIC$/i.test(baseName(record.path)) && record.size===10800)) return "ishar2";
-  if (has((record)=>baseName(record.path).toUpperCase()==="EN1.FIC" && record.size===6050)) return "ishar2";
-  if (has((record)=>record.ext===".SAV" && record.size===8359)) return "ishar2";
-  if (has((record)=>/^CONT\d+\.FIC$/i.test(baseName(record.path)) && record.size===4860)) return "ishar1";
-  if (has((record)=>baseName(record.path).toUpperCase()==="EN1.FIC" && record.size===3640)) return "ishar1";
-  if (has((record)=>record.ext===".SAV" && record.size===5216)) return "ishar1";
-  return "unknown";
+function detectGame(records: FileRecord[], archiveName = ""): GameId {
+  let ishar1 = 0;
+  let ishar2 = 0;
+  const archive = archiveName.toLowerCase();
+  if (/ishar[ _.-]*1\b|ishar1\b/.test(archive)) ishar1 += 12;
+  if (/ishar[ _.-]*2\b|ishar2\b/.test(archive)) ishar2 += 12;
+
+  for (const record of records) {
+    const name = baseName(record.path).toUpperCase();
+    const path = record.path.toLowerCase();
+    if (/(^|[/\\])ishar[ _.-]*1([/\\]|$)/i.test(path)) ishar1 += 4;
+    if (/(^|[/\\])ishar[ _.-]*2([/\\]|$)/i.test(path)) ishar2 += 4;
+
+    // Verified corpus signatures. File names alone are deliberately weak:
+    // Ishar 1 itself can contain IMP2.SAV (5216 bytes).
+    if (/^CONT\d+\.FIC$/.test(name)) {
+      if (record.size === 4860) ishar1 += 6;
+      if (record.size === 10800) ishar2 += 6;
+    }
+    if (name === "EN1.FIC") {
+      if (record.size === 3640) ishar1 += 8;
+      if (record.size === 6050) ishar2 += 8;
+    }
+    if (record.ext === ".SAV") {
+      if (record.size === 5216) ishar1 += 5;
+      if (record.size === 8359) ishar2 += 5;
+    }
+    if (name === "IMP2.SAV") {
+      if (record.size === 5216) ishar1 += 4;
+      else if (record.size === 8359) ishar2 += 4;
+    }
+  }
+
+  if (ishar1 === 0 && ishar2 === 0) return "unknown";
+  if (ishar1 === ishar2) return "unknown";
+  return ishar1 > ishar2 ? "ishar1" : "ishar2";
 }
 
 function guessRole(path: string): DungeonAssetRole | undefined {
@@ -605,7 +631,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     inventory.push(classifyFile(entry.name,bytes));
   }
   inventory.sort((a,b)=>a.path.localeCompare(b.path));
-  const detectedGame=detectGame(inventory);
+  const detectedGame=detectGame(inventory,file.name);
 
   const foundImages: FoundImage[]=[];
   const alisImages: AlisIndexedImage[]=[];
