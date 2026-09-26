@@ -124,3 +124,13 @@ User test of the first runnable slice passed functionally but exposed the wrong 
 3. Decode or statically scan Ishar-era ctexmap definitions so terrain slot -> resource relationships are recovered from the original scripts.
 4. Separate genuine flat-color masks/material helpers from palette failures.
 5. Promote verified original terrain sets into deterministic Ishar 1/2 material presets.
+
+
+## Immediate scene-renderer target
+
+1. Re-test both Ishar 1 and Ishar 2 imports with the corrected signature detector.
+2. Verify Ishar 1 selects STAGE.IO/#4 and reports the Ishar 1 DOS render profile.
+3. Compare Ishar 2 palette-base label, scene repair count and remaining "Palette offen" count.
+4. Port the recovered Ishar 1 tile-previews.json evidence into a typed scene-preview table and render MCAVE/ville field components in script draw order.
+5. Reverse the corresponding Ishar 2 DJ1.IO/DJ2.IO draw branches; treat large 0xFF composites as scene assemblies, not repeatable textures.
+6. Only after placement is verified, promote scene components into automatic wall/opening/door rendering for the authored crawler.
