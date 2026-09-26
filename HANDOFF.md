@@ -542,3 +542,73 @@ Implemented now:
 This runs in parallel with the new raw-format histogram. The next real Ishar 2 import can now answer two separate questions:
 1. Do the currently scanned resource tables contain 0x1C/0x1E at all?
 2. Do 0xFF composite previews reconstruct recognizable cave/wall/decor assemblies even if no terrain texture class is present?
+
+
+## 2026-09-26 — Import regression correction: Ishar 1 detection, visible fallback, palette context
+
+User test + 30-page Asset Lab screenshot exposed three regressions/incorrect assumptions in the previous build.
+
+### Confirmed from real Ishar 2 import
+
+- 187 files
+- 141 A1 resources decoded
+- 2,244 ALIS bitmap resources
+- 161 palette resources
+- 1,629 composite resources
+- 500 composite previews generated
+- raw format histogram: 0x00=125, 0x01=84, 0x10=1851, 0x12=9, 0x14=238, 0x16=21, 0xFE=161, 0xFF=1630
+- no 0x1C/0x1E entries at all in the scanned graphics tables
+- many sprites/objects/enemies are correctly colored, while several scene/composite families are strongly red-dominant
+
+This invalidates the earlier assumption that missing 0x1C/0x1E "terrain textures" were the primary blocker for Ishar 1/2 scene geometry. The active compatibility target is now normal bitmap resources + script/composite scene assembly.
+
+### Recovered Ishar 1 Workbench evidence
+
+The older verified Workbench confirms:
+
+- visible Ishar 1 resources use 0x10/0x12/0x14/0x16 plus 0xFF composites
+- STAGE.IO / resource #4 is the verified Ishar 1 shared VGA scene palette
+- module-local partial palettes overlay that shared palette
+- cave/city tile previews are built from multiple resource IDs and mirrored variants, not one seamless wall texture
+- the verified Ishar 1 corpus contains IMP2.SAV with 5,216 bytes; therefore the filename IMP2.SAV is NOT evidence of Ishar 2
+- Ishar 1 corpus signatures include CONT*.FIC = 4,860 bytes, EN1.FIC = 3,640 bytes, saves = 5,216 bytes
+
+### Implemented fixes
+
+Game detection:
+- replaced first-match filename detection with weighted verified corpus signatures
+- archive/folder name is only one signal
+- IMP2.SAV is classified by size, not name
+- Ishar 1: CONT=4860, EN1=3640, SAV=5216
+- Ishar 2: CONT=10800, EN1=6050, SAV=8359
+- ties return unknown instead of guessing
+
+Bitmap semantics:
+- corrected transparency: 0x10 and 0x14 carry transparent indices; 0x12 and 0x16 do not
+
+Palette resolution:
+- Ishar 1 uses verified STAGE.IO/#4 + nearest local partial palette
+- Ishar 2 is resolved separately; broad (>=128-color) palettes are preferred as base
+- DJCOL/COL/PAL sources receive priority only among plausible broad bases
+- Ishar 2 local palettes are applied only when they precede the image resource, instead of choosing an arbitrary nearest future palette
+- strongly red-dominant images are marked "palette-suspect"
+- for red-dominant Ishar 2 scene modules (DJ*, FDJ*, PCAVE, FOND), COL/PAL candidates are tested conservatively and only accepted if red dominance improves substantially
+- report exposes palette base, confidence, remaining palette suspects, and scene palette repairs
+
+Runtime regression:
+- known Ishar imports no longer put uncertain filename-based wall/floor/ceiling/background guesses into the runtime tileset
+- Playtest always retains a visible procedural brick/stone wall/floor/ceiling fallback
+- imported entity placement is scaled to the active native drawspace instead of using stale 640x400 coordinates
+- one safe original encounter and item image are automatically bound as generic Playtest fallbacks when available, so ZIP import still produces an immediate visible original-asset change without inventing dungeon geometry
+
+### Current architecture boundary
+
+Do NOT model original Ishar dungeon scenes as one seamless wall/floor/ceiling bitmap unless later evidence proves it for a specific scene.
+
+The strongest verified model is now:
+
+map/scene field -> script branch -> multiple ALIS resources / composites / mirrored draws -> perspective placement
+
+For Ishar 1, tile-previews.json from the recovered Workbench already contains verified branch/resource/draw lists for RPLAINE.IO, PLAINE.IO, FORET.IO, MCAVE.IO and VILLE.IO. The next renderer milestone should consume that evidence rather than continue texture guessing.
+
+For Ishar 2, DJ1.IO / DJ2.IO / related modules are the next scene-script targets. The real screenshot shows large composites near the native drawspace (for example 192x102 and 201x113), so scene reconstruction should focus on script draw ordering/placement and palette state.
