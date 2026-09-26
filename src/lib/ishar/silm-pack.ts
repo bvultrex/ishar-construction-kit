@@ -99,8 +99,11 @@ function unpackOld(packed: Uint8Array, unpackedSize: number, interlaced: boolean
 
 class BitReader {
   private position = 0;
+  private readonly bytes: Uint8Array;
 
-  constructor(private readonly bytes: Uint8Array) {}
+  constructor(bytes: Uint8Array) {
+    this.bytes = bytes;
+  }
 
   read(width: number): number {
     if (!Number.isInteger(width) || width < 0 || width > 24) throw new Error(`Ungültige Bitbreite ${width}.`);
