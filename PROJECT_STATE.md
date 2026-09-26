@@ -157,3 +157,8 @@ The runtime now prioritizes repeatable ALIS dungeon textures over full-scene gue
 ## 2026-09-26 palette/composite and room-surface state
 
 ALIS palette handling now follows resource-table updates instead of applying one grayscale fallback to the whole script. Partial 8-bit palettes with offsets and DOS 4-bit palettes are reconstructed; palette-less images can use the strongest recovered global palette fallback. Composite resource metadata is also detected. Rooms now persist independent wall/floor/ceiling asset IDs selected from imported ALIS candidates, and Playtest renders those overrides before the default tileset. Exact original Ishar terrain-type-to-texture mappings remain under reverse engineering.
+
+
+## 2026-09-26 ALIS terrain-resource milestone
+
+The asset pipeline now distinguishes real ALIS DOS terrain textures (0x1C/0x1E) from ordinary sprite-table images. This resolves a major importer blind spot that previously removed likely Ishar level-geometry material resources from the catalog. Ishar 1/2 imports prefer these terrain resources for dungeon surfaces and do not auto-assign fullscreen backgrounds. Per-room surface overrides use terrain candidates first.
