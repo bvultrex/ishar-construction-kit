@@ -351,3 +351,29 @@ Implemented an explicit **auto-default tileset** stage:
 - weak matches are labeled `possible`, strong matches `probable`; the heuristic remains inspectable rather than pretending semantic certainty
 
 Expected user-visible behavior: after selecting the same Ishar 2 ZIP, Playtest should immediately show imported Ishar-derived wall/floor/ceiling textures and, when a candidate is found, a door texture. The next test should report whether the selected sources visually correspond to actual dungeon art; those concrete source IDs can then be promoted into Ishar-2-specific mappings.
+
+
+## 2026-09-26 — Verified Ishar drawspace profiles + stricter texture selection
+
+User screenshots confirmed that original Ishar 2 ALIS graphics now render in the crawler. They also exposed two concrete problems: the first automatic wall choice was an ornamental vertical sprite repeated as a texture, and the viewport still used the generic 640×400/16:10 construction profile.
+
+Verified DOS dimensions were introduced as explicit render profiles:
+
+- Ishar 1: 320×200 screen, active 3D drawspace 256×126
+- Ishar 2: 320×200 screen, active 3D drawspace 256×113
+- DOS pixel-aspect metadata: vertical pixel factor 1.2
+- imported manifests now carry `renderProfileId`, native drawspace size and pixel-aspect metadata
+- Playtest display aspect and native ALIS texture scaling derive from the imported profile
+- normalized SVG geometry remains resolution-independent, so authored rooms do not need per-game coordinates
+
+Default dungeon texture ranking was tightened after the screenshot evidence:
+
+- transparency ratio, palette variety, aspect ratio and opposite-edge continuity are measured from indexed ALIS pixels
+- repeatable opaque square-ish resources score higher as wall textures
+- UI/entity source contexts are strongly penalized
+- floor/ceiling only diverge from the wall texture when their source context is explicit; otherwise a coherent stone base is preferred to unrelated guesses
+- door scoring now requires a stronger portal/tall-sprite signal
+- full drawspace-sized images receive a strong background score
+- assignment reasons now include score and source dimensions
+
+Next validation target: import the same Ishar 2 ZIP and compare the reported default source IDs plus the resulting Playtest screenshot. Confirmed source IDs should then become deterministic Ishar-2 mappings rather than remaining heuristic.
