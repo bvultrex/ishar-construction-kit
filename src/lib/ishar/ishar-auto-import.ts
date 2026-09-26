@@ -5,6 +5,7 @@ import type { DiscoveredAssetPreview, LoadedAssetPack } from "./asset-pack";
 import { extractAlisIndexedImages, type AlisCompositeResource, type AlisIndexedImage, type AlisPaletteResource } from "./alis-assets";
 import type { DungeonAssetEntry, DungeonAssetManifest, DungeonAssetRole, FileRecord, GameId } from "./types";
 import { renderProfileForGame } from "./render-profile";
+import { detectAlisDistanceSets } from "./distance-sets";
 
 export interface IsharDefaultAssignment {
   role: DungeonAssetRole;
@@ -39,6 +40,9 @@ export interface IsharAutoImportReport {
   globalPaletteFallbackImages: number;
   alisPaletteSuspectAssets: number;
   ishar2ScenePaletteRepairs: number;
+  distanceSetsDetected: number;
+  verifiedDistanceSets: number;
+  heuristicDistanceSets: number;
   directImages: number;
   embeddedImages: number;
   mappedImages: number;
@@ -951,6 +955,10 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   const alisTerrainTexturesExtracted=alisImages.filter((image)=>image.assetKind==="terrain").length;
   const alisFlatColorAssets=alisImages.filter(isFlatColorImage).length;
   const alisPaletteSuspectAssets=alisImages.filter(isPaletteSuspect).length;
+  const distanceDetection=detectAlisDistanceSets(alisImages,detectedGame);
+  const distanceSetsDetected=distanceDetection.sets.length;
+  const verifiedDistanceSets=distanceDetection.sets.filter((set)=>set.confidence==="verified").length;
+  const heuristicDistanceSets=distanceDetection.sets.filter((set)=>set.confidence==="heuristic").length;
 
   const shared: DungeonAssetEntry[]=[];
   const defaultTilesetEntries: DungeonAssetEntry[]=[];
@@ -1059,6 +1067,10 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       paletteStatus:image.paletteSource,
       visualStatus:isFlatColorImage(image) ? "flat-color" : isPaletteSuspect(image) ? "palette-suspect" : "normal",
       knownUse:knownIsharAssetUse(detectedGame,image),
+      distanceSetId:distanceDetection.byImageKey.get(defaultChoiceKey(image.sourcePath,image.entryIndex))?.setId,
+      distanceSetLabel:distanceDetection.byImageKey.get(defaultChoiceKey(image.sourcePath,image.entryIndex))?.label,
+      distanceRole:distanceDetection.byImageKey.get(defaultChoiceKey(image.sourcePath,image.entryIndex))?.role,
+      distanceConfidence:distanceDetection.byImageKey.get(defaultChoiceKey(image.sourcePath,image.entryIndex))?.confidence,
       width:image.width,
       height:image.height,
       suggestedRole:imageDefaults[0]?.role ?? suggestion,
@@ -1186,6 +1198,9 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     globalPaletteFallbackImages,
     alisPaletteSuspectAssets,
     ishar2ScenePaletteRepairs,
+    distanceSetsDetected,
+    verifiedDistanceSets,
+    heuristicDistanceSets,
     directImages,
     embeddedImages,
     mappedImages,
