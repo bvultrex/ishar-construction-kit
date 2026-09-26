@@ -63,11 +63,13 @@ function AuthorPage() {
   const [selectedLocationId, setSelectedLocationId] = useState(game.startLocationId);
   const [builderMessage, setBuilderMessage] = useState("");
   const selectedLocation = game.locations.find((location) => location.id === selectedLocationId) ?? game.locations[0];
-  const textureCandidates = (pack?.discoveredAssets ?? []).filter((asset) => {
-    if (asset.source !== "alis" || !asset.width || !asset.height) return false;
+  const allSurfaceCandidates = (pack?.discoveredAssets ?? []).filter((asset) => {
+    if (asset.source !== "alis" || asset.visualStatus === "flat-color" || !asset.width || !asset.height) return false;
     const ratio = asset.width / asset.height;
-    return asset.width >= 8 && asset.height >= 8 && asset.width <= 256 && asset.height <= 256 && ratio >= 0.35 && ratio <= 2.85;
+    return asset.width >= 8 && asset.height >= 8 && asset.width <= 512 && asset.height <= 512 && ratio >= 0.2 && ratio <= 5;
   });
+  const terrainCandidates = allSurfaceCandidates.filter((asset)=>asset.assetKind==="terrain");
+  const textureCandidates = terrainCandidates.length ? terrainCandidates : allSurfaceCandidates;
   const assetById = (id?: string) => id ? pack?.discoveredAssets?.find((asset)=>asset.id===id) : undefined;
 
   function setGame(next: AuthoredGame) {
@@ -221,7 +223,7 @@ function AuthorPage() {
             <label>Blickrichtung<select value={game.startFacing} onChange={(e)=>setGame({...game,startFacing:e.target.value as Direction})}><option value="north">Norden</option><option value="east">Osten</option><option value="south">Süden</option><option value="west">Westen</option></select></label>
           </div>
           {pack && <div className="room-surface-picker">
-            <div className="surface-picker-head"><strong>Raum-Oberflächen</strong><span>{textureCandidates.length} ALIS-Kandidaten</span></div>
+            <div className="surface-picker-head"><strong>Raum-Oberflächen</strong><span>{terrainCandidates.length ? terrainCandidates.length+" echte Terrain-Texturen" : textureCandidates.length+" ALIS-Fallbacks"}</span></div>
             {([
               ["wallAssetId","Wand"],
               ["floorAssetId","Boden"],
@@ -232,12 +234,13 @@ function AuthorPage() {
                 <span>{label}</span>
                 <select value={selectedLocation[field] ?? ""} onChange={(e)=>patchLocation(selectedLocation.id,{[field]:e.target.value || undefined})}>
                   <option value="">Tileset-Standard</option>
-                  {textureCandidates.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}
+                  {textureCandidates.map((asset)=><option key={asset.id} value={asset.id}>{asset.assetKind==="terrain" ? "Terrain · " : ""}{asset.path} · {asset.width}×{asset.height}</option>)}
                 </select>
                 {current && <div className="surface-preview"><img src={current.url} alt=""/><code>{current.path}</code></div>}
               </label>;
             })}
           </div>}
+          {pack && terrainCandidates.length===0 && <p className="audit-note">In diesem Import wurden noch keine ALIS-0x1C/0x1E-Terraintexturen erkannt. Die Auswahl zeigt deshalb ältere Sprite-Fallbacks.</p>}
           <button className="danger-button" disabled={game.locations.length<=1} onClick={()=>deleteLocation(selectedLocation.id)}>Ausgewählten Raum löschen</button>
         </>}
         <p className="audit-note">Klicke einen Raum direkt in der Karte an. Neue Räume werden immer relativ zu genau diesem ausgewählten Rasterfeld angelegt.</p>
