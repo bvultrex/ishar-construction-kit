@@ -44,7 +44,7 @@ export interface AlisIndexedImage {
   paletteLabel?: string;
   transparentIndex?: number;
   assetKind: "sprite" | "terrain";
-  encoding: "4bit" | "4bit-offset" | "8bit" | "terrain8";
+  encoding: "4bit" | "4bit-offset" | "8bit" | "terrain8" | "solid";
 }
 
 export interface AlisImageExtraction {
@@ -283,7 +283,7 @@ export function extractAlisIndexedImages(
     // 8-bit terrain textures with an 8-byte bitmap header. The previous
     // extractor silently skipped these entries, which removed most real
     // dungeon wall/floor/ceiling material candidates from the Asset Lab.
-    if (![0x00, 0x02, 0x10, 0x12, 0x14, 0x16, 0x18, 0x1a, 0x1c, 0x1e].includes(h0 ?? -1)) continue;
+    if (![0x00, 0x01, 0x02, 0x10, 0x12, 0x14, 0x16, 0x18, 0x1a, 0x1c, 0x1e].includes(h0 ?? -1)) continue;
 
     const widthRaw = readU16LE(bytes, location);
     const heightRaw = readU16LE(bytes, location + 2);
@@ -303,7 +303,10 @@ export function extractAlisIndexedImages(
     let assetKind: AlisIndexedImage["assetKind"] = "sprite";
     let encoding: AlisIndexedImage["encoding"];
 
-    if (h0 === 0x00 || h0 === 0x02) {
+    if (h0 === 0x01) {
+      encoding = "solid";
+      pixels.fill(bytes[location - 1] ?? 0);
+    } else if (h0 === 0x00 || h0 === 0x02) {
       encoding = "4bit";
       const bytesPerRow = Math.ceil(width / 2);
       const start = location + 4;

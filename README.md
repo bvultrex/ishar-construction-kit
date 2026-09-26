@@ -61,4 +61,4 @@ Imported asset packs are cached in IndexedDB and restored when the app loads, in
 
 For the local production server, optionally set `ISHAR_LOCAL_ZIP` to the absolute path of an Ishar ZIP before running `node scripts/serve-build.mjs`. With an empty cache it imports that ZIP automatically. This source is available only with the loopback host `127.0.0.1`. Clearing a pack clears the browser cache; a configured ZIP will import again on the next page load.
 
-Ishar 2 DJ1/DJ2 wall families are assigned automatically. Their CK camera placement is reconstructed; floor, ceiling, doors and unresolved decor still use fallback graphics.
+Ishar 2 DJ1/DJ2 wall families are assigned automatically. Their CK camera placement is reconstructed; FDJ floors, solid ceiling colors and original door surrounds are integrated. Closed door leaves and unresolved decor still use fallback graphics.

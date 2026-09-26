@@ -15,7 +15,7 @@ for(const [module,base] of [['DJ1.IO',47],['DJ2.IO',35]]) {
     assert.ok(front.width>0 && front.height>0);
   }
   assert.deepEqual(assign(module,base+4),[],'Unresolved variant is not silently assigned');
-  assert.deepEqual(assign(module,base+16),[],'Door frames are not treated as closed doors');
+  assert.equal(assign(module,base+16)[0].role,'door.front.open','Door frames are open surrounds, not closed leaves');
 }
 assert.deepEqual(assign('OTHER.IO',47),[]);
 assert.deepEqual(position(0,57,96,102),{x:-48,y:-108});
@@ -31,3 +31,15 @@ for(let depth=0;depth<4;depth++) {
   assert.deepEqual(far,wallColumnEdges(depth,false,0,width),'Mirrored walls share the far edge');
 }
 console.log('Wall transition boundary regressions passed');
+
+const {extractAlisIndexedImages}=await import('../src/lib/ishar/alis-assets.ts');
+const fixture=new Uint8Array(70),view=new DataView(fixture.buffer);
+view.setUint32(14,32,true);view.setUint32(32,8,true);view.setUint16(36,1,true);
+view.setUint32(40,24,true);fixture[64]=1;fixture[65]=37;
+view.setUint16(66,2,true);view.setUint16(68,1,true);
+const solid=extractAlisIndexedImages(fixture,'synthetic.IO').images[0];
+assert.equal(solid.encoding,'solid');assert.equal(solid.width,3);assert.equal(solid.height,2);
+assert.deepEqual([...solid.pixels],[37,37,37,37,37,37]);
+assert.equal(solid.transparentIndex,undefined,'Solid rectangles are opaque');
+assert.equal(extractAlisIndexedImages(fixture.slice(0,69),'truncated.IO').images.length,0);
+console.log('ALIS solid rectangle and truncated header tests passed');

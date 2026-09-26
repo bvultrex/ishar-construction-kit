@@ -42,13 +42,25 @@ export const useAssetPack = create<AssetPackState>((set,get)=>({
       try {
         set({cacheStatus:"Lokale Assets werden geladen …"});
         let pack=await readCachedPack();
-        if(!pack && version===revision && location.hostname==="127.0.0.1") {
+        if(pack && version===revision) set({pack});
+        if((!pack || (pack.sceneLayoutVersion??0)<3) && version===revision && location.hostname==="127.0.0.1") {
           const source=await fetch("/__local/ishar-source");
           if(source.ok && source.headers.get("content-type")?.includes("application/zip")) {
             set({cacheStatus:"Lokales Ishar-Archiv wird automatisch geladen …"});
             const {autoImportIsharZip}=await import("./ishar/ishar-auto-import");
             const result=await autoImportIsharZip(new File([await source.blob()],"Ishar-local.zip"));
-            pack=result.pack;
+            if(pack) {
+              const urls={...pack.urls},paths={...pack.paths};
+              const tilesets=pack.manifest.tilesets.map(old=>{
+                const next=result.pack.manifest.tilesets.find(t=>t.id===old.id);
+                const additions=(next?.entries??[]).filter(e=>!old.entries.some(o=>o.role===e.role && o.depth===e.depth));
+                for(const entry of additions){urls[entry.id]=result.pack.urls[entry.id]!;paths[entry.id]=result.pack.paths[entry.id]!;}
+                return {...old,entries:[...old.entries,...additions]};
+              });
+              const keep=new Set(Object.values(urls));
+              for(const url of new Set([...Object.values(result.pack.urls),...(result.pack.discoveredAssets??[]).map(a=>a.url)])) if(!keep.has(url)) URL.revokeObjectURL(url);
+              pack={...pack,urls,paths,manifest:{...pack.manifest,tilesets},sceneLayoutVersion:3};
+            } else pack=result.pack;
             if(version===revision) {
               const kit=useKit.getState();
               kit.setInventory(result.inventory,"Lokales Ishar-Archiv");

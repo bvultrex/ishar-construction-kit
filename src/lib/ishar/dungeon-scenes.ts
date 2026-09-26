@@ -14,8 +14,8 @@ export function dungeonSceneAssignments(sourcePath: string, index: number) {
   const name=sourcePath.replace(/\\/g,"/").split("/").pop()?.toUpperCase();
   const base=name==="DJ1.IO" ? 47 : name==="DJ2.IO" ? 35 : undefined;
   if(base===undefined) return [];
-  const side=index-base, front=index-(base+12);
-  const depth=side>=0 && side<4 ? side : front>=0 && front<4 ? front : undefined;
+  const side=index-base, front=index-(base+12), doorway=index-(base+16);
+  const depth=side>=0 && side<4 ? side : front>=0 && front<4 ? front : doorway>=0 && doorway<4 ? doorway : undefined;
   if(depth===undefined) return [];
 
   const outer=DUNGEON_FRAMES[depth]!, inner=DUNGEON_FRAMES[depth+1]!;
@@ -25,7 +25,7 @@ export function dungeonSceneAssignments(sourcePath: string, index: number) {
   return side>=0 && side<4 ? [
     rect("wall.right",inner.r,outer.t,outer.r-inner.r,outer.b-outer.t),
     rect("wall.left",outer.l,outer.t,inner.l-outer.l,outer.b-outer.t,true),
-  ] : [rect("wall.front",inner.l,inner.t,inner.r-inner.l,inner.b-inner.t)];
+  ] : [rect(doorway>=0 && doorway<4 ? "door.front.open" : "wall.front",inner.l,inner.t,inner.r-inner.l,inner.b-inner.t)];
 }
 
 // ALIS sprites are centered; Z points upwards, Y is scene depth.

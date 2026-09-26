@@ -165,3 +165,5 @@ the local corpus. Trace exact scene placement and roles before runtime binding.
 
 ## Latest checkpoint: 2026-09-26
 Automatic DJ1/DJ2 walls and startup asset restoration are implemented. Next priority: original camera/decor placement evidence and remaining dungeon composites; see HANDOFF.md.
+
+FDJ floor/solid ceiling and original door surrounds are integrated. Next: identify original door leaves/animation and original camera parameters; closed leaves currently use a procedural placeholder.

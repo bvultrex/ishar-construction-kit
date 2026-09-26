@@ -175,7 +175,12 @@ function renderPolygonAsset(
 ) {
   const asset=assetFor(pack,role,depth,tilesetId);
   if(!asset || !pack) return null;
-  if(asset.entry.renderMode!=="texture") return renderAsset(pack,role,depth,tilesetId);
+  if(asset.entry.renderMode!=="texture") {
+    if(role!=="surface.floor" && role!=="surface.ceiling") return renderAsset(pack,role,depth,tilesetId);
+    const clipId=`surface-${asset.entry.id}-${depth}-${role}`;
+    return <g><defs><clipPath id={clipId}><polygon points={points(polygon)}/></clipPath></defs>
+      <g clipPath={`url(#${clipId})`}>{renderAsset(pack,role,depth,tilesetId)}</g></g>;
+  }
   const patternId=`tex-${asset.entry.id}-${depth}-${role.replace(/[^a-z0-9]/gi,"-")}`;
   return <g key={patternId}>
     <defs>{texturePattern(pack,asset,patternId)}</defs>
@@ -201,7 +206,7 @@ function renderRectAsset(
   </g>;
 }
 
-function DungeonViewport({ game, location, facing, encounter, encounterDone, collectedItemIds, pack, openDoors }: {
+export function DungeonViewport({ game, location, facing, encounter, encounterDone, collectedItemIds, pack, openDoors }: {
   game: AuthoredGame;
   location: AuthoredLocation;
   facing: Direction;
@@ -234,7 +239,7 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, col
       if(layer) itemLayers.unshift(layer);
     }
 
-    segments.push(
+    segments.unshift(
       <g key={`segment-${depth}`} className={`dungeon-depth depth-${depth}`}>
         <polygon className="dungeon-ceiling" fill="url(#fallback-ceiling-pattern)" points={points([[outer.l,outer.t],[outer.r,outer.t],[inner.r,inner.t],[inner.l,inner.t]])}/>
         <polygon className="dungeon-floor" fill="url(#fallback-floor-pattern)" points={points([[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]])}/>
@@ -258,9 +263,10 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, col
         {!forward && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"rect",x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, "wall-front") ?? renderRectAsset(pack, "wall.front", {x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, cell.tilesetId))}
         {forwardDoor && renderRectAsset(pack, forwardDoorOpen ? "door.front.open" : "door.front.closed", {x:inner.l+12,y:inner.t+4,width:Math.max(20,inner.r-inner.l-24),height:Math.max(30,inner.b-inner.t-8)}, depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id)}
         {forwardDoor && !forwardDoorOpen && !assetFor(pack, "door.front.closed", depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id) && <g className="fallback-door">
-          <rect x={inner.l + 12} y={inner.t + 4} width={Math.max(20, inner.r-inner.l-24)} height={Math.max(30, inner.b-inner.t-8)} rx="2"/>
-          <circle cx={inner.r - 26} cy={(inner.t+inner.b)/2} r="4"/>
+          <rect x={inner.l + 12} y={inner.t + 4} width={Math.max(20, inner.r-inner.l-24)} height={Math.max(30, inner.b-inner.t-8)} rx="2" style={{fill:"url(#fallback-door-panel)"}}/>
+          <circle cx={(inner.l+inner.r)/2+(inner.r-inner.l)*0.09} cy={(inner.t+inner.b)/2} r="4"/>
         </g>}
+        {forwardDoor && !forwardDoorOpen && !assetFor(pack,"door.front.closed",depth as DungeonAssetDepth,cell.tilesetId,forwardDoor.id) && renderAsset(pack,"door.front.open",depth as DungeonAssetDepth,cell.tilesetId,forwardDoor.id)}
       </g>
     );
 
@@ -279,6 +285,10 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, col
   return <div className="dungeon-viewport" style={{aspectRatio:String(viewportAspect)}} data-render-profile={renderProfile.id}>
     <svg viewBox="0 0 640 400" preserveAspectRatio="none" aria-label={`Blick nach ${DIRECTION_LABELS[facing]}`}>
       <defs>
+        <pattern id="fallback-door-panel" width="20" height="80" patternUnits="userSpaceOnUse">
+          <rect width="20" height="80" fill="#49321e"/>
+          <path d="M1 0V80M18 0V80M4 0L7 22L5 53L8 80" fill="none" stroke="#2c1d11" strokeWidth="1"/>
+        </pattern>
         <pattern id="fallback-wall-pattern" width="56" height="34" patternUnits="userSpaceOnUse">
           <rect width="56" height="34" className="fallback-stone-base"/>
           <path d="M0 1H56M0 17H56M0 33H56M28 1V17M14 17V33M42 17V33" className="fallback-stone-line"/>

@@ -137,7 +137,7 @@ function AssetsPage() {
 
   return <section>
     {cacheStatus && <p role="status">{cacheStatus}</p>}
-    {pack?.manifest.tilesets.some(t=>t.id==="ishar2-dj1" || t.id==="ishar2-dj2") && <p>DJ1/DJ2-Wandserien sind automatisch im Playtest aktiv. Die Platzierung ist an die Toolkit-Kamera angepasst; Boden, Decke und Türen verwenden weiterhin Ersatzgrafiken.</p>}
+    {pack?.manifest.tilesets.some(t=>t.id==="ishar2-dj1" || t.id==="ishar2-dj2") && <p>DJ1/DJ2-Wandserien sind automatisch im Playtest aktiv. Die Platzierung ist an die Toolkit-Kamera angepasst; FDJ-Böden, Deckenfarbflächen und Original-Türrahmen ergänzen die Wände. Geschlossene Türblätter sind weiterhin Toolkit-Ersatzgrafiken.</p>}
     <header className="page-head">
       <div><p className="eyebrow">Ishar asset import</p><h1>Asset Lab</h1><p>Standardweg: Wähle einfach deine lokale Ishar-ZIP. Das Toolkit analysiert den Inhalt und verteilt alles, was es mit ausreichender Sicherheit erkennt, automatisch in die Engine.</p></div>
       <div className="toolbar">
