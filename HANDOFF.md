@@ -612,3 +612,25 @@ map/scene field -> script branch -> multiple ALIS resources / composites / mirro
 For Ishar 1, tile-previews.json from the recovered Workbench already contains verified branch/resource/draw lists for RPLAINE.IO, PLAINE.IO, FORET.IO, MCAVE.IO and VILLE.IO. The next renderer milestone should consume that evidence rather than continue texture guessing.
 
 For Ishar 2, DJ1.IO / DJ2.IO / related modules are the next scene-script targets. The real screenshot shows large composites near the native drawspace (for example 192x102 and 201x113), so scene reconstruction should focus on script draw ordering/placement and palette state.
+
+
+## 2026-09-26 — Visible version/build identity on Overview
+
+User requested an immediately visible way to identify which downloaded test ZIP is currently running.
+
+Implemented:
+
+- Overview now displays a compact build stamp directly below the product title.
+- The stamp shows:
+  - semantic/application version from `package.json` (`__APP_VERSION__`)
+  - exact short build commit (`__BUILD_SHA__`)
+- Vite injects both values at build time.
+- GitHub Actions automatically provides `GITHUB_SHA`, so every CI artifact identifies its exact source commit without manual editing.
+- Local builds fall back to `BUILD_SHA` when supplied, otherwise `local`.
+- Current package version remains `0.1.0-recovery`; this can be bumped deliberately at product milestones while the commit suffix continues to distinguish every test build.
+
+Expected Overview label example:
+
+`Version 0.1.0-recovery · Build 545c35f`
+
+This should be used in future bug reports/tests so screenshots and user feedback can always be mapped back to one exact repository state.
