@@ -160,6 +160,7 @@ export interface DungeonAssetEntry {
   width?: number;
   height?: number;
   opacity?: number;
+  targetId?: string;
 }
 
 export interface DungeonTileset {

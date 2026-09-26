@@ -1,9 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useKit } from "@/lib/store";
+import { useAssetPack } from "@/lib/asset-store";
+import { assetFor } from "@/lib/ishar/asset-pack";
 import { canTravel, DIRECTION_LABELS, turnBack, turnLeft, turnRight } from "@/lib/ishar/dungeon";
 import { validateGame } from "@/lib/ishar/project-validation";
-import type { AuthoredEncounter, AuthoredGame, AuthoredLocation, Direction } from "@/lib/ishar/types";
+import type { AuthoredEncounter, AuthoredGame, AuthoredLocation, Direction, DungeonAssetDepth, DungeonAssetRole } from "@/lib/ishar/types";
+import type { LoadedAssetPack } from "@/lib/ishar/asset-pack";
 
 export const Route = createFileRoute("/playtest")({ component: PlaytestPage });
 
@@ -19,13 +22,42 @@ function points(values: number[][]) {
   return values.map((value) => value.join(",")).join(" ");
 }
 
-function DungeonViewport({ game, location, facing, encounter, encounterDone, hasItem }: {
+function renderAsset(
+  pack: LoadedAssetPack | null,
+  role: DungeonAssetRole,
+  depth?: DungeonAssetDepth,
+  tilesetId?: string,
+  targetId?: string,
+) {
+  const asset = assetFor(pack, role, depth, tilesetId, targetId);
+  if (!asset || !pack) return null;
+  const scaleX = 640 / pack.manifest.viewport.width;
+  const scaleY = 400 / pack.manifest.viewport.height;
+  const x = (asset.entry.x ?? 0) * scaleX;
+  const y = (asset.entry.y ?? 0) * scaleY;
+  const width = (asset.entry.width ?? pack.manifest.viewport.width) * scaleX;
+  const height = (asset.entry.height ?? pack.manifest.viewport.height) * scaleY;
+  return <image
+    key={asset.entry.id}
+    className="asset-layer"
+    href={asset.url}
+    x={x}
+    y={y}
+    width={width}
+    height={height}
+    opacity={asset.entry.opacity ?? 1}
+    preserveAspectRatio="none"
+  />;
+}
+
+function DungeonViewport({ game, location, facing, encounter, encounterDone, itemId, pack }: {
   game: AuthoredGame;
   location: AuthoredLocation;
   facing: Direction;
   encounter?: AuthoredEncounter;
   encounterDone: boolean;
-  hasItem: boolean;
+  itemId?: string;
+  pack: LoadedAssetPack | null;
 }) {
   const segments: React.ReactNode[] = [];
   let cell: AuthoredLocation | undefined = location;
@@ -50,6 +82,13 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, has
           <line className="dungeon-mortar" x1={inner.l} y1={(inner.t+inner.b)/2} x2={inner.r} y2={(inner.t+inner.b)/2}/>
           <line className="dungeon-mortar" x1={(inner.l+inner.r)/2} y1={inner.t} x2={(inner.l+inner.r)/2} y2={inner.b}/>
         </>}
+        {renderAsset(pack, "surface.ceiling", depth as DungeonAssetDepth, cell.tilesetId)}
+        {renderAsset(pack, "surface.floor", depth as DungeonAssetDepth, cell.tilesetId)}
+        {renderAsset(pack, "wall.left", depth as DungeonAssetDepth, cell.tilesetId)}
+        {renderAsset(pack, "wall.right", depth as DungeonAssetDepth, cell.tilesetId)}
+        {leftOpen && renderAsset(pack, "opening.left", depth as DungeonAssetDepth, cell.tilesetId)}
+        {rightOpen && renderAsset(pack, "opening.right", depth as DungeonAssetDepth, cell.tilesetId)}
+        {!forward && renderAsset(pack, "wall.front", depth as DungeonAssetDepth, cell.tilesetId)}
       </g>
     );
 
@@ -57,25 +96,29 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, has
     cell = forward;
   }
 
+  const encounterLayer = encounter && !encounterDone ? renderAsset(pack, "encounter", undefined, location.tilesetId, encounter.id) : null;
+  const itemLayer = itemId ? renderAsset(pack, "item", undefined, location.tilesetId, itemId) : null;
+
   return <div className="dungeon-viewport">
     <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid meet" aria-label={`Blick nach ${DIRECTION_LABELS[facing]}`}>
       <rect width="640" height="400" className="dungeon-dark"/>
+      {renderAsset(pack, "viewport.background", undefined, location.tilesetId)}
       {segments}
       <path className="dungeon-vignette" d="M0 0H640V400H0Z M32 25V375H608V25Z" fillRule="evenodd"/>
-      {encounter && !encounterDone && <g className="enemy-silhouette" transform="translate(320 232)">
+      {encounter && !encounterDone && (encounterLayer ?? <g className="enemy-silhouette" transform="translate(320 232)">
         <ellipse cx="0" cy="58" rx="58" ry="13" className="enemy-shadow"/>
         <path d="M-36 48 L-24 -52 L0 -84 L24 -52 L36 48 Z" className="enemy-body"/>
         <circle cx="0" cy="-88" r="24" className="enemy-head"/>
         <path d="M-23 -90 L-8 -105 L0 -95 L9 -108 L23 -90" className="enemy-crown"/>
         <circle cx="-8" cy="-91" r="3" className="enemy-eye"/><circle cx="8" cy="-91" r="3" className="enemy-eye"/>
         <path d="M-42 -22 L-70 23 L-52 30 L-26 2 M42 -22 L70 23 L52 30 L26 2" className="enemy-arms"/>
-      </g>}
-      {hasItem && <g className="dungeon-item" transform="translate(500 310)">
+      </g>)}
+      {itemId && (itemLayer ?? <g className="dungeon-item" transform="translate(500 310)">
         <ellipse cx="0" cy="36" rx="34" ry="8" className="item-shadow"/>
         <path d="M-22 34 L-14 -8 L14 -8 L22 34 Z" className="item-pedestal"/>
         <circle cx="0" cy="-24" r="13" className="item-glow"/>
         <path d="M-5 -30 L7 -25 L0 -15 L-8 -20 Z" className="item-core"/>
-      </g>}
+      </g>)}
     </svg>
     <div className="viewport-topbar"><span>{location.name}</span><strong>{DIRECTION_LABELS[facing]}</strong></div>
     {encounter && !encounterDone && <div className="enemy-hud"><strong>{encounter.name}</strong><span>im Weg</span></div>}
@@ -84,6 +127,7 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, has
 
 function PlaytestPage() {
   const project = useKit((s) => s.project);
+  const pack = useAssetPack((s) => s.pack);
   const game = project.game;
   const hero = game.characters[0];
   const problems = validateGame(game);
@@ -169,12 +213,13 @@ function PlaytestPage() {
   return <section className="crawler-page">
     <header className="page-head crawler-head">
       <div><p className="eyebrow">First-person dungeon runtime</p><h1>{project.name}</h1><p>WASD / Pfeiltasten: drehen und schrittweise bewegen.</p></div>
-      <div className="toolbar"><Link className="file-button" to="/author">Dungeon bearbeiten</Link><button onClick={reset}>Neu starten</button></div>
+      <div className="toolbar"><Link className="file-button" to="/author">Dungeon bearbeiten</Link><Link className="file-button" to="/assets">Assets</Link><button onClick={reset}>Neu starten</button></div>
     </header>
 
     <div className="crawler-layout">
       <main className="crawler-main">
-        <DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} hasItem={visibleItemIds.length > 0}/>
+        <DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} itemId={visibleItemIds[0]} pack={pack}/>
+        <div className="asset-runtime-status"><span>Asset-Pack</span><strong>{pack ? pack.manifest.name : "SVG-Fallback"}</strong>{game.assetPackId && !pack && <small>Projekt erwartet: {game.assetPackId}</small>}</div>
         <div className="crawler-controls">
           <button onClick={()=>setFacing(turnLeft(facing))} aria-label="Links drehen">↶<small>drehen</small></button>
           <button onClick={()=>step(facing)} disabled={!encounterDone || defeated || won} aria-label="Vorwärts">↑<small>vor</small></button>

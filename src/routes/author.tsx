@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useKit } from "@/lib/store";
+import { useAssetPack } from "@/lib/asset-store";
 import { DIRECTION_LABELS } from "@/lib/ishar/dungeon";
 import { validateGame } from "@/lib/ishar/project-validation";
 import type { AuthoredGame, AuthoredLocation, Direction } from "@/lib/ishar/types";
@@ -46,6 +47,7 @@ function DungeonMap({ game }: { game: AuthoredGame }) {
 
 function AuthorPage() {
   const { project, setProject } = useKit();
+  const pack = useAssetPack((s) => s.pack);
   const game = project.game;
   const problems = validateGame(game);
 
@@ -68,7 +70,7 @@ function AuthorPage() {
   return <section>
     <header className="page-head">
       <div><p className="eyebrow">Dungeon authoring</p><h1>Adventure Builder</h1><p>Baue ein kardinales Dungeon-Raster. X/Y-Positionen und beidseitige Verbindungen bestimmen die First-Person-Geometrie des Playtests.</p></div>
-      <div className="toolbar"><Link className="file-button" to="/playtest">Dungeon betreten</Link><button onClick={addLocation}>Raum hinzufügen</button></div>
+      <div className="toolbar"><Link className="file-button" to="/playtest">Dungeon betreten</Link><Link className="file-button" to="/assets">Asset Lab</Link><button onClick={addLocation}>Raum hinzufügen</button></div>
     </header>
 
     <div className="stats-grid file-stats">
@@ -149,7 +151,10 @@ function AuthorPage() {
           <label>Verbindungen (IDs, Komma)<input value={loc.exits.join(", ")} onChange={(e)=>patchLocation(loc.id,{exits:csv(e.target.value)})}/></label>
           <label>Items (IDs, Komma)<input value={loc.itemIds.join(", ")} onChange={(e)=>patchLocation(loc.id,{itemIds:csv(e.target.value)})}/></label>
         </div>
-        <label>Begegnung<select value={loc.encounterId ?? ""} onChange={(e)=>patchLocation(loc.id,{encounterId:e.target.value || undefined})}><option value="">keine</option>{game.encounters.map(e=><option key={e.id} value={e.id}>{e.name}</option>)}</select></label>
+        <div className="inline-fields">
+          <label>Begegnung<select value={loc.encounterId ?? ""} onChange={(e)=>patchLocation(loc.id,{encounterId:e.target.value || undefined})}><option value="">keine</option>{game.encounters.map(e=><option key={e.id} value={e.id}>{e.name}</option>)}</select></label>
+          {pack ? <label>Tileset<select value={loc.tilesetId ?? ""} onChange={(e)=>patchLocation(loc.id,{tilesetId:e.target.value || undefined})}><option value="">Pack-Standard ({pack.manifest.defaultTilesetId})</option>{pack.manifest.tilesets.map((tileset)=><option key={tileset.id} value={tileset.id}>{tileset.name}</option>)}</select></label> : <label>Tileset-ID<input value={loc.tilesetId ?? ""} placeholder="Pack-Standard" onChange={(e)=>patchLocation(loc.id,{tilesetId:e.target.value || undefined})}/></label>}
+        </div>
         <label className="check-row"><input type="checkbox" checked={!!loc.ending} onChange={(e)=>patchLocation(loc.id,{ending:e.target.checked})}/> Abschluss-Feld</label>
       </article>)}
     </div>

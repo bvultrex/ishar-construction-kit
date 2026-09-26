@@ -63,6 +63,7 @@ function validateEntry(raw: unknown, path: string): DungeonAssetEntry {
     width: numberOrUndefined(value.width),
     height: numberOrUndefined(value.height),
     opacity: numberOrUndefined(value.opacity),
+    targetId: typeof value.targetId === "string" && value.targetId.trim() ? value.targetId : undefined,
   };
 }
 
@@ -158,7 +159,8 @@ async function fromLooseFiles(files: File[]): Promise<LoadedAssetPack> {
   if (!manifestPath) throw new Error("Auswahl enthält kein manifest.json, asset-pack.json oder ishar-assets.json.");
   const manifestFile = byPath.get(manifestPath)!;
   const manifest = parseAssetManifest(JSON.parse(await manifestFile.text()));
-  return assemblePack(manifestPath, manifest, files.length + "", files.length, async (path) => byPath.get(path));
+  const rootName = normalizePath((files[0] as File & { webkitRelativePath?: string } | undefined)?.webkitRelativePath || "").split("/")[0];
+  return assemblePack(manifestPath, manifest, rootName || files.length + " lokale Datei(en)", files.length, async (path) => byPath.get(path));
 }
 
 export async function loadAssetPack(files: File[]): Promise<LoadedAssetPack> {
@@ -177,6 +179,7 @@ export function assetFor(
   role: DungeonAssetRole,
   depth?: DungeonAssetDepth,
   tilesetId?: string,
+  targetId?: string,
 ) {
   if (!pack) return undefined;
   const tileset = pack.manifest.tilesets.find((candidate) => candidate.id === tilesetId)
@@ -184,10 +187,14 @@ export function assetFor(
     ?? pack.manifest.tilesets[0];
   const pools = [tileset?.entries ?? [], pack.manifest.shared];
   for (const entries of pools) {
-    const exact = entries.find((entry) => entry.role === role && entry.depth === depth && pack.urls[entry.id]);
-    if (exact) return { entry: exact, url: pack.urls[exact.id]! };
-    const generic = entries.find((entry) => entry.role === role && entry.depth === undefined && pack.urls[entry.id]);
-    if (generic) return { entry: generic, url: pack.urls[generic.id]! };
+    const candidates = [
+      entries.find((entry) => entry.role === role && entry.depth === depth && entry.targetId === targetId && pack.urls[entry.id]),
+      entries.find((entry) => entry.role === role && entry.depth === depth && entry.targetId === undefined && pack.urls[entry.id]),
+      entries.find((entry) => entry.role === role && entry.depth === undefined && entry.targetId === targetId && pack.urls[entry.id]),
+      entries.find((entry) => entry.role === role && entry.depth === undefined && entry.targetId === undefined && pack.urls[entry.id]),
+    ];
+    const match = candidates.find(Boolean);
+    if (match) return { entry: match, url: pack.urls[match.id]! };
   }
   return undefined;
 }
@@ -201,7 +208,7 @@ export function exampleAssetManifest(): DungeonAssetManifest {
     viewport: { width: 640, height: 400 },
     defaultTilesetId: "stone",
     shared: [
-      { id: "guardian", role: "encounter", file: "monsters/guardian.png", x: 230, y: 105, width: 180, height: 230 },
+      { id: "guardian", role: "encounter", targetId: "guardian", file: "monsters/guardian.png", x: 230, y: 105, width: 180, height: 230 },
       { id: "pickup", role: "item", file: "items/pickup.png", x: 455, y: 245, width: 90, height: 110 },
     ],
     tilesets: [

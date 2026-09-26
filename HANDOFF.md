@@ -126,3 +126,32 @@ Implemented on `workbench/playable-slice` after that feedback:
 4. expand party to multiple authored members and combat selection
 5. add map/event authoring on top of the grid
 6. preserve original-game format research as a separate compatibility/import track
+
+
+## 2026-09-26 — External asset pipeline checkpoint
+
+Work continued on `workbench/playable-slice` following the crawler-first decision.
+
+Implemented:
+
+- generic `ishar-ck-asset-pack` manifest v1
+- semantic image roles for viewport/background, floor/ceiling, perspective walls/openings, doors, encounters, items and portraits
+- depth-specific layers (0–3)
+- optional `targetId` mapping for authored encounters/items
+- multiple named tilesets per pack
+- Asset Lab route with local ZIP/folder import and image previews
+- browser-only Blob URLs; original graphics are never added to project JSON or Git
+- project stores only expected `assetPackId`; dungeon locations may store `tilesetId`
+- Playtest overlays imported image layers over the existing SVG crawler fallback
+- Adventure Builder can assign imported tilesets per dungeon cell
+- sparse packs are valid: missing images fall back to procedural SVG geometry
+- `ASSET_PACK.md` documents the boundary and manifest schema
+
+Verification strategy: GitHub Actions must pass typecheck, production build and smoke test on every checkpoint.
+
+Next asset work:
+
+1. add door/blocked transition data to authored world model and render door roles
+2. add per-character portrait assets to the five-slot HUD
+3. test a hand-authored external pack with real image files
+4. begin Ishar-specific source-file mapping from user-owned local corpus; do not claim extraction semantics until verified

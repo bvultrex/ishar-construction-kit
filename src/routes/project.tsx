@@ -36,6 +36,7 @@ function ProjectPage() {
       <div><p className="eyebrow">Project</p><h1>{project.name}</h1><p>Format {project.format} v{project.version} · lokal im Browser gespeichert</p></div>
       <div className="toolbar">
         <Link className="file-button" to="/author">Adventure Builder</Link>
+        <Link className="file-button" to="/assets">Asset Lab</Link>
         <label className="file-button">Projekt öffnen<input type="file" accept=".json,.ishar-ck-project" onChange={(e)=>{const f=e.currentTarget.files?.[0]; if(f) void importProject(f);}}/></label>
         <button onClick={downloadProject}>Projekt exportieren</button>
       </div>
@@ -50,7 +51,7 @@ function ProjectPage() {
       <article className="stone-card">
         <h2>Testbarkeit</h2>
         <p>{problems.length ? `${problems.length} Referenzproblem(e) verhindern einen sauberen Playtest.` : "Projekt-Referenzen sind konsistent und der Browser-Playtest kann gestartet werden."}</p>
-        <p className="muted">Der Vertical-Slice verwendet nur originale Construction-Kit-Daten. Originalspiel-Dateien bleiben externe Forschungsquellen.</p>
+        <p className="muted">Der Vertical-Slice verwendet nur originale Construction-Kit-Daten. Originalspiel-Dateien bleiben externe Forschungsquellen.</p><p className="muted">Externes Asset-Pack: {project.game.assetPackId || "nicht zugeordnet"}</p>
         <div className="toolbar"><Link className="file-button" to="/playtest">Playtest</Link><button className="secondary" onClick={()=>resetProject("My Ishar Adventure")}>Starter-Projekt zurücksetzen</button></div>
       </article>
     </div>
