@@ -361,9 +361,10 @@ function chooseGenericPlaytestEntities(images: AlisIndexedImage[]) {
   };
   const result: {role:"encounter"|"item";image:AlisIndexedImage}[]=[];
   const encounter=pick("encounter");
-  const item=pick("item");
   if(encounter) result.push({role:"encounter",image:encounter});
-  if(item) result.push({role:"item",image:item});
+  // Items are semantic, not generic: a random OBJET.IO sprite can be grass,
+  // a weapon, food, etc. Unknown authored items therefore keep the neutral
+  // fallback until a verified distance set or manual mapping exists.
   return result;
 }
 
