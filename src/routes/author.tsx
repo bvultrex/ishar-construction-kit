@@ -277,17 +277,28 @@ function AuthorPage() {
       <article className="editor-panel">
         <h2>Items</h2>
         {game.items.map((item) => {
-          const selectedAsset=assetById(item.assetId);
+          const distanceFields = [
+            ["assetNearId","Nah (aktueller Raum)"],
+            ["assetMidId","Mittel (1 Raum)"],
+            ["assetFarId","Fern (2 Räume)"],
+          ] as const;
           return <div key={item.id} className="author-block">
             <label>Name<input value={item.name} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,name:e.target.value}:x)})}/></label>
             <label>Beschreibung<textarea rows={3} value={item.description} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,description:e.target.value}:x)})}/></label>
-            {pack && <label>Grafik
-              <select value={item.assetId ?? ""} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,assetId:e.target.value || undefined}:x)})}>
-                <option value="">Automatik / Fallback</option>
-                {itemAssetCandidates.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}
-              </select>
-              {selectedAsset && <div className="surface-preview"><img src={selectedAsset.url} alt=""/><code>{selectedAsset.path}</code></div>}
-            </label>}
+            {pack && <div className="item-distance-assets">
+              <strong>Distanz-Sprites</strong>
+              {distanceFields.map(([field,label])=>{
+                const selectedId=item[field] ?? (field==="assetNearId" ? item.assetId : undefined);
+                const selectedAsset=assetById(selectedId);
+                return <label key={field}>{label}
+                  <select value={selectedId ?? ""} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,[field]:e.target.value || undefined,...(field==="assetNearId"?{assetId:undefined}:{})}:x)})}>
+                    <option value="">Automatik / Fallback</option>
+                    {itemAssetCandidates.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}
+                  </select>
+                  {selectedAsset && <div className="surface-preview"><img src={selectedAsset.url} alt=""/><code>{selectedAsset.path}</code></div>}
+                </label>;
+              })}
+            </div>}
           </div>;
         })}
       </article>
