@@ -323,7 +323,7 @@ export function extractAlisIndexedImages(
       encoding = "4bit-offset";
       const paletteBase = bytes[location + 4] ?? 0;
       const clear = bytes[location + 5] ?? 0;
-      transparentIndex = (paletteBase + clear) & 0xff;
+      transparentIndex = h0 === 0x10 ? (paletteBase + clear) & 0xff : undefined;
       const bytesPerRow = Math.ceil(width / 2);
       const start = location + 6;
       const needed = bytesPerRow * height;
@@ -369,7 +369,7 @@ export function extractAlisIndexedImages(
       transparentIndex = undefined;
     } else {
       encoding = "8bit";
-      transparentIndex = bytes[location + 5] ?? 0;
+      transparentIndex = h0 === 0x14 ? (bytes[location + 5] ?? 0) : undefined;
       const start = location + 6;
       const needed = width * height;
       if (start + needed > bytes.length) {
