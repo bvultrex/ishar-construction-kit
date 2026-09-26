@@ -368,6 +368,22 @@ function chooseGenericPlaytestEntities(images: AlisIndexedImage[]) {
   return result;
 }
 
+function knownIsharAssetUse(game: GameId, image: AlisIndexedImage) {
+  if(game!=="ishar2" || baseName(image.sourcePath).toUpperCase()!=="OBJET.IO") return undefined;
+  const labels: Record<number,string> = {
+    69:"Schlüssel-Serie 1 · Nah",
+    70:"Schlüssel-Serie 1 · Mittel",
+    71:"Schlüssel-Serie 1 · Fern",
+    72:"Schlüssel-Serie 2 · Nah",
+    73:"Schlüssel-Serie 2 · Mittel",
+    74:"Schlüssel-Serie 2 · Fern",
+    75:"Schlüssel · groß A",
+    76:"Schlüssel · groß B",
+    121:"Schlüsselring",
+  };
+  return labels[image.entryIndex];
+}
+
 function defaultChoiceKey(sourcePath:string,entryIndex:number){
   return `${sourcePath}#${entryIndex}`;
 }
@@ -1042,6 +1058,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       assetKind:image.assetKind,
       paletteStatus:image.paletteSource,
       visualStatus:isFlatColorImage(image) ? "flat-color" : isPaletteSuspect(image) ? "palette-suspect" : "normal",
+      knownUse:knownIsharAssetUse(detectedGame,image),
       width:image.width,
       height:image.height,
       suggestedRole:imageDefaults[0]?.role ?? suggestion,
