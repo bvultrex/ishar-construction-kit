@@ -4,6 +4,7 @@ import { PACKER_NEW, unpackSilm } from "./silm-pack";
 import type { DiscoveredAssetPreview, LoadedAssetPack } from "./asset-pack";
 import { extractAlisIndexedImages, type AlisIndexedImage } from "./alis-assets";
 import type { DungeonAssetEntry, DungeonAssetManifest, DungeonAssetRole, FileRecord, GameId } from "./types";
+import { renderProfileForGame } from "./render-profile";
 
 export interface IsharDefaultAssignment {
   role: DungeonAssetRole;
@@ -106,99 +107,143 @@ function suggestRoleByDimensions(width: number, height: number): DungeonAssetRol
 const DUNGEON_SOURCE = /(dungeon|donjon|decor|dekor|crypt|crypte|cave|cavern|grotte|castle|chateau|interior|inside|temple|fort|stone|pierre|brick|brique|wall|mur|labyr)/i;
 const ENTITY_SOURCE = /(perso|portrait|face|head|avatar|monster|monstre|enemy|ennemi|creature|combat|item|object|objet|invent|icon|potion|spell|magic|menu|font|cursor|logo|title|intro)/i;
 
-function textureLike(image: AlisIndexedImage) {
-  const aspect=image.width/image.height;
-  return image.width>=8 && image.height>=8 && image.width<=256 && image.height<=256 && aspect>=0.35 && aspect<=2.85;
+function transparentRatio(image: AlisIndexedImage) {
+  if (image.transparentIndex === undefined || !image.pixels.length) return 0;
+  let transparent = 0;
+  for (const pixel of image.pixels) if (pixel === image.transparentIndex) transparent++;
+  return transparent / image.pixels.length;
 }
 
-function roleScore(image: AlisIndexedImage, role: DungeonAssetRole, preferredSource?: string) {
-  const path=image.sourcePath.toLowerCase();
-  let score=0;
-  if(preferredSource && image.sourcePath===preferredSource) score+=12;
-  if(DUNGEON_SOURCE.test(path)) score+=18;
-  if(ENTITY_SOURCE.test(path)) score-=28;
-  if(textureLike(image)) score+=8;
+function edgeContinuity(image: AlisIndexedImage) {
+  if (image.width < 2 || image.height < 2) return 0;
+  let horizontal = 0;
+  for (let y = 0; y < image.height; y++) {
+    if (image.pixels[y * image.width] === image.pixels[y * image.width + image.width - 1]) horizontal++;
+  }
+  let vertical = 0;
+  const bottom = (image.height - 1) * image.width;
+  for (let x = 0; x < image.width; x++) {
+    if (image.pixels[x] === image.pixels[bottom + x]) vertical++;
+  }
+  return ((horizontal / image.height) + (vertical / image.width)) / 2;
+}
 
-  if(role==="surface.floor"){
-    if(/(floor|ground|sol|dalle|pave|pavement)/i.test(path)) score+=42;
-    if(image.width>=image.height) score+=4;
-  } else if(role==="surface.ceiling"){
-    if(/(ceiling|plafond|sky|ciel|roof|toit|voute)/i.test(path)) score+=42;
-    if(image.width>=image.height) score+=3;
-  } else if(role==="wall.front" || role==="wall.left" || role==="wall.right"){
-    if(/(wall|mur|stone|pierre|brick|brique|decor)/i.test(path)) score+=38;
-    if(image.width>=16 && image.height>=16) score+=4;
-  } else if(role==="door.front.closed"){
-    if(/(door|porte|gate|portal|grille|entry|entree)/i.test(path)) score+=52;
-    if(image.height>=image.width*1.12 && image.height>=28 && image.height<=300) score+=12;
-    if(image.width>180 || image.height>320) score-=6;
-  } else if(role==="viewport.background"){
-    if(/(sky|ciel|background|backdrop|fond|scene|landscape|horizon)/i.test(path)) score+=48;
-    if(image.width>=160 && image.height>=80 && image.width>image.height) score+=12;
+function paletteVariety(image: AlisIndexedImage) {
+  const values = new Set<number>();
+  const stride = Math.max(1, Math.floor(image.pixels.length / 2048));
+  for (let i = 0; i < image.pixels.length; i += stride) values.add(image.pixels[i] ?? 0);
+  return values.size;
+}
+
+function textureFitness(image: AlisIndexedImage) {
+  const aspect = Math.min(image.width, image.height) / Math.max(image.width, image.height);
+  const transparency = transparentRatio(image);
+  const continuity = edgeContinuity(image);
+  const variety = paletteVariety(image);
+  let score = 0;
+  if (image.width >= 12 && image.width <= 160) score += 8;
+  if (image.height >= 12 && image.height <= 160) score += 8;
+  score += aspect * 22;
+  score += continuity * 16;
+  if (transparency <= 0.01) score += 12;
+  else if (transparency <= 0.08) score += 3;
+  else score -= 24 * transparency;
+  if (variety >= 4 && variety <= 96) score += 7;
+  if (aspect < 0.48) score -= 20;
+  if (image.width > 220 || image.height > 220) score -= 12;
+  return score;
+}
+
+function roleScore(image: AlisIndexedImage, role: DungeonAssetRole, preferredSource: string | undefined, game: GameId) {
+  const path = image.sourcePath.toLowerCase();
+  const profile = renderProfileForGame(game);
+  let score = 0;
+  if (preferredSource && image.sourcePath === preferredSource) score += 12;
+  if (DUNGEON_SOURCE.test(path)) score += 18;
+  if (ENTITY_SOURCE.test(path)) score -= 30;
+  const fitness = textureFitness(image);
+  const fullDrawspace = image.width === profile.drawWidth && image.height === profile.drawHeight;
+
+  if (role === "surface.floor") {
+    score += fitness;
+    if (/(floor|ground|sol|dalle|pave|pavement)/i.test(path)) score += 48;
+  } else if (role === "surface.ceiling") {
+    score += fitness;
+    if (/(ceiling|plafond|sky|ciel|roof|toit|voute)/i.test(path)) score += 48;
+  } else if (role === "wall.front" || role === "wall.left" || role === "wall.right") {
+    score += fitness;
+    if (/(wall|mur|stone|pierre|brick|brique|decor|dungeon|donjon|crypt|crypte)/i.test(path)) score += 40;
+  } else if (role === "door.front.closed") {
+    if (/(door|porte|gate|portal|grille|entry|entree)/i.test(path)) score += 58;
+    const aspect = image.width / image.height;
+    if (aspect >= 0.22 && aspect <= 0.82 && image.height >= 32 && image.height <= profile.drawHeight * 1.45) score += 22;
+    if (transparentRatio(image) >= 0.03) score += 8;
+    if (image.width > profile.drawWidth * 0.8) score -= 15;
+  } else if (role === "viewport.background") {
+    if (/(sky|ciel|background|backdrop|fond|scene|landscape|horizon|decor|dungeon|donjon)/i.test(path)) score += 34;
+    if (fullDrawspace) score += 58;
+    else if (image.width >= profile.drawWidth * 0.8 && image.height >= profile.drawHeight * 0.75) score += 18;
   }
   return score;
 }
 
-function bestByScore(images: AlisIndexedImage[], role: DungeonAssetRole, preferredSource?: string, minimum=1) {
-  let best: {image: AlisIndexedImage; score: number} | undefined;
-  for(const image of images){
-    const score=roleScore(image,role,preferredSource);
-    if(score<minimum) continue;
-    if(!best || score>best.score || (score===best.score && image.width*image.height>best.image.width*best.image.height)){
-      best={image,score};
-    }
+function bestByScore(images: AlisIndexedImage[], role: DungeonAssetRole, preferredSource: string | undefined, minimum: number, game: GameId) {
+  let best: { image: AlisIndexedImage; score: number } | undefined;
+  for (const image of images) {
+    const score = roleScore(image, role, preferredSource, game);
+    if (score < minimum) continue;
+    if (!best || score > best.score || (score === best.score && image.width * image.height > best.image.width * best.image.height)) best = { image, score };
   }
   return best;
 }
 
-function chooseDefaultDungeonAssets(images: AlisIndexedImage[]): IsharDefaultAssignment[] {
-  if(!images.length) return [];
-  const sourceScores=new Map<string,number>();
-  for(const image of images){
-    if(ENTITY_SOURCE.test(image.sourcePath)) continue;
-    let score=textureLike(image) ? 2 : 0;
-    if(DUNGEON_SOURCE.test(image.sourcePath)) score+=8;
-    if(/(wall|mur|floor|sol|door|porte|ceiling|plafond|decor)/i.test(image.sourcePath)) score+=10;
-    sourceScores.set(image.sourcePath,(sourceScores.get(image.sourcePath)??0)+score);
+function chooseDefaultDungeonAssets(images: AlisIndexedImage[], game: GameId): IsharDefaultAssignment[] {
+  if (!images.length) return [];
+  const sourceScores = new Map<string, number>();
+  for (const image of images) {
+    if (ENTITY_SOURCE.test(image.sourcePath)) continue;
+    let score = Math.max(0, textureFitness(image));
+    if (DUNGEON_SOURCE.test(image.sourcePath)) score += 18;
+    if (/(wall|mur|floor|sol|door|porte|ceiling|plafond|decor|dungeon|donjon|crypt|crypte)/i.test(image.sourcePath)) score += 22;
+    sourceScores.set(image.sourcePath, (sourceScores.get(image.sourcePath) ?? 0) + score);
   }
-  const preferredSource=[...sourceScores.entries()].sort((a,b)=>b[1]-a[1])[0]?.[0];
-
-  const assignments: IsharDefaultAssignment[]=[];
-  const add=(role:DungeonAssetRole, pick:ReturnType<typeof bestByScore>, reason:string, threshold=28)=>{
-    if(!pick) return;
+  const preferredSource = [...sourceScores.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
+  const assignments: IsharDefaultAssignment[] = [];
+  const add = (role: DungeonAssetRole, pick: { image: AlisIndexedImage; score: number } | undefined, reason: string, threshold = 55) => {
+    if (!pick) return;
     assignments.push({
       role,
-      sourcePath:pick.image.sourcePath,
-      entryIndex:pick.image.entryIndex,
-      confidence:pick.score>=threshold ? "probable" : "possible",
-      reason:`${reason} (Score ${pick.score}).`,
+      sourcePath: pick.image.sourcePath,
+      entryIndex: pick.image.entryIndex,
+      confidence: pick.score >= threshold ? "probable" : "possible",
+      reason: reason + " (Score " + Math.round(pick.score) + "; " + pick.image.width + "×" + pick.image.height + ").",
     });
   };
 
-  const wall=bestByScore(images,"wall.front",preferredSource,4);
-  const floor=bestByScore(images,"surface.floor",preferredSource,4) ?? wall;
-  const ceiling=bestByScore(images,"surface.ceiling",preferredSource,4) ?? wall;
-  const door=bestByScore(images,"door.front.closed",preferredSource,8);
-  const background=bestByScore(images,"viewport.background",preferredSource,24);
+  const wall = bestByScore(images, "wall.front", preferredSource, 38, game);
+  const explicitFloor = bestByScore(images.filter((image) => /(floor|ground|sol|dalle|pave|pavement)/i.test(image.sourcePath)), "surface.floor", preferredSource, 45, game);
+  const explicitCeiling = bestByScore(images.filter((image) => /(ceiling|plafond|sky|ciel|roof|toit|voute)/i.test(image.sourcePath)), "surface.ceiling", preferredSource, 45, game);
+  const floor = explicitFloor ?? wall;
+  const ceiling = explicitCeiling ?? wall;
+  const door = bestByScore(images, "door.front.closed", preferredSource, 28, game);
+  const background = bestByScore(images, "viewport.background", preferredSource, 58, game);
 
-  add("wall.front",wall,"Dungeon-/Wandkandidat als Standardwand");
-  add("wall.left",wall,"gleiche Basistexur für linke Wand");
-  add("wall.right",wall,"gleiche Basistexur für rechte Wand");
-  add("surface.floor",floor,"Boden-Kandidat; fällt bei Bedarf auf Dungeon-Basistexur zurück");
-  add("surface.ceiling",ceiling,"Decken/Himmel-Kandidat; fällt bei Bedarf auf Dungeon-Basistexur zurück");
-  add("door.front.closed",door,"Türkandidat aus Dateikontext und Hochformat");
-  if(background) add("viewport.background",background,"großformatiger Himmel/Hintergrundkandidat",40);
-
+  add("wall.front", wall, "opak, kachelbar und Dungeon-/Wandkontext");
+  add("wall.left", wall, "gleiche Basistexur für linke Wand");
+  add("wall.right", wall, "gleiche Basistexur für rechte Wand");
+  add("surface.floor", floor, explicitFloor ? "expliziter Boden-Kandidat" : "kohärenter Fallback auf Basistexur");
+  add("surface.ceiling", ceiling, explicitCeiling ? "expliziter Decken/Himmel-Kandidat" : "kohärenter Fallback auf Basistexur");
+  add("door.front.closed", door, "Tür-/Portal-Kontext plus Hochformat/Transparenz", 62);
+  add("viewport.background", background, "Drawspace-/Hintergrundkandidat passend zum Spielprofil", 72);
   return assignments;
 }
-
 function defaultChoiceKey(sourcePath:string,entryIndex:number){
   return `${sourcePath}#${entryIndex}`;
 }
 
 function tileSize(image: AlisIndexedImage){
-  const width=Math.max(24,Math.min(128,image.width));
-  const height=Math.max(24,Math.min(128,image.height));
+  const width=Math.max(8,Math.min(96,image.width));
+  const height=Math.max(8,Math.min(96,image.height));
   return {tileWidth:width,tileHeight:height};
 }
 
@@ -407,7 +452,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     else tilesetEntries.push(entry);
   });
 
-  const defaultAssignments=chooseDefaultDungeonAssets(alisImages);
+  const defaultAssignments=chooseDefaultDungeonAssets(alisImages,detectedGame);
   const defaultsByImage=new Map<string,IsharDefaultAssignment[]>();
   for(const assignment of defaultAssignments){
     const key=defaultChoiceKey(assignment.sourcePath,assignment.entryIndex);
@@ -487,13 +532,16 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   }
 
   const gameLabel=detectedGame==="ishar1" ? "Ishar 1" : detectedGame==="ishar2" ? "Ishar 2" : "Ishar";
+  const renderProfile=renderProfileForGame(detectedGame);
   const packId="auto-"+safeId(gameLabel+"-"+file.name);
   const manifest: DungeonAssetManifest={
     format:"ishar-ck-asset-pack",
     version:1,
     id:packId,
     name:gameLabel+" Auto-Import",
-    viewport:{width:640,height:400},
+    viewport:{width:renderProfile.drawWidth,height:renderProfile.drawHeight},
+    renderProfileId:renderProfile.id,
+    pixelAspectY:renderProfile.pixelAspectY,
     defaultTilesetId:"auto-default",
     shared,
     tilesets:[{id:"auto-default",name:gameLabel+" Auto Dungeon",entries:[...defaultTilesetEntries,...tilesetEntries]}],
@@ -502,6 +550,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   const candidateResources=inventory.filter((record)=>record.silm || record.ext===".IO" || record.ext===".FIC").length;
   const notes=[
     detectedGame==="unknown" ? "Spielversion konnte aus Dateinamen/-größen nicht sicher erkannt werden." : gameLabel+" wurde anhand des lokalen Dateibestands erkannt.",
+    "Renderprofil: "+renderProfile.label+" · Drawspace "+renderProfile.drawWidth+"×"+renderProfile.drawHeight+" · Pixel-Aspekt Y "+renderProfile.pixelAspectY+".",
     decodedOldPacker ? decodedOldPacker+" Datei(en) mit altem Silmarils-Packer wurden für die Bildsuche entpackt." : "Keine Old-Packer-Ressource musste entpackt werden.",
     decodedA1Packer ? decodedA1Packer+" A1/New-Packer-Datei(en) wurden mit dem bounded DOS-Decoder entpackt." : "Keine A1-Ressource konnte decodiert werden.",
     failedPackedDecode ? failedPackedDecode+" gepackte Datei(en) konnten trotz erkanntem Header nicht sicher decodiert werden." : "Alle erkannten gepackten Ressourcen wurden decodiert.",
