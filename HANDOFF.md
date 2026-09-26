@@ -489,3 +489,33 @@ Remaining compatibility work:
 
 - `ctexmap` gives the authoritative terrain-slot-to-resource assignment at runtime. A static script decoder for those calls would let the editor label original terrain/material slots instead of showing only resource IDs.
 - Plain-red assets are not assumed to be broken anymore; many may be masks/material helpers or rely on runtime palette state. They remain visible for diagnostics but are not used as surface defaults.
+
+
+## 2026-09-26 — Terrain absence confirmed; add hard format diagnostics
+
+User clarified that terrain textures were never listed in Asset Lab. This corrects the previous assumption that 0x1C/0x1E extraction had already surfaced them.
+
+New evidence:
+
+- The older recovered Workbench does not claim terrain textures either; its tested graphics reader only supports normal ALIS bitmap resource types 0x10/0x12/0x14/0x16.
+- Its palette work is stronger than the current browser heuristic:
+  - STAGE.IO / resource 4 is the verified shared VGA base palette.
+  - A module-local scene palette overlays only its declared index range.
+  - When several local palettes exist, the old Workbench chooses the nearest resource index as an initial scene-palette guess.
+- Therefore plain-red/incorrect-color previews were partly caused by our previous "most colorful global palette" fallback.
+
+Implemented:
+
+- every ALIS graphics table now records a raw format histogram, not just formats we know how to decode
+- Asset Lab shows counts for all seen resource headers (for example 0x10, 0x14, 0x1C, 0x1E, 0xFE, 0xFF)
+- this makes the next test decisive:
+  - if 0x1C/0x1E counts are non-zero but Terrain stays zero, our terrain decoder/bounds are wrong
+  - if 0x1C/0x1E counts are zero, the original Ishar terrain data is outside the graphics-resource tables currently scanned and ctexmap/runtime data must be reconstructed directly
+- known Ishar 1/2 imports no longer fabricate wall/floor/ceiling defaults from ordinary sprites when no true terrain resource was extracted; SVG geometry remains visible instead
+- palette resolution now follows the recovered Workbench model:
+  - prefer STAGE.IO / ALIS #4 as shared base palette
+  - choose nearest local module palette and overlay only its declared index range
+  - fall back to the previous global-palette heuristic only when the verified STAGE base is unavailable
+- Asset Lab reports whether STAGE.IO/#4 was found and how many images received local palette overlays
+
+Do not claim that 0x1C/0x1E are present in the user's Ishar 2 archive until the new format histogram confirms it.
