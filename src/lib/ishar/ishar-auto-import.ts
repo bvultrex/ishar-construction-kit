@@ -33,8 +33,11 @@ export interface IsharAutoImportReport {
   alisCompositePreviews: number;
   alisResourceFormatCounts: Record<string, number>;
   stagePaletteBaseFound: boolean;
+  paletteBaseLabel: string;
+  paletteBaseVerified: boolean;
   localPaletteOverlayImages: number;
   globalPaletteFallbackImages: number;
+  alisPaletteSuspectAssets: number;
   directImages: number;
   embeddedImages: number;
   mappedImages: number;
@@ -593,6 +596,49 @@ function nearestLocalPalette(image: AlisIndexedImage, palettes: AlisPaletteResou
   );
 }
 
+function precedingLocalPalette(image: AlisIndexedImage, palettes: AlisPaletteResource[]) {
+  let best: AlisPaletteResource | undefined;
+  for (const palette of palettes) {
+    if (palette.sourcePath !== image.sourcePath || palette.entryIndex > image.entryIndex) continue;
+    if (!best || palette.entryIndex > best.entryIndex) best = palette;
+  }
+  return best;
+}
+
+function paletteBaseScore(palette: AlisPaletteResource, game: GameId) {
+  const name=baseName(palette.sourcePath).toUpperCase();
+  let score=paletteColorfulness(palette.palette);
+  score += Math.min(256,palette.colorCount)*16;
+  if(palette.firstColor===0) score+=1800;
+  if(palette.colorCount>=192) score+=4500;
+  else if(palette.colorCount>=128) score+=2200;
+  if(game==="ishar2"){
+    if(name==="DJCOL.IO") score+=30000;
+    else if(/(?:^|[_-])(DJ)?COL|PAL/.test(name)) score+=9000;
+    if(name==="MAIN.IO") score+=1600;
+    if(/MONSTER|GUARD|DRAGON|OBJET|ANIMAL|ARBO|BUSTE/.test(name)) score-=4500;
+  }
+  return score;
+}
+
+function chooseGameBasePalette(palettes: AlisPaletteResource[], game: GameId) {
+  const stage=stageBasePalette(palettes);
+  if(game==="ishar1" && stage){
+    return {palette:stage,label:"STAGE.IO / #4",verified:true};
+  }
+  let best: AlisPaletteResource | undefined;
+  let bestScore=-Infinity;
+  for(const palette of palettes){
+    const score=paletteBaseScore(palette,game);
+    if(score>bestScore){ best=palette; bestScore=score; }
+  }
+  return {
+    palette:best,
+    label:best ? baseName(best.sourcePath)+" / #"+best.entryIndex : "keine",
+    verified:false,
+  };
+}
+
 function overlayPalette(base: Uint8Array, local: AlisPaletteResource) {
   const result = base.slice();
   const start = Math.max(0, local.firstColor);
@@ -617,6 +663,29 @@ function chooseGlobalPalette(palettes: AlisPaletteResource[]) {
     }
   }
   return best;
+}
+
+function redDominance(image: AlisIndexedImage) {
+  if(!image.pixels.length) return 0;
+  const stride=Math.max(1,Math.floor(image.pixels.length/2048));
+  let strongRed=0;
+  let visible=0;
+  for(let i=0;i<image.pixels.length;i+=stride){
+    const index=image.pixels[i] ?? 0;
+    if(image.transparentIndex===index) continue;
+    const at=index*3;
+    const r=image.palette[at] ?? 0;
+    const g=image.palette[at+1] ?? 0;
+    const b=image.palette[at+2] ?? 0;
+    if(Math.max(r,g,b)<20) continue;
+    visible++;
+    if(r>=120 && r>g*1.7 && r>b*1.7) strongRed++;
+  }
+  return visible ? strongRed/visible : 0;
+}
+
+function isPaletteSuspect(image: AlisIndexedImage) {
+  return redDominance(image)>=0.78 && paletteVariety(image)>=2;
 }
 
 export async function autoImportIsharZip(file: File): Promise<IsharAutoImportResult> {
