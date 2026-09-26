@@ -9,6 +9,7 @@ export interface DiscoveredAssetPreview {
   assetKind?: "sprite" | "terrain" | "composite";
   paletteStatus?: "embedded" | "global" | "default";
   visualStatus?: "normal" | "flat-color" | "palette-suspect";
+  knownUse?: string;
   width?: number;
   height?: number;
   suggestedRole?: DungeonAssetRole;
