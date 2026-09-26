@@ -9,6 +9,7 @@ const nav = [
   ["/", "Overview"],
   ["/author", "Adventure Builder"],
   ["/playtest", "Playtest"],
+  ["/assets", "Asset Lab"],
   ["/characters", "Character Lab"],
   ["/files", "File Lab"],
   ["/knowledge", "Knowledge"],

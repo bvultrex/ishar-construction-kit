@@ -16,7 +16,7 @@ function Overview() {
     </div>
     <div className="module-grid">
       {Object.entries(project.modules).map(([id, mod]) => {
-        const to = id === "character" ? "/characters" : id === "asset" ? "/files" : id === "build" ? "/project" : ["item","world","npc","quest","dialogue"].includes(id) ? "/author" : "/knowledge";
+        const to = id === "character" ? "/characters" : id === "asset" ? "/assets" : id === "build" ? "/project" : ["item","world","npc","quest","dialogue"].includes(id) ? "/author" : "/knowledge";
         return <Link key={id} to={to} className="module-card"><span>{id}</span><strong>{mod.status}</strong><small>{mod.notes || "Noch nicht auditiert."}</small></Link>;
       })}
     </div>

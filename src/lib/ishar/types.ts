@@ -133,6 +133,52 @@ export interface DiffHunk {
   b: number;
 }
 
+export type DungeonAssetRole =
+  | "viewport.background"
+  | "surface.ceiling"
+  | "surface.floor"
+  | "wall.front"
+  | "wall.left"
+  | "wall.right"
+  | "opening.left"
+  | "opening.right"
+  | "door.front.closed"
+  | "door.front.open"
+  | "encounter"
+  | "item"
+  | "portrait";
+
+export type DungeonAssetDepth = 0 | 1 | 2 | 3;
+
+export interface DungeonAssetEntry {
+  id: string;
+  role: DungeonAssetRole;
+  file: string;
+  depth?: DungeonAssetDepth;
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  opacity?: number;
+}
+
+export interface DungeonTileset {
+  id: string;
+  name: string;
+  entries: DungeonAssetEntry[];
+}
+
+export interface DungeonAssetManifest {
+  format: "ishar-ck-asset-pack";
+  version: 1;
+  id: string;
+  name: string;
+  viewport: { width: number; height: number };
+  defaultTilesetId: string;
+  shared: DungeonAssetEntry[];
+  tilesets: DungeonTileset[];
+}
+
 export interface AuthoredCharacter {
   id: string;
   name: string;
@@ -157,6 +203,7 @@ export interface AuthoredLocation {
   exits: string[];
   itemIds: string[];
   encounterId?: string;
+  tilesetId?: string;
   ending?: boolean;
 }
 
@@ -177,6 +224,7 @@ export interface AuthoredQuest {
 }
 
 export interface AuthoredGame {
+  assetPackId?: string;
   startLocationId: string;
   startFacing: Direction;
   characters: AuthoredCharacter[];
