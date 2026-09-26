@@ -8,7 +8,7 @@ export interface DiscoveredAssetPreview {
   source: "standard" | "alis";
   assetKind?: "sprite" | "terrain" | "composite";
   paletteStatus?: "embedded" | "global" | "default";
-  visualStatus?: "normal" | "flat-color";
+  visualStatus?: "normal" | "flat-color" | "palette-suspect";
   width?: number;
   height?: number;
   suggestedRole?: DungeonAssetRole;
