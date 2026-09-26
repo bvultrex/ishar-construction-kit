@@ -538,7 +538,13 @@ async function compositeToPngBlob(
     context.restore();
   }
   const blob=await new Promise<Blob|undefined>((resolve)=>canvas.toBlob((value)=>resolve(value??undefined),"image/png"));
-  return blob ? {blob,width,height,components:placements.length} : undefined;
+  return blob ? {
+    blob,
+    width,
+    height,
+    components:placements.length,
+    paletteSuspect:placements.some((placement)=>isPaletteSuspect(placement.image)),
+  } : undefined;
 }
 
 async function indexedImageToPngBlob(image: AlisIndexedImage): Promise<Blob> {
@@ -873,7 +879,10 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     const suggestion=image.assetKind==="terrain" ? "wall.front" : (role ?? suggestRoleByDimensions(image.width,image.height));
     const id=safeId(image.sourcePath)+"-alis-"+image.entryIndex;
     const entityRole=role ? ["encounter","item","portrait"].includes(role) : false;
-    const runtimeAssigned=imageDefaults.length>0 || (!!role && !entityRole);
+    const unsafeSceneGuess=!!role && detectedGame!=="unknown" && [
+      "viewport.background","surface.floor","surface.ceiling","wall.front","wall.left","wall.right"
+    ].includes(role);
+    const runtimeAssigned=imageDefaults.length>0 || (!!role && !entityRole && !unsafeSceneGuess);
     discoveredAssets.push({
       id,
       path:`${image.sourcePath} · ALIS #${image.entryIndex}`,
@@ -881,7 +890,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       source:"alis",
       assetKind:image.assetKind,
       paletteStatus:image.paletteSource,
-      visualStatus:isFlatColorImage(image) ? "flat-color" : "normal",
+      visualStatus:isFlatColorImage(image) ? "flat-color" : isPaletteSuspect(image) ? "palette-suspect" : "normal",
       width:image.width,
       height:image.height,
       suggestedRole:imageDefaults[0]?.role ?? suggestion,
@@ -916,7 +925,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       urls[id]=url;
       paths[id]=entry.file;
       if(entityRole) shared.push(entry);
-      else tilesetEntries.push(entry);
+      else if(!unsafeSceneGuess) tilesetEntries.push(entry);
       mappedImages++;
     } else {
       unmappedImages++;
@@ -935,7 +944,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       url,
       source:"alis",
       assetKind:"composite",
-      visualStatus:"normal",
+      visualStatus:rendered.paletteSuspect ? "palette-suspect" : "normal",
       width:rendered.width,
       height:rendered.height,
       runtimeAssigned:false,
