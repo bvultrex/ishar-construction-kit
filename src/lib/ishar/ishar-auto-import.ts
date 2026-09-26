@@ -764,17 +764,20 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     }
   }
 
-  // The recovered legacy Workbench verified STAGE.IO / resource 4 as the
-  // shared VGA scene palette. Local scene palettes only override their own
-  // index range. Reproduce that deterministic model before falling back to a
-  // generic "most colorful" palette.
+  // Ishar 1 has a verified shared scene palette (STAGE.IO / #4).
+  // Ishar 2 does not expose that same resource in the tested corpus, so its
+  // base palette is selected separately (DJCOL/PAL/COL modules are preferred)
+  // and local palettes are applied only when they precede the image resource.
   const stagePalette=stageBasePalette(alisPalettes);
-  const globalPalette=stagePalette ?? chooseGlobalPalette(alisPalettes);
+  const paletteBase=chooseGameBasePalette(alisPalettes,detectedGame);
+  const globalPalette=paletteBase.palette ?? chooseGlobalPalette(alisPalettes);
   let globalPaletteFallbackImages=0;
   let localPaletteOverlayImages=0;
   if(globalPalette){
     for(const image of alisImages){
-      const local=nearestLocalPalette(image,alisPalettes);
+      const local=detectedGame==="ishar1" && stagePalette
+        ? nearestLocalPalette(image,alisPalettes)
+        : precedingLocalPalette(image,alisPalettes);
       if(local){
         image.palette=overlayPalette(globalPalette.palette,local);
         image.paletteSource="embedded";
@@ -791,6 +794,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
 
   const alisTerrainTexturesExtracted=alisImages.filter((image)=>image.assetKind==="terrain").length;
   const alisFlatColorAssets=alisImages.filter(isFlatColorImage).length;
+  const alisPaletteSuspectAssets=alisImages.filter(isPaletteSuspect).length;
 
   const shared: DungeonAssetEntry[]=[];
   const defaultTilesetEntries: DungeonAssetEntry[]=[];
