@@ -172,3 +172,8 @@ User testing confirmed that no terrain-texture category had ever appeared in the
 ## 2026-09-26 composite-scene preview direction
 
 Recovered Workbench evidence shows verified Ishar scene tiles can be composed from multiple graphic resource IDs and mirrored variants. The browser importer now renders ALIS 0xFF composite resources as assembled previews, while keeping them distinct from repeatable terrain textures. This helps identify visible wall/decor assemblies that are not recognizable as individual sprites.
+
+
+## 2026-09-26 scene-import correction
+
+The project no longer assumes Ishar 1/2 dungeon geometry is stored as missing 0x1C/0x1E terrain textures. Real Ishar 2 diagnostics show the scanned graphics tables are dominated by 0x10/0x14 bitmap resources and 0xFF composites, with no 0x1C/0x1E entries. Recovered Ishar 1 Workbench evidence confirms cave/city visuals are assembled from multiple resource IDs and mirrored draws. Game detection now distinguishes Ishar 1/2 using verified file sizes, palette handling is game-specific, and Playtest cannot become blank when scene assets remain unresolved.
