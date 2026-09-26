@@ -184,3 +184,22 @@ Asset Lab now has a generated `CK Demo Layers` pack. It creates temporary SVG Bl
 5. collect the crypt rune, defeat the guardian, open the sealed sanctum door, reach the ending
 
 No generated demo image is committed as a binary asset; the SVG strings exist only as test scaffolding in code.
+
+
+## 2026-09-26 — Ishar asset source mapping scaffold
+
+Asset Lab now consumes the existing File Lab inventory through `mapIsharAssetSources()`.
+
+Important evidence boundary:
+
+- packed non-text/system `.IO` files are only **possible** graphics containers
+- `.FIC` remains map/data-oriented and is not promoted to graphics
+- unknown resources stay unknown
+- old-packer resources can be routed toward the existing decoder
+- A1/new-packer resources remain blocked until decoding is reproducible
+
+The intended compatibility architecture is now explicit:
+
+`user-owned Ishar files -> audited extractor -> generic asset-pack manifest + local images -> crawler runtime`
+
+This keeps proprietary binary knowledge out of the runtime and prevents speculative format assumptions from contaminating the authoring model.

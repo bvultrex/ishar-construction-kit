@@ -103,3 +103,15 @@ User test of the first runnable slice passed functionally but exposed the wrong 
 - Done: perspective viewport with turn/step navigation and keyboard controls.
 - Done: encounters in viewport and five-slot party HUD scaffold.
 - Next: user test of the crawler build, then doors/interactions, party expansion, richer combat and stronger original visual identity.
+
+
+## Asset pipeline follow-up
+
+- Done: generic external asset-pack manifest and local ZIP/folder import.
+- Done: depth-aware wall/opening render roles, target-specific encounter/item layers and per-location tilesets.
+- Done: authored doors with optional key items plus door image roles.
+- Done: synthetic in-browser demo pack for zero-corpus smoke testing.
+- Done: conservative File Lab → Asset Lab Ishar source-candidate queue.
+- Next: verify actual graphics-bearing containers from the local Ishar corpus, beginning with old-packer candidates where decode already exists.
+- Next: add palette/bitmap signature inspection to unpacked resource previews before writing any automatic extractor.
+- Then: map verified extracted graphics into `ishar-ck-asset-pack` roles and record provenance/hash metadata locally without committing original bytes.

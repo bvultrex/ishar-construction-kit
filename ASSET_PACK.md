@@ -79,3 +79,17 @@ A location may set `tilesetId`. If blank, the pack's `defaultTilesetId` is used.
 ## Ishar compatibility track
 
 The generic asset system does not claim knowledge of proprietary Ishar graphics formats. The next compatibility step is to map verified extracted source graphics into this manifest vocabulary, then automate extraction only where the binary format is reproducibly understood.
+
+
+## Ishar-specific source mapping
+
+Asset Lab can reuse the File Lab inventory and present conservative source candidates. This is intentionally a **mapping queue**, not a decoder:
+
+- known text/system IO files are excluded from the graphics candidate queue;
+- packed IO resources are marked only as `possible`, because ALIS containers may contain code, graphics, text or music;
+- FIC files remain world/map-data candidates unless direct evidence proves image content;
+- unknown resources remain `unknown`;
+- old-packer candidates can proceed to the existing decoder for inspection;
+- A1/new-packer candidates remain blocked on reproducible decoding.
+
+The eventual Ishar importer should produce the generic asset-pack manifest as its output. The crawler runtime therefore does not need Ishar-specific binary knowledge.

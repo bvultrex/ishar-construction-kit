@@ -3,12 +3,14 @@ import { useState } from "react";
 import { createDemoAssetPack, exampleAssetManifest, loadAssetPack } from "@/lib/ishar/asset-pack";
 import { useAssetPack } from "@/lib/asset-store";
 import { useKit } from "@/lib/store";
+import { mapIsharAssetSources } from "@/lib/ishar/ishar-assets";
 
 export const Route = createFileRoute("/assets")({ component: AssetsPage });
 
 function AssetsPage() {
   const { pack, setPack, clearPack } = useAssetPack();
-  const { project, setProject } = useKit();
+  const { project, setProject, inventory, inventorySource } = useKit();
+  const sourceCandidates = mapIsharAssetSources(inventory);
   const [message, setMessage] = useState("");
 
   function activatePack(next: ReturnType<typeof createDemoAssetPack>) {
@@ -79,5 +81,13 @@ function AssetsPage() {
 
       <div className="file-table-wrap"><table className="file-table"><thead><tr><th>Vorschau</th><th>ID</th><th>Rolle</th><th>Tiefe</th><th>Datei</th><th>Status</th></tr></thead><tbody>{entries.map((entry)=><tr key={entry.id}><td className="asset-preview-cell">{pack.urls[entry.id] ? <img src={pack.urls[entry.id]} alt=""/> : <span>—</span>}</td><td><code>{entry.id}</code></td><td>{entry.role}</td><td>{entry.depth ?? "global"}</td><td><code>{entry.file}</code></td><td><span className={"badge " + (pack.urls[entry.id] ? "confirmed" : "unknown")}>{pack.urls[entry.id] ? "geladen" : "fehlt"}</span></td></tr>)}</tbody></table></div>
     </>}
+
+    <article className="stone-card asset-source-map">
+      <div className="map-card-head"><div><p className="eyebrow">Ishar compatibility mapping</p><h2>Lokale Quellkandidaten</h2></div><span className="audit-chip">{sourceCandidates.length} Kandidaten</span></div>
+      {!inventory.length ? <p>Importiere zuerst im <Link to="/files">File Lab</Link> deine lokale Ishar-Installation oder ein Archiv. Danach werden mögliche Ressourcendateien hier evidenzbewusst vorsortiert.</p> : <>
+        <p>Quelle: {inventorySource}. Diese Liste sagt <strong>nicht</strong>, dass eine Datei Grafik enthält; sie priorisiert nur Kandidaten für den nächsten Reverse-Engineering-Schritt.</p>
+        <div className="file-table-wrap"><table className="file-table"><thead><tr><th>Datei</th><th>Typ</th><th>Evidenz</th><th>Nächster Schritt</th></tr></thead><tbody>{sourceCandidates.slice(0,40).map((candidate)=><tr key={candidate.path}><td><strong>{candidate.path}</strong><small>{candidate.rationale}</small></td><td>{candidate.sourceKind}</td><td><span className={"badge " + candidate.confidence}>{candidate.confidence}</span></td><td>{candidate.nextStep}</td></tr>)}</tbody></table></div>
+      </>}
+    </article>
   </section>;
 }

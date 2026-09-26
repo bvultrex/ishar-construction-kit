@@ -121,3 +121,5 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 
 .fallback-door rect{fill:#4a3827;stroke:#a37a4e;stroke-width:3}.fallback-door circle{fill:#d2ad7d;stroke:#2a1b10;stroke-width:1}
 .crawler-controls .door-button{font-size:15px;background:#6d573e;color:#f1e5ce}.crawler-controls .door-button small{font-size:9px}
+
+.asset-source-map{margin-top:20px}.asset-source-map a{color:#d2ad7d;text-decoration:underline}.asset-source-map .file-table-wrap{margin-top:12px}
