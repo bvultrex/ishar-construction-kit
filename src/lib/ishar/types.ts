@@ -133,6 +133,132 @@ export interface DiffHunk {
   b: number;
 }
 
+export type DungeonAssetRole =
+  | "viewport.background"
+  | "surface.ceiling"
+  | "surface.floor"
+  | "wall.front"
+  | "wall.left"
+  | "wall.right"
+  | "opening.left"
+  | "opening.right"
+  | "door.front.closed"
+  | "door.front.open"
+  | "encounter"
+  | "item"
+  | "portrait";
+
+export type DungeonAssetDepth = 0 | 1 | 2 | 3;
+export type DungeonAssetRenderMode = "layer" | "texture";
+export type DungeonRenderProfileId = "construction" | "ishar1-dos" | "ishar2-dos" | "custom";
+
+export interface DungeonAssetEntry {
+  id: string;
+  role: DungeonAssetRole;
+  file: string;
+  depth?: DungeonAssetDepth;
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  opacity?: number;
+  targetId?: string;
+  renderMode?: DungeonAssetRenderMode;
+  tileWidth?: number;
+  tileHeight?: number;
+}
+
+export interface DungeonTileset {
+  id: string;
+  name: string;
+  entries: DungeonAssetEntry[];
+}
+
+export interface DungeonAssetManifest {
+  format: "ishar-ck-asset-pack";
+  version: 1;
+  id: string;
+  name: string;
+  viewport: { width: number; height: number };
+  renderProfileId?: DungeonRenderProfileId;
+  pixelAspectY?: number;
+  defaultTilesetId: string;
+  shared: DungeonAssetEntry[];
+  tilesets: DungeonTileset[];
+}
+
+export interface AuthoredCharacter {
+  id: string;
+  name: string;
+  hp: number;
+  attack: number;
+}
+
+export interface AuthoredItem {
+  id: string;
+  name: string;
+  description: string;
+  /** Legacy/single-sprite override. Used as near sprite when no distance set exists. */
+  assetId?: string;
+  assetNearId?: string;
+  assetMidId?: string;
+  assetFarId?: string;
+}
+
+export type Direction = "north" | "east" | "south" | "west";
+
+export interface AuthoredLocation {
+  id: string;
+  name: string;
+  description: string;
+  x: number;
+  y: number;
+  exits: string[];
+  itemIds: string[];
+  encounterId?: string;
+  tilesetId?: string;
+  wallAssetId?: string;
+  floorAssetId?: string;
+  ceilingAssetId?: string;
+  ending?: boolean;
+}
+
+export interface AuthoredDoor {
+  id: string;
+  fromLocationId: string;
+  toLocationId: string;
+  initiallyOpen: boolean;
+  keyItemId?: string;
+}
+
+export interface AuthoredEncounter {
+  id: string;
+  name: string;
+  enemyHp: number;
+  enemyAttack: number;
+  victoryText: string;
+  questId?: string;
+}
+
+export interface AuthoredQuest {
+  id: string;
+  title: string;
+  objective: string;
+  completedText: string;
+}
+
+export interface AuthoredGame {
+  assetPackId?: string;
+  startLocationId: string;
+  startFacing: Direction;
+  characters: AuthoredCharacter[];
+  items: AuthoredItem[];
+  locations: AuthoredLocation[];
+  encounters: AuthoredEncounter[];
+  doors: AuthoredDoor[];
+  quests: AuthoredQuest[];
+}
+
 export interface KitProject {
   format: "ishar-ck-project";
   version: 1;
@@ -142,4 +268,5 @@ export interface KitProject {
   sourceGames: GameId[];
   nameOverlays: Record<string, string>;
   modules: Record<string, { status: "planned" | "audit" | "partial" | "ready"; notes: string }>;
+  game: AuthoredGame;
 }

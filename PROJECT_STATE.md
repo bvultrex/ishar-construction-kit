@@ -101,3 +101,84 @@ Six real Ishar 2 saves passed byte-identical codec identity patches. Synthetic s
 A usable 1.0 lets an author create and reopen an original project, define a small complete RPG (party/characters, world/maps, items, encounters, quests and text), validate references, and export a documented playable package for a specified runtime. Save inspection/import is a research and migration aid, not the main output. The runtime and export format need a concrete design checkpoint; unknown original file formats need not block an original-data authoring path.
 
 The older Ishar 1 Python Workbench supplies candidate template, map, script and quest findings. Its `EN1.FIC` tables are distinct from `.SAV` fields. Its original-engine patch workflow could inform a future compatibility export, but no code or derived game assets have been imported into this repository. The 1.0 export/runtime decision must account for both an original-format compatibility path and an original-data runtime path without claiming either is already implemented.
+
+
+## 2026-09-26 playable vertical slice
+
+Draft PR #1 adds the first original-data authoring-to-runtime path. The project now contains a starter adventure schema for characters, locations, items, encounters and quests; local browser persistence; import/export; reference validation; an Adventure Builder; and a browser Playtest that can be completed from start to ending. This is deliberately separate from original Ishar save/file compatibility research.
+
+Acceptance path: edit the starter project, keep validation green, start Playtest, defeat the guardian, reach the ending location, export the project JSON, reopen it and replay it.
+
+
+## 2026-09-26 product correction: crawler-first runtime
+
+The first runnable authoring slice proved persistence, validation, combat, completion and import/export, but user testing correctly identified that its button-and-text presentation behaved like a text adventure. The runtime target is therefore now explicit: **grid-based first-person dungeon crawler**.
+
+Current branch adds X/Y dungeon geometry, facing, cardinal topology validation, live map authoring, perspective dungeon rendering, relative movement/turning, keyboard controls, viewport encounters and a five-slot party HUD scaffold. Text remains secondary UI. This is the basis for the playable 1.0 runtime; original Ishar binary compatibility remains a parallel research track.
+
+
+## 2026-09-26 local asset pipeline
+
+The crawler runtime now has a generic external asset-pack layer. Asset Lab accepts local ZIPs/folders with a documented manifest, supports multiple tilesets and target-specific encounter/item sprites, and keeps imported image bytes session-local through browser Blob URLs. Project JSON stores only pack/tileset IDs. The Playtest overlays available image layers on the procedural crawler renderer and keeps SVG as a sparse-pack fallback.
+
+A built-in synthetic demo pack is available from Asset Lab so the image pipeline can be exercised without original assets. Authored doors are now first-class world transitions and can be opened/locked by item references; the viewport can render dedicated closed/open door roles.
+
+
+## 2026-09-26 branching builder correction
+
+Adventure Builder topology authoring now works from each room in four cardinal directions. Empty adjacent cells create and auto-link a new room; occupied cells can be linked or disconnected. Rooms and doors can be deleted with cascading cleanup of exit/door references. This removes the earlier vertical-only room creation path and makes branches, loops and crossroads practical in the UI.
+
+
+## 2026-09-26 guided original-archive import
+
+Asset Lab now treats a user-owned Ishar ZIP as the primary input. One selection populates the file inventory, detects Ishar 1/2 where corpus signatures allow it, classifies resources, attempts verified old-packer decoding, scans decoded data for standard embedded images, and auto-assigns only semantically strong image matches to runtime roles. The UI reports blocked A1/new-packer resources and deliberately leaves ambiguous graphics unmapped rather than guessing. Manual manifest packs are now an expert path.
+
+
+## 2026-09-26 A1 + ALIS graphics extraction
+
+The original-archive import path now includes a bounded DOS A1/New-Packer decoder plus a conservative DOS ALIS graphics-resource reader. Decoded scripts are inspected for resource tables, indexed 4-/8-bit images and palettes; extracted images are converted to local browser PNG previews. Ambiguous original graphics are deliberately shown as unassigned candidates rather than guessed into runtime roles. This is the first path capable of surfacing proprietary Ishar graphics from an original ZIP without a user-authored manifest.
+
+
+## 2026-09-26 automatic dungeon defaults
+
+After the first successful Ishar 2 extraction (141 A1 decoded, 2,244 ALIS images), the importer now builds an immediate default dungeon tileset from heuristically ranked original resources. Wall/floor/ceiling assets are rendered as tiled SVG textures clipped to the existing perspective geometry, so a successful ZIP import produces a visible Playtest change even before exact original resource IDs are fully mapped. The Asset Lab exposes every automatic role choice with its source ALIS entry and confidence for iterative verification.
+
+
+## 2026-09-26 — game-specific visual dimensions
+
+Original-archive rendering now has explicit DOS profiles instead of assuming the Construction Kit's generic 640×400 viewport. Ishar 1 uses a 256×126 active drawspace and Ishar 2 a 256×113 active drawspace inside their 320×200 screens. Imported packs carry the corresponding profile and pixel-aspect metadata; Playtest derives visible aspect and native texture scale from it. Asset auto-selection now evaluates indexed-image opacity, aspect, edge continuity and palette variety to reduce false wall/floor/ceiling matches.
+
+
+## 2026-09-26 texture-first Ishar Playtest
+
+The runtime now prioritizes repeatable ALIS dungeon textures over full-scene guesses. Interior imports no longer receive a generic viewport background unless the resource context explicitly indicates sky/background, and door auto-mapping requires explicit door/portal context. Playtest was rearranged into an Ishar-inspired game surface with viewport, minimap/navigation panel and five-slot party strip. Asset Lab supports one-click manual Basis/Wand/Boden/Decke mapping for rapid verification of real Ishar brick textures.
+
+
+## 2026-09-26 palette/composite and room-surface state
+
+ALIS palette handling now follows resource-table updates instead of applying one grayscale fallback to the whole script. Partial 8-bit palettes with offsets and DOS 4-bit palettes are reconstructed; palette-less images can use the strongest recovered global palette fallback. Composite resource metadata is also detected. Rooms now persist independent wall/floor/ceiling asset IDs selected from imported ALIS candidates, and Playtest renders those overrides before the default tileset. Exact original Ishar terrain-type-to-texture mappings remain under reverse engineering.
+
+
+## 2026-09-26 ALIS terrain-resource milestone
+
+The asset pipeline now distinguishes real ALIS DOS terrain textures (0x1C/0x1E) from ordinary sprite-table images. This resolves a major importer blind spot that previously removed likely Ishar level-geometry material resources from the catalog. Ishar 1/2 imports prefer these terrain resources for dungeon surfaces and do not auto-assign fullscreen backgrounds. Per-room surface overrides use terrain candidates first.
+
+
+## 2026-09-26 terrain absence / palette diagnostic correction
+
+User testing confirmed that no terrain-texture category had ever appeared in the imported asset catalog. The importer now records and displays raw ALIS resource-format counts so 0x1C/0x1E presence can be proven rather than inferred. Known Ishar imports do not auto-assign ordinary sprites as dungeon surfaces when true terrain extraction is absent. Palette reconstruction now prefers the verified STAGE.IO resource #4 base palette with nearest module-local partial palette overlays, matching the recovered legacy Workbench strategy.
+
+
+## 2026-09-26 composite-scene preview direction
+
+Recovered Workbench evidence shows verified Ishar scene tiles can be composed from multiple graphic resource IDs and mirrored variants. The browser importer now renders ALIS 0xFF composite resources as assembled previews, while keeping them distinct from repeatable terrain textures. This helps identify visible wall/decor assemblies that are not recognizable as individual sprites.
+
+
+## 2026-09-26 scene-import correction
+
+The project no longer assumes Ishar 1/2 dungeon geometry is stored as missing 0x1C/0x1E terrain textures. Real Ishar 2 diagnostics show the scanned graphics tables are dominated by 0x10/0x14 bitmap resources and 0xFF composites, with no 0x1C/0x1E entries. Recovered Ishar 1 Workbench evidence confirms cave/city visuals are assembled from multiple resource IDs and mirrored draws. Game detection now distinguishes Ishar 1/2 using verified file sizes, palette handling is game-specific, and Playtest cannot become blank when scene assets remain unresolved.
+
+
+## 2026-09-26 item distance sprite model
+
+Items are no longer modeled as a single pickup bitmap. The authored game schema supports near/mid/far sprite overrides, and the crawler renders item graphics across three visible room depths. Ishar 2 OBJET.IO #69/#70/#71 is the first verified distance sprite set (key near/mid/far); #72/#73/#74 is a second verified key set. Unknown item semantics keep a neutral fallback rather than using arbitrary OBJET.IO art.

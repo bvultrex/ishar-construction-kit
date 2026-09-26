@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite dev --host 0.0.0.0 --port 8080",
     "build": "vite build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:a1": "node scripts/check-a1.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",

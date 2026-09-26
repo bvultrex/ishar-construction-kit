@@ -80,3 +80,71 @@ Grow from verified schemas outward, not from speculative UI inward.
 
 - Triage legacy Ishar 1 research against original bytes: `CONT*.FIC` 54×90 addressing, `EN1.FIC` template tables and ALIS A1 repack behavior. Track evidence separately from Ishar 2 save offsets.
 - At the 1.0 design checkpoint choose and document the executable target and legal asset workflow, informed by the existing Ishar 1 Workbench compatibility research. Keep a complete authored RPG as the acceptance criterion.
+
+
+## Playable slice checkpoint
+
+- Added original project schema: character, item, location, encounter, quest and start/ending references.
+- Added browser persistence plus project import/export and reset.
+- Added reference validation before playtest.
+- Added Adventure Builder for the starter vertical slice.
+- Added browser Playtest with movement, combat, quest completion, inventory pickup, defeat/reset and ending.
+- Draft PR #1 is the integration gate; CI runs typecheck + production build.
+
+Next after the first green playable build: harden project migrations, add/delete entity workflows, improve map editing, then expand runtime systems without coupling them to unverified proprietary formats.
+
+
+## Crawler-first follow-up
+
+User test of the first runnable slice passed functionally but exposed the wrong presentation model: it felt like a text adventure. The next test checkpoint therefore requires a visual first-person dungeon loop, not further text-flow polish.
+
+- Done: X/Y dungeon grid + start facing in authored schema.
+- Done: grid topology validation and live Builder map.
+- Done: perspective viewport with turn/step navigation and keyboard controls.
+- Done: encounters in viewport and five-slot party HUD scaffold.
+- Next: user test of the crawler build, then doors/interactions, party expansion, richer combat and stronger original visual identity.
+
+
+## Asset pipeline follow-up
+
+- Done: generic external asset-pack manifest and local ZIP/folder import.
+- Done: depth-aware wall/opening render roles, target-specific encounter/item layers and per-location tilesets.
+- Done: authored doors with optional key items plus door image roles.
+- Done: synthetic in-browser demo pack for zero-corpus smoke testing.
+- Done: conservative File Lab → Asset Lab Ishar source-candidate queue.
+- Next: verify actual graphics-bearing containers from the local Ishar corpus, beginning with old-packer candidates where decode already exists.
+- Next: add palette/bitmap signature inspection to unpacked resource previews before writing any automatic extractor.
+- Then: map verified extracted graphics into `ishar-ck-asset-pack` roles and record provenance/hash metadata locally without committing original bytes.
+
+
+## Immediate compatibility target — original terrain slots
+
+1. Re-import Ishar 2 and verify the new report shows non-zero "Terrain" resources.
+2. Confirm 0x1C/0x1E thumbnails include the missing brick/stone level materials.
+3. Decode or statically scan Ishar-era ctexmap definitions so terrain slot -> resource relationships are recovered from the original scripts.
+4. Separate genuine flat-color masks/material helpers from palette failures.
+5. Promote verified original terrain sets into deterministic Ishar 1/2 material presets.
+
+
+## Immediate scene-renderer target
+
+1. Re-test both Ishar 1 and Ishar 2 imports with the corrected signature detector.
+2. Verify Ishar 1 selects STAGE.IO/#4 and reports the Ishar 1 DOS render profile.
+3. Compare Ishar 2 palette-base label, scene repair count and remaining "Palette offen" count.
+4. Port the recovered Ishar 1 tile-previews.json evidence into a typed scene-preview table and render MCAVE/ville field components in script draw order.
+5. Reverse the corresponding Ishar 2 DJ1.IO/DJ2.IO draw branches; treat large 0xFF composites as scene assemblies, not repeatable textures.
+6. Only after placement is verified, promote scene components into automatic wall/opening/door rendering for the authored crawler.
+
+
+## Immediate item-graphics target
+
+- Done: verified distance families are modeled explicitly for OBJET.IO #69/#70/#71, #72/#73/#74 and user-verified mushroom family #232/#233/#234.
+- Done: conservative OBJET.IO-only detection groups consecutive sprite triples when their visible footprint shrinks near -> mid -> far.
+- Done: Asset Lab labels distance-set membership/confidence; Adventure Builder can apply a whole set; Playtest resolves missing distance siblings automatically.
+
+Next:
+1. Re-import Ishar 2 and verify #232/#233/#234 scale/alignment in current / +1 / +2 rooms.
+2. Review heuristic OBJET.IO triples for false positives; promote only manually confirmed families to verified mappings.
+3. Identify the exact semantic subtype represented by #72/#73/#74.
+4. Determine whether #75/#76 are inventory/close-up states and whether #121 is the inventory key-ring icon.
+5. Search enemy-bearing resources for equivalent near/mid/far sequences before extending the detector beyond OBJET.IO.

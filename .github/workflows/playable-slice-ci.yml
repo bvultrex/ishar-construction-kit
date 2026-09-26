@@ -1,0 +1,57 @@
+name: Playable Slice CI
+
+on:
+  push:
+    branches:
+      - workbench/playable-slice
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Typecheck
+        run: npm run typecheck
+      - name: A1 decoder fixtures
+        run: npm run test:a1
+      - name: Production build
+        run: npm run build
+      - name: Smoke-test production server
+        run: |
+          node scripts/serve-build.mjs > /tmp/ishar-test-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid 2>/dev/null || true' EXIT
+          ok=0
+          for attempt in 1 2 3 4 5 6 7 8 9 10; do
+            if curl -fsS http://127.0.0.1:4173/ > /tmp/ishar-index.html; then
+              ok=1
+              break
+            fi
+            sleep 1
+          done
+          cat /tmp/ishar-test-server.log
+          test "$ok" = "1"
+          grep -q "Ishar" /tmp/ishar-index.html
+      - name: Inspect build output
+        run: |
+          find dist -maxdepth 3 -type f | sort | head -80
+      - name: Upload test build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ishar-construction-kit-playable-slice
+          path: |
+            dist
+            package.json
+            package-lock.json
+            scripts/serve-build.mjs
+            README_TEST_BUILD.txt
+          if-no-files-found: error
+          retention-days: 14
