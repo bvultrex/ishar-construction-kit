@@ -208,3 +208,9 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .format-chip-grid code{color:#a99b86}.format-chip-grid strong{color:#d2ad7d}
 .format-chip-grid .terrain-format{border-color:#738263;background:#171d14;box-shadow:inset 0 -2px #738263}
 .resource-format-card .audit-note code{color:#f0c879}
+
+
+/* Guaranteed procedural dungeon fallback */
+.fallback-stone-base{fill:#33291f}.fallback-stone-line{fill:none;stroke:#6d5945;stroke-width:1;opacity:.8}
+.fallback-floor-base{fill:#211b14}.fallback-floor-line{fill:none;stroke:#594735;stroke-width:1;opacity:.75}
+.fallback-ceiling-base{fill:#181611}.fallback-ceiling-line{fill:none;stroke:#44382d;stroke-width:1;opacity:.72}
