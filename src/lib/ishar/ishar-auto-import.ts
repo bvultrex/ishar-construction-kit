@@ -586,13 +586,33 @@ async function compositeToPngBlob(
     }
     context.restore();
   }
+  const rendered=context.getImageData(0,0,width,height).data;
+  const stride=Math.max(1,Math.floor((width*height)/4096));
+  let visible=0;
+  let redDominant=0;
+  const colors=new Set<number>();
+  for(let pixel=0;pixel<width*height;pixel+=stride){
+    const at=pixel*4;
+    const alpha=rendered[at+3] ?? 0;
+    if(alpha<32) continue;
+    const r=rendered[at] ?? 0;
+    const g=rendered[at+1] ?? 0;
+    const b=rendered[at+2] ?? 0;
+    if(Math.max(r,g,b)<20) continue;
+    visible++;
+    colors.add(((r>>4)<<8)|((g>>4)<<4)|(b>>4));
+    if(r>=120 && r>g*1.7 && r>b*1.7) redDominant++;
+  }
+  const renderedRedRatio=visible ? redDominant/visible : 0;
+  const paletteSuspect=visible>8 && colors.size>=3 && renderedRedRatio>=0.78;
   const blob=await new Promise<Blob|undefined>((resolve)=>canvas.toBlob((value)=>resolve(value??undefined),"image/png"));
   return blob ? {
     blob,
     width,
     height,
     components:placements.length,
-    paletteSuspect:placements.some((placement)=>isPaletteSuspect(placement.image)),
+    paletteSuspect,
+    renderedRedRatio,
   } : undefined;
 }
 
