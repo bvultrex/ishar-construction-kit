@@ -31,3 +31,26 @@ Start here:
 ## First playable slice
 
 The workbench/playable-slice branch / draft PR #1 contains the first end-to-end original project workflow: edit a tiny adventure in **Adventure Builder**, validate references, run it in **Playtest**, and export/reopen the project JSON. Original Ishar files are still used only by the research labs and are not required for this authored runtime path.
+
+## Local development
+
+Use a Git checkout of `workbench/playable-slice`, not the downloadable test-build
+folder (which contains compiled output only). Run commands from the checkout root.
+Use Node.js 22.18+ or Node.js 24 LTS; the decoder test imports TypeScript directly.
+
+```powershell
+npm ci
+npm run typecheck
+npm run test:a1
+npm run build
+node scripts/serve-build.mjs
+```
+
+Open http://127.0.0.1:4173 for the production build. For development with hot
+reload, use `npm run dev` and the URL printed by Vite. Dependencies are pinned
+in `package-lock.json`; commit intentional dependency updates together with it.
+
+Original game archives stay local. The current manual regression gate is to import
+Ishar 2, repeatedly open the Builder wall/floor/ceiling selectors, narrow results
+by resource name, select a surface and check it in Playtest. Also inspect the
+verified mushroom distance family #232/#233/#234 at near/mid/far distances.
