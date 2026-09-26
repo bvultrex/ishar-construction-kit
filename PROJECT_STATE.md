@@ -177,3 +177,8 @@ Recovered Workbench evidence shows verified Ishar scene tiles can be composed fr
 ## 2026-09-26 scene-import correction
 
 The project no longer assumes Ishar 1/2 dungeon geometry is stored as missing 0x1C/0x1E terrain textures. Real Ishar 2 diagnostics show the scanned graphics tables are dominated by 0x10/0x14 bitmap resources and 0xFF composites, with no 0x1C/0x1E entries. Recovered Ishar 1 Workbench evidence confirms cave/city visuals are assembled from multiple resource IDs and mirrored draws. Game detection now distinguishes Ishar 1/2 using verified file sizes, palette handling is game-specific, and Playtest cannot become blank when scene assets remain unresolved.
+
+
+## 2026-09-26 item distance sprite model
+
+Items are no longer modeled as a single pickup bitmap. The authored game schema supports near/mid/far sprite overrides, and the crawler renders item graphics across three visible room depths. Ishar 2 OBJET.IO #69/#70/#71 is the first verified distance sprite set (key near/mid/far); #72/#73/#74 is a second verified key set. Unknown item semantics keep a neutral fallback rather than using arbitrary OBJET.IO art.
