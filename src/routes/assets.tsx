@@ -123,6 +123,15 @@ function AssetsPage() {
   }
 
   const entries = pack ? [...pack.manifest.shared, ...pack.manifest.tilesets.flatMap((tileset) => tileset.entries)] : [];
+  const displayedAssets = [...(pack?.discoveredAssets ?? [])].sort((a,b)=>{
+    const at=a.assetKind==="terrain" ? 1 : 0;
+    const bt=b.assetKind==="terrain" ? 1 : 0;
+    if(at!==bt) return bt-at;
+    const af=a.visualStatus==="flat-color" ? 1 : 0;
+    const bf=b.visualStatus==="flat-color" ? 1 : 0;
+    if(af!==bf) return af-bf;
+    return Number(b.runtimeAssigned)-Number(a.runtimeAssigned);
+  });
 
   return <section>
     <header className="page-head">
@@ -145,6 +154,8 @@ function AssetsPage() {
         <article><span>Dateien</span><strong>{autoReport.totalFiles}</strong></article>
         <article><span>A1 entpackt</span><strong>{autoReport.decodedA1Packer}</strong></article>
         <article><span>ALIS-Bilder</span><strong>{autoReport.alisImagesExtracted}</strong></article>
+        <article><span>Terrain</span><strong>{autoReport.alisTerrainTexturesExtracted}</strong></article>
+        <article><span>Flat/Masken</span><strong>{autoReport.alisFlatColorAssets}</strong></article>
         <article><span>Paletten</span><strong>{autoReport.alisPaletteResources}</strong></article>
         <article><span>Composites</span><strong>{autoReport.alisCompositeResources}</strong></article>
         <article><span>Zugeordnet</span><strong>{autoReport.mappedImages}</strong></article>
@@ -175,20 +186,24 @@ function AssetsPage() {
       {!!pack.discoveredAssets?.length && <section className="discovered-assets">
         <div className="map-card-head"><div><p className="eyebrow">Aus Originalarchiv extrahiert</p><h2>Gefundene Grafiken</h2></div><span className="audit-chip">{pack.discoveredAssets.length}</span></div>
         <p className="muted">Automatisch erkannte Kategorien werden markiert. Unklare Grafiken bleiben sichtbar, aber werden nicht blind in den Dungeon gerendert.</p>
-        <div className="asset-discovery-grid">{pack.discoveredAssets.slice(0,240).map((asset)=><article key={asset.id}>
+        <div className="asset-discovery-grid">{displayedAssets.slice(0,240).map((asset)=><article className={asset.assetKind==="terrain" ? "terrain-asset-card" : ""} key={asset.id}>
           <img src={asset.url} alt=""/>
-          <strong>{asset.suggestedRole ?? "unzugeordnet"}</strong>
-          <small>{asset.width && asset.height ? `${asset.width}×${asset.height} · ` : ""}{asset.source==="alis" ? "ALIS" : "Standardbild"}</small>
+          <strong>{asset.assetKind==="terrain" ? "Terrain-Textur" : (asset.suggestedRole ?? "unzugeordnet")}</strong>
+          <small>{asset.width && asset.height ? `${asset.width}×${asset.height} · ` : ""}{asset.assetKind==="terrain" ? "ALIS 0x1C/0x1E" : asset.source==="alis" ? "ALIS Sprite" : "Standardbild"}</small>
           <code title={asset.path}>{asset.path}</code>
-          <span className={"badge " + (asset.runtimeAssigned ? "confirmed" : asset.suggestedRole ? "suspected" : "unknown")}>{asset.runtimeAssigned ? "Runtime" : asset.suggestedRole ? "Vorschlag" : "prüfen"}</span>
-          <div className="asset-quick-map">
+          <div className="asset-card-badges">
+            <span className={"badge " + (asset.assetKind==="terrain" ? "confirmed" : asset.runtimeAssigned ? "confirmed" : asset.suggestedRole ? "suspected" : "unknown")}>{asset.assetKind==="terrain" ? "Terrain" : asset.runtimeAssigned ? "Runtime" : asset.suggestedRole ? "Vorschlag" : "prüfen"}</span>
+            {asset.paletteStatus && <span className={"badge " + (asset.paletteStatus==="embedded" ? "confirmed" : "suspected")}>Palette: {asset.paletteStatus}</span>}
+            {asset.visualStatus==="flat-color" && <span className="badge unknown">einfarbig / Maske?</span>}
+          </div>
+          {asset.visualStatus!=="flat-color" ? <div className="asset-quick-map">
             <button onClick={()=>assignPreview(asset,"dungeon-base")}>Basis</button>
             <button className="secondary" onClick={()=>assignPreview(asset,"wall.front")}>Wand</button>
             <button className="secondary" onClick={()=>assignPreview(asset,"surface.floor")}>Boden</button>
             <button className="secondary" onClick={()=>assignPreview(asset,"surface.ceiling")}>Decke</button>
-          </div>
+          </div> : <small className="muted">Nicht als Dungeon-Basis angeboten, bis Palette/Maskenrolle geklärt ist.</small>}
         </article>)}</div>
-        {pack.discoveredAssets.length>240 && <p className="muted">Es werden die ersten 240 Vorschauen angezeigt; {pack.discoveredAssets.length-240} weitere sind im Import erfasst.</p>}
+        {displayedAssets.length>240 && <p className="muted">Terrain-Texturen werden zuerst angezeigt. Insgesamt sind {displayedAssets.length-240} weitere Vorschauen im Import erfasst.</p>}
       </section>}
 
       <div className="file-table-wrap"><table className="file-table"><thead><tr><th>Vorschau</th><th>ID</th><th>Rolle</th><th>Tiefe</th><th>Datei</th><th>Status</th></tr></thead><tbody>{entries.map((entry)=><tr key={entry.id}><td className="asset-preview-cell">{pack.urls[entry.id] ? <img src={pack.urls[entry.id]} alt=""/> : <span>—</span>}</td><td><code>{entry.id}</code></td><td>{entry.role}</td><td>{entry.depth ?? "global"}</td><td><code>{entry.file}</code></td><td><span className={"badge " + (pack.urls[entry.id] ? "confirmed" : "unknown")}>{pack.urls[entry.id] ? "geladen" : "fehlt"}</span></td></tr>)}</tbody></table></div>
