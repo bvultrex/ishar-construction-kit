@@ -212,6 +212,9 @@ export interface AuthoredLocation {
   itemIds: string[];
   encounterId?: string;
   tilesetId?: string;
+  wallAssetId?: string;
+  floorAssetId?: string;
+  ceilingAssetId?: string;
   ending?: boolean;
 }
 
