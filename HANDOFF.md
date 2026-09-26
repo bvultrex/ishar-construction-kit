@@ -377,3 +377,38 @@ Default dungeon texture ranking was tightened after the screenshot evidence:
 - assignment reasons now include score and source dimensions
 
 Next validation target: import the same Ishar 2 ZIP and compare the reported default source IDs plus the resulting Playtest screenshot. Confirmed source IDs should then become deterministic Ishar-2 mappings rather than remaining heuristic.
+
+
+## 2026-09-26 — Ishar-style Playtest shell + texture-first dungeon import
+
+User supplied an Ishar 2 UI reference and reported that the previous build showed a constant background and incorrect door art instead of a coherent wall/floor/ceiling dungeon.
+
+Product correction implemented:
+
+### Playtest layout
+- Playtest now follows the original Ishar information hierarchy rather than a generic editor layout:
+  - large first-person dungeon viewport on the left
+  - room plaque, minimap and movement pad on the right
+  - five party cards across the bottom
+  - quest/inventory/log moved below the primary game surface
+- minimap is derived directly from authored grid coordinates and highlights current room/facing
+- party strip is ready for later imported portraits but keeps safe placeholders today
+
+### Dungeon texture import
+- default auto-selection now prefers a coherent group of opaque, near-square, repeatable ALIS images from the same source container
+- wall/floor/ceiling are selected from that same texture group instead of unrelated global best guesses
+- automatic full-screen background selection is disabled for normal interior resources; only explicit sky/background filenames can become viewport backgrounds
+- automatic door selection now requires explicit door/portal source context; tall shape alone is no longer enough
+- extracted asset cards now expose one-click in-session remapping:
+  - Basis = same image for wall/floor/ceiling
+  - Wand
+  - Boden
+  - Decke
+- manual quick remapping does not require a manifest or re-import and is intended to accelerate identification of the actual Ishar brickwall/brickfloor/brickroof entries
+
+Next verification:
+1. re-import the same Ishar 2 ZIP
+2. confirm no generic constant background masks the perspective
+3. inspect the auto-selected texture set
+4. if necessary, click the correct extracted brick textures as Basis/Wand/Boden/Decke
+5. record the exact sourcePath + ALIS entry IDs and promote them to deterministic Ishar 2 mappings
