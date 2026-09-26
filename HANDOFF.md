@@ -203,3 +203,24 @@ The intended compatibility architecture is now explicit:
 `user-owned Ishar files -> audited extractor -> generic asset-pack manifest + local images -> crawler runtime`
 
 This keeps proprietary binary knowledge out of the runtime and prevents speculative format assumptions from contaminating the authoring model.
+
+
+## 2026-09-26 — Builder topology UX correction
+
+User test found two blocking authoring gaps: rooms/doors could not be deleted, and the generic room-add action only stacked rooms vertically, making practical branch construction awkward.
+
+Fixed on `workbench/playable-slice`:
+
+- doors now have an explicit delete action
+- rooms now have an explicit delete action; the final remaining room cannot be deleted
+- deleting a room removes inbound/outbound exit references and any doors attached to that room
+- deleting the current start room automatically moves the start to the first remaining room
+- generic vertical room creation was removed from the header
+- each room now has N/O/S/W topology controls
+- pressing a direction into an empty cell creates a new room there and creates a bidirectional connection automatically
+- pressing toward an existing unlinked room creates a bidirectional connection
+- pressing toward an existing linked room disconnects it and removes any door on that edge
+- new adjacent rooms inherit the source room's tileset ID
+- raw comma-separated exit editing remains available as an advanced escape hatch
+
+This makes T-junctions, crossroads, loops and side branches first-class builder operations instead of requiring manual X/Y plus exit-ID editing.

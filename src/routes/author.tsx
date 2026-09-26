@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useKit } from "@/lib/store";
 import { useAssetPack } from "@/lib/asset-store";
-import { DIRECTION_LABELS } from "@/lib/ishar/dungeon";
+import { DIRECTION_LABELS, DIRECTION_VECTORS, locationAt } from "@/lib/ishar/dungeon";
 import { validateGame } from "@/lib/ishar/project-validation";
 import type { AuthoredDoor, AuthoredGame, AuthoredLocation, Direction } from "@/lib/ishar/types";
 
@@ -72,18 +72,77 @@ function AuthorPage() {
     setGame({ ...game, doors: game.doors.map((door) => door.id === id ? { ...door, ...patch } : door) });
   }
 
-  function addLocation() {
+  function deleteDoor(id: string) {
+    setGame({ ...game, doors: game.doors.filter((door) => door.id !== id) });
+  }
+
+  function nextLocationId() {
     let n = game.locations.length + 1;
     let id = `location-${n}`;
     while (game.locations.some((x) => x.id === id)) id = `location-${++n}`;
-    const maxY = Math.max(...game.locations.map((x) => x.y), 0);
-    setGame({ ...game, locations: [...game.locations, { id, name: "Neuer Raum", description: "", x: 0, y: maxY + 1, exits: [], itemIds: [] }] });
+    return id;
+  }
+
+  function toggleDirection(fromId: string, direction: Direction) {
+    const from = game.locations.find((location) => location.id === fromId);
+    if (!from) return;
+    const vector = DIRECTION_VECTORS[direction];
+    const target = locationAt(game.locations, from.x + vector.x, from.y + vector.y);
+
+    if (!target) {
+      const id = nextLocationId();
+      const next: AuthoredLocation = {
+        id,
+        name: "Neuer Raum",
+        description: "",
+        x: from.x + vector.x,
+        y: from.y + vector.y,
+        exits: [from.id],
+        itemIds: [],
+        tilesetId: from.tilesetId,
+      };
+      setGame({
+        ...game,
+        locations: [
+          ...game.locations.map((location) => location.id === from.id
+            ? { ...location, exits: [...new Set([...location.exits, id])] }
+            : location),
+          next,
+        ],
+      });
+      return;
+    }
+
+    const linked = from.exits.includes(target.id) && target.exits.includes(from.id);
+    const locations = game.locations.map((location) => {
+      if (location.id === from.id) {
+        return { ...location, exits: linked ? location.exits.filter((id) => id !== target.id) : [...new Set([...location.exits, target.id])] };
+      }
+      if (location.id === target.id) {
+        return { ...location, exits: linked ? location.exits.filter((id) => id !== from.id) : [...new Set([...location.exits, from.id])] };
+      }
+      return location;
+    });
+    const doors = linked
+      ? game.doors.filter((door) => !((door.fromLocationId === from.id && door.toLocationId === target.id) || (door.fromLocationId === target.id && door.toLocationId === from.id)))
+      : game.doors;
+    setGame({ ...game, locations, doors });
+  }
+
+  function deleteLocation(id: string) {
+    if (game.locations.length <= 1) return;
+    const remaining = game.locations
+      .filter((location) => location.id !== id)
+      .map((location) => ({ ...location, exits: location.exits.filter((exit) => exit !== id) }));
+    const startLocationId = game.startLocationId === id ? remaining[0]!.id : game.startLocationId;
+    const doors = game.doors.filter((door) => door.fromLocationId !== id && door.toLocationId !== id);
+    setGame({ ...game, startLocationId, locations: remaining, doors });
   }
 
   return <section>
     <header className="page-head">
       <div><p className="eyebrow">Dungeon authoring</p><h1>Adventure Builder</h1><p>Baue ein kardinales Dungeon-Raster. X/Y-Positionen und beidseitige Verbindungen bestimmen die First-Person-Geometrie des Playtests.</p></div>
-      <div className="toolbar"><Link className="file-button" to="/playtest">Dungeon betreten</Link><Link className="file-button" to="/assets">Asset Lab</Link><button onClick={addLocation}>Raum hinzufügen</button><button className="secondary" onClick={addDoor}>Tür hinzufügen</button></div>
+      <div className="toolbar"><Link className="file-button" to="/playtest">Dungeon betreten</Link><Link className="file-button" to="/assets">Asset Lab</Link><button className="secondary" onClick={addDoor}>Tür hinzufügen</button></div>
     </header>
 
     <div className="stats-grid file-stats">
@@ -148,6 +207,7 @@ function AuthorPage() {
           </div>
           <label>Schlüssel-Item<select value={door.keyItemId ?? ""} onChange={(e)=>patchDoor(door.id,{keyItemId:e.target.value || undefined})}><option value="">kein Schlüssel</option>{game.items.map((item)=><option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
           <label className="check-row"><input type="checkbox" checked={door.initiallyOpen} onChange={(e)=>patchDoor(door.id,{initiallyOpen:e.target.checked})}/> Zu Spielbeginn offen</label>
+          <button className="danger-button" onClick={()=>deleteDoor(door.id)}>Tür löschen</button>
         </div>) : <p className="muted">Noch keine Türen angelegt.</p>}
       </article>
 
@@ -167,14 +227,27 @@ function AuthorPage() {
     <div className="location-list">
       <h2>Dungeon-Felder</h2>
       {game.locations.map((loc) => <article className="editor-panel location-editor" key={loc.id}>
-        <div className="location-title"><strong>{loc.name}</strong><code>{loc.id} · {loc.x},{loc.y}</code></div>
+        <div className="location-title"><div><strong>{loc.name}</strong><code>{loc.id} · {loc.x},{loc.y}</code></div><button className="danger-button compact" disabled={game.locations.length <= 1} onClick={()=>deleteLocation(loc.id)}>Raum löschen</button></div>
+        <div className="room-topology">
+          <span>Nachbarfelder</span>
+          <div className="direction-buttons">{(["north","east","south","west"] as Direction[]).map((direction)=>{
+            const vector=DIRECTION_VECTORS[direction];
+            const target=locationAt(game.locations,loc.x+vector.x,loc.y+vector.y);
+            const linked=!!target && loc.exits.includes(target.id) && target.exits.includes(loc.id);
+            return <button key={direction} className={linked ? "linked" : ""} onClick={()=>toggleDirection(loc.id,direction)}>
+              <strong>{DIRECTION_LABELS[direction]}</strong>
+              <small>{!target ? "+ Raum" : linked ? "trennen" : "verbinden"}</small>
+            </button>;
+          })}</div>
+          <small>Leeres Feld: neuen Raum anlegen · vorhandenes Feld: Verbindung an/aus. Beim Trennen wird eine Tür auf dieser Kante mit entfernt.</small>
+        </div>
         <div className="inline-fields">
           <label>Name<input value={loc.name} onChange={(e)=>patchLocation(loc.id,{name:e.target.value})}/></label>
           <div className="coordinate-fields"><label>X<input type="number" value={loc.x} onChange={(e)=>patchLocation(loc.id,{x:Number(e.target.value)})}/></label><label>Y<input type="number" value={loc.y} onChange={(e)=>patchLocation(loc.id,{y:Number(e.target.value)})}/></label></div>
         </div>
         <label>Beschreibung<textarea rows={2} value={loc.description} onChange={(e)=>patchLocation(loc.id,{description:e.target.value})}/></label>
         <div className="inline-fields">
-          <label>Verbindungen (IDs, Komma)<input value={loc.exits.join(", ")} onChange={(e)=>patchLocation(loc.id,{exits:csv(e.target.value)})}/></label>
+          <label>Verbindungen (fortgeschritten)<input value={loc.exits.join(", ")} onChange={(e)=>patchLocation(loc.id,{exits:csv(e.target.value)})}/></label>
           <label>Items (IDs, Komma)<input value={loc.itemIds.join(", ")} onChange={(e)=>patchLocation(loc.id,{itemIds:csv(e.target.value)})}/></label>
         </div>
         <div className="inline-fields">

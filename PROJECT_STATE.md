@@ -122,3 +122,8 @@ Current branch adds X/Y dungeon geometry, facing, cardinal topology validation, 
 The crawler runtime now has a generic external asset-pack layer. Asset Lab accepts local ZIPs/folders with a documented manifest, supports multiple tilesets and target-specific encounter/item sprites, and keeps imported image bytes session-local through browser Blob URLs. Project JSON stores only pack/tileset IDs. The Playtest overlays available image layers on the procedural crawler renderer and keeps SVG as a sparse-pack fallback.
 
 A built-in synthetic demo pack is available from Asset Lab so the image pipeline can be exercised without original assets. Authored doors are now first-class world transitions and can be opened/locked by item references; the viewport can render dedicated closed/open door roles.
+
+
+## 2026-09-26 branching builder correction
+
+Adventure Builder topology authoring now works from each room in four cardinal directions. Empty adjacent cells create and auto-link a new room; occupied cells can be linked or disconnected. Rooms and doors can be deleted with cascading cleanup of exit/door references. This removes the earlier vertical-only room creation path and makes branches, loops and crossroads practical in the UI.
