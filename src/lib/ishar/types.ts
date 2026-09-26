@@ -198,7 +198,11 @@ export interface AuthoredItem {
   id: string;
   name: string;
   description: string;
+  /** Legacy/single-sprite override. Used as near sprite when no distance set exists. */
   assetId?: string;
+  assetNearId?: string;
+  assetMidId?: string;
+  assetFarId?: string;
 }
 
 export type Direction = "north" | "east" | "south" | "west";
