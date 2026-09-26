@@ -159,6 +159,7 @@ function AssetsPage() {
         <article><span>0x1C/1E</span><strong>{autoReport.alisTerrainTexturesExtracted}</strong></article>
         <article><span>Flat/Masken</span><strong>{autoReport.alisFlatColorAssets}</strong></article>
         <article><span>Palette offen</span><strong>{autoReport.alisPaletteSuspectAssets}</strong></article>
+        <article><span>Palette repariert</span><strong>{autoReport.ishar2ScenePaletteRepairs}</strong></article>
         <article><span>Paletten</span><strong>{autoReport.alisPaletteResources}</strong></article>
         <article><span>Composites</span><strong>{autoReport.alisCompositeResources}</strong></article>
         <article><span>Composite-Vorschau</span><strong>{autoReport.alisCompositePreviews}</strong></article>
@@ -169,7 +170,8 @@ function AssetsPage() {
         <div className="map-card-head"><div><p className="eyebrow">Hard diagnostic</p><h2>ALIS-Ressourcenformate</h2></div><span className="badge confirmed">{Object.values(autoReport.alisResourceFormatCounts).reduce((sum,count)=>sum+count,0)} Einträge</span></div>
         <div className="format-chip-grid">{Object.entries(autoReport.alisResourceFormatCounts).sort(([a],[b])=>a.localeCompare(b)).map(([format,count])=><span key={format} className={format==="0x1c" || format==="0x1e" ? "terrain-format" : ""}><code>{format}</code><strong>{count}</strong></span>)}</div>
         <p className="audit-note">Für den aktuellen Ishar-Pfad sind <code>0x10/0x12/0x14/0x16</code> plus <code>0xFF</code>-Composites die entscheidenden sichtbaren Grafikklassen. <code>0x1c/0x1e</code> bleiben nur als Diagnosewert sichtbar.</p>
-        <p className="muted">Palettenbasis: <strong>{autoReport.paletteBaseLabel}</strong>{autoReport.paletteBaseVerified ? " · verifiziert" : " · heuristisch"} · {autoReport.localPaletteOverlayImages} lokale Überlagerungen · {autoReport.alisPaletteSuspectAssets} Palette-offen.</p>
+        <p className="muted">Palettenbasis: <strong>{autoReport.paletteBaseLabel}</strong>{autoReport.paletteBaseVerified ? " · verifiziert" : " · heuristisch"} · {autoReport.localPaletteOverlayImages} lokale Überlagerungen · {autoReport.ishar2ScenePaletteRepairs} Szenen-Reparaturen · {autoReport.alisPaletteSuspectAssets} Palette-offen.</p>
+        {!!autoReport.playtestFallbackRoles.length && <p className="audit-note">Playtest bindet automatisch belastbare Originalgrafik-Fallbacks für: <strong>{autoReport.playtestFallbackRoles.join(", ")}</strong>. Wand/Boden/Decke bleiben bis zur Szenenrekonstruktion beim sichtbaren Stein-Fallback.</p>}
       </article>
       {!!autoReport.defaultAssignments.length && <article className="stone-card default-assignments"><h2>Automatisch gewähltes Standard-Tileset</h2><p className="muted">Diese Rollen werden sofort im Playtest benutzt. „Possible“ ist bewusst nur eine Heuristik und kann später manuell überschrieben werden.</p><div className="default-assignment-grid">{autoReport.defaultAssignments.map((assignment,index)=><div key={assignment.role+"-"+index}><strong>{assignment.role}</strong><span className={"badge "+assignment.confidence}>{assignment.confidence}</span><code>{assignment.sourcePath} · ALIS #{assignment.entryIndex}</code><small>{assignment.reason}</small></div>)}</div></article>}
     </section>}
