@@ -226,7 +226,9 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       return;
     }
     mappedImages++;
-    const blob=new Blob([image.bytes],{type:image.mime});
+    const blobBytes=new Uint8Array(image.bytes.length);
+    blobBytes.set(image.bytes);
+    const blob=new Blob([blobBytes.buffer],{type:image.mime});
     urls[entry.id]=URL.createObjectURL(blob);
     paths[entry.id]=image.path;
     if(["encounter","item","portrait"].includes(entry.role)) shared.push(entry);
