@@ -91,6 +91,26 @@ function renderDiscoveredTexture(
   </g>;
 }
 
+function renderDiscoveredLayer(
+  pack: LoadedAssetPack | null,
+  assetId: string | undefined,
+  box: {x:number;y:number;width:number;height:number},
+) {
+  if(!pack || !assetId) return null;
+  const preview=pack.discoveredAssets?.find((asset)=>asset.id===assetId);
+  if(!preview) return null;
+  return <image
+    key={"manual-layer-"+assetId}
+    href={preview.url}
+    x={box.x}
+    y={box.y}
+    width={box.width}
+    height={box.height}
+    preserveAspectRatio="xMidYMid meet"
+    className="asset-layer"
+  />;
+}
+
 function renderPolygonAsset(
   pack: LoadedAssetPack | null,
   role: DungeonAssetRole,
@@ -185,7 +205,11 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
   }
 
   const encounterLayer = encounter && !encounterDone ? renderAsset(pack, "encounter", undefined, location.tilesetId, encounter.id) : null;
-  const itemLayer = itemId ? renderAsset(pack, "item", undefined, location.tilesetId, itemId) : null;
+  const authoredItem = itemId ? game.items.find((item)=>item.id===itemId) : undefined;
+  const itemLayer = itemId
+    ? (renderDiscoveredLayer(pack, authoredItem?.assetId, {x:448,y:242,width:104,height:118})
+      ?? renderAsset(pack, "item", undefined, location.tilesetId, itemId))
+    : null;
 
   return <div className="dungeon-viewport" style={{aspectRatio:String(viewportAspect)}} data-render-profile={renderProfile.id}>
     <svg viewBox="0 0 640 400" preserveAspectRatio="none" aria-label={`Blick nach ${DIRECTION_LABELS[facing]}`}>
