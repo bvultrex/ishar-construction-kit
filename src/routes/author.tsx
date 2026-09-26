@@ -62,15 +62,27 @@ function AuthorPage() {
   const problems = validateGame(game);
   const [selectedLocationId, setSelectedLocationId] = useState(game.startLocationId);
   const [builderMessage, setBuilderMessage] = useState("");
+  const [surfaceSearch, setSurfaceSearch] = useState("");
   const selectedLocation = game.locations.find((location) => location.id === selectedLocationId) ?? game.locations[0];
   const allSurfaceCandidates = (pack?.discoveredAssets ?? []).filter((asset) => {
-    if (asset.source !== "alis" || asset.visualStatus === "flat-color" || !asset.width || !asset.height) return false;
+    if (asset.source !== "alis" || asset.assetKind === "composite" || asset.visualStatus !== "normal" || !asset.width || !asset.height) return false;
     const ratio = asset.width / asset.height;
     return asset.width >= 8 && asset.height >= 8 && asset.width <= 512 && asset.height <= 512 && ratio >= 0.2 && ratio <= 5;
   });
   const terrainCandidates = allSurfaceCandidates.filter((asset)=>asset.assetKind==="terrain");
   const textureCandidates = terrainCandidates.length ? terrainCandidates : allSurfaceCandidates;
   const assetById = (id?: string) => id ? pack?.discoveredAssets?.find((asset)=>asset.id===id) : undefined;
+  const surfaceQuery=surfaceSearch.trim().toLowerCase();
+  const matchingSurfaceCandidates=(surfaceQuery
+    ? textureCandidates.filter((asset)=>`${asset.path} ${asset.knownUse ?? ""} ${asset.id}`.toLowerCase().includes(surfaceQuery))
+    : textureCandidates
+  );
+  const MAX_SURFACE_OPTIONS=72;
+  const surfaceOptions=(currentId?: string)=>{
+    const current=assetById(currentId);
+    const limited=matchingSurfaceCandidates.slice(0,MAX_SURFACE_OPTIONS);
+    return current && !limited.some((asset)=>asset.id===current.id) ? [current,...limited] : limited;
+  };
   const itemAssetCandidates = (pack?.discoveredAssets ?? []).filter((asset)=>{
     if(asset.source!=="alis" || asset.assetKind==="composite" || asset.visualStatus!=="normal") return false;
     if(!asset.width || !asset.height) return false;
@@ -246,17 +258,24 @@ function AuthorPage() {
           </div>
           {pack && <div className="room-surface-picker">
             <div className="surface-picker-head"><strong>Raum-Oberflächen</strong><span>{terrainCandidates.length ? terrainCandidates.length+" echte Terrain-Texturen" : textureCandidates.length+" ALIS-Fallbacks"}</span></div>
+            <label className="surface-search">Asset-Suche
+              <input value={surfaceSearch} onChange={(e)=>setSurfaceSearch(e.target.value)} placeholder="z. B. DJ1.IO, STAGE.IO oder ALIS #123"/>
+              <small>{matchingSurfaceCandidates.length > MAX_SURFACE_OPTIONS
+                ? `${MAX_SURFACE_OPTIONS} von ${matchingSurfaceCandidates.length} Treffern angezeigt – Suche eingrenzen.`
+                : `${matchingSurfaceCandidates.length} Treffer`}</small>
+            </label>
             {([
               ["wallAssetId","Wand"],
               ["floorAssetId","Boden"],
               ["ceilingAssetId","Decke"],
             ] as const).map(([field,label])=>{
               const current=assetById(selectedLocation[field]);
+              const options=surfaceOptions(selectedLocation[field]);
               return <label className="surface-select" key={field}>
                 <span>{label}</span>
                 <select value={selectedLocation[field] ?? ""} onChange={(e)=>patchLocation(selectedLocation.id,{[field]:e.target.value || undefined})}>
                   <option value="">Tileset-Standard</option>
-                  {textureCandidates.map((asset)=><option key={asset.id} value={asset.id}>{asset.assetKind==="terrain" ? "Terrain · " : ""}{asset.path} · {asset.width}×{asset.height}</option>)}
+                  {options.map((asset)=><option key={asset.id} value={asset.id}>{asset.assetKind==="terrain" ? "Terrain · " : ""}{asset.path} · {asset.width}×{asset.height}</option>)}
                 </select>
                 {current && <div className="surface-preview"><img src={current.url} alt=""/><code>{current.path}</code></div>}
               </label>;
