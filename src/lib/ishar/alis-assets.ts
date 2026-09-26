@@ -42,7 +42,8 @@ export interface AlisIndexedImage {
   paletteSource: AlisPaletteSource;
   paletteEntryIndex?: number;
   transparentIndex?: number;
-  encoding: "4bit" | "4bit-offset" | "8bit";
+  assetKind: "sprite" | "terrain";
+  encoding: "4bit" | "4bit-offset" | "8bit" | "terrain8";
 }
 
 export interface AlisImageExtraction {
@@ -267,7 +268,11 @@ export function extractAlisIndexedImages(
     if (location === undefined) continue;
     const h0 = bytes[location - 2];
 
-    if (![0x00, 0x02, 0x10, 0x12, 0x14, 0x16].includes(h0 ?? -1)) continue;
+    // 0x1c/0x1e are especially important for Ishar: ctexmap uses them as
+    // 8-bit terrain textures with an 8-byte bitmap header. The previous
+    // extractor silently skipped these entries, which removed most real
+    // dungeon wall/floor/ceiling material candidates from the Asset Lab.
+    if (![0x00, 0x02, 0x10, 0x12, 0x14, 0x16, 0x18, 0x1a, 0x1c, 0x1e].includes(h0 ?? -1)) continue;
 
     const widthRaw = readU16LE(bytes, location);
     const heightRaw = readU16LE(bytes, location + 2);
@@ -284,6 +289,7 @@ export function extractAlisIndexedImages(
 
     const pixels = new Uint8Array(width * height);
     let transparentIndex: number | undefined;
+    let assetKind: AlisIndexedImage["assetKind"] = "sprite";
     let encoding: AlisIndexedImage["encoding"];
 
     if (h0 === 0x00 || h0 === 0x02) {
@@ -324,6 +330,33 @@ export function extractAlisIndexedImages(
           pixels[to++] = (paletteBase + nibble) & 0xff;
         }
       }
+    } else if (h0 === 0x18 || h0 === 0x1a) {
+      // Native 8-bit sprite bitmap: full header is 6 bytes, while "location"
+      // already points two bytes past the format/type bytes.
+      encoding = "8bit";
+      transparentIndex = 0;
+      const start = location + 4;
+      const needed = width * height;
+      if (start + needed > bytes.length) {
+        rejectedImages++;
+        continue;
+      }
+      pixels.set(bytes.slice(start, start + needed));
+    } else if (h0 === 0x1c || h0 === 0x1e) {
+      // DOS terrain texture used by ctexmap/bartra_dos. Width/height fields
+      // are masks (size-1), and pixels begin after the 8-byte full header.
+      encoding = "terrain8";
+      assetKind = "terrain";
+      const start = location + 6;
+      const needed = width * height;
+      if (start + needed > bytes.length) {
+        rejectedImages++;
+        continue;
+      }
+      pixels.set(bytes.slice(start, start + needed));
+      // Color index 0 is valid on solid terrain surfaces; do not make it
+      // transparent in previews or texture fills.
+      transparentIndex = undefined;
     } else {
       encoding = "8bit";
       transparentIndex = bytes[location + 5] ?? 0;
@@ -348,6 +381,7 @@ export function extractAlisIndexedImages(
       paletteSource: paletteResource ? "embedded" : "default",
       paletteEntryIndex: paletteResource?.entryIndex,
       transparentIndex,
+      assetKind,
       encoding,
     });
   }
