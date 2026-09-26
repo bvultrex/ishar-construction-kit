@@ -152,14 +152,14 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
 
     segments.push(
       <g key={`segment-${depth}`} className={`dungeon-depth depth-${depth}`}>
-        <polygon className="dungeon-ceiling" points={points([[outer.l,outer.t],[outer.r,outer.t],[inner.r,inner.t],[inner.l,inner.t]])}/>
-        <polygon className="dungeon-floor" points={points([[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]])}/>
-        <polygon className="dungeon-wall side-left" points={points([[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]])}/>
-        <polygon className="dungeon-wall side-right" points={points([[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]])}/>
+        <polygon className="dungeon-ceiling" fill="url(#fallback-ceiling-pattern)" points={points([[outer.l,outer.t],[outer.r,outer.t],[inner.r,inner.t],[inner.l,inner.t]])}/>
+        <polygon className="dungeon-floor" fill="url(#fallback-floor-pattern)" points={points([[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]])}/>
+        <polygon className="dungeon-wall side-left" fill="url(#fallback-wall-pattern)" points={points([[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]])}/>
+        <polygon className="dungeon-wall side-right" fill="url(#fallback-wall-pattern)" points={points([[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]])}/>
         {leftOpen && <polygon className="dungeon-opening side-opening" points={points([[outer.l+5,outer.t+34],[inner.l-2,inner.t+20],[inner.l-2,inner.b-20],[outer.l+5,outer.b-34]])}/>}
         {rightOpen && <polygon className="dungeon-opening side-opening" points={points([[inner.r+2,inner.t+20],[outer.r-5,outer.t+34],[outer.r-5,outer.b-34],[inner.r+2,inner.b-20]])}/>}
         {!forward && <>
-          <rect className="dungeon-back-wall" x={inner.l} y={inner.t} width={inner.r-inner.l} height={inner.b-inner.t}/>
+          <rect className="dungeon-back-wall" fill="url(#fallback-wall-pattern)" x={inner.l} y={inner.t} width={inner.r-inner.l} height={inner.b-inner.t}/>
           <line className="dungeon-mortar" x1={inner.l} y1={(inner.t+inner.b)/2} x2={inner.r} y2={(inner.t+inner.b)/2}/>
           <line className="dungeon-mortar" x1={(inner.l+inner.r)/2} y1={inner.t} x2={(inner.l+inner.r)/2} y2={inner.b}/>
         </>}
@@ -189,6 +189,20 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
 
   return <div className="dungeon-viewport" style={{aspectRatio:String(viewportAspect)}} data-render-profile={renderProfile.id}>
     <svg viewBox="0 0 640 400" preserveAspectRatio="none" aria-label={`Blick nach ${DIRECTION_LABELS[facing]}`}>
+      <defs>
+        <pattern id="fallback-wall-pattern" width="56" height="34" patternUnits="userSpaceOnUse">
+          <rect width="56" height="34" className="fallback-stone-base"/>
+          <path d="M0 1H56M0 17H56M0 33H56M28 1V17M14 17V33M42 17V33" className="fallback-stone-line"/>
+        </pattern>
+        <pattern id="fallback-floor-pattern" width="64" height="40" patternUnits="userSpaceOnUse" patternTransform="skewX(-18)">
+          <rect width="64" height="40" className="fallback-floor-base"/>
+          <path d="M0 1H64M0 20H64M0 39H64M32 1V20M16 20V39M48 20V39" className="fallback-floor-line"/>
+        </pattern>
+        <pattern id="fallback-ceiling-pattern" width="64" height="36" patternUnits="userSpaceOnUse">
+          <rect width="64" height="36" className="fallback-ceiling-base"/>
+          <path d="M0 1H64M0 18H64M0 35H64M32 1V18M16 18V35M48 18V35" className="fallback-ceiling-line"/>
+        </pattern>
+      </defs>
       <rect width="640" height="400" className="dungeon-dark"/>
       {renderAsset(pack, "viewport.background", undefined, location.tilesetId)}
       {segments}
