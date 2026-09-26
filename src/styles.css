@@ -214,3 +214,8 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .fallback-stone-base{fill:#33291f}.fallback-stone-line{fill:none;stroke:#6d5945;stroke-width:1;opacity:.8}
 .fallback-floor-base{fill:#211b14}.fallback-floor-line{fill:none;stroke:#594735;stroke-width:1;opacity:.75}
 .fallback-ceiling-base{fill:#181611}.fallback-ceiling-line{fill:none;stroke:#44382d;stroke-width:1;opacity:.72}
+
+
+/* Build identity */
+.build-stamp{display:inline-flex;align-items:center;gap:8px;margin:0 0 10px;padding:5px 8px;border:1px solid #5b4634;background:#17130f;color:#cdbb9f;font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+.build-stamp strong{color:#d2ad7d}.build-stamp span{color:#7f8f6d;border-left:1px solid #4b3a2c;padding-left:8px}
