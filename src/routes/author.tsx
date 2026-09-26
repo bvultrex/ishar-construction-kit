@@ -121,6 +121,9 @@ function AuthorPage() {
       exits: [from.id],
       itemIds: [],
       tilesetId: from.tilesetId,
+      wallAssetId: from.wallAssetId,
+      floorAssetId: from.floorAssetId,
+      ceilingAssetId: from.ceilingAssetId,
     };
     setGame({
       ...game,
