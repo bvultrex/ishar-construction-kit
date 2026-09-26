@@ -344,10 +344,26 @@ function tileSize(image: AlisIndexedImage){
   return {tileWidth:width,tileHeight:height};
 }
 
-function placementFor(role: DungeonAssetRole) {
-  if (role === "encounter") return { x: 220, y: 85, width: 200, height: 270 };
-  if (role === "item") return { x: 455, y: 250, width: 105, height: 115 };
-  if (role === "portrait") return { x: 0, y: 0, width: 96, height: 96 };
+function placementFor(role: DungeonAssetRole, game: GameId = "unknown") {
+  const profile=renderProfileForGame(game);
+  if (role === "encounter") return {
+    x: Math.round(profile.drawWidth*0.34),
+    y: Math.round(profile.drawHeight*0.15),
+    width: Math.round(profile.drawWidth*0.32),
+    height: Math.round(profile.drawHeight*0.68),
+  };
+  if (role === "item") return {
+    x: Math.round(profile.drawWidth*0.72),
+    y: Math.round(profile.drawHeight*0.62),
+    width: Math.round(profile.drawWidth*0.17),
+    height: Math.round(profile.drawHeight*0.27),
+  };
+  if (role === "portrait") return {
+    x: 0,
+    y: 0,
+    width: Math.round(profile.drawWidth*0.15),
+    height: Math.round(profile.drawHeight*0.28),
+  };
   return {};
 }
 
@@ -415,7 +431,7 @@ function safeId(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,70) || "asset";
 }
 
-function buildEntry(image: FoundImage, index: number): DungeonAssetEntry | undefined {
+function buildEntry(image: FoundImage, index: number, game: GameId): DungeonAssetEntry | undefined {
   const role=guessRole(image.path);
   if(!role) return undefined;
   const id=safeId(image.path)+"-"+index;
@@ -425,7 +441,7 @@ function buildEntry(image: FoundImage, index: number): DungeonAssetEntry | undef
     role,
     file: image.path,
     targetId: entityRole ? "ishar-source:"+id : undefined,
-    ...placementFor(role),
+    ...placementFor(role,game),
   };
 }
 
@@ -814,7 +830,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   let unmappedImages=0;
 
   foundImages.forEach((image,index)=>{
-    const entry=buildEntry(image,index+1);
+    const entry=buildEntry(image,index+1,detectedGame);
     const blobBytes=new Uint8Array(image.bytes.length);
     blobBytes.set(image.bytes);
     const blob=new Blob([blobBytes.buffer],{type:image.mime});
@@ -922,7 +938,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
         role,
         file:`${image.sourcePath}#alis-${image.entryIndex}.png`,
         targetId:entityRole ? "ishar-source:"+id : undefined,
-        ...placementFor(role),
+        ...placementFor(role,detectedGame),
       };
       urls[id]=url;
       paths[id]=entry.file;
