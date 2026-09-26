@@ -24,6 +24,8 @@ export interface IsharAutoImportReport {
   failedPackedDecode: number;
   alisTablesFound: number;
   alisImagesExtracted: number;
+  alisTerrainTexturesExtracted: number;
+  alisFlatColorAssets: number;
   alisImagesRejected: number;
   alisImagesSkippedForBudget: number;
   alisPaletteResources: number;
@@ -138,6 +140,22 @@ function paletteVariety(image: AlisIndexedImage) {
   return values.size;
 }
 
+function isFlatColorImage(image: AlisIndexedImage) {
+  if (!image.pixels.length) return true;
+  const counts = new Map<number, number>();
+  const stride = Math.max(1, Math.floor(image.pixels.length / 4096));
+  let sampled = 0;
+  let max = 0;
+  for (let i = 0; i < image.pixels.length; i += stride) {
+    const value = image.pixels[i] ?? 0;
+    const next = (counts.get(value) ?? 0) + 1;
+    counts.set(value, next);
+    sampled++;
+    if (next > max) max = next;
+  }
+  return sampled > 0 && max / sampled >= 0.96;
+}
+
 function textureFitness(image: AlisIndexedImage) {
   const aspect = Math.min(image.width, image.height) / Math.max(image.width, image.height);
   const transparency = transparentRatio(image);
@@ -146,6 +164,7 @@ function textureFitness(image: AlisIndexedImage) {
   let score = 0;
   if (image.width >= 12 && image.width <= 160) score += 8;
   if (image.height >= 12 && image.height <= 160) score += 8;
+  if (image.assetKind === "terrain") score += 70;
   score += aspect * 22;
   score += continuity * 16;
   if (transparency <= 0.01) score += 12;
@@ -169,12 +188,15 @@ function roleScore(image: AlisIndexedImage, role: DungeonAssetRole, preferredSou
 
   if (role === "surface.floor") {
     score += fitness;
+    if (image.assetKind === "terrain") score += 65;
     if (/(floor|ground|sol|dalle|pave|pavement)/i.test(path)) score += 48;
   } else if (role === "surface.ceiling") {
     score += fitness;
+    if (image.assetKind === "terrain") score += 65;
     if (/(ceiling|plafond|sky|ciel|roof|toit|voute)/i.test(path)) score += 48;
   } else if (role === "wall.front" || role === "wall.left" || role === "wall.right") {
     score += fitness;
+    if (image.assetKind === "terrain") score += 80;
     if (/(wall|mur|stone|pierre|brick|brique|decor|dungeon|donjon|crypt|crypte)/i.test(path)) score += 40;
   } else if (role === "door.front.closed") {
     if (/(door|porte|gate|portal|grille|entry|entree)/i.test(path)) score += 58;
@@ -201,13 +223,16 @@ function bestByScore(images: AlisIndexedImage[], role: DungeonAssetRole, preferr
 }
 
 function chooseSeamlessTextureSet(images: AlisIndexedImage[]) {
-  const eligible = images.filter((image) => {
+  const terrainImages = images.filter((image)=>image.assetKind==="terrain" && !isFlatColorImage(image));
+  const pool = terrainImages.length ? terrainImages : images;
+  const eligible = pool.filter((image) => {
     const ratio = image.width / image.height;
     return image.width >= 12 && image.height >= 12
       && image.width <= 160 && image.height <= 160
       && ratio >= 0.62 && ratio <= 1.62
       && transparentRatio(image) <= 0.03
       && textureFitness(image) >= 30
+      && !isFlatColorImage(image)
       && !ENTITY_SOURCE.test(image.sourcePath);
   });
   const bySource = new Map<string, AlisIndexedImage[]>();
@@ -218,6 +243,7 @@ function chooseSeamlessTextureSet(images: AlisIndexedImage[]) {
     const top = ranked.slice(0, 6);
     let score = top.slice(0,3).reduce((sum,image)=>sum+textureFitness(image),0);
     if (DUNGEON_SOURCE.test(source)) score += 35;
+    if (top.some((image)=>image.assetKind==="terrain")) score += 120;
     if (top.length >= 3) score += 18;
     if (!best || score > best.score) best = { source, images: ranked, score };
   }
@@ -262,9 +288,11 @@ function chooseDefaultDungeonAssets(images: AlisIndexedImage[], game: GameId): I
   // background. It previously masked the textured perspective and made every
   // room look like one constant scene. Only explicit sky/background resources
   // are allowed to become a viewport background.
-  const explicitBackgrounds = images.filter((image)=>/(sky|ciel|background|backdrop|fond|landscape|horizon)/i.test(image.sourcePath));
-  const background = bestByScore(explicitBackgrounds, "viewport.background", set?.source, 75, game);
-  if (background) add("viewport.background", background.image, background.score, "explicit sky/background source", 82);
+  if (game === "unknown") {
+    const explicitBackgrounds = images.filter((image)=>/(sky|ciel|background|backdrop|fond|landscape|horizon)/i.test(image.sourcePath));
+    const background = bestByScore(explicitBackgrounds, "viewport.background", set?.source, 75, game);
+    if (background) add("viewport.background", background.image, background.score, "explicit sky/background source", 82);
+  }
 
   return assignments;
 }
@@ -497,6 +525,9 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     }
   }
 
+  const alisTerrainTexturesExtracted=alisImages.filter((image)=>image.assetKind==="terrain").length;
+  const alisFlatColorAssets=alisImages.filter(isFlatColorImage).length;
+
   const shared: DungeonAssetEntry[]=[];
   const defaultTilesetEntries: DungeonAssetEntry[]=[];
   const tilesetEntries: DungeonAssetEntry[]=[];
@@ -561,7 +592,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     const blob=await indexedImageToPngBlob(image);
     const url=URL.createObjectURL(blob);
     const role=guessRole(image.sourcePath);
-    const suggestion=role ?? suggestRoleByDimensions(image.width,image.height);
+    const suggestion=image.assetKind==="terrain" ? "wall.front" : (role ?? suggestRoleByDimensions(image.width,image.height));
     const id=safeId(image.sourcePath)+"-alis-"+image.entryIndex;
     const entityRole=role ? ["encounter","item","portrait"].includes(role) : false;
     const runtimeAssigned=imageDefaults.length>0 || (!!role && !entityRole);
@@ -635,6 +666,8 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     decodedA1Packer ? decodedA1Packer+" A1/New-Packer-Datei(en) wurden mit dem bounded DOS-Decoder entpackt." : "Keine A1-Ressource konnte decodiert werden.",
     failedPackedDecode ? failedPackedDecode+" gepackte Datei(en) konnten trotz erkanntem Header nicht sicher decodiert werden." : "Alle erkannten gepackten Ressourcen wurden decodiert.",
     alisPalettes.length ? alisPalettes.length+" ALIS-Palettenressource(n) wurden rekonstruiert; partielle Paletten-Offsets werden berücksichtigt." : "Keine ALIS-Palette wurde statisch gefunden.",
+    alisTerrainTexturesExtracted ? alisTerrainTexturesExtracted+" echte ALIS-Terraintextur(en) im Format 0x1C/0x1E wurden erstmals extrahiert." : "Noch keine 0x1C/0x1E-Terraintextur gefunden.",
+    alisFlatColorAssets ? alisFlatColorAssets+" nahezu einfarbige Ressource(n) wurden als Diagnose-/Maskenkandidaten markiert und bei der Dungeon-Texturwahl abgewertet." : "Keine auffällig einfarbigen ALIS-Bilder erkannt.",
     globalPaletteFallbackImages ? globalPaletteFallbackImages+" Bild(er) ohne eigene Palette verwenden die farbigste rekonstruierte globale Palette als Fallback." : "Keine globale Palette musste als Fallback verwendet werden.",
     alisCompositeResources ? alisCompositeResources+" ALIS-Composite-Ressource(n) referenzieren mehrere gestapelte Grafikbausteine." : "Keine ALIS-Composite-Ressource erkannt.",
     alisImages.length ? alisImages.length+" proprietäre ALIS-Bildressource(n) wurden aus den decodierten Skripten extrahiert." : "In den decodierten Skripten wurde noch keine unterstützte ALIS-Bildressource gefunden.",
@@ -653,6 +686,8 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     failedPackedDecode,
     alisTablesFound,
     alisImagesExtracted: alisImages.length,
+    alisTerrainTexturesExtracted,
+    alisFlatColorAssets,
     alisImagesRejected,
     alisImagesSkippedForBudget,
     alisPaletteResources: alisPalettes.length,
