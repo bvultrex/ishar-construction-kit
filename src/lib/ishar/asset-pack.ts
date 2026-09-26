@@ -10,6 +10,10 @@ export interface DiscoveredAssetPreview {
   paletteStatus?: "embedded" | "global" | "default";
   visualStatus?: "normal" | "flat-color" | "palette-suspect";
   knownUse?: string;
+  distanceSetId?: string;
+  distanceSetLabel?: string;
+  distanceRole?: "near" | "mid" | "far";
+  distanceConfidence?: "verified" | "heuristic";
   width?: number;
   height?: number;
   suggestedRole?: DungeonAssetRole;
