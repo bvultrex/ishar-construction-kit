@@ -50,6 +50,53 @@ function renderAsset(
   />;
 }
 
+function texturePattern(
+  pack: LoadedAssetPack,
+  asset: NonNullable<ReturnType<typeof assetFor>>,
+  patternId: string,
+) {
+  const tileWidth=asset.entry.tileWidth ?? 64;
+  const tileHeight=asset.entry.tileHeight ?? 64;
+  return <pattern id={patternId} patternUnits="userSpaceOnUse" width={tileWidth} height={tileHeight}>
+    <image href={asset.url} x="0" y="0" width={tileWidth} height={tileHeight} preserveAspectRatio="xMidYMid slice"/>
+  </pattern>;
+}
+
+function renderPolygonAsset(
+  pack: LoadedAssetPack | null,
+  role: DungeonAssetRole,
+  polygon: number[][],
+  depth: DungeonAssetDepth,
+  tilesetId?: string,
+) {
+  const asset=assetFor(pack,role,depth,tilesetId);
+  if(!asset || !pack) return null;
+  if(asset.entry.renderMode!=="texture") return renderAsset(pack,role,depth,tilesetId);
+  const patternId=`tex-${asset.entry.id}-${depth}-${role.replace(/[^a-z0-9]/gi,"-")}`;
+  return <g key={patternId}>
+    <defs>{texturePattern(pack,asset,patternId)}</defs>
+    <polygon points={points(polygon)} fill={`url(#${patternId})`} opacity={asset.entry.opacity ?? 1}/>
+  </g>;
+}
+
+function renderRectAsset(
+  pack: LoadedAssetPack | null,
+  role: DungeonAssetRole,
+  rect: {x:number;y:number;width:number;height:number},
+  depth: DungeonAssetDepth,
+  tilesetId?: string,
+  targetId?: string,
+) {
+  const asset=assetFor(pack,role,depth,tilesetId,targetId);
+  if(!asset || !pack) return null;
+  if(asset.entry.renderMode!=="texture") return renderAsset(pack,role,depth,tilesetId,targetId);
+  const patternId=`tex-${asset.entry.id}-${depth}-${role.replace(/[^a-z0-9]/gi,"-")}`;
+  return <g key={patternId}>
+    <defs>{texturePattern(pack,asset,patternId)}</defs>
+    <rect x={rect.x} y={rect.y} width={rect.width} height={rect.height} fill={`url(#${patternId})`} opacity={asset.entry.opacity ?? 1}/>
+  </g>;
+}
+
 function DungeonViewport({ game, location, facing, encounter, encounterDone, itemId, pack, openDoors }: {
   game: AuthoredGame;
   location: AuthoredLocation;
@@ -85,14 +132,16 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
           <line className="dungeon-mortar" x1={inner.l} y1={(inner.t+inner.b)/2} x2={inner.r} y2={(inner.t+inner.b)/2}/>
           <line className="dungeon-mortar" x1={(inner.l+inner.r)/2} y1={inner.t} x2={(inner.l+inner.r)/2} y2={inner.b}/>
         </>}
-        {renderAsset(pack, "surface.ceiling", depth as DungeonAssetDepth, cell.tilesetId)}
-        {renderAsset(pack, "surface.floor", depth as DungeonAssetDepth, cell.tilesetId)}
-        {renderAsset(pack, "wall.left", depth as DungeonAssetDepth, cell.tilesetId)}
-        {renderAsset(pack, "wall.right", depth as DungeonAssetDepth, cell.tilesetId)}
+        {renderPolygonAsset(pack, "surface.ceiling", [[outer.l,outer.t],[outer.r,outer.t],[inner.r,inner.t],[inner.l,inner.t]], depth as DungeonAssetDepth, cell.tilesetId)}
+        {renderPolygonAsset(pack, "surface.floor", [[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]], depth as DungeonAssetDepth, cell.tilesetId)}
+        {renderPolygonAsset(pack, "wall.left", [[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]], depth as DungeonAssetDepth, cell.tilesetId)}
+        {renderPolygonAsset(pack, "wall.right", [[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]], depth as DungeonAssetDepth, cell.tilesetId)}
+        {leftOpen && <polygon className="dungeon-opening side-opening" points={points([[outer.l+5,outer.t+34],[inner.l-2,inner.t+20],[inner.l-2,inner.b-20],[outer.l+5,outer.b-34]])}/>}
+        {rightOpen && <polygon className="dungeon-opening side-opening" points={points([[inner.r+2,inner.t+20],[outer.r-5,outer.t+34],[outer.r-5,outer.b-34],[inner.r+2,inner.b-20]])}/>}
         {leftOpen && renderAsset(pack, "opening.left", depth as DungeonAssetDepth, cell.tilesetId)}
         {rightOpen && renderAsset(pack, "opening.right", depth as DungeonAssetDepth, cell.tilesetId)}
-        {!forward && renderAsset(pack, "wall.front", depth as DungeonAssetDepth, cell.tilesetId)}
-        {forwardDoor && renderAsset(pack, forwardDoorOpen ? "door.front.open" : "door.front.closed", depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id)}
+        {!forward && renderRectAsset(pack, "wall.front", {x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, cell.tilesetId)}
+        {forwardDoor && renderRectAsset(pack, forwardDoorOpen ? "door.front.open" : "door.front.closed", {x:inner.l+12,y:inner.t+4,width:Math.max(20,inner.r-inner.l-24),height:Math.max(30,inner.b-inner.t-8)}, depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id)}
         {forwardDoor && !forwardDoorOpen && !assetFor(pack, "door.front.closed", depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id) && <g className="fallback-door">
           <rect x={inner.l + 12} y={inner.t + 4} width={Math.max(20, inner.r-inner.l-24)} height={Math.max(30, inner.b-inner.t-8)} rx="2"/>
           <circle cx={inner.r - 26} cy={(inner.t+inner.b)/2} r="4"/>

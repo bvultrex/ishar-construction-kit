@@ -325,3 +325,29 @@ Implemented a bounded DOS ALIS image reader:
 - browser memory guard: max 1,500 ALIS previews / 64M pixels per import
 
 This changes the next user test substantially: the same Ishar 2 ZIP should now report both A1 decode success and ALIS image counts/previews. Exact semantic mapping from original resource IDs to authored runtime roles remains a separate evidence step.
+
+
+## 2026-09-26 — Automatic default dungeon textures
+
+Real Ishar 2 corpus test succeeded at the extraction layer: 141/141 A1 resources decoded, 120 ALIS graphics tables found and 2,244 proprietary indexed images extracted. User correctly noted that extraction alone is not enough: a fresh ZIP import should visibly change Playtest without manual mapping.
+
+Implemented an explicit **auto-default tileset** stage:
+
+- scores ALIS images by source filename context, dimensions/aspect and entity-negative keywords
+- selects a coherent preferred dungeon/decor source where possible
+- automatically chooses defaults for:
+  - wall.front
+  - wall.left
+  - wall.right
+  - surface.floor
+  - surface.ceiling
+  - door.front.closed
+  - viewport.background when a sufficiently strong sky/background candidate exists
+- wall/floor/ceiling defaults use a new `renderMode: "texture"` and are tiled/clipped into the procedural perspective polygons instead of being stretched across the whole viewport
+- auto door textures are clipped into the front door rectangle
+- default candidates are processed before the preview memory budget, so a selected runtime texture cannot be skipped just because 1,500 other images were discovered first
+- default entries are ordered before other inferred tileset entries so runtime lookup chooses them deterministically
+- Asset Lab reports the exact source file + ALIS entry + confidence/reason for every default role
+- weak matches are labeled `possible`, strong matches `probable`; the heuristic remains inspectable rather than pretending semantic certainty
+
+Expected user-visible behavior: after selecting the same Ishar 2 ZIP, Playtest should immediately show imported Ishar-derived wall/floor/ceiling textures and, when a candidate is found, a door texture. The next test should report whether the selected sources visually correspond to actual dungeon art; those concrete source IDs can then be promoted into Ishar-2-specific mappings.

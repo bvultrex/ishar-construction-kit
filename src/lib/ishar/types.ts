@@ -149,6 +149,7 @@ export type DungeonAssetRole =
   | "portrait";
 
 export type DungeonAssetDepth = 0 | 1 | 2 | 3;
+export type DungeonAssetRenderMode = "layer" | "texture";
 
 export interface DungeonAssetEntry {
   id: string;
@@ -161,6 +162,9 @@ export interface DungeonAssetEntry {
   height?: number;
   opacity?: number;
   targetId?: string;
+  renderMode?: DungeonAssetRenderMode;
+  tileWidth?: number;
+  tileHeight?: number;
 }
 
 export interface DungeonTileset {

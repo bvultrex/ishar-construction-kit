@@ -137,3 +137,8 @@ Asset Lab now treats a user-owned Ishar ZIP as the primary input. One selection 
 ## 2026-09-26 A1 + ALIS graphics extraction
 
 The original-archive import path now includes a bounded DOS A1/New-Packer decoder plus a conservative DOS ALIS graphics-resource reader. Decoded scripts are inspected for resource tables, indexed 4-/8-bit images and palettes; extracted images are converted to local browser PNG previews. Ambiguous original graphics are deliberately shown as unassigned candidates rather than guessed into runtime roles. This is the first path capable of surfacing proprietary Ishar graphics from an original ZIP without a user-authored manifest.
+
+
+## 2026-09-26 automatic dungeon defaults
+
+After the first successful Ishar 2 extraction (141 A1 decoded, 2,244 ALIS images), the importer now builds an immediate default dungeon tileset from heuristically ranked original resources. Wall/floor/ceiling assets are rendered as tiled SVG textures clipped to the existing perspective geometry, so a successful ZIP import produces a visible Playtest change even before exact original resource IDs are fully mapped. The Asset Lab exposes every automatic role choice with its source ALIS entry and confidence for iterative verification.

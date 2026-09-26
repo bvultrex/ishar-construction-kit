@@ -5,6 +5,14 @@ import type { DiscoveredAssetPreview, LoadedAssetPack } from "./asset-pack";
 import { extractAlisIndexedImages, type AlisIndexedImage } from "./alis-assets";
 import type { DungeonAssetEntry, DungeonAssetManifest, DungeonAssetRole, FileRecord, GameId } from "./types";
 
+export interface IsharDefaultAssignment {
+  role: DungeonAssetRole;
+  sourcePath: string;
+  entryIndex: number;
+  confidence: "probable" | "possible";
+  reason: string;
+}
+
 export interface IsharAutoImportReport {
   mode: "ishar-auto";
   detectedGame: GameId;
@@ -22,6 +30,7 @@ export interface IsharAutoImportReport {
   mappedImages: number;
   unmappedImages: number;
   candidateResources: number;
+  defaultAssignments: IsharDefaultAssignment[];
   notes: string[];
 }
 
@@ -92,6 +101,105 @@ function suggestRoleByDimensions(width: number, height: number): DungeonAssetRol
   if (width >= 32 && width <= 120 && height >= 42 && height <= 150) return "portrait";
   if (width >= 220 && height >= 120) return "viewport.background";
   return undefined;
+}
+
+const DUNGEON_SOURCE = /(dungeon|donjon|decor|dekor|crypt|crypte|cave|cavern|grotte|castle|chateau|interior|inside|temple|fort|stone|pierre|brick|brique|wall|mur|labyr)/i;
+const ENTITY_SOURCE = /(perso|portrait|face|head|avatar|monster|monstre|enemy|ennemi|creature|combat|item|object|objet|invent|icon|potion|spell|magic|menu|font|cursor|logo|title|intro)/i;
+
+function textureLike(image: AlisIndexedImage) {
+  const aspect=image.width/image.height;
+  return image.width>=8 && image.height>=8 && image.width<=256 && image.height<=256 && aspect>=0.35 && aspect<=2.85;
+}
+
+function roleScore(image: AlisIndexedImage, role: DungeonAssetRole, preferredSource?: string) {
+  const path=image.sourcePath.toLowerCase();
+  let score=0;
+  if(preferredSource && image.sourcePath===preferredSource) score+=12;
+  if(DUNGEON_SOURCE.test(path)) score+=18;
+  if(ENTITY_SOURCE.test(path)) score-=28;
+  if(textureLike(image)) score+=8;
+
+  if(role==="surface.floor"){
+    if(/(floor|ground|sol|dalle|pave|pavement)/i.test(path)) score+=42;
+    if(image.width>=image.height) score+=4;
+  } else if(role==="surface.ceiling"){
+    if(/(ceiling|plafond|sky|ciel|roof|toit|voute)/i.test(path)) score+=42;
+    if(image.width>=image.height) score+=3;
+  } else if(role==="wall.front" || role==="wall.left" || role==="wall.right"){
+    if(/(wall|mur|stone|pierre|brick|brique|decor)/i.test(path)) score+=38;
+    if(image.width>=16 && image.height>=16) score+=4;
+  } else if(role==="door.front.closed"){
+    if(/(door|porte|gate|portal|grille|entry|entree)/i.test(path)) score+=52;
+    if(image.height>=image.width*1.12 && image.height>=28 && image.height<=300) score+=12;
+    if(image.width>180 || image.height>320) score-=6;
+  } else if(role==="viewport.background"){
+    if(/(sky|ciel|background|backdrop|fond|scene|landscape|horizon)/i.test(path)) score+=48;
+    if(image.width>=160 && image.height>=80 && image.width>image.height) score+=12;
+  }
+  return score;
+}
+
+function bestByScore(images: AlisIndexedImage[], role: DungeonAssetRole, preferredSource?: string, minimum=1) {
+  let best: {image: AlisIndexedImage; score: number} | undefined;
+  for(const image of images){
+    const score=roleScore(image,role,preferredSource);
+    if(score<minimum) continue;
+    if(!best || score>best.score || (score===best.score && image.width*image.height>best.image.width*best.image.height)){
+      best={image,score};
+    }
+  }
+  return best;
+}
+
+function chooseDefaultDungeonAssets(images: AlisIndexedImage[]): IsharDefaultAssignment[] {
+  if(!images.length) return [];
+  const sourceScores=new Map<string,number>();
+  for(const image of images){
+    if(ENTITY_SOURCE.test(image.sourcePath)) continue;
+    let score=textureLike(image) ? 2 : 0;
+    if(DUNGEON_SOURCE.test(image.sourcePath)) score+=8;
+    if(/(wall|mur|floor|sol|door|porte|ceiling|plafond|decor)/i.test(image.sourcePath)) score+=10;
+    sourceScores.set(image.sourcePath,(sourceScores.get(image.sourcePath)??0)+score);
+  }
+  const preferredSource=[...sourceScores.entries()].sort((a,b)=>b[1]-a[1])[0]?.[0];
+
+  const assignments: IsharDefaultAssignment[]=[];
+  const add=(role:DungeonAssetRole, pick:ReturnType<typeof bestByScore>, reason:string, threshold=28)=>{
+    if(!pick) return;
+    assignments.push({
+      role,
+      sourcePath:pick.image.sourcePath,
+      entryIndex:pick.image.entryIndex,
+      confidence:pick.score>=threshold ? "probable" : "possible",
+      reason:`${reason} (Score ${pick.score}).`,
+    });
+  };
+
+  const wall=bestByScore(images,"wall.front",preferredSource,4);
+  const floor=bestByScore(images,"surface.floor",preferredSource,4) ?? wall;
+  const ceiling=bestByScore(images,"surface.ceiling",preferredSource,4) ?? wall;
+  const door=bestByScore(images,"door.front.closed",preferredSource,8);
+  const background=bestByScore(images,"viewport.background",preferredSource,24);
+
+  add("wall.front",wall,"Dungeon-/Wandkandidat als Standardwand");
+  add("wall.left",wall,"gleiche Basistexur für linke Wand");
+  add("wall.right",wall,"gleiche Basistexur für rechte Wand");
+  add("surface.floor",floor,"Boden-Kandidat; fällt bei Bedarf auf Dungeon-Basistexur zurück");
+  add("surface.ceiling",ceiling,"Decken/Himmel-Kandidat; fällt bei Bedarf auf Dungeon-Basistexur zurück");
+  add("door.front.closed",door,"Türkandidat aus Dateikontext und Hochformat");
+  if(background) add("viewport.background",background,"großformatiger Himmel/Hintergrundkandidat",40);
+
+  return assignments;
+}
+
+function defaultChoiceKey(sourcePath:string,entryIndex:number){
+  return `${sourcePath}#${entryIndex}`;
+}
+
+function tileSize(image: AlisIndexedImage){
+  const width=Math.max(24,Math.min(128,image.width));
+  const height=Math.max(24,Math.min(128,image.height));
+  return {tileWidth:width,tileHeight:height};
 }
 
 function placementFor(role: DungeonAssetRole) {
@@ -265,6 +373,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   }
 
   const shared: DungeonAssetEntry[]=[];
+  const defaultTilesetEntries: DungeonAssetEntry[]=[];
   const tilesetEntries: DungeonAssetEntry[]=[];
   const urls: Record<string,string>={};
   const paths: Record<string,string>={};
@@ -298,23 +407,39 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     else tilesetEntries.push(entry);
   });
 
+  const defaultAssignments=chooseDefaultDungeonAssets(alisImages);
+  const defaultsByImage=new Map<string,IsharDefaultAssignment[]>();
+  for(const assignment of defaultAssignments){
+    const key=defaultChoiceKey(assignment.sourcePath,assignment.entryIndex);
+    defaultsByImage.set(key,[...(defaultsByImage.get(key)??[]),assignment]);
+  }
+
   const MAX_ALIS_IMAGES=1500;
   const MAX_ALIS_PIXELS=64_000_000;
   let alisPixelCount=0;
+  let alisPreviewCount=0;
   let alisImagesSkippedForBudget=0;
-  for(const image of alisImages){
-    if(discoveredAssets.filter((asset)=>asset.source==="alis").length>=MAX_ALIS_IMAGES || alisPixelCount+image.width*image.height>MAX_ALIS_PIXELS){
+  const orderedAlisImages=[...alisImages].sort((a,b)=>{
+    const ad=defaultsByImage.has(defaultChoiceKey(a.sourcePath,a.entryIndex)) ? 1 : 0;
+    const bd=defaultsByImage.has(defaultChoiceKey(b.sourcePath,b.entryIndex)) ? 1 : 0;
+    return bd-ad;
+  });
+  for(const image of orderedAlisImages){
+    const imageDefaults=defaultsByImage.get(defaultChoiceKey(image.sourcePath,image.entryIndex)) ?? [];
+    const forceForDefault=imageDefaults.length>0;
+    if(!forceForDefault && (alisPreviewCount>=MAX_ALIS_IMAGES || alisPixelCount+image.width*image.height>MAX_ALIS_PIXELS)){
       alisImagesSkippedForBudget++;
       continue;
     }
     alisPixelCount+=image.width*image.height;
+    alisPreviewCount++;
     const blob=await indexedImageToPngBlob(image);
     const url=URL.createObjectURL(blob);
     const role=guessRole(image.sourcePath);
     const suggestion=role ?? suggestRoleByDimensions(image.width,image.height);
     const id=safeId(image.sourcePath)+"-alis-"+image.entryIndex;
     const entityRole=role ? ["encounter","item","portrait"].includes(role) : false;
-    const runtimeAssigned=!!role && !entityRole;
+    const runtimeAssigned=imageDefaults.length>0 || (!!role && !entityRole);
     discoveredAssets.push({
       id,
       path:`${image.sourcePath} · ALIS #${image.entryIndex}`,
@@ -322,9 +447,27 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       source:"alis",
       width:image.width,
       height:image.height,
-      suggestedRole:suggestion,
+      suggestedRole:imageDefaults[0]?.role ?? suggestion,
       runtimeAssigned,
     });
+
+    for(const assignment of imageDefaults){
+      const idRole=assignment.role.replace(/[^a-z0-9]+/gi,"-");
+      const defaultId=`${id}-default-${idRole}`;
+      const textureRole=assignment.role!=="viewport.background";
+      const entry: DungeonAssetEntry={
+        id:defaultId,
+        role:assignment.role,
+        file:`${image.sourcePath}#alis-${image.entryIndex}.png`,
+        renderMode:textureRole ? "texture" : "layer",
+        opacity:assignment.role==="surface.ceiling" ? 0.9 : 1,
+        ...(textureRole ? tileSize(image) : {}),
+      };
+      urls[defaultId]=url;
+      paths[defaultId]=entry.file;
+      defaultTilesetEntries.push(entry);
+    }
+
     if(role){
       const entry: DungeonAssetEntry={
         id,
@@ -353,7 +496,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     viewport:{width:640,height:400},
     defaultTilesetId:"auto-default",
     shared,
-    tilesets:[{id:"auto-default",name:gameLabel+" Auto",entries:tilesetEntries}],
+    tilesets:[{id:"auto-default",name:gameLabel+" Auto Dungeon",entries:[...defaultTilesetEntries,...tilesetEntries]}],
   };
 
   const candidateResources=inventory.filter((record)=>record.silm || record.ext===".IO" || record.ext===".FIC").length;
@@ -363,7 +506,8 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     decodedA1Packer ? decodedA1Packer+" A1/New-Packer-Datei(en) wurden mit dem bounded DOS-Decoder entpackt." : "Keine A1-Ressource konnte decodiert werden.",
     failedPackedDecode ? failedPackedDecode+" gepackte Datei(en) konnten trotz erkanntem Header nicht sicher decodiert werden." : "Alle erkannten gepackten Ressourcen wurden decodiert.",
     alisImages.length ? alisImages.length+" proprietäre ALIS-Bildressource(n) wurden aus den decodierten Skripten extrahiert." : "In den decodierten Skripten wurde noch keine unterstützte ALIS-Bildressource gefunden.",
-    mappedImages ? mappedImages+" Bild(er) wurden anhand eindeutiger Dateinamen automatisch katalogisiert/zugeordnet." : "Noch keine Grafik konnte sicher einer Engine-Rolle zugeordnet werden; der SVG-Fallback bleibt aktiv.",
+    defaultAssignments.length ? defaultAssignments.length+" Standard-Dungeon-Rolle(n) wurden heuristisch als sofort nutzbares Default-Tileset belegt." : "Kein ausreichend plausibles Default-Dungeon-Tileset konnte gewählt werden.",
+    mappedImages ? mappedImages+" Bild(er) wurden anhand eindeutiger Dateinamen automatisch katalogisiert/zugeordnet." : "Noch keine weitere Grafik konnte sicher einer Engine-Rolle zugeordnet werden; der SVG-Fallback bleibt aktiv.",
     unmappedImages ? unmappedImages+" gefundene Standardbild(er) blieben absichtlich unzugeordnet, weil die Rolle nicht eindeutig war." : "Keine zusätzlich gefundenen Standardbilder blieben unzugeordnet.",
   ];
 
@@ -384,6 +528,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     mappedImages,
     unmappedImages,
     candidateResources,
+    defaultAssignments,
     notes,
   };
 

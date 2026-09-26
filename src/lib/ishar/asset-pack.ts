@@ -76,6 +76,9 @@ function validateEntry(raw: unknown, path: string): DungeonAssetEntry {
     height: numberOrUndefined(value.height),
     opacity: numberOrUndefined(value.opacity),
     targetId: typeof value.targetId === "string" && value.targetId.trim() ? value.targetId : undefined,
+    renderMode: value.renderMode === "texture" ? "texture" : "layer",
+    tileWidth: numberOrUndefined(value.tileWidth),
+    tileHeight: numberOrUndefined(value.tileHeight),
   };
 }
 

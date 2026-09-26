@@ -109,6 +109,7 @@ function AssetsPage() {
         <article><span>Zugeordnet</span><strong>{autoReport.mappedImages}</strong></article>
       </div>
       <article className="stone-card"><h2>Automatik-Bericht</h2><ul>{autoReport.notes.map((note,index)=><li key={index}>{note}</li>)}</ul><p className="muted">{autoReport.candidateResources} mögliche Ressourcencontainer untersucht · {autoReport.decodedOldPacker} Old-Packer + {autoReport.decodedA1Packer} A1 entpackt · {autoReport.alisTablesFound} ALIS-Grafiktabellen · {autoReport.failedPackedDecode} Decode-Fehler.</p>{autoReport.alisImagesSkippedForBudget>0 && <p className="muted">{autoReport.alisImagesSkippedForBudget} Bilder wurden wegen des Browser-Speicherlimits nur katalogisiert/übersprungen.</p>}</article>
+      {!!autoReport.defaultAssignments.length && <article className="stone-card default-assignments"><h2>Automatisch gewähltes Standard-Tileset</h2><p className="muted">Diese Rollen werden sofort im Playtest benutzt. „Possible“ ist bewusst nur eine Heuristik und kann später manuell überschrieben werden.</p><div className="default-assignment-grid">{autoReport.defaultAssignments.map((assignment,index)=><div key={assignment.role+"-"+index}><strong>{assignment.role}</strong><span className={"badge "+assignment.confidence}>{assignment.confidence}</span><code>{assignment.sourcePath} · ALIS #{assignment.entryIndex}</code><small>{assignment.reason}</small></div>)}</div></article>}
     </section>}
 
     {!pack ? <div className="hero-grid">
