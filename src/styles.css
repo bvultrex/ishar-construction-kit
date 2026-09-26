@@ -194,3 +194,9 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .surface-select{display:grid;grid-template-columns:58px 1fr;gap:6px 8px;align-items:center}.surface-select>span{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#9c8b74}.surface-select select{min-width:0;background:#0b0907;color:#e8dcc4;border:1px solid #574331;padding:7px}
 .surface-preview{grid-column:2;display:grid;grid-template-columns:64px minmax(0,1fr);gap:7px;align-items:center}.surface-preview img{width:64px;height:48px;object-fit:contain;background:#050403;border:1px solid #35291f;image-rendering:pixelated}.surface-preview code{font-size:9px;color:#756b5e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:620px){.surface-select{grid-template-columns:1fr}.surface-preview{grid-column:1}}
+
+
+/* Terrain resource diagnostics */
+.terrain-asset-card{outline:1px solid #725126;box-shadow:inset 0 0 0 1px #21170d}
+.asset-card-badges{display:flex;flex-wrap:wrap;gap:4px}
+.terrain-asset-card>strong{color:#e3bf78}
