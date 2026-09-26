@@ -158,8 +158,8 @@ function AssetsPage() {
         <article><span>ALIS-Bilder</span><strong>{autoReport.alisImagesExtracted}</strong></article>
         <article><span>0x1C/1E</span><strong>{autoReport.alisTerrainTexturesExtracted}</strong></article>
         <article><span>Flat/Masken</span><strong>{autoReport.alisFlatColorAssets}</strong></article>
-        <article><span>Palette offen</span><strong>{autoReport.alisPaletteSuspectAssets}</strong></article>
-        <article><span>Palette repariert</span><strong>{autoReport.ishar2ScenePaletteRepairs}</strong></article>
+        <article><span>Rotanteil prüfen</span><strong>{autoReport.alisPaletteSuspectAssets}</strong></article>
+        <article><span>Palette zugeordnet</span><strong>{autoReport.ishar2ResolvedPaletteImages}</strong></article>
         <article><span>Paletten</span><strong>{autoReport.alisPaletteResources}</strong></article>
         <article><span>Composites</span><strong>{autoReport.alisCompositeResources}</strong></article>
         <article><span>Composite-Vorschau</span><strong>{autoReport.alisCompositePreviews}</strong></article>
@@ -173,7 +173,7 @@ function AssetsPage() {
         <div className="map-card-head"><div><p className="eyebrow">Hard diagnostic</p><h2>ALIS-Ressourcenformate</h2></div><span className="badge confirmed">{Object.values(autoReport.alisResourceFormatCounts).reduce((sum,count)=>sum+count,0)} Einträge</span></div>
         <div className="format-chip-grid">{Object.entries(autoReport.alisResourceFormatCounts).sort(([a],[b])=>a.localeCompare(b)).map(([format,count])=><span key={format} className={format==="0x1c" || format==="0x1e" ? "terrain-format" : ""}><code>{format}</code><strong>{count}</strong></span>)}</div>
         <p className="audit-note">Für den aktuellen Ishar-Pfad sind <code>0x10/0x12/0x14/0x16</code> plus <code>0xFF</code>-Composites die entscheidenden sichtbaren Grafikklassen. <code>0x1c/0x1e</code> bleiben nur als Diagnosewert sichtbar.</p>
-        <p className="muted">Palettenbasis: <strong>{autoReport.paletteBaseLabel}</strong>{autoReport.paletteBaseVerified ? " · verifiziert" : " · heuristisch"} · {autoReport.localPaletteOverlayImages} lokale Überlagerungen · {autoReport.ishar2ScenePaletteRepairs} Szenen-Reparaturen · {autoReport.alisPaletteSuspectAssets} Palette-offen.</p>
+        <p className="muted">Palettenbasis: <strong>{autoReport.paletteBaseLabel}</strong>{autoReport.paletteBaseVerified ? " · verifiziert" : " · heuristisch"} · {autoReport.localPaletteOverlayImages} lokale Überlagerungen · {autoReport.ishar2ResolvedPaletteImages} Palettenzuordnungen · {autoReport.alisPaletteSuspectAssets} mit hohem Rotanteil.</p>
         {!!autoReport.playtestFallbackRoles.length && <p className="audit-note">Playtest bindet automatisch belastbare Originalgrafik-Fallbacks für: <strong>{autoReport.playtestFallbackRoles.join(", ")}</strong>. Wand/Boden/Decke bleiben bis zur Szenenrekonstruktion beim sichtbaren Stein-Fallback.</p>}
       </article>
       {!!autoReport.defaultAssignments.length && <article className="stone-card default-assignments"><h2>Automatisch gewähltes Standard-Tileset</h2><p className="muted">Diese Rollen werden sofort im Playtest benutzt. „Possible“ ist bewusst nur eine Heuristik und kann später manuell überschrieben werden.</p><div className="default-assignment-grid">{autoReport.defaultAssignments.map((assignment,index)=><div key={assignment.role+"-"+index}><strong>{assignment.role}</strong><span className={"badge "+assignment.confidence}>{assignment.confidence}</span><code>{assignment.sourcePath} · ALIS #{assignment.entryIndex}</code><small>{assignment.reason}</small></div>)}</div></article>}
@@ -206,6 +206,7 @@ function AssetsPage() {
           <strong>{asset.assetKind==="terrain" ? "Terrain-Textur" : asset.assetKind==="composite" ? "Composite" : (asset.suggestedRole ?? "unzugeordnet")}</strong>
           <small>{asset.width && asset.height ? `${asset.width}×${asset.height} · ` : ""}{asset.assetKind==="terrain" ? "ALIS 0x1C/0x1E" : asset.assetKind==="composite" ? "ALIS 0xFF zusammengesetzt" : asset.source==="alis" ? "ALIS Sprite" : "Standardbild"}</small>
           <code title={asset.path}>{asset.path}</code>
+          {asset.paletteLabel && <small>{asset.paletteLabel}</small>}
           {asset.knownUse && <strong className="known-asset-use">{asset.knownUse}</strong>}
           {asset.distanceSetLabel && <small className="muted">Set: <strong>{asset.distanceSetLabel}</strong> · {asset.distanceConfidence==="verified" ? "verifiziert" : "heuristisch"}</small>}
           <div className="asset-card-badges">
@@ -213,7 +214,7 @@ function AssetsPage() {
             {asset.paletteStatus && <span className={"badge " + (asset.paletteStatus==="embedded" ? "confirmed" : "suspected")}>Palette: {asset.paletteStatus}</span>}
             {asset.distanceSetId && <span className={"badge " + (asset.distanceConfidence==="verified" ? "confirmed" : "suspected")}>Distanz: {asset.distanceRole==="near" ? "Nah" : asset.distanceRole==="mid" ? "Mittel" : "Fern"}</span>}
             {asset.visualStatus==="flat-color" && <span className="badge unknown">einfarbig / Maske?</span>}
-            {asset.visualStatus==="palette-suspect" && <span className="badge suspected">Palette offen</span>}
+            {asset.visualStatus==="palette-suspect" && <span className="badge suspected">Rotanteil prüfen</span>}
           </div>
           {asset.assetKind==="composite" ? <small className="muted">Zusammengesetzte Vorschau aus mehreren ALIS-Grafikbausteinen. Noch nicht als kachelbare Oberfläche behandeln.</small> : asset.visualStatus!=="flat-color" && asset.visualStatus!=="palette-suspect" ? <div className="asset-quick-map">
             <button onClick={()=>assignPreview(asset,"dungeon-base")}>Basis</button>

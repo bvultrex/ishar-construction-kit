@@ -10,6 +10,7 @@ export interface DiscoveredAssetPreview {
   paletteStatus?: "embedded" | "global" | "default";
   visualStatus?: "normal" | "flat-color" | "palette-suspect";
   knownUse?: string;
+  paletteLabel?: string;
   distanceSetId?: string;
   distanceSetLabel?: string;
   distanceRole?: "near" | "mid" | "far";

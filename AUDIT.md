@@ -142,3 +142,61 @@ User supplied `Ishar-Workbench-v0.30.0-recon.zip` for local research. This is a 
 - `PREVIEW-QUEST-RESEARCH.md` links NPC 27 (Deloria), dialogue and several script state sites, explicitly leaves quest phases and reward semantics open. `PROJECT-AUDIT.md` is headed 0.18 despite archive name 0.30; it says object-spawn sources and phase semantics remain open and the writer is off. Treat versioned research notes individually, not as a blanket 0.30 validation.
 
 Next: independently reproduce the bounded Ishar 1 map addressing and a small `EN1.FIC` field read against original files, if supplied; compare ALIS decoder edge behavior with the TypeScript implementation using synthetic legal and malformed streams. Keep save, template, script and runtime addresses in separate namespaces.
+
+## 2026-09-26 — Red asset root cause reproduced and corrected
+
+Local corpus: Ishar2.zip SHA-256
+`ba90e28654e4532736e91b2070789be0f6f03fdbb1354d316a12a83a43461b54`.
+Original files and rendered contact sheets remain outside the repository.
+
+Confirmed implementation defect: the previous colorfulness ranking chose
+MAIN.IO / #11 as the global scene palette. Its scene/actor banks contain solid
+placeholder colors. The indexed graphics were intact. The second defect was
+requiring local palettes to precede image resources; actor palette declarations
+commonly follow their sprites. Resource-table order is not script execution order.
+
+Static evidence (offsets are hexadecimal in the UNPACKED module, not SAV/file
+addresses): ALIS cpalette is opcode 0x68; immediate-byte operand is 0x00.
+Cross-checked against maestun/alis commit
+19a95afdc07b45d997467806d4dd1bf83c5f8076, src/opcodes.c cpalette,
+src/opernames.c oimmb, src/image.c topalette. No upstream code copied.
+
+- FDJ1.IO +0x70: `68 00 02`, palette #2.
+- FDJ2.IO +0x70: `68 00 01`, palette #1.
+- FDJCAT.IO +0x96: `68 00 00`, palette #0.
+- MAIN.IO around +0x1d60..0x1da8 loads DJCAT/FDJCAT, DJ1/FDJ1 and DJ2/FDJ2
+  as corresponding module pairs. Combined with the palette calls and rendered
+  indexed images, this supports the explicit scene mappings in palette-resolution.ts.
+- FOND1.IO +0xee: palette #3; +0x102/#5 and +0x116/#4 are alternative states.
+- FARBO.IO +0x12f: #1; FMONT.IO +0x151: #3; FVILLE.IO +0x14f: #0.
+- MAIN.IO around +0x1689..0x1700 pairs FOND1/PLAINE1, FARBO/ARBO,
+  FVILLE/VHOUSE2 and MONTAGNE/FMONT.
+- GUARD3.IO has images before palette #22 (bank 160..175). Its script selects
+  #22 at +0x1b7 and has alternatives #24/+0x1cb and #23/+0x1df.
+
+Packed file SHA-256 identifiers:
+- MAIN.IO: bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95
+- FDJ1.IO: 4316064fdc5c0a214de74c1c606c687316c8e4735825364b680f69a6abb82395
+- FDJ2.IO: 32fb0eb7696c22f478f353789e07df8910958c2c7734042f63d0144b684c72a1
+- FDJCAT.IO: ffd2e46e19bc2b9b6707359b079dcf218c3b7d9e8f7f5f8e7272b03389772049
+- GUARD3.IO: 267b32ea639130a6e24e00f6a9a8bfeda048aea2e42ef1174909c47300189c4b
+
+Measured against the same 2,244 decoded bitmaps and the same red-dominance
+predicate: upstream HEAD resolver flagged 1,416; new resolver flags 18. The
+remaining assets were inspected locally: fireballs, blood-like effects, small
+warm-colored objects/UI fragments, and two tiny dungeon resources. Do not
+force their original RGB values away from red. Red dominance is a diagnostic,
+not proof of a palette error.
+
+Visual verification: DJ1 #13, DJ2 #13, DJCAT #18 now retain detailed stone colors;
+ARBO #69 is green; GUARD3 #2 shows colored armor rather than a red silhouette.
+The actual browser Asset Lab completed the ZIP import with 141 A1 decodes,
+2,244 bitmaps, 161 palettes, 866 local overlays, 1,378 external/base assignments,
+500 composite previews and zero packed decode failures. DJ1 composite previews
+including #59/#63 visibly retain their stone colors in the browser.
+
+Evidence limits: first local palette and FOND1 #3 daylight fallback are explicit
+preview policies. This is not emulation of every original time-of-day, animation,
+scene or actor lighting state. Shared PCAVE assets are context-dependent. Their
+exact active scene palette remains contextual, even though the placeholder-red
+failure is removed. Ishar 1 logic and all save offsets are unchanged.

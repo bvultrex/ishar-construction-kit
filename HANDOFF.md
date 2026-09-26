@@ -800,3 +800,33 @@ Limits / next handoff:
   search and select a resource, verify the room in Playtest. Confirm mushroom
   #232/#233/#234 near/mid/far ordering. Record build stamp and exact resource IDs.
 - Build 1.0 remains unfinished; this checkpoint establishes local reproducibility.
+
+## 2026-09-26 — Red assets fixed in local production build
+
+Priority requested by user: stop unrelated feature work and resolve red assets.
+Root cause and corpus/script evidence are detailed in AUDIT.md.
+
+Changes:
+- Introduced palette-resolution.ts for Ishar 2 scene/module palette relationships.
+- Replaced MAIN #11 scene fallback with an explicitly labeled daylight preview.
+- Applied actor palettes even when stored after their images, preserving bank bounds.
+- Removed the speculative COL/PAL red-minimization repair function.
+- Added per-bitmap palette provenance labels; red diagnostic no longer claims error.
+- Added synthetic regression tests and a CI gate (npm run test:palettes).
+- No original assets, archives, decoded payloads or screenshots added to Git.
+
+Verification: typecheck, A1 tests, palette regressions and production build pass.
+Real corpus: old resolver 1,416 red suspects; corrected resolver 18. Those 18 were
+visually reviewed and include genuinely red fire/blood/effect assets. Actual
+Asset Lab import: 2,244 bitmaps, 500 composite previews, no packed decode errors.
+Browser-checked DJ1 composite walls now show stone details and correct scene colors.
+Local production server: http://127.0.0.1:4175, build stamp palette (BUILD_SHA is
+sliced to seven characters). The current loaded session has the corrected import.
+
+Remaining scope is original runtime lighting/scene emulation, not the solid-red
+import bug: generic first-local/daylight previews remain labeled as preview policy.
+Do not promote all palette contexts to verified original runtime states.
+
+Commits use a command-local agent identity (Codex <codex@localhost>), because no
+user Git identity is configured and the user requested no further interruptions.
+No persistent user identity configuration and no remote push are performed.

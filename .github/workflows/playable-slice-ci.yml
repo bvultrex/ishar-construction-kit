@@ -22,6 +22,8 @@ jobs:
         run: npm run typecheck
       - name: A1 decoder fixtures
         run: npm run test:a1
+      - name: Palette resolution regressions
+        run: npm run test:palettes
       - name: Production build
         run: npm run build
       - name: Smoke-test production server

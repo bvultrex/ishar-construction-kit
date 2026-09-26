@@ -41,6 +41,7 @@ export interface AlisIndexedImage {
   palette: Uint8Array;
   paletteSource: AlisPaletteSource;
   paletteEntryIndex?: number;
+  paletteLabel?: string;
   transparentIndex?: number;
   assetKind: "sprite" | "terrain";
   encoding: "4bit" | "4bit-offset" | "8bit" | "terrain8";

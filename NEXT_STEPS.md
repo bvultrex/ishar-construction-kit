@@ -148,3 +148,11 @@ Next:
 3. Identify the exact semantic subtype represented by #72/#73/#74.
 4. Determine whether #75/#76 are inventory/close-up states and whether #121 is the inventory key-ring icon.
 5. Search enemy-bearing resources for equivalent near/mid/far sequences before extending the detector beyond OBJET.IO.
+
+## 2026-09-26 — Palette blocker resolved
+
+Solid-red Ishar 2 scene/actor imports were caused by MAIN placeholder palette
+selection and ignored post-image actor palettes. These are corrected and covered
+by npm run test:palettes. Preserve explicit scene provenance and daylight preview
+labels. Future scene rendering should use the corrected assets without treating
+a generic preview as a verified original lighting state. See AUDIT.md.

@@ -182,3 +182,11 @@ The project no longer assumes Ishar 1/2 dungeon geometry is stored as missing 0x
 ## 2026-09-26 item distance sprite model
 
 Items are no longer modeled as a single pickup bitmap. The authored game schema supports near/mid/far sprite overrides, and the crawler renders item graphics across three visible room depths. Ishar 2 OBJET.IO #69/#70/#71 is the first verified distance sprite set (key near/mid/far); #72/#73/#74 is a second verified key set. Unknown item semantics keep a neutral fallback rather than using arbitrary OBJET.IO art.
+
+## 2026-09-26 — Red asset correction
+
+Ishar 2 palette resolution now follows explicit scene pairs and local actor
+palette banks. The global MAIN placeholder palette is no longer applied to
+scene graphics. Actual ZIP import and composite previews were checked locally;
+the 2,244-image corpus went from 1,416 to 18 red-diagnostic matches, with remaining
+red effects visually reviewed. Details and confidence limits are in AUDIT.md.
