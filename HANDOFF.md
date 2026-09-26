@@ -665,3 +665,58 @@ Implemented:
 Important interpretation:
 
 The #69/#70/#71 trio is now treated as a verified distance set, not three separate unrelated items. The #72/#73/#74 trio is recorded as a second verified key set but is not auto-selected for the demo key until its exact key subtype is known.
+
+
+## 2026-09-26 — Distance-set pipeline wired into Asset Lab, Builder and Playtest
+
+Context from user verification:
+
+- Ishar 2 object sprites can be stored as ascending ALIS resource IDs for perspective distance:
+  - lower ID = nearer/larger view
+  - next ID = middle-distance view
+  - next ID = farther/smaller view
+- User specifically verified the mushroom family OBJET.IO #232/#233/#234 as near/mid/far.
+- Existing verified key families remain:
+  - #69/#70/#71 = key family 1, near/mid/far
+  - #72/#73/#74 = key family 2, near/mid/far
+
+Implemented on `workbench/playable-slice`:
+
+- Added `src/lib/ishar/distance-sets.ts`.
+- Added explicit verified Ishar 2 OBJET.IO distance sets for 69–71, 72–74 and 232–234.
+- Added a conservative heuristic for additional OBJET.IO triples:
+  - same source file
+  - consecutive ALIS IDs
+  - sprite resources only
+  - bounded dimensions
+  - visible non-transparent footprint decreases at both transitions
+  - heuristic scope is intentionally limited to OBJET.IO so scene/composite sequences are not misclassified.
+- Asset preview metadata now carries:
+  - `distanceSetId`
+  - `distanceSetLabel`
+  - `distanceRole` = near/mid/far
+  - `distanceConfidence` = verified/heuristic
+- Auto-import report now counts total, verified and heuristic distance sets.
+- Asset Lab displays the detected set label, role and confidence on each member.
+- Adventure Builder can take any selected member and apply the complete detected near/mid/far set to an authored item with one button.
+- Playtest now resolves missing distance sprites from siblings in the same detected set before using semantic fallbacks. This prevents stretching one selected sprite across all depths when a proper family is known.
+
+Important safety/evidence boundary:
+
+- Consecutive IDs alone are not considered enough.
+- The automatic heuristic currently applies only to OBJET.IO sprite triples with a clearly shrinking visible footprint.
+- Known user-verified families override heuristic detection.
+- Scene resources, 0xFF composites, doors and enemies are NOT automatically grouped by this rule yet. They should only adopt it after matching evidence is found.
+
+Validation:
+
+- GitHub CI was triggered automatically by the implementation commits.
+- At handoff creation time both CI workflows had started and dependency installation was still running; final green/failure status must be checked on the latest handoff commit before cutting the next test artifact.
+
+Next implementation target:
+
+1. Re-import the real Ishar 2 archive and inspect the new Distanzsets counters/cards.
+2. Confirm #232/#233/#234 render in the expected near/mid/far order in Playtest.
+3. Inspect other OBJET.IO heuristic triples for false positives and promote only manually verified families to the explicit table.
+4. Search enemy-bearing resources for the same storage convention, but do not generalize automatically until at least one enemy family is verified.
+5. Extend the same evidence-driven model to doors/special props only after verified examples exist.
