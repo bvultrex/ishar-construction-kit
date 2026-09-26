@@ -450,3 +450,42 @@ Next validation:
 3. note palette/composite counts
 4. in Adventure Builder select a known good brick image independently for Wand/Boden/Decke and verify it persists per room
 5. continue reverse-engineering the scene terrain texture table so original wall assignments can become deterministic instead of manually selected
+
+
+## 2026-09-26 — Missing Ishar dungeon geometry traced to ALIS terrain formats
+
+User reported that wall/floor/ceiling candidates were effectively absent from imported thumbnails and that the Playtest often showed only a background. Several previews were also plain red.
+
+Root cause found in the public ALIS interpreter:
+
+- Opcode `ctexmap` (0xE8 in the Ishar-era interpreter) resolves terrain texture resources through `adresdes`.
+- The terrain renderer explicitly supports DOS bitmap formats `0x1C` / `0x1E` with an 8-byte full header.
+- The previous browser extractor only accepted `0x00/02`, `0x10/12`, and `0x14/16`.
+- Therefore the primary ALIS terrain texture class was silently excluded from Asset Lab and default surface selection.
+- `0x18/0x1A` native 8-bit sprite formats were also previously omitted and are now decoded.
+
+Implementation:
+
+- `AlisIndexedImage` now classifies resources as `sprite` or `terrain`.
+- Added `terrain8` decoder for `0x1C/0x1E`:
+  - width = mask + 1
+  - height = mask + 1
+  - pixel payload begins at full header +8
+  - palette index 0 remains opaque for terrain previews because the terrain renderer may use it as a real color.
+- Added `0x18/0x1A` 8-bit bitmap support.
+- Auto-import reports a dedicated terrain texture count.
+- Real terrain resources are forced ahead of the browser preview budget and sorted before sprites.
+- Dungeon default selection gives a strong priority to true terrain resources.
+- Ishar 1/2 auto-import no longer auto-assigns a fullscreen viewport background; interior geometry must remain visible.
+- Nearly single-color images are flagged as potential masks/material helpers and are excluded from automatic surface choice.
+- Asset Lab visually distinguishes:
+  - Terrain 0x1C/0x1E
+  - normal ALIS sprites
+  - palette provenance
+  - flat-color/mask suspects
+- Adventure Builder now offers true terrain resources first for per-room Wall/Floor/Ceiling overrides. Sprite assets are only offered if no terrain resources were found.
+
+Remaining compatibility work:
+
+- `ctexmap` gives the authoritative terrain-slot-to-resource assignment at runtime. A static script decoder for those calls would let the editor label original terrain/material slots instead of showing only resource IDs.
+- Plain-red assets are not assumed to be broken anymore; many may be masks/material helpers or rely on runtime palette state. They remain visible for diagnostics but are not used as surface defaults.
