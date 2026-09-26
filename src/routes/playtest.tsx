@@ -188,6 +188,37 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
   </div>;
 }
 
+function DungeonMiniMap({ game, location, facing }: { game: AuthoredGame; location: AuthoredLocation; facing: Direction }) {
+  const xs=game.locations.map((room)=>room.x);
+  const ys=game.locations.map((room)=>room.y);
+  const minX=Math.min(...xs,0);
+  const maxX=Math.max(...xs,0);
+  const minY=Math.min(...ys,0);
+  const maxY=Math.max(...ys,0);
+  const cell=18;
+  const pad=8;
+  const width=(maxX-minX+1)*cell+pad*2;
+  const height=(maxY-minY+1)*cell+pad*2;
+  const point=(room:AuthoredLocation)=>({x:pad+(room.x-minX)*cell+cell/2,y:pad+(room.y-minY)*cell+cell/2});
+  const facingRotation:Record<Direction,number>={north:0,east:90,south:180,west:270};
+  return <svg className="play-minimap" viewBox={`0 0 ${width} ${height}`} aria-label="Minimap">
+    <rect width={width} height={height} className="minimap-bg"/>
+    {game.locations.flatMap((room)=>room.exits.map((id)=>{
+      const target=game.locations.find((candidate)=>candidate.id===id);
+      if(!target || room.id>target.id) return null;
+      const a=point(room), b=point(target);
+      return <line key={`${room.id}-${id}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y} className="minimap-link"/>;
+    }))}
+    {game.locations.map((room)=>{
+      const p=point(room);
+      const current=room.id===location.id;
+      return <g key={room.id} transform={`translate(${p.x},${p.y})`}>
+        <rect x={-5} y={-5} width={10} height={10} className={current ? "minimap-room current" : "minimap-room"}/>
+        {current && <polygon points="0,-8 4,2 -4,2" className="minimap-facing" transform={`rotate(${facingRotation[facing]})`}/>} 
+      </g>;
+    })}
+  </svg>;
+}
 function PlaytestPage() {
   const project = useKit((s) => s.project);
   const pack = useAssetPack((s) => s.pack);
@@ -304,43 +335,60 @@ function PlaytestPage() {
       <div className="toolbar"><Link className="file-button" to="/author">Dungeon bearbeiten</Link><Link className="file-button" to="/assets">Assets</Link><button onClick={reset}>Neu starten</button></div>
     </header>
 
-    <div className="crawler-layout">
-      <main className="crawler-main">
-        <DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} itemId={visibleItemIds[0]} pack={pack} openDoors={openDoors}/>
-        <div className="asset-runtime-status"><span>Asset-Pack</span><strong>{pack ? pack.manifest.name : "SVG-Fallback"}</strong>{game.assetPackId && !pack && <small>Projekt erwartet: {game.assetPackId}</small>}</div>
-        <div className="crawler-controls">
-          <button onClick={()=>setFacing(turnLeft(facing))} aria-label="Links drehen">↶<small>drehen</small></button>
-          <button onClick={()=>step(facing)} disabled={!encounterDone || defeated} aria-label="Vorwärts">↑<small>vor</small></button>
-          <button onClick={()=>setFacing(turnRight(facing))} aria-label="Rechts drehen">↷<small>drehen</small></button>
-          <span className="compass">{DIRECTION_LABELS[facing]}</span>
-          <button onClick={()=>step(turnBack(facing))} disabled={!encounterDone || defeated} aria-label="Rückwärts">↓<small>zurück</small></button>
-          {encounter && !encounterDone && !defeated && <button className="attack-button" onClick={attack}>⚔ Angriff <small>{currentEnemyHp}/{encounter.enemyHp} HP</small></button>}
-          {facingDoorClosed && encounterDone && !defeated && <button className="door-button" onClick={openFacingDoor}>🚪 Öffnen<small>{facingDoor?.keyItemId ? "Schlüssel prüfen" : "Tür"}</small></button>}
-        </div>
+    <div className="ishar-play-shell">
+      <div className="ishar-stage-row">
+        <main className="ishar-view-panel">
+          <DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} itemId={visibleItemIds[0]} pack={pack} openDoors={openDoors}/>
+          <div className="asset-runtime-status"><span>Asset-Pack</span><strong>{pack ? pack.manifest.name : "SVG-Fallback"}</strong>{game.assetPackId && !pack && <small>Projekt erwartet: {game.assetPackId}</small>}</div>
+        </main>
 
-        <div className="party-hud">
-          <article className={defeated ? "party-member defeated" : "party-member"}>
-            <div className="portrait-placeholder">{hero.name.slice(0,1).toUpperCase()}</div>
-            <div><strong>{hero.name}</strong><span>HP {heroHp}/{hero.hp}</span><div className="hp-track"><i style={{width:`${Math.max(0, Math.round(heroHp/hero.hp*100))}%`}}/></div></div>
-          </article>
-          <div className="party-empty">Party-Slot 2</div><div className="party-empty">Party-Slot 3</div><div className="party-empty">Party-Slot 4</div><div className="party-empty">Party-Slot 5</div>
-        </div>
+        <aside className="ishar-control-panel">
+          <div className="ishar-location-plaque">{location.name}</div>
+          <DungeonMiniMap game={game} location={location} facing={facing}/>
+          <div className="ishar-dpad" aria-label="Dungeon-Steuerung">
+            <span/>
+            <button onClick={()=>step(facing)} disabled={!encounterDone || defeated} aria-label="Vorwärts">▲</button>
+            <span/>
+            <button onClick={()=>setFacing(turnLeft(facing))} aria-label="Links drehen">◀</button>
+            <button className="dpad-center" onClick={()=>step(turnBack(facing))} disabled={!encounterDone || defeated} aria-label="Rückwärts">▼</button>
+            <button onClick={()=>setFacing(turnRight(facing))} aria-label="Rechts drehen">▶</button>
+          </div>
+          <div className="ishar-context-buttons">
+            {encounter && !encounterDone && !defeated && <button className="attack-button" onClick={attack}>⚔ Angriff <small>{currentEnemyHp}/{encounter.enemyHp}</small></button>}
+            {facingDoorClosed && encounterDone && !defeated && <button className="door-button" onClick={openFacingDoor}>🚪 Öffnen<small>{facingDoor?.keyItemId ? "Schlüssel" : "Tür"}</small></button>}
+          </div>
+          <div className="ishar-compass">Blick: <strong>{DIRECTION_LABELS[facing]}</strong></div>
+        </aside>
+      </div>
 
-        {visibleItemIds.length > 0 && !defeated && <div className="crawler-actions">{visibleItemIds.map((id)=>{
-          const item=game.items.find((x)=>x.id===id);
-          return <button key={id} onClick={()=>takeItem(id)}>{item?.name ?? id} aufnehmen</button>;
-        })}</div>}
+      <div className="ishar-party-strip">
+        {Array.from({length:5},(_,index)=>{
+          const member=game.characters[index];
+          const currentHp=index===0 ? heroHp : member?.hp ?? 0;
+          const maxHp=member?.hp ?? 1;
+          const ratio=member ? Math.max(0,Math.min(100,Math.round(currentHp/maxHp*100))) : 0;
+          return <article className={member ? "ishar-party-card" : "ishar-party-card empty"} key={member?.id ?? `empty-${index}`}>
+            <div className="ishar-action-tab">{member ? "ACTION" : "—"}</div>
+            <div className="ishar-portrait">{member ? member.name.slice(0,1).toUpperCase() : ""}</div>
+            <div className="ishar-party-name">{member?.name ?? `Slot ${index+1}`}</div>
+            <div className="ishar-life-row"><span>LIFE</span><div className="ishar-life-track"><i style={{width:`${ratio}%`}}/></div></div>
+          </article>;
+        })}
+      </div>
 
-        {defeated && <div className="crawler-message danger"><strong>Die Gruppe wurde besiegt.</strong><button onClick={reset}>Erneut versuchen</button></div>}
-        {won && <div className="crawler-message victory"><strong>Abschluss erreicht.</strong><span>Der Test gilt als abgeschlossen, du kannst dich aber weiterbewegen und den Dungeon weiter prüfen.</span></div>}
-      </main>
+      {visibleItemIds.length > 0 && !defeated && <div className="ishar-context-bar">{visibleItemIds.map((id)=>{
+        const item=game.items.find((x)=>x.id===id);
+        return <button key={id} onClick={()=>takeItem(id)}>{item?.name ?? id} aufnehmen</button>;
+      })}</div>}
+      {defeated && <div className="crawler-message danger"><strong>Die Gruppe wurde besiegt.</strong><button onClick={reset}>Erneut versuchen</button></div>}
+      {won && <div className="crawler-message victory"><strong>Abschluss erreicht.</strong><span>Du kannst dich für weitere Tests weiterbewegen.</span></div>}
+    </div>
 
-      <aside className="crawler-sidebar">
-        <section><p className="eyebrow">Raum</p><h2>{location.name}</h2><p>{location.description}</p></section>
-        <section><h3>Quest</h3>{game.quests.map((q)=><div className="quest-line" key={q.id}><strong>{q.title}</strong><span>{completedQuests.includes(q.id)?"erfüllt":"aktiv"}</span><p>{completedQuests.includes(q.id)?q.completedText:q.objective}</p></div>)}</section>
-        <section><h3>Inventar</h3>{inventory.length ? <ul>{inventory.map((id)=><li key={id}>{game.items.find((x)=>x.id===id)?.name ?? id}</li>)}</ul> : <p className="muted">leer</p>}</section>
-        <section><h3>Protokoll</h3><div className="game-log">{log.slice(0,6).map((line,i)=><p key={i}>{line}</p>)}</div></section>
-      </aside>
+    <div className="runtime-details">
+      <section><p className="eyebrow">Raum</p><h2>{location.name}</h2><p>{location.description}</p></section>
+      <section><h3>Quest</h3>{game.quests.map((q)=><div className="quest-line" key={q.id}><strong>{q.title}</strong><span>{completedQuests.includes(q.id)?"erfüllt":"aktiv"}</span><p>{completedQuests.includes(q.id)?q.completedText:q.objective}</p></div>)}</section>
+      <section><h3>Inventar</h3>{inventory.length ? <ul>{inventory.map((id)=><li key={id}>{game.items.find((x)=>x.id===id)?.name ?? id}</li>)}</ul> : <p className="muted">leer</p>}</section>
+      <section><h3>Protokoll</h3><div className="game-log">{log.slice(0,6).map((line,i)=><p key={i}>{line}</p>)}</div></section>
     </div>
   </section>;
 }
