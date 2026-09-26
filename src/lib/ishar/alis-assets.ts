@@ -142,7 +142,7 @@ function applyPaletteResource(
       // DOS ALIS uses 3-bit R/B and 4-bit G nibbles here. The interpreter
       // masks R/B with 0x07, not 0x0f.
       palette[at] = (first & 0x07) << 5;
-      palette[at + 1] = (second >> 4) << 4;
+      palette[at + 1] = (second >> 4) << 5;
       palette[at + 2] = (second & 0x07) << 5;
     }
     return { firstColor: 0, colorCount: 16 };
