@@ -710,8 +710,9 @@ Important safety/evidence boundary:
 
 Validation:
 
-- GitHub CI was triggered automatically by the implementation commits.
-- At handoff creation time both CI workflows had started and dependency installation was still running; final green/failure status must be checked on the latest handoff commit before cutting the next test artifact.
+- Code-bearing commit `501ce941473f5f98f6bb9f7fe69cb0e3efd83acb` passed both repository CI workflows.
+- Playable Slice CI passed typecheck, A1 fixtures, production build, production-server smoke test and artifact packaging.
+- The later handoff/NEXT_STEPS commits are documentation-only; their automatically triggered runs may still be queued while this handoff is written.
 
 Next implementation target:
 
