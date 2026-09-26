@@ -38,6 +38,7 @@ export interface IsharAutoImportReport {
   localPaletteOverlayImages: number;
   globalPaletteFallbackImages: number;
   alisPaletteSuspectAssets: number;
+  ishar2ScenePaletteRepairs: number;
   directImages: number;
   embeddedImages: number;
   mappedImages: number;
@@ -721,7 +722,7 @@ function chooseGlobalPalette(palettes: AlisPaletteResource[]) {
   return best;
 }
 
-function redDominance(image: AlisIndexedImage) {
+function redDominanceWithPalette(image: AlisIndexedImage, palette: Uint8Array) {
   if(!image.pixels.length) return 0;
   const stride=Math.max(1,Math.floor(image.pixels.length/2048));
   let strongRed=0;
@@ -730,9 +731,9 @@ function redDominance(image: AlisIndexedImage) {
     const index=image.pixels[i] ?? 0;
     if(image.transparentIndex===index) continue;
     const at=index*3;
-    const r=image.palette[at] ?? 0;
-    const g=image.palette[at+1] ?? 0;
-    const b=image.palette[at+2] ?? 0;
+    const r=palette[at] ?? 0;
+    const g=palette[at+1] ?? 0;
+    const b=palette[at+2] ?? 0;
     if(Math.max(r,g,b)<20) continue;
     visible++;
     if(r>=120 && r>g*1.7 && r>b*1.7) strongRed++;
@@ -740,8 +741,67 @@ function redDominance(image: AlisIndexedImage) {
   return visible ? strongRed/visible : 0;
 }
 
+function redDominance(image: AlisIndexedImage) {
+  return redDominanceWithPalette(image,image.palette);
+}
+
+function usedColorVarietyWithPalette(image: AlisIndexedImage, palette: Uint8Array) {
+  const colors=new Set<number>();
+  const stride=Math.max(1,Math.floor(image.pixels.length/2048));
+  for(let i=0;i<image.pixels.length;i+=stride){
+    const index=image.pixels[i] ?? 0;
+    if(image.transparentIndex===index) continue;
+    const at=index*3;
+    const r=palette[at] ?? 0;
+    const g=palette[at+1] ?? 0;
+    const b=palette[at+2] ?? 0;
+    colors.add((r<<16)|(g<<8)|b);
+    if(colors.size>=64) break;
+  }
+  return colors.size;
+}
+
 function isPaletteSuspect(image: AlisIndexedImage) {
   return redDominance(image)>=0.78 && paletteVariety(image)>=2;
+}
+
+function repairIshar2ScenePalettes(
+  images: AlisIndexedImage[],
+  palettes: AlisPaletteResource[],
+  base: AlisPaletteResource | undefined,
+) {
+  if(!base) return 0;
+  const scene=/^(?:DJ\d+|FDJ\d+|DJCAT|FDJCAT|DJDEC|DJTRAP|PCAVE|FOND\d+)\.IO$/i;
+  const candidates=palettes
+    .filter((palette)=>/(?:COL|PAL)/i.test(baseName(palette.sourcePath)))
+    .sort((a,b)=>b.colorCount-a.colorCount)
+    .slice(0,24);
+  if(!candidates.length) return 0;
+  let repaired=0;
+  for(const image of images){
+    if(!scene.test(baseName(image.sourcePath)) || !isPaletteSuspect(image)) continue;
+    const before=redDominance(image);
+    let bestPalette: Uint8Array | undefined;
+    let bestResource: AlisPaletteResource | undefined;
+    let best=before;
+    for(const candidate of candidates){
+      const trial=overlayPalette(base.palette,candidate);
+      if(usedColorVarietyWithPalette(image,trial)<3) continue;
+      const red=redDominanceWithPalette(image,trial);
+      if(red<best){
+        best=red;
+        bestPalette=trial;
+        bestResource=candidate;
+      }
+    }
+    if(bestPalette && bestResource && best<=before-0.25){
+      image.palette=bestPalette;
+      image.paletteSource="global";
+      image.paletteEntryIndex=bestResource.entryIndex;
+      repaired++;
+    }
+  }
+  return repaired;
 }
 
 export async function autoImportIsharZip(file: File): Promise<IsharAutoImportResult> {
@@ -848,6 +908,9 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     }
   }
 
+  const ishar2ScenePaletteRepairs=detectedGame==="ishar2"
+    ? repairIshar2ScenePalettes(alisImages,alisPalettes,globalPalette)
+    : 0;
   const alisTerrainTexturesExtracted=alisImages.filter((image)=>image.assetKind==="terrain").length;
   const alisFlatColorAssets=alisImages.filter(isFlatColorImage).length;
   const alisPaletteSuspectAssets=alisImages.filter(isPaletteSuspect).length;
@@ -1047,7 +1110,8 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       ? "Palettenbasis: "+paletteBase.label+(paletteBase.verified ? " · verifiziert." : " · heuristisch, bis der Skript-Palettenwechsel statisch rekonstruiert ist.")
       : "Keine belastbare Palettenbasis gefunden.",
     localPaletteOverlayImages ? localPaletteOverlayImages+" Bild(er) erhielten eine lokale Teil-/Szenenpalette über der gewählten Basis." : "Keine lokale Palettenüberlagerung war nötig.",
-    alisPaletteSuspectAssets ? alisPaletteSuspectAssets+" Bild(er) sind nach der aktuellen Palettenauflösung stark rot-dominiert und werden als Palette-offen markiert." : "Keine auffällig rot-dominierte Palette erkannt.",
+    ishar2ScenePaletteRepairs ? ishar2ScenePaletteRepairs+" rot-dominierte Ishar-2-Szenengrafik(en) konnten durch COL/PAL-Kontext plausibler aufgelöst werden." : "Keine Ishar-2-Szenengrafik benötigte oder bestand den konservativen COL/PAL-Reparaturtest.",
+    alisPaletteSuspectAssets ? alisPaletteSuspectAssets+" Bild(er) sind nach der aktuellen Palettenauflösung weiterhin stark rot-dominiert und werden als Palette-offen markiert." : "Keine auffällig rot-dominierte Palette erkannt.",
     alisTerrainTexturesExtracted ? alisTerrainTexturesExtracted+" echte ALIS-Terraintextur(en) im Format 0x1C/0x1E wurden extrahiert." : ((alisResourceFormatCounts["0x1c"]??0)+(alisResourceFormatCounts["0x1e"]??0) ? "0x1C/0x1E-Header wurden gesehen, aber keine Terraintextur konnte gültig decodiert werden." : "In den gelesenen Grafiktabellen existiert kein einziger 0x1C/0x1E-Eintrag; der Terrainpfad liegt damit noch außerhalb unserer aktuellen Tabellen-Auswertung."),
     alisFlatColorAssets ? alisFlatColorAssets+" nahezu einfarbige Ressource(n) wurden als Diagnose-/Maskenkandidaten markiert und bei der Dungeon-Texturwahl abgewertet." : "Keine auffällig einfarbigen ALIS-Bilder erkannt.",
     globalPaletteFallbackImages ? globalPaletteFallbackImages+" Bild(er) ohne vorausgehende lokale Palette verwenden die gewählte Spiel-/Szenenbasis." : "Keine globale Palettenbasis musste direkt verwendet werden.",
@@ -1083,6 +1147,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     localPaletteOverlayImages,
     globalPaletteFallbackImages,
     alisPaletteSuspectAssets,
+    ishar2ScenePaletteRepairs,
     directImages,
     embeddedImages,
     mappedImages,
