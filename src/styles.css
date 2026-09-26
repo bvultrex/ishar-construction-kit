@@ -186,3 +186,11 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .asset-quick-map{display:grid;grid-template-columns:repeat(2,1fr);gap:4px;margin-top:3px}.asset-quick-map button{padding:5px 4px;font-size:9px}
 @media (max-width:980px){.ishar-stage-row{grid-template-columns:1fr}.ishar-control-panel{display:grid;grid-template-columns:1fr 1fr;align-items:center}.ishar-location-plaque,.ishar-compass{grid-column:1/3}.play-minimap{min-height:120px}.ishar-party-strip{grid-template-columns:repeat(5,minmax(105px,1fr));overflow-x:auto}.runtime-details{grid-template-columns:1fr 1fr}}
 @media (max-width:620px){.ishar-control-panel{grid-template-columns:1fr}.ishar-location-plaque,.ishar-compass{grid-column:auto}.runtime-details{grid-template-columns:1fr}.ishar-party-strip{grid-template-columns:repeat(5,110px)}}
+
+
+/* Per-room imported surface selection */
+.room-surface-picker{margin:12px 0;border:1px solid #4a392c;background:#0f0c09;padding:10px;display:grid;gap:9px}
+.surface-picker-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.surface-picker-head strong{font-family:Georgia,serif;color:#d2ad7d}.surface-picker-head span{color:#8f8270;font-size:10px}
+.surface-select{display:grid;grid-template-columns:58px 1fr;gap:6px 8px;align-items:center}.surface-select>span{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#9c8b74}.surface-select select{min-width:0;background:#0b0907;color:#e8dcc4;border:1px solid #574331;padding:7px}
+.surface-preview{grid-column:2;display:grid;grid-template-columns:64px minmax(0,1fr);gap:7px;align-items:center}.surface-preview img{width:64px;height:48px;object-fit:contain;background:#050403;border:1px solid #35291f;image-rendering:pixelated}.surface-preview code{font-size:9px;color:#756b5e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:620px){.surface-select{grid-template-columns:1fr}.surface-preview{grid-column:1}}
