@@ -2,7 +2,7 @@ import JSZip from "jszip";
 import { classifyFile } from "./classify";
 import { PACKER_NEW, unpackSilm } from "./silm-pack";
 import type { DiscoveredAssetPreview, LoadedAssetPack } from "./asset-pack";
-import { extractAlisIndexedImages, type AlisIndexedImage } from "./alis-assets";
+import { extractAlisIndexedImages, type AlisIndexedImage, type AlisPaletteResource } from "./alis-assets";
 import type { DungeonAssetEntry, DungeonAssetManifest, DungeonAssetRole, FileRecord, GameId } from "./types";
 import { renderProfileForGame } from "./render-profile";
 
@@ -26,6 +26,9 @@ export interface IsharAutoImportReport {
   alisImagesExtracted: number;
   alisImagesRejected: number;
   alisImagesSkippedForBudget: number;
+  alisPaletteResources: number;
+  alisCompositeResources: number;
+  globalPaletteFallbackImages: number;
   directImages: number;
   embeddedImages: number;
   mappedImages: number;
@@ -381,6 +384,37 @@ async function indexedImageToPngBlob(image: AlisIndexedImage): Promise<Blob> {
   return new Promise((resolve,reject)=>canvas.toBlob((blob)=>blob ? resolve(blob) : reject(new Error("PNG-Konvertierung fehlgeschlagen.")),"image/png"));
 }
 
+
+function paletteColorfulness(palette: Uint8Array) {
+  let score=0;
+  let colored=0;
+  for(let index=0;index<256;index++){
+    const at=index*3;
+    const r=palette[at] ?? 0;
+    const g=palette[at+1] ?? 0;
+    const b=palette[at+2] ?? 0;
+    const max=Math.max(r,g,b);
+    const min=Math.min(r,g,b);
+    const chroma=max-min;
+    if(chroma>12) colored++;
+    score+=chroma;
+  }
+  return score + colored*24;
+}
+
+function chooseGlobalPalette(palettes: AlisPaletteResource[]) {
+  let best: AlisPaletteResource | undefined;
+  let bestScore=-1;
+  for(const palette of palettes){
+    const score=paletteColorfulness(palette.palette)+(palette.colorCount>=128 ? 2500 : palette.colorCount*8);
+    if(score>bestScore){
+      best=palette;
+      bestScore=score;
+    }
+  }
+  return best;
+}
+
 export async function autoImportIsharZip(file: File): Promise<IsharAutoImportResult> {
   const zip=await JSZip.loadAsync(file);
   const entries=Object.values(zip.files).filter((entry)=>!entry.dir && !SKIP.test(entry.name));
@@ -397,6 +431,8 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
 
   const foundImages: FoundImage[]=[];
   const alisImages: AlisIndexedImage[]=[];
+  const alisPalettes: AlisPaletteResource[]=[];
+  let alisCompositeResources=0;
   let alisTablesFound=0;
   let alisImagesRejected=0;
   let directImages=0;
@@ -429,6 +465,8 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
           const extracted=extractAlisIndexedImages(unpacked.data,record.path,true);
           if(extracted.tableFound) alisTablesFound++;
           alisImagesRejected+=extracted.rejectedImages;
+          alisPalettes.push(...extracted.palettes);
+          alisCompositeResources+=extracted.composites.length;
           alisImages.push(...extracted.images);
         }
       } else {
@@ -441,7 +479,21 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       const extracted=extractAlisIndexedImages(bytes,record.path,false);
       if(extracted.tableFound) alisTablesFound++;
       alisImagesRejected+=extracted.rejectedImages;
+      alisPalettes.push(...extracted.palettes);
+      alisCompositeResources+=extracted.composites.length;
       alisImages.push(...extracted.images);
+    }
+  }
+
+  const globalPalette=chooseGlobalPalette(alisPalettes);
+  let globalPaletteFallbackImages=0;
+  if(globalPalette){
+    for(const image of alisImages){
+      if(image.paletteSource!=="default") continue;
+      image.palette=globalPalette.palette.slice();
+      image.paletteSource="global";
+      image.paletteEntryIndex=globalPalette.entryIndex;
+      globalPaletteFallbackImages++;
     }
   }
 
@@ -582,6 +634,9 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     decodedOldPacker ? decodedOldPacker+" Datei(en) mit altem Silmarils-Packer wurden für die Bildsuche entpackt." : "Keine Old-Packer-Ressource musste entpackt werden.",
     decodedA1Packer ? decodedA1Packer+" A1/New-Packer-Datei(en) wurden mit dem bounded DOS-Decoder entpackt." : "Keine A1-Ressource konnte decodiert werden.",
     failedPackedDecode ? failedPackedDecode+" gepackte Datei(en) konnten trotz erkanntem Header nicht sicher decodiert werden." : "Alle erkannten gepackten Ressourcen wurden decodiert.",
+    alisPalettes.length ? alisPalettes.length+" ALIS-Palettenressource(n) wurden rekonstruiert; partielle Paletten-Offsets werden berücksichtigt." : "Keine ALIS-Palette wurde statisch gefunden.",
+    globalPaletteFallbackImages ? globalPaletteFallbackImages+" Bild(er) ohne eigene Palette verwenden die farbigste rekonstruierte globale Palette als Fallback." : "Keine globale Palette musste als Fallback verwendet werden.",
+    alisCompositeResources ? alisCompositeResources+" ALIS-Composite-Ressource(n) referenzieren mehrere gestapelte Grafikbausteine." : "Keine ALIS-Composite-Ressource erkannt.",
     alisImages.length ? alisImages.length+" proprietäre ALIS-Bildressource(n) wurden aus den decodierten Skripten extrahiert." : "In den decodierten Skripten wurde noch keine unterstützte ALIS-Bildressource gefunden.",
     defaultAssignments.length ? defaultAssignments.length+" Standard-Dungeon-Rolle(n) wurden heuristisch als sofort nutzbares Default-Tileset belegt." : "Kein ausreichend plausibles Default-Dungeon-Tileset konnte gewählt werden.",
     mappedImages ? mappedImages+" Bild(er) wurden anhand eindeutiger Dateinamen automatisch katalogisiert/zugeordnet." : "Noch keine weitere Grafik konnte sicher einer Engine-Rolle zugeordnet werden; der SVG-Fallback bleibt aktiv.",
@@ -600,6 +655,9 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     alisImagesExtracted: alisImages.length,
     alisImagesRejected,
     alisImagesSkippedForBudget,
+    alisPaletteResources: alisPalettes.length,
+    alisCompositeResources,
+    globalPaletteFallbackImages,
     directImages,
     embeddedImages,
     mappedImages,
