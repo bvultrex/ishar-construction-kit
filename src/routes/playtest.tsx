@@ -119,6 +119,16 @@ function semanticItemAssetId(
   const explicit=depth===0 ? (item.assetNearId ?? item.assetId) : depth===1 ? item.assetMidId : item.assetFarId;
   if(explicit && pack.discoveredAssets?.some((asset)=>asset.id===explicit)) return explicit;
 
+  // If the author selected only one member of a detected distance family,
+  // recover its siblings automatically instead of stretching one sprite.
+  const anchorId=item.assetNearId ?? item.assetMidId ?? item.assetFarId ?? item.assetId;
+  const anchor=anchorId ? pack.discoveredAssets?.find((asset)=>asset.id===anchorId) : undefined;
+  if(anchor?.distanceSetId){
+    const wantedRole=depth===0 ? "near" : depth===1 ? "mid" : "far";
+    const sibling=pack.discoveredAssets?.find((asset)=>asset.distanceSetId===anchor.distanceSetId && asset.distanceRole===wantedRole);
+    if(sibling) return sibling.id;
+  }
+
   const name=(item.name+" "+item.description).toLowerCase();
   if(/schl[uü]ssel|\bkey\b/.test(name) && pack.manifest.renderProfileId==="ishar2-dos"){
     const entry=[69,70,71][depth]!;
