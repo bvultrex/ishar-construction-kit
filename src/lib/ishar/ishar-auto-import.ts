@@ -39,8 +39,6 @@ export interface IsharAutoImportReport {
   globalPaletteFallbackImages: number;
   alisPaletteSuspectAssets: number;
   ishar2ScenePaletteRepairs: number;
-  ishar2ModulePaletteRepairs: number;
-  ishar2ModulePaletteRepairModules: string[];
   directImages: number;
   embeddedImages: number;
   mappedImages: number;
