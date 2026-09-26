@@ -293,7 +293,7 @@ function AuthorPage() {
                 return <label key={field}>{label}
                   <select value={selectedId ?? ""} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,[field]:e.target.value || undefined,...(field==="assetNearId"?{assetId:undefined}:{})}:x)})}>
                     <option value="">Automatik / Fallback</option>
-                    {itemAssetCandidates.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}
+                    {itemAssetCandidates.map((asset)=><option key={asset.id} value={asset.id}>{asset.knownUse ? asset.knownUse+" · " : ""}{asset.path} · {asset.width}×{asset.height}</option>)}
                   </select>
                   {selectedAsset && <div className="surface-preview"><img src={selectedAsset.url} alt=""/><code>{selectedAsset.path}</code></div>}
                 </label>;
