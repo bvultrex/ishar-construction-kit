@@ -7,6 +7,7 @@ import { canTravel, doorBetween, DIRECTION_LABELS, turnBack, turnLeft, turnRight
 import { validateGame } from "@/lib/ishar/project-validation";
 import type { AuthoredEncounter, AuthoredGame, AuthoredLocation, Direction, DungeonAssetDepth, DungeonAssetRole } from "@/lib/ishar/types";
 import type { LoadedAssetPack } from "@/lib/ishar/asset-pack";
+import { displayAspect, renderProfileForManifest, sourceScale } from "@/lib/ishar/render-profile";
 
 export const Route = createFileRoute("/playtest")({ component: PlaytestPage });
 
@@ -55,8 +56,10 @@ function texturePattern(
   asset: NonNullable<ReturnType<typeof assetFor>>,
   patternId: string,
 ) {
-  const tileWidth=asset.entry.tileWidth ?? 64;
-  const tileHeight=asset.entry.tileHeight ?? 64;
+  const profile=renderProfileForManifest(pack.manifest);
+  const scale=sourceScale(profile);
+  const tileWidth=(asset.entry.tileWidth ?? 64)*scale.x;
+  const tileHeight=(asset.entry.tileHeight ?? 64)*scale.y;
   return <pattern id={patternId} patternUnits="userSpaceOnUse" width={tileWidth} height={tileHeight}>
     <image href={asset.url} x="0" y="0" width={tileWidth} height={tileHeight} preserveAspectRatio="xMidYMid slice"/>
   </pattern>;
@@ -107,6 +110,8 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
   pack: LoadedAssetPack | null;
   openDoors: string[];
 }) {
+  const renderProfile=renderProfileForManifest(pack?.manifest);
+  const viewportAspect=displayAspect(renderProfile);
   const segments: React.ReactNode[] = [];
   let cell: AuthoredLocation | undefined = location;
 
@@ -156,8 +161,8 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
   const encounterLayer = encounter && !encounterDone ? renderAsset(pack, "encounter", undefined, location.tilesetId, encounter.id) : null;
   const itemLayer = itemId ? renderAsset(pack, "item", undefined, location.tilesetId, itemId) : null;
 
-  return <div className="dungeon-viewport">
-    <svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid meet" aria-label={`Blick nach ${DIRECTION_LABELS[facing]}`}>
+  return <div className="dungeon-viewport" style={{aspectRatio:String(viewportAspect)}} data-render-profile={renderProfile.id}>
+    <svg viewBox="0 0 640 400" preserveAspectRatio="none" aria-label={`Blick nach ${DIRECTION_LABELS[facing]}`}>
       <rect width="640" height="400" className="dungeon-dark"/>
       {renderAsset(pack, "viewport.background", undefined, location.tilesetId)}
       {segments}
@@ -178,6 +183,7 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
       </g>)}
     </svg>
     <div className="viewport-topbar"><span>{location.name}</span><strong>{DIRECTION_LABELS[facing]}</strong></div>
+    <div className="viewport-profile">{renderProfile.label} · {renderProfile.drawWidth}×{renderProfile.drawHeight}</div>
     {encounter && !encounterDone && <div className="enemy-hud"><strong>{encounter.name}</strong><span>im Weg</span></div>}
   </div>;
 }
