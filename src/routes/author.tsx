@@ -71,6 +71,12 @@ function AuthorPage() {
   const terrainCandidates = allSurfaceCandidates.filter((asset)=>asset.assetKind==="terrain");
   const textureCandidates = terrainCandidates.length ? terrainCandidates : allSurfaceCandidates;
   const assetById = (id?: string) => id ? pack?.discoveredAssets?.find((asset)=>asset.id===id) : undefined;
+  const itemAssetCandidates = (pack?.discoveredAssets ?? []).filter((asset)=>{
+    if(asset.source!=="alis" || asset.assetKind==="composite" || asset.visualStatus!=="normal") return false;
+    if(!asset.width || !asset.height) return false;
+    const path=asset.path.toUpperCase();
+    return path.includes("OBJET.IO") || asset.suggestedRole==="item";
+  });
 
   function setGame(next: AuthoredGame) {
     setProject({ ...project, game: next });
@@ -270,10 +276,20 @@ function AuthorPage() {
 
       <article className="editor-panel">
         <h2>Items</h2>
-        {game.items.map((item) => <div key={item.id} className="author-block">
-          <label>Name<input value={item.name} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,name:e.target.value}:x)})}/></label>
-          <label>Beschreibung<textarea rows={3} value={item.description} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,description:e.target.value}:x)})}/></label>
-        </div>)}
+        {game.items.map((item) => {
+          const selectedAsset=assetById(item.assetId);
+          return <div key={item.id} className="author-block">
+            <label>Name<input value={item.name} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,name:e.target.value}:x)})}/></label>
+            <label>Beschreibung<textarea rows={3} value={item.description} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,description:e.target.value}:x)})}/></label>
+            {pack && <label>Grafik
+              <select value={item.assetId ?? ""} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,assetId:e.target.value || undefined}:x)})}>
+                <option value="">Automatik / Fallback</option>
+                {itemAssetCandidates.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}
+              </select>
+              {selectedAsset && <div className="surface-preview"><img src={selectedAsset.url} alt=""/><code>{selectedAsset.path}</code></div>}
+            </label>}
+          </div>;
+        })}
       </article>
 
       <article className="editor-panel">
