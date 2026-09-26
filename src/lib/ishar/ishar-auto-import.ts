@@ -197,44 +197,72 @@ function bestByScore(images: AlisIndexedImage[], role: DungeonAssetRole, preferr
   return best;
 }
 
+function chooseSeamlessTextureSet(images: AlisIndexedImage[]) {
+  const eligible = images.filter((image) => {
+    const ratio = image.width / image.height;
+    return image.width >= 12 && image.height >= 12
+      && image.width <= 160 && image.height <= 160
+      && ratio >= 0.62 && ratio <= 1.62
+      && transparentRatio(image) <= 0.03
+      && textureFitness(image) >= 30
+      && !ENTITY_SOURCE.test(image.sourcePath);
+  });
+  const bySource = new Map<string, AlisIndexedImage[]>();
+  for (const image of eligible) bySource.set(image.sourcePath, [...(bySource.get(image.sourcePath) ?? []), image]);
+  let best: { source: string; images: AlisIndexedImage[]; score: number } | undefined;
+  for (const [source, candidates] of bySource) {
+    const ranked = [...candidates].sort((a,b)=>textureFitness(b)-textureFitness(a));
+    const top = ranked.slice(0, 6);
+    let score = top.slice(0,3).reduce((sum,image)=>sum+textureFitness(image),0);
+    if (DUNGEON_SOURCE.test(source)) score += 35;
+    if (top.length >= 3) score += 18;
+    if (!best || score > best.score) best = { source, images: ranked, score };
+  }
+  return best;
+}
 function chooseDefaultDungeonAssets(images: AlisIndexedImage[], game: GameId): IsharDefaultAssignment[] {
   if (!images.length) return [];
-  const sourceScores = new Map<string, number>();
-  for (const image of images) {
-    if (ENTITY_SOURCE.test(image.sourcePath)) continue;
-    let score = Math.max(0, textureFitness(image));
-    if (DUNGEON_SOURCE.test(image.sourcePath)) score += 18;
-    if (/(wall|mur|floor|sol|door|porte|ceiling|plafond|decor|dungeon|donjon|crypt|crypte)/i.test(image.sourcePath)) score += 22;
-    sourceScores.set(image.sourcePath, (sourceScores.get(image.sourcePath) ?? 0) + score);
-  }
-  const preferredSource = [...sourceScores.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
   const assignments: IsharDefaultAssignment[] = [];
-  const add = (role: DungeonAssetRole, pick: { image: AlisIndexedImage; score: number } | undefined, reason: string, threshold = 55) => {
-    if (!pick) return;
+  const add = (role: DungeonAssetRole, image: AlisIndexedImage | undefined, score: number, reason: string, threshold = 55) => {
+    if (!image) return;
     assignments.push({
       role,
-      sourcePath: pick.image.sourcePath,
-      entryIndex: pick.image.entryIndex,
-      confidence: pick.score >= threshold ? "probable" : "possible",
-      reason: reason + " (Score " + Math.round(pick.score) + "; " + pick.image.width + "×" + pick.image.height + ").",
+      sourcePath: image.sourcePath,
+      entryIndex: image.entryIndex,
+      confidence: score >= threshold ? "probable" : "possible",
+      reason: reason + " (Score " + Math.round(score) + "; " + image.width + "×" + image.height + ").",
     });
   };
 
-  const wall = bestByScore(images, "wall.front", preferredSource, 38, game);
-  const explicitFloor = bestByScore(images.filter((image) => /(floor|ground|sol|dalle|pave|pavement)/i.test(image.sourcePath)), "surface.floor", preferredSource, 45, game);
-  const explicitCeiling = bestByScore(images.filter((image) => /(ceiling|plafond|sky|ciel|roof|toit|voute)/i.test(image.sourcePath)), "surface.ceiling", preferredSource, 45, game);
-  const floor = explicitFloor ?? wall;
-  const ceiling = explicitCeiling ?? wall;
-  const door = bestByScore(images, "door.front.closed", preferredSource, 28, game);
-  const background = bestByScore(images, "viewport.background", preferredSource, 58, game);
+  // First preference: three repeatable opaque tiles from one ALIS source group.
+  // This is much safer for Ishar-like brick wall/floor/roof rendering than
+  // stretching a complete room/background or a tall decorative sprite.
+  const set = chooseSeamlessTextureSet(images);
+  const wall = set?.images[0];
+  const floor = set?.images[1] ?? wall;
+  const ceiling = set?.images[2] ?? wall;
+  if (wall) {
+    const base = textureFitness(wall) + (DUNGEON_SOURCE.test(wall.sourcePath) ? 24 : 0);
+    add("wall.front", wall, base, "repeatable ALIS texture from coherent dungeon set");
+    add("wall.left", wall, base, "same repeatable base texture for left wall");
+    add("wall.right", wall, base, "same repeatable base texture for right wall");
+  }
+  if (floor) add("surface.floor", floor, textureFitness(floor), "second repeatable tile from the same ALIS texture group", 44);
+  if (ceiling) add("surface.ceiling", ceiling, textureFitness(ceiling), "third repeatable tile from the same ALIS texture group", 44);
 
-  add("wall.front", wall, "opak, kachelbar und Dungeon-/Wandkontext");
-  add("wall.left", wall, "gleiche Basistexur für linke Wand");
-  add("wall.right", wall, "gleiche Basistexur für rechte Wand");
-  add("surface.floor", floor, explicitFloor ? "expliziter Boden-Kandidat" : "kohärenter Fallback auf Basistexur");
-  add("surface.ceiling", ceiling, explicitCeiling ? "expliziter Decken/Himmel-Kandidat" : "kohärenter Fallback auf Basistexur");
-  add("door.front.closed", door, "Tür-/Portal-Kontext plus Hochformat/Transparenz", 62);
-  add("viewport.background", background, "Drawspace-/Hintergrundkandidat passend zum Spielprofil", 72);
+  // Door auto-mapping is intentionally strict. Shape alone is not enough.
+  const explicitDoorImages = images.filter((image)=>/(door|porte|gate|portal|grille|entry|entree)/i.test(image.sourcePath));
+  const door = bestByScore(explicitDoorImages, "door.front.closed", set?.source, 50, game);
+  if (door) add("door.front.closed", door.image, door.score, "explicit door/portal source context", 62);
+
+  // For an interior dungeon we deliberately do NOT assign a generic full-screen
+  // background. It previously masked the textured perspective and made every
+  // room look like one constant scene. Only explicit sky/background resources
+  // are allowed to become a viewport background.
+  const explicitBackgrounds = images.filter((image)=>/(sky|ciel|background|backdrop|fond|landscape|horizon)/i.test(image.sourcePath));
+  const background = bestByScore(explicitBackgrounds, "viewport.background", set?.source, 75, game);
+  if (background) add("viewport.background", background.image, background.score, "explicit sky/background source", 82);
+
   return assignments;
 }
 function defaultChoiceKey(sourcePath:string,entryIndex:number){
