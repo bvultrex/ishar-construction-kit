@@ -859,3 +859,13 @@ Optional local server boot source: set ISHAR_LOCAL_ZIP to a local ZIP path befor
 Validation: npm run typecheck, test:a1, test:palettes, test:scenes and production build pass. Real Ishar2.zip loaded on page startup: 187 files, 3 tilesets, 284 layers, 24 dungeon walls, 2002 discovered previews, 0 missing entries. Direct navigation to /playtest restored the pack from browser cache and showed original ornamented side walls plus front wall. User-visible movement log reached Vorhalle; open side branches remained visible. Local preview runs on port 4175 with D:\Downloads\Ishar2.zip configured. Commit uses command-local Codex identity (repository has no user identity); no push.
 
 Next: reconstruct original camera/screen parameters, scene variants and decor placement conditions before increasing automatic assignments. Add dedicated cache race/quota regression tests; current cache restore was checked in the real browser. Keep manual source overrides authoritative.
+
+## 2026-09-26 — Wall transition correction and catalog clarification
+
+User screenshots exposed gaps/stepped silhouettes: source side sprites have asymmetric transparency and empty padding columns (DJ1 #48 child1 has entirely transparent last column; #50 child3 has several). Mapping the full rectangle to a CK perspective band preserved that padding as a gap. Added wall-fitting.ts: exclude fully transparent columns, remap each visible vertical span to the shared near/far frame boundaries, nearest-neighbor sampling. This is explicitly a CK camera adaptation, not recovered original projection. Source pixel files and diagnostic gallery previews are unchanged; texture motifs between separately authored distance levels can still differ.
+
+Cache sceneLayoutVersion 2 upgrades only auto-generated DJ1/DJ2 wall IDs, preserving user-authored rooms, overrides and other assets; upgraded pack goes through the serialized store writer. Fresh imports use the same fitter. No original game bytes committed.
+
+Compared indexed child-image bytes for all eight DJ1/DJ2 pairs (47–50/35–38 and 59–62/47–50): all differ. Same dimensions do not imply duplicates. Runtime-assigned composites sort ahead of the other composite entries; these were not second copies added to the catalog. Gallery labels now distinguish active wall composites from component-based previews. Single bitmap resources remain separately catalogued for provenance.
+
+Validation: typecheck, A1 fixtures, palette regressions, scene assignment and new mirrored near/far boundary tests, production build pass. Real cached pack migrated on /playtest; screenshot shows continuous fitted wall silhouettes without the former transparent strips. Exact original camera, doors, floor/ceiling and remaining decor stay open tasks.

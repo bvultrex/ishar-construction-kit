@@ -22,6 +22,7 @@ export interface DiscoveredAssetPreview {
 }
 
 export interface LoadedAssetPack {
+  sceneLayoutVersion?: number;
   manifest: DungeonAssetManifest;
   urls: Record<string, string>;
   paths: Record<string, string>;

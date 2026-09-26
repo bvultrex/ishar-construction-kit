@@ -1,3 +1,4 @@
+import { fitWallBlob } from "./wall-fitting";
 import { dungeonSceneAssignments, dungeonSpritePosition } from "./dungeon-scenes";
 import { resolveIshar2Palettes } from "./palette-resolution";
 import JSZip from "jszip";
@@ -1082,7 +1083,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
         file:`${composite.sourcePath}#scene-${composite.entryIndex}.png`,renderMode:"layer",
         x:a.x*profile.drawWidth/640,y:a.y*profile.drawHeight/400,
         width:a.width*profile.drawWidth/640,height:a.height*profile.drawHeight/400};
-      urls[id]=URL.createObjectURL(rendered.blob); paths[id]=entry.file;
+      urls[id]=URL.createObjectURL(await fitWallBlob(rendered.blob,a.role,a.depth)); paths[id]=entry.file;
       const entries=sceneEntries.get(a.tilesetId)??[]; entries.push(entry);
       sceneEntries.set(a.tilesetId,entries);
     }
@@ -1190,6 +1191,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   };
 
   const pack: LoadedAssetPack={
+    sceneLayoutVersion:2,
     manifest,
     urls,
     paths,

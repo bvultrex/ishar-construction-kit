@@ -218,7 +218,7 @@ function AssetsPage() {
             {asset.visualStatus==="flat-color" && <span className="badge unknown">einfarbig / Maske?</span>}
             {asset.visualStatus==="palette-suspect" && <span className="badge suspected">Rotanteil prüfen</span>}
           </div>
-          {asset.assetKind==="composite" ? <small className="muted">Zusammengesetzte Vorschau aus mehreren ALIS-Grafikbausteinen. Noch nicht als kachelbare Oberfläche behandeln.</small> : asset.visualStatus!=="flat-color" && asset.visualStatus!=="palette-suspect" ? <div className="asset-quick-map">
+          {asset.assetKind==="composite" ? <small className="muted">{asset.runtimeAssigned ? "Im Playtest aktiv · zusammengesetzte Wandebene. DJ1 und DJ2 sind unterschiedliche Varianten." : "Composite-Ressource aus referenzierten Einzelgrafiken; diese bleiben separat im Katalog. Keine kachelbare Oberfläche."}</small> : asset.visualStatus!=="flat-color" && asset.visualStatus!=="palette-suspect" ? <div className="asset-quick-map">
             <button onClick={()=>assignPreview(asset,"dungeon-base")}>Basis</button>
             <button className="secondary" onClick={()=>assignPreview(asset,"wall.front")}>Wand</button>
             <button className="secondary" onClick={()=>assignPreview(asset,"surface.floor")}>Boden</button>

@@ -1,3 +1,4 @@
+import { fitWallBlob } from "./ishar/wall-fitting";
 import type { LoadedAssetPack } from "./ishar/asset-pack";
 
 type CachedPack = { pack: LoadedAssetPack; blobs: Record<string,Blob> };
@@ -33,6 +34,16 @@ export const deleteCachedPack=()=>transact("readwrite",s=>s.delete("active"));
 export async function readCachedPack():Promise<LoadedAssetPack|null> {
   const cached=await transact<CachedPack|undefined>("readonly",s=>s.get("active"));
   if(!cached) return null;
+  // Upgrade decoded wall blobs in-place; preserve all project and manual assignments.
+  if((cached.pack.sceneLayoutVersion??1)<2) {
+    for(const tileset of cached.pack.manifest.tilesets) for(const entry of tileset.entries) {
+      if(!/^ishar2-dj[12]-wall\.(left|right|front)-[0-3]$/.test(entry.id) || entry.depth===undefined) continue;
+      const url=cached.pack.urls[entry.id];
+      if(url && cached.blobs[url]) cached.blobs[url]=await fitWallBlob(cached.blobs[url]!,entry.role,entry.depth);
+    }
+    cached.pack.sceneLayoutVersion=2;
+    // Persistence happens through the store's serialized writer after restoration.
+  }
   const urls:Record<string,string>={};
   for(const [old,blob] of Object.entries(cached.blobs)) urls[old]=URL.createObjectURL(blob);
   return {...cached.pack,urls:Object.fromEntries(Object.entries(cached.pack.urls).map(([id,url])=>[id,urls[url]!])),

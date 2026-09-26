@@ -59,6 +59,7 @@ export const useAssetPack = create<AssetPackState>((set,get)=>({
         }
         if(version!==revision){revokeAssetPack(pack);return;}
         set({pack,cacheStatus:pack ? "Assets automatisch aus lokalem Browser-Cache geladen." : ""});
+        if(pack) persist(pack,version);
       } catch {if(version===revision) set({cacheStatus:"Kein Zugriff auf den lokalen Asset-Cache."});}
     })();
     return restoring;

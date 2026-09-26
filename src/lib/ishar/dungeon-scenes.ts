@@ -32,3 +32,11 @@ export function dungeonSceneAssignments(sourcePath: string, index: number) {
 export function dungeonSpritePosition(x:number,z:number,width:number,height:number) {
   return {x:x-Math.floor(width/2),y:-z-Math.floor(height/2)};
 }
+
+// CK camera adaptation, deliberately not an assertion about the original camera.
+export function wallColumnEdges(depth:number,left:boolean,column:number,width:number) {
+  const outer=DUNGEON_FRAMES[depth]!, inner=DUNGEON_FRAMES[depth+1]!;
+  const fraction=column/width;
+  const t=left ? fraction : 1-fraction;
+  return {top:(inner.t-outer.t)*t,bottom:outer.b-outer.t+(inner.b-outer.b)*t};
+}
