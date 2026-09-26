@@ -142,3 +142,8 @@ The original-archive import path now includes a bounded DOS A1/New-Packer decode
 ## 2026-09-26 automatic dungeon defaults
 
 After the first successful Ishar 2 extraction (141 A1 decoded, 2,244 ALIS images), the importer now builds an immediate default dungeon tileset from heuristically ranked original resources. Wall/floor/ceiling assets are rendered as tiled SVG textures clipped to the existing perspective geometry, so a successful ZIP import produces a visible Playtest change even before exact original resource IDs are fully mapped. The Asset Lab exposes every automatic role choice with its source ALIS entry and confidence for iterative verification.
+
+
+## 2026-09-26 — game-specific visual dimensions
+
+Original-archive rendering now has explicit DOS profiles instead of assuming the Construction Kit's generic 640×400 viewport. Ishar 1 uses a 256×126 active drawspace and Ishar 2 a 256×113 active drawspace inside their 320×200 screens. Imported packs carry the corresponding profile and pixel-aspect metadata; Playtest derives visible aspect and native texture scale from it. Asset auto-selection now evaluates indexed-image opacity, aspect, edge continuity and palette variety to reduce false wall/floor/ceiling matches.
