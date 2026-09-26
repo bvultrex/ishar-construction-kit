@@ -78,6 +78,22 @@ function AuthorPage() {
     return path.includes("OBJET.IO") || asset.suggestedRole==="item";
   });
 
+  function applyDistanceSet(itemId: string, setId: string) {
+    const members=(pack?.discoveredAssets ?? []).filter((asset)=>asset.distanceSetId===setId);
+    const near=members.find((asset)=>asset.distanceRole==="near")?.id;
+    const mid=members.find((asset)=>asset.distanceRole==="mid")?.id;
+    const far=members.find((asset)=>asset.distanceRole==="far")?.id;
+    if(!near || !mid || !far) return;
+    setGame({
+      ...game,
+      items: game.items.map((item)=>item.id===itemId
+        ? {...item,assetId:undefined,assetNearId:near,assetMidId:mid,assetFarId:far}
+        : item),
+    });
+    const label=members[0]?.distanceSetLabel ?? setId;
+    setBuilderMessage(`Distanzset „${label}“ wurde für ${itemId} übernommen.`);
+  }
+
   function setGame(next: AuthoredGame) {
     setProject({ ...project, game: next });
   }
@@ -296,6 +312,7 @@ function AuthorPage() {
                     {itemAssetCandidates.map((asset)=><option key={asset.id} value={asset.id}>{asset.knownUse ? asset.knownUse+" · " : ""}{asset.path} · {asset.width}×{asset.height}</option>)}
                   </select>
                   {selectedAsset && <div className="surface-preview"><img src={selectedAsset.url} alt=""/><code>{selectedAsset.path}</code></div>}
+                  {selectedAsset?.distanceSetId && <button type="button" className="secondary" onClick={()=>applyDistanceSet(item.id,selectedAsset.distanceSetId!)}>Ganzes Distanzset übernehmen</button>}
                 </label>;
               })}
             </div>}
