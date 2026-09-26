@@ -198,6 +198,7 @@ export interface AuthoredItem {
   id: string;
   name: string;
   description: string;
+  assetId?: string;
 }
 
 export type Direction = "north" | "east" | "south" | "west";
