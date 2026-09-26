@@ -578,12 +578,19 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   const orderedAlisImages=[...alisImages].sort((a,b)=>{
     const ad=defaultsByImage.has(defaultChoiceKey(a.sourcePath,a.entryIndex)) ? 1 : 0;
     const bd=defaultsByImage.has(defaultChoiceKey(b.sourcePath,b.entryIndex)) ? 1 : 0;
-    return bd-ad;
+    if (ad !== bd) return bd-ad;
+    const at=a.assetKind==="terrain" ? 1 : 0;
+    const bt=b.assetKind==="terrain" ? 1 : 0;
+    if (at !== bt) return bt-at;
+    const af=isFlatColorImage(a) ? 1 : 0;
+    const bf=isFlatColorImage(b) ? 1 : 0;
+    return af-bf;
   });
   for(const image of orderedAlisImages){
     const imageDefaults=defaultsByImage.get(defaultChoiceKey(image.sourcePath,image.entryIndex)) ?? [];
     const forceForDefault=imageDefaults.length>0;
-    if(!forceForDefault && (alisPreviewCount>=MAX_ALIS_IMAGES || alisPixelCount+image.width*image.height>MAX_ALIS_PIXELS)){
+    const forceTerrain=image.assetKind==="terrain";
+    if(!forceForDefault && !forceTerrain && (alisPreviewCount>=MAX_ALIS_IMAGES || alisPixelCount+image.width*image.height>MAX_ALIS_PIXELS)){
       alisImagesSkippedForBudget++;
       continue;
     }
