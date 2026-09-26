@@ -167,3 +167,8 @@ The asset pipeline now distinguishes real ALIS DOS terrain textures (0x1C/0x1E) 
 ## 2026-09-26 terrain absence / palette diagnostic correction
 
 User testing confirmed that no terrain-texture category had ever appeared in the imported asset catalog. The importer now records and displays raw ALIS resource-format counts so 0x1C/0x1E presence can be proven rather than inferred. Known Ishar imports do not auto-assign ordinary sprites as dungeon surfaces when true terrain extraction is absent. Palette reconstruction now prefers the verified STAGE.IO resource #4 base palette with nearest module-local partial palette overlays, matching the recovered legacy Workbench strategy.
+
+
+## 2026-09-26 composite-scene preview direction
+
+Recovered Workbench evidence shows verified Ishar scene tiles can be composed from multiple graphic resource IDs and mirrored variants. The browser importer now renders ALIS 0xFF composite resources as assembled previews, while keeping them distinct from repeatable terrain textures. This helps identify visible wall/decor assemblies that are not recognizable as individual sprites.
