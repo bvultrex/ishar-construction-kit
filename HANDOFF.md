@@ -634,3 +634,34 @@ Expected Overview label example:
 `Version 0.1.0-recovery · Build 545c35f`
 
 This should be used in future bug reports/tests so screenshots and user feedback can always be mapped back to one exact repository state.
+
+
+## 2026-09-26 — Verified Ishar 2 key distance sprites
+
+User manually identified a non-red Ishar 2 OBJET.IO key sprite family and clarified that items use three distance sprites in the 3D view.
+
+Verified user mapping:
+
+- OBJET.IO #69 = key, near
+- OBJET.IO #70 = key, medium
+- OBJET.IO #71 = key, far
+- OBJET.IO #72 = second key family, near
+- OBJET.IO #73 = second key family, medium
+- OBJET.IO #74 = second key family, far
+- OBJET.IO #75 / #76 = large key views
+- OBJET.IO #121 = key ring
+
+Implemented:
+
+- authored items now support independent near/mid/far imported asset IDs
+- Adventure Builder exposes three item sprite selectors: current room / one room / two rooms
+- Playtest scans visible rooms forward up to depth 2 and renders the appropriate item distance sprite
+- closed doors stop distant item visibility because the existing room traversal stops at the door
+- item pickup remains restricted to the current room
+- Ishar 2 semantic fallback for authored items whose name/description contains “Schlüssel” or “key” uses #69/#70/#71 automatically
+- arbitrary OBJET.IO sprites are no longer used as generic authored-item fallbacks; unknown items keep the neutral fallback instead of displaying unrelated grass/weapon/etc.
+- verified key resources are annotated in Asset Lab and labeled in the item sprite selectors
+
+Important interpretation:
+
+The #69/#70/#71 trio is now treated as a verified distance set, not three separate unrelated items. The #72/#73/#74 trio is recorded as a second verified key set but is not auto-selected for the demo key until its exact key subtype is known.
