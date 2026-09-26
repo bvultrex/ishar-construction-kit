@@ -162,3 +162,8 @@ ALIS palette handling now follows resource-table updates instead of applying one
 ## 2026-09-26 ALIS terrain-resource milestone
 
 The asset pipeline now distinguishes real ALIS DOS terrain textures (0x1C/0x1E) from ordinary sprite-table images. This resolves a major importer blind spot that previously removed likely Ishar level-geometry material resources from the catalog. Ishar 1/2 imports prefer these terrain resources for dungeon surfaces and do not auto-assign fullscreen backgrounds. Per-room surface overrides use terrain candidates first.
+
+
+## 2026-09-26 terrain absence / palette diagnostic correction
+
+User testing confirmed that no terrain-texture category had ever appeared in the imported asset catalog. The importer now records and displays raw ALIS resource-format counts so 0x1C/0x1E presence can be proven rather than inferred. Known Ishar imports do not auto-assign ordinary sprites as dungeon surfaces when true terrain extraction is absent. Palette reconstruction now prefers the verified STAGE.IO resource #4 base palette with nearest module-local partial palette overlays, matching the recovered legacy Workbench strategy.
