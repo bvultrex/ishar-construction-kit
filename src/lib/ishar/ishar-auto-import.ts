@@ -30,6 +30,9 @@ export interface IsharAutoImportReport {
   alisImagesSkippedForBudget: number;
   alisPaletteResources: number;
   alisCompositeResources: number;
+  alisResourceFormatCounts: Record<string, number>;
+  stagePaletteBaseFound: boolean;
+  localPaletteOverlayImages: number;
   globalPaletteFallbackImages: number;
   directImages: number;
   embeddedImages: number;
@@ -251,6 +254,11 @@ function chooseSeamlessTextureSet(images: AlisIndexedImage[]) {
 }
 function chooseDefaultDungeonAssets(images: AlisIndexedImage[], game: GameId): IsharDefaultAssignment[] {
   if (!images.length) return [];
+  const trueTerrain=images.filter((image)=>image.assetKind==="terrain" && !isFlatColorImage(image));
+  // For known Ishar games, do not fabricate floor/wall/ceiling defaults from
+  // ordinary sprites. If the importer has not reached the terrain path yet,
+  // keep the SVG fallback visible and report the missing terrain explicitly.
+  if (game !== "unknown" && trueTerrain.length === 0) return [];
   const assignments: IsharDefaultAssignment[] = [];
   const add = (role: DungeonAssetRole, image: AlisIndexedImage | undefined, score: number, reason: string, threshold = 55) => {
     if (!image) return;
@@ -430,6 +438,35 @@ function paletteColorfulness(palette: Uint8Array) {
   return score + colored*24;
 }
 
+function mergeFormatCounts(target: Record<string, number>, source: Record<string, number>) {
+  for (const [format, count] of Object.entries(source)) target[format] = (target[format] ?? 0) + count;
+}
+
+function stageBasePalette(palettes: AlisPaletteResource[]) {
+  return palettes.find((palette) => baseName(palette.sourcePath).toUpperCase() === "STAGE.IO" && palette.entryIndex === 4);
+}
+
+function nearestLocalPalette(image: AlisIndexedImage, palettes: AlisPaletteResource[]) {
+  const local = palettes.filter((palette) => palette.sourcePath === image.sourcePath);
+  if (!local.length) return undefined;
+  return local.reduce((best, current) =>
+    Math.abs(current.entryIndex - image.entryIndex) < Math.abs(best.entryIndex - image.entryIndex) ? current : best
+  );
+}
+
+function overlayPalette(base: Uint8Array, local: AlisPaletteResource) {
+  const result = base.slice();
+  const start = Math.max(0, local.firstColor);
+  const end = Math.min(256, start + local.colorCount);
+  for (let color = start; color < end; color++) {
+    const at = color * 3;
+    result[at] = local.palette[at] ?? result[at];
+    result[at + 1] = local.palette[at + 1] ?? result[at + 1];
+    result[at + 2] = local.palette[at + 2] ?? result[at + 2];
+  }
+  return result;
+}
+
 function chooseGlobalPalette(palettes: AlisPaletteResource[]) {
   let best: AlisPaletteResource | undefined;
   let bestScore=-1;
@@ -460,6 +497,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   const foundImages: FoundImage[]=[];
   const alisImages: AlisIndexedImage[]=[];
   const alisPalettes: AlisPaletteResource[]=[];
+  const alisResourceFormatCounts: Record<string, number> = {};
   let alisCompositeResources=0;
   let alisTablesFound=0;
   let alisImagesRejected=0;
@@ -493,6 +531,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
           const extracted=extractAlisIndexedImages(unpacked.data,record.path,true);
           if(extracted.tableFound) alisTablesFound++;
           alisImagesRejected+=extracted.rejectedImages;
+          mergeFormatCounts(alisResourceFormatCounts, extracted.formatCounts);
           alisPalettes.push(...extracted.palettes);
           alisCompositeResources+=extracted.composites.length;
           alisImages.push(...extracted.images);
@@ -507,21 +546,35 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       const extracted=extractAlisIndexedImages(bytes,record.path,false);
       if(extracted.tableFound) alisTablesFound++;
       alisImagesRejected+=extracted.rejectedImages;
+      mergeFormatCounts(alisResourceFormatCounts, extracted.formatCounts);
       alisPalettes.push(...extracted.palettes);
       alisCompositeResources+=extracted.composites.length;
       alisImages.push(...extracted.images);
     }
   }
 
-  const globalPalette=chooseGlobalPalette(alisPalettes);
+  // The recovered legacy Workbench verified STAGE.IO / resource 4 as the
+  // shared VGA scene palette. Local scene palettes only override their own
+  // index range. Reproduce that deterministic model before falling back to a
+  // generic "most colorful" palette.
+  const stagePalette=stageBasePalette(alisPalettes);
+  const globalPalette=stagePalette ?? chooseGlobalPalette(alisPalettes);
   let globalPaletteFallbackImages=0;
+  let localPaletteOverlayImages=0;
   if(globalPalette){
     for(const image of alisImages){
-      if(image.paletteSource!=="default") continue;
-      image.palette=globalPalette.palette.slice();
-      image.paletteSource="global";
-      image.paletteEntryIndex=globalPalette.entryIndex;
-      globalPaletteFallbackImages++;
+      const local=nearestLocalPalette(image,alisPalettes);
+      if(local){
+        image.palette=overlayPalette(globalPalette.palette,local);
+        image.paletteSource="embedded";
+        image.paletteEntryIndex=local.entryIndex;
+        localPaletteOverlayImages++;
+      } else {
+        image.palette=globalPalette.palette.slice();
+        image.paletteSource="global";
+        image.paletteEntryIndex=globalPalette.entryIndex;
+        globalPaletteFallbackImages++;
+      }
     }
   }
 
@@ -608,6 +661,9 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       path:`${image.sourcePath} · ALIS #${image.entryIndex}`,
       url,
       source:"alis",
+      assetKind:image.assetKind,
+      paletteStatus:image.paletteSource,
+      visualStatus:isFlatColorImage(image) ? "flat-color" : "normal",
       width:image.width,
       height:image.height,
       suggestedRole:imageDefaults[0]?.role ?? suggestion,
@@ -673,7 +729,9 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     decodedA1Packer ? decodedA1Packer+" A1/New-Packer-Datei(en) wurden mit dem bounded DOS-Decoder entpackt." : "Keine A1-Ressource konnte decodiert werden.",
     failedPackedDecode ? failedPackedDecode+" gepackte Datei(en) konnten trotz erkanntem Header nicht sicher decodiert werden." : "Alle erkannten gepackten Ressourcen wurden decodiert.",
     alisPalettes.length ? alisPalettes.length+" ALIS-Palettenressource(n) wurden rekonstruiert; partielle Paletten-Offsets werden berücksichtigt." : "Keine ALIS-Palette wurde statisch gefunden.",
-    alisTerrainTexturesExtracted ? alisTerrainTexturesExtracted+" echte ALIS-Terraintextur(en) im Format 0x1C/0x1E wurden erstmals extrahiert." : "Noch keine 0x1C/0x1E-Terraintextur gefunden.",
+    stagePalette ? "STAGE.IO / ALIS #4 wurde als verifizierte gemeinsame Basispalette verwendet." : "STAGE.IO / ALIS #4 wurde nicht gefunden; Palette-Fallback bleibt heuristisch.",
+    localPaletteOverlayImages ? localPaletteOverlayImages+" Bild(er) erhielten eine lokale Teil-/Szenenpalette über der STAGE-Basis." : "Keine lokale Palettenüberlagerung war nötig.",
+    alisTerrainTexturesExtracted ? alisTerrainTexturesExtracted+" echte ALIS-Terraintextur(en) im Format 0x1C/0x1E wurden extrahiert." : ((alisResourceFormatCounts["0x1c"]??0)+(alisResourceFormatCounts["0x1e"]??0) ? "0x1C/0x1E-Header wurden gesehen, aber keine Terraintextur konnte gültig decodiert werden." : "In den gelesenen Grafiktabellen existiert kein einziger 0x1C/0x1E-Eintrag; der Terrainpfad liegt damit noch außerhalb unserer aktuellen Tabellen-Auswertung."),
     alisFlatColorAssets ? alisFlatColorAssets+" nahezu einfarbige Ressource(n) wurden als Diagnose-/Maskenkandidaten markiert und bei der Dungeon-Texturwahl abgewertet." : "Keine auffällig einfarbigen ALIS-Bilder erkannt.",
     globalPaletteFallbackImages ? globalPaletteFallbackImages+" Bild(er) ohne eigene Palette verwenden die farbigste rekonstruierte globale Palette als Fallback." : "Keine globale Palette musste als Fallback verwendet werden.",
     alisCompositeResources ? alisCompositeResources+" ALIS-Composite-Ressource(n) referenzieren mehrere gestapelte Grafikbausteine." : "Keine ALIS-Composite-Ressource erkannt.",
@@ -699,6 +757,9 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     alisImagesSkippedForBudget,
     alisPaletteResources: alisPalettes.length,
     alisCompositeResources,
+    alisResourceFormatCounts,
+    stagePaletteBaseFound: !!stagePalette,
+    localPaletteOverlayImages,
     globalPaletteFallbackImages,
     directImages,
     embeddedImages,
