@@ -203,6 +203,7 @@ function AssetsPage() {
           <strong>{asset.assetKind==="terrain" ? "Terrain-Textur" : asset.assetKind==="composite" ? "Composite" : (asset.suggestedRole ?? "unzugeordnet")}</strong>
           <small>{asset.width && asset.height ? `${asset.width}×${asset.height} · ` : ""}{asset.assetKind==="terrain" ? "ALIS 0x1C/0x1E" : asset.assetKind==="composite" ? "ALIS 0xFF zusammengesetzt" : asset.source==="alis" ? "ALIS Sprite" : "Standardbild"}</small>
           <code title={asset.path}>{asset.path}</code>
+          {asset.knownUse && <strong className="known-asset-use">{asset.knownUse}</strong>}
           <div className="asset-card-badges">
             <span className={"badge " + (asset.assetKind==="terrain" || asset.assetKind==="composite" ? "confirmed" : asset.runtimeAssigned ? "confirmed" : asset.suggestedRole ? "suspected" : "unknown")}>{asset.assetKind==="terrain" ? "Terrain" : asset.assetKind==="composite" ? "Composite" : asset.runtimeAssigned ? "Runtime" : asset.suggestedRole ? "Vorschlag" : "prüfen"}</span>
             {asset.paletteStatus && <span className={"badge " + (asset.paletteStatus==="embedded" ? "confirmed" : "suspected")}>Palette: {asset.paletteStatus}</span>}
