@@ -412,3 +412,41 @@ Next verification:
 3. inspect the auto-selected texture set
 4. if necessary, click the correct extracted brick textures as Basis/Wand/Boden/Decke
 5. record the exact sourcePath + ALIS entry IDs and promote them to deterministic Ishar 2 mappings
+
+
+## 2026-09-26 — Palette recovery, ALIS composites and per-room surface overrides
+
+User reported that all extracted assets appeared grayscale and asked whether Ishar walls are single textures or layered resources.
+
+Verified against the public ALIS interpreter/source:
+
+- ALIS palette resources (`0xFE`) are dynamic and can be partial 8-bit updates with an explicit palette offset.
+- The previous extractor only accepted full-looking palette entries and therefore fell back to the grayscale default far too often.
+- DOS 4-bit palette decoding masks R/B to 3 bits and scales all RGB components to VGA-style 0..224 steps.
+- ALIS composite resources (`0xFF`) explicitly reference multiple child graphics with X/Y/Z offsets and optional horizontal flip. So layered visual construction is a real engine feature.
+- Separately, the DOS 3D renderer has a dedicated terrain texture path (`bartra_dos`) with texture pointers, width masks, height/subtile and darkness lookup. Therefore "wall texture" is not necessarily just a normal sprite-table image.
+
+Implemented:
+
+- palette timeline reconstruction across each ALIS resource table
+- support for partial 8-bit palette updates with palette offset
+- corrected DOS 4-bit palette channel decoding
+- best global colorful palette fallback for images whose local resource table contains no usable palette
+- composite resource metadata extraction/counting
+- Asset Lab report now shows recovered palette and composite counts
+- `AuthoredLocation` can store independent `wallAssetId`, `floorAssetId`, and `ceilingAssetId`
+- Adventure Builder exposes per-room dropdowns for plausible ALIS surface candidates with thumbnail preview
+- new adjacent rooms inherit the source room's chosen surface overrides
+- Playtest uses per-room surface overrides ahead of the pack default for wall/floor/ceiling
+
+Interpretation boundary:
+
+The editor dropdown currently exposes **plausible extracted surface images**, not a proven original-Ishar "wall definition" table. Exact original wall/floor/ceiling semantics likely live partly in the ALIS terrain/scene data rather than the normal sprite resource table. Decoding that terrain type table is the next compatibility step.
+
+Next validation:
+
+1. re-import the same Ishar 2 ZIP
+2. verify whether extracted previews are now colored
+3. note palette/composite counts
+4. in Adventure Builder select a known good brick image independently for Wand/Boden/Decke and verify it persists per room
+5. continue reverse-engineering the scene terrain texture table so original wall assignments can become deterministic instead of manually selected
