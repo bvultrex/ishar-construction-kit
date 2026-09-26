@@ -140,3 +140,11 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .selected-room-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 12px}.selected-room-actions label{display:flex;flex-direction:column;gap:6px;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#968875}.selected-room-actions select{background:#0f0d0b;color:#e8dcc4;border:1px solid #574331;padding:8px}
 .builder-message{margin:0 0 14px}.advanced-coordinates{border:1px solid #3d3025;background:#100d0b;padding:8px}.advanced-coordinates summary{cursor:pointer;color:#8f8270;font-size:10px;text-transform:uppercase;letter-spacing:.06em}.advanced-coordinates[open] .coordinate-fields{margin-top:8px}
 @media (max-width:700px){.neighbor-grid,.selected-room-actions{grid-template-columns:1fr}.location-title{align-items:flex-start;flex-direction:column}.location-title>.toolbar{width:100%}}
+
+
+/* Guided Ishar ZIP import */
+.primary-import{background:#b08a62;color:#1a1510;border-color:#c9a477}
+.asset-import-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 16px}.asset-import-steps article{border:1px solid #46372b;background:#15110e;padding:14px;display:grid;grid-template-columns:34px 1fr;gap:3px 9px;align-items:center}.asset-import-steps strong{grid-row:1/3;display:grid;place-items:center;width:30px;height:30px;border:1px solid #7e5f42;color:#d2ad7d;font-family:Georgia,serif;font-size:18px}.asset-import-steps span{font-weight:800;color:#e8dcc4}.asset-import-steps small{color:#8f8270;line-height:1.35}
+.auto-import-report{margin:0 0 18px}.auto-import-report .stone-card{margin-top:10px}.auto-import-report li{line-height:1.45}
+.asset-expert-mode{margin:20px 0;border:1px solid #3d3025;background:#100d0b;padding:11px 13px}.asset-expert-mode summary{cursor:pointer;color:#8f8270;font-size:11px;text-transform:uppercase;letter-spacing:.07em}.expert-toolbar{margin-top:12px}
+@media (max-width:800px){.asset-import-steps{grid-template-columns:1fr}}

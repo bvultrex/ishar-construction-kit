@@ -245,3 +245,25 @@ Builder:
 - room list cards can explicitly select the corresponding map cell
 
 This replaces the ambiguous per-card topology controls that made it easy to edit the wrong room.
+
+
+## 2026-09-26 — Guided Ishar ZIP import
+
+Asset onboarding was changed from manifest-first to archive-first after user feedback.
+
+New default flow in Asset Lab:
+
+1. user selects one local Ishar ZIP
+2. archive is inventoried and the detected game is inferred from known corpus signatures
+3. File Lab inventory is populated automatically
+4. Silmarils containers are classified
+5. old-packer resources (0x80/0x81) are automatically decoded for inspection
+6. uncompressed/decoded bytes are scanned for embedded PNG/JPEG/GIF/BMP/WebP images
+7. direct standard images are collected
+8. only filename patterns with a clear semantic match are auto-assigned to runtime roles (background, door, encounter, item, portrait, floor/ceiling/front/side wall)
+9. uncertain images remain unassigned and appear in the import report
+10. A1/new-packer resources remain explicitly blocked until a verified decoder exists
+
+Manual manifest ZIP/folder import remains available under **Expertenmodus**.
+
+Important: this is an automatic ingestion/orchestration path, not yet a claim that proprietary Ishar raw bitmap formats are decoded. The architecture is now ready for those decoders: future format support can improve the same one-ZIP workflow without changing user interaction.

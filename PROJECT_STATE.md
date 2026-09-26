@@ -127,3 +127,8 @@ A built-in synthetic demo pack is available from Asset Lab so the image pipeline
 ## 2026-09-26 branching builder correction
 
 Adventure Builder topology authoring now works from each room in four cardinal directions. Empty adjacent cells create and auto-link a new room; occupied cells can be linked or disconnected. Rooms and doors can be deleted with cascading cleanup of exit/door references. This removes the earlier vertical-only room creation path and makes branches, loops and crossroads practical in the UI.
+
+
+## 2026-09-26 guided original-archive import
+
+Asset Lab now treats a user-owned Ishar ZIP as the primary input. One selection populates the file inventory, detects Ishar 1/2 where corpus signatures allow it, classifies resources, attempts verified old-packer decoding, scans decoded data for standard embedded images, and auto-assigns only semantically strong image matches to runtime roles. The UI reports blocked A1/new-packer resources and deliberately leaves ambiguous graphics unmapped rather than guessing. Manual manifest packs are now an expert path.
