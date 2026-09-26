@@ -171,3 +171,16 @@ Added authored doors as explicit transitions between adjacent dungeon cells.
 - Adventure Builder has door authoring and project validation checks door endpoints/key references
 
 This establishes the world-state hook required for Ishar-style door graphics and later switch/quest-controlled transitions.
+
+
+## 2026-09-26 — Synthetic asset-pack smoke path
+
+Asset Lab now has a generated `CK Demo Layers` pack. It creates temporary SVG Blob assets entirely in-browser and exercises the same runtime mapping path as imported external packs. This gives a zero-corpus smoke test:
+
+1. open Asset Lab
+2. click **Demo-Pack laden**
+3. open Playtest
+4. verify background/wall/door/enemy/item image layers appear
+5. collect the crypt rune, defeat the guardian, open the sealed sanctum door, reach the ending
+
+No generated demo image is committed as a binary asset; the SVG strings exist only as test scaffolding in code.

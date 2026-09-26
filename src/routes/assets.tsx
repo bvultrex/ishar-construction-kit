@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { exampleAssetManifest, loadAssetPack } from "@/lib/ishar/asset-pack";
+import { createDemoAssetPack, exampleAssetManifest, loadAssetPack } from "@/lib/ishar/asset-pack";
 import { useAssetPack } from "@/lib/asset-store";
 import { useKit } from "@/lib/store";
 
@@ -11,19 +11,23 @@ function AssetsPage() {
   const { project, setProject } = useKit();
   const [message, setMessage] = useState("");
 
+  function activatePack(next: ReturnType<typeof createDemoAssetPack>) {
+    setPack(next);
+    setProject({
+      ...project,
+      game: { ...project.game, assetPackId: next.manifest.id },
+      modules: {
+        ...project.modules,
+        asset: { status: "partial", notes: "Lokales Asset-Pack wird im First-Person-Viewport gerendert." },
+      },
+    });
+    setMessage('Asset-Pack "' + next.manifest.name + '" geladen. Fehlende Dateien: ' + next.missingEntryIds.length + ".");
+  }
+
   async function importFiles(files: File[]) {
     try {
       const next = await loadAssetPack(files);
-      setPack(next);
-      setProject({
-        ...project,
-        game: { ...project.game, assetPackId: next.manifest.id },
-        modules: {
-          ...project.modules,
-          asset: { status: "partial", notes: "Lokales Asset-Pack wird im First-Person-Viewport gerendert." },
-        },
-      });
-      setMessage('Asset-Pack "' + next.manifest.name + '" geladen. Fehlende Dateien: ' + next.missingEntryIds.length + ".");
+      activatePack(next);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Asset-Pack konnte nicht geladen werden.");
     }
@@ -45,6 +49,7 @@ function AssetsPage() {
     <header className="page-head">
       <div><p className="eyebrow">Local asset pipeline</p><h1>Asset Lab</h1><p>Importiert lokale Bild-Layer als ZIP oder Ordner. Originalspiel-Grafiken bleiben außerhalb des Repositories und werden nur im Browser verwendet.</p></div>
       <div className="toolbar">
+        <button onClick={()=>activatePack(createDemoAssetPack())}>Demo-Pack laden</button>
         <label className="file-button">Asset-ZIP öffnen<input type="file" accept=".zip" onChange={(e)=>{const f=e.currentTarget.files?.[0]; if(f) void importFiles([f]);}}/></label>
         <label className="file-button">Asset-Ordner öffnen<input type="file" multiple ref={(node)=>{if(node) node.setAttribute("webkitdirectory","");}} onChange={(e)=>void importFiles(Array.from(e.currentTarget.files ?? []))}/></label>
         <button className="secondary" onClick={downloadExample}>Beispielmanifest</button>
@@ -55,7 +60,7 @@ function AssetsPage() {
 
     {!pack ? <div className="hero-grid">
       <article className="parchment-card"><h2>Pack-Struktur</h2><p>Ein Pack enthält ein <code>manifest.json</code> und beliebige lokale PNG/WebP/SVG-Dateien. Das Manifest ordnet Bilder Rollen wie Frontwand, Seitenwand, Öffnung, Gegner oder Item zu.</p><button onClick={downloadExample}>Manifest herunterladen</button></article>
-      <article className="stone-card"><h2>Nächster Test</h2><p>Nach dem Import rendert der Playtest vorhandene Layer und fällt für fehlende Rollen auf die bisherige SVG-Geometrie zurück.</p><p className="muted">Projekt erwartet aktuell: {project.game.assetPackId || "kein externes Pack"}</p></article>
+      <article className="stone-card"><h2>Nächster Test</h2><p>Mit <strong>Demo-Pack laden</strong> kannst du die Bild-Layer-Pipeline sofort testen. Eigene Packs rendern vorhandene Layer und fallen für fehlende Rollen auf die bisherige SVG-Geometrie zurück.</p><p className="muted">Projekt erwartet aktuell: {project.game.assetPackId || "kein externes Pack"}</p></article>
     </div> : <>
       <div className="stats-grid file-stats">
         <article><span>Pack</span><strong>{pack.manifest.name}</strong></article>

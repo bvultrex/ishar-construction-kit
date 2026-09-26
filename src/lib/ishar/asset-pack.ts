@@ -227,3 +227,71 @@ export function exampleAssetManifest(): DungeonAssetManifest {
     ],
   };
 }
+
+
+function demoSvg(label: string, depth: number, kind: "background" | "front" | "left" | "right" | "door" | "enemy" | "item") {
+  const palettes = {
+    background: ["#0b0a08", "#211a14"],
+    front: ["#33291f", "#6f5741"],
+    left: ["#241d17", "#574432"],
+    right: ["#1f1914", "#4a392c"],
+    door: ["#3a281b", "#9c7349"],
+    enemy: ["#2d342b", "#a3ad91"],
+    item: ["#8c7137", "#f2df8f"],
+  } as const;
+  const [dark, light] = palettes[kind];
+  const opacity = Math.max(0.35, 1 - depth * 0.15);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400" viewBox="0 0 640 400">
+    <defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="${dark}"/><stop offset=".5" stop-color="${light}"/><stop offset="1" stop-color="${dark}"/></linearGradient></defs>
+    <rect width="640" height="400" fill="none"/>
+    <g opacity="${opacity}">
+      <rect x="${kind === "enemy" ? 260 : kind === "item" ? 475 : 20 + depth * 54}" y="${kind === "enemy" ? 115 : kind === "item" ? 265 : 28 + depth * 34}" width="${kind === "enemy" ? 120 : kind === "item" ? 75 : 600 - depth * 108}" height="${kind === "enemy" ? 210 : kind === "item" ? 85 : 344 - depth * 68}" rx="${kind === "enemy" ? 28 : 3}" fill="url(#g)" stroke="${light}" stroke-width="3"/>
+      <text x="320" y="205" text-anchor="middle" font-family="serif" font-size="${kind === "enemy" ? 24 : 18}" fill="#efe3cc">${label}</text>
+    </g>
+  </svg>`;
+}
+
+export function createDemoAssetPack(): LoadedAssetPack {
+  const manifest: DungeonAssetManifest = {
+    format: "ishar-ck-asset-pack",
+    version: 1,
+    id: "ck-demo-assets",
+    name: "CK Demo Layers",
+    viewport: { width: 640, height: 400 },
+    defaultTilesetId: "demo-stone",
+    shared: [
+      { id: "demo-guardian", role: "encounter", targetId: "guardian", file: "generated/guardian.svg", x: 0, y: 0, width: 640, height: 400 },
+      { id: "demo-item", role: "item", file: "generated/item.svg", x: 0, y: 0, width: 640, height: 400 },
+    ],
+    tilesets: [{
+      id: "demo-stone",
+      name: "Demo Stone",
+      entries: [
+        { id: "demo-bg", role: "viewport.background", file: "generated/background.svg" },
+        ...([0,1,2,3] as DungeonAssetDepth[]).flatMap((depth) => [
+          { id: `demo-front-${depth}`, role: "wall.front" as const, depth, file: `generated/front-${depth}.svg` },
+          { id: `demo-left-${depth}`, role: "wall.left" as const, depth, file: `generated/left-${depth}.svg` },
+          { id: `demo-right-${depth}`, role: "wall.right" as const, depth, file: `generated/right-${depth}.svg` },
+          { id: `demo-door-${depth}`, role: "door.front.closed" as const, depth, file: `generated/door-${depth}.svg` },
+        ]),
+      ],
+    }],
+  };
+  const urls: Record<string, string> = {};
+  const paths: Record<string, string> = {};
+  for (const entry of manifestEntries(manifest)) {
+    const depth = entry.depth ?? 0;
+    const kind =
+      entry.role === "viewport.background" ? "background"
+      : entry.role === "wall.front" ? "front"
+      : entry.role === "wall.left" ? "left"
+      : entry.role === "wall.right" ? "right"
+      : entry.role === "door.front.closed" ? "door"
+      : entry.role === "encounter" ? "enemy"
+      : "item";
+    const svg = demoSvg(entry.id, depth, kind);
+    urls[entry.id] = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+    paths[entry.id] = entry.file;
+  }
+  return { manifest, urls, paths, missingEntryIds: [], sourceLabel: "eingebauter synthetischer Demo-Pack", fileCount: Object.keys(urls).length + 1 };
+}

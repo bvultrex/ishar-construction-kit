@@ -115,3 +115,10 @@ Acceptance path: edit the starter project, keep validation green, start Playtest
 The first runnable authoring slice proved persistence, validation, combat, completion and import/export, but user testing correctly identified that its button-and-text presentation behaved like a text adventure. The runtime target is therefore now explicit: **grid-based first-person dungeon crawler**.
 
 Current branch adds X/Y dungeon geometry, facing, cardinal topology validation, live map authoring, perspective dungeon rendering, relative movement/turning, keyboard controls, viewport encounters and a five-slot party HUD scaffold. Text remains secondary UI. This is the basis for the playable 1.0 runtime; original Ishar binary compatibility remains a parallel research track.
+
+
+## 2026-09-26 local asset pipeline
+
+The crawler runtime now has a generic external asset-pack layer. Asset Lab accepts local ZIPs/folders with a documented manifest, supports multiple tilesets and target-specific encounter/item sprites, and keeps imported image bytes session-local through browser Blob URLs. Project JSON stores only pack/tileset IDs. The Playtest overlays available image layers on the procedural crawler renderer and keeps SVG as a sparse-pack fallback.
+
+A built-in synthetic demo pack is available from Asset Lab so the image pipeline can be exercised without original assets. Authored doors are now first-class world transitions and can be opened/locked by item references; the viewport can render dedicated closed/open door roles.
