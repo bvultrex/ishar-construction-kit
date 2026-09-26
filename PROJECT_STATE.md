@@ -152,3 +152,8 @@ Original-archive rendering now has explicit DOS profiles instead of assuming the
 ## 2026-09-26 texture-first Ishar Playtest
 
 The runtime now prioritizes repeatable ALIS dungeon textures over full-scene guesses. Interior imports no longer receive a generic viewport background unless the resource context explicitly indicates sky/background, and door auto-mapping requires explicit door/portal context. Playtest was rearranged into an Ishar-inspired game surface with viewport, minimap/navigation panel and five-slot party strip. Asset Lab supports one-click manual Basis/Wand/Boden/Decke mapping for rapid verification of real Ishar brick textures.
+
+
+## 2026-09-26 palette/composite and room-surface state
+
+ALIS palette handling now follows resource-table updates instead of applying one grayscale fallback to the whole script. Partial 8-bit palettes with offsets and DOS 4-bit palettes are reconstructed; palette-less images can use the strongest recovered global palette fallback. Composite resource metadata is also detected. Rooms now persist independent wall/floor/ceiling asset IDs selected from imported ALIS candidates, and Playtest renders those overrides before the default tileset. Exact original Ishar terrain-type-to-texture mappings remain under reverse engineering.
