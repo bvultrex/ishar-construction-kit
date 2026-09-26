@@ -2,7 +2,7 @@ import JSZip from "jszip";
 import { classifyFile } from "./classify";
 import { PACKER_NEW, unpackSilm } from "./silm-pack";
 import type { DiscoveredAssetPreview, LoadedAssetPack } from "./asset-pack";
-import { extractAlisIndexedImages, type AlisIndexedImage, type AlisPaletteResource } from "./alis-assets";
+import { extractAlisIndexedImages, type AlisCompositeResource, type AlisIndexedImage, type AlisPaletteResource } from "./alis-assets";
 import type { DungeonAssetEntry, DungeonAssetManifest, DungeonAssetRole, FileRecord, GameId } from "./types";
 import { renderProfileForGame } from "./render-profile";
 
@@ -30,6 +30,7 @@ export interface IsharAutoImportReport {
   alisImagesSkippedForBudget: number;
   alisPaletteResources: number;
   alisCompositeResources: number;
+  alisCompositePreviews: number;
   alisResourceFormatCounts: Record<string, number>;
   stagePaletteBaseFound: boolean;
   localPaletteOverlayImages: number;
@@ -399,6 +400,118 @@ function buildEntry(image: FoundImage, index: number): DungeonAssetEntry | undef
   };
 }
 
+
+interface CompositePlacement {
+  image: AlisIndexedImage;
+  x: number;
+  y: number;
+  z: number;
+  flipX: boolean;
+}
+
+function compositeKey(sourcePath: string, entryIndex: number) {
+  return sourcePath+"#"+entryIndex;
+}
+
+function expandComposite(
+  composite: AlisCompositeResource,
+  imageMap: Map<string, AlisIndexedImage>,
+  compositeMap: Map<string, AlisCompositeResource>,
+  offsetX=0,
+  offsetY=0,
+  offsetZ=0,
+  flipX=false,
+  seen=new Set<string>(),
+): CompositePlacement[] {
+  const key=compositeKey(composite.sourcePath,composite.entryIndex);
+  if(seen.has(key) || seen.size>16) return [];
+  const nextSeen=new Set(seen);
+  nextSeen.add(key);
+  const placements: CompositePlacement[]=[];
+  for(const child of composite.children){
+    const childKey=compositeKey(composite.sourcePath,child.entryIndex);
+    const childFlip=flipX!==child.flipX;
+    const image=imageMap.get(childKey);
+    if(image){
+      placements.push({
+        image,
+        x:offsetX+child.x,
+        y:offsetY+child.y,
+        z:offsetZ+child.z,
+        flipX:childFlip,
+      });
+      continue;
+    }
+    const nested=compositeMap.get(childKey);
+    if(nested){
+      placements.push(...expandComposite(
+        nested,imageMap,compositeMap,
+        offsetX+child.x,offsetY+child.y,offsetZ+child.z,childFlip,nextSeen
+      ));
+    }
+  }
+  return placements;
+}
+
+function indexedImageToCanvas(image: AlisIndexedImage) {
+  const canvas=document.createElement("canvas");
+  canvas.width=image.width;
+  canvas.height=image.height;
+  const context=canvas.getContext("2d");
+  if(!context) throw new Error("Canvas 2D ist im Browser nicht verfügbar.");
+  const output=context.createImageData(image.width,image.height);
+  for(let index=0;index<image.pixels.length;index++){
+    const paletteIndex=image.pixels[index] ?? 0;
+    const source=paletteIndex*3;
+    const target=index*4;
+    output.data[target]=image.palette[source] ?? 0;
+    output.data[target+1]=image.palette[source+1] ?? 0;
+    output.data[target+2]=image.palette[source+2] ?? 0;
+    output.data[target+3]=image.transparentIndex===paletteIndex ? 0 : 255;
+  }
+  context.putImageData(output,0,0);
+  return canvas;
+}
+
+async function compositeToPngBlob(
+  composite: AlisCompositeResource,
+  imageMap: Map<string, AlisIndexedImage>,
+  compositeMap: Map<string, AlisCompositeResource>,
+) {
+  if(typeof document==="undefined") return undefined;
+  const placements=expandComposite(composite,imageMap,compositeMap).sort((a,b)=>a.z-b.z);
+  if(!placements.length) return undefined;
+  const minX=Math.min(...placements.map((placement)=>placement.x));
+  const minY=Math.min(...placements.map((placement)=>placement.y));
+  const maxX=Math.max(...placements.map((placement)=>placement.x+placement.image.width));
+  const maxY=Math.max(...placements.map((placement)=>placement.y+placement.image.height));
+  const width=maxX-minX;
+  const height=maxY-minY;
+  if(width<=0 || height<=0 || width>1024 || height>1024) return undefined;
+
+  const canvas=document.createElement("canvas");
+  canvas.width=width;
+  canvas.height=height;
+  const context=canvas.getContext("2d");
+  if(!context) return undefined;
+  for(const placement of placements){
+    const child=indexedImageToCanvas(placement.image);
+    const x=placement.x-minX;
+    const y=placement.y-minY;
+    context.save();
+    if(placement.flipX){
+      context.translate(x+placement.image.width,y);
+      context.scale(-1,1);
+      context.drawImage(child,0,0);
+    }else{
+      context.drawImage(child,x,y);
+    }
+    context.restore();
+  }
+  const blob=await new Promise<Blob|undefined>((resolve)=>canvas.toBlob((value)=>resolve(value??undefined),"image/png"));
+  return blob ? {blob,width,height,components:placements.length} : undefined;
+}
+
 async function indexedImageToPngBlob(image: AlisIndexedImage): Promise<Blob> {
   if (typeof document === "undefined") throw new Error("ALIS-Bildkonvertierung benötigt einen Browser.");
   const canvas=document.createElement("canvas");
@@ -497,6 +610,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   const foundImages: FoundImage[]=[];
   const alisImages: AlisIndexedImage[]=[];
   const alisPalettes: AlisPaletteResource[]=[];
+  const alisComposites: AlisCompositeResource[]=[];
   const alisResourceFormatCounts: Record<string, number> = {};
   let alisCompositeResources=0;
   let alisTablesFound=0;
@@ -534,6 +648,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
           mergeFormatCounts(alisResourceFormatCounts, extracted.formatCounts);
           alisPalettes.push(...extracted.palettes);
           alisCompositeResources+=extracted.composites.length;
+          alisComposites.push(...extracted.composites);
           alisImages.push(...extracted.images);
         }
       } else {
@@ -549,6 +664,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       mergeFormatCounts(alisResourceFormatCounts, extracted.formatCounts);
       alisPalettes.push(...extracted.palettes);
       alisCompositeResources+=extracted.composites.length;
+      alisComposites.push(...extracted.composites);
       alisImages.push(...extracted.images);
     }
   }
@@ -628,6 +744,9 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   let alisPixelCount=0;
   let alisPreviewCount=0;
   let alisImagesSkippedForBudget=0;
+  const alisImageMap=new Map(alisImages.map((image)=>[compositeKey(image.sourcePath,image.entryIndex),image] as const));
+  const alisCompositeMap=new Map(alisComposites.map((composite)=>[compositeKey(composite.sourcePath,composite.entryIndex),composite] as const));
+
   const orderedAlisImages=[...alisImages].sort((a,b)=>{
     const ad=defaultsByImage.has(defaultChoiceKey(a.sourcePath,a.entryIndex)) ? 1 : 0;
     const bd=defaultsByImage.has(defaultChoiceKey(b.sourcePath,b.entryIndex)) ? 1 : 0;
@@ -705,6 +824,26 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     }
   }
 
+  let alisCompositePreviews=0;
+  for(const composite of alisComposites.slice(0,500)){
+    const rendered=await compositeToPngBlob(composite,alisImageMap,alisCompositeMap);
+    if(!rendered) continue;
+    const id=safeId(composite.sourcePath)+"-composite-"+composite.entryIndex;
+    const url=URL.createObjectURL(rendered.blob);
+    discoveredAssets.push({
+      id,
+      path:`[COMPOSITE] ${composite.sourcePath} · ALIS #${composite.entryIndex}`,
+      url,
+      source:"alis",
+      assetKind:"composite",
+      visualStatus:"normal",
+      width:rendered.width,
+      height:rendered.height,
+      runtimeAssigned:false,
+    });
+    alisCompositePreviews++;
+  }
+
   const gameLabel=detectedGame==="ishar1" ? "Ishar 1" : detectedGame==="ishar2" ? "Ishar 2" : "Ishar";
   const renderProfile=renderProfileForGame(detectedGame);
   const packId="auto-"+safeId(gameLabel+"-"+file.name);
@@ -734,7 +873,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     alisTerrainTexturesExtracted ? alisTerrainTexturesExtracted+" echte ALIS-Terraintextur(en) im Format 0x1C/0x1E wurden extrahiert." : ((alisResourceFormatCounts["0x1c"]??0)+(alisResourceFormatCounts["0x1e"]??0) ? "0x1C/0x1E-Header wurden gesehen, aber keine Terraintextur konnte gültig decodiert werden." : "In den gelesenen Grafiktabellen existiert kein einziger 0x1C/0x1E-Eintrag; der Terrainpfad liegt damit noch außerhalb unserer aktuellen Tabellen-Auswertung."),
     alisFlatColorAssets ? alisFlatColorAssets+" nahezu einfarbige Ressource(n) wurden als Diagnose-/Maskenkandidaten markiert und bei der Dungeon-Texturwahl abgewertet." : "Keine auffällig einfarbigen ALIS-Bilder erkannt.",
     globalPaletteFallbackImages ? globalPaletteFallbackImages+" Bild(er) ohne eigene Palette verwenden die farbigste rekonstruierte globale Palette als Fallback." : "Keine globale Palette musste als Fallback verwendet werden.",
-    alisCompositeResources ? alisCompositeResources+" ALIS-Composite-Ressource(n) referenzieren mehrere gestapelte Grafikbausteine." : "Keine ALIS-Composite-Ressource erkannt.",
+    alisCompositeResources ? alisCompositeResources+" ALIS-Composite-Ressource(n) referenzieren mehrere gestapelte Grafikbausteine; "+alisCompositePreviews+" davon wurden als zusammengesetzte Vorschau gerendert." : "Keine ALIS-Composite-Ressource erkannt.",
     alisImages.length ? alisImages.length+" proprietäre ALIS-Bildressource(n) wurden aus den decodierten Skripten extrahiert." : "In den decodierten Skripten wurde noch keine unterstützte ALIS-Bildressource gefunden.",
     defaultAssignments.length ? defaultAssignments.length+" Standard-Dungeon-Rolle(n) wurden heuristisch als sofort nutzbares Default-Tileset belegt." : "Kein ausreichend plausibles Default-Dungeon-Tileset konnte gewählt werden.",
     mappedImages ? mappedImages+" Bild(er) wurden anhand eindeutiger Dateinamen automatisch katalogisiert/zugeordnet." : "Noch keine weitere Grafik konnte sicher einer Engine-Rolle zugeordnet werden; der SVG-Fallback bleibt aktiv.",
@@ -757,6 +896,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     alisImagesSkippedForBudget,
     alisPaletteResources: alisPalettes.length,
     alisCompositeResources,
+    alisCompositePreviews,
     alisResourceFormatCounts,
     stagePaletteBaseFound: !!stagePalette,
     localPaletteOverlayImages,
