@@ -115,3 +115,12 @@ User test of the first runnable slice passed functionally but exposed the wrong 
 - Next: verify actual graphics-bearing containers from the local Ishar corpus, beginning with old-packer candidates where decode already exists.
 - Next: add palette/bitmap signature inspection to unpacked resource previews before writing any automatic extractor.
 - Then: map verified extracted graphics into `ishar-ck-asset-pack` roles and record provenance/hash metadata locally without committing original bytes.
+
+
+## Immediate compatibility target — original terrain slots
+
+1. Re-import Ishar 2 and verify the new report shows non-zero "Terrain" resources.
+2. Confirm 0x1C/0x1E thumbnails include the missing brick/stone level materials.
+3. Decode or statically scan Ishar-era ctexmap definitions so terrain slot -> resource relationships are recovered from the original scripts.
+4. Separate genuine flat-color masks/material helpers from palette failures.
+5. Promote verified original terrain sets into deterministic Ishar 1/2 material presets.
