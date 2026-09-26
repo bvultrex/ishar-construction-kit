@@ -6,6 +6,8 @@ export interface DiscoveredAssetPreview {
   path: string;
   url: string;
   source: "standard" | "alis";
+  assetKind?: "sprite" | "terrain";
+  paletteStatus?: "embedded" | "global" | "default";
   width?: number;
   height?: number;
   suggestedRole?: DungeonAssetRole;
