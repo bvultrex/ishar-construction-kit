@@ -147,3 +147,8 @@ After the first successful Ishar 2 extraction (141 A1 decoded, 2,244 ALIS images
 ## 2026-09-26 — game-specific visual dimensions
 
 Original-archive rendering now has explicit DOS profiles instead of assuming the Construction Kit's generic 640×400 viewport. Ishar 1 uses a 256×126 active drawspace and Ishar 2 a 256×113 active drawspace inside their 320×200 screens. Imported packs carry the corresponding profile and pixel-aspect metadata; Playtest derives visible aspect and native texture scale from it. Asset auto-selection now evaluates indexed-image opacity, aspect, edge continuity and palette variety to reduce false wall/floor/ceiling matches.
+
+
+## 2026-09-26 texture-first Ishar Playtest
+
+The runtime now prioritizes repeatable ALIS dungeon textures over full-scene guesses. Interior imports no longer receive a generic viewport background unless the resource context explicitly indicates sky/background, and door auto-mapping requires explicit door/portal context. Playtest was rearranged into an Ishar-inspired game surface with viewport, minimap/navigation panel and five-slot party strip. Asset Lab supports one-click manual Basis/Wand/Boden/Decke mapping for rapid verification of real Ishar brick textures.
