@@ -1,7 +1,8 @@
 import JSZip from "jszip";
 import { classifyFile } from "./classify";
 import { PACKER_NEW, unpackSilm } from "./silm-pack";
-import type { LoadedAssetPack } from "./asset-pack";
+import type { DiscoveredAssetPreview, LoadedAssetPack } from "./asset-pack";
+import { extractAlisIndexedImages, type AlisIndexedImage } from "./alis-assets";
 import type { DungeonAssetEntry, DungeonAssetManifest, DungeonAssetRole, FileRecord, GameId } from "./types";
 
 export interface IsharAutoImportReport {
@@ -12,6 +13,10 @@ export interface IsharAutoImportReport {
   decodedOldPacker: number;
   decodedA1Packer: number;
   failedPackedDecode: number;
+  alisTablesFound: number;
+  alisImagesExtracted: number;
+  alisImagesRejected: number;
+  alisImagesSkippedForBudget: number;
   directImages: number;
   embeddedImages: number;
   mappedImages: number;
@@ -71,14 +76,21 @@ function guessRole(path: string): DungeonAssetRole | undefined {
   const name = baseName(path).toLowerCase().replace(/[^a-z0-9]+/g, "-");
   if (/(background|backgr|backdrop|fond|decor|scene)/.test(name)) return "viewport.background";
   if (/(door|porte|gate|portal)/.test(name)) return "door.front.closed";
-  if (/(portrait|face|head|avatar)/.test(name)) return "portrait";
-  if (/(monster|enemy|ennemi|creature|guardian|guard|orc|wolf|spider|dragon)/.test(name)) return "encounter";
-  if (/(item|object|objet|pickup|icon|potion|key|rune|sword|shield)/.test(name)) return "item";
+  if (/(portrait|face|head|avatar|perso|visage|tete)/.test(name)) return "portrait";
+  if (/(monster|monstre|enemy|ennemi|creature|guardian|guard|combat|orc|wolf|spider|dragon)/.test(name)) return "encounter";
+  if (/(item|object|objet|pickup|icon|invent|potion|key|clef|rune|sword|shield|arme)/.test(name)) return "item";
   if (/(ceiling|plafond)/.test(name)) return "surface.ceiling";
   if (/(floor|ground|sol)/.test(name)) return "surface.floor";
   if (/(front-wall|wall-front|frontwall|mur-front|murface)/.test(name)) return "wall.front";
-  if (/(left-wall|wall-left|mur-left)/.test(name)) return "wall.left";
-  if (/(right-wall|wall-right|mur-right)/.test(name)) return "wall.right";
+  if (/(left-wall|wall-left|mur-left|mur-gauche)/.test(name)) return "wall.left";
+  if (/(right-wall|wall-right|mur-right|mur-droite)/.test(name)) return "wall.right";
+  return undefined;
+}
+
+function suggestRoleByDimensions(width: number, height: number): DungeonAssetRole | undefined {
+  if (width <= 56 && height <= 56) return "item";
+  if (width >= 32 && width <= 120 && height >= 42 && height <= 150) return "portrait";
+  if (width >= 220 && height >= 120) return "viewport.background";
   return undefined;
 }
 
@@ -156,12 +168,36 @@ function safeId(value: string) {
 function buildEntry(image: FoundImage, index: number): DungeonAssetEntry | undefined {
   const role=guessRole(image.path);
   if(!role) return undefined;
+  const id=safeId(image.path)+"-"+index;
+  const entityRole=["encounter","item","portrait"].includes(role);
   return {
-    id: safeId(image.path)+"-"+index,
+    id,
     role,
     file: image.path,
+    targetId: entityRole ? "ishar-source:"+id : undefined,
     ...placementFor(role),
   };
+}
+
+async function indexedImageToPngBlob(image: AlisIndexedImage): Promise<Blob> {
+  if (typeof document === "undefined") throw new Error("ALIS-Bildkonvertierung benötigt einen Browser.");
+  const canvas=document.createElement("canvas");
+  canvas.width=image.width;
+  canvas.height=image.height;
+  const context=canvas.getContext("2d");
+  if(!context) throw new Error("Canvas 2D ist im Browser nicht verfügbar.");
+  const output=context.createImageData(image.width,image.height);
+  for(let index=0;index<image.pixels.length;index++){
+    const paletteIndex=image.pixels[index] ?? 0;
+    const source=paletteIndex*3;
+    const target=index*4;
+    output.data[target]=image.palette[source] ?? 0;
+    output.data[target+1]=image.palette[source+1] ?? 0;
+    output.data[target+2]=image.palette[source+2] ?? 0;
+    output.data[target+3]=image.transparentIndex===paletteIndex ? 0 : 255;
+  }
+  context.putImageData(output,0,0);
+  return new Promise((resolve,reject)=>canvas.toBlob((blob)=>blob ? resolve(blob) : reject(new Error("PNG-Konvertierung fehlgeschlagen.")),"image/png"));
 }
 
 export async function autoImportIsharZip(file: File): Promise<IsharAutoImportResult> {
@@ -179,6 +215,9 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   const detectedGame=detectGame(inventory);
 
   const foundImages: FoundImage[]=[];
+  const alisImages: AlisIndexedImage[]=[];
+  let alisTablesFound=0;
+  let alisImagesRejected=0;
   let directImages=0;
   let embeddedImages=0;
   let decodedOldPacker=0;
@@ -205,6 +244,12 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
         const embedded=scanEmbeddedImages(unpacked.data,record.path);
         embeddedImages+=embedded.length;
         foundImages.push(...embedded);
+        if(record.ext===".IO"){
+          const extracted=extractAlisIndexedImages(unpacked.data,record.path,true);
+          if(extracted.tableFound) alisTablesFound++;
+          alisImagesRejected+=extracted.rejectedImages;
+          alisImages.push(...extracted.images);
+        }
       } else {
         failedPackedDecode++;
       }
@@ -212,6 +257,10 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       const embedded=scanEmbeddedImages(bytes,record.path);
       embeddedImages+=embedded.length;
       foundImages.push(...embedded);
+      const extracted=extractAlisIndexedImages(bytes,record.path,false);
+      if(extracted.tableFound) alisTablesFound++;
+      alisImagesRejected+=extracted.rejectedImages;
+      alisImages.push(...extracted.images);
     }
   }
 
@@ -219,24 +268,80 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   const tilesetEntries: DungeonAssetEntry[]=[];
   const urls: Record<string,string>={};
   const paths: Record<string,string>={};
+  const discoveredAssets: DiscoveredAssetPreview[]=[];
   let mappedImages=0;
   let unmappedImages=0;
 
   foundImages.forEach((image,index)=>{
     const entry=buildEntry(image,index+1);
+    const blobBytes=new Uint8Array(image.bytes.length);
+    blobBytes.set(image.bytes);
+    const blob=new Blob([blobBytes.buffer],{type:image.mime});
+    const url=URL.createObjectURL(blob);
+    const id=entry?.id ?? safeId(image.path)+"-standard-"+(index+1);
+    discoveredAssets.push({
+      id,
+      path:image.path,
+      url,
+      source:"standard",
+      suggestedRole:entry?.role,
+      runtimeAssigned:!!entry && !["encounter","item","portrait"].includes(entry.role),
+    });
     if(!entry) {
       unmappedImages++;
       return;
     }
     mappedImages++;
-    const blobBytes=new Uint8Array(image.bytes.length);
-    blobBytes.set(image.bytes);
-    const blob=new Blob([blobBytes.buffer],{type:image.mime});
-    urls[entry.id]=URL.createObjectURL(blob);
+    urls[entry.id]=url;
     paths[entry.id]=image.path;
     if(["encounter","item","portrait"].includes(entry.role)) shared.push(entry);
     else tilesetEntries.push(entry);
   });
+
+  const MAX_ALIS_IMAGES=1500;
+  const MAX_ALIS_PIXELS=64_000_000;
+  let alisPixelCount=0;
+  let alisImagesSkippedForBudget=0;
+  for(const image of alisImages){
+    if(discoveredAssets.filter((asset)=>asset.source==="alis").length>=MAX_ALIS_IMAGES || alisPixelCount+image.width*image.height>MAX_ALIS_PIXELS){
+      alisImagesSkippedForBudget++;
+      continue;
+    }
+    alisPixelCount+=image.width*image.height;
+    const blob=await indexedImageToPngBlob(image);
+    const url=URL.createObjectURL(blob);
+    const role=guessRole(image.sourcePath);
+    const suggestion=role ?? suggestRoleByDimensions(image.width,image.height);
+    const id=safeId(image.sourcePath)+"-alis-"+image.entryIndex;
+    const entityRole=role ? ["encounter","item","portrait"].includes(role) : false;
+    const runtimeAssigned=!!role && !entityRole;
+    discoveredAssets.push({
+      id,
+      path:`${image.sourcePath} · ALIS #${image.entryIndex}`,
+      url,
+      source:"alis",
+      width:image.width,
+      height:image.height,
+      suggestedRole:suggestion,
+      runtimeAssigned,
+    });
+    if(role){
+      const entry: DungeonAssetEntry={
+        id,
+        role,
+        file:`${image.sourcePath}#alis-${image.entryIndex}.png`,
+        targetId:entityRole ? "ishar-source:"+id : undefined,
+        ...placementFor(role),
+      };
+      urls[id]=url;
+      paths[id]=entry.file;
+      if(entityRole) shared.push(entry);
+      else tilesetEntries.push(entry);
+      mappedImages++;
+    } else {
+      unmappedImages++;
+    }
+  }
 
   const gameLabel=detectedGame==="ishar1" ? "Ishar 1" : detectedGame==="ishar2" ? "Ishar 2" : "Ishar";
   const packId="auto-"+safeId(gameLabel+"-"+file.name);
@@ -257,7 +362,8 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     decodedOldPacker ? decodedOldPacker+" Datei(en) mit altem Silmarils-Packer wurden für die Bildsuche entpackt." : "Keine Old-Packer-Ressource musste entpackt werden.",
     decodedA1Packer ? decodedA1Packer+" A1/New-Packer-Datei(en) wurden mit dem bounded DOS-Decoder entpackt." : "Keine A1-Ressource konnte decodiert werden.",
     failedPackedDecode ? failedPackedDecode+" gepackte Datei(en) konnten trotz erkanntem Header nicht sicher decodiert werden." : "Alle erkannten gepackten Ressourcen wurden decodiert.",
-    mappedImages ? mappedImages+" Bild(er) wurden anhand eindeutiger Dateinamen automatisch einer Engine-Rolle zugeordnet." : "Noch keine Grafik konnte sicher einer Engine-Rolle zugeordnet werden; der SVG-Fallback bleibt aktiv.",
+    alisImages.length ? alisImages.length+" proprietäre ALIS-Bildressource(n) wurden aus den decodierten Skripten extrahiert." : "In den decodierten Skripten wurde noch keine unterstützte ALIS-Bildressource gefunden.",
+    mappedImages ? mappedImages+" Bild(er) wurden anhand eindeutiger Dateinamen automatisch katalogisiert/zugeordnet." : "Noch keine Grafik konnte sicher einer Engine-Rolle zugeordnet werden; der SVG-Fallback bleibt aktiv.",
     unmappedImages ? unmappedImages+" gefundene Standardbild(er) blieben absichtlich unzugeordnet, weil die Rolle nicht eindeutig war." : "Keine zusätzlich gefundenen Standardbilder blieben unzugeordnet.",
   ];
 
@@ -269,6 +375,10 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     decodedOldPacker,
     decodedA1Packer,
     failedPackedDecode,
+    alisTablesFound,
+    alisImagesExtracted: alisImages.length,
+    alisImagesRejected,
+    alisImagesSkippedForBudget,
     directImages,
     embeddedImages,
     mappedImages,
@@ -284,6 +394,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     missingEntryIds:[],
     sourceLabel:file.name+" · automatischer Ishar-Import",
     fileCount:inventory.length,
+    discoveredAssets,
   };
   return {pack,inventory,report};
 }

@@ -132,3 +132,8 @@ Adventure Builder topology authoring now works from each room in four cardinal d
 ## 2026-09-26 guided original-archive import
 
 Asset Lab now treats a user-owned Ishar ZIP as the primary input. One selection populates the file inventory, detects Ishar 1/2 where corpus signatures allow it, classifies resources, attempts verified old-packer decoding, scans decoded data for standard embedded images, and auto-assigns only semantically strong image matches to runtime roles. The UI reports blocked A1/new-packer resources and deliberately leaves ambiguous graphics unmapped rather than guessing. Manual manifest packs are now an expert path.
+
+
+## 2026-09-26 A1 + ALIS graphics extraction
+
+The original-archive import path now includes a bounded DOS A1/New-Packer decoder plus a conservative DOS ALIS graphics-resource reader. Decoded scripts are inspected for resource tables, indexed 4-/8-bit images and palettes; extracted images are converted to local browser PNG previews. Ambiguous original graphics are deliberately shown as unassigned candidates rather than guessed into runtime roles. This is the first path capable of surfacing proprietary Ishar graphics from an original ZIP without a user-authored manifest.

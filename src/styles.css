@@ -148,3 +148,12 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .auto-import-report{margin:0 0 18px}.auto-import-report .stone-card{margin-top:10px}.auto-import-report li{line-height:1.45}
 .asset-expert-mode{margin:20px 0;border:1px solid #3d3025;background:#100d0b;padding:11px 13px}.asset-expert-mode summary{cursor:pointer;color:#8f8270;font-size:11px;text-transform:uppercase;letter-spacing:.07em}.expert-toolbar{margin-top:12px}
 @media (max-width:800px){.asset-import-steps{grid-template-columns:1fr}}
+
+
+/* Extracted ALIS asset gallery */
+.discovered-assets{margin:20px 0}.discovered-assets h2{font-family:Georgia,serif;margin:4px 0 8px}
+.asset-discovery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px}
+.asset-discovery-grid article{border:1px solid #3f3227;background:#120f0c;padding:8px;display:flex;flex-direction:column;gap:5px;min-width:0}
+.asset-discovery-grid img{width:100%;height:112px;object-fit:contain;background:#080705;border:1px solid #2d241d;image-rendering:pixelated}
+.asset-discovery-grid strong{font-size:11px;color:#d2ad7d}.asset-discovery-grid small{font-size:9px;color:#8f8270}.asset-discovery-grid code{font-size:9px;color:#756b5e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.asset-discovery-grid .badge{align-self:flex-start}

@@ -105,10 +105,10 @@ function AssetsPage() {
         <article><span>Erkannt</span><strong>{autoReport.detectedGame==="ishar1" ? "Ishar 1" : autoReport.detectedGame==="ishar2" ? "Ishar 2" : "?"}</strong></article>
         <article><span>Dateien</span><strong>{autoReport.totalFiles}</strong></article>
         <article><span>A1 entpackt</span><strong>{autoReport.decodedA1Packer}</strong></article>
-        <article><span>Bilder</span><strong>{autoReport.directImages + autoReport.embeddedImages}</strong></article>
+        <article><span>ALIS-Bilder</span><strong>{autoReport.alisImagesExtracted}</strong></article>
         <article><span>Zugeordnet</span><strong>{autoReport.mappedImages}</strong></article>
       </div>
-      <article className="stone-card"><h2>Automatik-Bericht</h2><ul>{autoReport.notes.map((note,index)=><li key={index}>{note}</li>)}</ul><p className="muted">{autoReport.candidateResources} mögliche Ressourcencontainer untersucht · {autoReport.decodedOldPacker} Old-Packer + {autoReport.decodedA1Packer} A1 entpackt · {autoReport.failedPackedDecode} Decode-Fehler.</p></article>
+      <article className="stone-card"><h2>Automatik-Bericht</h2><ul>{autoReport.notes.map((note,index)=><li key={index}>{note}</li>)}</ul><p className="muted">{autoReport.candidateResources} mögliche Ressourcencontainer untersucht · {autoReport.decodedOldPacker} Old-Packer + {autoReport.decodedA1Packer} A1 entpackt · {autoReport.alisTablesFound} ALIS-Grafiktabellen · {autoReport.failedPackedDecode} Decode-Fehler.</p>{autoReport.alisImagesSkippedForBudget>0 && <p className="muted">{autoReport.alisImagesSkippedForBudget} Bilder wurden wegen des Browser-Speicherlimits nur katalogisiert/übersprungen.</p>}</article>
     </section>}
 
     {!pack ? <div className="hero-grid">
@@ -129,6 +129,18 @@ function AssetsPage() {
       </div>
 
       <div className="asset-tilesets">{pack.manifest.tilesets.map((tileset)=><article className="editor-panel" key={tileset.id}><h2>{tileset.name}</h2><code>{tileset.id}</code><p>{tileset.entries.length} Layer</p></article>)}</div>
+      {!!pack.discoveredAssets?.length && <section className="discovered-assets">
+        <div className="map-card-head"><div><p className="eyebrow">Aus Originalarchiv extrahiert</p><h2>Gefundene Grafiken</h2></div><span className="audit-chip">{pack.discoveredAssets.length}</span></div>
+        <p className="muted">Automatisch erkannte Kategorien werden markiert. Unklare Grafiken bleiben sichtbar, aber werden nicht blind in den Dungeon gerendert.</p>
+        <div className="asset-discovery-grid">{pack.discoveredAssets.slice(0,240).map((asset)=><article key={asset.id}>
+          <img src={asset.url} alt=""/>
+          <strong>{asset.suggestedRole ?? "unzugeordnet"}</strong>
+          <small>{asset.width && asset.height ? `${asset.width}×${asset.height} · ` : ""}{asset.source==="alis" ? "ALIS" : "Standardbild"}</small>
+          <code title={asset.path}>{asset.path}</code>
+          <span className={"badge " + (asset.runtimeAssigned ? "confirmed" : asset.suggestedRole ? "suspected" : "unknown")}>{asset.runtimeAssigned ? "Runtime" : asset.suggestedRole ? "Vorschlag" : "prüfen"}</span>
+        </article>)}</div>
+        {pack.discoveredAssets.length>240 && <p className="muted">Es werden die ersten 240 Vorschauen angezeigt; {pack.discoveredAssets.length-240} weitere sind im Import erfasst.</p>}
+      </section>}
 
       <div className="file-table-wrap"><table className="file-table"><thead><tr><th>Vorschau</th><th>ID</th><th>Rolle</th><th>Tiefe</th><th>Datei</th><th>Status</th></tr></thead><tbody>{entries.map((entry)=><tr key={entry.id}><td className="asset-preview-cell">{pack.urls[entry.id] ? <img src={pack.urls[entry.id]} alt=""/> : <span>—</span>}</td><td><code>{entry.id}</code></td><td>{entry.role}</td><td>{entry.depth ?? "global"}</td><td><code>{entry.file}</code></td><td><span className={"badge " + (pack.urls[entry.id] ? "confirmed" : "unknown")}>{pack.urls[entry.id] ? "geladen" : "fehlt"}</span></td></tr>)}</tbody></table></div>
     </>}

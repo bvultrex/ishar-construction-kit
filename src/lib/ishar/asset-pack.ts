@@ -1,6 +1,17 @@
 import JSZip from "jszip";
 import type { DungeonAssetEntry, DungeonAssetManifest, DungeonAssetRole, DungeonAssetDepth } from "./types";
 
+export interface DiscoveredAssetPreview {
+  id: string;
+  path: string;
+  url: string;
+  source: "standard" | "alis";
+  width?: number;
+  height?: number;
+  suggestedRole?: DungeonAssetRole;
+  runtimeAssigned: boolean;
+}
+
 export interface LoadedAssetPack {
   manifest: DungeonAssetManifest;
   urls: Record<string, string>;
@@ -8,6 +19,7 @@ export interface LoadedAssetPack {
   missingEntryIds: string[];
   sourceLabel: string;
   fileCount: number;
+  discoveredAssets?: DiscoveredAssetPreview[];
 }
 
 const MANIFEST_BASENAMES = new Set(["manifest.json", "asset-pack.json", "ishar-assets.json"]);
@@ -171,7 +183,11 @@ export async function loadAssetPack(files: File[]): Promise<LoadedAssetPack> {
 
 export function revokeAssetPack(pack: LoadedAssetPack | null) {
   if (!pack) return;
-  for (const url of Object.values(pack.urls)) URL.revokeObjectURL(url);
+  const urls = new Set([
+    ...Object.values(pack.urls),
+    ...(pack.discoveredAssets ?? []).map((asset) => asset.url),
+  ]);
+  for (const url of urls) URL.revokeObjectURL(url);
 }
 
 export function assetFor(

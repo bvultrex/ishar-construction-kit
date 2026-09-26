@@ -304,3 +304,24 @@ Implemented:
 Reference provenance: the recovered legacy Workbench codec cites maestun/alis `src/unpack.c` (MIT); the implementation was cross-checked against that upstream algorithm. No original Ishar bytes are committed.
 
 Expected next real-corpus signal: the previous `141 A1 blocked` count should become a large `A1 entpackt` count. Standard embedded PNG/JPEG/BMP scanning may still find few images because ALIS uses proprietary indexed bitmap resources; the next layer is ALIS resource-table image extraction.
+
+
+## 2026-09-26 — ALIS indexed-image extraction scaffold
+
+Built the next stage after A1 decoding using the public MIT-licensed `skruug/silm-extract` resource-table model as a reference.
+
+Implemented a bounded DOS ALIS image reader:
+
+- locates the graphics resource table from the unpacked script header
+- validates table count/pointers before following them
+- finds the active 16- or 256-color palette
+- supports DOS indexed image resource headers `0x00/0x02`, `0x10/0x12`, and `0x14/0x16`
+- decodes 4-bit packed nibbles, palette-offset 4-bit pixels and raw 8-bit pixels
+- preserves transparent-index metadata where the format supplies it
+- caps dimensions/table counts and rejects out-of-range resource payloads
+- converts extracted indexed images to browser PNGs locally through Canvas
+- Asset Lab now shows an extracted-original-graphics gallery, including unassigned images
+- strong filename category matches can be catalogued automatically; ambiguous images remain previews and do not silently replace runtime walls/enemies/items
+- browser memory guard: max 1,500 ALIS previews / 64M pixels per import
+
+This changes the next user test substantially: the same Ishar 2 ZIP should now report both A1 decode success and ALIS image counts/previews. Exact semantic mapping from original resource IDs to authored runtime roles remains a separate evidence step.
