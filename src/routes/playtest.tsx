@@ -189,7 +189,7 @@ function PlaytestPage() {
   }
 
   function step(direction: Direction) {
-    if (!location || !encounterDone || defeated || won) return;
+    if (!location || !encounterDone || defeated) return;
     const target = canTravel(game.locations, location, direction);
     if (!target) {
       setLog((x)=>["Dort ist eine Wand.", ...x]);
@@ -205,7 +205,7 @@ function PlaytestPage() {
   }
 
   function openFacingDoor() {
-    if (!location || defeated || won) return;
+    if (!location || defeated) return;
     const target = canTravel(game.locations, location, facing);
     if (!target) return;
     const door = doorBetween(game.doors, location, target);
@@ -239,7 +239,7 @@ function PlaytestPage() {
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [facing, locationId, encounterDone, defeated, won]);
+  }, [facing, locationId, encounterDone, defeated, openDoors]);
 
   if (problems.length || !hero || !location) return <section><header className="page-head"><div><p className="eyebrow">Dungeon Playtest</p><h1>Projekt nicht spielbar</h1><p>Behebe zuerst die Raster- oder Referenzfehler im Adventure Builder.</p></div><Link className="file-button" to="/author">Zum Builder</Link></header><div className="empty-state">{problems.map((p,i)=><p key={i}>{p.path}: {p.message}</p>)}</div></section>;
 
@@ -255,10 +255,10 @@ function PlaytestPage() {
         <div className="asset-runtime-status"><span>Asset-Pack</span><strong>{pack ? pack.manifest.name : "SVG-Fallback"}</strong>{game.assetPackId && !pack && <small>Projekt erwartet: {game.assetPackId}</small>}</div>
         <div className="crawler-controls">
           <button onClick={()=>setFacing(turnLeft(facing))} aria-label="Links drehen">↶<small>drehen</small></button>
-          <button onClick={()=>step(facing)} disabled={!encounterDone || defeated || won} aria-label="Vorwärts">↑<small>vor</small></button>
+          <button onClick={()=>step(facing)} disabled={!encounterDone || defeated} aria-label="Vorwärts">↑<small>vor</small></button>
           <button onClick={()=>setFacing(turnRight(facing))} aria-label="Rechts drehen">↷<small>drehen</small></button>
           <span className="compass">{DIRECTION_LABELS[facing]}</span>
-          <button onClick={()=>step(turnBack(facing))} disabled={!encounterDone || defeated || won} aria-label="Rückwärts">↓<small>zurück</small></button>
+          <button onClick={()=>step(turnBack(facing))} disabled={!encounterDone || defeated} aria-label="Rückwärts">↓<small>zurück</small></button>
           {encounter && !encounterDone && !defeated && <button className="attack-button" onClick={attack}>⚔ Angriff <small>{currentEnemyHp}/{encounter.enemyHp} HP</small></button>}
           {facingDoorClosed && encounterDone && !defeated && <button className="door-button" onClick={openFacingDoor}>🚪 Öffnen<small>{facingDoor?.keyItemId ? "Schlüssel prüfen" : "Tür"}</small></button>}
         </div>
@@ -277,7 +277,7 @@ function PlaytestPage() {
         })}</div>}
 
         {defeated && <div className="crawler-message danger"><strong>Die Gruppe wurde besiegt.</strong><button onClick={reset}>Erneut versuchen</button></div>}
-        {won && <div className="crawler-message victory"><strong>Sonnenheiligtum erreicht.</strong><span>Der Dungeon-Slice ist abgeschlossen.</span></div>}
+        {won && <div className="crawler-message victory"><strong>Abschluss erreicht.</strong><span>Der Test gilt als abgeschlossen, du kannst dich aber weiterbewegen und den Dungeon weiter prüfen.</span></div>}
       </main>
 
       <aside className="crawler-sidebar">

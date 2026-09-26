@@ -224,3 +224,24 @@ Fixed on `workbench/playable-slice`:
 - raw comma-separated exit editing remains available as an advanced escape hatch
 
 This makes T-junctions, crossroads, loops and side branches first-class builder operations instead of requiring manual X/Y plus exit-ID editing.
+
+
+## 2026-09-26 — Playtest freeze + builder focus fix
+
+User test exposed two concrete usability defects.
+
+Playtest:
+- reaching an ending cell no longer disables movement or door interaction
+- completion is now a status/message, not a hard runtime freeze
+- keyboard movement now refreshes when `openDoors` changes, avoiding stale door-state closures after opening a door
+
+Builder:
+- the map now has an explicit selected-room focus
+- rooms are clickable in the live map and visibly highlighted
+- all N/O/S/W create/connect/disconnect operations are relative only to the selected room
+- existing neighbor navigation ("Auswählen") is separate from topology mutation ("Verbinden/Trennen")
+- creating an adjacent room automatically selects the new room
+- manual X/Y editing is demoted to an advanced section to reduce accidental topology corruption
+- room list cards can explicitly select the corresponding map cell
+
+This replaces the ambiguous per-card topology controls that made it easy to edit the wrong room.
