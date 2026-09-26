@@ -163,6 +163,9 @@ function AssetsPage() {
         <article><span>Paletten</span><strong>{autoReport.alisPaletteResources}</strong></article>
         <article><span>Composites</span><strong>{autoReport.alisCompositeResources}</strong></article>
         <article><span>Composite-Vorschau</span><strong>{autoReport.alisCompositePreviews}</strong></article>
+        <article><span>Distanzsets</span><strong>{autoReport.distanceSetsDetected}</strong></article>
+        <article><span>Verifiziert</span><strong>{autoReport.verifiedDistanceSets}</strong></article>
+        <article><span>Heuristisch</span><strong>{autoReport.heuristicDistanceSets}</strong></article>
         <article><span>Zugeordnet</span><strong>{autoReport.mappedImages}</strong></article>
       </div>
       <article className="stone-card"><h2>Automatik-Bericht</h2><ul>{autoReport.notes.map((note,index)=><li key={index}>{note}</li>)}</ul><p className="muted">{autoReport.candidateResources} mögliche Ressourcencontainer untersucht · {autoReport.decodedOldPacker} Old-Packer + {autoReport.decodedA1Packer} A1 entpackt · {autoReport.alisTablesFound} ALIS-Grafiktabellen · {autoReport.alisPaletteResources} Paletten · {autoReport.alisCompositeResources} Composites · {autoReport.failedPackedDecode} Decode-Fehler.</p>{autoReport.alisImagesSkippedForBudget>0 && <p className="muted">{autoReport.alisImagesSkippedForBudget} Bilder wurden wegen des Browser-Speicherlimits nur katalogisiert/übersprungen.</p>}</article>
@@ -204,9 +207,11 @@ function AssetsPage() {
           <small>{asset.width && asset.height ? `${asset.width}×${asset.height} · ` : ""}{asset.assetKind==="terrain" ? "ALIS 0x1C/0x1E" : asset.assetKind==="composite" ? "ALIS 0xFF zusammengesetzt" : asset.source==="alis" ? "ALIS Sprite" : "Standardbild"}</small>
           <code title={asset.path}>{asset.path}</code>
           {asset.knownUse && <strong className="known-asset-use">{asset.knownUse}</strong>}
+          {asset.distanceSetLabel && <small className="muted">Set: <strong>{asset.distanceSetLabel}</strong> · {asset.distanceConfidence==="verified" ? "verifiziert" : "heuristisch"}</small>}
           <div className="asset-card-badges">
             <span className={"badge " + (asset.assetKind==="terrain" || asset.assetKind==="composite" ? "confirmed" : asset.runtimeAssigned ? "confirmed" : asset.suggestedRole ? "suspected" : "unknown")}>{asset.assetKind==="terrain" ? "Terrain" : asset.assetKind==="composite" ? "Composite" : asset.runtimeAssigned ? "Runtime" : asset.suggestedRole ? "Vorschlag" : "prüfen"}</span>
             {asset.paletteStatus && <span className={"badge " + (asset.paletteStatus==="embedded" ? "confirmed" : "suspected")}>Palette: {asset.paletteStatus}</span>}
+            {asset.distanceSetId && <span className={"badge " + (asset.distanceConfidence==="verified" ? "confirmed" : "suspected")}>Distanz: {asset.distanceRole==="near" ? "Nah" : asset.distanceRole==="mid" ? "Mittel" : "Fern"}</span>}
             {asset.visualStatus==="flat-color" && <span className="badge unknown">einfarbig / Maske?</span>}
             {asset.visualStatus==="palette-suspect" && <span className="badge suspected">Palette offen</span>}
           </div>
