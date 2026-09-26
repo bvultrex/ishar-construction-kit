@@ -52,6 +52,7 @@ export interface AlisImageExtraction {
   images: AlisIndexedImage[];
   palettes: AlisPaletteResource[];
   composites: AlisCompositeResource[];
+  formatCounts: Record<string, number>;
   rejectedImages: number;
 }
 
@@ -254,12 +255,21 @@ export function extractAlisIndexedImages(
       images: [],
       palettes: [],
       composites: [],
+      formatCounts: {},
       rejectedImages: 0,
     };
   }
 
   const palettes = readPaletteTimeline(bytes, sourcePath, table.address, table.entries);
   const composites = readComposites(bytes, sourcePath, table.address, table.entries);
+  const formatCounts: Record<string, number> = {};
+  for (let index = 0; index < table.entries; index++) {
+    const location = entryLocation(bytes, table.address, index);
+    if (location === undefined) continue;
+    const format = bytes[location - 2] ?? -1;
+    const key = format < 0 ? "invalid" : "0x" + format.toString(16).padStart(2, "0");
+    formatCounts[key] = (formatCounts[key] ?? 0) + 1;
+  }
   const images: AlisIndexedImage[] = [];
   let rejectedImages = 0;
 
@@ -392,6 +402,7 @@ export function extractAlisIndexedImages(
     images,
     palettes,
     composites,
+    formatCounts,
     rejectedImages,
   };
 }
