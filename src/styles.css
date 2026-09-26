@@ -225,3 +225,7 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .item-distance-assets{display:grid;gap:8px;margin-top:8px;padding:9px;border:1px solid #49382a;background:#100d0a}
 .item-distance-assets>strong{font-family:Georgia,serif;color:#d2ad7d}
 .item-distance-assets>label{display:grid;gap:5px;font-size:10px;color:#9b8a72}
+
+
+.known-asset-use{font-size:10px;color:#e3bf78;border-top:1px solid #35291f;padding-top:4px}
+.item-depth{image-rendering:pixelated}
