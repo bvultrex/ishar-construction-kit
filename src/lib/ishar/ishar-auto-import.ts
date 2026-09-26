@@ -44,6 +44,7 @@ export interface IsharAutoImportReport {
   unmappedImages: number;
   candidateResources: number;
   defaultAssignments: IsharDefaultAssignment[];
+  playtestFallbackRoles: DungeonAssetRole[];
   notes: string[];
 }
 
@@ -334,6 +335,37 @@ function chooseDefaultDungeonAssets(images: AlisIndexedImage[], game: GameId): I
 
   return assignments;
 }
+function chooseGenericPlaytestEntities(images: AlisIndexedImage[]) {
+  const pick=(role:"encounter"|"item")=>{
+    const candidates=images.filter((image)=>{
+      if(guessRole(image.sourcePath)!==role) return false;
+      if(isFlatColorImage(image) || isPaletteSuspect(image)) return false;
+      if(paletteVariety(image)<3) return false;
+      if(role==="encounter") return image.width>=16 && image.height>=24 && image.width<=220 && image.height<=180;
+      return image.width>=8 && image.height>=8 && image.width<=96 && image.height<=96;
+    });
+    candidates.sort((a,b)=>{
+      const sourceA=baseName(a.sourcePath).toUpperCase();
+      const sourceB=baseName(b.sourcePath).toUpperCase();
+      const sourceScore=(name:string)=>{
+        if(role==="encounter" && /GUARD|MONSTER|DRAGON|CHAOS|WIZARD|WOMAN|DRUID/.test(name)) return 10000;
+        if(role==="item" && name==="OBJET.IO") return 10000;
+        return 0;
+      };
+      const scoreA=sourceScore(sourceA)+(a.width*a.height);
+      const scoreB=sourceScore(sourceB)+(b.width*b.height);
+      return scoreB-scoreA;
+    });
+    return candidates[0];
+  };
+  const result: {role:"encounter"|"item";image:AlisIndexedImage}[]=[];
+  const encounter=pick("encounter");
+  const item=pick("item");
+  if(encounter) result.push({role:"encounter",image:encounter});
+  if(item) result.push({role:"item",image:item});
+  return result;
+}
+
 function defaultChoiceKey(sourcePath:string,entryIndex:number){
   return `${sourcePath}#${entryIndex}`;
 }
@@ -856,6 +888,11 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   });
 
   const defaultAssignments=chooseDefaultDungeonAssets(alisImages,detectedGame);
+  const genericPlaytestEntities=chooseGenericPlaytestEntities(alisImages);
+  const genericEntityByImage=new Map(genericPlaytestEntities.map((entry)=>[
+    defaultChoiceKey(entry.image.sourcePath,entry.image.entryIndex),
+    entry.role,
+  ] as const));
   const defaultsByImage=new Map<string,IsharDefaultAssignment[]>();
   for(const assignment of defaultAssignments){
     const key=defaultChoiceKey(assignment.sourcePath,assignment.entryIndex);
@@ -893,6 +930,18 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     alisPreviewCount++;
     const blob=await indexedImageToPngBlob(image);
     const url=URL.createObjectURL(blob);
+    const genericRole=genericEntityByImage.get(defaultChoiceKey(image.sourcePath,image.entryIndex));
+    if(genericRole){
+      const genericId=`auto-playtest-${genericRole}-${safeId(image.sourcePath)}-${image.entryIndex}`;
+      shared.unshift({
+        id:genericId,
+        role:genericRole,
+        file:`${image.sourcePath}#alis-${image.entryIndex}.png`,
+        ...placementFor(genericRole,detectedGame),
+      });
+      urls[genericId]=url;
+      paths[genericId]=`${image.sourcePath}#alis-${image.entryIndex}.png`;
+    }
     const role=guessRole(image.sourcePath);
     const suggestion=image.assetKind==="terrain" ? "wall.front" : (role ?? suggestRoleByDimensions(image.width,image.height));
     const id=safeId(image.sourcePath)+"-alis-"+image.entryIndex;
@@ -1004,7 +1053,8 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     globalPaletteFallbackImages ? globalPaletteFallbackImages+" Bild(er) ohne vorausgehende lokale Palette verwenden die gewählte Spiel-/Szenenbasis." : "Keine globale Palettenbasis musste direkt verwendet werden.",
     alisCompositeResources ? alisCompositeResources+" ALIS-Composite-Ressource(n) referenzieren mehrere gestapelte Grafikbausteine; "+alisCompositePreviews+" davon wurden als zusammengesetzte Vorschau gerendert." : "Keine ALIS-Composite-Ressource erkannt.",
     alisImages.length ? alisImages.length+" proprietäre ALIS-Bildressource(n) wurden aus den decodierten Skripten extrahiert." : "In den decodierten Skripten wurde noch keine unterstützte ALIS-Bildressource gefunden.",
-    defaultAssignments.length ? defaultAssignments.length+" Standard-Dungeon-Rolle(n) wurden heuristisch als sofort nutzbares Default-Tileset belegt." : "Kein ausreichend plausibles Default-Dungeon-Tileset konnte gewählt werden.",
+    defaultAssignments.length ? defaultAssignments.length+" Standard-Dungeon-Rolle(n) wurden heuristisch als sofort nutzbares Default-Tileset belegt." : "Keine Wand/Boden/Decken-Rolle wurde ohne belastbare Szenenzuordnung erfunden; der sichtbare Stein-Fallback bleibt aktiv.",
+    genericPlaytestEntities.length ? "Playtest-Fallback aus Originalgrafik: "+genericPlaytestEntities.map((entry)=>entry.role+" = "+entry.image.sourcePath+" #"+entry.image.entryIndex).join(", ")+ "." : "Kein farblich belastbarer Gegner-/Item-Fallback für den Playtest gefunden.",
     mappedImages ? mappedImages+" Bild(er) wurden anhand eindeutiger Dateinamen automatisch katalogisiert/zugeordnet." : "Noch keine weitere Grafik konnte sicher einer Engine-Rolle zugeordnet werden; der SVG-Fallback bleibt aktiv.",
     unmappedImages ? unmappedImages+" gefundene Standardbild(er) blieben absichtlich unzugeordnet, weil die Rolle nicht eindeutig war." : "Keine zusätzlich gefundenen Standardbilder blieben unzugeordnet.",
   ];
@@ -1039,6 +1089,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     unmappedImages,
     candidateResources,
     defaultAssignments,
+    playtestFallbackRoles: genericPlaytestEntities.map((entry)=>entry.role),
     notes,
   };
 
