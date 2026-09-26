@@ -519,3 +519,26 @@ Implemented:
 - Asset Lab reports whether STAGE.IO/#4 was found and how many images received local palette overlays
 
 Do not claim that 0x1C/0x1E are present in the user's Ishar 2 archive until the new format histogram confirms it.
+
+
+## 2026-09-26 — Composite preview path after terrain correction
+
+Further review of the recovered legacy Workbench changed the investigation priority:
+
+- Its verified Ishar tile preview system does not model a visible cave/city field as one texture.
+- For known Ishar 1 scene modules (for example MCAVE.IO and VILLE.IO), one map field resolves to several graphic resource IDs plus mirrored variants.
+- This strongly supports the user's earlier observation that visible walls/decor can be assembled from multiple sprite resources rather than represented by one seamless wall bitmap.
+- Therefore the absence of obvious wall/floor/ceiling thumbnails is not proof that the data is missing; some geometry may only become recognizable after resource composition and script draw ordering.
+
+Implemented now:
+
+- ALIS 0xFF composite resources are recursively expanded into their child image resources.
+- Child X/Y/Z offsets and horizontal-flip metadata are honored in a bounded browser canvas renderer.
+- Nested composites are supported with recursion/cycle limits.
+- Up to 500 composite resources per import are rendered as PNG previews.
+- Asset Lab sorts composites ahead of ordinary sprites and labels them separately.
+- Composite previews are diagnostic only; they are not treated as repeatable surface textures yet.
+
+This runs in parallel with the new raw-format histogram. The next real Ishar 2 import can now answer two separate questions:
+1. Do the currently scanned resource tables contain 0x1C/0x1E at all?
+2. Do 0xFF composite previews reconstruct recognizable cave/wall/decor assemblies even if no terrain texture class is present?
