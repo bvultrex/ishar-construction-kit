@@ -138,7 +138,13 @@ User test of the first runnable slice passed functionally but exposed the wrong 
 
 ## Immediate item-graphics target
 
-1. Verify OBJET.IO #69/#70/#71 scale and alignment in current / +1 / +2 rooms.
-2. Identify the exact semantic subtype represented by #72/#73/#74.
-3. Determine whether #75/#76 are inventory/close-up states and whether #121 is the inventory key-ring icon.
-4. Extend the same distance-set model to other verified item families.
+- Done: verified distance families are modeled explicitly for OBJET.IO #69/#70/#71, #72/#73/#74 and user-verified mushroom family #232/#233/#234.
+- Done: conservative OBJET.IO-only detection groups consecutive sprite triples when their visible footprint shrinks near -> mid -> far.
+- Done: Asset Lab labels distance-set membership/confidence; Adventure Builder can apply a whole set; Playtest resolves missing distance siblings automatically.
+
+Next:
+1. Re-import Ishar 2 and verify #232/#233/#234 scale/alignment in current / +1 / +2 rooms.
+2. Review heuristic OBJET.IO triples for false positives; promote only manually confirmed families to verified mappings.
+3. Identify the exact semantic subtype represented by #72/#73/#74.
+4. Determine whether #75/#76 are inventory/close-up states and whether #121 is the inventory key-ring icon.
+5. Search enemy-bearing resources for equivalent near/mid/far sequences before extending the detector beyond OBJET.IO.
