@@ -137,7 +137,7 @@ function AssetsPage() {
 
   return <section>
     {cacheStatus && <p role="status">{cacheStatus}</p>}
-    {pack?.manifest.tilesets.some(t=>t.id==="ishar2-dj1" || t.id==="ishar2-dj2") && <p>DJ1/DJ2-Wandserien sind automatisch im Playtest aktiv. Die Platzierung ist an die Toolkit-Kamera angepasst; FDJ-Böden, Deckenfarbflächen und Original-Türrahmen ergänzen die Wände. Geschlossene Türblätter sind weiterhin Toolkit-Ersatzgrafiken.</p>}
+    {pack?.manifest.tilesets.some(t=>t.id==="ishar2-dj1" || t.id==="ishar2-dj2") && <p>DJ1/DJ2-Wandserien sind automatisch im Playtest aktiv. Die Platzierung nutzt die Skript-Höhenstaffelung und native Bildgrößen; FDJ-Böden, Deckenfarbflächen und Original-Türrahmen ergänzen die Wände. Geschlossene Türblätter sind weiterhin Toolkit-Ersatzgrafiken.</p>}
     <header className="page-head">
       <div><p className="eyebrow">Ishar asset import</p><h1>Asset Lab</h1><p>Standardweg: Wähle einfach deine lokale Ishar-ZIP. Das Toolkit analysiert den Inhalt und verteilt alles, was es mit ausreichender Sicherheit erkennt, automatisch in die Engine.</p></div>
       <div className="toolbar">
@@ -218,7 +218,7 @@ function AssetsPage() {
             {asset.visualStatus==="flat-color" && <span className="badge unknown">einfarbig / Maske?</span>}
             {asset.visualStatus==="palette-suspect" && <span className="badge suspected">Rotanteil prüfen</span>}
           </div>
-          {asset.assetKind==="composite" ? <small className="muted">{asset.runtimeAssigned ? "Im Playtest aktiv · zusammengesetzte Wandebene. DJ1 und DJ2 sind unterschiedliche Varianten." : "Composite-Ressource aus referenzierten Einzelgrafiken; diese bleiben separat im Katalog. Keine kachelbare Oberfläche."}</small> : asset.visualStatus!=="flat-color" && asset.visualStatus!=="palette-suspect" ? <div className="asset-quick-map">
+          {asset.assetKind==="composite" ? <small className="muted">{asset.runtimeAssigned ? "Im Playtest aktiv · zusammengesetzte Szenenebene. DJ1 und DJ2 sind unterschiedliche Varianten." : "Composite-Ressource aus referenzierten Einzelgrafiken; diese bleiben separat im Katalog. Keine kachelbare Oberfläche."}</small> : asset.visualStatus!=="flat-color" && asset.visualStatus!=="palette-suspect" ? <div className="asset-quick-map">
             <button onClick={()=>assignPreview(asset,"dungeon-base")}>Basis</button>
             <button className="secondary" onClick={()=>assignPreview(asset,"wall.front")}>Wand</button>
             <button className="secondary" onClick={()=>assignPreview(asset,"surface.floor")}>Boden</button>

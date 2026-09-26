@@ -1,4 +1,4 @@
-import { DUNGEON_FRAMES as FRAMES } from "@/lib/ishar/dungeon-scenes";
+import { DUNGEON_FRAMES as FRAMES, DUNGEON_NATIVE_FRAMES } from "@/lib/ishar/dungeon-scenes";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useKit } from "@/lib/store";
@@ -218,13 +218,17 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
 }) {
   const renderProfile=renderProfileForManifest(pack?.manifest);
   const viewportAspect=displayAspect(renderProfile);
+  const sceneTileset=pack?.manifest.tilesets.find(t=>t.id===location.tilesetId)
+    ?? pack?.manifest.tilesets.find(t=>t.id===pack.manifest.defaultTilesetId);
+  const nativeScene=(pack?.sceneLayoutVersion??0)>=4 && /^ishar2-dj[12]$/.test(sceneTileset?.id??"");
+  const frames=nativeScene ? DUNGEON_NATIVE_FRAMES : FRAMES;
   const segments: React.ReactNode[] = [];
   const itemLayers: React.ReactNode[] = [];
   let cell: AuthoredLocation | undefined = location;
 
   for (let depth = 0; depth < 4 && cell; depth++) {
-    const outer = FRAMES[depth]!;
-    const inner = FRAMES[depth + 1]!;
+    const outer = frames[depth]!;
+    const inner = frames[depth + 1]!;
     const leftOpen = !!canTravel(game.locations, cell, turnLeft(facing));
     const rightOpen = !!canTravel(game.locations, cell, turnRight(facing));
     const forward = canTravel(game.locations, cell, facing);
@@ -304,6 +308,7 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
       </defs>
       <rect width="640" height="400" className="dungeon-dark"/>
       {renderAsset(pack, "viewport.background", undefined, location.tilesetId)}
+      {nativeScene && renderAsset(pack,"surface.ceiling",undefined,location.tilesetId)}
       {segments}
       {itemLayers}
       <path className="dungeon-vignette" d="M0 0H640V400H0Z M32 25V375H608V25Z" fillRule="evenodd"/>

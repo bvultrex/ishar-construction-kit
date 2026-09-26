@@ -30,7 +30,7 @@ export function dungeonSceneAssignments(sourcePath: string, index: number) {
 
 // ALIS sprites are centered; Z points upwards, Y is scene depth.
 export function dungeonSpritePosition(x:number,z:number,width:number,height:number) {
-  return {x:x-Math.floor(width/2),y:-z-Math.floor(height/2)};
+  return {x:x-Math.floor((width-1)/2),y:-z-Math.floor((height-1)/2)};
 }
 
 // CK camera adaptation, deliberately not an assertion about the original camera.
@@ -40,3 +40,11 @@ export function wallColumnEdges(depth:number,left:boolean,column:number,width:nu
   const t=left ? fraction : 1-fraction;
   return {top:(inner.t-outer.t)*t,bottom:outer.b-outer.t+(inner.b-outer.b)*t};
 }
+
+// DJ1 code 0x2270ff, also cross-checked by joins of front composites.
+// Screen origin (127,65) is reconstructed from contiguous bitmap boundaries.
+export const DUNGEON_NATIVE_Z = [-42,-25,-12,-7];
+export const DUNGEON_NATIVE_FRAMES = [
+  {l:0,t:0,r:256,b:113},{l:32,t:0,r:224,b:102},
+  {l:82,t:0,r:174,b:81},{l:98,t:0,r:158,b:75},{l:106,t:0,r:150,b:71},
+].map(f=>({l:f.l*640/256,r:f.r*640/256,t:f.t*400/113,b:f.b*400/113}));

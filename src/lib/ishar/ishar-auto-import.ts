@@ -1,5 +1,4 @@
-import { fitWallBlob } from "./wall-fitting";
-import { dungeonSceneAssignments, dungeonSpritePosition } from "./dungeon-scenes";
+import { dungeonSceneAssignments, dungeonSpritePosition, DUNGEON_NATIVE_Z } from "./dungeon-scenes";
 import { resolveIshar2Palettes } from "./palette-resolution";
 import JSZip from "jszip";
 import { classifyFile } from "./classify";
@@ -638,6 +637,7 @@ async function compositeToPngBlob(
     blob,
     width,
     height,
+    minX,minY,
     components:placements.length,
     paletteSuspect,
     renderedRedRatio,
@@ -1078,12 +1078,11 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       const rendered=await compositeToPngBlob(composite,alisImageMap,alisCompositeMap,true,a.mirror);
       if(!rendered) continue;
       const id=`${a.tilesetId}-${a.role}-${a.depth}`;
-      const profile=renderProfileForGame(detectedGame);
       const entry: DungeonAssetEntry={id,role:a.role,depth:a.depth,
         file:`${composite.sourcePath}#scene-${composite.entryIndex}.png`,renderMode:"layer",
-        x:a.x*profile.drawWidth/640,y:a.y*profile.drawHeight/400,
-        width:a.width*profile.drawWidth/640,height:a.height*profile.drawHeight/400};
-      urls[id]=URL.createObjectURL(a.role.startsWith("wall.") ? await fitWallBlob(rendered.blob,a.role,a.depth) : rendered.blob); paths[id]=entry.file;
+        x:127+rendered.minX,y:65-DUNGEON_NATIVE_Z[a.depth]!+rendered.minY,
+        width:rendered.width,height:rendered.height};
+      urls[id]=URL.createObjectURL(rendered.blob); paths[id]=entry.file;
       const entries=sceneEntries.get(a.tilesetId)??[]; entries.push(entry);
       sceneEntries.set(a.tilesetId,entries);
     }
@@ -1099,7 +1098,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     const id=`${tilesetId}-${role}`;
     const blob=await indexedImageToPngBlob(image);
     const entry:DungeonAssetEntry={id,role,file:`${image.sourcePath}#alis-${image.entryIndex}.png`,renderMode:"layer",
-      x:0,y:floor ? 56.5 : 0,width:256,height:56.5};
+      x:0,y:floor ? 113-image.height : 0,width:256,height:floor ? image.height : 113};
     urls[id]=URL.createObjectURL(blob);paths[id]=entry.file;sceneEntries.get(tilesetId)!.push(entry);
   }
   let alisCompositePreviews=0;
@@ -1142,7 +1141,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
 
   const candidateResources=inventory.filter((record)=>record.silm || record.ext===".IO" || record.ext===".FIC").length;
   const notes=[
-    sceneEntries.size ? `${Array.from(sceneEntries.values()).flat().length} Dungeon-Wandebenen automatisch geladen (DJ1/DJ2). Ressourcenfamilien skriptbelegt; Rollen und CK-Kamera rekonstruiert. FDJ-Boden und Farbfläche sowie Türrahmen integriert; geschlossenes Türblatt ist ein Toolkit-Ersatz.` : "Keine unterstützte DJ1/DJ2-Szenengeometrie geladen.",
+    sceneEntries.size ? `${Array.from(sceneEntries.values()).flat().length} Dungeon-Szenenebenen automatisch geladen (DJ1/DJ2). Höhenstaffelung skriptbelegt; Bildschirmursprung aus Bildanschlüssen rekonstruiert. FDJ-Boden und Farbfläche sowie Türrahmen integriert; geschlossenes Türblatt ist ein Toolkit-Ersatz.` : "Keine unterstützte DJ1/DJ2-Szenengeometrie geladen.",
     detectedGame==="unknown" ? "Spielversion konnte aus Dateinamen/-größen nicht sicher erkannt werden." : gameLabel+" wurde anhand des lokalen Dateibestands erkannt.",
     "Renderprofil: "+renderProfile.label+" · Drawspace "+renderProfile.drawWidth+"×"+renderProfile.drawHeight+" · Pixel-Aspekt Y "+renderProfile.pixelAspectY+".",
     decodedOldPacker ? decodedOldPacker+" Datei(en) mit altem Silmarils-Packer wurden für die Bildsuche entpackt." : "Keine Old-Packer-Ressource musste entpackt werden.",
@@ -1205,7 +1204,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   };
 
   const pack: LoadedAssetPack={
-    sceneLayoutVersion:3,
+    sceneLayoutVersion:4,
     manifest,
     urls,
     paths,

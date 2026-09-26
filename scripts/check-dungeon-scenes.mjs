@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { dungeonSceneAssignments as assign, dungeonSpritePosition as position, wallColumnEdges, DUNGEON_FRAMES } from '../src/lib/ishar/dungeon-scenes.ts';
+import { dungeonSceneAssignments as assign, dungeonSpritePosition as position, wallColumnEdges, DUNGEON_FRAMES, DUNGEON_NATIVE_Z, DUNGEON_NATIVE_FRAMES } from '../src/lib/ishar/dungeon-scenes.ts';
 for(const [module,base] of [['DJ1.IO',47],['DJ2.IO',35]]) {
   for(let depth=0;depth<4;depth++) {
     const sides=assign('game/'+module,base+depth);
@@ -18,7 +18,7 @@ for(const [module,base] of [['DJ1.IO',47],['DJ2.IO',35]]) {
   assert.equal(assign(module,base+16)[0].role,'door.front.open','Door frames are open surrounds, not closed leaves');
 }
 assert.deepEqual(assign('OTHER.IO',47),[]);
-assert.deepEqual(position(0,57,96,102),{x:-48,y:-108});
+assert.deepEqual(position(0,57,96,102),{x:-47,y:-107});
 assert.deepEqual(position(32,20,9,7),{x:28,y:-23});
 console.log('Dungeon scene assignment / centered X-Z projection tests passed');
 
@@ -43,3 +43,14 @@ assert.deepEqual([...solid.pixels],[37,37,37,37,37,37]);
 assert.equal(solid.transparentIndex,undefined,'Solid rectangles are opaque');
 assert.equal(extractAlisIndexedImages(fixture.slice(0,69),'truncated.IO').images.length,0);
 console.log('ALIS solid rectangle and truncated header tests passed');
+
+assert.deepEqual(DUNGEON_NATIVE_Z,[-42,-25,-12,-7]);
+// Metadata-only front-wall joins: top/bottom members must touch exactly.
+const project=(x,z,w,h,d)=>{const p=position(x,z,w,h);return {x:127+p.x,y:65-DUNGEON_NATIVE_Z[d]+p.y,w,h};};
+const upper=project(0,77,64,28,1),lower=project(0,36,64,53,1);
+assert.equal(upper.y,0);assert.equal(upper.y+upper.h,lower.y);assert.equal(lower.y+lower.h,81);
+assert.equal(upper.x,lower.x);
+assert.equal(project(-38,50,16,81,1).x,82);
+assert.equal(project(38,50,16,81,1).x+16,174);
+for(const f of DUNGEON_NATIVE_FRAMES) assert.equal(f.t,0,'No invented ceiling wedge above native walls');
+console.log('Native script-height and composite seam regressions passed');
