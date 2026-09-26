@@ -110,22 +110,54 @@ function renderDiscoveredLayer(
     className="asset-layer"
   />;
 }
-function semanticItemAssetId(pack: LoadedAssetPack | null, item: AuthoredGame["items"][number] | undefined) {
-  if(!pack || !item || item.assetId) return item?.assetId;
+function semanticItemAssetId(
+  pack: LoadedAssetPack | null,
+  item: AuthoredGame["items"][number] | undefined,
+  depth: number,
+) {
+  if(!pack || !item || depth<0 || depth>2) return undefined;
+  const explicit=depth===0 ? (item.assetNearId ?? item.assetId) : depth===1 ? item.assetMidId : item.assetFarId;
+  if(explicit && pack.discoveredAssets?.some((asset)=>asset.id===explicit)) return explicit;
+
   const name=(item.name+" "+item.description).toLowerCase();
   if(/schl[uü]ssel|\bkey\b/.test(name) && pack.manifest.renderProfileId==="ishar2-dos"){
-    const preferred=[69,72,75,121];
-    for(const entry of preferred){
-      const match=pack.discoveredAssets?.find((asset)=>
-        asset.source==="alis"
-        && asset.visualStatus==="normal"
-        && /OBJET\.IO/i.test(asset.path)
-        && new RegExp("ALIS #"+entry+"(?:\\D|$)","i").test(asset.path)
-      );
-      if(match) return match.id;
-    }
+    const entry=[69,70,71][depth]!;
+    const match=pack.discoveredAssets?.find((asset)=>
+      asset.source==="alis"
+      && asset.visualStatus==="normal"
+      && /OBJET\.IO/i.test(asset.path)
+      && new RegExp("ALIS #"+entry+"(?:\\D|$)","i").test(asset.path)
+    );
+    if(match) return match.id;
   }
   return undefined;
+}
+
+function renderDiscoveredItemAtDepth(
+  pack: LoadedAssetPack | null,
+  assetId: string | undefined,
+  depth: number,
+) {
+  if(!pack || !assetId || depth<0 || depth>2) return null;
+  const preview=pack.discoveredAssets?.find((asset)=>asset.id===assetId);
+  if(!preview) return null;
+  const profile=renderProfileForManifest(pack.manifest);
+  const scale=sourceScale(profile);
+  const width=Math.max(12,(preview.width ?? 16)*scale.x);
+  const height=Math.max(12,(preview.height ?? 16)*scale.y);
+  const frame=FRAMES[Math.min(depth+1,FRAMES.length-1)]!;
+  const x=320-width/2;
+  const y=frame.b-height;
+  return <image
+    key={"distance-item-"+assetId+"-"+depth}
+    href={preview.url}
+    x={x}
+    y={y}
+    width={width}
+    height={height}
+    preserveAspectRatio="xMidYMid meet"
+    className={"asset-layer item-depth item-depth-"+depth}
+  />;
 }
 
 
@@ -164,19 +196,20 @@ function renderRectAsset(
   </g>;
 }
 
-function DungeonViewport({ game, location, facing, encounter, encounterDone, itemId, pack, openDoors }: {
+function DungeonViewport({ game, location, facing, encounter, encounterDone, collectedItemIds, pack, openDoors }: {
   game: AuthoredGame;
   location: AuthoredLocation;
   facing: Direction;
   encounter?: AuthoredEncounter;
   encounterDone: boolean;
-  itemId?: string;
+  collectedItemIds: string[];
   pack: LoadedAssetPack | null;
   openDoors: string[];
 }) {
   const renderProfile=renderProfileForManifest(pack?.manifest);
   const viewportAspect=displayAspect(renderProfile);
   const segments: React.ReactNode[] = [];
+  const itemLayers: React.ReactNode[] = [];
   let cell: AuthoredLocation | undefined = location;
 
   for (let depth = 0; depth < 4 && cell; depth++) {
@@ -187,6 +220,14 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
     const forward = canTravel(game.locations, cell, facing);
     const forwardDoor = forward ? doorBetween(game.doors, cell, forward) : undefined;
     const forwardDoorOpen = !forwardDoor || openDoors.includes(forwardDoor.id);
+
+    if(depth<=2){
+      const visibleItemId=cell.itemIds.find((id)=>!collectedItemIds.includes(id));
+      const visibleItem=visibleItemId ? game.items.find((item)=>item.id===visibleItemId) : undefined;
+      const assetId=semanticItemAssetId(pack,visibleItem,depth);
+      const layer=renderDiscoveredItemAtDepth(pack,assetId,depth);
+      if(layer) itemLayers.unshift(layer);
+    }
 
     segments.push(
       <g key={`segment-${depth}`} className={`dungeon-depth depth-${depth}`}>
@@ -223,11 +264,11 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
   }
 
   const encounterLayer = encounter && !encounterDone ? renderAsset(pack, "encounter", undefined, location.tilesetId, encounter.id) : null;
-  const authoredItem = itemId ? game.items.find((item)=>item.id===itemId) : undefined;
-  const semanticAssetId=semanticItemAssetId(pack,authoredItem);
-  const itemLayer = itemId
-    ? (renderDiscoveredLayer(pack, semanticAssetId, {x:448,y:242,width:104,height:118})
-      ?? renderAsset(pack, "item", undefined, location.tilesetId, itemId))
+  const currentItemId=location.itemIds.find((id)=>!collectedItemIds.includes(id));
+  const currentItem=currentItemId ? game.items.find((item)=>item.id===currentItemId) : undefined;
+  const currentItemAssetId=semanticItemAssetId(pack,currentItem,0);
+  const genericCurrentItemLayer=!currentItemAssetId && currentItemId
+    ? renderAsset(pack, "item", undefined, location.tilesetId, currentItemId)
     : null;
 
   return <div className="dungeon-viewport" style={{aspectRatio:String(viewportAspect)}} data-render-profile={renderProfile.id}>
@@ -249,6 +290,7 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
       <rect width="640" height="400" className="dungeon-dark"/>
       {renderAsset(pack, "viewport.background", undefined, location.tilesetId)}
       {segments}
+      {itemLayers}
       <path className="dungeon-vignette" d="M0 0H640V400H0Z M32 25V375H608V25Z" fillRule="evenodd"/>
       {encounter && !encounterDone && (encounterLayer ?? <g className="enemy-silhouette" transform="translate(320 232)">
         <ellipse cx="0" cy="58" rx="58" ry="13" className="enemy-shadow"/>
@@ -258,7 +300,7 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
         <circle cx="-8" cy="-91" r="3" className="enemy-eye"/><circle cx="8" cy="-91" r="3" className="enemy-eye"/>
         <path d="M-42 -22 L-70 23 L-52 30 L-26 2 M42 -22 L70 23 L52 30 L26 2" className="enemy-arms"/>
       </g>)}
-      {itemId && (itemLayer ?? <g className="dungeon-item" transform="translate(500 310)">
+      {currentItemId && !currentItemAssetId && (genericCurrentItemLayer ?? <g className="dungeon-item" transform="translate(500 310)">
         <ellipse cx="0" cy="36" rx="34" ry="8" className="item-shadow"/>
         <path d="M-22 34 L-14 -8 L14 -8 L22 34 Z" className="item-pedestal"/>
         <circle cx="0" cy="-24" r="13" className="item-glow"/>
@@ -421,7 +463,7 @@ function PlaytestPage() {
     <div className="ishar-play-shell">
       <div className="ishar-stage-row">
         <main className="ishar-view-panel">
-          <DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} itemId={visibleItemIds[0]} pack={pack} openDoors={openDoors}/>
+          <DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} collectedItemIds={inventory} pack={pack} openDoors={openDoors}/>
           <div className="asset-runtime-status"><span>Asset-Pack</span><strong>{pack ? pack.manifest.name : "SVG-Fallback"}</strong>{game.assetPackId && !pack && <small>Projekt erwartet: {game.assetPackId}</small>}</div>
         </main>
 
