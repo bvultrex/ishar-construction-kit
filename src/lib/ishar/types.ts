@@ -150,6 +150,7 @@ export type DungeonAssetRole =
 
 export type DungeonAssetDepth = 0 | 1 | 2 | 3;
 export type DungeonAssetRenderMode = "layer" | "texture";
+export type DungeonRenderProfileId = "construction" | "ishar1-dos" | "ishar2-dos" | "custom";
 
 export interface DungeonAssetEntry {
   id: string;
@@ -179,6 +180,8 @@ export interface DungeonAssetManifest {
   id: string;
   name: string;
   viewport: { width: number; height: number };
+  renderProfileId?: DungeonRenderProfileId;
+  pixelAspectY?: number;
   defaultTilesetId: string;
   shared: DungeonAssetEntry[];
   tilesets: DungeonTileset[];
