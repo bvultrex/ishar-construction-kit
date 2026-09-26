@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useKit } from "@/lib/store";
 import { useAssetPack } from "@/lib/asset-store";
 import { assetFor } from "@/lib/ishar/asset-pack";
-import { canTravel, DIRECTION_LABELS, turnBack, turnLeft, turnRight } from "@/lib/ishar/dungeon";
+import { canTravel, doorBetween, DIRECTION_LABELS, turnBack, turnLeft, turnRight } from "@/lib/ishar/dungeon";
 import { validateGame } from "@/lib/ishar/project-validation";
 import type { AuthoredEncounter, AuthoredGame, AuthoredLocation, Direction, DungeonAssetDepth, DungeonAssetRole } from "@/lib/ishar/types";
 import type { LoadedAssetPack } from "@/lib/ishar/asset-pack";
@@ -50,7 +50,7 @@ function renderAsset(
   />;
 }
 
-function DungeonViewport({ game, location, facing, encounter, encounterDone, itemId, pack }: {
+function DungeonViewport({ game, location, facing, encounter, encounterDone, itemId, pack, openDoors }: {
   game: AuthoredGame;
   location: AuthoredLocation;
   facing: Direction;
@@ -58,6 +58,7 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
   encounterDone: boolean;
   itemId?: string;
   pack: LoadedAssetPack | null;
+  openDoors: string[];
 }) {
   const segments: React.ReactNode[] = [];
   let cell: AuthoredLocation | undefined = location;
@@ -68,6 +69,8 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
     const leftOpen = !!canTravel(game.locations, cell, turnLeft(facing));
     const rightOpen = !!canTravel(game.locations, cell, turnRight(facing));
     const forward = canTravel(game.locations, cell, facing);
+    const forwardDoor = forward ? doorBetween(game.doors, cell, forward) : undefined;
+    const forwardDoorOpen = !forwardDoor || openDoors.includes(forwardDoor.id);
 
     segments.push(
       <g key={`segment-${depth}`} className={`dungeon-depth depth-${depth}`}>
@@ -89,10 +92,15 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
         {leftOpen && renderAsset(pack, "opening.left", depth as DungeonAssetDepth, cell.tilesetId)}
         {rightOpen && renderAsset(pack, "opening.right", depth as DungeonAssetDepth, cell.tilesetId)}
         {!forward && renderAsset(pack, "wall.front", depth as DungeonAssetDepth, cell.tilesetId)}
+        {forwardDoor && renderAsset(pack, forwardDoorOpen ? "door.front.open" : "door.front.closed", depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id)}
+        {forwardDoor && !forwardDoorOpen && !assetFor(pack, "door.front.closed", depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id) && <g className="fallback-door">
+          <rect x={inner.l + 12} y={inner.t + 4} width={Math.max(20, inner.r-inner.l-24)} height={Math.max(30, inner.b-inner.t-8)} rx="2"/>
+          <circle cx={inner.r - 26} cy={(inner.t+inner.b)/2} r="4"/>
+        </g>}
       </g>
     );
 
-    if (!forward) break;
+    if (!forward || !forwardDoorOpen) break;
     cell = forward;
   }
 
@@ -138,6 +146,7 @@ function PlaytestPage() {
   const [completedEncounters, setCompletedEncounters] = useState<string[]>([]);
   const [completedQuests, setCompletedQuests] = useState<string[]>([]);
   const [inventory, setInventory] = useState<string[]>([]);
+  const [openDoors, setOpenDoors] = useState<string[]>(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));
   const [log, setLog] = useState<string[]>(["Du betrittst den Dungeon."]);
 
   const location = useMemo(() => game.locations.find((x) => x.id === locationId), [game.locations, locationId]);
@@ -147,6 +156,9 @@ function PlaytestPage() {
   const defeated = heroHp <= 0;
   const won = !!location?.ending && !defeated && encounterDone;
   const visibleItemIds = location?.itemIds.filter((id) => !inventory.includes(id)) ?? [];
+  const facingTarget = location ? canTravel(game.locations, location, facing) : undefined;
+  const facingDoor = location && facingTarget ? doorBetween(game.doors, location, facingTarget) : undefined;
+  const facingDoorClosed = !!facingDoor && !openDoors.includes(facingDoor.id);
 
   function reset() {
     setLocationId(game.startLocationId);
@@ -156,6 +168,7 @@ function PlaytestPage() {
     setCompletedEncounters([]);
     setCompletedQuests([]);
     setInventory([]);
+    setOpenDoors(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));
     setLog(["Dungeon neu betreten."]);
   }
 
@@ -182,8 +195,28 @@ function PlaytestPage() {
       setLog((x)=>["Dort ist eine Wand.", ...x]);
       return;
     }
+    const door = doorBetween(game.doors, location, target);
+    if (door && !openDoors.includes(door.id)) {
+      setLog((x)=>[door.keyItemId ? "Die Tür ist verschlossen." : "Die Tür ist geschlossen.", ...x]);
+      return;
+    }
     setLocationId(target.id);
     setLog((x)=>[`Du betrittst: ${target.name}.`, ...x]);
+  }
+
+  function openFacingDoor() {
+    if (!location || defeated || won) return;
+    const target = canTravel(game.locations, location, facing);
+    if (!target) return;
+    const door = doorBetween(game.doors, location, target);
+    if (!door || openDoors.includes(door.id)) return;
+    if (door.keyItemId && !inventory.includes(door.keyItemId)) {
+      const key = game.items.find((item)=>item.id===door.keyItemId);
+      setLog((x)=>[`Verschlossen. Benötigt: ${key?.name ?? door.keyItemId}.`, ...x]);
+      return;
+    }
+    setOpenDoors((doors)=>[...doors, door.id]);
+    setLog((x)=>["Tür geöffnet.", ...x]);
   }
 
   function takeItem(id: string) {
@@ -218,7 +251,7 @@ function PlaytestPage() {
 
     <div className="crawler-layout">
       <main className="crawler-main">
-        <DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} itemId={visibleItemIds[0]} pack={pack}/>
+        <DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} itemId={visibleItemIds[0]} pack={pack} openDoors={openDoors}/>
         <div className="asset-runtime-status"><span>Asset-Pack</span><strong>{pack ? pack.manifest.name : "SVG-Fallback"}</strong>{game.assetPackId && !pack && <small>Projekt erwartet: {game.assetPackId}</small>}</div>
         <div className="crawler-controls">
           <button onClick={()=>setFacing(turnLeft(facing))} aria-label="Links drehen">↶<small>drehen</small></button>
@@ -227,6 +260,7 @@ function PlaytestPage() {
           <span className="compass">{DIRECTION_LABELS[facing]}</span>
           <button onClick={()=>step(turnBack(facing))} disabled={!encounterDone || defeated || won} aria-label="Rückwärts">↓<small>zurück</small></button>
           {encounter && !encounterDone && !defeated && <button className="attack-button" onClick={attack}>⚔ Angriff <small>{currentEnemyHp}/{encounter.enemyHp} HP</small></button>}
+          {facingDoorClosed && encounterDone && !defeated && <button className="door-button" onClick={openFacingDoor}>🚪 Öffnen<small>{facingDoor?.keyItemId ? "Schlüssel prüfen" : "Tür"}</small></button>}
         </div>
 
         <div className="party-hud">

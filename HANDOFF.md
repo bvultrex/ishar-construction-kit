@@ -155,3 +155,19 @@ Next asset work:
 2. add per-character portrait assets to the five-slot HUD
 3. test a hand-authored external pack with real image files
 4. begin Ishar-specific source-file mapping from user-owned local corpus; do not claim extraction semantics until verified
+
+
+## 2026-09-26 — Door runtime checkpoint
+
+Added authored doors as explicit transitions between adjacent dungeon cells.
+
+- doors may start open or closed
+- doors may require an authored item ID as a key
+- closed doors block movement while preserving the underlying room link
+- the first-person ray stops at a closed door
+- asset packs can render `door.front.closed` and `door.front.open`; a procedural door is used as fallback
+- playtest exposes an Open action for the door in front of the party
+- starter dungeon now uses the crypt rune to open the sealed route into the sanctum
+- Adventure Builder has door authoring and project validation checks door endpoints/key references
+
+This establishes the world-state hook required for Ishar-style door graphics and later switch/quest-controlled transitions.

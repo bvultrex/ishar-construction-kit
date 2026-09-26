@@ -12,6 +12,7 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
   const itemIds = new Set(game.items.map((x) => x.id));
   const encounterIds = new Set(game.encounters.map((x) => x.id));
   const questIds = new Set(game.quests.map((x) => x.id));
+  const doorIds = new Set(game.doors.map((x) => x.id));
 
   if (!game.locations.length) problems.push({ path: "game.locations", message: "Mindestens ein Ort wird benötigt." });
   if (!locationIds.has(game.startLocationId)) problems.push({ path: "game.startLocationId", message: "Der Startort existiert nicht." });
@@ -22,6 +23,7 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
     ...game.encounters.map((x) => ["encounter", x.id] as const),
     ...game.quests.map((x) => ["quest", x.id] as const),
     ...game.characters.map((x) => ["character", x.id] as const),
+    ...game.doors.map((x) => ["door", x.id] as const),
   ];
   const seen = new Set<string>();
   for (const [kind, id] of allIds) {
@@ -54,6 +56,20 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
 
     for (const item of location.itemIds) if (!itemIds.has(item)) problems.push({ path: `location.${location.id}.itemIds`, message: `Unbekanntes Item "${item}".` });
     if (location.encounterId && !encounterIds.has(location.encounterId)) problems.push({ path: `location.${location.id}.encounterId`, message: `Unbekannte Begegnung "${location.encounterId}".` });
+  }
+
+  if (doorIds.size !== game.doors.length) problems.push({ path: "game.doors", message: "Tür-IDs müssen eindeutig sein." });
+
+  for (const door of game.doors) {
+    const from = game.locations.find((location) => location.id === door.fromLocationId);
+    const to = game.locations.find((location) => location.id === door.toLocationId);
+    if (!from || !to) {
+      problems.push({ path: `door.${door.id}`, message: "Tür verweist auf einen unbekannten Raum." });
+      continue;
+    }
+    if (!directionBetween(from, to)) problems.push({ path: `door.${door.id}`, message: "Tür verbindet keine direkt benachbarten Rasterfelder." });
+    if (!from.exits.includes(to.id) || !to.exits.includes(from.id)) problems.push({ path: `door.${door.id}`, message: "Tür liegt nicht auf einer beidseitigen Raumverbindung." });
+    if (door.keyItemId && !itemIds.has(door.keyItemId)) problems.push({ path: `door.${door.id}.keyItemId`, message: `Unbekanntes Schlüssel-Item "${door.keyItemId}".` });
   }
 
   for (const encounter of game.encounters) {

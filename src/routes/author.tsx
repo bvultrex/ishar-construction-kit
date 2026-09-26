@@ -3,7 +3,7 @@ import { useKit } from "@/lib/store";
 import { useAssetPack } from "@/lib/asset-store";
 import { DIRECTION_LABELS } from "@/lib/ishar/dungeon";
 import { validateGame } from "@/lib/ishar/project-validation";
-import type { AuthoredGame, AuthoredLocation, Direction } from "@/lib/ishar/types";
+import type { AuthoredDoor, AuthoredGame, AuthoredLocation, Direction } from "@/lib/ishar/types";
 
 export const Route = createFileRoute("/author")({ component: AuthorPage });
 
@@ -59,6 +59,19 @@ function AuthorPage() {
     setGame({ ...game, locations: game.locations.map((x) => x.id === id ? { ...x, ...patch } : x) });
   }
 
+  function addDoor() {
+    let n = game.doors.length + 1;
+    let id = `door-${n}`;
+    while (game.doors.some((x) => x.id === id)) id = `door-${++n}`;
+    const from = game.locations[0]?.id ?? "";
+    const to = game.locations[1]?.id ?? from;
+    setGame({ ...game, doors: [...game.doors, { id, fromLocationId: from, toLocationId: to, initiallyOpen: false }] });
+  }
+
+  function patchDoor(id: string, patch: Partial<AuthoredDoor>) {
+    setGame({ ...game, doors: game.doors.map((door) => door.id === id ? { ...door, ...patch } : door) });
+  }
+
   function addLocation() {
     let n = game.locations.length + 1;
     let id = `location-${n}`;
@@ -70,7 +83,7 @@ function AuthorPage() {
   return <section>
     <header className="page-head">
       <div><p className="eyebrow">Dungeon authoring</p><h1>Adventure Builder</h1><p>Baue ein kardinales Dungeon-Raster. X/Y-Positionen und beidseitige Verbindungen bestimmen die First-Person-Geometrie des Playtests.</p></div>
-      <div className="toolbar"><Link className="file-button" to="/playtest">Dungeon betreten</Link><Link className="file-button" to="/assets">Asset Lab</Link><button onClick={addLocation}>Raum hinzufügen</button></div>
+      <div className="toolbar"><Link className="file-button" to="/playtest">Dungeon betreten</Link><Link className="file-button" to="/assets">Asset Lab</Link><button onClick={addLocation}>Raum hinzufügen</button><button className="secondary" onClick={addDoor}>Tür hinzufügen</button></div>
     </header>
 
     <div className="stats-grid file-stats">
@@ -123,6 +136,19 @@ function AuthorPage() {
           <label>Name<input value={item.name} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,name:e.target.value}:x)})}/></label>
           <label>Beschreibung<textarea rows={3} value={item.description} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,description:e.target.value}:x)})}/></label>
         </div>)}
+      </article>
+
+      <article className="editor-panel">
+        <h2>Türen</h2>
+        {game.doors.length ? game.doors.map((door) => <div key={door.id} className="author-block">
+          <label>ID<input value={door.id} readOnly/></label>
+          <div className="inline-fields">
+            <label>Von<select value={door.fromLocationId} onChange={(e)=>patchDoor(door.id,{fromLocationId:e.target.value})}>{game.locations.map((location)=><option key={location.id} value={location.id}>{location.name}</option>)}</select></label>
+            <label>Nach<select value={door.toLocationId} onChange={(e)=>patchDoor(door.id,{toLocationId:e.target.value})}>{game.locations.map((location)=><option key={location.id} value={location.id}>{location.name}</option>)}</select></label>
+          </div>
+          <label>Schlüssel-Item<select value={door.keyItemId ?? ""} onChange={(e)=>patchDoor(door.id,{keyItemId:e.target.value || undefined})}><option value="">kein Schlüssel</option>{game.items.map((item)=><option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+          <label className="check-row"><input type="checkbox" checked={door.initiallyOpen} onChange={(e)=>patchDoor(door.id,{initiallyOpen:e.target.checked})}/> Zu Spielbeginn offen</label>
+        </div>) : <p className="muted">Noch keine Türen angelegt.</p>}
       </article>
 
       <article className="editor-panel">

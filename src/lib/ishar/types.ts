@@ -208,6 +208,14 @@ export interface AuthoredLocation {
   ending?: boolean;
 }
 
+export interface AuthoredDoor {
+  id: string;
+  fromLocationId: string;
+  toLocationId: string;
+  initiallyOpen: boolean;
+  keyItemId?: string;
+}
+
 export interface AuthoredEncounter {
   id: string;
   name: string;
@@ -232,6 +240,7 @@ export interface AuthoredGame {
   items: AuthoredItem[];
   locations: AuthoredLocation[];
   encounters: AuthoredEncounter[];
+  doors: AuthoredDoor[];
   quests: AuthoredQuest[];
 }
 

@@ -118,3 +118,6 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .asset-layer{image-rendering:pixelated}
 .asset-runtime-status{display:flex;align-items:center;gap:8px;border:1px solid #3d3025;border-top:0;background:#0d0b09;padding:6px 10px;color:#8f8270;font-size:10px;text-transform:uppercase;letter-spacing:.08em}
 .asset-runtime-status strong{color:#aebc9c}.asset-runtime-status small{margin-left:auto;color:#d2ad7d;text-transform:none;letter-spacing:normal}
+
+.fallback-door rect{fill:#4a3827;stroke:#a37a4e;stroke-width:3}.fallback-door circle{fill:#d2ad7d;stroke:#2a1b10;stroke-width:1}
+.crawler-controls .door-button{font-size:15px;background:#6d573e;color:#f1e5ce}.crawler-controls .door-button small{font-size:9px}

@@ -33,6 +33,7 @@ export function starterGame(): AuthoredGame {
       { id: "sanctum", name: "Sonnenheiligtum", description: "Goldenes Licht fällt auf einen uralten Steinsockel. Hier endet der Test-Dungeon.", x: 1, y: -1, exits: ["north-passage"], itemIds: ["sun-key"], ending: true },
     ],
     encounters: [{ id: "guardian", name: "Steinwächter", enemyHp: 12, enemyAttack: 3, victoryText: "Der Wächter zerfällt zu Geröll. Der Nordgang ist frei.", questId: "reach-sanctum" }],
+    doors: [{ id: "sanctum-seal", fromLocationId: "north-passage", toLocationId: "sanctum", initiallyOpen: false, keyItemId: "crypt-rune" }],
     quests: [{ id: "reach-sanctum", title: "Das Sonnenheiligtum", objective: "Erkunde die Ruine, besiege den Steinwächter und erreiche das Heiligtum.", completedText: "Der Wächter ist besiegt. Finde nun das Sonnenheiligtum." }],
   };
 }
@@ -66,6 +67,7 @@ export function normalizeGame(raw: unknown): AuthoredGame {
     characters: Array.isArray(source.characters) ? source.characters : fallback.characters,
     items: Array.isArray(source.items) ? source.items : fallback.items,
     encounters: Array.isArray(source.encounters) ? source.encounters : fallback.encounters,
+    doors: Array.isArray(source.doors) ? source.doors : fallback.doors,
     quests: Array.isArray(source.quests) ? source.quests : fallback.quests,
     locations,
   };
@@ -84,7 +86,7 @@ export function emptyProject(name = "My Ishar Adventure"): KitProject {
       character: { status: "partial", notes: "Save-Round-Trip und originales Authoring-Modell." },
       item: { status: "partial", notes: "Projekt-Items im spielbaren Dungeon-Slice." },
       magic: { status: "audit", notes: "Spell-Bytes ab 7577 roh sichtbar." },
-      world: { status: "partial", notes: "Kardinales X/Y-Dungeonraster mit First-Person-Playtest." },
+      world: { status: "partial", notes: "Kardinales X/Y-Dungeonraster, Türen und First-Person-Playtest." },
       npc: { status: "planned", notes: "" },
       quest: { status: "partial", notes: "Quest-Ziel und Kampfabschluss im Dungeon-Slice." },
       dialogue: { status: "partial", notes: "Raum-, Quest- und Encounter-Texte ergänzen die visuelle Ansicht." },

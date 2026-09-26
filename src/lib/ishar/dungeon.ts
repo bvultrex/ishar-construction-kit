@@ -1,4 +1,4 @@
-import type { AuthoredLocation, Direction } from "./types";
+import type { AuthoredDoor, AuthoredLocation, Direction } from "./types";
 
 export const DIRECTIONS: Direction[] = ["north", "east", "south", "west"];
 
@@ -50,4 +50,12 @@ export function directionBetween(a: AuthoredLocation, b: AuthoredLocation): Dire
   if (dx === 0 && dy === 1) return "south";
   if (dx === -1 && dy === 0) return "west";
   return undefined;
+}
+
+
+export function doorBetween(doors: AuthoredDoor[], a: AuthoredLocation, b: AuthoredLocation) {
+  return doors.find((door) =>
+    (door.fromLocationId === a.id && door.toLocationId === b.id)
+    || (door.fromLocationId === b.id && door.toLocationId === a.id)
+  );
 }
