@@ -1,15 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { createDemoAssetPack, exampleAssetManifest, loadAssetPack } from "@/lib/ishar/asset-pack";
+import { createDemoAssetPack, exampleAssetManifest, loadAssetPack, type DiscoveredAssetPreview } from "@/lib/ishar/asset-pack";
 import { autoImportIsharZip, type IsharAutoImportReport } from "@/lib/ishar/ishar-auto-import";
 import { useAssetPack } from "@/lib/asset-store";
 import { useKit } from "@/lib/store";
 import { mapIsharAssetSources } from "@/lib/ishar/ishar-assets";
+import type { DungeonAssetEntry, DungeonAssetRole } from "@/lib/ishar/types";
 
 export const Route = createFileRoute("/assets")({ component: AssetsPage });
 
 function AssetsPage() {
-  const { pack, setPack, clearPack } = useAssetPack();
+  const { pack, setPack, updatePack, clearPack } = useAssetPack();
   const { project, setProject, inventory, inventorySource, setInventory } = useKit();
   const sourceCandidates = mapIsharAssetSources(inventory);
   const [message, setMessage] = useState("");
@@ -73,6 +74,44 @@ function AssetsPage() {
     }
   }
 
+  function assignPreview(asset: DiscoveredAssetPreview, role: DungeonAssetRole | "dungeon-base") {
+    if (!pack) return;
+    const tilesetIndex=pack.manifest.tilesets.findIndex((tileset)=>tileset.id===pack.manifest.defaultTilesetId);
+    if (tilesetIndex<0) return;
+    const roles: DungeonAssetRole[] = role==="dungeon-base"
+      ? ["wall.front","wall.left","wall.right","surface.floor","surface.ceiling"]
+      : role==="wall.front" ? ["wall.front","wall.left","wall.right"] : [role];
+    const textureRoles=new Set<DungeonAssetRole>(["wall.front","wall.left","wall.right","surface.floor","surface.ceiling"]);
+    const entries=pack.manifest.tilesets[tilesetIndex]!.entries.filter((entry)=>!roles.includes(entry.role));
+    const nextUrls={...pack.urls};
+    const nextPaths={...pack.paths};
+    const additions: DungeonAssetEntry[]=[];
+    for(const targetRole of roles){
+      const id="manual-"+targetRole.replace(/[^a-z0-9]+/gi,"-")+"-"+asset.id;
+      const entry: DungeonAssetEntry={
+        id,
+        role:targetRole,
+        file:asset.path,
+        renderMode:textureRoles.has(targetRole) ? "texture" : "layer",
+        tileWidth:asset.width ? Math.max(8,Math.min(96,asset.width)) : undefined,
+        tileHeight:asset.height ? Math.max(8,Math.min(96,asset.height)) : undefined,
+      };
+      additions.push(entry);
+      nextUrls[id]=asset.url;
+      nextPaths[id]=asset.path;
+    }
+    const tilesets=pack.manifest.tilesets.map((tileset,index)=>index===tilesetIndex ? {...tileset,entries:[...additions,...entries]} : tileset);
+    updatePack({
+      ...pack,
+      manifest:{...pack.manifest,tilesets},
+      urls:nextUrls,
+      paths:nextPaths,
+      discoveredAssets:pack.discoveredAssets?.map((candidate)=>candidate.id===asset.id ? {...candidate,runtimeAssigned:true,suggestedRole:roles[0]} : candidate),
+    });
+    setMessage(role==="dungeon-base"
+      ? `"${asset.path}" ist jetzt Basistextur für Wände, Boden und Decke.`
+      : `"${asset.path}" ist jetzt ${roles.join(", ")}.`);
+  }
   function downloadExample() {
     const blob = new Blob([JSON.stringify(exampleAssetManifest(), null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -140,6 +179,12 @@ function AssetsPage() {
           <small>{asset.width && asset.height ? `${asset.width}×${asset.height} · ` : ""}{asset.source==="alis" ? "ALIS" : "Standardbild"}</small>
           <code title={asset.path}>{asset.path}</code>
           <span className={"badge " + (asset.runtimeAssigned ? "confirmed" : asset.suggestedRole ? "suspected" : "unknown")}>{asset.runtimeAssigned ? "Runtime" : asset.suggestedRole ? "Vorschlag" : "prüfen"}</span>
+          <div className="asset-quick-map">
+            <button onClick={()=>assignPreview(asset,"dungeon-base")}>Basis</button>
+            <button className="secondary" onClick={()=>assignPreview(asset,"wall.front")}>Wand</button>
+            <button className="secondary" onClick={()=>assignPreview(asset,"surface.floor")}>Boden</button>
+            <button className="secondary" onClick={()=>assignPreview(asset,"surface.ceiling")}>Decke</button>
+          </div>
         </article>)}</div>
         {pack.discoveredAssets.length>240 && <p className="muted">Es werden die ersten 240 Vorschauen angezeigt; {pack.discoveredAssets.length-240} weitere sind im Import erfasst.</p>}
       </section>}
