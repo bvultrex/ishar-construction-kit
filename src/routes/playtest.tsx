@@ -110,6 +110,24 @@ function renderDiscoveredLayer(
     className="asset-layer"
   />;
 }
+function semanticItemAssetId(pack: LoadedAssetPack | null, item: AuthoredGame["items"][number] | undefined) {
+  if(!pack || !item || item.assetId) return item?.assetId;
+  const name=(item.name+" "+item.description).toLowerCase();
+  if(/schl[uü]ssel|\bkey\b/.test(name) && pack.manifest.renderProfileId==="ishar2-dos"){
+    const preferred=[69,72,75,121];
+    for(const entry of preferred){
+      const match=pack.discoveredAssets?.find((asset)=>
+        asset.source==="alis"
+        && asset.visualStatus==="normal"
+        && /OBJET\.IO/i.test(asset.path)
+        && new RegExp("ALIS #"+entry+"(?:\\D|$)","i").test(asset.path)
+      );
+      if(match) return match.id;
+    }
+  }
+  return undefined;
+}
+
 
 function renderPolygonAsset(
   pack: LoadedAssetPack | null,
@@ -206,8 +224,9 @@ function DungeonViewport({ game, location, facing, encounter, encounterDone, ite
 
   const encounterLayer = encounter && !encounterDone ? renderAsset(pack, "encounter", undefined, location.tilesetId, encounter.id) : null;
   const authoredItem = itemId ? game.items.find((item)=>item.id===itemId) : undefined;
+  const semanticAssetId=semanticItemAssetId(pack,authoredItem);
   const itemLayer = itemId
-    ? (renderDiscoveredLayer(pack, authoredItem?.assetId, {x:448,y:242,width:104,height:118})
+    ? (renderDiscoveredLayer(pack, semanticAssetId, {x:448,y:242,width:104,height:118})
       ?? renderAsset(pack, "item", undefined, location.tilesetId, itemId))
     : null;
 
