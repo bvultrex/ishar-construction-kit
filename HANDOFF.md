@@ -924,3 +924,11 @@ the gallery labels DJ1 #73 as reconstructed passage and #114 as a hanging lamp.
 The isolated corridor rendered side arches on both sides; its closed-door view
 rendered the original frame over the procedural wooden leaf with no lamp overlay.
 The loopback production preview remains on port 4175 with `ISHAR_LOCAL_ZIP`.
+
+## 2026-09-26 — Playthrough visual-reference checkpoint
+
+The user's 30-part Ishar 2 playthrough is now available as a reference. At part 22, 1:00, the original game shows an open skull-topped passage. The skull/fangs match the locally decoded `DJ2.IO #26` (32 × 31, FDJ2 #1), which is a child of the already imported `DJ2.IO #51` front-opening composite. This raises confidence in the existing `door.front.open` artwork assignment. Video frames do not prove the exact original placement algorithm, and the dark center is an aperture, not evidence of a closed leaf. At part 19, 8:02, the original brown corridor shows floor and side-wall convergence but no independently identifiable door bitmap. Exact links and evidence limits are in DUNGEON_ASSET_EVIDENCE.md.
+
+No runtime mapping changed in this checkpoint. The closed procedural wooden leaf remains clearly a placeholder. Next: locate a frame with an unmistakably closed dungeon door, inspect the remaining resource families and script draw paths for a matching bitmap/animation, and promote it only after both visual and archive evidence agree. Original game data, decoded comparison images and video captures remain outside Git.
+
+Validation after the documentation update: `npm run typecheck`, `npm run test:a1`, `npm run test:palettes`, `npm run test:scenes` and `npm run build` all passed. The preview and authored project were not changed.

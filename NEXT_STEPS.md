@@ -174,3 +174,9 @@ are hanging lamps, not closed doors; DJ2 #77–80 are stained glass. Continue th
 door search in remaining resource modules and script draw paths; only promote a
 closed-door role after visual and resource evidence. The current wooden leaf is
 a clearly documented placeholder.
+
+2026-09-26 video cross-check: the playthrough's part 22 at 1:00 shows the
+open skull passage assembled by `DJ2.IO #51` with the matching `#26` skull
+component. This corroborates the open-surround role, not a closed leaf. Find
+an unmistakably closed original dungeon door and its matching archive resource
+before replacing the procedural closed panel. See DUNGEON_ASSET_EVIDENCE.md.

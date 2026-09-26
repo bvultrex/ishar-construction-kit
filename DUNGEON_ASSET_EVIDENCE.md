@@ -123,3 +123,9 @@ yet establish an original closed door panel. DJ1 #63–66 and DJ2 #51–54 are
 open door *surrounds* only; the closed panel remains an explicit procedural
 placeholder. Other module tables and scripted drawing paths need investigation
 before claiming that Ishar's original door leaves have been found.
+
+## Original-game video cross-check (2026-09-26)
+
+The user supplied a [complete Ishar 2 playthrough](https://www.youtube.com/watch?v=T8xhKR4Gz98&list=PLk4TlbSQ2rXhPXnOhTMFu5oqOiX_a4twx) as a visual reference. At [part 22, 1:00](https://www.youtube.com/watch?v=umlygu421CA&t=60s), the original game displays a frontal, open, skull-topped passage in a grey stone wall. The skull and yellow fangs visually match the decoded `DJ2.IO #26` bitmap (32 × 31, FDJ2 palette #1); the inspected `DJ2.IO #51` composite places #26 above its opening, alongside #12, #14, #25 and #27. This independently supports the existing **open surround** classification for DJ2 #51. It does not establish a closed door leaf, opening animation, exact screen coordinates, or the complete draw order. The video's compressed image is a visual cross-check, not a pixel-identical asset comparison.
+
+At [part 19, 8:02](https://www.youtube.com/watch?v=Hyqt3vIr7X8&t=482s), a brown dungeon corridor visibly has a continuous stone floor and patterned side walls converging on a distant front wall. This is useful geometry reference for the CK corridor; no specific source ID or camera parameters can be inferred from that frame alone. Continue looking for an unmistakably *closed* dungeon door in the video, then trace the matching resource and script path before assigning `door.front.closed`.
