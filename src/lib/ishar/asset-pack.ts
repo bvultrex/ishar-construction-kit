@@ -116,6 +116,8 @@ export function parseAssetManifest(raw: unknown): DungeonAssetManifest {
     id: value.id,
     name: value.name,
     viewport: { width: value.viewport.width, height: value.viewport.height },
+    renderProfileId: ["construction", "ishar1-dos", "ishar2-dos", "custom"].includes(value.renderProfileId ?? "") ? value.renderProfileId : undefined,
+    pixelAspectY: typeof value.pixelAspectY === "number" && Number.isFinite(value.pixelAspectY) && value.pixelAspectY > 0 ? value.pixelAspectY : undefined,
     defaultTilesetId,
     shared,
     tilesets,
