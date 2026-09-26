@@ -721,3 +721,49 @@ Next implementation target:
 3. Inspect other OBJET.IO heuristic triples for false positives and promote only manually verified families to the explicit table.
 4. Search enemy-bearing resources for the same storage convention, but do not generalize automatically until at least one enemy family is verified.
 5. Extend the same evidence-driven model to doors/special props only after verified examples exist.
+
+
+## 2026-09-26 — Adventure Builder freeze when opening Ishar 2 surface selectors
+
+User-reported regression:
+
+- after importing the real Ishar 2 archive, opening a Wall/Floor/Ceiling asset selector in Adventure Builder could freeze the browser/application
+- the command window also printed TanStack Router's warning that `__root__` had no configured not-found component
+
+Root cause analysis:
+
+- Ishar 2 auto-import can expose well over one thousand ALIS previews
+- when no verified terrain resources exist, Adventure Builder previously used essentially the entire ALIS fallback pool as `textureCandidates`
+- the same full candidate list was rendered into three native HTML `<select>` controls (wall/floor/ceiling)
+- this created thousands of long native option rows and could stall Chromium/Windows when a selector was opened
+- 0xFF composites and palette-suspect images were also unnecessarily eligible for the surface fallback list
+- the TanStack not-found warning was not the primary freeze mechanism, but the router had no explicit not-found fallback and therefore emitted noisy diagnostics when an unmatched route occurred
+
+Implemented fix:
+
+- surface candidates now exclude:
+  - ALIS composites
+  - flat-color assets
+  - palette-suspect assets
+- added one search field for the three room-surface selectors
+- search matches asset path, known-use label and internal ID
+- each native selector is hard-bounded to 72 visible choices
+- the currently selected asset remains visible even if it lies outside the current search/result window
+- the UI explicitly reports when only the first 72 matches are being shown and asks the author to narrow the search
+- examples such as `DJ1.IO`, `STAGE.IO` or `ALIS #123` can be entered directly
+- added matching compact CSS for the search control
+- configured a router-level `defaultNotFoundComponent`, removing the previous generic TanStack warning path
+
+Validation:
+
+- freeze-fix code commit `68beda6346bf2a27e34724ed2cd7b216cb275773` passed both CI workflows, including typecheck and the full Playable Slice production build/smoke pipeline
+- router fallback and styling were committed immediately afterward; verify the newest head CI before distributing the next test build
+
+Regression test for the next user build:
+
+1. import the real Ishar 2 archive
+2. open Adventure Builder
+3. click the Wall, Floor and Ceiling selectors repeatedly
+4. confirm the UI remains responsive
+5. search for a resource by filename or ALIS number and select it
+6. enter Playtest and confirm the selected texture renders without route errors
