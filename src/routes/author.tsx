@@ -63,6 +63,12 @@ function AuthorPage() {
   const [selectedLocationId, setSelectedLocationId] = useState(game.startLocationId);
   const [builderMessage, setBuilderMessage] = useState("");
   const selectedLocation = game.locations.find((location) => location.id === selectedLocationId) ?? game.locations[0];
+  const textureCandidates = (pack?.discoveredAssets ?? []).filter((asset) => {
+    if (asset.source !== "alis" || !asset.width || !asset.height) return false;
+    const ratio = asset.width / asset.height;
+    return asset.width >= 8 && asset.height >= 8 && asset.width <= 256 && asset.height <= 256 && ratio >= 0.35 && ratio <= 2.85;
+  });
+  const assetById = (id?: string) => id ? pack?.discoveredAssets?.find((asset)=>asset.id===id) : undefined;
 
   function setGame(next: AuthoredGame) {
     setProject({ ...project, game: next });
@@ -211,6 +217,24 @@ function AuthorPage() {
             <label>Startfeld<select value={game.startLocationId} onChange={(e)=>setGame({...game,startLocationId:e.target.value})}>{game.locations.map(l=><option key={l.id} value={l.id}>{l.name} ({l.x},{l.y})</option>)}</select></label>
             <label>Blickrichtung<select value={game.startFacing} onChange={(e)=>setGame({...game,startFacing:e.target.value as Direction})}><option value="north">Norden</option><option value="east">Osten</option><option value="south">Süden</option><option value="west">Westen</option></select></label>
           </div>
+          {pack && <div className="room-surface-picker">
+            <div className="surface-picker-head"><strong>Raum-Oberflächen</strong><span>{textureCandidates.length} ALIS-Kandidaten</span></div>
+            {([
+              ["wallAssetId","Wand"],
+              ["floorAssetId","Boden"],
+              ["ceilingAssetId","Decke"],
+            ] as const).map(([field,label])=>{
+              const current=assetById(selectedLocation[field]);
+              return <label className="surface-select" key={field}>
+                <span>{label}</span>
+                <select value={selectedLocation[field] ?? ""} onChange={(e)=>patchLocation(selectedLocation.id,{[field]:e.target.value || undefined})}>
+                  <option value="">Tileset-Standard</option>
+                  {textureCandidates.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}
+                </select>
+                {current && <div className="surface-preview"><img src={current.url} alt=""/><code>{current.path}</code></div>}
+              </label>;
+            })}
+          </div>}
           <button className="danger-button" disabled={game.locations.length<=1} onClick={()=>deleteLocation(selectedLocation.id)}>Ausgewählten Raum löschen</button>
         </>}
         <p className="audit-note">Klicke einen Raum direkt in der Karte an. Neue Räume werden immer relativ zu genau diesem ausgewählten Rasterfeld angelegt.</p>
