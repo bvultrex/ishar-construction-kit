@@ -134,3 +134,11 @@ User test of the first runnable slice passed functionally but exposed the wrong 
 4. Port the recovered Ishar 1 tile-previews.json evidence into a typed scene-preview table and render MCAVE/ville field components in script draw order.
 5. Reverse the corresponding Ishar 2 DJ1.IO/DJ2.IO draw branches; treat large 0xFF composites as scene assemblies, not repeatable textures.
 6. Only after placement is verified, promote scene components into automatic wall/opening/door rendering for the authored crawler.
+
+
+## Immediate item-graphics target
+
+1. Verify OBJET.IO #69/#70/#71 scale and alignment in current / +1 / +2 rooms.
+2. Identify the exact semantic subtype represented by #72/#73/#74.
+3. Determine whether #75/#76 are inventory/close-up states and whether #121 is the inventory key-ring icon.
+4. Extend the same distance-set model to other verified item families.
