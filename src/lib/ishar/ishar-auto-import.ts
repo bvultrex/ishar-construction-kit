@@ -1,3 +1,4 @@
+import { dungeonSceneAssignments, dungeonSpritePosition } from "./dungeon-scenes";
 import { resolveIshar2Palettes } from "./palette-resolution";
 import JSZip from "jszip";
 import { classifyFile } from "./classify";
@@ -535,7 +536,7 @@ function expandComposite(
     if(image){
       placements.push({
         image,
-        x:offsetX+child.x,
+        x:offsetX+(flipX ? -child.x : child.x),
         y:offsetY+child.y,
         z:offsetZ+child.z,
         flipX:childFlip,
@@ -546,7 +547,7 @@ function expandComposite(
     if(nested){
       placements.push(...expandComposite(
         nested,imageMap,compositeMap,
-        offsetX+child.x,offsetY+child.y,offsetZ+child.z,childFlip,nextSeen
+        offsetX+(flipX ? -child.x : child.x),offsetY+child.y,offsetZ+child.z,childFlip,nextSeen
       ));
     }
   }
@@ -577,9 +578,13 @@ async function compositeToPngBlob(
   composite: AlisCompositeResource,
   imageMap: Map<string, AlisIndexedImage>,
   compositeMap: Map<string, AlisCompositeResource>,
+  dungeonScene=false,
+  mirror=false,
 ) {
   if(typeof document==="undefined") return undefined;
-  const placements=expandComposite(composite,imageMap,compositeMap).sort((a,b)=>a.z-b.z);
+  const placements=expandComposite(composite,imageMap,compositeMap,0,0,0,mirror)
+    .sort((a,b)=>dungeonScene ? b.y-a.y : a.z-b.z)
+    .map((p)=>dungeonScene ? {...p,...dungeonSpritePosition(p.x,p.z,p.image.width,p.image.height)} : p);
   if(!placements.length) return undefined;
   const minX=Math.min(...placements.map((placement)=>placement.x));
   const minY=Math.min(...placements.map((placement)=>placement.y));
@@ -1065,6 +1070,23 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     }
   }
 
+  const sceneEntries=new Map<string,DungeonAssetEntry[]>();
+  // Required geometry bypasses both gallery and sprite PNG budgets.
+  if(detectedGame==="ishar2") for(const composite of alisComposites){
+    for(const a of dungeonSceneAssignments(composite.sourcePath,composite.entryIndex)){
+      const rendered=await compositeToPngBlob(composite,alisImageMap,alisCompositeMap,true,a.mirror);
+      if(!rendered) continue;
+      const id=`${a.tilesetId}-${a.role}-${a.depth}`;
+      const profile=renderProfileForGame(detectedGame);
+      const entry: DungeonAssetEntry={id,role:a.role,depth:a.depth,
+        file:`${composite.sourcePath}#scene-${composite.entryIndex}.png`,renderMode:"layer",
+        x:a.x*profile.drawWidth/640,y:a.y*profile.drawHeight/400,
+        width:a.width*profile.drawWidth/640,height:a.height*profile.drawHeight/400};
+      urls[id]=URL.createObjectURL(rendered.blob); paths[id]=entry.file;
+      const entries=sceneEntries.get(a.tilesetId)??[]; entries.push(entry);
+      sceneEntries.set(a.tilesetId,entries);
+    }
+  }
   let alisCompositePreviews=0;
   for(const composite of alisComposites.slice(0,500)){
     const rendered=await compositeToPngBlob(composite,alisImageMap,alisCompositeMap);
@@ -1080,7 +1102,8 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       visualStatus:rendered.paletteSuspect ? "palette-suspect" : "normal",
       width:rendered.width,
       height:rendered.height,
-      runtimeAssigned:false,
+      runtimeAssigned:detectedGame==="ishar2" && dungeonSceneAssignments(composite.sourcePath,composite.entryIndex)
+        .some((a)=>!!urls[`${a.tilesetId}-${a.role}-${a.depth}`]),
     });
     alisCompositePreviews++;
   }
@@ -1096,13 +1119,15 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     viewport:{width:renderProfile.drawWidth,height:renderProfile.drawHeight},
     renderProfileId:renderProfile.id,
     pixelAspectY:renderProfile.pixelAspectY,
-    defaultTilesetId:"auto-default",
+    defaultTilesetId:sceneEntries.keys().next().value ?? "auto-default",
     shared,
-    tilesets:[{id:"auto-default",name:gameLabel+" Auto Dungeon",entries:[...defaultTilesetEntries,...tilesetEntries]}],
+    tilesets:[...Array.from(sceneEntries,([id,entries])=>({id,name:id==="ishar2-dj1" ? "Ishar 2 · Dungeon 1" : "Ishar 2 · Dungeon 2",entries})),
+      {id:"auto-default",name:gameLabel+" Auto Dungeon",entries:[...defaultTilesetEntries,...tilesetEntries]}],
   };
 
   const candidateResources=inventory.filter((record)=>record.silm || record.ext===".IO" || record.ext===".FIC").length;
   const notes=[
+    sceneEntries.size ? `${Array.from(sceneEntries.values()).flat().length} Dungeon-Wandebenen automatisch geladen (DJ1/DJ2). Ressourcenfamilien skriptbelegt; Rollen und CK-Kamera rekonstruiert. Boden, Decke und Türen behalten ihren Fallback.` : "Keine unterstützte DJ1/DJ2-Szenengeometrie geladen.",
     detectedGame==="unknown" ? "Spielversion konnte aus Dateinamen/-größen nicht sicher erkannt werden." : gameLabel+" wurde anhand des lokalen Dateibestands erkannt.",
     "Renderprofil: "+renderProfile.label+" · Drawspace "+renderProfile.drawWidth+"×"+renderProfile.drawHeight+" · Pixel-Aspekt Y "+renderProfile.pixelAspectY+".",
     decodedOldPacker ? decodedOldPacker+" Datei(en) mit altem Silmarils-Packer wurden für die Bildsuche entpackt." : "Keine Old-Packer-Ressource musste entpackt werden.",

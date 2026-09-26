@@ -46,6 +46,16 @@ async function bodyFor(req) {
 const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url || "/", `http://${req.headers.host || `${host}:${port}`}`);
+    // Optional local boot source. Never expose an arbitrary path from a request.
+    if(url.pathname === "/__local/ishar-source") {
+      const source=process.env.ISHAR_LOCAL_ZIP;
+      if(host!=="127.0.0.1" || url.hostname!=="127.0.0.1" || req.headers["sec-fetch-site"]==="cross-site" || !source || !existsSync(source)) {res.statusCode=404;return res.end();}
+      if(req.method!=="GET" && req.method!=="HEAD") {res.statusCode=405;return res.end();}
+      res.setHeader("content-type","application/zip");
+      res.setHeader("cache-control","no-store");
+      if(req.method==="HEAD") return res.end();
+      return createReadStream(source).pipe(res);
+    }
     const staticFile = clientFile(url.pathname);
     if (staticFile) {
       res.statusCode = 200;

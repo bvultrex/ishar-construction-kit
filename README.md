@@ -54,3 +54,11 @@ Original game archives stay local. The current manual regression gate is to impo
 Ishar 2, repeatedly open the Builder wall/floor/ceiling selectors, narrow results
 by resource name, select a surface and check it in Playtest. Also inspect the
 verified mushroom distance family #232/#233/#234 at near/mid/far distances.
+
+### Local asset autoload
+
+Imported asset packs are cached in IndexedDB and restored when the app loads, including direct visits to Playtest. Asset Lab shows cache status. Browser storage limits/clearing can require another import. Original files are not committed or sent to a remote service.
+
+For the local production server, optionally set `ISHAR_LOCAL_ZIP` to the absolute path of an Ishar ZIP before running `node scripts/serve-build.mjs`. With an empty cache it imports that ZIP automatically. This source is available only with the loopback host `127.0.0.1`. Clearing a pack clears the browser cache; a configured ZIP will import again on the next page load.
+
+Ishar 2 DJ1/DJ2 wall families are assigned automatically. Their CK camera placement is reconstructed; floor, ceiling, doors and unresolved decor still use fallback graphics.

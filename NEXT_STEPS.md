@@ -162,3 +162,6 @@ a generic preview as a verified original lighting state. See AUDIT.md.
 Use [DUNGEON_ASSET_EVIDENCE.md](DUNGEON_ASSET_EVIDENCE.md) for the 77
 user-identified DJ1/DJ2 geometry/decor composites. All IDs were checked against
 the local corpus. Trace exact scene placement and roles before runtime binding.
+
+## Latest checkpoint: 2026-09-26
+Automatic DJ1/DJ2 walls and startup asset restoration are implemented. Next priority: original camera/decor placement evidence and remaining dungeon composites; see HANDOFF.md.

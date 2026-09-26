@@ -101,3 +101,7 @@ DJ1/DJ2 script branches and composite children to recover placement, mirroring
 and distance before assigning runtime wall/opening/door roles. Preserve the
 corrected FDJ1 #2 and FDJ2 #1 palettes. These are scene assemblies, not automatically
 repeatable wall/floor/ceiling textures. Unlisted IDs remain unclassified by this note.
+
+## Runtime checkpoint (2026-09-26)
+
+DJ1 47–50 / 59–62 and DJ2 35–38 / 47–50 now feed automatically selected, palette-resolved wall layers at depths 0–3. Left layers mirror the right family. This is a CK camera reconstruction supported by indexed draw expressions, not a verified original scene renderer. The other listed composites remain candidates. See HANDOFF.md for script offsets, projection assumptions and browser validation.

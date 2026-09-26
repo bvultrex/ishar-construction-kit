@@ -209,3 +209,19 @@ ALIS composite tables. Exact IDs, copied preview dimensions and evidence limits
 are recorded in [DUNGEON_ASSET_EVIDENCE.md](DUNGEON_ASSET_EVIDENCE.md).
 This confirms the collective geometry/decor category, not individual placement,
 perspective depth, wall/door semantics or tileability.
+
+## 2026-09-26 — Automatic dungeon scene loading milestone
+
+Implemented 24 runtime wall layers: DJ1 #47–50 (mirrored sides), #59–62 (fronts), DJ2 #35–38 and #47–50, four depths per role. These bypass the diagnostic gallery budget. DJ1 becomes the default when present; DJ2 is available as a separate tileset. Paired scene palettes remain active. Side openings suppress solid imported walls.
+
+Evidence: resource-family expressions were inspected in local unpacked scripts: DJ1 cputnat at 0x19b5 uses 47+depth, cxputat at 0x1a2e mirrors it; front-family expression 59+depth at 0x196e. DJ2 equivalents at 0x124e / 0x12c7 and 0x1207. ALIS reference commit 19a95afdc07b45d997467806d4dd1bf83c5f8076, src/image.c sprite centering and src/render3d.c X/Z projection informed the reconstruction. Nested mirror transforms now negate child X. Runtime composites project centered X/Z; gallery previews retain their older diagnostic layout.
+
+Evidence boundary: family indices and composite records are inspected facts. Assigning wall roles, interpreting the camera and fitting cropped images to CK perspective frames is a reconstruction, NOT pixel-perfect verified Ishar behavior. This milestone does not place every one of the user's 77 decor candidates. Floor/ceiling, door panels, extra wall variants and loose decor remain unresolved/fallback. Do not call a door-frame composite a closed door.
+
+Local persistence: IndexedDB stores decoded PNG Blobs plus pack metadata, creates fresh object URLs on startup, preserves manual pack updates, and clears on unload. Revision guards prevent a stale restore overwriting a later selection; serialized writes prevent stale saves winning. Cache failures leave the current in-memory pack usable and expose a status message.
+
+Optional local server boot source: set ISHAR_LOCAL_ZIP to a local ZIP path before running scripts/serve-build.mjs. Only the loopback 127.0.0.1 server serves the exact configured source at /__local/ishar-source; no path parameter, no CORS, cross-site requests rejected. Empty cache triggers automatic import on startup. Without this option, import once through Asset Lab. Pack unload clears the cache; with a configured boot source the next page load imports again. Browser storage is per origin/profile and can be evicted. Original assets and test screenshots stay outside Git.
+
+Validation: npm run typecheck, test:a1, test:palettes, test:scenes and production build pass. Real Ishar2.zip loaded on page startup: 187 files, 3 tilesets, 284 layers, 24 dungeon walls, 2002 discovered previews, 0 missing entries. Direct navigation to /playtest restored the pack from browser cache and showed original ornamented side walls plus front wall. User-visible movement log reached Vorhalle; open side branches remained visible. Local preview runs on port 4175 with D:\Downloads\Ishar2.zip configured. Commit uses command-local Codex identity (repository has no user identity); no push.
+
+Next: reconstruct original camera/screen parameters, scene variants and decor placement conditions before increasing automatic assignments. Add dedicated cache race/quota regression tests; current cache restore was checked in the real browser. Keep manual source overrides authoritative.

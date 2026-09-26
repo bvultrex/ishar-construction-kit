@@ -8,7 +8,8 @@
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "test:a1": "node scripts/check-a1.mjs",
-    "test:palettes": "node scripts/check-palettes.mjs"
+    "test:palettes": "node scripts/check-palettes.mjs",
+    "test:scenes": "node scripts/check-dungeon-scenes.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",

@@ -24,6 +24,8 @@ jobs:
         run: npm run test:a1
       - name: Palette resolution regressions
         run: npm run test:palettes
+      - name: Dungeon scene regressions
+        run: npm run test:scenes
       - name: Production build
         run: npm run build
       - name: Smoke-test production server

@@ -10,7 +10,7 @@ import type { DungeonAssetEntry, DungeonAssetRole } from "@/lib/ishar/types";
 export const Route = createFileRoute("/assets")({ component: AssetsPage });
 
 function AssetsPage() {
-  const { pack, setPack, updatePack, clearPack } = useAssetPack();
+  const { pack, cacheStatus, setPack, updatePack, clearPack } = useAssetPack();
   const { project, setProject, inventory, inventorySource, setInventory } = useKit();
   const sourceCandidates = mapIsharAssetSources(inventory);
   const [message, setMessage] = useState("");
@@ -136,6 +136,8 @@ function AssetsPage() {
   });
 
   return <section>
+    {cacheStatus && <p role="status">{cacheStatus}</p>}
+    {pack?.manifest.tilesets.some(t=>t.id==="ishar2-dj1" || t.id==="ishar2-dj2") && <p>DJ1/DJ2-Wandserien sind automatisch im Playtest aktiv. Die Platzierung ist an die Toolkit-Kamera angepasst; Boden, Decke und Türen verwenden weiterhin Ersatzgrafiken.</p>}
     <header className="page-head">
       <div><p className="eyebrow">Ishar asset import</p><h1>Asset Lab</h1><p>Standardweg: Wähle einfach deine lokale Ishar-ZIP. Das Toolkit analysiert den Inhalt und verteilt alles, was es mit ausreichender Sicherheit erkennt, automatisch in die Engine.</p></div>
       <div className="toolbar">
@@ -193,7 +195,7 @@ function AssetsPage() {
       </div>
 
       <div className="hero-grid">
-        <article className="stone-card"><h2>{pack.manifest.id}</h2><p>Viewport {pack.manifest.viewport.width} × {pack.manifest.viewport.height} · Default-Tileset: {pack.manifest.defaultTilesetId}</p><p className="muted">Quelle: {pack.sourceLabel}. Blob-URLs existieren nur in dieser Browser-Sitzung.</p></article>
+        <article className="stone-card"><h2>{pack.manifest.id}</h2><p>Viewport {pack.manifest.viewport.width} × {pack.manifest.viewport.height} · Default-Tileset: {pack.manifest.defaultTilesetId}</p><p className="muted">Quelle: {pack.sourceLabel}. {cacheStatus}</p></article>
         <article className="stone-card"><h2>Playtest</h2><p>{project.game.assetPackId === pack.manifest.id ? "Dieses Pack ist dem Projekt zugeordnet." : "Pack-ID stimmt nicht mit dem Projekt überein."}</p><div className="toolbar"><Link className="file-button" to="/playtest">Viewport testen</Link><button className="secondary" onClick={clearPack}>Pack entladen</button></div></article>
       </div>
 
