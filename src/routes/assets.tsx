@@ -207,7 +207,7 @@ function AssetsPage() {
             {asset.visualStatus==="flat-color" && <span className="badge unknown">einfarbig / Maske?</span>}
             {asset.visualStatus==="palette-suspect" && <span className="badge suspected">Palette offen</span>}
           </div>
-          {asset.assetKind==="composite" ? <small className="muted">Zusammengesetzte Vorschau aus mehreren ALIS-Grafikbausteinen. Noch nicht als kachelbare Oberfläche behandeln.</small> : asset.visualStatus==="normal" ? <div className="asset-quick-map">
+          {asset.assetKind==="composite" ? <small className="muted">Zusammengesetzte Vorschau aus mehreren ALIS-Grafikbausteinen. Noch nicht als kachelbare Oberfläche behandeln.</small> : asset.visualStatus!=="flat-color" && asset.visualStatus!=="palette-suspect" ? <div className="asset-quick-map">
             <button onClick={()=>assignPreview(asset,"dungeon-base")}>Basis</button>
             <button className="secondary" onClick={()=>assignPreview(asset,"wall.front")}>Wand</button>
             <button className="secondary" onClick={()=>assignPreview(asset,"surface.floor")}>Boden</button>
