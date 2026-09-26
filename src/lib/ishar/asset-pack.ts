@@ -6,7 +6,7 @@ export interface DiscoveredAssetPreview {
   path: string;
   url: string;
   source: "standard" | "alis";
-  assetKind?: "sprite" | "terrain";
+  assetKind?: "sprite" | "terrain" | "composite";
   paletteStatus?: "embedded" | "global" | "default";
   visualStatus?: "normal" | "flat-color";
   width?: number;
