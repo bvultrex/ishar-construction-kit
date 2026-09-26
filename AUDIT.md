@@ -200,3 +200,12 @@ preview policies. This is not emulation of every original time-of-day, animation
 scene or actor lighting state. Shared PCAVE assets are context-dependent. Their
 exact active scene palette remains contextual, even though the placeholder-red
 failure is removed. Ishar 1 logic and all save offsets are unchanged.
+
+## User-supplied geometry/decor evidence — 2026-09-26
+
+The user confirmed successful visual resolution of the red assets and supplied
+77 scene composite IDs: DJ1.IO (58), DJ2.IO (19). Every ID exists in the local
+ALIS composite tables. Exact IDs, copied preview dimensions and evidence limits
+are recorded in [DUNGEON_ASSET_EVIDENCE.md](DUNGEON_ASSET_EVIDENCE.md).
+This confirms the collective geometry/decor category, not individual placement,
+perspective depth, wall/door semantics or tileability.

@@ -830,3 +830,16 @@ Do not promote all palette contexts to verified original runtime states.
 Commits use a command-local agent identity (Codex <codex@localhost>), because no
 user Git identity is configured and the user requested no further interruptions.
 No persistent user identity configuration and no remote push are performed.
+
+## 2026-09-26 — User-confirmed dungeon asset worklist
+
+User confirmed that the assets no longer appear red, then supplied a Desktop
+note identifying dungeon geometry/decor. Read the note without modifying it.
+Recorded its 77 exact resource IDs and preview dimensions in
+[DUNGEON_ASSET_EVIDENCE.md](DUNGEON_ASSET_EVIDENCE.md): 58 DJ1.IO and 19 DJ2.IO
+composites. Checked all IDs against the original local resource tables: every
+listed ID exists as an ALIS 0xFF composite. Category identification is user-confirmed;
+per-ID role, distance, placement, draw order and mirroring remain unverified.
+Next: use this bounded worklist for script-backed scene reconstruction. Do not
+convert the user's collective category confirmation into speculative wall roles.
+This checkpoint changes documentation only; no runtime or build output changed.
