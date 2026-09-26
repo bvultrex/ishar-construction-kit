@@ -104,11 +104,11 @@ function AssetsPage() {
       <div className="stats-grid file-stats">
         <article><span>Erkannt</span><strong>{autoReport.detectedGame==="ishar1" ? "Ishar 1" : autoReport.detectedGame==="ishar2" ? "Ishar 2" : "?"}</strong></article>
         <article><span>Dateien</span><strong>{autoReport.totalFiles}</strong></article>
-        <article><span>Entpackt</span><strong>{autoReport.decodedOldPacker}</strong></article>
+        <article><span>A1 entpackt</span><strong>{autoReport.decodedA1Packer}</strong></article>
         <article><span>Bilder</span><strong>{autoReport.directImages + autoReport.embeddedImages}</strong></article>
         <article><span>Zugeordnet</span><strong>{autoReport.mappedImages}</strong></article>
       </div>
-      <article className="stone-card"><h2>Automatik-Bericht</h2><ul>{autoReport.notes.map((note,index)=><li key={index}>{note}</li>)}</ul><p className="muted">{autoReport.candidateResources} mögliche Ressourcencontainer untersucht · {autoReport.blockedNewPacker} aktuell durch A1/New-Packer blockiert.</p></article>
+      <article className="stone-card"><h2>Automatik-Bericht</h2><ul>{autoReport.notes.map((note,index)=><li key={index}>{note}</li>)}</ul><p className="muted">{autoReport.candidateResources} mögliche Ressourcencontainer untersucht · {autoReport.decodedOldPacker} Old-Packer + {autoReport.decodedA1Packer} A1 entpackt · {autoReport.failedPackedDecode} Decode-Fehler.</p></article>
     </section>}
 
     {!pack ? <div className="hero-grid">

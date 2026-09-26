@@ -1,6 +1,6 @@
 import JSZip from "jszip";
 import { classifyFile } from "./classify";
-import { unpackSilm } from "./silm-pack";
+import { PACKER_NEW, unpackSilm } from "./silm-pack";
 import type { LoadedAssetPack } from "./asset-pack";
 import type { DungeonAssetEntry, DungeonAssetManifest, DungeonAssetRole, FileRecord, GameId } from "./types";
 
@@ -10,7 +10,8 @@ export interface IsharAutoImportReport {
   totalFiles: number;
   packedFiles: number;
   decodedOldPacker: number;
-  blockedNewPacker: number;
+  decodedA1Packer: number;
+  failedPackedDecode: number;
   directImages: number;
   embeddedImages: number;
   mappedImages: number;
@@ -181,7 +182,8 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   let directImages=0;
   let embeddedImages=0;
   let decodedOldPacker=0;
-  let blockedNewPacker=0;
+  let decodedA1Packer=0;
+  let failedPackedDecode=0;
   let packedFiles=0;
 
   for(const record of inventory) {
@@ -198,12 +200,13 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       packedFiles++;
       const unpacked=unpackSilm(bytes);
       if(unpacked?.data) {
-        decodedOldPacker++;
+        if(record.silm.packerKind===PACKER_NEW) decodedA1Packer++;
+        else decodedOldPacker++;
         const embedded=scanEmbeddedImages(unpacked.data,record.path);
         embeddedImages+=embedded.length;
         foundImages.push(...embedded);
-      } else if(record.silm.packerKind===0xa1) {
-        blockedNewPacker++;
+      } else {
+        failedPackedDecode++;
       }
     } else if(record.ext===".IO") {
       const embedded=scanEmbeddedImages(bytes,record.path);
@@ -251,8 +254,9 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   const candidateResources=inventory.filter((record)=>record.silm || record.ext===".IO" || record.ext===".FIC").length;
   const notes=[
     detectedGame==="unknown" ? "Spielversion konnte aus Dateinamen/-größen nicht sicher erkannt werden." : gameLabel+" wurde anhand des lokalen Dateibestands erkannt.",
-    decodedOldPacker ? decodedOldPacker+" Datei(en) mit altem Silmarils-Packer wurden für die Bildsuche entpackt." : "Keine mit dem vorhandenen Old-Packer-Decoder nutzbare Ressource gefunden.",
-    blockedNewPacker ? blockedNewPacker+" A1/New-Packer-Datei(en) bleiben bis zu einem verifizierten Decoder blockiert." : "Keine blockierte A1/New-Packer-Ressource erkannt.",
+    decodedOldPacker ? decodedOldPacker+" Datei(en) mit altem Silmarils-Packer wurden für die Bildsuche entpackt." : "Keine Old-Packer-Ressource musste entpackt werden.",
+    decodedA1Packer ? decodedA1Packer+" A1/New-Packer-Datei(en) wurden mit dem bounded DOS-Decoder entpackt." : "Keine A1-Ressource konnte decodiert werden.",
+    failedPackedDecode ? failedPackedDecode+" gepackte Datei(en) konnten trotz erkanntem Header nicht sicher decodiert werden." : "Alle erkannten gepackten Ressourcen wurden decodiert.",
     mappedImages ? mappedImages+" Bild(er) wurden anhand eindeutiger Dateinamen automatisch einer Engine-Rolle zugeordnet." : "Noch keine Grafik konnte sicher einer Engine-Rolle zugeordnet werden; der SVG-Fallback bleibt aktiv.",
     unmappedImages ? unmappedImages+" gefundene Standardbild(er) blieben absichtlich unzugeordnet, weil die Rolle nicht eindeutig war." : "Keine zusätzlich gefundenen Standardbilder blieben unzugeordnet.",
   ];
@@ -263,7 +267,8 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     totalFiles:inventory.length,
     packedFiles,
     decodedOldPacker,
-    blockedNewPacker,
+    decodedA1Packer,
+    failedPackedDecode,
     directImages,
     embeddedImages,
     mappedImages,

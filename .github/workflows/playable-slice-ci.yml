@@ -20,6 +20,8 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Typecheck
         run: npm run typecheck
+      - name: A1 decoder fixtures
+        run: npm run test:a1
       - name: Production build
         run: npm run build
       - name: Smoke-test production server

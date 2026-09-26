@@ -282,3 +282,25 @@ Packaging was changed so CI test artifacts no longer include executable launch s
 - `README_TEST_BUILD.txt`
 
 The README contains manual Node/PowerShell startup instructions. This reduces browser/AV risk heuristics without bypassing or weakening security controls. Do not tell users to disable Safe Browsing or antivirus to obtain a build.
+
+
+## 2026-09-26 — DOS A1/New-Packer decoder checkpoint
+
+User's real Ishar 2 auto-import report identified the decisive blocker: 141 of 152 candidate resource containers were recognized as A1/New-Packer and therefore skipped.
+
+Implemented:
+
+- bounded DOS/Little-Endian A1 bitstream decoder in `silm-pack.ts`
+- six-byte vs 22-byte MAIN header handling
+- eight-byte A1 dictionary validation
+- zero-lookahead behavior reproduced in an explicitly bounded buffer
+- literal-run and backreference bounds checks; corrupt streams fail closed
+- DOS signature is preferred when byte 3 is a known packer marker, reducing endian ambiguity
+- Auto Import now reports Old-Packer and A1 decode counts separately plus actual decode failures
+- A1 resources are fed into the same downstream asset scanner instead of being categorically blocked
+- two synthetic regression fixtures (normal module + MAIN module) generated with the independently recovered legacy codec and checked byte-for-byte in CI
+- CI now runs `npm run test:a1` before the production build
+
+Reference provenance: the recovered legacy Workbench codec cites maestun/alis `src/unpack.c` (MIT); the implementation was cross-checked against that upstream algorithm. No original Ishar bytes are committed.
+
+Expected next real-corpus signal: the previous `141 A1 blocked` count should become a large `A1 entpackt` count. Standard embedded PNG/JPEG/BMP scanning may still find few images because ALIS uses proprietary indexed bitmap resources; the next layer is ALIS resource-table image extraction.
