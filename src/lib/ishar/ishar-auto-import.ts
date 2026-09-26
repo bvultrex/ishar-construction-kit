@@ -632,9 +632,11 @@ function chooseGameBasePalette(palettes: AlisPaletteResource[], game: GameId) {
   if(game==="ishar1" && stage){
     return {palette:stage,label:"STAGE.IO / #4",verified:true};
   }
+  const broad=palettes.filter((palette)=>palette.colorCount>=128 && palette.firstColor<=32);
+  const pool=broad.length ? broad : palettes;
   let best: AlisPaletteResource | undefined;
   let bestScore=-Infinity;
-  for(const palette of palettes){
+  for(const palette of pool){
     const score=paletteBaseScore(palette,game);
     if(score>bestScore){ best=palette; bestScore=score; }
   }
