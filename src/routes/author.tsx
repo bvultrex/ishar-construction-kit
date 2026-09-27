@@ -6,7 +6,7 @@ import { DIRECTION_LABELS, DIRECTION_VECTORS, locationAt } from "@/lib/ishar/dun
 import { createRoomBlock } from "@/lib/ishar/room-builder";
 import { assetCatalogGroup } from "@/lib/ishar/asset-catalog";
 import { validateGame } from "@/lib/ishar/project-validation";
-import type { AuthoredDoor, AuthoredGame, AuthoredLocation, Direction } from "@/lib/ishar/types";
+import type { AuthoredDoor, AuthoredGame, AuthoredLevel, AuthoredLocation, Direction } from "@/lib/ishar/types";
 
 export const Route = createFileRoute("/author")({ component: AuthorPage });
 
@@ -14,9 +14,10 @@ function csv(value: string) {
   return value.split(",").map((x) => x.trim()).filter(Boolean);
 }
 
-function DungeonMap({ game, selectedId, onSelect }: { game: AuthoredGame; selectedId: string; onSelect: (id: string) => void }) {
-  const xs = game.locations.map((x) => x.x);
-  const ys = game.locations.map((x) => x.y);
+function DungeonMap({ game, levelId, selectedId, onSelect }: { game: AuthoredGame; levelId:string; selectedId: string; onSelect: (id: string) => void }) {
+  const locations=game.locations.filter((location)=>(location.levelId || "level-1")===levelId);
+  const xs = locations.map((x) => x.x);
+  const ys = locations.map((x) => x.y);
   const minX = Math.min(...xs, 0);
   const maxX = Math.max(...xs, 0);
   const minY = Math.min(...ys, 0);
@@ -28,14 +29,14 @@ function DungeonMap({ game, selectedId, onSelect }: { game: AuthoredGame; select
   const point = (loc: AuthoredLocation) => ({ x: pad + (loc.x - minX) * cell + cell / 2, y: pad + (loc.y - minY) * cell + cell / 2 });
 
   return <svg className="dungeon-map interactive-map" viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Dungeon-Raster">
-    {game.locations.flatMap((loc) => loc.exits.map((id) => {
+    {locations.flatMap((loc) => loc.exits.map((id) => {
       const target = game.locations.find((x) => x.id === id);
       if (!target || loc.id > target.id) return null;
       const a = point(loc);
       const b = point(target);
       return <line key={`${loc.id}-${id}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y} className="map-link"/>;
     }))}
-    {game.locations.map((loc) => {
+    {locations.map((loc) => {
       const p = point(loc);
       const start = loc.id === game.startLocationId;
       const selected = loc.id === selectedId;
@@ -67,9 +68,14 @@ function AuthorPage() {
   const [surfaceSearch, setSurfaceSearch] = useState("");
   const [roomWidth,setRoomWidth]=useState(2);
   const [roomHeight,setRoomHeight]=useState(2);
-  const selectedLocation = game.locations.find((location) => location.id === selectedLocationId) ?? game.locations[0];
+  const [newLevelKind,setNewLevelKind]=useState<AuthoredLevel["kind"]>("dungeon");
+  const [selectedLevelId,setSelectedLevelId]=useState(game.locations.find((location)=>location.id===game.startLocationId)?.levelId || "level-1");
+  const selectedLevel=game.levels.find((level)=>level.id===selectedLevelId) ?? game.levels[0]!;
+  const levelLocations=game.locations.filter((location)=>(location.levelId || "level-1")===selectedLevel.id);
+  const selectedLocation = levelLocations.find((location) => location.id === selectedLocationId) ?? levelLocations[0];
   const allSurfaceCandidates = (pack?.discoveredAssets ?? []).filter((asset) => {
     if (asset.source !== "alis" || asset.assetKind === "composite" || asset.visualStatus !== "normal" || !asset.width || !asset.height) return false;
+    if(["ui","font","houses"].includes(assetCatalogGroup(asset.path))) return false;
     const ratio = asset.width / asset.height;
     return asset.width >= 8 && asset.height >= 8 && asset.width <= 512 && asset.height <= 512 && ratio >= 0.2 && ratio <= 5;
   });
@@ -89,6 +95,7 @@ function AuthorPage() {
   };
   const itemAssetCandidates = (pack?.discoveredAssets ?? []).filter((asset)=>{
     if(asset.source!=="alis" || asset.assetKind==="composite" || asset.visualStatus!=="normal") return false;
+    if(["ui","font","houses"].includes(assetCatalogGroup(asset.path))) return false;
     if(!asset.width || !asset.height) return false;
     const path=asset.path.toUpperCase();
     return path.includes("OBJET.IO") || asset.suggestedRole==="item";
@@ -120,12 +127,13 @@ function AuthorPage() {
   }
 
   function addDoor() {
+    const fromLocation=selectedLocation;
+    const toLocation=fromLocation?.exits.map((id)=>game.locations.find((location)=>location.id===id)).find(Boolean);
+    if(!fromLocation || !toLocation){setBuilderMessage("Wähle ein Feld mit benachbartem, verbundenem Ausgang für eine Tür.");return;}
     let n = game.doors.length + 1;
     let id = `door-${n}`;
     while (game.doors.some((x) => x.id === id)) id = `door-${++n}`;
-    const from = game.locations[0]?.id ?? "";
-    const to = game.locations[1]?.id ?? from;
-    setGame({ ...game, doors: [...game.doors, { id, fromLocationId: from, toLocationId: to, initiallyOpen: false }] });
+    setGame({ ...game, doors: [...game.doors, { id, fromLocationId: fromLocation.id, toLocationId: toLocation.id, initiallyOpen: false }] });
   }
 
   function patchDoor(id: string, patch: Partial<AuthoredDoor>) {
@@ -147,22 +155,24 @@ function AuthorPage() {
     const from = game.locations.find((location) => location.id === fromId);
     if (!from) return;
     const vector = DIRECTION_VECTORS[direction];
-    const occupied = locationAt(game.locations, from.x + vector.x, from.y + vector.y);
+    const occupied = locationAt(game.locations, from.x + vector.x, from.y + vector.y, from.levelId || "level-1");
     if (occupied) {
       setBuilderMessage(`Das Feld ${DIRECTION_LABELS[direction]} von "${from.name}" ist bereits durch "${occupied.name}" belegt.`);
       return;
     }
     const id = nextLocationId();
+    const inheritedScene=from.sceneKind || (selectedLevel.kind==="outdoor" ? "outdoor" : selectedLevel.kind==="house" ? "room" : "corridor");
     const next: AuthoredLocation = {
       id,
       name: "Neuer Raum",
       description: "",
       x: from.x + vector.x,
       y: from.y + vector.y,
+      levelId:from.levelId || "level-1",
       exits: [from.id],
       itemIds: [],
       tilesetId: from.tilesetId,
-      sceneKind:from.sceneKind==="outdoor" ? "outdoor" : "corridor",
+      sceneKind:inheritedScene==="outdoor" ? "outdoor" : selectedLevel.kind==="house" && inheritedScene==="room" ? "room" : "corridor",
       wallAssetId: from.wallAssetId,
       floorAssetId: from.floorAssetId,
       ceilingAssetId: from.ceilingAssetId,
@@ -188,6 +198,25 @@ function AuthorPage() {
     setBuilderMessage(`${roomWidth}×${roomHeight}-Raumfläche mit ${result.createdIds.length+1} begehbaren Feldern angelegt. Innenkanten sind offen.`);
   }
 
+  function addLevel(kind:AuthoredLevel["kind"]){
+    let number=game.levels.length+1;
+    while(game.levels.some((level)=>level.id===`level-${number}`)) number++;
+    const id=`level-${number}`;
+    const name=kind==="outdoor" ? `Oberwelt ${number}` : kind==="house" ? `Haus ${number}` : `Dungeon ${number}`;
+    const entranceId=`${id}-entrance`;
+    const tilesetId=selectedLevel.tilesetId || pack?.manifest.defaultTilesetId;
+    const entrance:AuthoredLocation={id:entranceId,name:`${name} Eingang`,description:"",x:0,y:0,levelId:id,exits:[],itemIds:[],sceneKind:kind==="outdoor" ? "outdoor" : kind==="house" ? "room" : "corridor"};
+    const portal=selectedLocation ? [{id:`portal-${id}`,fromLocationId:selectedLocation.id,toLocationId:entranceId,label:`Nach ${name}`}] : [];
+    setGame({...game,levels:[...game.levels,{id,name,kind,tilesetId}],locations:[...game.locations,entrance],portals:[...game.portals,...portal]});
+    setSelectedLevelId(id);
+    setSelectedLocationId(entranceId);
+    setBuilderMessage(`${name} angelegt${portal.length ? " und mit dem ausgewählten Feld verbunden" : ""}.`);
+  }
+
+  function patchLevel(patch:Partial<AuthoredLevel>){
+    setGame({...game,levels:game.levels.map((level)=>level.id===selectedLevel.id ? {...level,...patch} : level)});
+  }
+
   function setConnection(fromId: string, targetId: string, connected: boolean) {
     const from = game.locations.find((location) => location.id === fromId);
     const target = game.locations.find((location) => location.id === targetId);
@@ -209,14 +238,14 @@ function AuthorPage() {
   }
 
   function deleteLocation(id: string) {
-    if (game.locations.length <= 1) return;
     const removed = game.locations.find((location)=>location.id===id);
+    if (!removed || game.locations.filter((location)=>(location.levelId || "level-1")===(removed.levelId || "level-1")).length<=1) return;
     const remaining = game.locations
       .filter((location) => location.id !== id)
       .map((location) => ({ ...location, exits: location.exits.filter((exit) => exit !== id) }));
     const startLocationId = game.startLocationId === id ? remaining[0]!.id : game.startLocationId;
     const doors = game.doors.filter((door) => door.fromLocationId !== id && door.toLocationId !== id);
-    setGame({ ...game, startLocationId, locations: remaining, doors });
+    setGame({ ...game, startLocationId, locations: remaining, doors, portals:game.portals.filter((portal)=>portal.fromLocationId!==id && portal.toLocationId!==id) });
     setSelectedLocationId(startLocationId);
     setBuilderMessage(`Raum "${removed?.name ?? id}" wurde gelöscht; Verbindungen und Türen wurden bereinigt.`);
   }
@@ -227,8 +256,18 @@ function AuthorPage() {
       <div className="toolbar"><Link className="file-button" to="/playtest">Dungeon betreten</Link><Link className="file-button" to="/assets">Asset Lab</Link><button className="secondary" onClick={addDoor}>Tür hinzufügen</button></div>
     </header>
 
+    <article className="stone-card level-builder">
+      <div><p className="eyebrow">Level-Ebenen</p><h2>{selectedLevel.name}</h2><p>Jedes Level hat ein eigenes Raster und ein Asset-Set. Übergänge verbinden die Ebenen im Playtest.</p></div>
+      <label>Aktives Level<select value={selectedLevel.id} onChange={(event)=>{const id=event.target.value;setSelectedLevelId(id);setSelectedLocationId(game.locations.find((location)=>(location.levelId || "level-1")===id)?.id || "");setBuilderMessage("");}}>{game.levels.map((level)=><option key={level.id} value={level.id}>{level.name}</option>)}</select></label>
+      <label>Name<input value={selectedLevel.name} onChange={(event)=>patchLevel({name:event.target.value})}/></label>
+      <label>Typ<select value={selectedLevel.kind} onChange={(event)=>patchLevel({kind:event.target.value as AuthoredLevel["kind"]})}><option value="dungeon">Dungeon</option><option value="house">Haus / Innenraum</option><option value="outdoor">Oberwelt</option></select></label>
+      <label>Asset-Set<select value={selectedLevel.tilesetId || ""} onChange={(event)=>patchLevel({tilesetId:event.target.value || undefined})}><option value="">Pack-Standard</option>{pack?.manifest.tilesets.map((tileset)=><option key={tileset.id} value={tileset.id}>{tileset.name}</option>)}</select></label>
+      <div className="level-create"><label>Neues Level<select value={newLevelKind} onChange={(event)=>setNewLevelKind(event.target.value as AuthoredLevel["kind"])}><option value="dungeon">Dungeon</option><option value="house">Haus / Innenraum</option><option value="outdoor">Oberwelt</option></select></label><button onClick={()=>addLevel(newLevelKind)}>Level anlegen</button></div>
+    </article>
+
     <div className="stats-grid file-stats">
-      <article><span>Räume</span><strong>{game.locations.length}</strong></article>
+      <article><span>Level</span><strong>{game.levels.length}</strong></article>
+      <article><span>Felder</span><strong>{levelLocations.length}</strong></article>
       <article><span>Items</span><strong>{game.items.length}</strong></article>
       <article><span>Begegnungen</span><strong>{game.encounters.length}</strong></article>
       <article><span>Quests</span><strong>{game.quests.length}</strong></article>
@@ -240,8 +279,8 @@ function AuthorPage() {
 
     <div className="map-builder-grid">
       <article className="stone-card map-card">
-        <div className="map-card-head"><div><p className="eyebrow">Live map</p><h2>Dungeon-Raster</h2></div><span className="audit-chip">{game.locations.length} Felder</span></div>
-        <DungeonMap game={game} selectedId={selectedLocation?.id ?? ""} onSelect={(id)=>{setSelectedLocationId(id);setBuilderMessage("");}}/>
+        <div className="map-card-head"><div><p className="eyebrow">Live map</p><h2>{selectedLevel.name}</h2></div><span className="audit-chip">{levelLocations.length} Felder</span></div>
+        <DungeonMap game={game} levelId={selectedLevel.id} selectedId={selectedLocation?.id ?? ""} onSelect={(id)=>{setSelectedLocationId(id);setBuilderMessage("");}}/>
       </article>
       <article className="editor-panel selected-room-panel">
         <p className="eyebrow">Bearbeitungsfokus</p>
@@ -251,7 +290,7 @@ function AuthorPage() {
           <div className="neighbor-grid">
             {(["north","east","south","west"] as Direction[]).map((direction)=>{
               const vector=DIRECTION_VECTORS[direction];
-              const target=locationAt(game.locations,selectedLocation.x+vector.x,selectedLocation.y+vector.y);
+              const target=locationAt(game.locations,selectedLocation.x+vector.x,selectedLocation.y+vector.y,selectedLocation.levelId || "level-1");
               const linked=!!target && selectedLocation.exits.includes(target.id) && target.exits.includes(selectedLocation.id);
               return <div className={`neighbor-card ${linked ? "linked" : ""}`} key={direction}>
                 <strong>{DIRECTION_LABELS[direction]}</strong>
@@ -277,6 +316,7 @@ function AuthorPage() {
             <button onClick={addRoomBlock}>Raumfläche anlegen</button>
           </div>
           <p className="muted">Die ausgewählte Zelle ist die nordwestliche Ecke. Raumflächen verbinden alle Nachbarfelder im Rechteck; dazwischen stehen keine Wände.</p>
+          <div className="level-portals"><strong>Levelübergänge</strong>{game.portals.filter((portal)=>portal.fromLocationId===selectedLocation.id || portal.toLocationId===selectedLocation.id).map((portal)=>{const targetId=portal.fromLocationId===selectedLocation.id ? portal.toLocationId : portal.fromLocationId;const target=game.locations.find((location)=>location.id===targetId);return <p key={portal.id}>{portal.label} → {target?.name ?? targetId} <button className="secondary" onClick={()=>setGame({...game,portals:game.portals.filter((entry)=>entry.id!==portal.id)})}>Entfernen</button></p>})}<label>Mit anderem Level verbinden<select defaultValue="" onChange={(event)=>{const to=event.target.value;if(!to)return;const id=`portal-${Date.now()}`;const target=game.locations.find((location)=>location.id===to);setGame({...game,portals:[...game.portals,{id,fromLocationId:selectedLocation.id,toLocationId:to,label:`Nach ${target?.name ?? to}`}]});event.target.value="";}}><option value="">Zielort wählen</option>{game.locations.filter((location)=>(location.levelId || "level-1")!==(selectedLocation.levelId || "level-1")).map((location)=><option key={location.id} value={location.id}>{game.levels.find((level)=>level.id===(location.levelId || "level-1"))?.name}: {location.name}</option>)}</select></label></div>
           {selectedLocation.sceneKind==="outdoor" && <div className="room-surface-picker"><label>Haus-/Kulissengrafik<select value={selectedLocation.sceneryAssetId??""} onChange={(event)=>patchLocation(selectedLocation.id,{sceneryAssetId:event.target.value||undefined})}><option value="">Offene Landschaft ohne Haus</option>{houseAssets.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}</select></label>{selectedLocation.sceneryAssetId && <div className="surface-preview"><img src={assetById(selectedLocation.sceneryAssetId)?.url} alt="Ausgewählte Kulisse"/><code>{assetById(selectedLocation.sceneryAssetId)?.path}</code></div>}</div>}
           {pack && <div className="room-surface-picker">
             <div className="surface-picker-head"><strong>Raum-Oberflächen</strong><span>{terrainCandidates.length ? terrainCandidates.length+" echte Terrain-Texturen" : textureCandidates.length+" ALIS-Fallbacks"}</span></div>
@@ -304,7 +344,7 @@ function AuthorPage() {
             })}
           </div>}
           {pack && terrainCandidates.length===0 && <p className="audit-note">In diesem Import wurden noch keine ALIS-0x1C/0x1E-Terraintexturen erkannt. Die Auswahl zeigt deshalb ältere Sprite-Fallbacks.</p>}
-          <button className="danger-button" disabled={game.locations.length<=1} onClick={()=>deleteLocation(selectedLocation.id)}>Ausgewählten Raum löschen</button>
+          <button className="danger-button" disabled={levelLocations.length<=1} onClick={()=>deleteLocation(selectedLocation.id)}>Ausgewählten Raum löschen</button>
         </>}
         <p className="audit-note">Klicke einen Raum direkt in der Karte an. Neue Räume werden immer relativ zu genau diesem ausgewählten Rasterfeld angelegt.</p>
       </article>
@@ -312,14 +352,16 @@ function AuthorPage() {
 
     <div className="author-grid">
       <article className="editor-panel">
-        <h2>Startfigur</h2>
+        <h2>Gruppe</h2>
         {game.characters.map((ch) => <div key={ch.id} className="author-block">
           <label>Name<input value={ch.name} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,name:e.target.value}:x)})}/></label>
           <div className="inline-fields">
             <label>HP<input type="number" min="1" value={ch.hp} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,hp:Number(e.target.value)}:x)})}/></label>
             <label>Angriff<input type="number" min="1" value={ch.attack} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,attack:Number(e.target.value)}:x)})}/></label>
           </div>
+          {game.characters.length>1 && <button className="danger-button compact" onClick={()=>setGame({...game,characters:game.characters.filter((entry)=>entry.id!==ch.id)})}>Aus Gruppe entfernen</button>}
         </div>)}
+        <button disabled={game.characters.length>=5} onClick={()=>{let n=game.characters.length+1;while(game.characters.some((entry)=>entry.id===`hero-${n}`))n++;setGame({...game,characters:[...game.characters,{id:`hero-${n}`,name:`Figur ${n}`,hp:18,attack:4}]});}}>Figur hinzufügen ({game.characters.length}/5)</button>
       </article>
 
       <article className="editor-panel">
@@ -390,8 +432,8 @@ function AuthorPage() {
 
     <div className="location-list">
       <h2>Dungeon-Felder</h2>
-      {game.locations.map((loc) => <article className="editor-panel location-editor" key={loc.id}>
-        <div className="location-title"><div><strong>{loc.name}</strong><code>{loc.id} · {loc.x},{loc.y}</code></div><div className="toolbar"><button className={loc.id===selectedLocation?.id ? "" : "secondary"} onClick={()=>setSelectedLocationId(loc.id)}>{loc.id===selectedLocation?.id ? "Ausgewählt" : "In Karte auswählen"}</button><button className="danger-button compact" disabled={game.locations.length <= 1} onClick={()=>deleteLocation(loc.id)}>Raum löschen</button></div></div>
+      {levelLocations.map((loc) => <article className="editor-panel location-editor" key={loc.id}>
+        <div className="location-title"><div><strong>{loc.name}</strong><code>{loc.id} · {loc.x},{loc.y}</code></div><div className="toolbar"><button className={loc.id===selectedLocation?.id ? "" : "secondary"} onClick={()=>setSelectedLocationId(loc.id)}>{loc.id===selectedLocation?.id ? "Ausgewählt" : "In Karte auswählen"}</button><button className="danger-button compact" disabled={levelLocations.length <= 1} onClick={()=>deleteLocation(loc.id)}>Raum löschen</button></div></div>
         <div className="inline-fields">
           <label>Name<input value={loc.name} onChange={(e)=>patchLocation(loc.id,{name:e.target.value})}/></label>
           <details className="advanced-coordinates"><summary>Rasterposition (fortgeschritten)</summary><div className="coordinate-fields"><label>X<input type="number" value={loc.x} onChange={(e)=>patchLocation(loc.id,{x:Number(e.target.value)})}/></label><label>Y<input type="number" value={loc.y} onChange={(e)=>patchLocation(loc.id,{y:Number(e.target.value)})}/></label></div></details>

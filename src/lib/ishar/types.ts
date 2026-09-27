@@ -213,6 +213,7 @@ export interface AuthoredLocation {
   description: string;
   x: number;
   y: number;
+  levelId?: string;
   exits: string[];
   itemIds: string[];
   encounterId?: string;
@@ -224,6 +225,20 @@ export interface AuthoredLocation {
   floorAssetId?: string;
   ceilingAssetId?: string;
   ending?: boolean;
+}
+
+export interface AuthoredLevel {
+  id: string;
+  name: string;
+  kind: "dungeon" | "house" | "outdoor";
+  tilesetId?: string;
+}
+
+export interface AuthoredPortal {
+  id: string;
+  fromLocationId: string;
+  toLocationId: string;
+  label: string;
 }
 
 export interface AuthoredDoor {
@@ -257,6 +272,8 @@ export interface AuthoredGame {
   characters: AuthoredCharacter[];
   items: AuthoredItem[];
   locations: AuthoredLocation[];
+  levels: AuthoredLevel[];
+  portals: AuthoredPortal[];
   encounters: AuthoredEncounter[];
   doors: AuthoredDoor[];
   quests: AuthoredQuest[];

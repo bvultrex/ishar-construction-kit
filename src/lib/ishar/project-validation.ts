@@ -13,8 +13,11 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
   const encounterIds = new Set(game.encounters.map((x) => x.id));
   const questIds = new Set(game.quests.map((x) => x.id));
   const doorIds = new Set(game.doors.map((x) => x.id));
+  const levelIds = new Set(game.levels.map((x)=>x.id));
 
   if (!game.locations.length) problems.push({ path: "game.locations", message: "Mindestens ein Ort wird benötigt." });
+  if (!game.levels.length) problems.push({path:"game.levels",message:"Mindestens ein Level wird benötigt."});
+  for(const level of game.levels) if(!game.locations.some((location)=>(location.levelId || "level-1")===level.id)) problems.push({path:`level.${level.id}`,message:"Das Level hat kein Feld."});
   if (!locationIds.has(game.startLocationId)) problems.push({ path: "game.startLocationId", message: "Der Startort existiert nicht." });
 
   const allIds = [
@@ -24,6 +27,8 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
     ...game.quests.map((x) => ["quest", x.id] as const),
     ...game.characters.map((x) => ["character", x.id] as const),
     ...game.doors.map((x) => ["door", x.id] as const),
+    ...game.levels.map((x) => ["level", x.id] as const),
+    ...game.portals.map((x) => ["portal", x.id] as const),
   ];
   const seen = new Set<string>();
   for (const [kind, id] of allIds) {
@@ -35,7 +40,9 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
 
   const occupied = new Map<string, string>();
   for (const location of game.locations) {
-    const coordinateKey = `${location.x},${location.y}`;
+    const levelId=location.levelId || "level-1";
+    if(!levelIds.has(levelId)) problems.push({path:`location.${location.id}.levelId`,message:`Unbekanntes Level "${levelId}".`});
+    const coordinateKey = `${levelId}:${location.x},${location.y}`;
     const occupant = occupied.get(coordinateKey);
     if (occupant) problems.push({ path: `location.${location.id}`, message: `Rasterfeld ${coordinateKey} ist bereits von "${occupant}" belegt.` });
     occupied.set(coordinateKey, location.id);
@@ -70,6 +77,13 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
     if (!directionBetween(from, to)) problems.push({ path: `door.${door.id}`, message: "Tür verbindet keine direkt benachbarten Rasterfelder." });
     if (!from.exits.includes(to.id) || !to.exits.includes(from.id)) problems.push({ path: `door.${door.id}`, message: "Tür liegt nicht auf einer beidseitigen Raumverbindung." });
     if (door.keyItemId && !itemIds.has(door.keyItemId)) problems.push({ path: `door.${door.id}.keyItemId`, message: `Unbekanntes Schlüssel-Item "${door.keyItemId}".` });
+  }
+
+  for(const portal of game.portals){
+    const from=game.locations.find((location)=>location.id===portal.fromLocationId);
+    const to=game.locations.find((location)=>location.id===portal.toLocationId);
+    if(!from || !to) problems.push({path:`portal.${portal.id}`,message:"Levelübergang verweist auf einen unbekannten Ort."});
+    else if((from.levelId || "level-1")===(to.levelId || "level-1")) problems.push({path:`portal.${portal.id}`,message:"Ein Levelübergang muss verschiedene Level verbinden."});
   }
 
   for (const encounter of game.encounters) {

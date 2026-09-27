@@ -228,9 +228,21 @@ function renderSidePassage(
     <g clipPath={`url(#${clipId})`}>
       <rect x={x} y={y} width={width} height={height} fill="#3b291a"/>
       {back && <image href={back.url} x={x} y={y} width={width} height={height} preserveAspectRatio="none" opacity=".82"/>}
-      <path d={`M ${near} ${bottomNear} L ${far} ${bottomFar} L ${far} ${bottomFar+22} L ${near} ${bottomNear+38} Z`} fill="#21190f" opacity=".7"/>
     </g>
   </g>;
+}
+
+function renderRoomOpeningArt(pack:LoadedAssetPack|null,depth:DungeonAssetDepth,side:"left"|"right",tilesetId:string|undefined,outer:{l:number;t:number;r:number;b:number},inner:{l:number;t:number;r:number;b:number}){
+  const asset=assetFor(pack,`opening.${side}`,depth,tilesetId);
+  if(!asset) return null;
+  const x=side==="left" ? outer.l : inner.r;
+  const width=side==="left" ? inner.l-outer.l : outer.r-inner.r;
+  return <image className="asset-layer room-opening-art" href={asset.url} x={x} y={outer.t} width={width} height={outer.b-outer.t} preserveAspectRatio="none"/>;
+}
+
+function renderRoomFrontArch(pack:LoadedAssetPack|null,depth:DungeonAssetDepth,tilesetId:string|undefined,inner:{l:number;t:number;r:number;b:number}){
+  const asset=assetFor(pack,"door.front.open",depth,tilesetId);
+  return asset ? <image className="asset-layer room-front-arch" href={asset.url} x={inner.l} y={inner.t} width={inner.r-inner.l} height={inner.b-inner.t} preserveAspectRatio="none"/> : null;
 }
 
 function renderRoomWall(
@@ -290,15 +302,19 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
 }) {
   const renderProfile=renderProfileForManifest(pack?.manifest);
   const viewportAspect=displayAspect(renderProfile);
-  const sceneTileset=pack?.manifest.tilesets.find(t=>t.id===location.tilesetId)
+  const levelTilesetId=(room:AuthoredLocation)=>room.tilesetId || game.levels.find((level)=>level.id===(room.levelId || "level-1"))?.tilesetId;
+  const locationTilesetId=levelTilesetId(location);
+  const sceneTileset=pack?.manifest.tilesets.find(t=>t.id===locationTilesetId)
     ?? pack?.manifest.tilesets.find(t=>t.id===pack.manifest.defaultTilesetId);
-  const outdoor=location.sceneKind==="outdoor";
-  const roomScene=location.sceneKind==="room";
+  const currentLevel=game.levels.find((level)=>level.id===(location.levelId || "level-1"));
+  const sceneKind=location.sceneKind || (currentLevel?.kind==="outdoor" ? "outdoor" : currentLevel?.kind==="house" ? "room" : "corridor");
+  const outdoor=sceneKind==="outdoor";
+  const roomScene=sceneKind==="room";
   const nativeScene=!outdoor && !roomScene && (pack?.sceneLayoutVersion??0)>=4 && /^ishar2-dj[12]$/.test(sceneTileset?.id??"");
   const frames=nativeScene ? DUNGEON_NATIVE_FRAMES : roomScene ? DUNGEON_ROOM_FRAMES : FRAMES;
   const segments: React.ReactNode[] = [];
   const itemLayers: React.ReactNode[] = [];
-  let cell: AuthoredLocation | undefined = location;
+  let cell: AuthoredLocation | undefined = {...location,tilesetId:locationTilesetId};
 
   for (let depth = 0; depth < 4 && cell && !outdoor; depth++) {
     const outer = frames[depth]!;
@@ -308,6 +324,7 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
     const leftRoomOpen=!!cell.roomGroupId && cell.sceneKind==="room" && canTravel(game.locations,cell,turnLeft(facing))?.roomGroupId===cell.roomGroupId;
     const rightRoomOpen=!!cell.roomGroupId && cell.sceneKind==="room" && canTravel(game.locations,cell,turnRight(facing))?.roomGroupId===cell.roomGroupId;
     const forward = canTravel(game.locations, cell, facing);
+    const roomBoundary=roomScene && !!forward && !!cell.roomGroupId && cell.roomGroupId!==forward.roomGroupId;
     const forwardDoor = forward ? doorBetween(game.doors, cell, forward) : undefined;
     const forwardDoorOpen = !forwardDoor || openDoors.includes(forwardDoor.id);
 
@@ -334,30 +351,29 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         {renderDiscoveredTexture(pack, cell.floorAssetId, {kind:"polygon",points:[[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]]}, depth as DungeonAssetDepth, "floor") ?? renderPolygonAsset(pack, "surface.floor", [[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]], depth as DungeonAssetDepth, cell.tilesetId)}
         {!leftRoomOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]]}, depth as DungeonAssetDepth, "wall-left") ?? (roomScene ? renderRoomWall(pack,[[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]],depth as DungeonAssetDepth,cell.tilesetId,"left") : renderPolygonAsset(pack, "wall.left", [[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]], depth as DungeonAssetDepth, cell.tilesetId)))}
         {!rightRoomOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]]}, depth as DungeonAssetDepth, "wall-right") ?? (roomScene ? renderRoomWall(pack,[[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]],depth as DungeonAssetDepth,cell.tilesetId,"right") : renderPolygonAsset(pack, "wall.right", [[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]], depth as DungeonAssetDepth, cell.tilesetId)))}
-        {leftOpen && !leftRoomOpen && <polygon className={`dungeon-opening ${nativeScene && assetFor(pack,"opening.left",depth as DungeonAssetDepth,cell.tilesetId) ? "native-opening" : "side-opening"}`} points={points([[outer.l+5,outer.t+34],[inner.l-2,inner.t+20],[inner.l-2,inner.b-20],[outer.l+5,outer.b-34]])}/>}
-        {rightOpen && !rightRoomOpen && <polygon className={`dungeon-opening ${nativeScene && assetFor(pack,"opening.right",depth as DungeonAssetDepth,cell.tilesetId) ? "native-opening" : "side-opening"}`} points={points([[inner.r+2,inner.t+20],[outer.r-5,outer.t+34],[outer.r-5,outer.b-34],[inner.r+2,inner.b-20]])}/>}
-        {leftOpen && !leftRoomOpen && !roomScene && renderAsset(pack, "opening.left", depth as DungeonAssetDepth, cell.tilesetId)}
-        {rightOpen && !rightRoomOpen && !roomScene && renderAsset(pack, "opening.right", depth as DungeonAssetDepth, cell.tilesetId)}
-        {leftOpen && !leftRoomOpen && !roomScene && renderSidePassage(pack,depth as DungeonAssetDepth,"left",cell.tilesetId,outer,inner)}
-        {rightOpen && !rightRoomOpen && !roomScene && renderSidePassage(pack,depth as DungeonAssetDepth,"right",cell.tilesetId,outer,inner)}
+        {leftOpen && !leftRoomOpen && (roomScene ? renderRoomOpeningArt(pack,depth as DungeonAssetDepth,"left",cell.tilesetId,outer,inner) : renderAsset(pack,"opening.left",depth as DungeonAssetDepth,cell.tilesetId))}
+        {rightOpen && !rightRoomOpen && (roomScene ? renderRoomOpeningArt(pack,depth as DungeonAssetDepth,"right",cell.tilesetId,outer,inner) : renderAsset(pack,"opening.right",depth as DungeonAssetDepth,cell.tilesetId))}
+        {leftOpen && !leftRoomOpen && renderSidePassage(pack,depth as DungeonAssetDepth,"left",cell.tilesetId,outer,inner)}
+        {rightOpen && !rightRoomOpen && renderSidePassage(pack,depth as DungeonAssetDepth,"right",cell.tilesetId,outer,inner)}
         {!forward && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"rect",x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, "wall-front") ?? (roomScene ? renderRoomWall(pack,[[inner.l,inner.t],[inner.r,inner.t],[inner.r,inner.b],[inner.l,inner.b]],depth as DungeonAssetDepth,cell.tilesetId,"front") : renderRectAsset(pack, "wall.front", {x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, cell.tilesetId)))}
         {forwardDoor && !forwardDoorOpen && renderRectAsset(pack, "door.front.closed", {x:inner.l+12,y:inner.t+4,width:Math.max(20,inner.r-inner.l-24),height:Math.max(30,inner.b-inner.t-8)}, depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id)}
         {forwardDoor && !forwardDoorOpen && !assetFor(pack, "door.front.closed", depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id) &&
           <FallbackDoor x={inner.l+12} y={inner.t+4} width={Math.max(20,inner.r-inner.l-24)} height={Math.max(30,inner.b-inner.t-8)} grille={sceneTileset?.id==="ishar2-dj2"}/>}
-        {forwardDoor && !roomScene && renderAsset(pack,"door.front.open",depth as DungeonAssetDepth,cell.tilesetId,forwardDoor.id)}
+        {roomBoundary && renderRoomFrontArch(pack,depth as DungeonAssetDepth,cell.tilesetId,inner)}
+        {forwardDoor && !roomBoundary && (roomScene ? renderRoomFrontArch(pack,depth as DungeonAssetDepth,cell.tilesetId,inner) : renderAsset(pack,"door.front.open",depth as DungeonAssetDepth,cell.tilesetId,forwardDoor.id))}
       </g>
     );
 
     if (!forward || !forwardDoorOpen) break;
-    cell = forward;
+    cell = {...forward,tilesetId:levelTilesetId(forward)};
   }
 
-  const encounterLayer = encounter && !encounterDone ? renderAsset(pack, "encounter", undefined, location.tilesetId, encounter.id) : null;
+  const encounterLayer = encounter && !encounterDone ? renderAsset(pack, "encounter", undefined, locationTilesetId, encounter.id) : null;
   const currentItemId=location.itemIds.find((id)=>!collectedItemIds.includes(id));
   const currentItem=currentItemId ? game.items.find((item)=>item.id===currentItemId) : undefined;
   const currentItemAssetId=semanticItemAssetId(pack,currentItem,0);
   const genericCurrentItemLayer=!currentItemAssetId && currentItemId
-    ? renderAsset(pack, "item", undefined, location.tilesetId, currentItemId)
+    ? renderAsset(pack, "item", undefined, locationTilesetId, currentItemId)
     : null;
 
   return <div className={`dungeon-viewport ${outdoor ? "outdoor-viewport" : roomScene ? "room-viewport" : ""}`} style={{aspectRatio:String(viewportAspect)}} data-render-profile={renderProfile.id}>
@@ -385,8 +401,8 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         <rect y="220" width="640" height="180" fill="url(#outdoor-ground)"/>
         {renderDiscoveredTexture(pack,location.floorAssetId,{kind:"rect",x:0,y:220,width:640,height:180},0,"outdoor-ground")}
         {renderDiscoveredLayer(pack,location.sceneryAssetId,{x:64,y:18,width:512,height:360})}
-      </g> : renderAsset(pack, "viewport.background", undefined, location.tilesetId)}
-      {nativeScene && renderAsset(pack,"surface.ceiling",undefined,location.tilesetId)}
+      </g> : renderAsset(pack, "viewport.background", undefined, locationTilesetId)}
+      {nativeScene && renderAsset(pack,"surface.ceiling",undefined,locationTilesetId)}
       {segments}
       {itemLayers}
       <path className="dungeon-vignette" d="M0 0H640V400H0Z M32 25V375H608V25Z" fillRule="evenodd"/>
@@ -412,8 +428,9 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
 }
 
 function DungeonMiniMap({ game, location, facing }: { game: AuthoredGame; location: AuthoredLocation; facing: Direction }) {
-  const xs=game.locations.map((room)=>room.x);
-  const ys=game.locations.map((room)=>room.y);
+  const locations=game.locations.filter((room)=>(room.levelId || "level-1")===(location.levelId || "level-1"));
+  const xs=locations.map((room)=>room.x);
+  const ys=locations.map((room)=>room.y);
   const minX=Math.min(...xs,0);
   const maxX=Math.max(...xs,0);
   const minY=Math.min(...ys,0);
@@ -426,13 +443,13 @@ function DungeonMiniMap({ game, location, facing }: { game: AuthoredGame; locati
   const facingRotation:Record<Direction,number>={north:0,east:90,south:180,west:270};
   return <svg className="play-minimap" viewBox={`0 0 ${width} ${height}`} aria-label="Minimap">
     <rect width={width} height={height} className="minimap-bg"/>
-    {game.locations.flatMap((room)=>room.exits.map((id)=>{
+    {locations.flatMap((room)=>room.exits.map((id)=>{
       const target=game.locations.find((candidate)=>candidate.id===id);
       if(!target || room.id>target.id) return null;
       const a=point(room), b=point(target);
       return <line key={`${room.id}-${id}`} x1={a.x} y1={a.y} x2={b.x} y2={b.y} className="minimap-link"/>;
     }))}
-    {game.locations.map((room)=>{
+    {locations.map((room)=>{
       const p=point(room);
       const current=room.id===location.id;
       return <g key={room.id} transform={`translate(${p.x},${p.y})`}>
@@ -455,21 +472,25 @@ function PlaytestPage() {
   const problems = validateGame(game);
   const [locationId, setLocationId] = useState(game.startLocationId);
   const [facing, setFacing] = useState<Direction>(game.startFacing);
-  const [heroHp, setHeroHp] = useState(hero?.hp ?? 1);
+  const [partyHp,setPartyHp]=useState<Record<string,number>>(()=>Object.fromEntries(game.characters.map((member)=>[member.id,member.hp])));
   const [enemyHp, setEnemyHp] = useState<Record<string, number>>({});
   const [completedEncounters, setCompletedEncounters] = useState<string[]>([]);
   const [completedQuests, setCompletedQuests] = useState<string[]>([]);
   const [inventory, setInventory] = useState<string[]>([]);
   const [openDoors, setOpenDoors] = useState<string[]>(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));
   const [log, setLog] = useState<string[]>(["Du betrittst den Dungeon."]);
+  const [selectedPartyIndex,setSelectedPartyIndex]=useState(0);
+  const [hudPanel,setHudPanel]=useState<"actions"|"character"|"inventory"|"map"|"quest"|null>(null);
 
   const location = useMemo(() => game.locations.find((x) => x.id === locationId), [game.locations, locationId]);
   const encounter = location?.encounterId ? game.encounters.find((x) => x.id === location.encounterId) : undefined;
   const encounterDone = encounter ? completedEncounters.includes(encounter.id) : true;
   const currentEnemyHp = encounter ? (enemyHp[encounter.id] ?? encounter.enemyHp) : 0;
-  const defeated = heroHp <= 0;
+  const defeated = game.characters.every((member)=>(partyHp[member.id] ?? member.hp)<=0);
   const won = !!location?.ending && !defeated && encounterDone;
   const visibleItemIds = location?.itemIds.filter((id) => !inventory.includes(id)) ?? [];
+  const level=game.levels.find((entry)=>entry.id===(location?.levelId || "level-1"));
+  const portalsHere=game.portals.filter((portal)=>portal.fromLocationId===locationId || portal.toLocationId===locationId);
   const facingTarget = location ? canTravel(game.locations, location, facing) : undefined;
   const facingDoor = location && facingTarget ? doorBetween(game.doors, location, facingTarget) : undefined;
   const facingDoorClosed = !!facingDoor && !openDoors.includes(facingDoor.id);
@@ -477,18 +498,22 @@ function PlaytestPage() {
   function reset() {
     setLocationId(game.startLocationId);
     setFacing(game.startFacing);
-    setHeroHp(hero?.hp ?? 1);
+    setPartyHp(Object.fromEntries(game.characters.map((member)=>[member.id,member.hp])));
     setEnemyHp({});
     setCompletedEncounters([]);
     setCompletedQuests([]);
     setInventory([]);
     setOpenDoors(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));
     setLog(["Dungeon neu betreten."]);
+    setSelectedPartyIndex(0);
+    setHudPanel(null);
   }
 
   function attack() {
     if (!hero || !encounter || encounterDone || defeated) return;
-    const nextEnemy = Math.max(0, currentEnemyHp - hero.attack);
+    const attacker=game.characters[selectedPartyIndex] ?? hero;
+    if((partyHp[attacker.id] ?? attacker.hp)<=0) return;
+    const nextEnemy = Math.max(0, currentEnemyHp - attacker.attack);
     if (nextEnemy === 0) {
       setEnemyHp((x)=>({...x,[encounter.id]:0}));
       setCompletedEncounters((x)=>[...x,encounter.id]);
@@ -496,10 +521,10 @@ function PlaytestPage() {
       setLog((x)=>[encounter.victoryText, ...x]);
       return;
     }
-    const nextHero = Math.max(0, heroHp - encounter.enemyAttack);
+    const nextAttacker = Math.max(0, (partyHp[attacker.id] ?? attacker.hp) - encounter.enemyAttack);
     setEnemyHp((x)=>({...x,[encounter.id]:nextEnemy}));
-    setHeroHp(nextHero);
-    setLog((x)=>[`${hero.name} trifft für ${hero.attack}. ${encounter.name} trifft für ${encounter.enemyAttack}.`, ...x]);
+    setPartyHp((current)=>({...current,[attacker.id]:nextAttacker}));
+    setLog((x)=>[`${attacker.name} trifft für ${attacker.attack}. ${encounter.name} trifft für ${encounter.enemyAttack}.`, ...x]);
   }
 
   function step(direction: Direction) {
@@ -540,6 +565,20 @@ function PlaytestPage() {
     setLog((x)=>[`${item?.name ?? id} aufgenommen.`, ...x]);
   }
 
+  function usePortal(id:string){
+    if(defeated || !encounterDone) return;
+    const portal=game.portals.find((entry)=>entry.id===id);
+    if(!portal) return;
+    const targetId=portal.fromLocationId===locationId ? portal.toLocationId : portal.fromLocationId;
+    const target=game.locations.find((entry)=>entry.id===targetId);
+    if(!target) return;
+    setLocationId(target.id);
+    setLog((entries)=>[`Levelwechsel: ${target.name}.`,...entries]);
+    setHudPanel(null);
+  }
+
+  function toggleHud(panel:NonNullable<typeof hudPanel>){setHudPanel((current)=>current===panel ? null : panel);}
+
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       const target = event.target as HTMLElement | null;
@@ -571,7 +610,7 @@ function PlaytestPage() {
         </main>
 
         <aside className="ishar-control-panel">
-          <div className="ishar-location-plaque">{location.name}</div>
+          <div className="ishar-location-plaque"><small>{level?.name ?? "Dungeon"}</small>{location.name}</div>
           <DungeonMiniMap game={game} location={location} facing={facing}/>
           <div className="ishar-dpad" aria-label="Dungeon-Steuerung">
             <span/>
@@ -582,8 +621,9 @@ function PlaytestPage() {
             <button onClick={()=>setFacing(turnRight(facing))} aria-label="Rechts drehen">▶</button>
           </div>
           <div className="ishar-context-buttons">
-            {encounter && !encounterDone && !defeated && <button className="attack-button" onClick={attack}>⚔ Angriff <small>{currentEnemyHp}/{encounter.enemyHp}</small></button>}
+            {encounter && !encounterDone && !defeated && <button className="attack-button" onClick={attack} disabled={(partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0)<=0}>⚔ Angriff <small>{currentEnemyHp}/{encounter.enemyHp}</small></button>}
             {facingDoorClosed && encounterDone && !defeated && <button className="door-button" onClick={openFacingDoor}>🚪 Öffnen<small>{facingDoor?.keyItemId ? "Schlüssel" : "Tür"}</small></button>}
+            {portalsHere.map((portal)=>{const target=game.locations.find((entry)=>entry.id===(portal.fromLocationId===locationId ? portal.toLocationId : portal.fromLocationId));return <button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone}>↗ {target?.name ?? portal.label}</button>})}
           </div>
           <div className="ishar-compass">Blick: <strong>{DIRECTION_LABELS[facing]}</strong></div>
         </aside>
@@ -592,17 +632,33 @@ function PlaytestPage() {
       <div className="ishar-party-strip">
         {Array.from({length:5},(_,index)=>{
           const member=game.characters[index];
-          const currentHp=index===0 ? heroHp : member?.hp ?? 0;
+          const currentHp=member ? (partyHp[member.id] ?? member.hp) : 0;
           const maxHp=member?.hp ?? 1;
           const ratio=member ? Math.max(0,Math.min(100,Math.round(currentHp/maxHp*100))) : 0;
-          return <article className={member ? "ishar-party-card" : "ishar-party-card empty"} key={member?.id ?? `empty-${index}`}>
-            <div className={`ishar-action-tab ${originalActionBar ? "original-hud-sprite" : ""}`}>{originalActionBar ? <img src={originalActionBar} alt={member ? "Aktion" : ""}/> : member ? "ACTION" : "—"}</div>
-            <div className="ishar-portrait">{member ? member.name.slice(0,1).toUpperCase() : ""}</div>
+          return <article className={member ? `ishar-party-card ${selectedPartyIndex===index ? "selected" : ""}` : "ishar-party-card empty"} key={member?.id ?? `empty-${index}`}>
+            <button className={`ishar-action-tab ${originalActionBar ? "original-hud-sprite" : ""}`} disabled={!member} aria-label={`${member?.name ?? `Slot ${index+1}`} Aktionen`} onClick={()=>{setSelectedPartyIndex(index);toggleHud("actions");}}>{originalActionBar ? <img src={originalActionBar} alt=""/> : member ? "ACTION" : "—"}</button>
+            <button className="ishar-portrait" disabled={!member} aria-label={`${member?.name ?? `Slot ${index+1}`} ansehen`} onClick={()=>{setSelectedPartyIndex(index);toggleHud("character");}}>{member ? member.name.slice(0,1).toUpperCase() : ""}</button>
             <div className="ishar-party-name">{member?.name ?? `Slot ${index+1}`}</div>
             <div className={`ishar-life-row ${originalLifeBar ? "original-life-sprite" : ""}`}>{originalLifeBar ? <img src={originalLifeBar} alt="Leben"/> : <span>LIFE</span>}<div className="ishar-life-track"><i style={{width:`${ratio}%`}}/></div></div>
           </article>;
         })}
       </div>
+
+      <nav className="ishar-hud-nav" aria-label="Spielmenü">
+        <button aria-pressed={hudPanel==="actions"} onClick={()=>toggleHud("actions")}>Aktionen</button>
+        <button aria-pressed={hudPanel==="character"} onClick={()=>toggleHud("character")}>Figur</button>
+        <button aria-pressed={hudPanel==="inventory"} onClick={()=>toggleHud("inventory")}>Inventar {inventory.length ? `(${inventory.length})` : ""}</button>
+        <button aria-pressed={hudPanel==="map"} onClick={()=>toggleHud("map")}>Karte</button>
+        <button aria-pressed={hudPanel==="quest"} onClick={()=>toggleHud("quest")}>Aufträge</button>
+      </nav>
+      {hudPanel && <section className="ishar-hud-panel" aria-label="Spielmenü-Inhalt">
+        <button className="ishar-hud-close" onClick={()=>setHudPanel(null)} aria-label="Menü schließen">×</button>
+        {hudPanel==="actions" && <><h3>Aktionen · {game.characters[selectedPartyIndex]?.name ?? hero.name}</h3><div className="ishar-hud-actions"><button onClick={attack} disabled={!encounter || encounterDone || defeated || (partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0)<=0}>Angreifen</button><button onClick={openFacingDoor} disabled={!facingDoorClosed || defeated}>Tür öffnen</button>{visibleItemIds.map((id)=><button key={id} onClick={()=>takeItem(id)}>{game.items.find((item)=>item.id===id)?.name ?? id} aufnehmen</button>)}{portalsHere.map((portal)=><button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone}>{portal.label}</button>)}</div></>}
+        {hudPanel==="character" && <><h3>{game.characters[selectedPartyIndex]?.name ?? hero.name}</h3><p>Leben: {partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0}/{game.characters[selectedPartyIndex]?.hp ?? hero.hp} · Angriff: {game.characters[selectedPartyIndex]?.attack ?? hero.attack}</p></>}
+        {hudPanel==="inventory" && <><h3>Inventar</h3>{inventory.length ? <ul>{inventory.map((id)=><li key={id}>{game.items.find((item)=>item.id===id)?.name ?? id}</li>)}</ul> : <p>Noch keine Gegenstände.</p>}</>}
+        {hudPanel==="map" && <><h3>{level?.name ?? "Karte"}</h3><DungeonMiniMap game={game} location={location} facing={facing}/></>}
+        {hudPanel==="quest" && <><h3>Aufträge</h3>{game.quests.map((quest)=><p key={quest.id}><strong>{quest.title}</strong> · {completedQuests.includes(quest.id) ? quest.completedText : quest.objective}</p>)}</>}
+      </section>}
 
       {visibleItemIds.length > 0 && !defeated && <div className="ishar-context-bar">{visibleItemIds.map((id)=>{
         const item=game.items.find((x)=>x.id===id);

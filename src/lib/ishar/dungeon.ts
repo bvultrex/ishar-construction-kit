@@ -28,13 +28,13 @@ export function turnBack(direction: Direction): Direction {
   return DIRECTIONS[(DIRECTIONS.indexOf(direction) + 2) % 4]!;
 }
 
-export function locationAt(locations: AuthoredLocation[], x: number, y: number) {
-  return locations.find((location) => location.x === x && location.y === y);
+export function locationAt(locations: AuthoredLocation[], x: number, y: number, levelId="level-1") {
+  return locations.find((location) => (location.levelId || "level-1") === levelId && location.x === x && location.y === y);
 }
 
 export function adjacentLocation(locations: AuthoredLocation[], location: AuthoredLocation, direction: Direction) {
   const vector = DIRECTION_VECTORS[direction];
-  return locationAt(locations, location.x + vector.x, location.y + vector.y);
+  return locationAt(locations, location.x + vector.x, location.y + vector.y, location.levelId || "level-1");
 }
 
 export function canTravel(locations: AuthoredLocation[], location: AuthoredLocation, direction: Direction) {
@@ -43,6 +43,7 @@ export function canTravel(locations: AuthoredLocation[], location: AuthoredLocat
 }
 
 export function directionBetween(a: AuthoredLocation, b: AuthoredLocation): Direction | undefined {
+  if((a.levelId || "level-1") !== (b.levelId || "level-1")) return undefined;
   const dx = b.x - a.x;
   const dy = b.y - a.y;
   if (dx === 0 && dy === -1) return "north";

@@ -10,7 +10,7 @@ export function createRoomBlock(game:AuthoredGame,anchorId:string,width:number,h
     return {ok:false,error:"Raumflächen müssen zwischen 2×2 und 5×5 Feldern groß sein."};
   for(let dy=0;dy<height;dy++) for(let dx=0;dx<width;dx++) {
     if(dx===0&&dy===0) continue;
-    const occupied=locationAt(game.locations,anchor.x+dx,anchor.y+dy);
+    const occupied=locationAt(game.locations,anchor.x+dx,anchor.y+dy,anchor.levelId || "level-1");
     if(occupied) return {ok:false,error:`Rasterfeld ${anchor.x+dx},${anchor.y+dy} ist bereits durch „${occupied.name}“ belegt.`};
   }
   const usedIds=new Set(game.locations.map((location)=>location.id));
@@ -27,7 +27,7 @@ export function createRoomBlock(game:AuthoredGame,anchorId:string,width:number,h
     usedIds.add(id);
     createdIds.push(id);
     additions.push({id,name:`${anchor.name} ${dx+1}/${dy+1}`,description:anchor.description,
-      x:anchor.x+dx,y:anchor.y+dy,exits:[],itemIds:[],tilesetId:anchor.tilesetId,
+      x:anchor.x+dx,y:anchor.y+dy,levelId:anchor.levelId || "level-1",exits:[],itemIds:[],tilesetId:anchor.tilesetId,
       wallAssetId:anchor.wallAssetId,floorAssetId:anchor.floorAssetId,ceilingAssetId:anchor.ceilingAssetId,
       sceneKind:"room",roomGroupId});
   }

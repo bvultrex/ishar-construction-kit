@@ -198,3 +198,11 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 3. Refine room camera for multi-cell spaces, including visible internal openings, floor/ceiling continuity and doors on room boundaries. Current 2×2–5×5 topology and wall suppression are functional but visual projection is a CK approximation.
 4. Map `FRISE.IO` HUD parts and `MAIN.IO` glyph encoding against original video/source evidence. Action/life strips are integrated; the full HUD and bitmap font remain incomplete.
 5. Continue searching for an actual closed-door leaf/animation; the current door silhouettes remain procedural despite matching video references.
+
+## 2026-09-27 — After multi-level/HUD milestone
+
+1. Compare DJ1/DJ2 side apertures and room-boundary arches with captured original frames at all distance tiers; refine projection and clipping where the floor/wall joins still diverge. The renderer now uses imported passage art without the synthetic black window, but exact original draw order remains unproven.
+2. Expand outdoor/house asset-set support beyond choosing a dungeon tileset: identify original overworld palette/background/distance families and build a world-scene set from those verified assets. Current outdoor sky and ground are CK placeholders, and houses are selectable facades.
+3. Reconstruct further `FRISE.IO` HUD panels and `MAIN.IO` glyph encoding from resource/script evidence. The party/menu controls work for the playable slice but original Ishar 2 command coverage, layout and typography are incomplete.
+4. Give room groups more faithful continuous floor/ceiling perspective and verify every internal/boundary transition, including locked doors and intersections.
+5. Preserve project migration tests while adding level deletion/reordering or broader transition rules; current Builder supports creation, selection, editing and portals but does not delete levels.

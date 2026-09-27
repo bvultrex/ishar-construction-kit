@@ -62,3 +62,9 @@ Imported asset packs are cached in IndexedDB and restored when the app loads, in
 For the local production server, optionally set `ISHAR_LOCAL_ZIP` to the absolute path of an Ishar ZIP before running `node scripts/serve-build.mjs`. With an empty cache it imports that ZIP automatically. This source is available only with the loopback host `127.0.0.1`. Clearing a pack clears the browser cache; a configured ZIP will import again on the next page load.
 
 Ishar 2 DJ1/DJ2 wall families are assigned automatically. Their placement uses native sizes and script depth offsets; the common screen origin remains reconstructed; FDJ floors, solid ceiling colors and original door surrounds are integrated. Closed door leaves and unresolved decor still use fallback graphics.
+
+### Levels and playtest controls
+
+Adventure Builder now keeps separate coordinate grids for Dungeon, House and Overworld levels. Use **Level anlegen** from a selected field to create a new level and a two-way transition; choose its asset set in the level panel. Existing project files migrate their original map to `level-1` when opened. Locations can still override a level's scene type or surface assets.
+
+In Playtest, the party portraits open character status, action strips open usable commands, and the menu opens inventory, map and quest views. Additional party members can be added in Builder; the selected living member attacks and receives the counterattack. Level transitions appear beside the navigation controls. The current HUD uses a few original `FRISE.IO` pieces, while its full layout and the original bitmap-font character encoding remain research tasks.

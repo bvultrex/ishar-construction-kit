@@ -18,6 +18,8 @@ export function starterGame(): AuthoredGame {
   return {
     startLocationId: "gate",
     startFacing: "north",
+    levels: [{id:"level-1",name:"Dungeon 1",kind:"dungeon",tilesetId:"ishar2-dj1"}],
+    portals: [],
     characters: [{ id: "hero", name: "Aramir", hp: 18, attack: 5 }],
     items: [
       { id: "sun-key", name: "Sonnenschlüssel", description: "Ein warmer Messingschlüssel mit einer Sonnenglyphe." },
@@ -49,6 +51,7 @@ function normalizedLocation(location: AuthoredLocation, index: number): Authored
     ...location,
     x: Number.isFinite(location.x) ? location.x : (legacy?.x ?? 0),
     y: Number.isFinite(location.y) ? location.y : (legacy?.y ?? index),
+    levelId: location.levelId || "level-1",
   };
 }
 
@@ -68,6 +71,8 @@ export function normalizeGame(raw: unknown): AuthoredGame {
     items: Array.isArray(source.items) ? source.items : fallback.items,
     encounters: Array.isArray(source.encounters) ? source.encounters : fallback.encounters,
     doors: Array.isArray(source.doors) ? source.doors : fallback.doors,
+    levels: Array.isArray(source.levels) && source.levels.length ? source.levels : fallback.levels,
+    portals: Array.isArray(source.portals) ? source.portals : fallback.portals,
     quests: Array.isArray(source.quests) ? source.quests : fallback.quests,
     locations,
   };
