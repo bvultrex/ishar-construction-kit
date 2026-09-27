@@ -13,13 +13,14 @@ export function createSwampTestArea(game: AuthoredGame, portalFromId: string) {
   for(let y=0;y<size;y++) for(let x=0;x<size;x++) cells.push({
     id:`${levelId}-swamp-${x}-${y}`,
     name:x===2 && y===4 ? "Sumpf-Eingang" : `Sumpf ${x+1},${y+1}`,
-    description:"Offenes Sumpfgelände; Bewuchs behindert die Sicht, nicht automatisch die Bewegung.",
+    description:"Offenes Sumpfgelände; Bewuchs behindert die Sicht, Wasser sperrt den Weg.",
     x,y,levelId,exits:[],itemIds:[],sceneKind:"outdoor",
+    outdoorSurface:y===2 && (x===0 || x===4) ? "water" : "grass",
   });
   for(const cell of cells) cell.exits=DIRECTIONS.flatMap((direction)=>{
     const vector=DIRECTION_VECTORS[direction];
     const neighbor=locationAt(cells,cell.x+vector.x,cell.y+vector.y,levelId);
-    return neighbor ? [neighbor.id] : [];
+    return neighbor && cell.outdoorSurface!=="water" && neighbor.outdoorSurface!=="water" ? [neighbor.id] : [];
   });
   const entranceId=`${levelId}-swamp-2-4`;
   return {

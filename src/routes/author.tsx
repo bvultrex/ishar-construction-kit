@@ -50,9 +50,9 @@ function DungeonMap({ game, levelId, selectedId, onSelect }: { game: AuthoredGam
         onClick={()=>onSelect(loc.id)}
         onKeyDown={(event)=>{if(event.key==="Enter" || event.key===" "){event.preventDefault();onSelect(loc.id);}}}
       >
-        <rect x={-36} y={-31} width={72} height={62} rx={5} className={`map-cell ${start ? "start" : ""} ${loc.ending ? "ending" : ""} ${selected ? "selected" : ""} ${loc.sceneKind ?? "corridor"}`}/>
+        <rect x={-36} y={-31} width={72} height={62} rx={5} className={`map-cell ${start ? "start" : ""} ${loc.ending ? "ending" : ""} ${selected ? "selected" : ""} ${loc.sceneKind ?? "corridor"} ${loc.outdoorSurface==="water" ? "water" : ""}`}/>
         <text y={-5} textAnchor="middle" className="map-name">{loc.name.slice(0, 13)}</text>
-        <text y={14} textAnchor="middle" className="map-coord">{loc.x},{loc.y} · {loc.sceneKind==="outdoor" ? "Außen" : loc.sceneKind==="room" ? "Raum" : "Gang"}</text>
+        <text y={14} textAnchor="middle" className="map-coord">{loc.x},{loc.y} · {loc.outdoorSurface==="water" ? "Wasser" : loc.sceneKind==="outdoor" ? "Außen" : loc.sceneKind==="room" ? "Raum" : "Gang"}</text>
         {start && <text y={42} textAnchor="middle" className="map-facing">Start {DIRECTION_LABELS[game.startFacing]}</text>}
       </g>;
     })}
@@ -126,6 +126,20 @@ function AuthorPage() {
 
   function patchLocation(id: string, patch: Partial<AuthoredLocation>) {
     setGame({ ...game, locations: game.locations.map((x) => x.id === id ? { ...x, ...patch } : x) });
+  }
+
+  function setOutdoorSurface(id:string,surface:"grass"|"water") {
+    if(surface==="water" && game.startLocationId===id){
+      setBuilderMessage("Das Startfeld muss begehbar bleiben. Wähle zuerst ein anderes Startfeld.");
+      return;
+    }
+    const locations=game.locations.map((location)=>location.id===id
+      ? {...location,outdoorSurface:surface,exits:surface==="water" ? [] : location.exits}
+      : surface==="water" ? {...location,exits:location.exits.filter((exit)=>exit!==id)} : location);
+    const doors=surface==="water" ? game.doors.filter((door)=>door.fromLocationId!==id && door.toLocationId!==id) : game.doors;
+    const portals=surface==="water" ? game.portals.filter((portal)=>portal.fromLocationId!==id && portal.toLocationId!==id) : game.portals;
+    setGame({...game,locations,doors,portals});
+    setBuilderMessage(surface==="water" ? "Wasserfeld gesetzt: Angrenzende Verbindungen, Türen und Übergänge wurden entfernt." : "Grasfeld gesetzt. Verbindungen können nun wieder angelegt werden.");
   }
 
   function addDoor() {
@@ -223,7 +237,7 @@ function AuthorPage() {
     setGame(result.game);
     setSelectedLevelId(result.levelId);
     setSelectedLocationId(result.entranceId);
-    setBuilderMessage("Sumpf-Testgebiet mit 25 frei verbundenen Feldern angelegt. Der Übergang liegt am zuvor ausgewählten Feld.");
+    setBuilderMessage("Sumpf-Testgebiet mit Grasfeldern und zwei unpassierbaren Wasserfeldern angelegt. Der Übergang liegt am zuvor ausgewählten Feld.");
   }
 
   function patchLevel(patch:Partial<AuthoredLevel>){
@@ -234,6 +248,10 @@ function AuthorPage() {
     const from = game.locations.find((location) => location.id === fromId);
     const target = game.locations.find((location) => location.id === targetId);
     if (!from || !target) return;
+    if (connected && (from.outdoorSurface==="water" || target.outdoorSurface==="water")) {
+      setBuilderMessage("Wasserfelder sind unpassierbar. Stelle sie zuerst auf Gras um.");
+      return;
+    }
     const locations = game.locations.map((location) => {
       if (location.id === from.id) {
         return { ...location, exits: connected ? [...new Set([...location.exits, target.id])] : location.exits.filter((id) => id !== target.id) };
@@ -332,7 +350,7 @@ function AuthorPage() {
           </div>
           <p className="muted">Die ausgewählte Zelle ist die nordwestliche Ecke. Raumflächen verbinden alle Nachbarfelder im Rechteck; dazwischen stehen keine Wände.</p>
           <div className="level-portals"><strong>Levelübergänge</strong>{game.portals.filter((portal)=>portal.fromLocationId===selectedLocation.id || portal.toLocationId===selectedLocation.id).map((portal)=>{const targetId=portal.fromLocationId===selectedLocation.id ? portal.toLocationId : portal.fromLocationId;const target=game.locations.find((location)=>location.id===targetId);return <p key={portal.id}>{portal.label} → {target?.name ?? targetId} <button className="secondary" onClick={()=>setGame({...game,portals:game.portals.filter((entry)=>entry.id!==portal.id)})}>Entfernen</button></p>})}<label>Mit anderem Level verbinden<select defaultValue="" onChange={(event)=>{const to=event.target.value;if(!to)return;const id=`portal-${Date.now()}`;const target=game.locations.find((location)=>location.id===to);setGame({...game,portals:[...game.portals,{id,fromLocationId:selectedLocation.id,toLocationId:to,label:`Nach ${target?.name ?? to}`}]});event.target.value="";}}><option value="">Zielort wählen</option>{game.locations.filter((location)=>(location.levelId || "level-1")!==(selectedLocation.levelId || "level-1")).map((location)=><option key={location.id} value={location.id}>{game.levels.find((level)=>level.id===(location.levelId || "level-1"))?.name}: {location.name}</option>)}</select></label></div>
-          {selectedLocation.sceneKind==="outdoor" && <div className="room-surface-picker"><label>Kulisse / Bewuchs<select value={selectedLocation.sceneryAssetId??""} onChange={(event)=>patchLocation(selectedLocation.id,{sceneryAssetId:event.target.value||undefined})}><option value="">Automatischer Bewuchs (Sumpf) / freie Landschaft</option><optgroup label="Häuser">{houseAssets.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}</optgroup><optgroup label="Pflanzen und Gelände">{plantAssets.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}</optgroup></select></label>{selectedLocation.sceneryAssetId && <div className="surface-preview"><img src={assetById(selectedLocation.sceneryAssetId)?.url} alt="Ausgewählte Kulisse"/><code>{assetById(selectedLocation.sceneryAssetId)?.path}</code></div>}</div>}
+          {selectedLocation.sceneKind==="outdoor" && <div className="room-surface-picker"><label>Gelände<select value={selectedLocation.outdoorSurface??"grass"} onChange={(event)=>setOutdoorSurface(selectedLocation.id,event.target.value as "grass"|"water")}><option value="grass">Gras · begehbar</option><option value="water">Graues Wasser · unpassierbar</option></select></label><label>Kulisse / Bewuchs<select value={selectedLocation.sceneryAssetId??""} onChange={(event)=>patchLocation(selectedLocation.id,{sceneryAssetId:event.target.value||undefined})}><option value="">Automatischer Bewuchs (Sumpf) / freie Landschaft</option><optgroup label="Häuser">{houseAssets.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}</optgroup><optgroup label="Pflanzen und Gelände">{plantAssets.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}</optgroup></select></label>{selectedLocation.sceneryAssetId && <div className="surface-preview"><img src={assetById(selectedLocation.sceneryAssetId)?.url} alt="Ausgewählte Kulisse"/><code>{assetById(selectedLocation.sceneryAssetId)?.path}</code></div>}</div>}
           {pack && <div className="room-surface-picker">
             <div className="surface-picker-head"><strong>Raum-Oberflächen</strong><span>{terrainCandidates.length ? terrainCandidates.length+" echte Terrain-Texturen" : textureCandidates.length+" ALIS-Fallbacks"}</span></div>
             <label className="surface-search">Asset-Suche

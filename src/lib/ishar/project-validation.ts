@@ -19,6 +19,7 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
   if (!game.levels.length) problems.push({path:"game.levels",message:"Mindestens ein Level wird benötigt."});
   for(const level of game.levels) if(!game.locations.some((location)=>(location.levelId || "level-1")===level.id)) problems.push({path:`level.${level.id}`,message:"Das Level hat kein Feld."});
   if (!locationIds.has(game.startLocationId)) problems.push({ path: "game.startLocationId", message: "Der Startort existiert nicht." });
+  if(game.locations.find((location)=>location.id===game.startLocationId)?.outdoorSurface==="water") problems.push({path:"game.startLocationId",message:"Das Startfeld liegt im Wasser."});
 
   const allIds = [
     ...game.locations.map((x) => ["location", x.id] as const),
@@ -46,6 +47,7 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
     const occupant = occupied.get(coordinateKey);
     if (occupant) problems.push({ path: `location.${location.id}`, message: `Rasterfeld ${coordinateKey} ist bereits von "${occupant}" belegt.` });
     occupied.set(coordinateKey, location.id);
+    if(location.outdoorSurface==="water" && location.exits.length) problems.push({path:`location.${location.id}.exits`,message:"Wasserfelder dürfen keine Ausgänge besitzen."});
 
     for (const exit of location.exits) {
       const target = game.locations.find((candidate) => candidate.id === exit);
@@ -53,6 +55,7 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
         problems.push({ path: `location.${location.id}.exits`, message: `Ausgang verweist auf unbekannten Ort "${exit}".` });
         continue;
       }
+      if(target.outdoorSurface==="water") problems.push({path:`location.${location.id}.exits`,message:`Ein Ausgang führt in das Wasserfeld "${exit}".`});
       if (!directionBetween(location, target)) {
         problems.push({ path: `location.${location.id}.exits`, message: `"${exit}" liegt nicht direkt nördlich, östlich, südlich oder westlich im Raster.` });
       }
@@ -84,6 +87,7 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
     const to=game.locations.find((location)=>location.id===portal.toLocationId);
     if(!from || !to) problems.push({path:`portal.${portal.id}`,message:"Levelübergang verweist auf einen unbekannten Ort."});
     else if((from.levelId || "level-1")===(to.levelId || "level-1")) problems.push({path:`portal.${portal.id}`,message:"Ein Levelübergang muss verschiedene Level verbinden."});
+    if(from?.outdoorSurface==="water" || to?.outdoorSurface==="water") problems.push({path:`portal.${portal.id}`,message:"Ein Levelübergang darf nicht im Wasser liegen."});
   }
 
   for (const encounter of game.encounters) {

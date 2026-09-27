@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useKit } from "@/lib/store";
 import { useAssetPack } from "@/lib/asset-store";
 import { assetFor } from "@/lib/ishar/asset-pack";
-import { canTravel, doorBetween, DIRECTION_LABELS, turnBack, turnLeft, turnRight } from "@/lib/ishar/dungeon";
+import { adjacentLocation, canTravel, doorBetween, DIRECTION_LABELS, turnBack, turnLeft, turnRight } from "@/lib/ishar/dungeon";
 import { roomViewEdges, roomsShareOpenSurface } from "@/lib/ishar/room-surfaces";
 import { visibleOutdoorCells } from "@/lib/ishar/outdoor-view";
 import { validateGame } from "@/lib/ishar/project-validation";
@@ -120,10 +120,10 @@ function alisCompositePreview(pack:LoadedAssetPack|null,module:string,index:numb
 
 function renderSwampScene(game:AuthoredGame,location:AuthoredLocation,facing:Direction,pack:LoadedAssetPack|null) {
   const sky=alisPreview(pack,"FOND1",1);
-  const ground=alisPreview(pack,"FOND1",0);
-  const nearTrunks=[alisPreview(pack,"ARBO",0),alisPreview(pack,"ARBO",1)];
+  const water=alisPreview(pack,"FOND1",0);
+  const grass=[92,93,94,95].map((index)=>alisPreview(pack,"PLAINE1",index));
   const visibleCells=visibleOutdoorCells(game.locations,location,facing);
-  const lowGrowth=visibleCells.map(({location:cell,depth,lateral})=>{
+  const lowGrowth=visibleCells.filter(({location:cell})=>cell.outdoorSurface!=="water").map(({location:cell,depth,lateral})=>{
     const asset=alisCompositePreview(pack,"PLAINE1",[22,23,24,25][depth]!);
     if(!asset) return null;
     const scale=[1.16,1.18,1.03,.83][depth]!;
@@ -136,46 +136,66 @@ function renderSwampScene(game:AuthoredGame,location:AuthoredLocation,facing:Dir
     return <image key={`swamp-low-${cell.id}`} href={asset.url} data-source={asset.path}
       x={center-width/2} y={foot-height} width={width} height={height} preserveAspectRatio="none"/>;
   });
-  const vegetation=visibleCells.map(({location:cell,depth,lateral})=>{
+  const vegetation=visibleCells.filter(({location:cell})=>cell.outdoorSurface!=="water").map(({location:cell,depth,lateral})=>{
     const hash=Math.abs(cell.x*73+cell.y*139+17);
     const explicit=cell.sceneryAssetId ? pack?.discoveredAssets?.find((asset)=>asset.id===cell.sceneryAssetId) : undefined;
     if(depth===0 && lateral===0 && !explicit) return null;
     // ALIS composites join the vertically staggered source pieces. A raw
     // FORET1 trunk or PLAINE1 sprig is often only part of the visible plant.
-    const tree=!explicit && (depth===0 ? Math.abs(lateral)===1 :
-      depth===1 ? Math.abs(lateral)>=1 && hash%3!==0 : hash%3===0);
-    const forestIndex=depth===0 ? (lateral<0 ? 32 : 25) :
-      depth===1 ? (hash%2 ? 28 : 34) : depth===2 ? (hash%2 ? 29 : 35) : (hash%2 ? 30 : 37);
+    const tree=!explicit && (depth===0 ? Math.abs(lateral)===1 && hash%3!==0 :
+      depth===1 ? Math.abs(lateral)>=1 && hash%4!==2 : hash%3===0);
+    // FORET1 already contains separate native-size perspective sprites. Its
+    // large near roots deliberately run beyond the viewport like the footage.
+    const forestIndex=depth===0 ? 25 : depth===1 ? (hash%2 ? 34 : 28) : depth===2 ? (hash%2 ? 35 : 29) : (hash%2 ? 36 : 37);
     const plantIndex=depth===0 ? 21 : depth===1 ? 29 : depth===2 ? 30 : 31;
     const asset=explicit ?? alisCompositePreview(pack,tree ? "FORET1" : "PLAINE1",tree ? forestIndex : plantIndex);
     if(!asset) return null;
-    const scale=tree ? (depth===0 ? (lateral<0 ? 2.4 : 1.9) : [2.4,2.55,1.75,1.25][depth]!) : [1.4,1.3,1.1,.85][depth]!;
-    const width=(asset.width??48)*scale;
-    const height=(asset.height??48)*scale;
-    const spacing=[310,215,118,65][depth]!;
+    const scale=tree ? 1 : [1.4,1.3,1.1,.85][depth]!;
+    const width=(asset.width??48)*scale*(tree ? 640/256 : 1);
+    const height=(asset.height??48)*scale*(tree ? 400/113 : 1);
+    const spacing=[350,215,118,65][depth]!;
     const center=320+lateral*spacing;
-    const foot=[391,321,275,250][depth]!;
-    const trunk=nearTrunks[lateral<0 ? 0 : 1];
+    const foot=[400,346,292,260][depth]!;
     return <g key={`swamp-${cell.id}`}>
-      {tree && depth===0 && trunk && <image className="asset-layer" data-source={trunk.path}
-        href={trunk.url} x={center-(lateral<0 ? 100 : 60)} y={-50}
-        width={lateral<0 ? 200 : 120} height={350} preserveAspectRatio="none"/>}
       <image className="asset-layer" data-source={asset.path} href={asset.url}
         x={center-width/2} y={foot-height} width={width} height={height} preserveAspectRatio="none"/>
     </g>;
   });
+  const waterPlanes=visibleCells.filter(({location:cell})=>cell.outdoorSurface==="water").map(({location:cell,depth,lateral})=>{
+    if(!water) return null;
+    const width=[460,300,175,88][depth]!;
+    const center=320+lateral*[350,215,118,65][depth]!;
+    const bottom=[400,362,308,272][depth]!;
+    const top=[224,238,236,232][depth]!;
+    const clipId=`swamp-water-${cell.id}`;
+    return <g key={clipId}>
+      <defs><clipPath id={clipId}><polygon points={points([[center-width*.16,top],[center+width*.16,top],[center+width*.31,(top+bottom)/2],[center+width/2,bottom],[center-width/2,bottom],[center-width*.31,(top+bottom)/2]])}/></clipPath></defs>
+      <image href={water.url} data-source={water.path} x={center-width/2} y={top} width={width} height={bottom-top} preserveAspectRatio="none" clipPath={`url(#${clipId})`}/>
+      <rect x={center-width/2} y={top} width={width} height={bottom-top} fill="#747d77" opacity=".4" clipPath={`url(#${clipId})`}/>
+    </g>;
+  });
+  const grassLayers=grass.map((asset,index)=>{
+    if(!asset) return null;
+    const layer=[{y:333,width:640,height:67,centers:[320]},
+      {y:280,width:520,height:113,centers:[75,565]},
+      {y:255,width:280,height:60,centers:[100,320,540]},
+      {y:235,width:200,height:35,centers:[80,240,400,560]}][index]!;
+    return layer.centers.map((center)=><image key={`swamp-grass-${index}-${center}`} href={asset.url} data-source={asset.path}
+      x={center-layer.width/2} y={layer.y} width={layer.width} height={layer.height} preserveAspectRatio="none"/>);
+  });
   return <g className="outdoor-scene swamp-scene">
     <defs>
       <linearGradient id="swamp-ground-tone" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stopColor="#9a9b72" stopOpacity=".42"/>
-        <stop offset=".35" stopColor="#66704d" stopOpacity=".66"/>
-        <stop offset="1" stopColor="#3d4229" stopOpacity=".83"/>
+        <stop offset="0" stopColor="#a9b485"/>
+        <stop offset=".45" stopColor="#879560"/>
+        <stop offset="1" stopColor="#3f4b2d"/>
       </linearGradient>
     </defs>
     <rect width="640" height="400" fill="#8d8e73"/>
     {sky && <image href={sky.url} data-source={sky.path} x="0" y="0" width="640" height="231" preserveAspectRatio="none"/>}
-    {ground && <image href={ground.url} data-source={ground.path} x="0" y="224" width="640" height="176" preserveAspectRatio="none"/>}
     <rect y="224" width="640" height="176" fill="url(#swamp-ground-tone)"/>
+    {grassLayers}
+    {waterPlanes}
     {lowGrowth}
     {vegetation}
   </g>;
@@ -594,7 +614,7 @@ function DungeonMiniMap({ game, location, facing }: { game: AuthoredGame; locati
       const p=point(room);
       const current=room.id===location.id;
       return <g key={room.id} transform={`translate(${p.x},${p.y})`}>
-        <rect x={-5} y={-5} width={10} height={10} className={current ? "minimap-room current" : "minimap-room"}/>
+        <rect x={-5} y={-5} width={10} height={10} className={`minimap-room${current ? " current" : ""}${room.outdoorSurface==="water" ? " water" : ""}`}/>
         {current && <polygon points="0,-8 4,2 -4,2" className="minimap-facing" transform={`rotate(${facingRotation[facing]})`}/>} 
       </g>;
     })}
@@ -683,7 +703,8 @@ function PlaytestPage() {
     if (!location || !encounterDone || defeated) return;
     const target = canTravel(game.locations, location, direction);
     if (!target) {
-      setLog((x)=>["Dort ist eine Wand.", ...x]);
+      const ahead=adjacentLocation(game.locations,location,direction);
+      setLog((x)=>[ahead?.outdoorSurface==="water" ? "Das Wasser versperrt den Weg." : "Dort ist eine Wand.", ...x]);
       return;
     }
     const door = doorBetween(game.doors, location, target);

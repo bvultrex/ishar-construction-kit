@@ -82,6 +82,7 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .dungeon-map{width:100%;max-height:420px;display:block;background:linear-gradient(#0d0b09,#17130f);border:1px solid #3d3025}
 .map-link{stroke:#8f704e;stroke-width:10;stroke-linecap:square}.map-cell{fill:#211a14;stroke:#7e5f42;stroke-width:2}.map-cell.start{stroke:#b8c99f;stroke-width:4}.map-cell.ending{fill:#3b311e;stroke:#d2ad7d}
 .map-cell.room{fill:#263027}.map-cell.outdoor{fill:#253b37;stroke:#83a59b}.room-build-controls{display:grid;grid-template-columns:minmax(150px,2fr) repeat(2,minmax(64px,1fr));gap:8px;align-items:end;margin:12px 0}.room-build-controls label{display:grid;gap:5px;font-size:11px}.room-build-controls button{grid-column:1/-1}.room-build-controls input,.room-build-controls select{width:100%}
+.map-cell.outdoor.water{fill:#586968;stroke:#9db8b4}
 .map-name{fill:#e8dcc4;font-size:10px;font-weight:800}.map-coord{fill:#8f8270;font-size:9px}.map-facing{fill:#aebc9c;font-size:9px;font-weight:800}
 .coordinate-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}.coordinate-fields label+label{margin-top:0}
 
@@ -182,6 +183,7 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .ishar-control-panel{display:flex;flex-direction:column;gap:7px;background:#070503;border:2px solid #6f4c25;padding:7px;min-width:0}
 .ishar-location-plaque{font-family:Georgia,serif;text-transform:uppercase;text-align:center;color:#f0d08d;background:#3b2410;border:2px ridge #a36b2d;padding:7px 5px;font-size:14px;letter-spacing:.05em;text-shadow:0 2px #000}
 .play-minimap{width:100%;min-height:150px;max-height:220px;background:#020202;border:2px solid #4d351f;image-rendering:pixelated}.minimap-bg{fill:#020202}.minimap-link{stroke:#3f6ba8;stroke-width:5;stroke-linecap:square}.minimap-room{fill:#315887;stroke:#6b94c7;stroke-width:1}.minimap-room.current{fill:#8db4df;stroke:#dbe9f7;stroke-width:1.5}.minimap-facing{fill:#f0e7ce;stroke:#2e4769;stroke-width:.7}
+.minimap-room.water{fill:#789b9a;stroke:#b7d1cc}
 .ishar-dpad{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:auto}.ishar-dpad button{aspect-ratio:1;background:linear-gradient(#b9b79f,#686753);border:3px ridge #9a7040;color:#17120c;font-size:18px;font-weight:900;padding:0}.ishar-dpad button:hover{filter:brightness(1.08)}.ishar-dpad button:disabled{opacity:.35}.ishar-dpad .dpad-center{font-size:16px}
 .ishar-context-buttons{display:grid;grid-template-columns:1fr;gap:5px}.ishar-context-buttons button{min-height:38px}.ishar-compass{text-align:center;color:#8f8270;font-size:10px;text-transform:uppercase;letter-spacing:.08em}.ishar-compass strong{color:#d2ad7d}
 .ishar-party-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin-top:7px}

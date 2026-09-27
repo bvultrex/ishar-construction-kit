@@ -221,6 +221,8 @@ export interface AuthoredLocation {
   encounterId?: string;
   tilesetId?: string;
   sceneKind?: "corridor" | "room" | "outdoor";
+  /** Outdoor ground; water blocks movement and is rendered separately from grass. */
+  outdoorSurface?: "grass" | "water";
   roomGroupId?: string;
   sceneryAssetId?: string;
   wallAssetId?: string;

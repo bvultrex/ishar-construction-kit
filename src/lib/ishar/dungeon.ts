@@ -39,7 +39,7 @@ export function adjacentLocation(locations: AuthoredLocation[], location: Author
 
 export function canTravel(locations: AuthoredLocation[], location: AuthoredLocation, direction: Direction) {
   const target = adjacentLocation(locations, location, direction);
-  return target && location.exits.includes(target.id) ? target : undefined;
+  return target && location.outdoorSurface!=="water" && target.outdoorSurface!=="water" && location.exits.includes(target.id) ? target : undefined;
 }
 
 export function directionBetween(a: AuthoredLocation, b: AuthoredLocation): Direction | undefined {
