@@ -213,3 +213,9 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 2. Identify original closed leaves or draw primitives and their placement at all four distance tiers. The open surrounds are imported; closed DJ1/DJ2 panels remain procedural.
 3. Map remaining FRISE HUD pieces and MAIN glyphs through source/video evidence. Command tabs now work in the game frame, but original equipment, magic and statistics panels are incomplete.
 4. Exercise mixed room/corridor boundaries, locked doors and wider rooms on both DJ1 and DJ2, including alternate facings and deep visibility. The current browser checkpoint covered one DJ1 2×2 room and original video corridors; it is not exhaustive.
+
+## 2026-09-27 — After 4×4 open-room milestone
+
+1. Project entrances/doors on distant lateral perimeter cells. A continuous room now places outer walls correctly, but openings beyond the immediate side cell still lack their own perspective treatment.
+2. Compare the reconstructed wide-room side projection against original gameplay or ALIS draw code; it is geometry-based, not verified Ishar behavior.
+3. Check nonrectangular groups and hand-edited missing exits. The Builder's rectangular blocks create all reciprocal internal exits and are covered by the 4×4 topology regression.

@@ -5,6 +5,7 @@ import { useKit } from "@/lib/store";
 import { useAssetPack } from "@/lib/asset-store";
 import { assetFor } from "@/lib/ishar/asset-pack";
 import { canTravel, doorBetween, DIRECTION_LABELS, turnBack, turnLeft, turnRight } from "@/lib/ishar/dungeon";
+import { roomViewEdges } from "@/lib/ishar/room-surfaces";
 import { validateGame } from "@/lib/ishar/project-validation";
 import type { AuthoredEncounter, AuthoredGame, AuthoredLocation, Direction, DungeonAssetDepth, DungeonAssetRole } from "@/lib/ishar/types";
 import type { LoadedAssetPack } from "@/lib/ishar/asset-pack";
@@ -264,26 +265,39 @@ function renderRoomWall(
   </g>;
 }
 
-function renderAdjacentRoomWall(
+function renderRoomPerimeterSide(
   pack:LoadedAssetPack|null,
   side:"left"|"right",
   depth:DungeonAssetDepth,
   tilesetId:string|undefined,
   outer:{l:number;t:number;r:number;b:number},
   inner:{l:number;t:number;r:number;b:number},
+  offset:number,
 ) {
-  const asset=assetFor(pack,"wall.front",depth,tilesetId);
-  if(!asset || !pack) return null;
-  const offset=(side==="left" ? -1 : 1)*(inner.r-inner.l);
-  const clipId=`adjacent-room-${side}-${depth}`;
+  const near=side==="left" ? outer.l-offset*(outer.r-outer.l) : outer.r+offset*(outer.r-outer.l);
+  const far=side==="left" ? inner.l-offset*(inner.r-inner.l) : inner.r+offset*(inner.r-inner.l);
   const shape=side==="left"
-    ? [[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]]
-    : [[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]];
-  return <g className={`room-adjacent-wall ${side}`}>
-    <defs><clipPath id={clipId}><polygon points={points(shape)}/></clipPath></defs>
-    <g clipPath={`url(#${clipId})`}>
-      <g transform={`translate(${offset} 0)`}>{renderAsset(pack,"wall.front",depth,tilesetId)}</g>
-    </g>
+    ? [[near,outer.t],[far,inner.t],[far,inner.b],[near,outer.b]]
+    : [[far,inner.t],[near,outer.t],[near,outer.b],[far,inner.b]];
+  const asset=assetFor(pack,`wall.${side}`,depth,tilesetId);
+  const scaleY=pack ? 400/pack.manifest.viewport.height : 1;
+  return <g className={`room-perimeter-wall ${side}`}>
+    <polygon points={points(shape)} fill="url(#fallback-wall-pattern)"/>
+    {asset && <image className="asset-layer" href={asset.url} x={Math.min(near,far)} y={(asset.entry.y??0)*scaleY}
+      width={Math.abs(far-near)} height={(asset.entry.height??pack!.manifest.viewport.height)*scaleY}
+      opacity={asset.entry.opacity??1} preserveAspectRatio="none"/>}
+  </g>;
+}
+
+function renderRoomLateralFront(
+  pack:LoadedAssetPack|null,side:"left"|"right",offset:number,depth:DungeonAssetDepth,
+  tilesetId:string|undefined,inner:{l:number;t:number;r:number;b:number},
+) {
+  const dx=(side==="left" ? -1 : 1)*offset*(inner.r-inner.l);
+  const rect={x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t};
+  return <g key={`room-front-${side}-${depth}-${offset}`} className="room-perimeter-front" transform={`translate(${dx} 0)`}>
+    <rect {...rect} fill="url(#fallback-wall-pattern)"/>
+    {renderRectAsset(pack,"wall.front",rect,depth,tilesetId)}
   </g>;
 }
 
@@ -344,9 +358,11 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
     const inner = frames[depth + 1]!;
     const leftOpen = !!canTravel(game.locations, cell, turnLeft(facing));
     const rightOpen = !!canTravel(game.locations, cell, turnRight(facing));
-    const leftRoomOpen=!!cell.roomGroupId && cell.sceneKind==="room" && canTravel(game.locations,cell,turnLeft(facing))?.roomGroupId===cell.roomGroupId;
-    const rightRoomOpen=!!cell.roomGroupId && cell.sceneKind==="room" && canTravel(game.locations,cell,turnRight(facing))?.roomGroupId===cell.roomGroupId;
+    const roomEdges=roomViewEdges(game.locations,cell,facing);
+    const leftRoomOpen=roomEdges.leftInterior;
+    const rightRoomOpen=roomEdges.rightInterior;
     const forward = canTravel(game.locations, cell, facing);
+    const cellTilesetId=cell.tilesetId;
     const roomBoundary=!!forward && cell.roomGroupId!==forward.roomGroupId && (cell.sceneKind==="room" || forward.sceneKind==="room");
     const forwardDoor = forward ? doorBetween(game.doors, cell, forward) : undefined;
     const forwardDoorOpen = !forwardDoor || openDoors.includes(forwardDoor.id);
@@ -372,8 +388,10 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         </>}
         {renderDiscoveredTexture(pack, cell.ceilingAssetId, {kind:"polygon",points:[[outer.l,outer.t],[outer.r,outer.t],[inner.r,inner.t],[inner.l,inner.t]]}, depth as DungeonAssetDepth, "ceiling") ?? renderPolygonAsset(pack, "surface.ceiling", [[outer.l,outer.t],[outer.r,outer.t],[inner.r,inner.t],[inner.l,inner.t]], depth as DungeonAssetDepth, cell.tilesetId)}
         {renderDiscoveredTexture(pack, cell.floorAssetId, {kind:"polygon",points:[[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]]}, depth as DungeonAssetDepth, "floor") ?? (!nativeScene && renderPolygonAsset(pack, "surface.floor", [[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]], depth as DungeonAssetDepth, cell.tilesetId))}
-        {nativeScene && leftRoomOpen && renderAdjacentRoomWall(pack,"left",depth as DungeonAssetDepth,cell.tilesetId,outer,inner)}
-        {nativeScene && rightRoomOpen && renderAdjacentRoomWall(pack,"right",depth as DungeonAssetDepth,cell.tilesetId,outer,inner)}
+        {nativeScene && roomEdges.leftInterior && renderRoomPerimeterSide(pack,"left",depth as DungeonAssetDepth,cell.tilesetId,outer,inner,roomEdges.leftPerimeterOffset)}
+        {nativeScene && roomEdges.rightInterior && renderRoomPerimeterSide(pack,"right",depth as DungeonAssetDepth,cell.tilesetId,outer,inner,roomEdges.rightPerimeterOffset)}
+        {nativeScene && roomEdges.leftFrontWalls.map((offset)=>renderRoomLateralFront(pack,"left",offset,depth as DungeonAssetDepth,cellTilesetId,inner))}
+        {nativeScene && roomEdges.rightFrontWalls.map((offset)=>renderRoomLateralFront(pack,"right",offset,depth as DungeonAssetDepth,cellTilesetId,inner))}
         {!leftRoomOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]]}, depth as DungeonAssetDepth, "wall-left") ?? (roomScene && !nativeScene ? renderRoomWall(pack,[[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]],depth as DungeonAssetDepth,cell.tilesetId,"left") : renderPolygonAsset(pack, "wall.left", [[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]], depth as DungeonAssetDepth, cell.tilesetId)))}
         {!rightRoomOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]]}, depth as DungeonAssetDepth, "wall-right") ?? (roomScene && !nativeScene ? renderRoomWall(pack,[[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]],depth as DungeonAssetDepth,cell.tilesetId,"right") : renderPolygonAsset(pack, "wall.right", [[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]], depth as DungeonAssetDepth, cell.tilesetId)))}
         {/* The branch backing belongs behind the transparent stone arch, not over it. */}

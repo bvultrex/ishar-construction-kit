@@ -3,7 +3,8 @@ import { createRoomBlock } from '../src/lib/ishar/room-builder.ts';
 import { assetCatalogGroup } from '../src/lib/ishar/asset-catalog.ts';
 import { normalizeGame, starterGame } from '../src/lib/ishar/project.ts';
 import { validateGame } from '../src/lib/ishar/project-validation.ts';
-import { canTravel, locationAt } from '../src/lib/ishar/dungeon.ts';
+import { canTravel, DIRECTIONS, DIRECTION_VECTORS, locationAt, turnLeft, turnRight } from '../src/lib/ishar/dungeon.ts';
+import { roomViewEdges } from '../src/lib/ishar/room-surfaces.ts';
 
 const starter=starterGame();
 const anchor=starter.locations.find((location)=>location.id==='gate');
@@ -29,6 +30,36 @@ assert.deepEqual(validateGame(result.game),[]);
 const blocked=createRoomBlock(starter,'crossing',2,2);
 assert.equal(blocked.ok,false);
 assert.equal(starter.locations.length,7,'collision must leave the input untouched');
+
+// A 4×4 room is a single open area: interior grid seams must not acquire
+// front or side walls when viewed from any cell or cardinal direction.
+const squareSeed={...starter,locations:starter.locations.map((location)=>location.id===anchor.id
+  ? {...location,x:20,y:20,exits:[]}
+  : location.id==='vestibule' ? {...location,exits:location.exits.filter((id)=>id!==anchor.id)} : location)};
+const square=createRoomBlock(squareSeed,'gate',4,4);
+assert.equal(square.ok,true);
+if(!square.ok) throw Error(square.error);
+const squareCells=square.game.locations.filter((location)=>location.roomGroupId===square.game.locations.find((location)=>location.id==='gate')?.roomGroupId);
+assert.equal(squareCells.length,16);
+assert.deepEqual(validateGame(square.game),[]);
+for(const cell of squareCells) for(const facing of DIRECTIONS){
+  const edges=roomViewEdges(square.game.locations,cell,facing);
+  const leftVector=DIRECTION_VECTORS[turnLeft(facing)];
+  const rightVector=DIRECTION_VECTORS[turnRight(facing)];
+  const facingVector=DIRECTION_VECTORS[facing];
+  const inside=(x,y)=>x>=20&&x<24&&y>=20&&y<24;
+  const leftInside=inside(cell.x+leftVector.x,cell.y+leftVector.y);
+  const rightInside=inside(cell.x+rightVector.x,cell.y+rightVector.y);
+  const farEdge=!inside(cell.x+facingVector.x,cell.y+facingVector.y);
+  const sideDistance=(vector)=>{let offset=0;while(inside(cell.x+(offset+1)*vector.x,cell.y+(offset+1)*vector.y)) offset++;return offset;};
+  const leftDistance=sideDistance(leftVector),rightDistance=sideDistance(rightVector);
+  assert.equal(edges.leftInterior,leftInside,`${cell.x},${cell.y} ${facing}: left seam`);
+  assert.equal(edges.rightInterior,rightInside,`${cell.x},${cell.y} ${facing}: right seam`);
+  assert.equal(edges.leftPerimeterOffset,leftDistance,`${cell.x},${cell.y} ${facing}: left perimeter`);
+  assert.equal(edges.rightPerimeterOffset,rightDistance,`${cell.x},${cell.y} ${facing}: right perimeter`);
+  assert.deepEqual(edges.leftFrontWalls,farEdge ? Array.from({length:leftDistance},(_,i)=>i+1) : [],`${cell.x},${cell.y} ${facing}: left back wall`);
+  assert.deepEqual(edges.rightFrontWalls,farEdge ? Array.from({length:rightDistance},(_,i)=>i+1) : [],`${cell.x},${cell.y} ${facing}: right back wall`);
+}
 
 const migrated=normalizeGame({...starter,levels:undefined,portals:undefined});
 assert.equal(migrated.levels[0].id,'level-1');
