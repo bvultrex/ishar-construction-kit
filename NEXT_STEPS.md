@@ -232,3 +232,9 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 2. Compare the new playable swamp preset against Ishar 2 footage. Its use of original `FOND1/PLAINE1/ARBO/FORET1` pixels is verified by extraction, while composition, placement and palette state are CK heuristics.
 3. Extend outdoor authoring beyond the 5×5 test area: authored visibility blockers and passable vegetation should be separate properties, and larger maps need level-specific materials and backdrop choices.
 4. Keep the user-reported three dungeon visual families separate until their exact `.IO` module and level associations are established.
+
+## 2026-09-28 — After swamp vegetation correction
+
+1. Compare multiple Irvan's Island camera positions against the revised test scene. Complete outdoor ALIS composites and grid-anchored vegetation are now used; precise original draw order, spacing and palette transitions remain unverified.
+2. Trace the original `FORET1`/`PLAINE1` placement code before claiming exact Ishar behavior. In particular, determine how near bark and tree-foot composites share an anchor and which palette states correspond to time of day.
+3. Keep the 4176 swamp test as a separate level; the 4175 authored dungeon and the unresolved DJ1 room-side texture remain unchanged.

@@ -994,9 +994,8 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     const forceTerrain=image.assetKind==="terrain";
     const moduleName=image.sourcePath.replace(/\\/g,"/").split("/").pop()?.toUpperCase();
     const swampSceneImage=(moduleName==="FOND1.IO" && image.entryIndex<=1)
-      || (moduleName==="PLAINE1.IO" && ([0,1,2,3,8,9,10,11,92].includes(image.entryIndex)))
-      || (moduleName==="ARBO.IO" && image.entryIndex>=69 && image.entryIndex<=72)
-      || (moduleName==="FORET1.IO" && image.entryIndex>=8 && image.entryIndex<=11);
+      || (moduleName==="ARBO.IO" && image.entryIndex<=1)
+      || (moduleName==="PLAINE1.IO" && [92,93,94,95].includes(image.entryIndex));
     const forceForLibrary=swampSceneImage || ["houses","ui","font"].includes(assetCatalogGroup(`${image.sourcePath} · ALIS #${image.entryIndex}`));
     if(!forceForDefault && !forceTerrain && !forceForLibrary && (alisPreviewCount>=MAX_ALIS_IMAGES || alisPixelCount+image.width*image.height>MAX_ALIS_PIXELS)){
       alisImagesSkippedForBudget++;
@@ -1113,17 +1112,23 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   }
   let alisCompositePreviews=0;
   const orderedComposites=[...alisComposites].sort((a,b)=>{
-    const priority=(entry:AlisCompositeResource)=>["houses","ui","font"].includes(assetCatalogGroup(`${entry.sourcePath} · ALIS #${entry.entryIndex}`)) ? 1 : 0;
+    const priority=(entry:AlisCompositeResource)=>{
+      const module=entry.sourcePath.replace(/\\/g,"/").split("/").pop()?.toUpperCase();
+      if(module==="FORET1.IO" && entry.entryIndex>=24 && entry.entryIndex<=37) return 2;
+      if(module==="PLAINE1.IO" && entry.entryIndex>=21 && entry.entryIndex<=39) return 2;
+      return ["houses","ui","font"].includes(assetCatalogGroup(`${entry.sourcePath} · ALIS #${entry.entryIndex}`)) ? 1 : 0;
+    };
     return priority(b)-priority(a);
   });
   for(const composite of orderedComposites.slice(0,500)){
-    const rendered=await compositeToPngBlob(composite,alisImageMap,alisCompositeMap);
+    const module=composite.sourcePath.replace(/\\/g,"/").split("/").pop()?.toUpperCase();
+    // Outdoor ALIS composites place their child sprites on the x/z plane too.
+    const rendered=await compositeToPngBlob(composite,alisImageMap,alisCompositeMap,module==="FORET1.IO" || module==="PLAINE1.IO");
     if(!rendered) continue;
     const id=safeId(composite.sourcePath)+"-composite-"+composite.entryIndex;
     const url=URL.createObjectURL(rendered.blob);
     const sceneAssignments=detectedGame==="ishar2" ? dungeonSceneAssignments(composite.sourcePath,composite.entryIndex) : [];
     const runtimeAssigned=sceneAssignments.some((a)=>!!urls[`${a.tilesetId}-${a.role}-${a.depth}`]);
-    const module=composite.sourcePath.replace(/\\/g,"/").split("/").pop()?.toUpperCase();
     discoveredAssets.push({
       id,
       path:`[COMPOSITE] ${composite.sourcePath} · ALIS #${composite.entryIndex}`,
@@ -1229,7 +1234,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   };
 
   const pack: LoadedAssetPack={
-    sceneLayoutVersion:12,
+    sceneLayoutVersion:16,
     manifest,
     urls,
     paths,

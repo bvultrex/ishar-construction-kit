@@ -113,39 +113,71 @@ function alisPreview(pack:LoadedAssetPack|null,module:string,index:number) {
   return pack?.discoveredAssets?.find((asset)=>asset.path.toUpperCase().endsWith(`${module}.IO · ALIS #${index}`));
 }
 
+function alisCompositePreview(pack:LoadedAssetPack|null,module:string,index:number) {
+  return pack?.discoveredAssets?.find((asset)=>asset.assetKind==="composite" &&
+    asset.path.toUpperCase().endsWith(`${module}.IO · ALIS #${index}`));
+}
+
 function renderSwampScene(game:AuthoredGame,location:AuthoredLocation,facing:Direction,pack:LoadedAssetPack|null) {
   const sky=alisPreview(pack,"FOND1",1);
   const ground=alisPreview(pack,"FOND1",0);
-  const grassEdge=alisPreview(pack,"PLAINE1",92);
-  const vegetation=visibleOutdoorCells(game.locations,location,facing).map(({location:cell,depth,lateral})=>{
+  const nearTrunks=[alisPreview(pack,"ARBO",0),alisPreview(pack,"ARBO",1)];
+  const visibleCells=visibleOutdoorCells(game.locations,location,facing);
+  const lowGrowth=visibleCells.map(({location:cell,depth,lateral})=>{
+    const asset=alisCompositePreview(pack,"PLAINE1",[22,23,24,25][depth]!);
+    if(!asset) return null;
+    const scale=[1.16,1.18,1.03,.83][depth]!;
+    const width=(asset.width??32)*scale;
+    const height=(asset.height??16)*scale;
+    const spacing=[340,215,118,65][depth]!;
+    const offset=((cell.x*17+cell.y*31)%3-1)*width*.28;
+    const center=320+lateral*spacing+offset;
+    const foot=[391,321,275,250][depth]!;
+    return <image key={`swamp-low-${cell.id}`} href={asset.url} data-source={asset.path}
+      x={center-width/2} y={foot-height} width={width} height={height} preserveAspectRatio="none"/>;
+  });
+  const vegetation=visibleCells.map(({location:cell,depth,lateral})=>{
     const hash=Math.abs(cell.x*73+cell.y*139+17);
     const explicit=cell.sceneryAssetId ? pack?.discoveredAssets?.find((asset)=>asset.id===cell.sceneryAssetId) : undefined;
-    // Keep the player's own center clear. Plants can still obscure other cells,
-    // but movement remains determined solely by authored cardinal exits.
     if(depth===0 && lateral===0 && !explicit) return null;
-    const family=hash%5;
-    const asset=explicit ?? (family<=1 ? alisPreview(pack,"PLAINE1",depth)
-      : family===2 ? alisPreview(pack,"FORET1",8+depth)
-      : alisPreview(pack,"ARBO",69+depth));
+    // ALIS composites join the vertically staggered source pieces. A raw
+    // FORET1 trunk or PLAINE1 sprig is often only part of the visible plant.
+    const tree=!explicit && (depth===0 ? Math.abs(lateral)===1 :
+      depth===1 ? Math.abs(lateral)>=1 && hash%3!==0 : hash%3===0);
+    const forestIndex=depth===0 ? (lateral<0 ? 32 : 25) :
+      depth===1 ? (hash%2 ? 28 : 34) : depth===2 ? (hash%2 ? 29 : 35) : (hash%2 ? 30 : 37);
+    const plantIndex=depth===0 ? 21 : depth===1 ? 29 : depth===2 ? 30 : 31;
+    const asset=explicit ?? alisCompositePreview(pack,tree ? "FORET1" : "PLAINE1",tree ? forestIndex : plantIndex);
     if(!asset) return null;
-    const scale=[2.05,1.6,1.2,.9][depth]!;
-    const width=Math.min(540,(asset.width??48)*scale);
-    const height=Math.min(350,(asset.height??48)*scale);
-    const spacing=[198,137,89,55][depth]!;
-    const jitter=((hash%7)-3)*[9,6,4,2][depth]!;
-    const center=320+lateral*spacing+jitter;
-    const foot=[387,327,278,250][depth]!;
-    return <image key={`swamp-${cell.id}`} className="asset-layer" data-source={asset.path}
-      href={asset.url} x={center-width/2} y={foot-height} width={width} height={height} preserveAspectRatio="none"/>;
+    const scale=tree ? (depth===0 ? (lateral<0 ? 2.4 : 1.9) : [2.4,2.55,1.75,1.25][depth]!) : [1.4,1.3,1.1,.85][depth]!;
+    const width=(asset.width??48)*scale;
+    const height=(asset.height??48)*scale;
+    const spacing=[310,215,118,65][depth]!;
+    const center=320+lateral*spacing;
+    const foot=[391,321,275,250][depth]!;
+    const trunk=nearTrunks[lateral<0 ? 0 : 1];
+    return <g key={`swamp-${cell.id}`}>
+      {tree && depth===0 && trunk && <image className="asset-layer" data-source={trunk.path}
+        href={trunk.url} x={center-(lateral<0 ? 100 : 60)} y={-50}
+        width={lateral<0 ? 200 : 120} height={350} preserveAspectRatio="none"/>}
+      <image className="asset-layer" data-source={asset.path} href={asset.url}
+        x={center-width/2} y={foot-height} width={width} height={height} preserveAspectRatio="none"/>
+    </g>;
   });
   return <g className="outdoor-scene swamp-scene">
-    <rect width="640" height="250" fill="#748575"/>
-    {sky && <image href={sky.url} data-source={sky.path} x="0" y="0" width="640" height="255" preserveAspectRatio="none"/>}
-    <path d="M0 229 Q80 210 160 225 T320 218 T480 228 T640 214 V265 H0Z" fill="#36483b" opacity=".65"/>
-    <rect y="238" width="640" height="162" fill="#4c4b34"/>
-    {ground && <image href={ground.url} data-source={ground.path} x="0" y="263" width="640" height="137" preserveAspectRatio="none" opacity=".72"/>}
+    <defs>
+      <linearGradient id="swamp-ground-tone" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#9a9b72" stopOpacity=".42"/>
+        <stop offset=".35" stopColor="#66704d" stopOpacity=".66"/>
+        <stop offset="1" stopColor="#3d4229" stopOpacity=".83"/>
+      </linearGradient>
+    </defs>
+    <rect width="640" height="400" fill="#8d8e73"/>
+    {sky && <image href={sky.url} data-source={sky.path} x="0" y="0" width="640" height="231" preserveAspectRatio="none"/>}
+    {ground && <image href={ground.url} data-source={ground.path} x="0" y="224" width="640" height="176" preserveAspectRatio="none"/>}
+    <rect y="224" width="640" height="176" fill="url(#swamp-ground-tone)"/>
+    {lowGrowth}
     {vegetation}
-    {grassEdge && <image href={grassEdge.url} data-source={grassEdge.path} x="0" y="371" width="640" height="29" preserveAspectRatio="none" opacity=".8"/>}
   </g>;
 }
 function semanticItemAssetId(
