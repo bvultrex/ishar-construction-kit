@@ -214,6 +214,7 @@ function renderSidePassage(
   tilesetId: string | undefined,
   outer: {l:number;t:number;r:number;b:number},
   inner: {l:number;t:number;r:number;b:number},
+  continues: boolean,
 ) {
   const near=side==="left" ? outer.l+10 : outer.r-10;
   const far=side==="left" ? inner.l-8 : inner.r+8;
@@ -221,14 +222,20 @@ function renderSidePassage(
   const bottomNear=outer.b-40, bottomFar=inner.b-25;
   const shape=[[near,topNear],[far,topFar],[far,bottomFar],[near,bottomNear]];
   const clipId=`side-passage-${side}-${depth}`;
-  const x=Math.min(near,far), width=Math.abs(far-near);
-  const y=Math.min(topNear,topFar), height=Math.max(bottomNear,bottomFar)-y;
-  const back=assetFor(pack,"wall.front",Math.min(depth+1,3) as DungeonAssetDepth,tilesetId);
+  // A branch that continues around the corner must not read as a wall or
+  // closed leaf flush with the doorway. Keep the imported arch above a
+  // recessed, depth-matched wall and let the main floor show below its sill.
+  const back=assetFor(pack,"wall.front",Math.min(depth+(continues ? 2 : 1),3) as DungeonAssetDepth,tilesetId);
+  const backWidth=back && pack ? (back.entry.width ?? pack.manifest.viewport.width)*640/pack.manifest.viewport.width : 0;
+  const backHeight=back && pack ? (back.entry.height ?? pack.manifest.viewport.height)*400/pack.manifest.viewport.height : 0;
+  const backX=continues
+    ? side==="left" ? near-backWidth*.4 : near-backWidth*.6
+    : side==="left" ? near-backWidth : far;
   return <g className="side-passage">
     <defs><clipPath id={clipId}><polygon points={points(shape)}/></clipPath></defs>
     <g clipPath={`url(#${clipId})`}>
-      <rect x={x} y={y} width={width} height={height} fill="#3b291a"/>
-      {back && <image href={back.url} x={x} y={y} width={width} height={height} preserveAspectRatio="none" opacity=".82"/>}
+      {continues && <polygon points={points([[near,topNear],[far,topFar],[far,bottomFar-28],[near,bottomNear-28]])} fill="#17110c"/>}
+      {back && <image href={back.url} x={backX} y={continues ? topFar+18 : 0} width={backWidth} height={backHeight} preserveAspectRatio="none" opacity={continues ? .7 : .82}/>}
     </g>
   </g>;
 }
@@ -356,8 +363,14 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
   for (let depth = 0; depth < 4 && cell && !outdoor; depth++) {
     const outer = frames[depth]!;
     const inner = frames[depth + 1]!;
-    const leftOpen = !!canTravel(game.locations, cell, turnLeft(facing));
-    const rightOpen = !!canTravel(game.locations, cell, turnRight(facing));
+    const leftDirection=turnLeft(facing);
+    const rightDirection=turnRight(facing);
+    const leftTarget=canTravel(game.locations,cell,leftDirection);
+    const rightTarget=canTravel(game.locations,cell,rightDirection);
+    const leftOpen=!!leftTarget;
+    const rightOpen=!!rightTarget;
+    const leftContinues=!!leftTarget && !!canTravel(game.locations,leftTarget,leftDirection);
+    const rightContinues=!!rightTarget && !!canTravel(game.locations,rightTarget,rightDirection);
     const roomEdges=roomViewEdges(game.locations,cell,facing,game.doors);
     const leftRoomOpen=roomEdges.leftInterior;
     const rightRoomOpen=roomEdges.rightInterior;
@@ -396,8 +409,8 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         {!leftRoomOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]]}, depth as DungeonAssetDepth, "wall-left") ?? (roomScene && !nativeScene ? renderRoomWall(pack,[[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]],depth as DungeonAssetDepth,cell.tilesetId,"left") : renderPolygonAsset(pack, "wall.left", [[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]], depth as DungeonAssetDepth, cell.tilesetId)))}
         {!rightRoomOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]]}, depth as DungeonAssetDepth, "wall-right") ?? (roomScene && !nativeScene ? renderRoomWall(pack,[[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]],depth as DungeonAssetDepth,cell.tilesetId,"right") : renderPolygonAsset(pack, "wall.right", [[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]], depth as DungeonAssetDepth, cell.tilesetId)))}
         {/* The branch backing belongs behind the transparent stone arch, not over it. */}
-        {leftOpen && !leftRoomOpen && renderSidePassage(pack,depth as DungeonAssetDepth,"left",cell.tilesetId,outer,inner)}
-        {rightOpen && !rightRoomOpen && renderSidePassage(pack,depth as DungeonAssetDepth,"right",cell.tilesetId,outer,inner)}
+        {leftOpen && !leftRoomOpen && renderSidePassage(pack,depth as DungeonAssetDepth,"left",cell.tilesetId,outer,inner,leftContinues)}
+        {rightOpen && !rightRoomOpen && renderSidePassage(pack,depth as DungeonAssetDepth,"right",cell.tilesetId,outer,inner,rightContinues)}
         {leftOpen && !leftRoomOpen && (roomScene && !nativeScene ? renderRoomOpeningArt(pack,depth as DungeonAssetDepth,"left",cell.tilesetId,outer,inner) : renderAsset(pack,"opening.left",depth as DungeonAssetDepth,cell.tilesetId))}
         {rightOpen && !rightRoomOpen && (roomScene && !nativeScene ? renderRoomOpeningArt(pack,depth as DungeonAssetDepth,"right",cell.tilesetId,outer,inner) : renderAsset(pack,"opening.right",depth as DungeonAssetDepth,cell.tilesetId))}
         {!forward && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"rect",x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, "wall-front") ?? (roomScene && !nativeScene ? renderRoomWall(pack,[[inner.l,inner.t],[inner.r,inner.t],[inner.r,inner.b],[inner.l,inner.b]],depth as DungeonAssetDepth,cell.tilesetId,"front") : renderRectAsset(pack, "wall.front", {x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, cell.tilesetId)))}
