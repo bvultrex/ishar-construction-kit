@@ -244,3 +244,9 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 1. Compare additional Irvan's Island views with different water adjacency and day/night palette states. Current `FOND1 #0` water-cell projection and repeated `PLAINE1 #92–95` grass are deliberate CK approximations, not recovered ALIS draw coordinates.
 2. Trace original `FORET1` placement and clipping to refine the near-root scale and distant branch spacing. Do not add the brown `ARBO #0/#1` Thorm-style panels back to the Irvan swamp.
 3. Preserve the separate 4176 water test and main 4175 project. The rejected DJ1 room-side door texture still needs direct original evidence.
+
+## 2026-09-28 — After fixed scenery anchors
+
+1. Compare more camera loops around one Irvan swamp tree with original footage. CK trees now stay attached to a world cell, but original ALIS anchor coordinates and occlusion order are unknown.
+2. Refine water depth blending across *adjacent* water cells, including diagonal shores and day/night palette changes. The current screen-wide masked projection is a visual heuristic for the user's blocked-water case.
+3. Keep passable plants and impassable terrain separate in future outdoor levels; do not infer that every Irvan tree is a hard movement blocker from the current visual test.

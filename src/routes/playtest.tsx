@@ -7,6 +7,7 @@ import { assetFor } from "@/lib/ishar/asset-pack";
 import { adjacentLocation, canTravel, doorBetween, DIRECTION_LABELS, turnBack, turnLeft, turnRight } from "@/lib/ishar/dungeon";
 import { roomViewEdges, roomsShareOpenSurface } from "@/lib/ishar/room-surfaces";
 import { visibleOutdoorCells } from "@/lib/ishar/outdoor-view";
+import { projectSwampFeature, swampFeatureForCell, swampWaterExtent } from "@/lib/ishar/swamp-view";
 import { validateGame } from "@/lib/ishar/project-validation";
 import type { AuthoredEncounter, AuthoredGame, AuthoredLocation, Direction, DungeonAssetDepth, DungeonAssetRole } from "@/lib/ishar/types";
 import type { LoadedAssetPack } from "@/lib/ishar/asset-pack";
@@ -136,42 +137,60 @@ function renderSwampScene(game:AuthoredGame,location:AuthoredLocation,facing:Dir
     return <image key={`swamp-low-${cell.id}`} href={asset.url} data-source={asset.path}
       x={center-width/2} y={foot-height} width={width} height={height} preserveAspectRatio="none"/>;
   });
-  const vegetation=visibleCells.filter(({location:cell})=>cell.outdoorSurface!=="water").map(({location:cell,depth,lateral})=>{
-    const hash=Math.abs(cell.x*73+cell.y*139+17);
+  const vegetation=game.locations.filter((cell)=>(cell.levelId||"level-1")===(location.levelId||"level-1"))
+    .flatMap((cell)=>{
+    const feature=swampFeatureForCell(cell);
+    if(!feature) return [];
+    const projection=projectSwampFeature(feature,location,facing);
+    return projection ? [{cell,feature,projection}] : [];
+  }).sort((a,b)=>b.projection.forwardDistance-a.projection.forwardDistance).map(({cell,feature,projection})=>{
     const explicit=cell.sceneryAssetId ? pack?.discoveredAssets?.find((asset)=>asset.id===cell.sceneryAssetId) : undefined;
-    if(depth===0 && lateral===0 && !explicit) return null;
-    // ALIS composites join the vertically staggered source pieces. A raw
-    // FORET1 trunk or PLAINE1 sprig is often only part of the visible plant.
-    const tree=!explicit && (depth===0 ? Math.abs(lateral)===1 && hash%3!==0 :
-      depth===1 ? Math.abs(lateral)>=1 && hash%4!==2 : hash%3===0);
-    // FORET1 already contains separate native-size perspective sprites. Its
-    // large near roots deliberately run beyond the viewport like the footage.
-    const forestIndex=depth===0 ? 25 : depth===1 ? (hash%2 ? 34 : 28) : depth===2 ? (hash%2 ? 35 : 29) : (hash%2 ? 36 : 37);
-    const plantIndex=depth===0 ? 21 : depth===1 ? 29 : depth===2 ? 30 : 31;
+    const tree=!explicit && feature.kind==="tree";
+    const band=projection.distanceBand;
+    const forestIndex=(feature.family ? [32,28,29,37] : [25,34,35,36])[band]!;
+    const plantIndex=[21,29,30,31][band]!;
     const asset=explicit ?? alisCompositePreview(pack,tree ? "FORET1" : "PLAINE1",tree ? forestIndex : plantIndex);
     if(!asset) return null;
-    const scale=tree ? 1 : [1.4,1.3,1.1,.85][depth]!;
+    const scale=tree ? 1 : [1.4,1.3,1.1,.85][band]!;
     const width=(asset.width??48)*scale*(tree ? 640/256 : 1);
     const height=(asset.height??48)*scale*(tree ? 400/113 : 1);
-    const spacing=[350,215,118,65][depth]!;
-    const center=320+lateral*spacing;
-    const foot=[400,346,292,260][depth]!;
+    const {center,foot}=projection;
+    if(center+width/2<0 || center-width/2>640) return null;
     return <g key={`swamp-${cell.id}`}>
-      <image className="asset-layer" data-source={asset.path} href={asset.url}
+      <image className="asset-layer" data-source={asset.path} data-cell-id={cell.id} href={asset.url}
         x={center-width/2} y={foot-height} width={width} height={height} preserveAspectRatio="none"/>
     </g>;
   });
   const waterPlanes=visibleCells.filter(({location:cell})=>cell.outdoorSurface==="water").map(({location:cell,depth,lateral})=>{
     if(!water) return null;
-    const width=[460,300,175,88][depth]!;
-    const center=320+lateral*[350,215,118,65][depth]!;
-    const bottom=[400,362,308,272][depth]!;
-    const top=[224,238,236,232][depth]!;
-    const clipId=`swamp-water-${cell.id}`;
-    return <g key={clipId}>
-      <defs><clipPath id={clipId}><polygon points={points([[center-width*.16,top],[center+width*.16,top],[center+width*.31,(top+bottom)/2],[center+width/2,bottom],[center-width/2,bottom],[center-width*.31,(top+bottom)/2]])}/></clipPath></defs>
-      <image href={water.url} data-source={water.path} x={center-width/2} y={top} width={width} height={bottom-top} preserveAspectRatio="none" clipPath={`url(#${clipId})`}/>
-      <rect x={center-width/2} y={top} width={width} height={bottom-top} fill="#747d77" opacity=".4" clipPath={`url(#${clipId})`}/>
+    const {x,width,top,bottom}=swampWaterExtent(depth,lateral);
+    const maskId=`swamp-water-${cell.id}`;
+    const height=bottom-top;
+    const waterSurface=<>
+      <image href={water.url} data-source={water.path} x={x} y={top} width={width} height={height} preserveAspectRatio="none"/>
+      <rect x={x} y={top} width={width} height={height} fill="#747d77" opacity=".4"/>
+    </>;
+    return <g key={maskId}>
+      <defs>
+        <linearGradient id={`${maskId}-fade`} gradientUnits="userSpaceOnUse" x1="0" y1={top} x2="0" y2={bottom}>
+          <stop stopColor="white" stopOpacity="0"/><stop offset=".18" stopColor="white"/>
+          <stop offset=".72" stopColor="white"/><stop offset="1" stopColor="white" stopOpacity="0"/>
+        </linearGradient>
+        <mask id={`${maskId}-depth`} maskUnits="userSpaceOnUse" x={x} y={top} width={width} height={height}>
+          <rect x={x} y={top} width={width} height={height} fill={`url(#${maskId}-fade)`}/>
+        </mask>
+        {lateral!==0 && <>
+          <linearGradient id={`${maskId}-side`} x1="0" x2="1">
+            <stop stopColor="white" stopOpacity={lateral<0 ? 1 : 0}/>
+            <stop offset={lateral<0 ? ".65" : ".35"} stopColor="white" stopOpacity={lateral<0 ? 1 : .9}/>
+            <stop offset="1" stopColor="white" stopOpacity={lateral<0 ? 0 : 1}/>
+          </linearGradient>
+          <mask id={`${maskId}-lateral`} maskUnits="userSpaceOnUse" x={x} y={top} width={width} height={height}>
+            <rect x={x} y={top} width={width} height={height} fill={`url(#${maskId}-side)`}/>
+          </mask>
+        </>}
+      </defs>
+      <g mask={`url(#${maskId}-depth)`}>{lateral===0 ? waterSurface : <g mask={`url(#${maskId}-lateral)`}>{waterSurface}</g>}</g>
     </g>;
   });
   const grassLayers=grass.map((asset,index)=>{
