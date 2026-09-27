@@ -1,24 +1,28 @@
-import { canTravel, turnLeft, turnRight } from "./dungeon.ts";
-import type { AuthoredLocation, Direction } from "./types";
+import { canTravel, doorBetween, turnLeft, turnRight } from "./dungeon.ts";
+import type { AuthoredDoor, AuthoredLocation, Direction } from "./types";
 
-// A room group represents one continuous floor. Older manually joined rooms
-// lack a group id; connected room cells with that same missing id are also
-// continuous. Walk each row out to its perimeter instead of adding walls on
-// internal grid lines. Distances are offsets from the forward sightline.
-export function roomViewEdges(locations: AuthoredLocation[], cell: AuthoredLocation, facing: Direction) {
-  const sameRoom = (other: AuthoredLocation | undefined) =>
-    cell.sceneKind === "room" && other?.sceneKind === "room"
-    && other.roomGroupId === cell.roomGroupId;
+// A walkable connection between room cells is open floor regardless of how
+// they were created or grouped. Authored doors and distinct tilesets remain
+// explicit boundaries. Group ids describe authoring, not physical walls.
+export function roomsShareOpenSurface(a: AuthoredLocation, b: AuthoredLocation | undefined, doors: AuthoredDoor[]) {
+  return !!b && a.sceneKind === "room" && b.sceneKind === "room"
+    && (!a.tilesetId || !b.tilesetId || a.tilesetId === b.tilesetId)
+    && !doorBetween(doors, a, b);
+}
+
+// Walk each visible row to its perimeter; offsets are relative to the
+// forward sightline and drive the native room depth projection.
+export function roomViewEdges(locations: AuthoredLocation[], cell: AuthoredLocation, facing: Direction, doors: AuthoredDoor[] = []) {
   const scanSide = (direction: Direction) => {
     const frontWalls: number[] = [];
     let current = cell;
     let count = 0;
     while (true) {
       const next = canTravel(locations, current, direction);
-      if (!sameRoom(next)) break;
+      if (!roomsShareOpenSurface(current, next, doors)) break;
       current = next!;
       count++;
-      if (!sameRoom(canTravel(locations, current, facing))) frontWalls.push(count);
+      if (!roomsShareOpenSurface(current, canTravel(locations, current, facing), doors)) frontWalls.push(count);
     }
     return { count, frontWalls };
   };

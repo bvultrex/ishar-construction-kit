@@ -4,7 +4,7 @@ import { assetCatalogGroup } from '../src/lib/ishar/asset-catalog.ts';
 import { normalizeGame, starterGame } from '../src/lib/ishar/project.ts';
 import { validateGame } from '../src/lib/ishar/project-validation.ts';
 import { canTravel, DIRECTIONS, DIRECTION_VECTORS, locationAt, turnLeft, turnRight } from '../src/lib/ishar/dungeon.ts';
-import { roomViewEdges } from '../src/lib/ishar/room-surfaces.ts';
+import { roomViewEdges, roomsShareOpenSurface } from '../src/lib/ishar/room-surfaces.ts';
 
 const starter=starterGame();
 const anchor=starter.locations.find((location)=>location.id==='gate');
@@ -84,6 +84,16 @@ assert.equal(canTravel(legacyCells,legacyNear,'east')?.id,legacyFar.id);
 assert.equal(roomViewEdges(legacyCells,legacyNear,'east').rightInterior,true,'near cell has an open lateral neighbor');
 assert.deepEqual(roomViewEdges(legacyCells,legacyNear,'east').rightFrontWalls,[],'free cell ahead has no front wall');
 assert.deepEqual(roomViewEdges(legacyCells,legacyFar,'east').rightFrontWalls,[1],'both far cells end at one continuous back wall');
+const separatelyGrouped=legacyCells.map((location)=>location.sceneKind==='room'&&location.x>=20&&location.x<22&&location.y>=20&&location.y<22
+  ? {...location,roomGroupId:`individual-${location.id}`} : location);
+const separateNear=separatelyGrouped.find((location)=>location.id==='gate');
+const separateFar=separatelyGrouped.find((location)=>location.x===21&&location.y===20&&location.levelId==='level-1');
+assert.ok(separateNear&&separateFar);
+assert.equal(roomsShareOpenSurface(separateNear,separateFar,[]),true,'different authoring groups do not create an interior wall');
+assert.equal(roomViewEdges(separatelyGrouped,separateNear,'east').rightInterior,true,'right neighbor stays open across group ids');
+assert.deepEqual(roomViewEdges(separatelyGrouped,separateFar,'east').rightFrontWalls,[1],'back wall continues across group ids');
+const interiorDoor={id:'interior-door',fromLocationId:separateNear.id,toLocationId:separateFar.id,initiallyOpen:false};
+assert.equal(roomsShareOpenSurface(separateNear,separateFar,[interiorDoor]),false,'an authored door remains a room boundary');
 
 const migrated=normalizeGame({...starter,levels:undefined,portals:undefined});
 assert.equal(migrated.levels[0].id,'level-1');

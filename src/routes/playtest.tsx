@@ -5,7 +5,7 @@ import { useKit } from "@/lib/store";
 import { useAssetPack } from "@/lib/asset-store";
 import { assetFor } from "@/lib/ishar/asset-pack";
 import { canTravel, doorBetween, DIRECTION_LABELS, turnBack, turnLeft, turnRight } from "@/lib/ishar/dungeon";
-import { roomViewEdges } from "@/lib/ishar/room-surfaces";
+import { roomViewEdges, roomsShareOpenSurface } from "@/lib/ishar/room-surfaces";
 import { validateGame } from "@/lib/ishar/project-validation";
 import type { AuthoredEncounter, AuthoredGame, AuthoredLocation, Direction, DungeonAssetDepth, DungeonAssetRole } from "@/lib/ishar/types";
 import type { LoadedAssetPack } from "@/lib/ishar/asset-pack";
@@ -358,12 +358,13 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
     const inner = frames[depth + 1]!;
     const leftOpen = !!canTravel(game.locations, cell, turnLeft(facing));
     const rightOpen = !!canTravel(game.locations, cell, turnRight(facing));
-    const roomEdges=roomViewEdges(game.locations,cell,facing);
+    const roomEdges=roomViewEdges(game.locations,cell,facing,game.doors);
     const leftRoomOpen=roomEdges.leftInterior;
     const rightRoomOpen=roomEdges.rightInterior;
     const forward = canTravel(game.locations, cell, facing);
     const cellTilesetId=cell.tilesetId;
-    const roomBoundary=!!forward && cell.roomGroupId!==forward.roomGroupId && (cell.sceneKind==="room" || forward.sceneKind==="room");
+    const roomBoundary=!!forward && (cell.sceneKind==="room" || forward.sceneKind==="room")
+      && !roomsShareOpenSurface(cell,forward,game.doors);
     const forwardDoor = forward ? doorBetween(game.doors, cell, forward) : undefined;
     const forwardDoorOpen = !forwardDoor || openDoors.includes(forwardDoor.id);
 
