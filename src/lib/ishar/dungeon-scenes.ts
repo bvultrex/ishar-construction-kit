@@ -8,7 +8,7 @@ export const DUNGEON_FRAMES = [
   { l: 254, t: 154, r: 386, b: 246 },
 ];
 
-// Toolkit projection for authored multi-cell rooms; no original Ishar camera claim.
+// Fallback projection for packs without native Ishar scene coordinates.
 export const DUNGEON_ROOM_FRAMES = [
   {l:0,t:0,r:640,b:400},
   {l:30,t:30,r:610,b:370},
@@ -16,6 +16,12 @@ export const DUNGEON_ROOM_FRAMES = [
   {l:154,t:118,r:486,b:282},
   {l:213,t:148,r:427,b:252},
 ];
+
+// Rooms and corridors share the same camera and distance tiers. A room changes
+// which walls are drawn, not the position or scale of the source sprites.
+export function usesNativeDungeonProjection(sceneLayoutVersion:number|undefined,tilesetId:string|undefined) {
+  return (sceneLayoutVersion??0)>=4 && /^ishar2-dj[12]$/.test(tilesetId??"");
+}
 
 // Resource expressions in DJ1: 47+d / 59+d; DJ2: 35+d / 47+d.
 // Roles and fitting to the CK camera are a reconstruction, not original layout evidence.

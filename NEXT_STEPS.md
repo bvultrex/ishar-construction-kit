@@ -206,3 +206,10 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 3. Reconstruct further `FRISE.IO` HUD panels and `MAIN.IO` glyph encoding from resource/script evidence. The party/menu controls work for the playable slice but original Ishar 2 command coverage, layout and typography are incomplete.
 4. Give room groups more faithful continuous floor/ceiling perspective and verify every internal/boundary transition, including locked doors and intersections.
 5. Preserve project migration tests while adding level deletion/reordering or broader transition rules; current Builder supports creation, selection, editing and portals but does not delete levels.
+
+## 2026-09-27 — After native-room comparison
+
+1. Trace the original lateral room/side-passage draw sequence for DJ1/DJ2 and compare near, middle and far openings with gameplay. The shifted adjacent wall and branch backing are still CK heuristics.
+2. Identify original closed leaves or draw primitives and their placement at all four distance tiers. The open surrounds are imported; closed DJ1/DJ2 panels remain procedural.
+3. Map remaining FRISE HUD pieces and MAIN glyphs through source/video evidence. Command tabs now work in the game frame, but original equipment, magic and statistics panels are incomplete.
+4. Exercise mixed room/corridor boundaries, locked doors and wider rooms on both DJ1 and DJ2, including alternate facings and deep visibility. The current browser checkpoint covered one DJ1 2×2 room and original video corridors; it is not exhaustive.

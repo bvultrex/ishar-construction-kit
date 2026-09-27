@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { dungeonSceneAssignments as assign, dungeonSpritePosition as position, wallColumnEdges, DUNGEON_FRAMES, DUNGEON_NATIVE_Z, DUNGEON_NATIVE_FRAMES } from '../src/lib/ishar/dungeon-scenes.ts';
+import { dungeonSceneAssignments as assign, dungeonSpritePosition as position, wallColumnEdges, DUNGEON_FRAMES, DUNGEON_NATIVE_Z, DUNGEON_NATIVE_FRAMES, usesNativeDungeonProjection } from '../src/lib/ishar/dungeon-scenes.ts';
 for(const [module,base] of [['DJ1.IO',47],['DJ2.IO',35]]) {
   for(let depth=0;depth<4;depth++) {
     const sides=assign('game/'+module,base+depth);
@@ -63,4 +63,8 @@ assert.equal(upper.x,lower.x);
 assert.equal(project(-38,50,16,81,1).x,82);
 assert.equal(project(38,50,16,81,1).x+16,174);
 for(const f of DUNGEON_NATIVE_FRAMES) assert.equal(f.t,0,'No invented ceiling wedge above native walls');
+assert.equal(usesNativeDungeonProjection(8,'ishar2-dj1'),true,'DJ1 rooms and corridors use the same native camera');
+assert.equal(usesNativeDungeonProjection(8,'ishar2-dj2'),true,'DJ2 rooms and corridors use the same native camera');
+assert.equal(usesNativeDungeonProjection(3,'ishar2-dj1'),false,'Older packs retain the fallback camera');
+assert.equal(usesNativeDungeonProjection(8,'custom'),false,'Custom tilesets retain the authored camera');
 console.log('Native script-height and composite seam regressions passed');

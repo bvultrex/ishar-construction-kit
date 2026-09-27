@@ -1,4 +1,4 @@
-import { DUNGEON_FRAMES as FRAMES, DUNGEON_NATIVE_FRAMES, DUNGEON_ROOM_FRAMES } from "@/lib/ishar/dungeon-scenes";
+import { DUNGEON_FRAMES as FRAMES, DUNGEON_NATIVE_FRAMES, DUNGEON_ROOM_FRAMES, usesNativeDungeonProjection } from "@/lib/ishar/dungeon-scenes";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useKit } from "@/lib/store";
@@ -264,6 +264,29 @@ function renderRoomWall(
   </g>;
 }
 
+function renderAdjacentRoomWall(
+  pack:LoadedAssetPack|null,
+  side:"left"|"right",
+  depth:DungeonAssetDepth,
+  tilesetId:string|undefined,
+  outer:{l:number;t:number;r:number;b:number},
+  inner:{l:number;t:number;r:number;b:number},
+) {
+  const asset=assetFor(pack,"wall.front",depth,tilesetId);
+  if(!asset || !pack) return null;
+  const offset=(side==="left" ? -1 : 1)*(inner.r-inner.l);
+  const clipId=`adjacent-room-${side}-${depth}`;
+  const shape=side==="left"
+    ? [[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]]
+    : [[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]];
+  return <g className={`room-adjacent-wall ${side}`}>
+    <defs><clipPath id={clipId}><polygon points={points(shape)}/></clipPath></defs>
+    <g clipPath={`url(#${clipId})`}>
+      <g transform={`translate(${offset} 0)`}>{renderAsset(pack,"wall.front",depth,tilesetId)}</g>
+    </g>
+  </g>;
+}
+
 function FallbackDoor({x,y,width,height,grille}: {x:number;y:number;width:number;height:number;grille:boolean}) {
   // The original closed leaves have not been recovered from the ALIS resources.
   // These two silhouettes follow the visible DJ1/DJ2 playthrough references only.
@@ -310,7 +333,7 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
   const sceneKind=location.sceneKind || (currentLevel?.kind==="outdoor" ? "outdoor" : currentLevel?.kind==="house" ? "room" : "corridor");
   const outdoor=sceneKind==="outdoor";
   const roomScene=sceneKind==="room";
-  const nativeScene=!outdoor && !roomScene && (pack?.sceneLayoutVersion??0)>=4 && /^ishar2-dj[12]$/.test(sceneTileset?.id??"");
+  const nativeScene=!outdoor && usesNativeDungeonProjection(pack?.sceneLayoutVersion,sceneTileset?.id);
   const frames=nativeScene ? DUNGEON_NATIVE_FRAMES : roomScene ? DUNGEON_ROOM_FRAMES : FRAMES;
   const segments: React.ReactNode[] = [];
   const itemLayers: React.ReactNode[] = [];
@@ -324,7 +347,7 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
     const leftRoomOpen=!!cell.roomGroupId && cell.sceneKind==="room" && canTravel(game.locations,cell,turnLeft(facing))?.roomGroupId===cell.roomGroupId;
     const rightRoomOpen=!!cell.roomGroupId && cell.sceneKind==="room" && canTravel(game.locations,cell,turnRight(facing))?.roomGroupId===cell.roomGroupId;
     const forward = canTravel(game.locations, cell, facing);
-    const roomBoundary=roomScene && !!forward && !!cell.roomGroupId && cell.roomGroupId!==forward.roomGroupId;
+    const roomBoundary=!!forward && cell.roomGroupId!==forward.roomGroupId && (cell.sceneKind==="room" || forward.sceneKind==="room");
     const forwardDoor = forward ? doorBetween(game.doors, cell, forward) : undefined;
     const forwardDoorOpen = !forwardDoor || openDoors.includes(forwardDoor.id);
 
@@ -339,7 +362,7 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
     segments.unshift(
       <g key={`segment-${depth}`} className={`dungeon-depth depth-${depth}`}>
         <polygon className="dungeon-ceiling" fill="url(#fallback-ceiling-pattern)" points={points([[outer.l,outer.t],[outer.r,outer.t],[inner.r,inner.t],[inner.l,inner.t]])}/>
-        <polygon className="dungeon-floor" fill="url(#fallback-floor-pattern)" points={points([[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]])}/>
+        {!nativeScene && <polygon className="dungeon-floor" fill="url(#fallback-floor-pattern)" points={points([[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]])}/>}
         {!leftRoomOpen && <polygon className="dungeon-wall side-left" fill="url(#fallback-wall-pattern)" points={points([[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]])}/>}
         {!rightRoomOpen && <polygon className="dungeon-wall side-right" fill="url(#fallback-wall-pattern)" points={points([[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]])}/>}
         {!forward && <>
@@ -348,19 +371,22 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
           <line className="dungeon-mortar" x1={(inner.l+inner.r)/2} y1={inner.t} x2={(inner.l+inner.r)/2} y2={inner.b}/>
         </>}
         {renderDiscoveredTexture(pack, cell.ceilingAssetId, {kind:"polygon",points:[[outer.l,outer.t],[outer.r,outer.t],[inner.r,inner.t],[inner.l,inner.t]]}, depth as DungeonAssetDepth, "ceiling") ?? renderPolygonAsset(pack, "surface.ceiling", [[outer.l,outer.t],[outer.r,outer.t],[inner.r,inner.t],[inner.l,inner.t]], depth as DungeonAssetDepth, cell.tilesetId)}
-        {renderDiscoveredTexture(pack, cell.floorAssetId, {kind:"polygon",points:[[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]]}, depth as DungeonAssetDepth, "floor") ?? renderPolygonAsset(pack, "surface.floor", [[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]], depth as DungeonAssetDepth, cell.tilesetId)}
-        {!leftRoomOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]]}, depth as DungeonAssetDepth, "wall-left") ?? (roomScene ? renderRoomWall(pack,[[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]],depth as DungeonAssetDepth,cell.tilesetId,"left") : renderPolygonAsset(pack, "wall.left", [[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]], depth as DungeonAssetDepth, cell.tilesetId)))}
-        {!rightRoomOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]]}, depth as DungeonAssetDepth, "wall-right") ?? (roomScene ? renderRoomWall(pack,[[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]],depth as DungeonAssetDepth,cell.tilesetId,"right") : renderPolygonAsset(pack, "wall.right", [[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]], depth as DungeonAssetDepth, cell.tilesetId)))}
-        {leftOpen && !leftRoomOpen && (roomScene ? renderRoomOpeningArt(pack,depth as DungeonAssetDepth,"left",cell.tilesetId,outer,inner) : renderAsset(pack,"opening.left",depth as DungeonAssetDepth,cell.tilesetId))}
-        {rightOpen && !rightRoomOpen && (roomScene ? renderRoomOpeningArt(pack,depth as DungeonAssetDepth,"right",cell.tilesetId,outer,inner) : renderAsset(pack,"opening.right",depth as DungeonAssetDepth,cell.tilesetId))}
+        {renderDiscoveredTexture(pack, cell.floorAssetId, {kind:"polygon",points:[[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]]}, depth as DungeonAssetDepth, "floor") ?? (!nativeScene && renderPolygonAsset(pack, "surface.floor", [[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]], depth as DungeonAssetDepth, cell.tilesetId))}
+        {nativeScene && leftRoomOpen && renderAdjacentRoomWall(pack,"left",depth as DungeonAssetDepth,cell.tilesetId,outer,inner)}
+        {nativeScene && rightRoomOpen && renderAdjacentRoomWall(pack,"right",depth as DungeonAssetDepth,cell.tilesetId,outer,inner)}
+        {!leftRoomOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]]}, depth as DungeonAssetDepth, "wall-left") ?? (roomScene && !nativeScene ? renderRoomWall(pack,[[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]],depth as DungeonAssetDepth,cell.tilesetId,"left") : renderPolygonAsset(pack, "wall.left", [[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]], depth as DungeonAssetDepth, cell.tilesetId)))}
+        {!rightRoomOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]]}, depth as DungeonAssetDepth, "wall-right") ?? (roomScene && !nativeScene ? renderRoomWall(pack,[[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]],depth as DungeonAssetDepth,cell.tilesetId,"right") : renderPolygonAsset(pack, "wall.right", [[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]], depth as DungeonAssetDepth, cell.tilesetId)))}
+        {/* The branch backing belongs behind the transparent stone arch, not over it. */}
         {leftOpen && !leftRoomOpen && renderSidePassage(pack,depth as DungeonAssetDepth,"left",cell.tilesetId,outer,inner)}
         {rightOpen && !rightRoomOpen && renderSidePassage(pack,depth as DungeonAssetDepth,"right",cell.tilesetId,outer,inner)}
-        {!forward && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"rect",x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, "wall-front") ?? (roomScene ? renderRoomWall(pack,[[inner.l,inner.t],[inner.r,inner.t],[inner.r,inner.b],[inner.l,inner.b]],depth as DungeonAssetDepth,cell.tilesetId,"front") : renderRectAsset(pack, "wall.front", {x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, cell.tilesetId)))}
+        {leftOpen && !leftRoomOpen && (roomScene && !nativeScene ? renderRoomOpeningArt(pack,depth as DungeonAssetDepth,"left",cell.tilesetId,outer,inner) : renderAsset(pack,"opening.left",depth as DungeonAssetDepth,cell.tilesetId))}
+        {rightOpen && !rightRoomOpen && (roomScene && !nativeScene ? renderRoomOpeningArt(pack,depth as DungeonAssetDepth,"right",cell.tilesetId,outer,inner) : renderAsset(pack,"opening.right",depth as DungeonAssetDepth,cell.tilesetId))}
+        {!forward && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"rect",x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, "wall-front") ?? (roomScene && !nativeScene ? renderRoomWall(pack,[[inner.l,inner.t],[inner.r,inner.t],[inner.r,inner.b],[inner.l,inner.b]],depth as DungeonAssetDepth,cell.tilesetId,"front") : renderRectAsset(pack, "wall.front", {x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, cell.tilesetId)))}
         {forwardDoor && !forwardDoorOpen && renderRectAsset(pack, "door.front.closed", {x:inner.l+12,y:inner.t+4,width:Math.max(20,inner.r-inner.l-24),height:Math.max(30,inner.b-inner.t-8)}, depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id)}
         {forwardDoor && !forwardDoorOpen && !assetFor(pack, "door.front.closed", depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id) &&
           <FallbackDoor x={inner.l+12} y={inner.t+4} width={Math.max(20,inner.r-inner.l-24)} height={Math.max(30,inner.b-inner.t-8)} grille={sceneTileset?.id==="ishar2-dj2"}/>}
-        {roomBoundary && renderRoomFrontArch(pack,depth as DungeonAssetDepth,cell.tilesetId,inner)}
-        {forwardDoor && !roomBoundary && (roomScene ? renderRoomFrontArch(pack,depth as DungeonAssetDepth,cell.tilesetId,inner) : renderAsset(pack,"door.front.open",depth as DungeonAssetDepth,cell.tilesetId,forwardDoor.id))}
+        {roomBoundary && (nativeScene ? renderAsset(pack,"door.front.open",depth as DungeonAssetDepth,cell.tilesetId) : renderRoomFrontArch(pack,depth as DungeonAssetDepth,cell.tilesetId,inner))}
+        {forwardDoor && !roomBoundary && (roomScene && !nativeScene ? renderRoomFrontArch(pack,depth as DungeonAssetDepth,cell.tilesetId,inner) : renderAsset(pack,"door.front.open",depth as DungeonAssetDepth,cell.tilesetId,forwardDoor.id))}
       </g>
     );
 
@@ -403,6 +429,7 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         {renderDiscoveredLayer(pack,location.sceneryAssetId,{x:64,y:18,width:512,height:360})}
       </g> : renderAsset(pack, "viewport.background", undefined, locationTilesetId)}
       {nativeScene && renderAsset(pack,"surface.ceiling",undefined,locationTilesetId)}
+      {nativeScene && renderAsset(pack,"surface.floor",undefined,locationTilesetId)}
       {segments}
       {itemLayers}
       <path className="dungeon-vignette" d="M0 0H640V400H0Z M32 25V375H608V25Z" fillRule="evenodd"/>
@@ -477,10 +504,20 @@ function PlaytestPage() {
   const [completedEncounters, setCompletedEncounters] = useState<string[]>([]);
   const [completedQuests, setCompletedQuests] = useState<string[]>([]);
   const [inventory, setInventory] = useState<string[]>([]);
+  const [selectedItemId,setSelectedItemId]=useState<string|null>(null);
   const [openDoors, setOpenDoors] = useState<string[]>(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));
   const [log, setLog] = useState<string[]>(["Du betrittst den Dungeon."]);
   const [selectedPartyIndex,setSelectedPartyIndex]=useState(0);
   const [hudPanel,setHudPanel]=useState<"actions"|"character"|"inventory"|"map"|"quest"|null>(null);
+
+  // The persisted project hydrates after the route's initial render. Keep the
+  // authored entrance and party in sync without restarting ordinary movement.
+  useEffect(()=>{setLocationId(game.startLocationId);setFacing(game.startFacing);},[game.startLocationId,game.startFacing]);
+  useEffect(()=>{
+    setPartyHp(Object.fromEntries(game.characters.map((member)=>[member.id,member.hp])));
+    setSelectedPartyIndex((index)=>Math.min(index,Math.max(0,game.characters.length-1)));
+  },[game.characters]);
+  useEffect(()=>{setOpenDoors(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));},[game.doors]);
 
   const location = useMemo(() => game.locations.find((x) => x.id === locationId), [game.locations, locationId]);
   const encounter = location?.encounterId ? game.encounters.find((x) => x.id === location.encounterId) : undefined;
@@ -503,6 +540,7 @@ function PlaytestPage() {
     setCompletedEncounters([]);
     setCompletedQuests([]);
     setInventory([]);
+    setSelectedItemId(null);
     setOpenDoors(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));
     setLog(["Dungeon neu betreten."]);
     setSelectedPartyIndex(0);
@@ -562,6 +600,7 @@ function PlaytestPage() {
     if (inventory.includes(id)) return;
     const item = game.items.find((x)=>x.id===id);
     setInventory((x)=>[...x,id]);
+    setSelectedItemId(id);
     setLog((x)=>[`${item?.name ?? id} aufgenommen.`, ...x]);
   }
 
@@ -611,7 +650,21 @@ function PlaytestPage() {
 
         <aside className="ishar-control-panel">
           <div className="ishar-location-plaque"><small>{level?.name ?? "Dungeon"}</small>{location.name}</div>
-          <DungeonMiniMap game={game} location={location} facing={facing}/>
+          <nav className="ishar-hud-nav" aria-label="Spielmenü">
+            <button aria-pressed={hudPanel==="actions"} onClick={()=>toggleHud("actions")}>Aktionen</button>
+            <button aria-pressed={hudPanel==="character"} onClick={()=>toggleHud("character")}>Figur</button>
+            <button aria-pressed={hudPanel==="inventory"} onClick={()=>toggleHud("inventory")}>Inventar {inventory.length ? `(${inventory.length})` : ""}</button>
+            <button aria-pressed={hudPanel==="map"} onClick={()=>toggleHud("map")}>Karte</button>
+            <button aria-pressed={hudPanel==="quest"} onClick={()=>toggleHud("quest")}>Aufträge</button>
+          </nav>
+          {hudPanel && <section className="ishar-hud-panel" aria-label="Spielmenü-Inhalt">
+            <button className="ishar-hud-close" onClick={()=>setHudPanel(null)} aria-label="Menü schließen">×</button>
+            {hudPanel==="actions" && <><h3>Aktionen · {game.characters[selectedPartyIndex]?.name ?? hero.name}</h3><div className="ishar-hud-actions"><button onClick={attack} disabled={!encounter || encounterDone || defeated || (partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0)<=0}>Angreifen</button><button onClick={openFacingDoor} disabled={!facingDoorClosed || defeated}>Tür öffnen</button>{visibleItemIds.map((id)=><button key={id} onClick={()=>takeItem(id)}>{game.items.find((item)=>item.id===id)?.name ?? id} aufnehmen</button>)}{portalsHere.map((portal)=><button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone}>{portal.label}</button>)}</div></>}
+            {hudPanel==="character" && <><h3>{game.characters[selectedPartyIndex]?.name ?? hero.name}</h3><p>Leben: {partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0}/{game.characters[selectedPartyIndex]?.hp ?? hero.hp} · Angriff: {game.characters[selectedPartyIndex]?.attack ?? hero.attack}</p></>}
+            {hudPanel==="inventory" && <><h3>Inventar</h3>{inventory.length ? <><div className="ishar-inventory-list">{inventory.map((id)=><button key={id} aria-pressed={selectedItemId===id} onClick={()=>setSelectedItemId(id)}>{game.items.find((item)=>item.id===id)?.name ?? id}</button>)}</div>{selectedItemId && inventory.includes(selectedItemId) && <div className="ishar-inventory-detail"><strong>{game.items.find((item)=>item.id===selectedItemId)?.name ?? selectedItemId}</strong><p>{game.items.find((item)=>item.id===selectedItemId)?.description || "Keine Beschreibung."}</p>{facingDoorClosed && facingDoor?.keyItemId===selectedItemId && <button onClick={openFacingDoor}>Schlüssel an Tür verwenden</button>}</div>}</> : <p>Noch keine Gegenstände.</p>}</>}
+            {hudPanel==="map" && <><h3>{level?.name ?? "Karte"}</h3><DungeonMiniMap game={game} location={location} facing={facing}/></>}
+            {hudPanel==="quest" && <><h3>Aufträge</h3>{game.quests.map((quest)=><p key={quest.id}><strong>{quest.title}</strong> · {completedQuests.includes(quest.id) ? quest.completedText : quest.objective}</p>)}</>}
+          </section>}
           <div className="ishar-dpad" aria-label="Dungeon-Steuerung">
             <span/>
             <button onClick={()=>step(facing)} disabled={!encounterDone || defeated} aria-label="Vorwärts">▲</button>
@@ -621,6 +674,7 @@ function PlaytestPage() {
             <button onClick={()=>setFacing(turnRight(facing))} aria-label="Rechts drehen">▶</button>
           </div>
           <div className="ishar-context-buttons">
+            {visibleItemIds.map((id)=><button key={id} onClick={()=>takeItem(id)} disabled={defeated}>{game.items.find((item)=>item.id===id)?.name ?? id} aufnehmen</button>)}
             {encounter && !encounterDone && !defeated && <button className="attack-button" onClick={attack} disabled={(partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0)<=0}>⚔ Angriff <small>{currentEnemyHp}/{encounter.enemyHp}</small></button>}
             {facingDoorClosed && encounterDone && !defeated && <button className="door-button" onClick={openFacingDoor}>🚪 Öffnen<small>{facingDoor?.keyItemId ? "Schlüssel" : "Tür"}</small></button>}
             {portalsHere.map((portal)=>{const target=game.locations.find((entry)=>entry.id===(portal.fromLocationId===locationId ? portal.toLocationId : portal.fromLocationId));return <button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone}>↗ {target?.name ?? portal.label}</button>})}
@@ -644,26 +698,6 @@ function PlaytestPage() {
         })}
       </div>
 
-      <nav className="ishar-hud-nav" aria-label="Spielmenü">
-        <button aria-pressed={hudPanel==="actions"} onClick={()=>toggleHud("actions")}>Aktionen</button>
-        <button aria-pressed={hudPanel==="character"} onClick={()=>toggleHud("character")}>Figur</button>
-        <button aria-pressed={hudPanel==="inventory"} onClick={()=>toggleHud("inventory")}>Inventar {inventory.length ? `(${inventory.length})` : ""}</button>
-        <button aria-pressed={hudPanel==="map"} onClick={()=>toggleHud("map")}>Karte</button>
-        <button aria-pressed={hudPanel==="quest"} onClick={()=>toggleHud("quest")}>Aufträge</button>
-      </nav>
-      {hudPanel && <section className="ishar-hud-panel" aria-label="Spielmenü-Inhalt">
-        <button className="ishar-hud-close" onClick={()=>setHudPanel(null)} aria-label="Menü schließen">×</button>
-        {hudPanel==="actions" && <><h3>Aktionen · {game.characters[selectedPartyIndex]?.name ?? hero.name}</h3><div className="ishar-hud-actions"><button onClick={attack} disabled={!encounter || encounterDone || defeated || (partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0)<=0}>Angreifen</button><button onClick={openFacingDoor} disabled={!facingDoorClosed || defeated}>Tür öffnen</button>{visibleItemIds.map((id)=><button key={id} onClick={()=>takeItem(id)}>{game.items.find((item)=>item.id===id)?.name ?? id} aufnehmen</button>)}{portalsHere.map((portal)=><button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone}>{portal.label}</button>)}</div></>}
-        {hudPanel==="character" && <><h3>{game.characters[selectedPartyIndex]?.name ?? hero.name}</h3><p>Leben: {partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0}/{game.characters[selectedPartyIndex]?.hp ?? hero.hp} · Angriff: {game.characters[selectedPartyIndex]?.attack ?? hero.attack}</p></>}
-        {hudPanel==="inventory" && <><h3>Inventar</h3>{inventory.length ? <ul>{inventory.map((id)=><li key={id}>{game.items.find((item)=>item.id===id)?.name ?? id}</li>)}</ul> : <p>Noch keine Gegenstände.</p>}</>}
-        {hudPanel==="map" && <><h3>{level?.name ?? "Karte"}</h3><DungeonMiniMap game={game} location={location} facing={facing}/></>}
-        {hudPanel==="quest" && <><h3>Aufträge</h3>{game.quests.map((quest)=><p key={quest.id}><strong>{quest.title}</strong> · {completedQuests.includes(quest.id) ? quest.completedText : quest.objective}</p>)}</>}
-      </section>}
-
-      {visibleItemIds.length > 0 && !defeated && <div className="ishar-context-bar">{visibleItemIds.map((id)=>{
-        const item=game.items.find((x)=>x.id===id);
-        return <button key={id} onClick={()=>takeItem(id)}>{item?.name ?? id} aufnehmen</button>;
-      })}</div>}
       {defeated && <div className="crawler-message danger"><strong>Die Gruppe wurde besiegt.</strong><button onClick={reset}>Erneut versuchen</button></div>}
       {won && <div className="crawler-message victory"><strong>Abschluss erreicht.</strong><span>Du kannst dich für weitere Tests weiterbewegen.</span></div>}
     </div>
