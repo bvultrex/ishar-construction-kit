@@ -60,6 +60,30 @@ for(const cell of squareCells) for(const facing of DIRECTIONS){
   assert.deepEqual(edges.leftFrontWalls,farEdge ? Array.from({length:leftDistance},(_,i)=>i+1) : [],`${cell.x},${cell.y} ${facing}: left back wall`);
   assert.deepEqual(edges.rightFrontWalls,farEdge ? Array.from({length:rightDistance},(_,i)=>i+1) : [],`${cell.x},${cell.y} ${facing}: right back wall`);
 }
+// Older maps assembled room-by-room have no roomGroupId. Reciprocal room
+// connections still form an open floor instead of four miniature corridors.
+const legacyOpenSquare=square.game.locations.map((location)=>location.roomGroupId
+  ? {...location,roomGroupId:undefined} : location);
+for(const cell of legacyOpenSquare.filter((location)=>location.sceneKind==='room' && location.x>=20 && location.x<24 && location.y>=20 && location.y<24)){
+  const edges=roomViewEdges(legacyOpenSquare,cell,'north');
+  assert.equal(edges.leftInterior,cell.x>20);
+  assert.equal(edges.rightInterior,cell.x<23);
+  assert.deepEqual(edges.leftFrontWalls,cell.y===20 ? Array.from({length:cell.x-20},(_,i)=>i+1) : []);
+  assert.deepEqual(edges.rightFrontWalls,cell.y===20 ? Array.from({length:23-cell.x},(_,i)=>i+1) : []);
+}
+assert.equal(roomViewEdges(starter.locations,starter.locations[0],'north').leftInterior,false,'corridors remain corridors');
+const legacySquare=createRoomBlock(squareSeed,'gate',2,2);
+assert.equal(legacySquare.ok,true);
+if(!legacySquare.ok) throw Error(legacySquare.error);
+const legacyCells=legacySquare.game.locations.map((location)=>location.roomGroupId
+  ? {...location,roomGroupId:undefined} : location);
+const legacyNear=legacyCells.find((location)=>location.id==='gate');
+const legacyFar=legacyCells.find((location)=>location.x===21&&location.y===20&&location.levelId==='level-1');
+assert.ok(legacyNear&&legacyFar);
+assert.equal(canTravel(legacyCells,legacyNear,'east')?.id,legacyFar.id);
+assert.equal(roomViewEdges(legacyCells,legacyNear,'east').rightInterior,true,'near cell has an open lateral neighbor');
+assert.deepEqual(roomViewEdges(legacyCells,legacyNear,'east').rightFrontWalls,[],'free cell ahead has no front wall');
+assert.deepEqual(roomViewEdges(legacyCells,legacyFar,'east').rightFrontWalls,[1],'both far cells end at one continuous back wall');
 
 const migrated=normalizeGame({...starter,levels:undefined,portals:undefined});
 assert.equal(migrated.levels[0].id,'level-1');

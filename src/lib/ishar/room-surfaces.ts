@@ -1,12 +1,13 @@
 import { canTravel, turnLeft, turnRight } from "./dungeon.ts";
 import type { AuthoredLocation, Direction } from "./types";
 
-// A room group represents one continuous floor. Walk each visible row out to
-// its perimeter; a direct neighbor is not itself a wall. Distances are cell
-// offsets from the forward sightline, used by the native depth projection.
+// A room group represents one continuous floor. Older manually joined rooms
+// lack a group id; connected room cells with that same missing id are also
+// continuous. Walk each row out to its perimeter instead of adding walls on
+// internal grid lines. Distances are offsets from the forward sightline.
 export function roomViewEdges(locations: AuthoredLocation[], cell: AuthoredLocation, facing: Direction) {
   const sameRoom = (other: AuthoredLocation | undefined) =>
-    !!cell.roomGroupId && cell.sceneKind === "room" && other?.sceneKind === "room"
+    cell.sceneKind === "room" && other?.sceneKind === "room"
     && other.roomGroupId === cell.roomGroupId;
   const scanSide = (direction: Direction) => {
     const frontWalls: number[] = [];
