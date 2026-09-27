@@ -992,7 +992,12 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     const imageDefaults=defaultsByImage.get(defaultChoiceKey(image.sourcePath,image.entryIndex)) ?? [];
     const forceForDefault=imageDefaults.length>0;
     const forceTerrain=image.assetKind==="terrain";
-    const forceForLibrary=["houses","ui","font"].includes(assetCatalogGroup(`${image.sourcePath} · ALIS #${image.entryIndex}`));
+    const moduleName=image.sourcePath.replace(/\\/g,"/").split("/").pop()?.toUpperCase();
+    const swampSceneImage=(moduleName==="FOND1.IO" && image.entryIndex<=1)
+      || (moduleName==="PLAINE1.IO" && ([0,1,2,3,8,9,10,11,92].includes(image.entryIndex)))
+      || (moduleName==="ARBO.IO" && image.entryIndex>=69 && image.entryIndex<=72)
+      || (moduleName==="FORET1.IO" && image.entryIndex>=8 && image.entryIndex<=11);
+    const forceForLibrary=swampSceneImage || ["houses","ui","font"].includes(assetCatalogGroup(`${image.sourcePath} · ALIS #${image.entryIndex}`));
     if(!forceForDefault && !forceTerrain && !forceForLibrary && (alisPreviewCount>=MAX_ALIS_IMAGES || alisPixelCount+image.width*image.height>MAX_ALIS_PIXELS)){
       alisImagesSkippedForBudget++;
       continue;
@@ -1224,7 +1229,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   };
 
   const pack: LoadedAssetPack={
-    sceneLayoutVersion:11,
+    sceneLayoutVersion:12,
     manifest,
     urls,
     paths,

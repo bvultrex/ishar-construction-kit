@@ -233,6 +233,8 @@ export interface AuthoredLevel {
   id: string;
   name: string;
   kind: "dungeon" | "house" | "outdoor";
+  /** Toolkit scene preset; it does not encode an original Ishar area ID. */
+  biome?: "swamp";
   tilesetId?: string;
 }
 

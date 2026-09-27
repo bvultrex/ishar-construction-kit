@@ -6,6 +6,7 @@ import { useAssetPack } from "@/lib/asset-store";
 import { assetFor } from "@/lib/ishar/asset-pack";
 import { canTravel, doorBetween, DIRECTION_LABELS, turnBack, turnLeft, turnRight } from "@/lib/ishar/dungeon";
 import { roomViewEdges, roomsShareOpenSurface } from "@/lib/ishar/room-surfaces";
+import { visibleOutdoorCells } from "@/lib/ishar/outdoor-view";
 import { validateGame } from "@/lib/ishar/project-validation";
 import type { AuthoredEncounter, AuthoredGame, AuthoredLocation, Direction, DungeonAssetDepth, DungeonAssetRole } from "@/lib/ishar/types";
 import type { LoadedAssetPack } from "@/lib/ishar/asset-pack";
@@ -106,6 +107,46 @@ function renderDiscoveredLayer(
     preserveAspectRatio="xMidYMid meet"
     className="asset-layer"
   />;
+}
+
+function alisPreview(pack:LoadedAssetPack|null,module:string,index:number) {
+  return pack?.discoveredAssets?.find((asset)=>asset.path.toUpperCase().endsWith(`${module}.IO · ALIS #${index}`));
+}
+
+function renderSwampScene(game:AuthoredGame,location:AuthoredLocation,facing:Direction,pack:LoadedAssetPack|null) {
+  const sky=alisPreview(pack,"FOND1",1);
+  const ground=alisPreview(pack,"FOND1",0);
+  const grassEdge=alisPreview(pack,"PLAINE1",92);
+  const vegetation=visibleOutdoorCells(game.locations,location,facing).map(({location:cell,depth,lateral})=>{
+    const hash=Math.abs(cell.x*73+cell.y*139+17);
+    const explicit=cell.sceneryAssetId ? pack?.discoveredAssets?.find((asset)=>asset.id===cell.sceneryAssetId) : undefined;
+    // Keep the player's own center clear. Plants can still obscure other cells,
+    // but movement remains determined solely by authored cardinal exits.
+    if(depth===0 && lateral===0 && !explicit) return null;
+    const family=hash%5;
+    const asset=explicit ?? (family<=1 ? alisPreview(pack,"PLAINE1",depth)
+      : family===2 ? alisPreview(pack,"FORET1",8+depth)
+      : alisPreview(pack,"ARBO",69+depth));
+    if(!asset) return null;
+    const scale=[2.05,1.6,1.2,.9][depth]!;
+    const width=Math.min(540,(asset.width??48)*scale);
+    const height=Math.min(350,(asset.height??48)*scale);
+    const spacing=[198,137,89,55][depth]!;
+    const jitter=((hash%7)-3)*[9,6,4,2][depth]!;
+    const center=320+lateral*spacing+jitter;
+    const foot=[387,327,278,250][depth]!;
+    return <image key={`swamp-${cell.id}`} className="asset-layer" data-source={asset.path}
+      href={asset.url} x={center-width/2} y={foot-height} width={width} height={height} preserveAspectRatio="none"/>;
+  });
+  return <g className="outdoor-scene swamp-scene">
+    <rect width="640" height="250" fill="#748575"/>
+    {sky && <image href={sky.url} data-source={sky.path} x="0" y="0" width="640" height="255" preserveAspectRatio="none"/>}
+    <path d="M0 229 Q80 210 160 225 T320 218 T480 228 T640 214 V265 H0Z" fill="#36483b" opacity=".65"/>
+    <rect y="238" width="640" height="162" fill="#4c4b34"/>
+    {ground && <image href={ground.url} data-source={ground.path} x="0" y="263" width="640" height="137" preserveAspectRatio="none" opacity=".72"/>}
+    {vegetation}
+    {grassEdge && <image href={grassEdge.url} data-source={grassEdge.path} x="0" y="371" width="640" height="29" preserveAspectRatio="none" opacity=".8"/>}
+  </g>;
 }
 function semanticItemAssetId(
   pack: LoadedAssetPack | null,
@@ -462,7 +503,7 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         </pattern>
       </defs>
       <rect width="640" height="400" className="dungeon-dark"/>
-      {outdoor ? <g className="outdoor-scene">
+      {outdoor && currentLevel?.biome==="swamp" ? renderSwampScene(game,location,facing,pack) : outdoor ? <g className="outdoor-scene">
         <rect width="640" height="220" fill="url(#outdoor-sky)"/>
         <path d="M0 225 L60 193 L112 207 L180 181 L240 211 L330 188 L420 212 L492 184 L570 207 L640 190 V280 H0Z" fill="#4c5a51"/>
         <rect y="220" width="640" height="180" fill="url(#outdoor-ground)"/>

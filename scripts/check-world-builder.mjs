@@ -5,6 +5,8 @@ import { normalizeGame, starterGame } from '../src/lib/ishar/project.ts';
 import { validateGame } from '../src/lib/ishar/project-validation.ts';
 import { canTravel, DIRECTIONS, DIRECTION_VECTORS, locationAt, turnLeft, turnRight } from '../src/lib/ishar/dungeon.ts';
 import { roomViewEdges, roomsShareOpenSurface } from '../src/lib/ishar/room-surfaces.ts';
+import { createSwampTestArea } from '../src/lib/ishar/swamp-area.ts';
+import { visibleOutdoorCells } from '../src/lib/ishar/outdoor-view.ts';
 
 const starter=starterGame();
 const anchor=starter.locations.find((location)=>location.id==='gate');
@@ -106,6 +108,23 @@ assert.equal(locationAt(second.locations,0,3,'level-2')?.id,'house-entry');
 assert.equal(canTravel(second.locations,starter.locations[0],'north')?.id,'vestibule');
 assert.ok(validateGame({...second,portals:[{...second.portals[0],toLocationId:'vestibule'}]}).some((problem)=>problem.path==='portal.stairs'));
 assert.ok(validateGame({...second,locations:second.locations.map((location)=>location.id==='gate'?{...location,exits:[...location.exits,'house-entry']}:location)}).some((problem)=>problem.path==='location.gate.exits'));
+
+const swamp=createSwampTestArea(starter,'gate');
+assert.ok(swamp);
+assert.equal(starter.levels.length,1,'preset must leave the source project untouched');
+assert.equal(swamp.game.levels.find((level)=>level.id===swamp.levelId)?.biome,'swamp');
+const swampCells=swamp.game.locations.filter((cell)=>cell.levelId===swamp.levelId);
+assert.equal(swampCells.length,25);
+assert.deepEqual(validateGame(swamp.game),[]);
+const entrance=swampCells.find((cell)=>cell.id===swamp.entranceId);
+assert.ok(entrance);
+assert.ok(canTravel(swamp.game.locations,entrance,'north'),'vegetation does not block travel');
+assert.ok(canTravel(swamp.game.locations,entrance,'east'),'all four cardinal links are authored where cells exist');
+assert.equal(swamp.game.portals.at(-1)?.toLocationId,entrance.id);
+const seen=visibleOutdoorCells(swamp.game.locations,entrance,'north');
+assert.ok(seen.some(({location,depth,lateral})=>location.x===2&&location.y===1&&depth===3&&lateral===0));
+assert.ok(seen.some(({location,depth,lateral})=>location.x===4&&location.y===3&&depth===1&&lateral===2));
+assert.equal(visibleOutdoorCells(swamp.game.locations,entrance,'south').every(({location})=>location.levelId===swamp.levelId),true);
 
 assert.equal(assetCatalogGroup('Ishar2/VHOUSE1.IO · ALIS #0'),'houses');
 assert.equal(assetCatalogGroup('[COMPOSITE] Ishar2/VHOUSE2.IO · ALIS #44'),'houses');

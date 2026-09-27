@@ -4,6 +4,7 @@ import { useKit } from "@/lib/store";
 import { useAssetPack } from "@/lib/asset-store";
 import { DIRECTION_LABELS, DIRECTION_VECTORS, locationAt } from "@/lib/ishar/dungeon";
 import { createRoomBlock } from "@/lib/ishar/room-builder";
+import { createSwampTestArea } from "@/lib/ishar/swamp-area";
 import { assetCatalogGroup } from "@/lib/ishar/asset-catalog";
 import { validateGame } from "@/lib/ishar/project-validation";
 import type { AuthoredDoor, AuthoredGame, AuthoredLevel, AuthoredLocation, Direction } from "@/lib/ishar/types";
@@ -101,6 +102,7 @@ function AuthorPage() {
     return path.includes("OBJET.IO") || asset.suggestedRole==="item";
   });
   const houseAssets=(pack?.discoveredAssets??[]).filter((asset)=>assetCatalogGroup(asset.path)==="houses" && asset.visualStatus==="normal");
+  const plantAssets=(pack?.discoveredAssets??[]).filter((asset)=>asset.source==="alis" && asset.visualStatus==="normal" && /(?:ARBO|FORET1|PLAINE1)\.IO · ALIS #/i.test(asset.path) && (asset.width??0)>=16 && (asset.height??0)>=10);
 
   function applyDistanceSet(itemId: string, setId: string) {
     const members=(pack?.discoveredAssets ?? []).filter((asset)=>asset.distanceSetId===setId);
@@ -214,6 +216,16 @@ function AuthorPage() {
     setBuilderMessage(`${name} angelegt${portal.length ? " und mit dem ausgewählten Feld verbunden" : ""}.`);
   }
 
+  function addSwampTestArea(){
+    if(!selectedLocation) return;
+    const result=createSwampTestArea(game,selectedLocation.id);
+    if(!result) return;
+    setGame(result.game);
+    setSelectedLevelId(result.levelId);
+    setSelectedLocationId(result.entranceId);
+    setBuilderMessage("Sumpf-Testgebiet mit 25 frei verbundenen Feldern angelegt. Der Übergang liegt am zuvor ausgewählten Feld.");
+  }
+
   function patchLevel(patch:Partial<AuthoredLevel>){
     setGame({...game,levels:game.levels.map((level)=>level.id===selectedLevel.id ? {...level,...patch} : level)});
   }
@@ -262,8 +274,10 @@ function AuthorPage() {
       <label>Aktives Level<select value={selectedLevel.id} onChange={(event)=>{const id=event.target.value;setSelectedLevelId(id);setSelectedLocationId(game.locations.find((location)=>(location.levelId || "level-1")===id)?.id || "");setBuilderMessage("");}}>{game.levels.map((level)=><option key={level.id} value={level.id}>{level.name}</option>)}</select></label>
       <label>Name<input value={selectedLevel.name} onChange={(event)=>patchLevel({name:event.target.value})}/></label>
       <label>Typ<select value={selectedLevel.kind} onChange={(event)=>patchLevel({kind:event.target.value as AuthoredLevel["kind"]})}><option value="dungeon">Dungeon</option><option value="house">Haus / Innenraum</option><option value="outdoor">Oberwelt</option></select></label>
+      {selectedLevel.kind==="outdoor" && <label>Landschaft<select value={selectedLevel.biome||""} onChange={(event)=>patchLevel({biome:event.target.value==="swamp" ? "swamp" : undefined})}><option value="">Allgemeine Außenwelt</option><option value="swamp">Sumpf · Testszene</option></select></label>}
       <label>Asset-Set<select value={selectedLevel.tilesetId || ""} onChange={(event)=>patchLevel({tilesetId:event.target.value || undefined})}><option value="">Pack-Standard</option>{pack?.manifest.tilesets.map((tileset)=><option key={tileset.id} value={tileset.id}>{tileset.name}</option>)}</select></label>
       <div className="level-create"><label>Neues Level<select value={newLevelKind} onChange={(event)=>setNewLevelKind(event.target.value as AuthoredLevel["kind"])}><option value="dungeon">Dungeon</option><option value="house">Haus / Innenraum</option><option value="outdoor">Oberwelt</option></select></label><button onClick={()=>addLevel(newLevelKind)}>Level anlegen</button></div>
+      <button className="secondary" onClick={addSwampTestArea}>Sumpf-Testgebiet anlegen</button>
     </article>
 
     <div className="stats-grid file-stats">
@@ -318,7 +332,7 @@ function AuthorPage() {
           </div>
           <p className="muted">Die ausgewählte Zelle ist die nordwestliche Ecke. Raumflächen verbinden alle Nachbarfelder im Rechteck; dazwischen stehen keine Wände.</p>
           <div className="level-portals"><strong>Levelübergänge</strong>{game.portals.filter((portal)=>portal.fromLocationId===selectedLocation.id || portal.toLocationId===selectedLocation.id).map((portal)=>{const targetId=portal.fromLocationId===selectedLocation.id ? portal.toLocationId : portal.fromLocationId;const target=game.locations.find((location)=>location.id===targetId);return <p key={portal.id}>{portal.label} → {target?.name ?? targetId} <button className="secondary" onClick={()=>setGame({...game,portals:game.portals.filter((entry)=>entry.id!==portal.id)})}>Entfernen</button></p>})}<label>Mit anderem Level verbinden<select defaultValue="" onChange={(event)=>{const to=event.target.value;if(!to)return;const id=`portal-${Date.now()}`;const target=game.locations.find((location)=>location.id===to);setGame({...game,portals:[...game.portals,{id,fromLocationId:selectedLocation.id,toLocationId:to,label:`Nach ${target?.name ?? to}`}]});event.target.value="";}}><option value="">Zielort wählen</option>{game.locations.filter((location)=>(location.levelId || "level-1")!==(selectedLocation.levelId || "level-1")).map((location)=><option key={location.id} value={location.id}>{game.levels.find((level)=>level.id===(location.levelId || "level-1"))?.name}: {location.name}</option>)}</select></label></div>
-          {selectedLocation.sceneKind==="outdoor" && <div className="room-surface-picker"><label>Haus-/Kulissengrafik<select value={selectedLocation.sceneryAssetId??""} onChange={(event)=>patchLocation(selectedLocation.id,{sceneryAssetId:event.target.value||undefined})}><option value="">Offene Landschaft ohne Haus</option>{houseAssets.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}</select></label>{selectedLocation.sceneryAssetId && <div className="surface-preview"><img src={assetById(selectedLocation.sceneryAssetId)?.url} alt="Ausgewählte Kulisse"/><code>{assetById(selectedLocation.sceneryAssetId)?.path}</code></div>}</div>}
+          {selectedLocation.sceneKind==="outdoor" && <div className="room-surface-picker"><label>Kulisse / Bewuchs<select value={selectedLocation.sceneryAssetId??""} onChange={(event)=>patchLocation(selectedLocation.id,{sceneryAssetId:event.target.value||undefined})}><option value="">Automatischer Bewuchs (Sumpf) / freie Landschaft</option><optgroup label="Häuser">{houseAssets.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}</optgroup><optgroup label="Pflanzen und Gelände">{plantAssets.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}</optgroup></select></label>{selectedLocation.sceneryAssetId && <div className="surface-preview"><img src={assetById(selectedLocation.sceneryAssetId)?.url} alt="Ausgewählte Kulisse"/><code>{assetById(selectedLocation.sceneryAssetId)?.path}</code></div>}</div>}
           {pack && <div className="room-surface-picker">
             <div className="surface-picker-head"><strong>Raum-Oberflächen</strong><span>{terrainCandidates.length ? terrainCandidates.length+" echte Terrain-Texturen" : textureCandidates.length+" ALIS-Fallbacks"}</span></div>
             <label className="surface-search">Asset-Suche

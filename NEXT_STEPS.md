@@ -225,3 +225,10 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 1. Compare the room/corridor side niche now drawn from DJ1 #71/#72 with original Ishar 2 footage or script draw calls at depths 1/2; the mapping is still a CK reconstruction. Check left-mirrored and DJ2 counterparts separately.
 2. Determine from original map data whether empty/blocked grid cells separate corridors and rooms. Do not convert the current traversable authored exits to blocked cells solely from the visual hypothesis.
 3. Continue the original closed-door leaf search; a stone niche does not establish door-panel pixels or door-state behavior.
+
+## 2026-09-28 — Swamp slice and rejected side niche
+
+1. The user confirmed DJ1 #71 still is **not** the correct side-door texture. Treat its current room-boundary assignment as provisional; trace the original side draw path before another replacement.
+2. Compare the new playable swamp preset against Ishar 2 footage. Its use of original `FOND1/PLAINE1/ARBO/FORET1` pixels is verified by extraction, while composition, placement and palette state are CK heuristics.
+3. Extend outdoor authoring beyond the 5×5 test area: authored visibility blockers and passable vegetation should be separate properties, and larger maps need level-specific materials and backdrop choices.
+4. Keep the user-reported three dungeon visual families separate until their exact `.IO` module and level associations are established.
