@@ -206,6 +206,32 @@ function renderRectAsset(
   </g>;
 }
 
+function FallbackDoor({x,y,width,height,grille}: {x:number;y:number;width:number;height:number;grille:boolean}) {
+  // The original closed leaves have not been recovered from the ALIS resources.
+  // These two silhouettes follow the visible DJ1/DJ2 playthrough references only.
+  const arch=Math.min(height*0.19,width*0.28);
+  const outline=`M ${x} ${y+height} V ${y+arch} Q ${x+width/2} ${y-arch*0.55} ${x+width} ${y+arch} V ${y+height} Z`;
+  const clipId=`fallback-door-${grille?"grille":"planks"}-${Math.round(width)}-${Math.round(height)}`;
+  return <g className="fallback-door">
+    <defs><clipPath id={clipId}><path d={outline}/></clipPath></defs>
+    <g clipPath={`url(#${clipId})`}>
+      <rect x={x} y={y} width={width} height={height} fill="#100c09"/>
+      {grille ? <>
+        {Array.from({length:9},(_,i)=> <rect key={`v-${i}`} x={x+width*(i+0.45)/9} y={y} width={Math.max(2,width*0.045)} height={height} fill="#493326" stroke="#1b130f" strokeWidth="1"/>)}
+        {[0.23,0.48,0.73].map((f)=><rect key={`h-${f}`} x={x} y={y+height*f} width={width} height={Math.max(3,height*0.045)} fill="#4d3526" stroke="#1b130f" strokeWidth="1"/>)}
+      </> : <>
+        {Array.from({length:9},(_,i)=> <g key={i}>
+          <rect x={x+width*i/9+1} y={y} width={Math.max(1,width/9-2)} height={height} fill={i%2 ? "#3a2313" : "#52331c"}/>
+          <path d={`M ${x+width*i/9+3} ${y} V ${y+height}`} stroke="#8d6238" strokeWidth="1" opacity=".7"/>
+        </g>)}
+        {[0.36,0.72].map((f)=><rect key={f} x={x} y={y+height*f} width={width} height={Math.max(2,height*0.024)} fill="#26180e" opacity=".8"/>)}
+        <path d={`M ${x+width/2} ${y} V ${y+height}`} stroke="#120c08" strokeWidth="3"/>
+      </>}
+    </g>
+    <path d={outline} fill="none" stroke="#24170e" strokeWidth="2"/>
+  </g>;
+}
+
 export function DungeonViewport({ game, location, facing, encounter, encounterDone, collectedItemIds, pack, openDoors }: {
   game: AuthoredGame;
   location: AuthoredLocation;
@@ -264,10 +290,8 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         {rightOpen && renderAsset(pack, "opening.right", depth as DungeonAssetDepth, cell.tilesetId)}
         {!forward && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"rect",x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, "wall-front") ?? renderRectAsset(pack, "wall.front", {x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, cell.tilesetId))}
         {forwardDoor && !forwardDoorOpen && renderRectAsset(pack, "door.front.closed", {x:inner.l+12,y:inner.t+4,width:Math.max(20,inner.r-inner.l-24),height:Math.max(30,inner.b-inner.t-8)}, depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id)}
-        {forwardDoor && !forwardDoorOpen && !assetFor(pack, "door.front.closed", depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id) && <g className="fallback-door">
-          <rect x={inner.l + 12} y={inner.t + 4} width={Math.max(20, inner.r-inner.l-24)} height={Math.max(30, inner.b-inner.t-8)} rx="2" style={{fill:"url(#fallback-door-panel)"}}/>
-          <circle cx={(inner.l+inner.r)/2+(inner.r-inner.l)*0.09} cy={(inner.t+inner.b)/2} r="4"/>
-        </g>}
+        {forwardDoor && !forwardDoorOpen && !assetFor(pack, "door.front.closed", depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id) &&
+          <FallbackDoor x={inner.l+12} y={inner.t+4} width={Math.max(20,inner.r-inner.l-24)} height={Math.max(30,inner.b-inner.t-8)} grille={sceneTileset?.id==="ishar2-dj2"}/>}
         {forwardDoor && renderAsset(pack,"door.front.open",depth as DungeonAssetDepth,cell.tilesetId,forwardDoor.id)}
       </g>
     );
@@ -287,10 +311,6 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
   return <div className="dungeon-viewport" style={{aspectRatio:String(viewportAspect)}} data-render-profile={renderProfile.id}>
     <svg viewBox="0 0 640 400" preserveAspectRatio="none" aria-label={`Blick nach ${DIRECTION_LABELS[facing]}`}>
       <defs>
-        <pattern id="fallback-door-panel" width="20" height="80" patternUnits="userSpaceOnUse">
-          <rect width="20" height="80" fill="#49321e"/>
-          <path d="M1 0V80M18 0V80M4 0L7 22L5 53L8 80" fill="none" stroke="#2c1d11" strokeWidth="1"/>
-        </pattern>
         <pattern id="fallback-wall-pattern" width="56" height="34" patternUnits="userSpaceOnUse">
           <rect width="56" height="34" className="fallback-stone-base"/>
           <path d="M0 1H56M0 17H56M0 33H56M28 1V17M14 17V33M42 17V33" className="fallback-stone-line"/>

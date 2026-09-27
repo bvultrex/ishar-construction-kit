@@ -180,3 +180,13 @@ open skull passage assembled by `DJ2.IO #51` with the matching `#26` skull
 component. This corroborates the open-surround role, not a closed leaf. Find
 an unmistakably closed original dungeon door and its matching archive resource
 before replacing the procedural closed panel. See DUNGEON_ASSET_EVIDENCE.md.
+
+2026-09-27 closed-door checkpoint: original closed silhouettes are now visible
+at part 31, 0:10 (DJ1 vertical slats under carved arch) and part 22, 3:33–3:40
+(DJ2 barred gate below skull). The playtest fallback now reflects these distinct
+shapes, but remains a reconstruction. The DJ1/DJ2 graphic tables have no
+matching standalone leaf. Trace the actual script/runtime draw path or inspect
+remaining modules before mapping any resource to `door.front.closed`. In
+particular, determine whether another module is loaded at the lock state and
+whether the bars are assembled from small primitives. See
+DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
