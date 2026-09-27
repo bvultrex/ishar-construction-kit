@@ -8,6 +8,7 @@ import { extractAlisIndexedImages, type AlisCompositeResource, type AlisIndexedI
 import type { DungeonAssetEntry, DungeonAssetManifest, DungeonAssetRole, FileRecord, GameId } from "./types";
 import { renderProfileForGame } from "./render-profile";
 import { detectAlisDistanceSets } from "./distance-sets";
+import { assetCatalogGroup } from "./asset-catalog";
 
 export interface IsharDefaultAssignment {
   role: DungeonAssetRole;
@@ -980,6 +981,9 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     const at=a.assetKind==="terrain" ? 1 : 0;
     const bt=b.assetKind==="terrain" ? 1 : 0;
     if (at !== bt) return bt-at;
+    const al=["houses","ui","font"].includes(assetCatalogGroup(`${a.sourcePath} · ALIS #${a.entryIndex}`)) ? 1 : 0;
+    const bl=["houses","ui","font"].includes(assetCatalogGroup(`${b.sourcePath} · ALIS #${b.entryIndex}`)) ? 1 : 0;
+    if(al!==bl) return bl-al;
     const af=isFlatColorImage(a) ? 1 : 0;
     const bf=isFlatColorImage(b) ? 1 : 0;
     return af-bf;
@@ -988,7 +992,8 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     const imageDefaults=defaultsByImage.get(defaultChoiceKey(image.sourcePath,image.entryIndex)) ?? [];
     const forceForDefault=imageDefaults.length>0;
     const forceTerrain=image.assetKind==="terrain";
-    if(!forceForDefault && !forceTerrain && (alisPreviewCount>=MAX_ALIS_IMAGES || alisPixelCount+image.width*image.height>MAX_ALIS_PIXELS)){
+    const forceForLibrary=["houses","ui","font"].includes(assetCatalogGroup(`${image.sourcePath} · ALIS #${image.entryIndex}`));
+    if(!forceForDefault && !forceTerrain && !forceForLibrary && (alisPreviewCount>=MAX_ALIS_IMAGES || alisPixelCount+image.width*image.height>MAX_ALIS_PIXELS)){
       alisImagesSkippedForBudget++;
       continue;
     }
@@ -1102,7 +1107,11 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     urls[id]=URL.createObjectURL(blob);paths[id]=entry.file;sceneEntries.get(tilesetId)!.push(entry);
   }
   let alisCompositePreviews=0;
-  for(const composite of alisComposites.slice(0,500)){
+  const orderedComposites=[...alisComposites].sort((a,b)=>{
+    const priority=(entry:AlisCompositeResource)=>["houses","ui","font"].includes(assetCatalogGroup(`${entry.sourcePath} · ALIS #${entry.entryIndex}`)) ? 1 : 0;
+    return priority(b)-priority(a);
+  });
+  for(const composite of orderedComposites.slice(0,500)){
     const rendered=await compositeToPngBlob(composite,alisImageMap,alisCompositeMap);
     if(!rendered) continue;
     const id=safeId(composite.sourcePath)+"-composite-"+composite.entryIndex;
@@ -1215,7 +1224,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   };
 
   const pack: LoadedAssetPack={
-    sceneLayoutVersion:7,
+    sceneLayoutVersion:8,
     manifest,
     urls,
     paths,

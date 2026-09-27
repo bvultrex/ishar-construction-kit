@@ -190,3 +190,9 @@ palette banks. The global MAIN placeholder palette is no longer applied to
 scene graphics. Actual ZIP import and composite previews were checked locally;
 the 2,244-image corpus went from 1,416 to 18 red-diagnostic matches, with remaining
 red effects visually reviewed. Details and confidence limits are in AUDIT.md.
+
+## 2026-09-27 — World builder and discovered graphic groups
+
+Asset Lab now exposes the full saved preview catalogue with filtering and pagination. The local Ishar 2 import includes `VHOUSE1/2.IO` house graphics, `FRISE.IO` UI graphics and `MAIN.IO` glyph sprites. `DJFONT.IO` contains hanging lamps despite its name. Original data stays local in the browser.
+
+Builder supports connected rectangular room blocks (2×2–5×5) and wall-free outdoor cells with optional house scenery. Playtest renders room wall materials and outdoor sky/ground; the original Ishar camera and outdoor compositing are not yet established. Side branch recesses now show a fitted wall backing instead of a black see-through area, as a provisional CK rendering rule. The original UI action/life sprites are in the party strip; font decoding and complete HUD reconstruction are open. See HANDOFF.md for browser validation and NEXT_STEPS.md for evidence priorities.

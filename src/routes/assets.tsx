@@ -5,6 +5,7 @@ import { autoImportIsharZip, type IsharAutoImportReport } from "@/lib/ishar/isha
 import { useAssetPack } from "@/lib/asset-store";
 import { useKit } from "@/lib/store";
 import { mapIsharAssetSources } from "@/lib/ishar/ishar-assets";
+import { ASSET_CATALOG_GROUPS, assetCatalogGroup, assetCatalogUse, type AssetCatalogGroup } from "@/lib/ishar/asset-catalog";
 import type { DungeonAssetEntry, DungeonAssetRole } from "@/lib/ishar/types";
 
 export const Route = createFileRoute("/assets")({ component: AssetsPage });
@@ -16,6 +17,9 @@ function AssetsPage() {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [autoReport, setAutoReport] = useState<IsharAutoImportReport | null>(null);
+  const [catalogGroup,setCatalogGroup]=useState<AssetCatalogGroup>("all");
+  const [catalogQuery,setCatalogQuery]=useState("");
+  const [catalogPage,setCatalogPage]=useState(0);
 
   function activatePack(next: ReturnType<typeof createDemoAssetPack>) {
     setPack(next);
@@ -134,6 +138,15 @@ function AssetsPage() {
     if(af!==bf) return af-bf;
     return Number(b.runtimeAssigned)-Number(a.runtimeAssigned);
   });
+  const filteredAssets=displayedAssets.filter((asset)=>{
+    if(catalogGroup!=="all" && assetCatalogGroup(asset.path)!==catalogGroup) return false;
+    const query=catalogQuery.trim().toLowerCase();
+    return !query || `${asset.path} ${asset.knownUse??""} ${assetCatalogUse(asset.path)??""} ${asset.suggestedRole??""}`.toLowerCase().includes(query);
+  });
+  const catalogPageSize=120;
+  const catalogPageCount=Math.max(1,Math.ceil(filteredAssets.length/catalogPageSize));
+  const visibleCatalogPage=Math.min(catalogPage,catalogPageCount-1);
+  const catalogAssets=filteredAssets.slice(visibleCatalogPage*catalogPageSize,(visibleCatalogPage+1)*catalogPageSize);
 
   return <section>
     {cacheStatus && <p role="status">{cacheStatus}</p>}
@@ -203,29 +216,35 @@ function AssetsPage() {
       {!!pack.discoveredAssets?.length && <section className="discovered-assets">
         <div className="map-card-head"><div><p className="eyebrow">Aus Originalarchiv extrahiert</p><h2>Gefundene Grafiken</h2></div><span className="audit-chip">{pack.discoveredAssets.length}</span></div>
         <p className="muted">Automatisch erkannte Kategorien werden markiert. Unklare Grafiken bleiben sichtbar, aber werden nicht blind in den Dungeon gerendert.</p>
-        <div className="asset-discovery-grid">{displayedAssets.slice(0,240).map((asset)=><article className={asset.assetKind==="terrain" ? "terrain-asset-card" : ""} key={asset.id}>
+        <div className="asset-catalog-controls">
+          <label>Gruppe<select value={catalogGroup} onChange={(event)=>{setCatalogGroup(event.target.value as AssetCatalogGroup);setCatalogPage(0);}}>{ASSET_CATALOG_GROUPS.map((group)=><option key={group.id} value={group.id}>{group.label}</option>)}</select></label>
+          <label>Suche<input value={catalogQuery} onChange={(event)=>{setCatalogQuery(event.target.value);setCatalogPage(0);}} placeholder="z. B. VHOUSE1.IO, FRISE.IO, MAIN.IO #50"/></label>
+          <span>{filteredAssets.length} Grafiken · Seite {visibleCatalogPage+1}/{catalogPageCount}</span>
+        </div>
+        <div className="asset-discovery-grid">{catalogAssets.map((asset)=><article className={asset.assetKind==="terrain" ? "terrain-asset-card" : ""} key={asset.id}>
           <img src={asset.url} alt=""/>
           <strong>{asset.assetKind==="terrain" ? "Terrain-Textur" : asset.assetKind==="composite" ? "Composite" : (asset.suggestedRole ?? "unzugeordnet")}</strong>
           <small>{asset.width && asset.height ? `${asset.width}×${asset.height} · ` : ""}{asset.assetKind==="terrain" ? "ALIS 0x1C/0x1E" : asset.assetKind==="composite" ? "ALIS 0xFF zusammengesetzt" : asset.source==="alis" ? "ALIS Sprite" : "Standardbild"}</small>
           <code title={asset.path}>{asset.path}</code>
           {asset.paletteLabel && <small>{asset.paletteLabel}</small>}
-          {asset.knownUse && <strong className="known-asset-use">{asset.knownUse}</strong>}
+          {(asset.knownUse||assetCatalogUse(asset.path)) && <strong className="known-asset-use">{asset.knownUse||assetCatalogUse(asset.path)}</strong>}
           {asset.distanceSetLabel && <small className="muted">Set: <strong>{asset.distanceSetLabel}</strong> · {asset.distanceConfidence==="verified" ? "verifiziert" : "heuristisch"}</small>}
           <div className="asset-card-badges">
+            <span className="badge confirmed">{ASSET_CATALOG_GROUPS.find((group)=>group.id===assetCatalogGroup(asset.path))?.label}</span>
             <span className={"badge " + (asset.assetKind==="terrain" || asset.assetKind==="composite" ? "confirmed" : asset.runtimeAssigned ? "confirmed" : asset.suggestedRole ? "suspected" : "unknown")}>{asset.assetKind==="terrain" ? "Terrain" : asset.assetKind==="composite" ? "Composite" : asset.runtimeAssigned ? "Runtime" : asset.suggestedRole ? "Vorschlag" : "prüfen"}</span>
             {asset.paletteStatus && <span className={"badge " + (asset.paletteStatus==="embedded" ? "confirmed" : "suspected")}>Palette: {asset.paletteStatus}</span>}
             {asset.distanceSetId && <span className={"badge " + (asset.distanceConfidence==="verified" ? "confirmed" : "suspected")}>Distanz: {asset.distanceRole==="near" ? "Nah" : asset.distanceRole==="mid" ? "Mittel" : "Fern"}</span>}
             {asset.visualStatus==="flat-color" && <span className="badge unknown">einfarbig / Maske?</span>}
             {asset.visualStatus==="palette-suspect" && <span className="badge suspected">Rotanteil prüfen</span>}
           </div>
-          {asset.assetKind==="composite" ? <small className="muted">{asset.runtimeAssigned ? "Im Playtest aktiv · zusammengesetzte Szenenebene. DJ1 und DJ2 sind unterschiedliche Varianten." : "Composite-Ressource aus referenzierten Einzelgrafiken; diese bleiben separat im Katalog. Keine kachelbare Oberfläche."}</small> : asset.visualStatus!=="flat-color" && asset.visualStatus!=="palette-suspect" ? <div className="asset-quick-map">
+          {asset.assetKind==="composite" ? <small className="muted">{asset.runtimeAssigned ? "Im Playtest aktiv · zusammengesetzte Szenenebene. DJ1 und DJ2 sind unterschiedliche Varianten." : "Composite-Ressource aus referenzierten Einzelgrafiken; diese bleiben separat im Katalog. Keine kachelbare Oberfläche."}</small> : ["houses","overworld","ui","font"].includes(assetCatalogGroup(asset.path)) ? <small className="muted">Im Katalog sichtbar; keine automatische Dungeon-Textur.</small> : asset.visualStatus!=="flat-color" && asset.visualStatus!=="palette-suspect" ? <div className="asset-quick-map">
             <button onClick={()=>assignPreview(asset,"dungeon-base")}>Basis</button>
             <button className="secondary" onClick={()=>assignPreview(asset,"wall.front")}>Wand</button>
             <button className="secondary" onClick={()=>assignPreview(asset,"surface.floor")}>Boden</button>
             <button className="secondary" onClick={()=>assignPreview(asset,"surface.ceiling")}>Decke</button>
           </div> : <small className="muted">Nicht als Dungeon-Basis angeboten, bis Palette/Maskenrolle geklärt ist.</small>}
         </article>)}</div>
-        {displayedAssets.length>240 && <p className="muted">Composites und belastbare Vorschauen werden zuerst angezeigt. Insgesamt sind {displayedAssets.length-240} weitere Vorschauen im Import erfasst.</p>}
+        {catalogPageCount>1 && <div className="asset-catalog-pages"><button className="secondary" disabled={visibleCatalogPage===0} onClick={()=>setCatalogPage(visibleCatalogPage-1)}>Vorherige Seite</button><span>Seite {visibleCatalogPage+1} von {catalogPageCount}</span><button className="secondary" disabled={visibleCatalogPage>=catalogPageCount-1} onClick={()=>setCatalogPage(visibleCatalogPage+1)}>Nächste Seite</button></div>}
       </section>}
 
       <div className="file-table-wrap"><table className="file-table"><thead><tr><th>Vorschau</th><th>ID</th><th>Rolle</th><th>Tiefe</th><th>Datei</th><th>Status</th></tr></thead><tbody>{entries.map((entry)=><tr key={entry.id}><td className="asset-preview-cell">{pack.urls[entry.id] ? <img src={pack.urls[entry.id]} alt=""/> : <span>—</span>}</td><td><code>{entry.id}</code></td><td>{entry.role}</td><td>{entry.depth ?? "global"}</td><td><code>{entry.file}</code></td><td><span className={"badge " + (pack.urls[entry.id] ? "confirmed" : "unknown")}>{pack.urls[entry.id] ? "geladen" : "fehlt"}</span></td></tr>)}</tbody></table></div>

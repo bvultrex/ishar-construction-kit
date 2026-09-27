@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useKit } from "@/lib/store";
 import { useAssetPack } from "@/lib/asset-store";
 import { DIRECTION_LABELS, DIRECTION_VECTORS, locationAt } from "@/lib/ishar/dungeon";
+import { createRoomBlock } from "@/lib/ishar/room-builder";
+import { assetCatalogGroup } from "@/lib/ishar/asset-catalog";
 import { validateGame } from "@/lib/ishar/project-validation";
 import type { AuthoredDoor, AuthoredGame, AuthoredLocation, Direction } from "@/lib/ishar/types";
 
@@ -46,9 +48,9 @@ function DungeonMap({ game, selectedId, onSelect }: { game: AuthoredGame; select
         onClick={()=>onSelect(loc.id)}
         onKeyDown={(event)=>{if(event.key==="Enter" || event.key===" "){event.preventDefault();onSelect(loc.id);}}}
       >
-        <rect x={-36} y={-31} width={72} height={62} rx={5} className={`map-cell ${start ? "start" : ""} ${loc.ending ? "ending" : ""} ${selected ? "selected" : ""}`}/>
+        <rect x={-36} y={-31} width={72} height={62} rx={5} className={`map-cell ${start ? "start" : ""} ${loc.ending ? "ending" : ""} ${selected ? "selected" : ""} ${loc.sceneKind ?? "corridor"}`}/>
         <text y={-5} textAnchor="middle" className="map-name">{loc.name.slice(0, 13)}</text>
-        <text y={14} textAnchor="middle" className="map-coord">{loc.x},{loc.y}</text>
+        <text y={14} textAnchor="middle" className="map-coord">{loc.x},{loc.y} · {loc.sceneKind==="outdoor" ? "Außen" : loc.sceneKind==="room" ? "Raum" : "Gang"}</text>
         {start && <text y={42} textAnchor="middle" className="map-facing">Start {DIRECTION_LABELS[game.startFacing]}</text>}
       </g>;
     })}
@@ -63,6 +65,8 @@ function AuthorPage() {
   const [selectedLocationId, setSelectedLocationId] = useState(game.startLocationId);
   const [builderMessage, setBuilderMessage] = useState("");
   const [surfaceSearch, setSurfaceSearch] = useState("");
+  const [roomWidth,setRoomWidth]=useState(2);
+  const [roomHeight,setRoomHeight]=useState(2);
   const selectedLocation = game.locations.find((location) => location.id === selectedLocationId) ?? game.locations[0];
   const allSurfaceCandidates = (pack?.discoveredAssets ?? []).filter((asset) => {
     if (asset.source !== "alis" || asset.assetKind === "composite" || asset.visualStatus !== "normal" || !asset.width || !asset.height) return false;
@@ -89,6 +93,7 @@ function AuthorPage() {
     const path=asset.path.toUpperCase();
     return path.includes("OBJET.IO") || asset.suggestedRole==="item";
   });
+  const houseAssets=(pack?.discoveredAssets??[]).filter((asset)=>assetCatalogGroup(asset.path)==="houses" && asset.visualStatus==="normal");
 
   function applyDistanceSet(itemId: string, setId: string) {
     const members=(pack?.discoveredAssets ?? []).filter((asset)=>asset.distanceSetId===setId);
@@ -157,6 +162,7 @@ function AuthorPage() {
       exits: [from.id],
       itemIds: [],
       tilesetId: from.tilesetId,
+      sceneKind:from.sceneKind==="outdoor" ? "outdoor" : "corridor",
       wallAssetId: from.wallAssetId,
       floorAssetId: from.floorAssetId,
       ceilingAssetId: from.ceilingAssetId,
@@ -172,6 +178,14 @@ function AuthorPage() {
     });
     setSelectedLocationId(id);
     setBuilderMessage(`"${next.name}" wurde ${DIRECTION_LABELS[direction]} von "${from.name}" angelegt und verbunden.`);
+  }
+
+  function addRoomBlock() {
+    if(!selectedLocation) return;
+    const result=createRoomBlock(game,selectedLocation.id,roomWidth,roomHeight);
+    if(!result.ok){setBuilderMessage(result.error);return;}
+    setGame(result.game);
+    setBuilderMessage(`${roomWidth}×${roomHeight}-Raumfläche mit ${result.createdIds.length+1} begehbaren Feldern angelegt. Innenkanten sind offen.`);
   }
 
   function setConnection(fromId: string, targetId: string, connected: boolean) {
@@ -209,7 +223,7 @@ function AuthorPage() {
 
   return <section>
     <header className="page-head">
-      <div><p className="eyebrow">Dungeon authoring</p><h1>Adventure Builder</h1><p>Baue ein kardinales Dungeon-Raster. X/Y-Positionen und beidseitige Verbindungen bestimmen die First-Person-Geometrie des Playtests.</p></div>
+      <div><p className="eyebrow">Welt und Dungeon bauen</p><h1>Adventure Builder</h1><p>Baue Gänge, zusammenhängende Raumflächen und offene Außenweltfelder im kardinalen Raster. Beidseitige Verbindungen bestimmen die Bewegung.</p></div>
       <div className="toolbar"><Link className="file-button" to="/playtest">Dungeon betreten</Link><Link className="file-button" to="/assets">Asset Lab</Link><button className="secondary" onClick={addDoor}>Tür hinzufügen</button></div>
     </header>
 
@@ -256,6 +270,14 @@ function AuthorPage() {
             <label>Startfeld<select value={game.startLocationId} onChange={(e)=>setGame({...game,startLocationId:e.target.value})}>{game.locations.map(l=><option key={l.id} value={l.id}>{l.name} ({l.x},{l.y})</option>)}</select></label>
             <label>Blickrichtung<select value={game.startFacing} onChange={(e)=>setGame({...game,startFacing:e.target.value as Direction})}><option value="north">Norden</option><option value="east">Osten</option><option value="south">Süden</option><option value="west">Westen</option></select></label>
           </div>
+          <div className="room-build-controls">
+            <label>Szenentyp<select value={selectedLocation.sceneKind??"corridor"} onChange={(event)=>patchLocation(selectedLocation.id,{sceneKind:event.target.value as AuthoredLocation["sceneKind"],roomGroupId:event.target.value==="room" ? selectedLocation.roomGroupId : undefined})}><option value="corridor">Gang</option><option value="room">Raum</option><option value="outdoor">Außenwelt · ohne Wände</option></select></label>
+            <label>Breite<input type="number" min="2" max="5" value={roomWidth} onChange={(event)=>setRoomWidth(Number(event.target.value))}/></label>
+            <label>Tiefe<input type="number" min="2" max="5" value={roomHeight} onChange={(event)=>setRoomHeight(Number(event.target.value))}/></label>
+            <button onClick={addRoomBlock}>Raumfläche anlegen</button>
+          </div>
+          <p className="muted">Die ausgewählte Zelle ist die nordwestliche Ecke. Raumflächen verbinden alle Nachbarfelder im Rechteck; dazwischen stehen keine Wände.</p>
+          {selectedLocation.sceneKind==="outdoor" && <div className="room-surface-picker"><label>Haus-/Kulissengrafik<select value={selectedLocation.sceneryAssetId??""} onChange={(event)=>patchLocation(selectedLocation.id,{sceneryAssetId:event.target.value||undefined})}><option value="">Offene Landschaft ohne Haus</option>{houseAssets.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}</select></label>{selectedLocation.sceneryAssetId && <div className="surface-preview"><img src={assetById(selectedLocation.sceneryAssetId)?.url} alt="Ausgewählte Kulisse"/><code>{assetById(selectedLocation.sceneryAssetId)?.path}</code></div>}</div>}
           {pack && <div className="room-surface-picker">
             <div className="surface-picker-head"><strong>Raum-Oberflächen</strong><span>{terrainCandidates.length ? terrainCandidates.length+" echte Terrain-Texturen" : textureCandidates.length+" ALIS-Fallbacks"}</span></div>
             <label className="surface-search">Asset-Suche

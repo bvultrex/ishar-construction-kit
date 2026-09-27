@@ -190,3 +190,11 @@ remaining modules before mapping any resource to `door.front.closed`. In
 particular, determine whether another module is loaded at the lock state and
 whether the bars are assembled from small primitives. See
 DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
+
+## 2026-09-27 — World and interface priorities
+
+1. Compare side branches at near/mid/far distances with original gameplay and trace the relevant DJ1 drawing calls. Current branch backing is a documented CK heuristic; prove or replace it with the original scene assembly.
+2. Extend wall-free outdoor cells into coherent maps with outdoor-specific navigation, backdrop selection and distance placement of `VHOUSE1/2.IO` facades. Current outdoor renderer displays a selected facade in the current cell only.
+3. Refine room camera for multi-cell spaces, including visible internal openings, floor/ceiling continuity and doors on room boundaries. Current 2×2–5×5 topology and wall suppression are functional but visual projection is a CK approximation.
+4. Map `FRISE.IO` HUD parts and `MAIN.IO` glyph encoding against original video/source evidence. Action/life strips are integrated; the full HUD and bitmap font remain incomplete.
+5. Continue searching for an actual closed-door leaf/animation; the current door silhouettes remain procedural despite matching video references.

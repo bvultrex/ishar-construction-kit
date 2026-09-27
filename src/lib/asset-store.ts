@@ -43,7 +43,7 @@ export const useAssetPack = create<AssetPackState>((set,get)=>({
         set({cacheStatus:"Lokale Assets werden geladen …"});
         let pack=await readCachedPack();
         if(pack && version===revision) set({pack});
-        if((!pack || (pack.sceneLayoutVersion??0)<7) && version===revision && location.hostname==="127.0.0.1") {
+        if((!pack || (pack.sceneLayoutVersion??0)<8) && version===revision && location.hostname==="127.0.0.1") {
           const source=await fetch("/__local/ishar-source");
           if(source.ok && source.headers.get("content-type")?.includes("application/zip")) {
             set({cacheStatus:"Lokales Ishar-Archiv wird automatisch geladen …"});
@@ -68,7 +68,7 @@ export const useAssetPack = create<AssetPackState>((set,get)=>({
               }).concat([...oldPreviews.values()]);
               const keep=new Set([...Object.values(urls),...discoveredAssets.map(asset=>asset.url)]);
               for(const url of new Set([...Object.values(result.pack.urls),...(result.pack.discoveredAssets??[]).map(a=>a.url)])) if(!keep.has(url)) URL.revokeObjectURL(url);
-              pack={...pack,urls,paths,discoveredAssets,manifest:{...pack.manifest,tilesets},sceneLayoutVersion:7};
+              pack={...pack,urls,paths,discoveredAssets,manifest:{...pack.manifest,tilesets},sceneLayoutVersion:8};
             } else pack=result.pack;
             if(version===revision) {
               const kit=useKit.getState();

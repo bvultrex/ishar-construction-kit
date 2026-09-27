@@ -1,4 +1,4 @@
-import { DUNGEON_FRAMES as FRAMES, DUNGEON_NATIVE_FRAMES } from "@/lib/ishar/dungeon-scenes";
+import { DUNGEON_FRAMES as FRAMES, DUNGEON_NATIVE_FRAMES, DUNGEON_ROOM_FRAMES } from "@/lib/ishar/dungeon-scenes";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useKit } from "@/lib/store";
@@ -206,6 +206,52 @@ function renderRectAsset(
   </g>;
 }
 
+function renderSidePassage(
+  pack: LoadedAssetPack | null,
+  depth: DungeonAssetDepth,
+  side: "left" | "right",
+  tilesetId: string | undefined,
+  outer: {l:number;t:number;r:number;b:number},
+  inner: {l:number;t:number;r:number;b:number},
+) {
+  const near=side==="left" ? outer.l+10 : outer.r-10;
+  const far=side==="left" ? inner.l-8 : inner.r+8;
+  const topNear=outer.t+40, topFar=inner.t+25;
+  const bottomNear=outer.b-40, bottomFar=inner.b-25;
+  const shape=[[near,topNear],[far,topFar],[far,bottomFar],[near,bottomNear]];
+  const clipId=`side-passage-${side}-${depth}`;
+  const x=Math.min(near,far), width=Math.abs(far-near);
+  const y=Math.min(topNear,topFar), height=Math.max(bottomNear,bottomFar)-y;
+  const back=assetFor(pack,"wall.front",Math.min(depth+1,3) as DungeonAssetDepth,tilesetId);
+  return <g className="side-passage">
+    <defs><clipPath id={clipId}><polygon points={points(shape)}/></clipPath></defs>
+    <g clipPath={`url(#${clipId})`}>
+      <rect x={x} y={y} width={width} height={height} fill="#3b291a"/>
+      {back && <image href={back.url} x={x} y={y} width={width} height={height} preserveAspectRatio="none" opacity=".82"/>}
+      <path d={`M ${near} ${bottomNear} L ${far} ${bottomFar} L ${far} ${bottomFar+22} L ${near} ${bottomNear+38} Z`} fill="#21190f" opacity=".7"/>
+    </g>
+  </g>;
+}
+
+function renderRoomWall(
+  pack: LoadedAssetPack | null,
+  polygon: number[][],
+  depth: DungeonAssetDepth,
+  tilesetId: string | undefined,
+  part: string,
+) {
+  const wall=assetFor(pack,"wall.front",depth,tilesetId);
+  if(!wall) return null;
+  const xs=polygon.map(point=>point[0]!);
+  const ys=polygon.map(point=>point[1]!);
+  const x=Math.min(...xs), y=Math.min(...ys);
+  const clipId=`room-wall-${part}-${depth}`;
+  return <g>
+    <defs><clipPath id={clipId}><polygon points={points(polygon)}/></clipPath></defs>
+    <image href={wall.url} x={x} y={y} width={Math.max(...xs)-x} height={Math.max(...ys)-y} preserveAspectRatio="none" clipPath={`url(#${clipId})`}/>
+  </g>;
+}
+
 function FallbackDoor({x,y,width,height,grille}: {x:number;y:number;width:number;height:number;grille:boolean}) {
   // The original closed leaves have not been recovered from the ALIS resources.
   // These two silhouettes follow the visible DJ1/DJ2 playthrough references only.
@@ -246,17 +292,21 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
   const viewportAspect=displayAspect(renderProfile);
   const sceneTileset=pack?.manifest.tilesets.find(t=>t.id===location.tilesetId)
     ?? pack?.manifest.tilesets.find(t=>t.id===pack.manifest.defaultTilesetId);
-  const nativeScene=(pack?.sceneLayoutVersion??0)>=4 && /^ishar2-dj[12]$/.test(sceneTileset?.id??"");
-  const frames=nativeScene ? DUNGEON_NATIVE_FRAMES : FRAMES;
+  const outdoor=location.sceneKind==="outdoor";
+  const roomScene=location.sceneKind==="room";
+  const nativeScene=!outdoor && !roomScene && (pack?.sceneLayoutVersion??0)>=4 && /^ishar2-dj[12]$/.test(sceneTileset?.id??"");
+  const frames=nativeScene ? DUNGEON_NATIVE_FRAMES : roomScene ? DUNGEON_ROOM_FRAMES : FRAMES;
   const segments: React.ReactNode[] = [];
   const itemLayers: React.ReactNode[] = [];
   let cell: AuthoredLocation | undefined = location;
 
-  for (let depth = 0; depth < 4 && cell; depth++) {
+  for (let depth = 0; depth < 4 && cell && !outdoor; depth++) {
     const outer = frames[depth]!;
     const inner = frames[depth + 1]!;
     const leftOpen = !!canTravel(game.locations, cell, turnLeft(facing));
     const rightOpen = !!canTravel(game.locations, cell, turnRight(facing));
+    const leftRoomOpen=!!cell.roomGroupId && cell.sceneKind==="room" && canTravel(game.locations,cell,turnLeft(facing))?.roomGroupId===cell.roomGroupId;
+    const rightRoomOpen=!!cell.roomGroupId && cell.sceneKind==="room" && canTravel(game.locations,cell,turnRight(facing))?.roomGroupId===cell.roomGroupId;
     const forward = canTravel(game.locations, cell, facing);
     const forwardDoor = forward ? doorBetween(game.doors, cell, forward) : undefined;
     const forwardDoorOpen = !forwardDoor || openDoors.includes(forwardDoor.id);
@@ -273,8 +323,8 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
       <g key={`segment-${depth}`} className={`dungeon-depth depth-${depth}`}>
         <polygon className="dungeon-ceiling" fill="url(#fallback-ceiling-pattern)" points={points([[outer.l,outer.t],[outer.r,outer.t],[inner.r,inner.t],[inner.l,inner.t]])}/>
         <polygon className="dungeon-floor" fill="url(#fallback-floor-pattern)" points={points([[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]])}/>
-        <polygon className="dungeon-wall side-left" fill="url(#fallback-wall-pattern)" points={points([[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]])}/>
-        <polygon className="dungeon-wall side-right" fill="url(#fallback-wall-pattern)" points={points([[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]])}/>
+        {!leftRoomOpen && <polygon className="dungeon-wall side-left" fill="url(#fallback-wall-pattern)" points={points([[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]])}/>}
+        {!rightRoomOpen && <polygon className="dungeon-wall side-right" fill="url(#fallback-wall-pattern)" points={points([[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]])}/>}
         {!forward && <>
           <rect className="dungeon-back-wall" fill="url(#fallback-wall-pattern)" x={inner.l} y={inner.t} width={inner.r-inner.l} height={inner.b-inner.t}/>
           <line className="dungeon-mortar" x1={inner.l} y1={(inner.t+inner.b)/2} x2={inner.r} y2={(inner.t+inner.b)/2}/>
@@ -282,17 +332,19 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         </>}
         {renderDiscoveredTexture(pack, cell.ceilingAssetId, {kind:"polygon",points:[[outer.l,outer.t],[outer.r,outer.t],[inner.r,inner.t],[inner.l,inner.t]]}, depth as DungeonAssetDepth, "ceiling") ?? renderPolygonAsset(pack, "surface.ceiling", [[outer.l,outer.t],[outer.r,outer.t],[inner.r,inner.t],[inner.l,inner.t]], depth as DungeonAssetDepth, cell.tilesetId)}
         {renderDiscoveredTexture(pack, cell.floorAssetId, {kind:"polygon",points:[[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]]}, depth as DungeonAssetDepth, "floor") ?? renderPolygonAsset(pack, "surface.floor", [[outer.l,outer.b],[inner.l,inner.b],[inner.r,inner.b],[outer.r,outer.b]], depth as DungeonAssetDepth, cell.tilesetId)}
-        {!leftOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]]}, depth as DungeonAssetDepth, "wall-left") ?? renderPolygonAsset(pack, "wall.left", [[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]], depth as DungeonAssetDepth, cell.tilesetId))}
-        {!rightOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]]}, depth as DungeonAssetDepth, "wall-right") ?? renderPolygonAsset(pack, "wall.right", [[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]], depth as DungeonAssetDepth, cell.tilesetId))}
-        {leftOpen && <polygon className={`dungeon-opening ${nativeScene && assetFor(pack,"opening.left",depth as DungeonAssetDepth,cell.tilesetId) ? "native-opening" : "side-opening"}`} points={points([[outer.l+5,outer.t+34],[inner.l-2,inner.t+20],[inner.l-2,inner.b-20],[outer.l+5,outer.b-34]])}/>}
-        {rightOpen && <polygon className={`dungeon-opening ${nativeScene && assetFor(pack,"opening.right",depth as DungeonAssetDepth,cell.tilesetId) ? "native-opening" : "side-opening"}`} points={points([[inner.r+2,inner.t+20],[outer.r-5,outer.t+34],[outer.r-5,outer.b-34],[inner.r+2,inner.b-20]])}/>}
-        {leftOpen && renderAsset(pack, "opening.left", depth as DungeonAssetDepth, cell.tilesetId)}
-        {rightOpen && renderAsset(pack, "opening.right", depth as DungeonAssetDepth, cell.tilesetId)}
-        {!forward && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"rect",x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, "wall-front") ?? renderRectAsset(pack, "wall.front", {x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, cell.tilesetId))}
+        {!leftRoomOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]]}, depth as DungeonAssetDepth, "wall-left") ?? (roomScene ? renderRoomWall(pack,[[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]],depth as DungeonAssetDepth,cell.tilesetId,"left") : renderPolygonAsset(pack, "wall.left", [[outer.l,outer.t],[inner.l,inner.t],[inner.l,inner.b],[outer.l,outer.b]], depth as DungeonAssetDepth, cell.tilesetId)))}
+        {!rightRoomOpen && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"polygon",points:[[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]]}, depth as DungeonAssetDepth, "wall-right") ?? (roomScene ? renderRoomWall(pack,[[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]],depth as DungeonAssetDepth,cell.tilesetId,"right") : renderPolygonAsset(pack, "wall.right", [[inner.r,inner.t],[outer.r,outer.t],[outer.r,outer.b],[inner.r,inner.b]], depth as DungeonAssetDepth, cell.tilesetId)))}
+        {leftOpen && !leftRoomOpen && <polygon className={`dungeon-opening ${nativeScene && assetFor(pack,"opening.left",depth as DungeonAssetDepth,cell.tilesetId) ? "native-opening" : "side-opening"}`} points={points([[outer.l+5,outer.t+34],[inner.l-2,inner.t+20],[inner.l-2,inner.b-20],[outer.l+5,outer.b-34]])}/>}
+        {rightOpen && !rightRoomOpen && <polygon className={`dungeon-opening ${nativeScene && assetFor(pack,"opening.right",depth as DungeonAssetDepth,cell.tilesetId) ? "native-opening" : "side-opening"}`} points={points([[inner.r+2,inner.t+20],[outer.r-5,outer.t+34],[outer.r-5,outer.b-34],[inner.r+2,inner.b-20]])}/>}
+        {leftOpen && !leftRoomOpen && !roomScene && renderAsset(pack, "opening.left", depth as DungeonAssetDepth, cell.tilesetId)}
+        {rightOpen && !rightRoomOpen && !roomScene && renderAsset(pack, "opening.right", depth as DungeonAssetDepth, cell.tilesetId)}
+        {leftOpen && !leftRoomOpen && !roomScene && renderSidePassage(pack,depth as DungeonAssetDepth,"left",cell.tilesetId,outer,inner)}
+        {rightOpen && !rightRoomOpen && !roomScene && renderSidePassage(pack,depth as DungeonAssetDepth,"right",cell.tilesetId,outer,inner)}
+        {!forward && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"rect",x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, "wall-front") ?? (roomScene ? renderRoomWall(pack,[[inner.l,inner.t],[inner.r,inner.t],[inner.r,inner.b],[inner.l,inner.b]],depth as DungeonAssetDepth,cell.tilesetId,"front") : renderRectAsset(pack, "wall.front", {x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, cell.tilesetId)))}
         {forwardDoor && !forwardDoorOpen && renderRectAsset(pack, "door.front.closed", {x:inner.l+12,y:inner.t+4,width:Math.max(20,inner.r-inner.l-24),height:Math.max(30,inner.b-inner.t-8)}, depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id)}
         {forwardDoor && !forwardDoorOpen && !assetFor(pack, "door.front.closed", depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id) &&
           <FallbackDoor x={inner.l+12} y={inner.t+4} width={Math.max(20,inner.r-inner.l-24)} height={Math.max(30,inner.b-inner.t-8)} grille={sceneTileset?.id==="ishar2-dj2"}/>}
-        {forwardDoor && renderAsset(pack,"door.front.open",depth as DungeonAssetDepth,cell.tilesetId,forwardDoor.id)}
+        {forwardDoor && !roomScene && renderAsset(pack,"door.front.open",depth as DungeonAssetDepth,cell.tilesetId,forwardDoor.id)}
       </g>
     );
 
@@ -308,9 +360,11 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
     ? renderAsset(pack, "item", undefined, location.tilesetId, currentItemId)
     : null;
 
-  return <div className="dungeon-viewport" style={{aspectRatio:String(viewportAspect)}} data-render-profile={renderProfile.id}>
+  return <div className={`dungeon-viewport ${outdoor ? "outdoor-viewport" : roomScene ? "room-viewport" : ""}`} style={{aspectRatio:String(viewportAspect)}} data-render-profile={renderProfile.id}>
     <svg viewBox="0 0 640 400" preserveAspectRatio="none" aria-label={`Blick nach ${DIRECTION_LABELS[facing]}`}>
       <defs>
+        <linearGradient id="outdoor-sky" x2="0" y2="1"><stop stopColor="#24466d"/><stop offset="1" stopColor="#8f9b91"/></linearGradient>
+        <linearGradient id="outdoor-ground" x2="0" y2="1"><stop stopColor="#666045"/><stop offset="1" stopColor="#2c271b"/></linearGradient>
         <pattern id="fallback-wall-pattern" width="56" height="34" patternUnits="userSpaceOnUse">
           <rect width="56" height="34" className="fallback-stone-base"/>
           <path d="M0 1H56M0 17H56M0 33H56M28 1V17M14 17V33M42 17V33" className="fallback-stone-line"/>
@@ -325,7 +379,13 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         </pattern>
       </defs>
       <rect width="640" height="400" className="dungeon-dark"/>
-      {renderAsset(pack, "viewport.background", undefined, location.tilesetId)}
+      {outdoor ? <g className="outdoor-scene">
+        <rect width="640" height="220" fill="url(#outdoor-sky)"/>
+        <path d="M0 225 L60 193 L112 207 L180 181 L240 211 L330 188 L420 212 L492 184 L570 207 L640 190 V280 H0Z" fill="#4c5a51"/>
+        <rect y="220" width="640" height="180" fill="url(#outdoor-ground)"/>
+        {renderDiscoveredTexture(pack,location.floorAssetId,{kind:"rect",x:0,y:220,width:640,height:180},0,"outdoor-ground")}
+        {renderDiscoveredLayer(pack,location.sceneryAssetId,{x:64,y:18,width:512,height:360})}
+      </g> : renderAsset(pack, "viewport.background", undefined, location.tilesetId)}
       {nativeScene && renderAsset(pack,"surface.ceiling",undefined,location.tilesetId)}
       {segments}
       {itemLayers}
@@ -385,6 +445,11 @@ function DungeonMiniMap({ game, location, facing }: { game: AuthoredGame; locati
 function PlaytestPage() {
   const project = useKit((s) => s.project);
   const pack = useAssetPack((s) => s.pack);
+  const originalHudSprite=(entryIndex:number)=>pack?.discoveredAssets?.find((asset)=>
+    new RegExp(`(?:^|/)FRISE\\.IO · ALIS #${entryIndex}$`,"i").test(asset.path)
+  )?.url;
+  const originalActionBar=originalHudSprite(36);
+  const originalLifeBar=originalHudSprite(1);
   const game = project.game;
   const hero = game.characters[0];
   const problems = validateGame(game);
@@ -531,10 +596,10 @@ function PlaytestPage() {
           const maxHp=member?.hp ?? 1;
           const ratio=member ? Math.max(0,Math.min(100,Math.round(currentHp/maxHp*100))) : 0;
           return <article className={member ? "ishar-party-card" : "ishar-party-card empty"} key={member?.id ?? `empty-${index}`}>
-            <div className="ishar-action-tab">{member ? "ACTION" : "—"}</div>
+            <div className={`ishar-action-tab ${originalActionBar ? "original-hud-sprite" : ""}`}>{originalActionBar ? <img src={originalActionBar} alt={member ? "Aktion" : ""}/> : member ? "ACTION" : "—"}</div>
             <div className="ishar-portrait">{member ? member.name.slice(0,1).toUpperCase() : ""}</div>
             <div className="ishar-party-name">{member?.name ?? `Slot ${index+1}`}</div>
-            <div className="ishar-life-row"><span>LIFE</span><div className="ishar-life-track"><i style={{width:`${ratio}%`}}/></div></div>
+            <div className={`ishar-life-row ${originalLifeBar ? "original-life-sprite" : ""}`}>{originalLifeBar ? <img src={originalLifeBar} alt="Leben"/> : <span>LIFE</span>}<div className="ishar-life-track"><i style={{width:`${ratio}%`}}/></div></div>
           </article>;
         })}
       </div>

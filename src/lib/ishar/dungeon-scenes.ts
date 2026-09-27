@@ -8,6 +8,15 @@ export const DUNGEON_FRAMES = [
   { l: 254, t: 154, r: 386, b: 246 },
 ];
 
+// Toolkit projection for authored multi-cell rooms; no original Ishar camera claim.
+export const DUNGEON_ROOM_FRAMES = [
+  {l:0,t:0,r:640,b:400},
+  {l:30,t:30,r:610,b:370},
+  {l:90,t:78,r:550,b:322},
+  {l:154,t:118,r:486,b:282},
+  {l:213,t:148,r:427,b:252},
+];
+
 // Resource expressions in DJ1: 47+d / 59+d; DJ2: 35+d / 47+d.
 // Roles and fitting to the CK camera are a reconstruction, not original layout evidence.
 export function dungeonSceneAssignments(sourcePath: string, index: number) {

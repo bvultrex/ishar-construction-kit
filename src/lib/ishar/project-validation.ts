@@ -1,4 +1,4 @@
-import { directionBetween } from "./dungeon";
+import { directionBetween } from "./dungeon.ts";
 import type { AuthoredGame } from "./types";
 
 export interface ProjectProblem {

@@ -278,3 +278,9 @@ right-passage roles are loaded, the false closed-door layers are gone, and the
 catalogue explicitly distinguishes reconstructed arches, hanging lamps and
 stained glass. Visual corridor and closed-door fixtures show the corresponding
 rendering without touching the user's authored project.
+
+## 2026-09-27 — Library and world evidence boundary
+
+`VHOUSE1.IO` and `VHOUSE2.IO` previews include perspective house facades and doors. The current outdoor picker exposes them as scenery but does not claim original camera positions or world placement. `FRISE.IO` contains HUD graphics; the party strip currently uses #36 as an action header and #1 as a life strip, inferred from their shapes and the supplied [part 31 gameplay view](https://www.youtube.com/watch?v=FOFb6Nt0mE8&t=10s). `MAIN.IO` #1–112 have glyph-like bitmap previews, but character mapping is unverified. `DJFONT.IO` previews show hanging lamps, so its filename is not evidence of a text font.
+
+The filled side-branch recess is a CK rendering heuristic. It uses the next-depth front-wall sprite behind an inset aperture because the previous branch showed a large black void. Topology and original DJ1 arch assets are retained, but there is no claim that this backing matches the original ALIS draw sequence. The multi-cell room and wall-free outdoor projections are likewise authored toolkit behavior rather than verified original Ishar geometry.

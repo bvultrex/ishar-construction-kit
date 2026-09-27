@@ -217,6 +217,9 @@ export interface AuthoredLocation {
   itemIds: string[];
   encounterId?: string;
   tilesetId?: string;
+  sceneKind?: "corridor" | "room" | "outdoor";
+  roomGroupId?: string;
+  sceneryAssetId?: string;
   wallAssetId?: string;
   floorAssetId?: string;
   ceilingAssetId?: string;
