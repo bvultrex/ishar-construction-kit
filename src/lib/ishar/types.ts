@@ -142,6 +142,8 @@ export type DungeonAssetRole =
   | "wall.right"
   | "opening.left"
   | "opening.right"
+  | "opening.room.left"
+  | "opening.room.right"
   | "door.front.closed"
   | "door.front.open"
   | "encounter"

@@ -37,6 +37,7 @@ function renderAsset(
   return <image
     key={asset.entry.id}
     className="asset-layer"
+    data-source={asset.entry.file}
     href={asset.url}
     x={x}
     y={y}
@@ -374,6 +375,14 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
     const roomEdges=roomViewEdges(game.locations,cell,facing,game.doors);
     const leftRoomOpen=roomEdges.leftInterior;
     const rightRoomOpen=roomEdges.rightInterior;
+    const leftRoomBoundary=!!leftTarget && (cell.sceneKind==="room" || leftTarget.sceneKind==="room")
+      && !roomsShareOpenSurface(cell,leftTarget,game.doors);
+    const rightRoomBoundary=!!rightTarget && (cell.sceneKind==="room" || rightTarget.sceneKind==="room")
+      && !roomsShareOpenSurface(cell,rightTarget,game.doors);
+    const leftOpeningRole: DungeonAssetRole=leftRoomBoundary && assetFor(pack,"opening.room.left",depth as DungeonAssetDepth,cell.tilesetId)
+      ? "opening.room.left" : "opening.left";
+    const rightOpeningRole: DungeonAssetRole=rightRoomBoundary && assetFor(pack,"opening.room.right",depth as DungeonAssetDepth,cell.tilesetId)
+      ? "opening.room.right" : "opening.right";
     const forward = canTravel(game.locations, cell, facing);
     const cellTilesetId=cell.tilesetId;
     const roomBoundary=!!forward && (cell.sceneKind==="room" || forward.sceneKind==="room")
@@ -411,8 +420,8 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         {/* The branch backing belongs behind the transparent stone arch, not over it. */}
         {leftOpen && !leftRoomOpen && renderSidePassage(pack,depth as DungeonAssetDepth,"left",cell.tilesetId,outer,inner,leftContinues)}
         {rightOpen && !rightRoomOpen && renderSidePassage(pack,depth as DungeonAssetDepth,"right",cell.tilesetId,outer,inner,rightContinues)}
-        {leftOpen && !leftRoomOpen && (roomScene && !nativeScene ? renderRoomOpeningArt(pack,depth as DungeonAssetDepth,"left",cell.tilesetId,outer,inner) : renderAsset(pack,"opening.left",depth as DungeonAssetDepth,cell.tilesetId))}
-        {rightOpen && !rightRoomOpen && (roomScene && !nativeScene ? renderRoomOpeningArt(pack,depth as DungeonAssetDepth,"right",cell.tilesetId,outer,inner) : renderAsset(pack,"opening.right",depth as DungeonAssetDepth,cell.tilesetId))}
+        {leftOpen && !leftRoomOpen && (roomScene && !nativeScene ? renderRoomOpeningArt(pack,depth as DungeonAssetDepth,"left",cell.tilesetId,outer,inner) : renderAsset(pack,leftOpeningRole,depth as DungeonAssetDepth,cell.tilesetId))}
+        {rightOpen && !rightRoomOpen && (roomScene && !nativeScene ? renderRoomOpeningArt(pack,depth as DungeonAssetDepth,"right",cell.tilesetId,outer,inner) : renderAsset(pack,rightOpeningRole,depth as DungeonAssetDepth,cell.tilesetId))}
         {!forward && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"rect",x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, "wall-front") ?? (roomScene && !nativeScene ? renderRoomWall(pack,[[inner.l,inner.t],[inner.r,inner.t],[inner.r,inner.b],[inner.l,inner.b]],depth as DungeonAssetDepth,cell.tilesetId,"front") : renderRectAsset(pack, "wall.front", {x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, cell.tilesetId)))}
         {forwardDoor && !forwardDoorOpen && renderRectAsset(pack, "door.front.closed", {x:inner.l+12,y:inner.t+4,width:Math.max(20,inner.r-inner.l-24),height:Math.max(30,inner.b-inner.t-8)}, depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id)}
         {forwardDoor && !forwardDoorOpen && !assetFor(pack, "door.front.closed", depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id) &&
@@ -434,7 +443,7 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
     ? renderAsset(pack, "item", undefined, locationTilesetId, currentItemId)
     : null;
 
-  return <div className={`dungeon-viewport ${outdoor ? "outdoor-viewport" : roomScene ? "room-viewport" : ""}`} style={{aspectRatio:String(viewportAspect)}} data-render-profile={renderProfile.id}>
+  return <div className={`dungeon-viewport ${outdoor ? "outdoor-viewport" : roomScene ? "room-viewport" : ""}`} style={{aspectRatio:String(viewportAspect)}} data-render-profile={renderProfile.id} data-scene-layout-version={pack?.sceneLayoutVersion}>
     <svg viewBox="0 0 640 400" preserveAspectRatio="none" aria-label={`Blick nach ${DIRECTION_LABELS[facing]}`}>
       <defs>
         <linearGradient id="outdoor-sky" x2="0" y2="1"><stop stopColor="#24466d"/><stop offset="1" stopColor="#8f9b91"/></linearGradient>

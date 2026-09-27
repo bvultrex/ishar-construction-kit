@@ -24,6 +24,12 @@ for(let depth=0;depth<4;depth++) {
   assert.equal(openings[0].depth,depth);
   assert.equal(openings[1].mirror,true);
 }
+for(const [depth,index] of [[1,71],[2,72]]) {
+  const openings=assign('DJ1.IO',index);
+  assert.deepEqual(openings.map(a=>a.role),['opening.room.right','opening.room.left']);
+  assert.equal(openings[0].depth,depth);
+  assert.equal(openings[1].mirror,true);
+}
 for(const index of [77,78,114,115,116,117,118,119])
   assert.deepEqual(assign('DJ1.IO',index),[],`DJ1 #${index} is not a verified door leaf`);
 for(const index of [77,78,79,80])

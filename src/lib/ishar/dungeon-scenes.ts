@@ -31,6 +31,13 @@ export function dungeonSceneAssignments(sourcePath: string, index: number) {
   if(base===undefined) return [];
   const tilesetId=name==="DJ1.IO" ? "ishar2-dj1" : "ishar2-dj2";
   const entry=(role:DungeonAssetRole,depth:number,mirror=false)=>({tilesetId,role,depth:depth as DungeonAssetDepth,x:0,y:0,width:0,height:0,mirror});
+  // #71/#72 combine a side-facing stone niche with its wall backing at the
+  // same script positions as isolated #74/#75 columns. Use them specifically
+  // for room/corridor boundaries; this role is a CK reconstruction.
+  const roomOpeningDepth=name==="DJ1.IO" ? index===71 ? 1 : index===72 ? 2 : undefined : undefined;
+  if(roomOpeningDepth!==undefined) {
+    return [entry("opening.room.right",roomOpeningDepth),entry("opening.room.left",roomOpeningDepth,true)];
+  }
   if(name==="DJ1.IO" && index>=73 && index<=76) {
     const depth=index-73;
     return [entry("opening.right",depth),entry("opening.left",depth,true)];

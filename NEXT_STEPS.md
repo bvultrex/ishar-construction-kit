@@ -219,3 +219,9 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 1. Project entrances/doors on distant lateral perimeter cells. A continuous room now places outer walls correctly, but openings beyond the immediate side cell still lack their own perspective treatment.
 2. Compare the reconstructed wide-room side projection against original gameplay or ALIS draw code; it is geometry-based, not verified Ishar behavior.
 3. Check nonrectangular groups and hand-edited missing exits. The Builder's rectangular blocks create all reciprocal internal exits and are covered by the 4×4 topology regression.
+
+## 2026-09-27 — After side-niche checkpoint
+
+1. Compare the room/corridor side niche now drawn from DJ1 #71/#72 with original Ishar 2 footage or script draw calls at depths 1/2; the mapping is still a CK reconstruction. Check left-mirrored and DJ2 counterparts separately.
+2. Determine from original map data whether empty/blocked grid cells separate corridors and rooms. Do not convert the current traversable authored exits to blocked cells solely from the visual hypothesis.
+3. Continue the original closed-door leaf search; a stone niche does not establish door-panel pixels or door-state behavior.

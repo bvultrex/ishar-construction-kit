@@ -1224,7 +1224,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   };
 
   const pack: LoadedAssetPack={
-    sceneLayoutVersion:8,
+    sceneLayoutVersion:11,
     manifest,
     urls,
     paths,
