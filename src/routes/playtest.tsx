@@ -272,16 +272,14 @@ function renderDiscoveredItemAtDepth(
   const frame=FRAMES[Math.min(depth+1,FRAMES.length-1)]!;
   const x=320-width/2;
   const y=frame.b-height;
-  return <image
-    key={"distance-item-"+assetId+"-"+depth}
-    href={preview.url}
-    x={x}
-    y={y}
-    width={width}
-    height={height}
-    preserveAspectRatio="xMidYMid meet"
-    className={"asset-layer item-depth item-depth-"+depth}
-  />;
+  const hitWidth=Math.max(64,width+16);
+  const hitHeight=Math.max(52,height+16);
+  return <g key={"distance-item-"+assetId+"-"+depth}>
+    {depth===0 && <rect x={320-hitWidth/2} y={y+height/2-hitHeight/2} width={hitWidth} height={hitHeight}
+      fill="transparent" pointerEvents="all"/>}
+    <image href={preview.url} x={x} y={y} width={width} height={height}
+      preserveAspectRatio="xMidYMid meet" className={"asset-layer item-depth item-depth-"+depth}/>
+  </g>;
 }
 
 

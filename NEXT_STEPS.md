@@ -285,3 +285,8 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 1. Map the remaining `FRISE.IO` character/equipment controls and `MAIN.IO` glyphs against specific original UI frames. The current nine-slot sheet and owner transfer work, but exact graphics and original item-command semantics are still open.
 2. Add real equipment/hand slots only after item types, effects and combat rules are modeled; avoid decorative controls that imply unsupported actions.
 3. Give the other original character pages (skills, spells, money and status) their own supported data and interactions before presenting the HUD as complete. The current Builder fields are optional authored values, not values decoded from Ishar saves.
+
+## 2026-09-28 — After ground-item click follow-up
+
+1. Add a non-disruptive build-version notice to long-lived Playtest tabs. Local preview rebuilds leave already-loaded JavaScript running, which obscured the mouse-pickup change; warn before reload because the current runtime position is ephemeral.
+2. Keep imported small objects at their source proportions while maintaining a practical transparent click target. Test future pickup sprites at their actual scene positions, not only through action buttons.
