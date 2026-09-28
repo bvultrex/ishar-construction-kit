@@ -262,3 +262,8 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 1. Compare the four sampled tree depths against additional original Irvan gameplay frames. The source families and bitmap sizes are now coherent, but CK distance thresholds, subcell anchor points, occlusion and fog remain estimates.
 2. Use the linked hand-drawn Akeers grid map to design an optional solid-cell authoring test, then verify passage/door alignment against original gameplay or map data before changing the main dungeon topology.
 3. Keep the confirmed swamp water rendering and the separate 4175 authored dungeon unchanged while testing these visual hypotheses.
+
+## 2026-09-28 — After opposite-view and trunk-top correction
+
+1. Compare one tree while stepping around all four sides, including the view after it passes behind the camera. The same-cell lateral factor is still a CK approximation and should be checked against original Irvan footage when an equivalent sequence is available.
+2. Preserve the authored tree anchors and confirmed water masks while refining near occlusion. The #26/#33 vertical extension hides a cut source edge but does not recover the original bitmap placement algorithm.

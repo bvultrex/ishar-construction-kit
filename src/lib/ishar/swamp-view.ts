@@ -17,6 +17,12 @@ export function swampTreeAssetIndex(family:0|1,band:0|1|2|3):number {
   return SWAMP_TREE_DISTANCE_ASSETS[family][band];
 }
 
+/** Near FORET1 trunks have no crown bitmap; their cut top belongs above the viewport. */
+export function swampTreeDisplayHeight(sourceHeight:number,foot:number,band:0|1|2|3):number {
+  const nativeHeight=sourceHeight*400/113;
+  return band<=1 ? Math.max(nativeHeight,foot+8) : nativeHeight;
+}
+
 /** Stable authored-grid scenery. Camera changes must not choose a new tree. */
 export function swampFeatureForCell(cell:AuthoredLocation):SwampFeature|undefined {
   if(cell.sceneKind!=="outdoor" || cell.outdoorSurface==="water") return undefined;
@@ -61,12 +67,13 @@ export function projectSwampFeature(feature:SwampFeature,origin:AuthoredLocation
   const forwardDistance=dx*forward.x+dy*forward.y;
   const lateralDistance=dx*right.x+dy*right.y;
   const radialDistance=Math.hypot(dx,dy);
-  if(forwardDistance<-.2 || forwardDistance>3.8) return undefined;
-  // A tree rooted near a walkable tile's corner remains at the side when the
-  // player enters that tile; it must not vanish at depth zero.
-  if(feature.kind==="tree" && feature.cellId===origin.id && Math.abs(lateralDistance)>=.1) {
-    return {center:lateralDistance<0 ? -130 : 770,foot:400,forwardDistance:0,lateralDistance,radialDistance,distanceBand:0};
+  // A tree on the occupied cell can be just ahead, beside, or slightly behind
+  // the camera. Project its actual offset instead of pinning it off screen.
+  if(feature.kind==="tree" && feature.cellId===origin.id) {
+    const center=320+650*lateralDistance/(Math.max(0,forwardDistance)+.25);
+    return {center,foot:400,forwardDistance,lateralDistance,radialDistance,distanceBand:0};
   }
+  if(forwardDistance<-.2 || forwardDistance>3.8) return undefined;
   if(forwardDistance<.35 && Math.abs(lateralDistance)<.5) return undefined;
   // Rotating in place changes forward depth, but never the real distance to
   // this world point. Source distance variants must therefore use the radius.

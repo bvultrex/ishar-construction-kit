@@ -7,7 +7,7 @@ import { assetFor } from "@/lib/ishar/asset-pack";
 import { adjacentLocation, canTravel, doorBetween, DIRECTION_LABELS, turnBack, turnLeft, turnRight } from "@/lib/ishar/dungeon";
 import { roomViewEdges, roomsShareOpenSurface } from "@/lib/ishar/room-surfaces";
 import { visibleOutdoorCells } from "@/lib/ishar/outdoor-view";
-import { projectSwampFeature, swampFeatureForCell, swampGroundFeatureForCell, swampTreeAssetIndex, swampWaterExtent } from "@/lib/ishar/swamp-view";
+import { projectSwampFeature, swampFeatureForCell, swampGroundFeatureForCell, swampTreeAssetIndex, swampTreeDisplayHeight, swampWaterExtent } from "@/lib/ishar/swamp-view";
 import { validateGame } from "@/lib/ishar/project-validation";
 import type { AuthoredEncounter, AuthoredGame, AuthoredLocation, Direction, DungeonAssetDepth, DungeonAssetRole } from "@/lib/ishar/types";
 import type { LoadedAssetPack } from "@/lib/ishar/asset-pack";
@@ -158,8 +158,8 @@ function renderSwampScene(game:AuthoredGame,location:AuthoredLocation,facing:Dir
     if(!asset) return null;
     const scale=tree ? 1 : [1.2,1.35,1.55,1.75][band]!;
     const width=(asset.width??48)*scale*(tree ? 640/256 : 1);
-    const height=(asset.height??48)*scale*(tree ? 400/113 : 1);
     const {center,foot}=projection;
+    const height=tree ? swampTreeDisplayHeight(asset.height??48,foot,band) : (asset.height??48)*scale;
     if(center+width/2<0 || center-width/2>640) return null;
     return <g key={`swamp-${cell.id}`}>
       <image className="asset-layer" data-source={asset.path} data-cell-id={cell.id} href={asset.url}

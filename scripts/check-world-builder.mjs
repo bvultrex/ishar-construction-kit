@@ -6,7 +6,7 @@ import { validateGame } from '../src/lib/ishar/project-validation.ts';
 import { canTravel, DIRECTIONS, DIRECTION_VECTORS, locationAt, turnLeft, turnRight } from '../src/lib/ishar/dungeon.ts';
 import { roomViewEdges, roomsShareOpenSurface } from '../src/lib/ishar/room-surfaces.ts';
 import { createSwampTestArea } from '../src/lib/ishar/swamp-area.ts';
-import { projectSwampFeature, swampFeatureForCell, swampGroundFeatureForCell, swampTreeAssetIndex, swampWaterExtent } from '../src/lib/ishar/swamp-view.ts';
+import { projectSwampFeature, swampFeatureForCell, swampGroundFeatureForCell, swampTreeAssetIndex, swampTreeDisplayHeight, swampWaterExtent } from '../src/lib/ishar/swamp-view.ts';
 import { visibleOutdoorCells } from '../src/lib/ishar/outdoor-view.ts';
 
 const starter=starterGame();
@@ -157,7 +157,15 @@ for(const band of [0,1,2,3]) {
   assert.ok(swampTreeAssetIndex(1,band)>=31 && swampTreeAssetIndex(1,band)<=37,'second tree stays in FORET1 second distance family');
 }
 const besideTree=projectSwampFeature(tree,treeCell,'north');
-assert.ok(besideTree && besideTree.center<0,'entering the tree cell keeps its root visible at the side');
+assert.ok(besideTree && besideTree.center<0 && besideTree.center>-220,'a tree offset toward the bank remains at the near edge');
+const oppositeTreeCell=swampCells.find((cell)=>cell.x===0&&cell.y===1);
+assert.ok(oppositeTreeCell);
+const oppositeTree=swampFeatureForCell(oppositeTreeCell);
+assert.equal(oppositeTree?.kind,'tree');
+const seenFromOpposite=projectSwampFeature(oppositeTree,oppositeTreeCell,'north');
+assert.ok(seenFromOpposite && seenFromOpposite.center>320 && seenFromOpposite.center<640,'a tree remains visible when viewed from its occupied cell in the opposite direction');
+assert.ok(swampTreeDisplayHeight(80,334,1)>334,'a near cut-top trunk reaches beyond the viewport border');
+assert.equal(swampTreeDisplayHeight(71,275,2),71*400/113,'a complete distant crown keeps its native height');
 assert.equal(swampFeatureForCell(treeCell)?.worldX,tree.worldX,'tree anchor stays fixed across render passes');
 assert.equal(swampFeatureForCell(water),undefined,'water does not spawn a tree');
 assert.equal(swampGroundFeatureForCell(water),undefined,'water does not spawn low vegetation');
