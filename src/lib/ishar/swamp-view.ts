@@ -27,7 +27,9 @@ export function swampTreeDisplayHeight(sourceHeight:number,foot:number,band:0|1|
 export function swampFeatureForCell(cell:AuthoredLocation):SwampFeature|undefined {
   if(cell.sceneKind!=="outdoor" || cell.outdoorSurface==="water") return undefined;
   const hash=Math.abs(cell.x*73+cell.y*139+17);
-  const kind=hash%4===0 || hash%7===0 ? "tree" : "plant";
+  // Keep large trunks sparse. The old selection placed the same near tree on
+  // adjacent fields and let their 440px roots fill almost the whole view.
+  const kind=(hash%4===0 || hash%7===0) && hash%5!==0 ? "tree" : "plant";
   // A corner tree belongs to one cell but stands on its north-west vertex.
   // This avoids duplicate trees at shared vertices and gives all four adjacent
   // camera cells exactly the same world point and distance variant.
@@ -35,7 +37,7 @@ export function swampFeatureForCell(cell:AuthoredLocation):SwampFeature|undefine
   return {
     cellId:cell.id,
     kind,
-    family:Math.floor(hash/4)%2 as 0|1,
+    family:kind==="tree" ? (Math.abs(cell.x)%2 as 0|1) : (Math.floor(hash/4)%2 as 0|1),
     worldX:kind==="tree" ? cell.x-(cornerTree ? .5 : 0) : cell.x+(2-hash%5)*.15,
     worldY:kind==="tree" ? cell.y-(cornerTree ? .5 : 0) : cell.y+(Math.floor(hash/5)%5-2)*.15,
   };
@@ -79,9 +81,14 @@ export function projectSwampFeature(feature:SwampFeature,origin:AuthoredLocation
     const center=320+700*lateralDistance/(Math.max(0,forwardDistance)+.75);
     return {center,foot:400,forwardDistance,lateralDistance,radialDistance,distanceBand:0};
   }
-  // The camera may occupy a passable tree cell; keep its trunk in the near view.
-  if(feature.kind==="tree" && radialDistance===0) {
-    return {center:320,foot:400,forwardDistance,lateralDistance,radialDistance,distanceBand:0};
+  // A billboard has no meaningful direction when the camera occupies its
+  // exact center. Repeating it straight ahead on every turn makes one tree
+  // look like four different adjacent trees.
+  if(feature.kind==="tree" && radialDistance===0) return undefined;
+  // A center tree on the neighboring side field should remain substantially
+  // visible instead of losing half of its roots at the viewport boundary.
+  if(feature.kind==="tree" && radialDistance<1.01 && Math.abs(forwardDistance)<.01) {
+    return {center:320+120*Math.sign(lateralDistance),foot:400,forwardDistance,lateralDistance,radialDistance,distanceBand:0};
   }
   if(forwardDistance<-.2 || forwardDistance>3.8) return undefined;
   if(forwardDistance<.35 && Math.abs(lateralDistance)<.5) return undefined;

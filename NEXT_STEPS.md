@@ -265,7 +265,7 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 
 ## 2026-09-28 — After opposite-view and trunk-top correction
 
-1. Compare one tree while stepping around all four sides, including the view after it passes behind the camera. The same-cell lateral factor is still a CK approximation and should be checked against original Irvan footage when an equivalent sequence is available.
+1. Compare one tree while stepping around all four sides, including the view after it passes behind the camera. The near-side lateral position remains a CK approximation and should be checked against original Irvan footage when an equivalent sequence is available.
 2. Preserve the authored tree anchors and confirmed water masks while refining near occlusion. The #26/#33 vertical extension hides a cut source edge but does not recover the original bitmap placement algorithm.
 
 ## 2026-09-28 — After shared-corner tree correction
@@ -273,3 +273,9 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 1. Compare a matched Irvan swamp tree from four camera cells in original footage, if such a sequence is found. The new center/vertex anchors and near projection are internally consistent CK heuristics, not established ALIS placement rules.
 2. Check whether a foreground root should occlude a distant centered tree or whether the original renderer uses a different draw order. Do not force every tree to remain visible through nearer scenery.
 3. Keep the confirmed water appearance and the 4175 authored dungeon stable while refining vegetation in the disposable 4176 swamp test.
+
+## 2026-09-28 — After repeat-tree correction
+
+1. Locate original Irvan footage or ALIS drawing code that clarifies whether a passable tree at the camera's exact field center disappears, clips around the player, or uses another viewpoint graphic. The CK currently omits an on-point billboard to avoid repeating one root in all directions.
+2. Keep tree density and family assignment editable when outdoor authoring expands. The current seven-tree spacing alternates the two verified `FORET1` families in the disposable 5×5 test, but original Irvan's object placements have not been established.
+3. Recheck larger outdoor maps for adjacent same-family roots before applying this deterministic test placement as a default beyond the 5×5 swamp. Preserve the confirmed water rendering.
