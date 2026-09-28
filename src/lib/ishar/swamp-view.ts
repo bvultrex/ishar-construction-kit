@@ -22,11 +22,25 @@ export function swampFeatureForCell(cell:AuthoredLocation):SwampFeature|undefine
   };
 }
 
+/** A second, low plant cluster with its own fixed ground position. */
+export function swampGroundFeatureForCell(cell:AuthoredLocation):SwampFeature|undefined {
+  if(cell.sceneKind!=="outdoor" || cell.outdoorSurface==="water") return undefined;
+  const hash=Math.abs(cell.x*101+cell.y*61+29);
+  return {
+    cellId:`${cell.id}-ground`,
+    kind:"plant",
+    family:Math.floor(hash/3)%2 as 0|1,
+    worldX:cell.x+(hash%5-2)*.17,
+    worldY:cell.y+(Math.floor(hash/5)%5-2)*.17,
+  };
+}
+
 export interface SwampProjection {
   center:number;
   foot:number;
   forwardDistance:number;
   lateralDistance:number;
+  radialDistance:number;
   distanceBand:0|1|2|3;
 }
 
@@ -38,17 +52,20 @@ export function projectSwampFeature(feature:SwampFeature,origin:AuthoredLocation
   const dy=feature.worldY-origin.y;
   const forwardDistance=dx*forward.x+dy*forward.y;
   const lateralDistance=dx*right.x+dy*right.y;
+  const radialDistance=Math.hypot(dx,dy);
   if(forwardDistance<-.2 || forwardDistance>3.8) return undefined;
   // A tree rooted near a walkable tile's corner remains at the side when the
   // player enters that tile; it must not vanish at depth zero.
   if(feature.kind==="tree" && feature.cellId===origin.id && Math.abs(lateralDistance)>=.1) {
-    return {center:lateralDistance<0 ? -130 : 770,foot:400,forwardDistance:0,lateralDistance,distanceBand:0};
+    return {center:lateralDistance<0 ? -130 : 770,foot:400,forwardDistance:0,lateralDistance,radialDistance,distanceBand:0};
   }
   if(forwardDistance<.35 && Math.abs(lateralDistance)<.5) return undefined;
-  const distanceBand:0|1|2|3=forwardDistance<.75 ? 0 : forwardDistance<1.65 ? 1 : forwardDistance<2.65 ? 2 : 3;
+  // Rotating in place changes forward depth, but never the real distance to
+  // this world point. Source distance variants must therefore use the radius.
+  const distanceBand:0|1|2|3=radialDistance<1.35 ? 0 : radialDistance<2.5 ? 1 : radialDistance<3.65 ? 2 : 3;
   const center=320+260*lateralDistance/(Math.max(0,forwardDistance)+.75);
   const foot=224+176/(1+.72*Math.max(0,forwardDistance));
-  return {center,foot,forwardDistance,lateralDistance,distanceBand};
+  return {center,foot,forwardDistance,lateralDistance,radialDistance,distanceBand};
 }
 
 /** Surface extent for a visible water cell; nearby water reaches the viewport edge. */

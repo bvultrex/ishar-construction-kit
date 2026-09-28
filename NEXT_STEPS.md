@@ -250,3 +250,9 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 1. Compare more camera loops around one Irvan swamp tree with original footage. CK trees now stay attached to a world cell, but original ALIS anchor coordinates and occlusion order are unknown.
 2. Refine water depth blending across *adjacent* water cells, including diagonal shores and day/night palette changes. The current screen-wide masked projection is a visual heuristic for the user's blocked-water case.
 3. Keep passable plants and impassable terrain separate in future outdoor levels; do not infer that every Irvan tree is a hard movement blocker from the current visual test.
+
+## 2026-09-28 — After radial tree sizing
+
+1. Compare the same tree while walking through and past its own tile. The current same-cell root is pinned near a screen edge; original near clipping and occlusion are still unknown.
+2. Compare distant `FORET1` silhouettes and `PLAINE1` reeds across several Irvan viewpoints and palette states. Radial distance now prevents size changes on rotation, but the distance thresholds and scales remain CK estimates.
+3. Keep the now-confirmed water appearance stable while refining vegetation. The unresolved dungeon side-door texture remains a separate investigation.

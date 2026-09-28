@@ -7,7 +7,7 @@ import { assetFor } from "@/lib/ishar/asset-pack";
 import { adjacentLocation, canTravel, doorBetween, DIRECTION_LABELS, turnBack, turnLeft, turnRight } from "@/lib/ishar/dungeon";
 import { roomViewEdges, roomsShareOpenSurface } from "@/lib/ishar/room-surfaces";
 import { visibleOutdoorCells } from "@/lib/ishar/outdoor-view";
-import { projectSwampFeature, swampFeatureForCell, swampWaterExtent } from "@/lib/ishar/swamp-view";
+import { projectSwampFeature, swampFeatureForCell, swampGroundFeatureForCell, swampWaterExtent } from "@/lib/ishar/swamp-view";
 import { validateGame } from "@/lib/ishar/project-validation";
 import type { AuthoredEncounter, AuthoredGame, AuthoredLocation, Direction, DungeonAssetDepth, DungeonAssetRole } from "@/lib/ishar/types";
 import type { LoadedAssetPack } from "@/lib/ishar/asset-pack";
@@ -124,20 +124,25 @@ function renderSwampScene(game:AuthoredGame,location:AuthoredLocation,facing:Dir
   const water=alisPreview(pack,"FOND1",0);
   const grass=[92,93,94,95].map((index)=>alisPreview(pack,"PLAINE1",index));
   const visibleCells=visibleOutdoorCells(game.locations,location,facing);
-  const lowGrowth=visibleCells.filter(({location:cell})=>cell.outdoorSurface!=="water").map(({location:cell,depth,lateral})=>{
-    const asset=alisCompositePreview(pack,"PLAINE1",[22,23,24,25][depth]!);
+  const levelCells=game.locations.filter((cell)=>(cell.levelId||"level-1")===(location.levelId||"level-1"));
+  const lowGrowth=levelCells.flatMap((cell)=>{
+    const feature=swampGroundFeatureForCell(cell);
+    if(!feature) return [];
+    const projection=projectSwampFeature(feature,location,facing);
+    return projection ? [{cell,feature,projection}] : [];
+  }).sort((a,b)=>b.projection.forwardDistance-a.projection.forwardDistance).map(({cell,projection})=>{
+    const band=projection.distanceBand;
+    const asset=alisCompositePreview(pack,"PLAINE1",[22,23,24,25][band]!);
     if(!asset) return null;
-    const scale=[1.16,1.18,1.03,.83][depth]!;
+    const scale=[1,1.2,1.15,.9][band]!;
     const width=(asset.width??32)*scale;
     const height=(asset.height??16)*scale;
-    const spacing=[340,215,118,65][depth]!;
-    const offset=((cell.x*17+cell.y*31)%3-1)*width*.28;
-    const center=320+lateral*spacing+offset;
-    const foot=[391,321,275,250][depth]!;
-    return <image key={`swamp-low-${cell.id}`} href={asset.url} data-source={asset.path}
+    const {center,foot}=projection;
+    if(center+width/2<0 || center-width/2>640) return null;
+    return <image key={`swamp-low-${cell.id}`} href={asset.url} data-source={asset.path} data-cell-id={`${cell.id}-ground`}
       x={center-width/2} y={foot-height} width={width} height={height} preserveAspectRatio="none"/>;
   });
-  const vegetation=game.locations.filter((cell)=>(cell.levelId||"level-1")===(location.levelId||"level-1"))
+  const vegetation=levelCells
     .flatMap((cell)=>{
     const feature=swampFeatureForCell(cell);
     if(!feature) return [];
@@ -151,7 +156,7 @@ function renderSwampScene(game:AuthoredGame,location:AuthoredLocation,facing:Dir
     const plantIndex=[21,29,30,31][band]!;
     const asset=explicit ?? alisCompositePreview(pack,tree ? "FORET1" : "PLAINE1",tree ? forestIndex : plantIndex);
     if(!asset) return null;
-    const scale=tree ? 1 : [1.4,1.3,1.1,.85][band]!;
+    const scale=tree ? [1,1.12,1.25,1.4][band]! : [1.2,1.35,1.55,1.75][band]!;
     const width=(asset.width??48)*scale*(tree ? 640/256 : 1);
     const height=(asset.height??48)*scale*(tree ? 400/113 : 1);
     const {center,foot}=projection;
