@@ -204,3 +204,5 @@ Projects now support named levels with separate coordinate grids and per-level t
 ## 2026-09-28 — Character sheet and personal baggage
 
 The Playtest now opens a character sheet in the main scene frame while keeping party and movement controls visible, following the supplied Ishar 2 footage. Each member has nine item slots and a personal owner assignment for collected objects; a selected item can be inspected, handed to another member, or used as a matching door key. Optional character-sheet values can be entered in Builder. This is a playable subset of the original menu; equipment, spells, further statistic pages, original portrait art and bitmap typography are not implemented.
+
+Ground objects in the current cell can now be selected by clicking their scene graphic and assigned through a left click on a living party portrait. Distant item sprites stay non-interactive; pickup obeys combat and inventory capacity rules. The command button remains available as an alternative.

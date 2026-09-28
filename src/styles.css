@@ -105,6 +105,9 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .dungeon-opening{fill:#060504;stroke:#8b6c4d;stroke-width:2}.side-opening{filter:drop-shadow(0 0 5px #000)}
 .dungeon-opening.native-opening{stroke:none;filter:none}
 .dungeon-vignette{fill:#000;opacity:.33;pointer-events:none}
+.ground-item-choice{cursor:pointer;pointer-events:bounding-box}.ground-item-choice:hover,.ground-item-choice.selected{filter:drop-shadow(0 0 8px #f1cf76)}.ground-item-choice:focus-visible{outline:3px solid #f1cf76}
+.ground-item-prompt{position:absolute;left:50%;bottom:25px;transform:translateX(-50%);max-width:calc(100% - 24px);padding:6px 10px;background:#1b100be8;border:1px solid #d1a45a;color:#ffe2a2;text-align:center;font-size:12px;pointer-events:none}
+.ishar-portrait.pickup-target{box-shadow:inset 0 0 0 3px #f0c96a,0 0 12px #c9933b;filter:brightness(1.16)}
 .viewport-topbar{position:absolute;left:12px;right:12px;top:10px;display:flex;justify-content:space-between;align-items:center;color:#e8dcc4;text-shadow:0 2px 4px #000;font-family:Georgia,serif;font-size:14px;letter-spacing:.04em}
 .viewport-topbar strong{display:grid;place-items:center;width:34px;height:34px;border:1px solid #8f704e;background:#0d0b09cc;color:#d2ad7d}
 .enemy-silhouette{filter:drop-shadow(0 8px 8px #000)}.enemy-shadow,.item-shadow{fill:#000;opacity:.65}.enemy-body{fill:#4d5144;stroke:#9aa388;stroke-width:2}.enemy-head{fill:#56594b;stroke:#aeb69b;stroke-width:2}.enemy-crown,.enemy-arms{fill:none;stroke:#8e927d;stroke-width:8;stroke-linejoin:round;stroke-linecap:round}.enemy-eye{fill:#d2ad7d;filter:drop-shadow(0 0 4px #d2ad7d)}

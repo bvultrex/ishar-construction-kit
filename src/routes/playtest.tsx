@@ -452,7 +452,7 @@ function FallbackDoor({x,y,width,height,grille}: {x:number;y:number;width:number
   </g>;
 }
 
-export function DungeonViewport({ game, location, facing, encounter, encounterDone, collectedItemIds, pack, openDoors }: {
+export function DungeonViewport({ game, location, facing, encounter, encounterDone, collectedItemIds, pack, openDoors, onGroundItemSelect, selectedGroundItemId }: {
   game: AuthoredGame;
   location: AuthoredLocation;
   facing: Direction;
@@ -461,6 +461,8 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
   collectedItemIds: string[];
   pack: LoadedAssetPack | null;
   openDoors: string[];
+  onGroundItemSelect?: (itemId: string) => void;
+  selectedGroundItemId?: string | null;
 }) {
   const renderProfile=renderProfileForManifest(pack?.manifest);
   const viewportAspect=displayAspect(renderProfile);
@@ -507,7 +509,7 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
     const forwardDoor = forward ? doorBetween(game.doors, cell, forward) : undefined;
     const forwardDoorOpen = !forwardDoor || openDoors.includes(forwardDoor.id);
 
-    if(depth<=2){
+    if(depth>=1 && depth<=2){
       const visibleItemId=cell.itemIds.find((id)=>!collectedItemIds.includes(id));
       const visibleItem=visibleItemId ? game.items.find((item)=>item.id===visibleItemId) : undefined;
       const assetId=semanticItemAssetId(pack,visibleItem,depth);
@@ -559,6 +561,14 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
   const genericCurrentItemLayer=!currentItemAssetId && currentItemId
     ? renderAsset(pack, "item", undefined, locationTilesetId, currentItemId)
     : null;
+  const currentItemLayer=currentItemAssetId
+    ? renderDiscoveredItemAtDepth(pack,currentItemAssetId,0)
+    : genericCurrentItemLayer ?? <g className="dungeon-item" transform="translate(500 310)">
+        <ellipse cx="0" cy="36" rx="34" ry="8" className="item-shadow"/>
+        <path d="M-22 34 L-14 -8 L14 -8 L22 34 Z" className="item-pedestal"/>
+        <circle cx="0" cy="-24" r="13" className="item-glow"/>
+        <path d="M-5 -30 L7 -25 L0 -15 L-8 -20 Z" className="item-core"/>
+      </g>;
 
   return <div className={`dungeon-viewport ${outdoor ? "outdoor-viewport" : roomScene ? "room-viewport" : ""}`} style={{aspectRatio:String(viewportAspect)}} data-render-profile={renderProfile.id} data-scene-layout-version={pack?.sceneLayoutVersion}>
     <svg viewBox="0 0 640 400" preserveAspectRatio="none" aria-label={`Blick nach ${DIRECTION_LABELS[facing]}`}>
@@ -590,6 +600,13 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
       {nativeScene && renderAsset(pack,"surface.floor",undefined,locationTilesetId)}
       {segments}
       {itemLayers}
+      {currentItemId && <g className={`ground-item-choice${selectedGroundItemId===currentItemId ? " selected" : ""}`}
+        role="button" tabIndex={0} aria-label={`${currentItem?.name ?? currentItemId} am Boden auswählen`}
+        aria-pressed={selectedGroundItemId===currentItemId}
+        onClick={()=>onGroundItemSelect?.(currentItemId)}
+        onKeyDown={(event)=>{if(event.key==="Enter" || event.key===" "){event.preventDefault();onGroundItemSelect?.(currentItemId);}}}>
+        {currentItemLayer}
+      </g>}
       <path className="dungeon-vignette" d="M0 0H640V400H0Z M32 25V375H608V25Z" fillRule="evenodd"/>
       {encounter && !encounterDone && (encounterLayer ?? <g className="enemy-silhouette" transform="translate(320 232)">
         <ellipse cx="0" cy="58" rx="58" ry="13" className="enemy-shadow"/>
@@ -599,16 +616,11 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         <circle cx="-8" cy="-91" r="3" className="enemy-eye"/><circle cx="8" cy="-91" r="3" className="enemy-eye"/>
         <path d="M-42 -22 L-70 23 L-52 30 L-26 2 M42 -22 L70 23 L52 30 L26 2" className="enemy-arms"/>
       </g>)}
-      {currentItemId && !currentItemAssetId && (genericCurrentItemLayer ?? <g className="dungeon-item" transform="translate(500 310)">
-        <ellipse cx="0" cy="36" rx="34" ry="8" className="item-shadow"/>
-        <path d="M-22 34 L-14 -8 L14 -8 L22 34 Z" className="item-pedestal"/>
-        <circle cx="0" cy="-24" r="13" className="item-glow"/>
-        <path d="M-5 -30 L7 -25 L0 -15 L-8 -20 Z" className="item-core"/>
-      </g>)}
     </svg>
     <div className="viewport-topbar"><span>{location.name}</span><strong>{DIRECTION_LABELS[facing]}</strong></div>
     <div className="viewport-profile">{renderProfile.label} · {renderProfile.drawWidth}×{renderProfile.drawHeight}</div>
     {encounter && !encounterDone && <div className="enemy-hud"><strong>{encounter.name}</strong><span>im Weg</span></div>}
+    {currentItemId && selectedGroundItemId===currentItemId && <div className="ground-item-prompt" role="status">{currentItem?.name ?? currentItemId} ausgewählt · Charakterporträt anklicken</div>}
   </div>;
 }
 
@@ -664,6 +676,7 @@ function PlaytestPage() {
   const [inventory, setInventory] = useState<string[]>([]);
   const [itemOwners,setItemOwners]=useState<Record<string,string>>({});
   const [selectedItemId,setSelectedItemId]=useState<string|null>(null);
+  const [selectedGroundItemId,setSelectedGroundItemId]=useState<string|null>(null);
   const [openDoors, setOpenDoors] = useState<string[]>(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));
   const [log, setLog] = useState<string[]>(["Du betrittst den Dungeon."]);
   const [selectedPartyIndex,setSelectedPartyIndex]=useState(0);
@@ -677,6 +690,7 @@ function PlaytestPage() {
     setSelectedPartyIndex((index)=>Math.min(index,Math.max(0,game.characters.length-1)));
   },[game.characters]);
   useEffect(()=>{setOpenDoors(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));},[game.doors]);
+  useEffect(()=>{setSelectedGroundItemId(null);},[locationId,facing]);
 
   const location = useMemo(() => game.locations.find((x) => x.id === locationId), [game.locations, locationId]);
   const encounter = location?.encounterId ? game.encounters.find((x) => x.id === location.encounterId) : undefined;
@@ -705,6 +719,7 @@ function PlaytestPage() {
     setInventory([]);
     setItemOwners({});
     setSelectedItemId(null);
+    setSelectedGroundItemId(null);
     setOpenDoors(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));
     setLog(["Dungeon neu betreten."]);
     setSelectedPartyIndex(0);
@@ -761,16 +776,24 @@ function PlaytestPage() {
     setLog((x)=>["Tür geöffnet.", ...x]);
   }
 
-  function takeItem(id: string) {
-    if (inventory.includes(id)) return;
+  function takeItem(id: string, carrierId?: string) {
+    if (!location?.itemIds.includes(id) || inventory.includes(id)) return false;
+    if(!encounterDone || defeated){setLog((x)=>["Zuerst muss der Weg frei sein.",...x]);return false;}
     const item = game.items.find((x)=>x.id===id);
-    const carrier=game.characters[selectedPartyIndex] ?? hero;
-    if(!carrier || (partyHp[carrier.id] ?? carrier.hp)<=0){setLog((x)=>["Wähle eine handlungsfähige Figur.",...x]);return;}
-    if(inventory.filter((itemId)=>itemOwners[itemId]===carrier.id).length>=9){setLog((x)=>[`${carrier.name} hat keinen freien Platz.`,...x]);return;}
+    const carrier=game.characters.find((member)=>member.id===carrierId) ?? game.characters[selectedPartyIndex] ?? hero;
+    if(!carrier || (partyHp[carrier.id] ?? carrier.hp)<=0){setLog((x)=>["Wähle eine handlungsfähige Figur.",...x]);return false;}
+    if(inventory.filter((itemId)=>itemOwners[itemId]===carrier.id).length>=9){setLog((x)=>[`${carrier.name} hat keinen freien Platz.`,...x]);return false;}
     setInventory((x)=>[...x,id]);
     setItemOwners((x)=>({...x,[id]:carrier.id}));
     setSelectedItemId(id);
+    setSelectedGroundItemId(null);
     setLog((x)=>[`${carrier.name} nimmt ${item?.name ?? id} auf.`, ...x]);
+    return true;
+  }
+
+  function selectGroundItem(id:string){
+    if(!visibleItemIds.includes(id) || defeated || !encounterDone) return;
+    setSelectedGroundItemId((current)=>current===id ? null : id);
   }
 
   function transferItem(id:string,recipientId:string){
@@ -841,7 +864,7 @@ function PlaytestPage() {
               <div className="ishar-sheet-pack"><h3>Gegenstände · {selectedMemberItems.length}/9</h3><div className="ishar-sheet-grid">{Array.from({length:9},(_,slot)=>{const id=selectedMemberItems[slot];const item=game.items.find((entry)=>entry.id===id);return <button key={slot} disabled={!id} aria-label={id ? `Platz ${slot+1}: ${item?.name ?? id}` : `Platz ${slot+1}: leer`} aria-pressed={!!id && selectedItemId===id} onClick={()=>setSelectedItemId(id)}>{item?.name ?? ""}</button>;})}</div></div>
             </div>
             {selectedItem && <div className="ishar-sheet-item"><strong>{selectedItem.name}</strong><p>{selectedItem.description || "Keine Beschreibung."}</p><div className="ishar-sheet-item-actions">{facingDoorClosed && facingDoor?.keyItemId===selectedItem.id && <button onClick={openFacingDoor}>An Tür verwenden</button>}{game.characters.filter((member)=>member.id!==selectedMember.id).map((member)=><button key={member.id} onClick={()=>transferItem(selectedItem.id,member.id)} disabled={inventory.filter((id)=>itemOwners[id]===member.id).length>=9}>An {member.name} geben</button>)}</div></div>}
-          </section> : <><DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} collectedItemIds={inventory} pack={pack} openDoors={openDoors}/>
+          </section> : <><DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} collectedItemIds={inventory} pack={pack} openDoors={openDoors} onGroundItemSelect={selectGroundItem} selectedGroundItemId={selectedGroundItemId}/>
           <div className="asset-runtime-status"><span>Asset-Pack</span><strong>{pack ? pack.manifest.name : "SVG-Fallback"}</strong>{game.assetPackId && !pack && <small>Projekt erwartet: {game.assetPackId}</small>}</div></>}
         </main>
 
@@ -886,7 +909,7 @@ function PlaytestPage() {
           const ratio=member ? Math.max(0,Math.min(100,Math.round(currentHp/maxHp*100))) : 0;
           return <article className={member ? `ishar-party-card ${selectedPartyIndex===index ? "selected" : ""}` : "ishar-party-card empty"} key={member?.id ?? `empty-${index}`}>
             <button className={`ishar-action-tab ${originalActionBar ? "original-hud-sprite" : ""}`} disabled={!member} aria-label={`${member?.name ?? `Slot ${index+1}`} Aktionen`} onClick={()=>{setSelectedPartyIndex(index);toggleHud("actions");}}>{originalActionBar ? <img src={originalActionBar} alt=""/> : member ? "ACTION" : "—"}</button>
-            <button className="ishar-portrait" disabled={!member} aria-label={`${member?.name ?? `Slot ${index+1}`} Gepäck ansehen`} onClick={()=>{setSelectedPartyIndex(index);setSelectedItemId(null);setHudPanel("inventory");}}>{member ? member.name.slice(0,1).toUpperCase() : ""}</button>
+            <button className={`ishar-portrait${selectedGroundItemId && member && currentHp>0 ? " pickup-target" : ""}`} disabled={!member || (!!selectedGroundItemId && currentHp<=0)} aria-label={selectedGroundItemId && member ? `${member.name}: Gegenstand aufnehmen` : `${member?.name ?? `Slot ${index+1}`} Gepäck ansehen`} onClick={()=>{setSelectedPartyIndex(index);if(selectedGroundItemId){if(takeItem(selectedGroundItemId,member?.id))setHudPanel("inventory");}else{setSelectedItemId(null);setHudPanel("inventory");}}}>{member ? member.name.slice(0,1).toUpperCase() : ""}</button>
             <button className="ishar-party-name" disabled={!member} onClick={()=>{setSelectedPartyIndex(index);setSelectedItemId(null);setHudPanel("character");}}>{member?.name ?? `Slot ${index+1}`}</button>
             <div className={`ishar-life-row ${originalLifeBar ? "original-life-sprite" : ""}`}>{originalLifeBar ? <img src={originalLifeBar} alt="Leben"/> : <span>LIFE</span>}<div className="ishar-life-track"><i style={{width:`${ratio}%`}}/></div></div>
           </article>;
