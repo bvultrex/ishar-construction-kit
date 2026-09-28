@@ -392,6 +392,17 @@ function AuthorPage() {
             <label>HP<input type="number" min="1" value={ch.hp} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,hp:Number(e.target.value)}:x)})}/></label>
             <label>Angriff<input type="number" min="1" value={ch.attack} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,attack:Number(e.target.value)}:x)})}/></label>
           </div>
+          <details className="character-author-details"><summary>Charakterblatt-Werte</summary>
+            <div className="inline-fields">
+              <label>Volk<input value={ch.race ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,race:e.target.value}:x)})}/></label>
+              <label>Beruf<input value={ch.profession ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,profession:e.target.value}:x)})}/></label>
+              <label>Level<input type="number" min="1" value={ch.level ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,level:e.target.value===""?undefined:Number(e.target.value)}:x)})}/></label>
+              <label>Erfahrung<input type="number" min="0" value={ch.experience ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,experience:e.target.value===""?undefined:Number(e.target.value)}:x)})}/></label>
+              <label>Körperlich<input type="number" min="0" value={ch.physical ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,physical:e.target.value===""?undefined:Number(e.target.value)}:x)})}/></label>
+              <label>Geistig<input type="number" min="0" value={ch.psychic ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,psychic:e.target.value===""?undefined:Number(e.target.value)}:x)})}/></label>
+              <label>Gesinnung<input type="number" value={ch.alignment ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,alignment:e.target.value===""?undefined:Number(e.target.value)}:x)})}/></label>
+            </div>
+          </details>
           {game.characters.length>1 && <button className="danger-button compact" onClick={()=>setGame({...game,characters:game.characters.filter((entry)=>entry.id!==ch.id)})}>Aus Gruppe entfernen</button>}
         </div>)}
         <button disabled={game.characters.length>=5} onClick={()=>{let n=game.characters.length+1;while(game.characters.some((entry)=>entry.id===`hero-${n}`))n++;setGame({...game,characters:[...game.characters,{id:`hero-${n}`,name:`Figur ${n}`,hp:18,attack:4}]});}}>Figur hinzufügen ({game.characters.length}/5)</button>

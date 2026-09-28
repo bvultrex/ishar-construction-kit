@@ -194,6 +194,14 @@ export interface AuthoredCharacter {
   name: string;
   hp: number;
   attack: number;
+  /** Optional character-sheet details authored by the kit user. */
+  race?: string;
+  profession?: string;
+  level?: number;
+  experience?: number;
+  physical?: number;
+  psychic?: number;
+  alignment?: number;
 }
 
 export interface AuthoredItem {

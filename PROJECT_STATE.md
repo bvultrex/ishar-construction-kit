@@ -200,3 +200,7 @@ Builder supports connected rectangular room blocks (2×2–5×5) and wall-free o
 ## 2026-09-27 — Levels and interactive party HUD
 
 Projects now support named levels with separate coordinate grids and per-level tileset choices, plus bidirectional portals. Existing single-map projects normalize to `level-1`. Browser-tested a dungeon → overworld → DJ2 dungeon route; each map and asset set stayed distinct. Party portraits, action strips and menu panels are interactive, and Builder can add up to five members with independent playtest HP. The renderer no longer draws its black window polygon or floor wedge at side passages and uses imported doorway art at room boundaries. This remains a CK camera adaptation; original draw order and complete original HUD/bitmap font are research tasks.
+
+## 2026-09-28 — Character sheet and personal baggage
+
+The Playtest now opens a character sheet in the main scene frame while keeping party and movement controls visible, following the supplied Ishar 2 footage. Each member has nine item slots and a personal owner assignment for collected objects; a selected item can be inspected, handed to another member, or used as a matching door key. Optional character-sheet values can be entered in Builder. This is a playable subset of the original menu; equipment, spells, further statistic pages, original portrait art and bitmap typography are not implemented.

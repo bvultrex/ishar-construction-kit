@@ -662,6 +662,7 @@ function PlaytestPage() {
   const [completedEncounters, setCompletedEncounters] = useState<string[]>([]);
   const [completedQuests, setCompletedQuests] = useState<string[]>([]);
   const [inventory, setInventory] = useState<string[]>([]);
+  const [itemOwners,setItemOwners]=useState<Record<string,string>>({});
   const [selectedItemId,setSelectedItemId]=useState<string|null>(null);
   const [openDoors, setOpenDoors] = useState<string[]>(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));
   const [log, setLog] = useState<string[]>(["Du betrittst den Dungeon."]);
@@ -689,6 +690,10 @@ function PlaytestPage() {
   const facingTarget = location ? canTravel(game.locations, location, facing) : undefined;
   const facingDoor = location && facingTarget ? doorBetween(game.doors, location, facingTarget) : undefined;
   const facingDoorClosed = !!facingDoor && !openDoors.includes(facingDoor.id);
+  const selectedMember=game.characters[selectedPartyIndex] ?? hero;
+  const selectedMemberItems=inventory.filter((id)=>itemOwners[id]===selectedMember?.id);
+  const selectedItem=selectedItemId && selectedMemberItems.includes(selectedItemId)
+    ? game.items.find((item)=>item.id===selectedItemId) : undefined;
 
   function reset() {
     setLocationId(game.startLocationId);
@@ -698,6 +703,7 @@ function PlaytestPage() {
     setCompletedEncounters([]);
     setCompletedQuests([]);
     setInventory([]);
+    setItemOwners({});
     setSelectedItemId(null);
     setOpenDoors(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));
     setLog(["Dungeon neu betreten."]);
@@ -758,9 +764,23 @@ function PlaytestPage() {
   function takeItem(id: string) {
     if (inventory.includes(id)) return;
     const item = game.items.find((x)=>x.id===id);
+    const carrier=game.characters[selectedPartyIndex] ?? hero;
+    if(!carrier || (partyHp[carrier.id] ?? carrier.hp)<=0){setLog((x)=>["Wähle eine handlungsfähige Figur.",...x]);return;}
+    if(inventory.filter((itemId)=>itemOwners[itemId]===carrier.id).length>=9){setLog((x)=>[`${carrier.name} hat keinen freien Platz.`,...x]);return;}
     setInventory((x)=>[...x,id]);
+    setItemOwners((x)=>({...x,[id]:carrier.id}));
     setSelectedItemId(id);
-    setLog((x)=>[`${item?.name ?? id} aufgenommen.`, ...x]);
+    setLog((x)=>[`${carrier.name} nimmt ${item?.name ?? id} auf.`, ...x]);
+  }
+
+  function transferItem(id:string,recipientId:string){
+    const item=game.items.find((entry)=>entry.id===id);
+    const recipient=game.characters.find((entry)=>entry.id===recipientId);
+    if(!recipient || !inventory.includes(id) || !itemOwners[id] || itemOwners[id]===recipientId) return;
+    if(inventory.filter((itemId)=>itemOwners[itemId]===recipientId).length>=9){setLog((x)=>[`${recipient.name} hat keinen freien Platz.`,...x]);return;}
+    setItemOwners((x)=>({...x,[id]:recipientId}));
+    setSelectedItemId(null);
+    setLog((x)=>[`${item?.name ?? id} an ${recipient.name} übergeben.`,...x]);
   }
 
   function usePortal(id:string){
@@ -803,8 +823,26 @@ function PlaytestPage() {
     <div className="ishar-play-shell">
       <div className="ishar-stage-row">
         <main className="ishar-view-panel">
-          <DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} collectedItemIds={inventory} pack={pack} openDoors={openDoors}/>
-          <div className="asset-runtime-status"><span>Asset-Pack</span><strong>{pack ? pack.manifest.name : "SVG-Fallback"}</strong>{game.assetPackId && !pack && <small>Projekt erwartet: {game.assetPackId}</small>}</div>
+          {(hudPanel==="character" || hudPanel==="inventory") ? <section className="ishar-character-sheet" aria-label={`Charakterblatt ${selectedMember.name}`}>
+            <header className="ishar-sheet-header"><div><small>Charakterblatt · {selectedPartyIndex+1}/5</small><h2>{selectedMember.name}</h2></div><button onClick={()=>setHudPanel(null)} aria-label="Charakterblatt schließen">×</button></header>
+            <div className="ishar-sheet-body">
+              <div className="ishar-sheet-status"><h3>Figur</h3>
+                <p><span>Beruf</span><strong>{selectedMember.profession || "–"}</strong></p>
+                <p><span>Volk</span><strong>{selectedMember.race || "–"}</strong></p>
+                <p><span>Level</span><strong>{selectedMember.level ?? "–"}</strong></p>
+                <p><span>Erfahrung</span><strong>{selectedMember.experience ?? "–"}</strong></p>
+                <p><span>Vitalität</span><strong>{partyHp[selectedMember.id] ?? selectedMember.hp} / {selectedMember.hp}</strong></p>
+                <p><span>Körperlich</span><strong>{selectedMember.physical ?? "–"}</strong></p>
+                <p><span>Geistig</span><strong>{selectedMember.psychic ?? "–"}</strong></p>
+                <p><span>Gesinnung</span><strong>{selectedMember.alignment ?? "–"}</strong></p>
+                <p><span>Angriff</span><strong>{selectedMember.attack}</strong></p>
+                <div className="ishar-sheet-health"><i style={{width:`${Math.max(0,Math.min(100,Math.round((partyHp[selectedMember.id] ?? selectedMember.hp)/Math.max(1,selectedMember.hp)*100)))}%`}}/></div>
+              </div>
+              <div className="ishar-sheet-pack"><h3>Gegenstände · {selectedMemberItems.length}/9</h3><div className="ishar-sheet-grid">{Array.from({length:9},(_,slot)=>{const id=selectedMemberItems[slot];const item=game.items.find((entry)=>entry.id===id);return <button key={slot} disabled={!id} aria-label={id ? `Platz ${slot+1}: ${item?.name ?? id}` : `Platz ${slot+1}: leer`} aria-pressed={!!id && selectedItemId===id} onClick={()=>setSelectedItemId(id)}>{item?.name ?? ""}</button>;})}</div></div>
+            </div>
+            {selectedItem && <div className="ishar-sheet-item"><strong>{selectedItem.name}</strong><p>{selectedItem.description || "Keine Beschreibung."}</p><div className="ishar-sheet-item-actions">{facingDoorClosed && facingDoor?.keyItemId===selectedItem.id && <button onClick={openFacingDoor}>An Tür verwenden</button>}{game.characters.filter((member)=>member.id!==selectedMember.id).map((member)=><button key={member.id} onClick={()=>transferItem(selectedItem.id,member.id)} disabled={inventory.filter((id)=>itemOwners[id]===member.id).length>=9}>An {member.name} geben</button>)}</div></div>}
+          </section> : <><DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} collectedItemIds={inventory} pack={pack} openDoors={openDoors}/>
+          <div className="asset-runtime-status"><span>Asset-Pack</span><strong>{pack ? pack.manifest.name : "SVG-Fallback"}</strong>{game.assetPackId && !pack && <small>Projekt erwartet: {game.assetPackId}</small>}</div></>}
         </main>
 
         <aside className="ishar-control-panel">
@@ -812,15 +850,13 @@ function PlaytestPage() {
           <nav className="ishar-hud-nav" aria-label="Spielmenü">
             <button aria-pressed={hudPanel==="actions"} onClick={()=>toggleHud("actions")}>Aktionen</button>
             <button aria-pressed={hudPanel==="character"} onClick={()=>toggleHud("character")}>Figur</button>
-            <button aria-pressed={hudPanel==="inventory"} onClick={()=>toggleHud("inventory")}>Inventar {inventory.length ? `(${inventory.length})` : ""}</button>
+            <button aria-pressed={hudPanel==="inventory"} onClick={()=>toggleHud("inventory")}>Gepäck {inventory.length ? `(${inventory.length})` : ""}</button>
             <button aria-pressed={hudPanel==="map"} onClick={()=>toggleHud("map")}>Karte</button>
             <button aria-pressed={hudPanel==="quest"} onClick={()=>toggleHud("quest")}>Aufträge</button>
           </nav>
-          {hudPanel && <section className="ishar-hud-panel" aria-label="Spielmenü-Inhalt">
+          {hudPanel && hudPanel!=="character" && hudPanel!=="inventory" && <section className="ishar-hud-panel" aria-label="Spielmenü-Inhalt">
             <button className="ishar-hud-close" onClick={()=>setHudPanel(null)} aria-label="Menü schließen">×</button>
             {hudPanel==="actions" && <><h3>Aktionen · {game.characters[selectedPartyIndex]?.name ?? hero.name}</h3><div className="ishar-hud-actions"><button onClick={attack} disabled={!encounter || encounterDone || defeated || (partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0)<=0}>Angreifen</button><button onClick={openFacingDoor} disabled={!facingDoorClosed || defeated}>Tür öffnen</button>{visibleItemIds.map((id)=><button key={id} onClick={()=>takeItem(id)}>{game.items.find((item)=>item.id===id)?.name ?? id} aufnehmen</button>)}{portalsHere.map((portal)=><button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone}>{portal.label}</button>)}</div></>}
-            {hudPanel==="character" && <><h3>{game.characters[selectedPartyIndex]?.name ?? hero.name}</h3><p>Leben: {partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0}/{game.characters[selectedPartyIndex]?.hp ?? hero.hp} · Angriff: {game.characters[selectedPartyIndex]?.attack ?? hero.attack}</p></>}
-            {hudPanel==="inventory" && <><h3>Inventar</h3>{inventory.length ? <><div className="ishar-inventory-list">{inventory.map((id)=><button key={id} aria-pressed={selectedItemId===id} onClick={()=>setSelectedItemId(id)}>{game.items.find((item)=>item.id===id)?.name ?? id}</button>)}</div>{selectedItemId && inventory.includes(selectedItemId) && <div className="ishar-inventory-detail"><strong>{game.items.find((item)=>item.id===selectedItemId)?.name ?? selectedItemId}</strong><p>{game.items.find((item)=>item.id===selectedItemId)?.description || "Keine Beschreibung."}</p>{facingDoorClosed && facingDoor?.keyItemId===selectedItemId && <button onClick={openFacingDoor}>Schlüssel an Tür verwenden</button>}</div>}</> : <p>Noch keine Gegenstände.</p>}</>}
             {hudPanel==="map" && <><h3>{level?.name ?? "Karte"}</h3><DungeonMiniMap game={game} location={location} facing={facing}/></>}
             {hudPanel==="quest" && <><h3>Aufträge</h3>{game.quests.map((quest)=><p key={quest.id}><strong>{quest.title}</strong> · {completedQuests.includes(quest.id) ? quest.completedText : quest.objective}</p>)}</>}
           </section>}
@@ -850,8 +886,8 @@ function PlaytestPage() {
           const ratio=member ? Math.max(0,Math.min(100,Math.round(currentHp/maxHp*100))) : 0;
           return <article className={member ? `ishar-party-card ${selectedPartyIndex===index ? "selected" : ""}` : "ishar-party-card empty"} key={member?.id ?? `empty-${index}`}>
             <button className={`ishar-action-tab ${originalActionBar ? "original-hud-sprite" : ""}`} disabled={!member} aria-label={`${member?.name ?? `Slot ${index+1}`} Aktionen`} onClick={()=>{setSelectedPartyIndex(index);toggleHud("actions");}}>{originalActionBar ? <img src={originalActionBar} alt=""/> : member ? "ACTION" : "—"}</button>
-            <button className="ishar-portrait" disabled={!member} aria-label={`${member?.name ?? `Slot ${index+1}`} ansehen`} onClick={()=>{setSelectedPartyIndex(index);toggleHud("character");}}>{member ? member.name.slice(0,1).toUpperCase() : ""}</button>
-            <div className="ishar-party-name">{member?.name ?? `Slot ${index+1}`}</div>
+            <button className="ishar-portrait" disabled={!member} aria-label={`${member?.name ?? `Slot ${index+1}`} Gepäck ansehen`} onClick={()=>{setSelectedPartyIndex(index);setSelectedItemId(null);setHudPanel("inventory");}}>{member ? member.name.slice(0,1).toUpperCase() : ""}</button>
+            <button className="ishar-party-name" disabled={!member} onClick={()=>{setSelectedPartyIndex(index);setSelectedItemId(null);setHudPanel("character");}}>{member?.name ?? `Slot ${index+1}`}</button>
             <div className={`ishar-life-row ${originalLifeBar ? "original-life-sprite" : ""}`}>{originalLifeBar ? <img src={originalLifeBar} alt="Leben"/> : <span>LIFE</span>}<div className="ishar-life-track"><i style={{width:`${ratio}%`}}/></div></div>
           </article>;
         })}
@@ -864,7 +900,7 @@ function PlaytestPage() {
     <div className="runtime-details">
       <section><p className="eyebrow">Raum</p><h2>{location.name}</h2><p>{location.description}</p></section>
       <section><h3>Quest</h3>{game.quests.map((q)=><div className="quest-line" key={q.id}><strong>{q.title}</strong><span>{completedQuests.includes(q.id)?"erfüllt":"aktiv"}</span><p>{completedQuests.includes(q.id)?q.completedText:q.objective}</p></div>)}</section>
-      <section><h3>Inventar</h3>{inventory.length ? <ul>{inventory.map((id)=><li key={id}>{game.items.find((x)=>x.id===id)?.name ?? id}</li>)}</ul> : <p className="muted">leer</p>}</section>
+      <section><h3>Gepäck</h3>{inventory.length ? <ul>{inventory.map((id)=><li key={id}>{game.items.find((x)=>x.id===id)?.name ?? id} · {game.characters.find((member)=>member.id===itemOwners[id])?.name ?? "Gruppe"}</li>)}</ul> : <p className="muted">leer</p>}</section>
       <section><h3>Protokoll</h3><div className="game-log">{log.slice(0,6).map((line,i)=><p key={i}>{line}</p>)}</div></section>
     </div>
   </section>;

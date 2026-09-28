@@ -279,3 +279,9 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 1. Locate original Irvan footage or ALIS drawing code that clarifies whether a passable tree at the camera's exact field center disappears, clips around the player, or uses another viewpoint graphic. The CK currently omits an on-point billboard to avoid repeating one root in all directions.
 2. Keep tree density and family assignment editable when outdoor authoring expands. The current seven-tree spacing alternates the two verified `FORET1` families in the disposable 5×5 test, but original Irvan's object placements have not been established.
 3. Recheck larger outdoor maps for adjacent same-family roots before applying this deterministic test placement as a default beyond the 5×5 swamp. Preserve the confirmed water rendering.
+
+## 2026-09-28 — After the first playable character sheet
+
+1. Map the remaining `FRISE.IO` character/equipment controls and `MAIN.IO` glyphs against specific original UI frames. The current nine-slot sheet and owner transfer work, but exact graphics and original item-command semantics are still open.
+2. Add real equipment/hand slots only after item types, effects and combat rules are modeled; avoid decorative controls that imply unsupported actions.
+3. Give the other original character pages (skills, spells, money and status) their own supported data and interactions before presenting the HUD as complete. The current Builder fields are optional authored values, not values decoded from Ishar saves.
