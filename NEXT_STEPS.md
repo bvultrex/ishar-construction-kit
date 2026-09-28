@@ -256,3 +256,9 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 1. Compare the same tree while walking through and past its own tile. The current same-cell root is pinned near a screen edge; original near clipping and occlusion are still unknown.
 2. Compare distant `FORET1` silhouettes and `PLAINE1` reeds across several Irvan viewpoints and palette states. Radial distance now prevents size changes on rotation, but the distance thresholds and scales remain CK estimates.
 3. Keep the now-confirmed water appearance stable while refining vegetation. The unresolved dungeon side-door texture remains a separate investigation.
+
+## 2026-09-28 — After source-sized tree variants
+
+1. Compare the four sampled tree depths against additional original Irvan gameplay frames. The source families and bitmap sizes are now coherent, but CK distance thresholds, subcell anchor points, occlusion and fog remain estimates.
+2. Use the linked hand-drawn Akeers grid map to design an optional solid-cell authoring test, then verify passage/door alignment against original gameplay or map data before changing the main dungeon topology.
+3. Keep the confirmed swamp water rendering and the separate 4175 authored dungeon unchanged while testing these visual hypotheses.

@@ -9,6 +9,14 @@ export interface SwampFeature {
   worldY:number;
 }
 
+// FORET1 #24–30 and #31–37 are distinct near-to-far source families.
+// Four samples from each family fit the current four-band CK projection.
+const SWAMP_TREE_DISTANCE_ASSETS=[[25,26,28,30],[32,33,35,37]] as const;
+
+export function swampTreeAssetIndex(family:0|1,band:0|1|2|3):number {
+  return SWAMP_TREE_DISTANCE_ASSETS[family][band];
+}
+
 /** Stable authored-grid scenery. Camera changes must not choose a new tree. */
 export function swampFeatureForCell(cell:AuthoredLocation):SwampFeature|undefined {
   if(cell.sceneKind!=="outdoor" || cell.outdoorSurface==="water") return undefined;

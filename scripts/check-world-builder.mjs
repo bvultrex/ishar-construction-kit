@@ -6,7 +6,7 @@ import { validateGame } from '../src/lib/ishar/project-validation.ts';
 import { canTravel, DIRECTIONS, DIRECTION_VECTORS, locationAt, turnLeft, turnRight } from '../src/lib/ishar/dungeon.ts';
 import { roomViewEdges, roomsShareOpenSurface } from '../src/lib/ishar/room-surfaces.ts';
 import { createSwampTestArea } from '../src/lib/ishar/swamp-area.ts';
-import { projectSwampFeature, swampFeatureForCell, swampGroundFeatureForCell, swampWaterExtent } from '../src/lib/ishar/swamp-view.ts';
+import { projectSwampFeature, swampFeatureForCell, swampGroundFeatureForCell, swampTreeAssetIndex, swampWaterExtent } from '../src/lib/ishar/swamp-view.ts';
 import { visibleOutdoorCells } from '../src/lib/ishar/outdoor-view.ts';
 
 const starter=starterGame();
@@ -152,6 +152,10 @@ const ground=swampGroundFeatureForCell(treeCell);
 assert.ok(ground && ground.cellId===`${treeCell.id}-ground`);
 assert.equal(swampGroundFeatureForCell(treeCell)?.worldX,ground.worldX,'low vegetation stays at one world point');
 assert.equal(projectSwampFeature(ground,westBank,'north')?.distanceBand,projectSwampFeature(ground,westBank,'west')?.distanceBand,'turning preserves low vegetation size');
+for(const band of [0,1,2,3]) {
+  assert.ok(swampTreeAssetIndex(0,band)>=24 && swampTreeAssetIndex(0,band)<=30,'first tree stays in FORET1 first distance family');
+  assert.ok(swampTreeAssetIndex(1,band)>=31 && swampTreeAssetIndex(1,band)<=37,'second tree stays in FORET1 second distance family');
+}
 const besideTree=projectSwampFeature(tree,treeCell,'north');
 assert.ok(besideTree && besideTree.center<0,'entering the tree cell keeps its root visible at the side');
 assert.equal(swampFeatureForCell(treeCell)?.worldX,tree.worldX,'tree anchor stays fixed across render passes');
