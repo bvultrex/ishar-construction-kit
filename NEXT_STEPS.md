@@ -267,3 +267,9 @@ DUNGEON_ASSET_EVIDENCE.md for exact links, asset IDs, and evidence limits.
 
 1. Compare one tree while stepping around all four sides, including the view after it passes behind the camera. The same-cell lateral factor is still a CK approximation and should be checked against original Irvan footage when an equivalent sequence is available.
 2. Preserve the authored tree anchors and confirmed water masks while refining near occlusion. The #26/#33 vertical extension hides a cut source edge but does not recover the original bitmap placement algorithm.
+
+## 2026-09-28 — After shared-corner tree correction
+
+1. Compare a matched Irvan swamp tree from four camera cells in original footage, if such a sequence is found. The new center/vertex anchors and near projection are internally consistent CK heuristics, not established ALIS placement rules.
+2. Check whether a foreground root should occlude a distant centered tree or whether the original renderer uses a different draw order. Do not force every tree to remain visible through nearer scenery.
+3. Keep the confirmed water appearance and the 4175 authored dungeon stable while refining vegetation in the disposable 4176 swamp test.

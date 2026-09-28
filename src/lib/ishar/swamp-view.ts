@@ -27,12 +27,17 @@ export function swampTreeDisplayHeight(sourceHeight:number,foot:number,band:0|1|
 export function swampFeatureForCell(cell:AuthoredLocation):SwampFeature|undefined {
   if(cell.sceneKind!=="outdoor" || cell.outdoorSurface==="water") return undefined;
   const hash=Math.abs(cell.x*73+cell.y*139+17);
+  const kind=hash%4===0 || hash%7===0 ? "tree" : "plant";
+  // A corner tree belongs to one cell but stands on its north-west vertex.
+  // This avoids duplicate trees at shared vertices and gives all four adjacent
+  // camera cells exactly the same world point and distance variant.
+  const cornerTree=kind==="tree" && hash%3!==0 && cell.x>0 && cell.y>0;
   return {
     cellId:cell.id,
-    kind:hash%4===0 || hash%7===0 ? "tree" : "plant",
+    kind,
     family:Math.floor(hash/4)%2 as 0|1,
-    worldX:cell.x+(2-hash%5)*.15,
-    worldY:cell.y+(Math.floor(hash/5)%5-2)*.15,
+    worldX:kind==="tree" ? cell.x-(cornerTree ? .5 : 0) : cell.x+(2-hash%5)*.15,
+    worldY:kind==="tree" ? cell.y-(cornerTree ? .5 : 0) : cell.y+(Math.floor(hash/5)%5-2)*.15,
   };
 }
 
@@ -67,11 +72,16 @@ export function projectSwampFeature(feature:SwampFeature,origin:AuthoredLocation
   const forwardDistance=dx*forward.x+dy*forward.y;
   const lateralDistance=dx*right.x+dy*right.y;
   const radialDistance=Math.hypot(dx,dy);
-  // A tree on the occupied cell can be just ahead, beside, or slightly behind
-  // the camera. Project its actual offset instead of pinning it off screen.
-  if(feature.kind==="tree" && feature.cellId===origin.id) {
-    const center=320+650*lateralDistance/(Math.max(0,forwardDistance)+.25);
+  // A tree shared by four cells uses the same close projection when viewed
+  // from either side of its vertex. Trees behind the camera remain occluded.
+  // Cell ownership must never change its projected position or source size.
+  if(feature.kind==="tree" && radialDistance>0 && radialDistance<.8 && forwardDistance>=-.2) {
+    const center=320+700*lateralDistance/(Math.max(0,forwardDistance)+.75);
     return {center,foot:400,forwardDistance,lateralDistance,radialDistance,distanceBand:0};
+  }
+  // The camera may occupy a passable tree cell; keep its trunk in the near view.
+  if(feature.kind==="tree" && radialDistance===0) {
+    return {center:320,foot:400,forwardDistance,lateralDistance,radialDistance,distanceBand:0};
   }
   if(forwardDistance<-.2 || forwardDistance>3.8) return undefined;
   if(forwardDistance<.35 && Math.abs(lateralDistance)<.5) return undefined;

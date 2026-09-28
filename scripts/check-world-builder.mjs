@@ -117,6 +117,8 @@ assert.equal(swamp.game.levels.find((level)=>level.id===swamp.levelId)?.biome,'s
 const swampCells=swamp.game.locations.filter((cell)=>cell.levelId===swamp.levelId);
 assert.equal(swampCells.length,25);
 assert.equal(swampCells.filter((cell)=>cell.outdoorSurface==='water').length,2,'preset contains bounded water instead of a water floor');
+const treeAnchors=swampCells.map(swampFeatureForCell).filter((feature)=>feature?.kind==='tree').map((feature)=>`${feature.worldX},${feature.worldY}`);
+assert.equal(new Set(treeAnchors).size,treeAnchors.length,'shared tree vertices have exactly one owning feature');
 assert.deepEqual(validateGame(swamp.game),[]);
 const entrance=swampCells.find((cell)=>cell.id===swamp.entranceId);
 assert.ok(entrance);
@@ -157,13 +159,53 @@ for(const band of [0,1,2,3]) {
   assert.ok(swampTreeAssetIndex(1,band)>=31 && swampTreeAssetIndex(1,band)<=37,'second tree stays in FORET1 second distance family');
 }
 const besideTree=projectSwampFeature(tree,treeCell,'north');
-assert.ok(besideTree && besideTree.center<0 && besideTree.center>-220,'a tree offset toward the bank remains at the near edge');
+assert.ok(besideTree && besideTree.center===320 && besideTree.distanceBand===0,'a passable center tree still has a near-field trunk');
 const oppositeTreeCell=swampCells.find((cell)=>cell.x===0&&cell.y===1);
 assert.ok(oppositeTreeCell);
 const oppositeTree=swampFeatureForCell(oppositeTreeCell);
 assert.equal(oppositeTree?.kind,'tree');
+assert.deepEqual([oppositeTree.worldX,oppositeTree.worldY],[0,1],'the forward tree is anchored at its cell center');
 const seenFromOpposite=projectSwampFeature(oppositeTree,oppositeTreeCell,'north');
-assert.ok(seenFromOpposite && seenFromOpposite.center>320 && seenFromOpposite.center<640,'a tree remains visible when viewed from its occupied cell in the opposite direction');
+assert.ok(seenFromOpposite && seenFromOpposite.center===320,'a passable center tree remains visible from its occupied cell');
+const from22=swampCells.find((cell)=>cell.x===1&&cell.y===1);
+const from23=swampCells.find((cell)=>cell.x===1&&cell.y===2);
+assert.ok(from22&&from23);
+const cornerTree=swampFeatureForCell(from23);
+assert.equal(cornerTree?.kind,'tree');
+assert.deepEqual([cornerTree.worldX,cornerTree.worldY],[.5,1.5],'the reported left tree is anchored at the shared four-cell vertex');
+const cornerAt22=projectSwampFeature(cornerTree,from22,'west');
+const cornerAt23=projectSwampFeature(cornerTree,from23,'west');
+assert.ok(cornerAt22&&cornerAt23);
+assert.equal(cornerAt22.distanceBand,cornerAt23.distanceBand,'the same vertex tree keeps its source image across the reported step');
+assert.equal(cornerAt22.radialDistance,cornerAt23.radialDistance,'both camera cells are equally far from their shared tree');
+assert.equal(cornerAt22.center+cornerAt23.center,640,'the vertex tree moves symmetrically across the two views');
+const forwardAt22=projectSwampFeature(oppositeTree,from22,'west');
+const forwardAt23=projectSwampFeature(oppositeTree,from23,'west');
+assert.ok(forwardAt22&&forwardAt23&&forwardAt22.distanceBand===0&&forwardAt23.distanceBand===1,'the forward center tree recedes by its real diagonal distance');
+const sharedTreeCell=swampCells.find((cell)=>cell.x===2&&cell.y===3);
+assert.ok(sharedTreeCell);
+const sharedTree=swampFeatureForCell(sharedTreeCell);
+assert.equal(sharedTree?.kind,'tree');
+assert.deepEqual([sharedTree.worldX,sharedTree.worldY],[1.5,2.5]);
+const surrounding=[[1,2,'east'],[2,2,'west'],[1,3,'east'],[2,3,'west']].map(([x,y,facing])=>{
+  const origin=swampCells.find((cell)=>cell.x===x&&cell.y===y);
+  assert.ok(origin);
+  return projectSwampFeature(sharedTree,origin,facing);
+});
+assert.ok(surrounding.every((view)=>view&&view.distanceBand===0&&view.foot===400),'all four cells around a vertex see the full near tree');
+assert.deepEqual(surrounding.map((view)=>view.center),[600,40,40,600]);
+assert.equal(projectSwampFeature(sharedTree,from23,'west'),undefined,'a tree behind the camera does not cover the forward view');
+const centerTreeCell=swampCells.find((cell)=>cell.x===2&&cell.y===2);
+assert.ok(centerTreeCell);
+const centerTree=swampFeatureForCell(centerTreeCell);
+assert.equal(centerTree?.kind,'tree');
+assert.deepEqual([centerTree.worldX,centerTree.worldY],[2,2],'a tree can also be anchored at its cell center');
+for(const [x,y,facing] of [[2,1,'south'],[2,3,'north'],[1,2,'east'],[3,2,'west']]) {
+  const origin=swampCells.find((cell)=>cell.x===x&&cell.y===y);
+  assert.ok(origin);
+  const view=projectSwampFeature(centerTree,origin,facing);
+  assert.ok(view&&view.center===320&&view.distanceBand===0,'a center tree is visible at the same size from every cardinal neighbor');
+}
 assert.ok(swampTreeDisplayHeight(80,334,1)>334,'a near cut-top trunk reaches beyond the viewport border');
 assert.equal(swampTreeDisplayHeight(71,275,2),71*400/113,'a complete distant crown keeps its native height');
 assert.equal(swampFeatureForCell(treeCell)?.worldX,tree.worldX,'tree anchor stays fixed across render passes');
