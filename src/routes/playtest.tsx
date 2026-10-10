@@ -282,6 +282,31 @@ function renderDiscoveredItemAtDepth(
   </g>;
 }
 
+function HeldGroundItemCursor({ item, pack, position }: {
+  item: AuthoredGame["items"][number] | undefined;
+  pack: LoadedAssetPack | null;
+  position: { x: number; y: number };
+}) {
+  const [pointer,setPointer]=useState(position);
+  const assetId=semanticItemAssetId(pack,item,0);
+  const discovered=pack?.discoveredAssets?.find((asset)=>asset.id===assetId);
+  const imageUrl=discovered?.url ?? assetFor(pack,"item",undefined,undefined,item?.id)?.url;
+
+  useEffect(()=>{
+    document.body.classList.add("holding-ground-item");
+    const follow=(event:PointerEvent)=>setPointer({x:event.clientX,y:event.clientY});
+    window.addEventListener("pointermove",follow);
+    return ()=>{
+      document.body.classList.remove("holding-ground-item");
+      window.removeEventListener("pointermove",follow);
+    };
+  },[]);
+
+  return <div className="held-ground-item" style={{left:pointer.x,top:pointer.y}} role="img" aria-label={`${item?.name ?? "Gegenstand"} in der Hand`}>
+    {imageUrl ? <img src={imageUrl} alt=""/> : <span aria-hidden="true">◆</span>}
+  </div>;
+}
+
 
 function renderPolygonAsset(
   pack: LoadedAssetPack | null,
@@ -459,7 +484,7 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
   collectedItemIds: string[];
   pack: LoadedAssetPack | null;
   openDoors: string[];
-  onGroundItemSelect?: (itemId: string) => void;
+  onGroundItemSelect?: (itemId: string, position?: { x: number; y: number }) => void;
   selectedGroundItemId?: string | null;
 }) {
   const renderProfile=renderProfileForManifest(pack?.manifest);
@@ -598,10 +623,10 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
       {nativeScene && renderAsset(pack,"surface.floor",undefined,locationTilesetId)}
       {segments}
       {itemLayers}
-      {currentItemId && <g className={`ground-item-choice${selectedGroundItemId===currentItemId ? " selected" : ""}`}
-        role="button" tabIndex={0} aria-label={`${currentItem?.name ?? currentItemId} am Boden auswählen`}
+      {currentItemId && <g className={`ground-item-choice${selectedGroundItemId===currentItemId ? " held" : ""}`}
+        role="button" tabIndex={0} aria-label={`${currentItem?.name ?? currentItemId} ${selectedGroundItemId===currentItemId ? "am Fundort ablegen" : "vom Boden aufheben"}`}
         aria-pressed={selectedGroundItemId===currentItemId}
-        onClick={()=>onGroundItemSelect?.(currentItemId)}
+        onClick={(event)=>onGroundItemSelect?.(currentItemId,{x:event.clientX,y:event.clientY})}
         onKeyDown={(event)=>{if(event.key==="Enter" || event.key===" "){event.preventDefault();onGroundItemSelect?.(currentItemId);}}}>
         {currentItemLayer}
       </g>}
@@ -618,7 +643,7 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
     <div className="viewport-topbar"><span>{location.name}</span><strong>{DIRECTION_LABELS[facing]}</strong></div>
     <div className="viewport-profile">{renderProfile.label} · {renderProfile.drawWidth}×{renderProfile.drawHeight}</div>
     {encounter && !encounterDone && <div className="enemy-hud"><strong>{encounter.name}</strong><span>im Weg</span></div>}
-    {currentItemId && selectedGroundItemId===currentItemId && <div className="ground-item-prompt" role="status">{currentItem?.name ?? currentItemId} ausgewählt · Charakterporträt anklicken</div>}
+    {currentItemId && selectedGroundItemId===currentItemId && <div className="ground-item-prompt" role="status">{currentItem?.name ?? currentItemId} in der Hand · Fundort oder Charakterporträt anklicken</div>}
   </div>;
 }
 
@@ -675,6 +700,7 @@ function PlaytestPage() {
   const [itemOwners,setItemOwners]=useState<Record<string,string>>({});
   const [selectedItemId,setSelectedItemId]=useState<string|null>(null);
   const [selectedGroundItemId,setSelectedGroundItemId]=useState<string|null>(null);
+  const [heldItemStart,setHeldItemStart]=useState({x:0,y:0});
   const [openDoors, setOpenDoors] = useState<string[]>(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));
   const [log, setLog] = useState<string[]>(["Du betrittst den Dungeon."]);
   const [selectedPartyIndex,setSelectedPartyIndex]=useState(0);
@@ -697,6 +723,7 @@ function PlaytestPage() {
   const defeated = game.characters.every((member)=>(partyHp[member.id] ?? member.hp)<=0);
   const won = !!location?.ending && !defeated && encounterDone;
   const visibleItemIds = location?.itemIds.filter((id) => !inventory.includes(id)) ?? [];
+  const heldItem=selectedGroundItemId ? game.items.find((item)=>item.id===selectedGroundItemId) : undefined;
   const level=game.levels.find((entry)=>entry.id===(location?.levelId || "level-1"));
   const portalsHere=game.portals.filter((portal)=>portal.fromLocationId===locationId || portal.toLocationId===locationId);
   const facingTarget = location ? canTravel(game.locations, location, facing) : undefined;
@@ -743,7 +770,7 @@ function PlaytestPage() {
   }
 
   function step(direction: Direction) {
-    if (!location || !encounterDone || defeated) return;
+    if (!location || !encounterDone || defeated || selectedGroundItemId) return;
     const target = canTravel(game.locations, location, direction);
     if (!target) {
       const ahead=adjacentLocation(game.locations,location,direction);
@@ -789,9 +816,12 @@ function PlaytestPage() {
     return true;
   }
 
-  function selectGroundItem(id:string){
+  function selectGroundItem(id:string,position?:{x:number;y:number}){
     if(!visibleItemIds.includes(id) || defeated || !encounterDone) return;
-    setSelectedGroundItemId((current)=>current===id ? null : id);
+    if(selectedGroundItemId===id){setSelectedGroundItemId(null);return;}
+    if(selectedGroundItemId) return;
+    setHeldItemStart(position ?? {x:window.innerWidth/2,y:window.innerHeight/2});
+    setSelectedGroundItemId(id);
   }
 
   function transferItem(id:string,recipientId:string){
@@ -805,7 +835,7 @@ function PlaytestPage() {
   }
 
   function usePortal(id:string){
-    if(defeated || !encounterDone) return;
+    if(defeated || !encounterDone || selectedGroundItemId) return;
     const portal=game.portals.find((entry)=>entry.id===id);
     if(!portal) return;
     const targetId=portal.fromLocationId===locationId ? portal.toLocationId : portal.fromLocationId;
@@ -824,6 +854,8 @@ function PlaytestPage() {
       if (target?.closest("input,textarea,select")) return;
       const key = event.key.toLowerCase();
       if (["arrowup","arrowdown","arrowleft","arrowright","w","a","s","d"].includes(key)) event.preventDefault();
+      if(key==="escape" && selectedGroundItemId){setSelectedGroundItemId(null);return;}
+      if(selectedGroundItemId) return;
       if (key === "arrowleft" || key === "a") setFacing((value)=>turnLeft(value));
       else if (key === "arrowright" || key === "d") setFacing((value)=>turnRight(value));
       else if (key === "arrowup" || key === "w") step(facing);
@@ -831,7 +863,7 @@ function PlaytestPage() {
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [facing, locationId, encounterDone, defeated, openDoors]);
+  }, [facing, locationId, encounterDone, defeated, openDoors, selectedGroundItemId]);
 
   if (problems.length || !hero || !location) return <section><header className="page-head"><div><p className="eyebrow">Dungeon Playtest</p><h1>Projekt nicht spielbar</h1><p>Behebe zuerst die Raster- oder Referenzfehler im Adventure Builder.</p></div><Link className="file-button" to="/author">Zum Builder</Link></header><div className="empty-state">{problems.map((p,i)=><p key={i}>{p.path}: {p.message}</p>)}</div></section>;
 
@@ -877,23 +909,23 @@ function PlaytestPage() {
           </nav>
           {hudPanel && hudPanel!=="character" && hudPanel!=="inventory" && <section className="ishar-hud-panel" aria-label="Spielmenü-Inhalt">
             <button className="ishar-hud-close" onClick={()=>setHudPanel(null)} aria-label="Menü schließen">×</button>
-            {hudPanel==="actions" && <><h3>Aktionen · {game.characters[selectedPartyIndex]?.name ?? hero.name}</h3><div className="ishar-hud-actions"><button onClick={attack} disabled={!encounter || encounterDone || defeated || (partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0)<=0}>Angreifen</button><button onClick={openFacingDoor} disabled={!facingDoorClosed || defeated}>Tür öffnen</button>{visibleItemIds.map((id)=><button key={id} onClick={()=>takeItem(id)}>{game.items.find((item)=>item.id===id)?.name ?? id} aufnehmen</button>)}{portalsHere.map((portal)=><button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone}>{portal.label}</button>)}</div></>}
+            {hudPanel==="actions" && <><h3>Aktionen · {game.characters[selectedPartyIndex]?.name ?? hero.name}</h3><div className="ishar-hud-actions"><button onClick={attack} disabled={!encounter || encounterDone || defeated || (partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0)<=0}>Angreifen</button><button onClick={openFacingDoor} disabled={!facingDoorClosed || defeated}>Tür öffnen</button>{visibleItemIds.map((id)=><button key={id} onClick={(event)=>selectGroundItem(id,{x:event.clientX,y:event.clientY})}>{game.items.find((item)=>item.id===id)?.name ?? id} {selectedGroundItemId===id ? "zurücklegen" : "aufheben"}</button>)}{portalsHere.map((portal)=><button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone || !!selectedGroundItemId}>{portal.label}</button>)}</div></>}
             {hudPanel==="map" && <><h3>{level?.name ?? "Karte"}</h3><DungeonMiniMap game={game} location={location} facing={facing}/></>}
             {hudPanel==="quest" && <><h3>Aufträge</h3>{game.quests.map((quest)=><p key={quest.id}><strong>{quest.title}</strong> · {completedQuests.includes(quest.id) ? quest.completedText : quest.objective}</p>)}</>}
           </section>}
           <div className="ishar-dpad" aria-label="Dungeon-Steuerung">
             <span/>
-            <button onClick={()=>step(facing)} disabled={!encounterDone || defeated} aria-label="Vorwärts">▲</button>
+            <button onClick={()=>step(facing)} disabled={!encounterDone || defeated || !!selectedGroundItemId} aria-label="Vorwärts">▲</button>
             <span/>
-            <button onClick={()=>setFacing(turnLeft(facing))} aria-label="Links drehen">◀</button>
-            <button className="dpad-center" onClick={()=>step(turnBack(facing))} disabled={!encounterDone || defeated} aria-label="Rückwärts">▼</button>
-            <button onClick={()=>setFacing(turnRight(facing))} aria-label="Rechts drehen">▶</button>
+            <button onClick={()=>setFacing(turnLeft(facing))} disabled={!!selectedGroundItemId} aria-label="Links drehen">◀</button>
+            <button className="dpad-center" onClick={()=>step(turnBack(facing))} disabled={!encounterDone || defeated || !!selectedGroundItemId} aria-label="Rückwärts">▼</button>
+            <button onClick={()=>setFacing(turnRight(facing))} disabled={!!selectedGroundItemId} aria-label="Rechts drehen">▶</button>
           </div>
           <div className="ishar-context-buttons">
-            {visibleItemIds.map((id)=><button key={id} onClick={()=>takeItem(id)} disabled={defeated}>{game.items.find((item)=>item.id===id)?.name ?? id} aufnehmen</button>)}
+            {visibleItemIds.map((id)=><button key={id} onClick={(event)=>selectGroundItem(id,{x:event.clientX,y:event.clientY})} disabled={defeated}>{game.items.find((item)=>item.id===id)?.name ?? id} {selectedGroundItemId===id ? "zurücklegen" : "aufheben"}</button>)}
             {encounter && !encounterDone && !defeated && <button className="attack-button" onClick={attack} disabled={(partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0)<=0}>⚔ Angriff <small>{currentEnemyHp}/{encounter.enemyHp}</small></button>}
             {facingDoorClosed && encounterDone && !defeated && <button className="door-button" onClick={openFacingDoor}>🚪 Öffnen<small>{facingDoor?.keyItemId ? "Schlüssel" : "Tür"}</small></button>}
-            {portalsHere.map((portal)=>{const target=game.locations.find((entry)=>entry.id===(portal.fromLocationId===locationId ? portal.toLocationId : portal.fromLocationId));return <button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone}>↗ {target?.name ?? portal.label}</button>})}
+            {portalsHere.map((portal)=>{const target=game.locations.find((entry)=>entry.id===(portal.fromLocationId===locationId ? portal.toLocationId : portal.fromLocationId));return <button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone || !!selectedGroundItemId}>↗ {target?.name ?? portal.label}</button>})}
           </div>
           <div className="ishar-compass">Blick: <strong>{DIRECTION_LABELS[facing]}</strong></div>
         </aside>
@@ -907,12 +939,14 @@ function PlaytestPage() {
           const ratio=member ? Math.max(0,Math.min(100,Math.round(currentHp/maxHp*100))) : 0;
           return <article className={member ? `ishar-party-card ${selectedPartyIndex===index ? "selected" : ""}` : "ishar-party-card empty"} key={member?.id ?? `empty-${index}`}>
             <button className={`ishar-action-tab ${originalActionBar ? "original-hud-sprite" : ""}`} disabled={!member} aria-label={`${member?.name ?? `Slot ${index+1}`} Aktionen`} onClick={()=>{setSelectedPartyIndex(index);toggleHud("actions");}}>{originalActionBar ? <img src={originalActionBar} alt=""/> : member ? "ACTION" : "—"}</button>
-            <button className={`ishar-portrait${selectedGroundItemId && member && currentHp>0 ? " pickup-target" : ""}`} disabled={!member || (!!selectedGroundItemId && currentHp<=0)} aria-label={selectedGroundItemId && member ? `${member.name}: Gegenstand aufnehmen` : `${member?.name ?? `Slot ${index+1}`} Gepäck ansehen`} onClick={()=>{setSelectedPartyIndex(index);if(selectedGroundItemId){if(takeItem(selectedGroundItemId,member?.id))setHudPanel("inventory");}else{setSelectedItemId(null);setHudPanel("inventory");}}}>{member ? member.name.slice(0,1).toUpperCase() : ""}</button>
+            <button className={`ishar-portrait${selectedGroundItemId && member && currentHp>0 ? " pickup-target" : ""}`} disabled={!member || (!!selectedGroundItemId && currentHp<=0)} aria-label={selectedGroundItemId && member ? `${member.name}: Gegenstand aufnehmen` : `${member?.name ?? `Slot ${index+1}`} Gepäck ansehen`} onClick={()=>{setSelectedPartyIndex(index);if(selectedGroundItemId){takeItem(selectedGroundItemId,member?.id);}else{setSelectedItemId(null);setHudPanel("inventory");}}}>{member ? member.name.slice(0,1).toUpperCase() : ""}</button>
             <button className="ishar-party-name" disabled={!member} onClick={()=>{setSelectedPartyIndex(index);setSelectedItemId(null);setHudPanel("character");}}>{member?.name ?? `Slot ${index+1}`}</button>
             <div className={`ishar-life-row ${originalLifeBar ? "original-life-sprite" : ""}`}>{originalLifeBar ? <img src={originalLifeBar} alt="Leben"/> : <span>LIFE</span>}<div className="ishar-life-track"><i style={{width:`${ratio}%`}}/></div></div>
           </article>;
         })}
       </div>
+
+      {selectedGroundItemId && <HeldGroundItemCursor key={selectedGroundItemId} item={heldItem} pack={pack} position={heldItemStart}/>}
 
       {defeated && <div className="crawler-message danger"><strong>Die Gruppe wurde besiegt.</strong><button onClick={reset}>Erneut versuchen</button></div>}
       {won && <div className="crawler-message victory"><strong>Abschluss erreicht.</strong><span>Du kannst dich für weitere Tests weiterbewegen.</span></div>}
