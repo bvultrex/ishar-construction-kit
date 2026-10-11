@@ -88,7 +88,9 @@ t('r14 collision: negative A blocks on every map, map 4 A==0 blocks, B -125 bloc
   const g = blank(4, 4, 2); const A = Buffer.from(g.layerA, 'base64'); A.fill(0);
   A[1 * 4 + 1] = (-10) & 255; A[1 * 4 + 2] = (-3) & 255; A[2 * 4 + 1] = 42; const B = Buffer.from(g.layerB, 'base64'); B[3 * 4 + 3] = (-125) & 255;
   const x = { ...g, layerA: A.toString('base64'), layerB: B.toString('base64') };
-  assert.equal(cellWalkable(x, 1, 1), false); assert.equal(cellWalkable(x, 1, 2), false); assert.equal(cellWalkable(x, 3, 3), false);
+  assert.equal(cellWalkable(x, 1, 1), false); assert.equal(cellWalkable(x, 1, 2), false); assert.equal(cellWalkable(x, 3, 3), true);
+  assert.equal(canStep(x, 2, 3, 'south', no).kind, 'event');
+  assert.equal(canStep(x, 2, 3, 'south', no, false).kind, 'open', 'B=-125 does not block retreat');
   assert.equal(canStep(x, 2, 2, 'north', no).kind, 'wall');
   assert.equal(canStep({ ...x, mapNumber: 1 }, 2, 1, 'south', no).kind, 'open', 'edge element 42 never blocks on maps 1-4');
   assert.equal(cellWalkable({ ...x, mapNumber: 4 }, 0, 0), false); assert.equal(cellWalkable({ ...x, mapNumber: 4 }, 2, 1), true);

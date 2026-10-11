@@ -129,7 +129,8 @@ export function cellWalkable(grid: IsharGrid, r: number, c: number) {
   const a = cellA(grid, r, c);
   if (a < 0) return false;
   if (grid.mapNumber === 4 && a === 0) return false;
-  if (cellB(grid, r, c) === -125) return false;
+  // B=-125 is a forward-only interaction, not solid terrain. Keep the cell in
+  // the runtime graph so retreating into it remains possible (GERDEP 0x00ef0).
   return true;
 }
 
@@ -164,7 +165,8 @@ export function sceneAt(grid: IsharGrid, r: number, c: number): IsharGridScene {
 const SCENE_TILESET: Record<string, string> = { DJ1: "ishar2-dj1", DJ2: "ishar2-dj2" };
 
 // ------------------------------------------------------------- collision
-export type StepResult = { kind: "open" } | { kind: "wall" } | { kind: "door"; door: number; closed: boolean };
+export type StepResult = { kind: "open"; exit?: true } | { kind: "wall" } | { kind: "door"; door: number; closed: boolean }
+  | { kind: "event"; message: 17 | 25; value: number };
 const vec = (d: Direction) => { const g = gridStep(d); return { x: g.dc, y: g.dr }; }; // grid-space (x=dc, y=dr)
 /** Door number on the edge between (r,c) and its neighbour in `dir` (either side may carry it). */
 export function edgeDoor(grid: IsharGrid, r: number, c: number, dir: Direction) {
@@ -182,14 +184,19 @@ export function edgeDoor(grid: IsharGrid, r: number, c: number, dir: Direction) 
  * Thin edges without a door index do not block in this code path (known).
  * The override main 0x4ef3==1 (skips the door test) is not modelled (unknown meaning).
  */
-export function canStep(grid: IsharGrid, r: number, c: number, dir: Direction, isOpen: (door: number) => boolean): StepResult {
+export function canStep(grid: IsharGrid, r: number, c: number, dir: Direction, isOpen: (door: number) => boolean, forward = true): StepResult {
   const v = vec(dir);
+  const a = cellA(grid, r + v.y, c + v.x), b = cellB(grid, r + v.y, c + v.x);
+  // GERDEP 0x00e54..0x00ebb sends message 17 before refusing these cells.
+  if (forward && [1, 2, 3, 7].includes(grid.mapNumber ?? 5) && [-21, -20, -19, -18, -5].includes(a))
+    return { kind: "event", message: 17, value: b };
   if (!cellWalkable(grid, r + v.y, c + v.x)) return { kind: "wall" };
+  if (forward && b === -125) return { kind: "event", message: 25, value: b };
   if ((grid.mapNumber ?? 5) > 4) {
     const door = edgeDoor(grid, r, c, dir);
     if (door !== undefined) return { kind: "door", door, closed: !isOpen(door) };
   }
-  return { kind: "open" };
+  return b === -126 ? { kind: "open", exit: true } : { kind: "open" };
 }
 
 // ------------------------------------------- bridge into the CK runtime model
@@ -236,8 +243,9 @@ export function expandGridLevels(game: AuthoredGame): AuthoredGame {
         : { id: gridLocationId(level.id, r, c), name: `${level.name} ${r}/${c}`, description: "", x: ckXOf(grid, c), y: r, levelId: level.id,
             exits, itemIds: [], sceneKind: a === 0 ? "room" : "corridor", tilesetId });
     }
-    const placed = new Set(cells.map((cell) => cell.id));
-    locations = [...locations.filter((l) => (l.levelId || "level-1") !== level.id || !placed.has(l.id)), ...cells];
+    // Authored content on a blocked cell must not survive as a ghost runtime
+    // location. It stays in the source project and is reported by validation.
+    locations = [...locations.filter((l) => (l.levelId || "level-1") !== level.id), ...cells];
   }
   return { ...game, locations, doors };
 }
@@ -379,9 +387,10 @@ export function addGridLevel(game: AuthoredGame, grid: IsharGrid, portalFromId: 
   let n = game.levels.length + 1; while (game.levels.some((l) => l.id === `level-${n}`)) n++;
   const levelId = `level-${n}`;
   const name = grid.source?.file ? grid.source.file.replace(/\.FIC$/i, "") : `Raster ${n}`;
-  const entry: AuthoredLocation = { id: `${levelId}-entry`, name: `${name} Eingang`, description: "", x: ckXOf(grid, cell.c), y: cell.r, levelId, exits: [], itemIds: [], sceneKind: "corridor" };
+  const outdoor = grid.game === "ishar2" && (grid.mapNumber ?? 5) <= 4;
+  const entry: AuthoredLocation = { id: `${levelId}-entry`, name: `${name} Eingang`, description: "", x: ckXOf(grid, cell.c), y: cell.r, levelId, exits: [], itemIds: [], sceneKind: outdoor ? "outdoor" : "corridor" };
   return { ok: true as const, levelId, entryId: entry.id, game: { ...game,
-    levels: [...game.levels, { id: levelId, name, kind: "dungeon" as const, tilesetId: "ishar2-dj1", grid }],
+    levels: [...game.levels, { id: levelId, name, kind: outdoor ? "outdoor" as const : "dungeon" as const, tilesetId: grid.game!=="ishar2" ? undefined : outdoor ? `ishar2-out${grid.mapNumber}` : "ishar2-dj1", grid }],
     locations: [...game.locations, entry],
     portals: [...game.portals, { id: `portal-${levelId}`, fromLocationId: from.id, toLocationId: entry.id, label: `Nach ${name}` }] } };
 }

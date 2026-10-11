@@ -210,6 +210,10 @@ export interface AuthoredCharacter {
 }
 
 export interface AuthoredItem {
+  /** Original OBJET positive ground code; only verified resource families are enabled. */
+  originalObjectCode?: number;
+  /** Runtime placement instance: original definition for key/asset lookup. */
+  definitionId?: string;
   id: string;
   name: string;
   description: string;
@@ -231,6 +235,9 @@ export interface AuthoredLocation {
   levelId?: string;
   exits: string[];
   itemIds: string[];
+  /** Persistent identities of ground copies, parallel to itemIds. */
+  itemPlacementIds?: string[];
+  npcIds?: string[];
   encounterId?: string;
   tilesetId?: string;
   sceneKind?: "corridor" | "room" | "outdoor";
@@ -320,12 +327,25 @@ export interface AuthoredQuest {
   completedText: string;
 }
 
+export interface AuthoredNpc {
+  id: string;
+  name: string;
+  dialogue: string;
+  assetId?: string;
+  /** Optional shop opens on interaction; empty stock is a dialogue-only NPC. */
+  stock?: { itemId: string; price: number; quantity: number }[];
+}
+
 export interface AuthoredGame {
+  /** Locally imported decompiled stock; no original table is shipped with the kit. */
+  originalMerchants?: import('./original-merchants').OriginalMerchant[];
   assetPackId?: string;
   startLocationId: string;
   startFacing: Direction;
   characters: AuthoredCharacter[];
   items: AuthoredItem[];
+  npcs?: AuthoredNpc[];
+  startingGold?: number;
   locations: AuthoredLocation[];
   levels: AuthoredLevel[];
   portals: AuthoredPortal[];

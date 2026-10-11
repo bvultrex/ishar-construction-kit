@@ -68,7 +68,19 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
     }
 
     for (const item of location.itemIds) if (!itemIds.has(item)) problems.push({ path: `location.${location.id}.itemIds`, message: `Unbekanntes Item "${item}".` });
+    for(const id of location.npcIds??[]) if(!(game.npcs??[]).some(n=>n.id===id)) problems.push({path:`location.${location.id}.npcIds`,message:`Unbekannter NPC "${id}".`});
+    if(location.itemPlacementIds && (location.itemPlacementIds.length!==location.itemIds.length || new Set(location.itemPlacementIds).size!==location.itemPlacementIds.length)) problems.push({path:`location.${location.id}.itemPlacementIds`,message:'Item-Platzierungen benötigen je Kopie eine eindeutige ID.'});
     if (location.encounterId && !encounterIds.has(location.encounterId)) problems.push({ path: `location.${location.id}.encounterId`, message: `Unbekannte Begegnung "${location.encounterId}".` });
+  }
+
+  const npcIds=new Set<string>();
+  for(const npc of game.npcs??[]) {
+    if(!npc.id.trim() || npcIds.has(npc.id)) problems.push({path:'game.npcs',message:'NPC-IDs müssen eindeutig und nicht leer sein.'});
+    npcIds.add(npc.id);
+    for(const [index,stock] of (npc.stock??[]).entries()) {
+      if(!itemIds.has(stock.itemId)) problems.push({path:`npc.${npc.id}.stock.${index}`,message:'Ware verweist auf einen unbekannten Gegenstand.'});
+      if(!Number.isSafeInteger(stock.price)||stock.price<0||!Number.isSafeInteger(stock.quantity)||stock.quantity<0) problems.push({path:`npc.${npc.id}.stock.${index}`,message:'Preis und Bestand müssen ganze, nicht negative Zahlen sein.'});
+    }
   }
 
   if (doorIds.size !== game.doors.length) problems.push({ path: "game.doors", message: "Tür-IDs müssen eindeutig sein." });

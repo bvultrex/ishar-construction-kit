@@ -6,13 +6,13 @@
  * corridor cell (known for CONT5/6). Wall rule (Hoth, decompile/wall-rule.md, suspected S27): in dungeon and
  * town maps no thin edge separates two rooms; outdoor maps 1/2/4 are exempt.
  */
-import { cellA, cellB, CK_TO_COMPASS, decomposeCode, doorNumber, EDGE_ELEMENT_SIDE, gridStep, isFullWall, setGridCell, SHAPE_BY_OPEN } from "./cont-grid.ts";
+import { cellA, cellB, cellWalkable, CK_TO_COMPASS, decomposeCode, doorNumber, EDGE_ELEMENT_SIDE, gridStep, setGridCell, SHAPE_BY_OPEN } from "./cont-grid.ts";
 import type { Direction, IsharGrid } from "./types.ts";
 
 export const DIRS: Direction[] = ["north", "east", "south", "west"];
 const LETTER = "NESW";
 const inside = (g: IsharGrid, r: number, c: number) => r >= 0 && c >= 0 && r < g.rows && c < g.cols;
-export const isOpenCell = (g: IsharGrid, r: number, c: number) => inside(g, r, c) && !isFullWall(cellA(g, r, c));
+export const isOpenCell = cellWalkable;
 const nb = (r: number, c: number, d: Direction) => { const s = gridStep(d); return { r: r + s.dr, c: c + s.dc }; };
 export const OPPOSITE: Record<Direction, Direction> = { north: "south", south: "north", east: "west", west: "east" };
 

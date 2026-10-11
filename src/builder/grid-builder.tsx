@@ -1,6 +1,6 @@
 /** r13 Builder: grid map (centerpiece), inspector, live preview (same DungeonViewport as the playtest). */
 import { useMemo } from "react";
-import { cellA, cellB, decomposeCode, doorNumber, EDGE_ELEMENT_SIDE, gridStep, isFullWall, sceneTriggerAt, trapAt } from "@/lib/ishar/cont-grid";
+import { cellA, cellB, cellWalkable, decomposeCode, doorNumber, EDGE_ELEMENT_SIDE, gridStep, isFullWall, sceneTriggerAt, trapAt } from "@/lib/ishar/cont-grid";
 import { nicheSwitch } from "@/lib/ishar/door-mechanics";
 import type { Direction, IsharGrid } from "@/lib/ishar/types";
 
@@ -18,7 +18,7 @@ export const TOOLS: { id: BuilderTool; key: string; label: string; hint: string 
 ];
 export type Layers = { shape: boolean; logic: boolean; scene: boolean; traps: boolean; hex: boolean };
 export { SCREEN_SIDE, compassOf } from "@/lib/ishar/grid-editor";
-import { compassOf, SCREEN_SIDE } from "@/lib/ishar/grid-editor";
+import { compassOf, SCREEN_SIDE, wallRuleApplies } from "@/lib/ishar/grid-editor";
 const SIDE_LINE: Record<Direction, [number, number, number, number]> = { south: [1, 0, 1, 1], north: [0, 0, 0, 1], east: [0, 0, 1, 0], west: [0, 1, 1, 1] };
 
 export function gridBounds(grid: IsharGrid, pad = 3) {
@@ -36,23 +36,24 @@ export function GridMap({ grid, selected, party, tool, layers, size, onCell, edi
   tool: BuilderTool; layers: Layers; size: number; editable: boolean; onCell: (r: number, c: number, side: Direction) => void;
 }) {
   const b = useMemo(() => gridBounds(grid), [grid]);
+  const dungeon=wallRuleApplies(grid);
   const S = Math.max(size, Math.min(36, Math.floor(820 / (b.r1 - b.r0 + 1)), Math.floor(560 / (b.c1 - b.c0 + 1)))), W = (b.r1 - b.r0 + 1) * S, H = (b.c1 - b.c0 + 1) * S;
   const cells: React.ReactNode[] = [];
   for (let r = b.r0; r <= b.r1; r++) for (let c = b.c0; c <= b.c1; c++) {
     const a = cellA(grid, r, c), bb = cellB(grid, r, c), x = (r - b.r0) * S, y = (c - b.c0) * S;
-    const wall = isFullWall(a), door = doorNumber(bb), trap = trapAt(grid, r, c), niche = nicheSwitch(grid, r, c), scene = sceneTriggerAt(grid, r, c);
+    const wall = !cellWalkable(grid,r,c), door = dungeon ? doorNumber(bb) : undefined, trap = dungeon ? trapAt(grid, r, c) : undefined, niche = dungeon ? nicheSwitch(grid, r, c) : undefined, scene = sceneTriggerAt(grid, r, c);
     const cls = wall ? "gb-wall" : a === 0 && !neighbourOpen(grid, r, c) && !door ? "gb-void" : "gb-floor";
     cells.push(<rect key={`c${r}-${c}`} x={x} y={y} width={S} height={S} className={`gb-cell ${cls}`} data-cell={`${r}/${c}`} data-a={a} data-b={bb}/>);
     if (wall) continue;
-    if (layers.shape) for (const e of decomposeCode(a).filter((e) => e >= 1 && e <= 8)) {
+    if (dungeon && layers.shape) for (const e of decomposeCode(a).filter((e) => e >= 1 && e <= 8)) {
       const [x1, y1, x2, y2] = SIDE_LINE[EDGE_ELEMENT_SIDE[e]!];
       cells.push(<line key={`e${r}-${c}-${e}`} x1={x + x1 * S} y1={y + y1 * S} x2={x + x2 * S} y2={y + y2 * S} className={e <= 4 ? "gb-edge frontal" : "gb-edge"}/>);
     }
-    for (const e of grid.edgeExtras?.[r * grid.cols + c] ?? []) { const [x1, y1, x2, y2] = SIDE_LINE[EDGE_ELEMENT_SIDE[e]!]; cells.push(<line key={`x${r}-${c}-${e}`} x1={x + x1 * S} y1={y + y1 * S} x2={x + x2 * S} y2={y + y2 * S} className="gb-edge extra"/>); }
+    for (const e of dungeon ? grid.edgeExtras?.[r * grid.cols + c] ?? [] : []) { const [x1, y1, x2, y2] = SIDE_LINE[EDGE_ELEMENT_SIDE[e]!]; cells.push(<line key={`x${r}-${c}-${e}`} x1={x + x1 * S} y1={y + y1 * S} x2={x + x2 * S} y2={y + y2 * S} className="gb-edge extra"/>); }
     if (layers.logic && door !== undefined) cells.push(<g key={`d${r}-${c}`} className="gb-door"><rect x={x + 1.5} y={y + 1.5} width={S - 3} height={S - 3}/>{S >= 12 && <text x={x + S / 2} y={y + S / 2 + S * 0.18} fontSize={S * 0.5}>{door}</text>}</g>);
     if (layers.logic && niche !== undefined) cells.push(<circle key={`n${r}-${c}`} cx={x + S / 2} cy={y + S / 2} r={S * 0.22} className="gb-niche"/>);
     if (layers.traps && trap) cells.push(<rect key={`t${r}-${c}`} x={x + S * 0.28} y={y + S * 0.28} width={S * 0.44} height={S * 0.44} className="gb-trap"/>);
-    if (layers.logic && bb <= -100 && bb >= -119) cells.push(<rect key={`p${r}-${c}`} x={x + S * 0.3} y={y + S * 0.3} width={S * 0.4} height={S * 0.4} className="gb-plate"/>);
+    if (dungeon && layers.logic && bb <= -100 && bb >= -119) cells.push(<rect key={`p${r}-${c}`} x={x + S * 0.3} y={y + S * 0.3} width={S * 0.4} height={S * 0.4} className="gb-plate"/>);
     if (layers.scene && scene !== undefined) cells.push(<text key={`s${r}-${c}`} x={x + 2} y={y + S - 2} fontSize={S * 0.38} className="gb-scene">{scene}</text>);
     if (layers.hex && S >= 18) cells.push(<text key={`h${r}-${c}`} x={x + 1} y={y + S * 0.35} fontSize={S * 0.28} className="gb-hex">{(a & 0xff).toString(16).padStart(2, "0")}{bb ? "/" + (bb & 0xff).toString(16).padStart(2, "0") : ""}</text>);
   }
@@ -76,6 +77,12 @@ export function GridMap({ grid, selected, party, tool, layers, size, onCell, edi
 /** Plain description of a cell for the inspector. */
 export function describeCell(grid: IsharGrid, r: number, c: number) {
   const a = cellA(grid, r, c), b = cellB(grid, r, c);
+  if(!wallRuleApplies(grid)){
+    const scene=sceneTriggerAt(grid,r,c);
+    return {a,b,aText:`${a} · ${cellWalkable(grid,r,c) ? "begehbar" : "gesperrt"} (Gebietscode)`,
+      bText:grid.mapNumber===4 ? `${b} · Geländehöhe` : scene!==undefined ? `${b} → Szenentyp ${scene}` : String(b),
+      edges:[],door:undefined,trap:undefined,niche:undefined,scene};
+  }
   const parts = decomposeCode(a);
   const edges = parts.filter((e) => e >= 1 && e <= 8).map((e) => `${e <= 4 ? "frontal" : "Seite"} ${compassOf(EDGE_ELEMENT_SIDE[e]!)} (Element ${e})`);
   const aText = isFullWall(a) ? "0xFF Ganzfeld-Mauer" : a === 0 ? "0 Boden/Raum" : parts.length === 2 ? `${a} = ${parts[0]} + ${parts[1]}` : String(a);

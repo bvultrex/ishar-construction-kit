@@ -1,3 +1,4 @@
+import {originalStarterItem} from './authored-item-view.ts';
 import type { AuthoredGame, AuthoredLocation, Direction, KitProject } from "./types";
 
 export const MODULE_IDS = [
@@ -29,7 +30,7 @@ export function starterGame(): AuthoredGame {
       { id: "gate", name: "Verfallenes Tor", description: "Das Tor fällt hinter dir ins Schloss. Ein schmaler Gang führt nach Norden.", x: 0, y: 3, exits: ["vestibule"], itemIds: [] },
       { id: "vestibule", name: "Vorhalle", description: "Feuchte Quadersteine und eiserne Fackelhalter säumen die Vorhalle.", x: 0, y: 2, exits: ["gate", "crossing"], itemIds: [] },
       { id: "crossing", name: "Kreuzgang", description: "Der Gang verzweigt sich nach Westen und Osten. Geradeaus versperrt Mauerwerk den Weg.", x: 0, y: 1, exits: ["vestibule", "crypt", "guardhall"], itemIds: [] },
-      { id: "crypt", name: "Alte Krypta", description: "Niedrige Sarkophage stehen im Staub. Auf einem Sockel liegt ein Runenstein.", x: -1, y: 1, exits: ["crossing"], itemIds: ["crypt-rune"] },
+      { id: "crypt", name: "Alte Krypta", description: "Niedrige Sarkophage stehen im Staub. Auf dem Boden liegt ein Gegenstand.", x: -1, y: 1, exits: ["crossing"], itemIds: ["crypt-rune"] },
       { id: "guardhall", name: "Wächterhalle", description: "Zwischen zerbrochenen Säulen regt sich ein steinerner Wächter.", x: 1, y: 1, exits: ["crossing", "north-passage"], itemIds: [], encounterId: "guardian" },
       { id: "north-passage", name: "Nordgang", description: "Der enge Gang steigt leicht an. Kaltes Licht fällt von Norden herein.", x: 1, y: 0, exits: ["guardhall", "sanctum"], itemIds: [] },
       { id: "sanctum", name: "Sonnenheiligtum", description: "Goldenes Licht fällt auf einen uralten Steinsockel. Hier endet der Test-Dungeon.", x: 1, y: -1, exits: ["north-passage"], itemIds: ["sun-key"], ending: true },
@@ -49,9 +50,12 @@ function normalizedLocation(location: AuthoredLocation, index: number): Authored
   const legacy = legacyStarterPositions[location.id];
   return {
     ...location,
+    description: location.id==='crypt' && location.description==='Niedrige Sarkophage stehen im Staub. Auf einem Sockel liegt ein Runenstein.'
+      ? 'Niedrige Sarkophage stehen im Staub. Auf dem Boden liegt ein Gegenstand.' : location.description,
     x: Number.isFinite(location.x) ? location.x : (legacy?.x ?? 0),
     y: Number.isFinite(location.y) ? location.y : (legacy?.y ?? index),
     levelId: location.levelId || "level-1",
+    itemPlacementIds: location.itemIds.map((_,slot)=>location.itemPlacementIds?.[slot] ?? `legacy-${slot}`),
   };
 }
 
@@ -68,7 +72,9 @@ export function normalizeGame(raw: unknown): AuthoredGame {
     ...source,
     startFacing: facing,
     characters: Array.isArray(source.characters) ? source.characters : fallback.characters,
-    items: Array.isArray(source.items) ? source.items : fallback.items,
+    items: (Array.isArray(source.items) ? source.items : fallback.items).map(originalStarterItem),
+    npcs: Array.isArray(source.npcs) ? source.npcs : [],
+    startingGold: Number.isSafeInteger(source.startingGold) && source.startingGold!>=0 ? source.startingGold : 0,
     encounters: Array.isArray(source.encounters) ? source.encounters : fallback.encounters,
     doors: Array.isArray(source.doors) ? source.doors : fallback.doors,
     levels: Array.isArray(source.levels) && source.levels.length ? source.levels : fallback.levels,

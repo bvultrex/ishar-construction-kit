@@ -1,6 +1,6 @@
 import http from "node:http";
-import { createReadStream, existsSync, statSync } from "node:fs";
-import { extname, join, normalize } from "node:path";
+import { createReadStream, existsSync, statSync, readFileSync } from "node:fs";
+import { extname, join, normalize, dirname } from "node:path";
 import app from "../dist/server/server.js";
 
 const host = process.env.HOST || "127.0.0.1";
@@ -46,7 +46,26 @@ async function bodyFor(req) {
 const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url || "/", `http://${req.headers.host || `${host}:${port}`}`);
+    if(url.pathname==="/__local/ishar-actors") {
+      const configured=process.env.ISHAR_MERCHANT_LISTING;
+      if(host!=="127.0.0.1" || url.hostname!=="127.0.0.1" || req.headers["sec-fetch-site"]==="cross-site" || !configured) {res.statusCode=404;return res.end();}
+      if(req.method!=="GET" && req.method!=="HEAD") {res.statusCode=405;return res.end();}
+      const root=dirname(configured),modules=["GOLEM1.IO","WIZARD1.IO","AVEUGLE5.IO"];
+      if(!["IO.IO","EAFF.IO",...modules].every(name=>existsSync(join(root,name+".asm")))) {res.statusCode=404;return res.end();}
+      const read=name=>readFileSync(join(root,name+".asm"),"utf8");
+      res.setHeader("content-type","application/json; charset=utf-8");res.setHeader("cache-control","no-store");
+      return res.end(req.method==="HEAD"?undefined:JSON.stringify({loader:read("IO.IO"),dispatch:read("EAFF.IO"),scripts:Object.fromEntries(modules.map(name=>[name,read(name)]))}));
+    }
     // Optional local boot source. Never expose an arbitrary path from a request.
+    if(["/__local/ishar-merchants","/__local/ishar-object-resources"].includes(url.pathname)) {
+      const configured=process.env.ISHAR_MERCHANT_LISTING;
+      const source=configured && (url.pathname.endsWith("object-resources") ? join(dirname(configured),"OBJET.IO.asm") : configured);
+      if(host!=="127.0.0.1" || url.hostname!=="127.0.0.1" || req.headers["sec-fetch-site"]==="cross-site" || !source || !existsSync(source)) {res.statusCode=404;return res.end();}
+      if(req.method!=="GET" && req.method!=="HEAD") {res.statusCode=405;return res.end();}
+      res.setHeader("content-type","text/plain; charset=utf-8");res.setHeader("cache-control","no-store");
+      if(req.method==="HEAD")return res.end();
+      return createReadStream(source).pipe(res);
+    }
     if(url.pathname === "/__local/ishar-source") {
       const source=process.env.ISHAR_LOCAL_ZIP;
       if(host!=="127.0.0.1" || url.hostname!=="127.0.0.1" || req.headers["sec-fetch-site"]==="cross-site" || !source || !existsSync(source)) {res.statusCode=404;return res.end();}

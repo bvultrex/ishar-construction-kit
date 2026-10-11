@@ -68,9 +68,11 @@ function runTable(name: OutdoorScript, grid: IsharGrid, r: number, c: number, F:
     if (!draws) return;
     const delta = heights ? cellB(grid, cr, cc) - party : 0;
     for (const [x, z, y, sprite, m] of draws) {
-      // SUSPECTED generator artefact (all outdoor/town tables): the party row (dr 0) come out at x=0 for every lateral with z<99;
-      // the DOSBox/ALIS references (K1A007..) show none of them (99.7 % with, 87 % without this skip).
-      if (z < 99) continue;
+      // The map-1 near-row artefacts must not hide intentional foreground draws
+      // in town/mountains: VARCHE uses 99-5, VPONT 99-5/-1, decorations 99-10.
+      // Keep the older map-1/2 exclusion until their near-row state is verified.
+      const foreground=(grid.mapNumber===3 || grid.mapNumber===4) && z>=89;
+      if (z < 99 && !foreground) continue;
       const hy = delta ? T.montagneHeight[String(delta)]?.[String(z)] : undefined;  // known: replaces the y field
       out.push({ module: `${name}.IO`, index: sprite, mirror: m === 1, x, y: hy ?? y, z, r: cr, c: cc, script: name });
     }
@@ -80,6 +82,8 @@ function runTable(name: OutdoorScript, grid: IsharGrid, r: number, c: number, F:
 
 /** Sprites of one outdoor/town view, far to near by z (stable, like the engine). */
 export function outdoorView(grid: IsharGrid, r: number, c: number, facing: string, o: OutdoorOptions = {}): OutdoorSprite[] {
+  // CONT filenames are shared by both games; their formats and scripts are not.
+  if (grid.game !== "ishar2") return [];
   const map = grid.mapNumber ?? 0, base = OUTDOOR_BASE[map];
   if (!base) return [];
   const F = FACING[facing] ?? 1, st = o.sceneType ?? -1;

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { CharacterView, Endian, FileRecord, GameId, KitProject } from "./ishar/types";
+import type { AuthoredGame, CharacterView, Endian, FileRecord, GameId, KitProject } from "./ishar/types";
 import { emptyProject, normalizeProject } from "./ishar/project";
 import { createDemoSave, readParty } from "./ishar/save-codec";
 import { ISHAR1_SAVE, ISHAR2_SAVE } from "./ishar/save-maps";
@@ -20,6 +20,13 @@ interface KitState {
   labBytes: Uint8Array | null;
   labName: string;
   project: KitProject;
+  builderLevelId: string | null;
+  builderPast: AuthoredGame[];
+  builderFuture: AuthoredGame[];
+  selectBuilderLevel: (id: string) => void;
+  editBuilderGame: (game: AuthoredGame) => void;
+  undoBuilder: () => void;
+  redoBuilder: () => void;
   selectedFieldId: string | null;
   setGame: (game: GameId) => void;
   setEndian: (endian: Endian) => void;
@@ -55,6 +62,13 @@ function persistProject(project: KitProject) {
   window.localStorage.setItem(PROJECT_STORAGE_KEY, JSON.stringify(project));
 }
 
+const builderKey=(project:KitProject)=>`${PROJECT_STORAGE_KEY}:builder:${project.createdAt}`;
+function restoredLevel(project:KitProject){
+  if(typeof window==="undefined") return null;
+  const id=window.localStorage.getItem(builderKey(project));
+  return project.game.levels.some((l)=>l.id===id) ? id : null;
+}
+
 export const useKit = create<KitState>((set, get) => ({
   game: "ishar2",
   endian: "be",
@@ -69,6 +83,32 @@ export const useKit = create<KitState>((set, get) => ({
   labBytes: null,
   labName: "",
   project: emptyProject(),
+  builderLevelId: null,
+  builderPast: [],
+  builderFuture: [],
+  selectBuilderLevel: (id) => {
+    if(typeof window!=="undefined") window.localStorage.setItem(builderKey(get().project),id);
+    set({builderLevelId:id});
+  },
+  editBuilderGame: (game) => {
+    const current=get();
+    if(game===current.project.game) return;
+    const project={...current.project,game};
+    persistProject(project);
+    set({project,builderPast:[...current.builderPast.slice(-99),current.project.game],builderFuture:[]});
+  },
+  undoBuilder: () => {
+    const current=get(), game=current.builderPast.at(-1);
+    if(!game) return;
+    const project={...current.project,game}; persistProject(project);
+    set({project,builderPast:current.builderPast.slice(0,-1),builderFuture:[...current.builderFuture,current.project.game]});
+  },
+  redoBuilder: () => {
+    const current=get(), game=current.builderFuture.at(-1);
+    if(!game) return;
+    const project={...current.project,game}; persistProject(project);
+    set({project,builderFuture:current.builderFuture.slice(0,-1),builderPast:[...current.builderPast,current.project.game]});
+  },
   selectedFieldId: null,
   setGame: (game) => {
     const { saveBytes, endian, project } = get();
@@ -128,14 +168,15 @@ export const useKit = create<KitState>((set, get) => ({
   setLab: (labName, labBytes) => set({ labName, labBytes }),
   setProject: (project) => {
     persistProject(project);
-    set({ project });
+    set({ project, builderLevelId:restoredLevel(project), builderPast:[], builderFuture:[] });
   },
   hydrateProject: () => {
     if (typeof window === "undefined") return;
     const raw = window.localStorage.getItem(PROJECT_STORAGE_KEY);
     if (!raw) return;
     try {
-      set({ project: normalizeProject(JSON.parse(raw)) });
+      const project=normalizeProject(JSON.parse(raw));
+      set({ project, builderLevelId:restoredLevel(project), builderPast:[], builderFuture:[] });
     } catch {
       window.localStorage.removeItem(PROJECT_STORAGE_KEY);
     }
@@ -143,7 +184,7 @@ export const useKit = create<KitState>((set, get) => ({
   resetProject: (name) => {
     const project = emptyProject(name);
     persistProject(project);
-    set({ project });
+    set({ project, builderLevelId:null, builderPast:[], builderFuture:[] });
   },
   setField: (selectedFieldId) => set({ selectedFieldId }),
   patchCharacter: (slot, patch) => {

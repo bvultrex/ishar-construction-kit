@@ -1,3 +1,4 @@
+import { ORIGINAL_ACTOR_MODULES } from "./original-actor-frame.ts";
 import { OUTDOOR_USED } from "./outdoor-grid-view.ts";
 import { dungeonSceneAssignments, dungeonSpritePosition, DUNGEON_NATIVE_Z } from "./dungeon-scenes";
 import { spriteTargetId } from "./grid-view";
@@ -647,7 +648,7 @@ async function compositeToPngBlob(
   } : undefined;
 }
 
-async function indexedImageToPngBlob(image: AlisIndexedImage): Promise<Blob> {
+async function indexedImageToPngBlob(image: AlisIndexedImage, mirror = false): Promise<Blob> {
   if (typeof document === "undefined") throw new Error("ALIS-Bildkonvertierung benötigt einen Browser.");
   const canvas=document.createElement("canvas");
   canvas.width=image.width;
@@ -658,7 +659,7 @@ async function indexedImageToPngBlob(image: AlisIndexedImage): Promise<Blob> {
   for(let index=0;index<image.pixels.length;index++){
     const paletteIndex=image.pixels[index] ?? 0;
     const source=paletteIndex*3;
-    const target=index*4;
+    const target=(mirror ? Math.floor(index/image.width)*image.width+image.width-1-index%image.width : index)*4;
     output.data[target]=image.palette[source] ?? 0;
     output.data[target+1]=image.palette[source+1] ?? 0;
     output.data[target+2]=image.palette[source+2] ?? 0;
@@ -998,7 +999,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     const swampSceneImage=(moduleName==="FOND1.IO" && image.entryIndex<=1)
       || (moduleName==="ARBO.IO" && image.entryIndex<=1)
       || (moduleName==="PLAINE1.IO" && [92,93,94,95].includes(image.entryIndex));
-    const forceForLibrary=swampSceneImage || ["houses","ui","font"].includes(assetCatalogGroup(`${image.sourcePath} · ALIS #${image.entryIndex}`));
+    const forceForLibrary=swampSceneImage || ["OBJET.IO","MARCHAND.IO",...ORIGINAL_ACTOR_MODULES].includes(moduleName??'') || ["houses","ui","font"].includes(assetCatalogGroup(`${image.sourcePath} · ALIS #${image.entryIndex}`));
     if(!forceForDefault && !forceTerrain && !forceForLibrary && (alisPreviewCount>=MAX_ALIS_IMAGES || alisPixelCount+image.width*image.height>MAX_ALIS_PIXELS)){
       alisImagesSkippedForBudget++;
       continue;
@@ -1116,6 +1117,28 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     const foreign=new Set(["PCAVE.IO","DJTRAP.IO"]);
     const isForeign=(m:string,t:string)=>foreign.has(m) || t.startsWith("ishar2-out");
     const modName=(p:string)=>p.replace(/\\/g,"/").split("/").pop()!.toUpperCase();
+    // Outdoor scripts also draw ordinary bitmap entries (not only composites).
+    // FORET1 vegetation was requested by the renderer but had no runtime asset.
+    for(const image of alisImages){
+      const module=modName(image.sourcePath);
+      if(!OUTDOOR_USED[module]?.has(image.entryIndex)) continue;
+      for(const tilesetId of (SCENE_TARGET[module]??[]).filter(t=>t.startsWith("ishar2-out"))){
+        const saved=image.palette;
+        const pair=SCENE_PALETTE[tilesetId]!;
+        const scenePal=alisPalettes.find(p=>modName(p.sourcePath)===pair[0] && p.entryIndex===pair[1]);
+        if(scenePal && resolved?.base) image.palette=overlayAlisPalette(resolved.base.palette,scenePal);
+        for(const mirror of [false,true]){
+          const blob=await indexedImageToPngBlob(image,mirror);
+          const id=`${tilesetId}-sprite-${module}-${image.entryIndex}${mirror ? "m" : ""}`;
+          const entry:DungeonAssetEntry={id,role:"scene.sprite",targetId:spriteTargetId(module,image.entryIndex,mirror),
+            file:`${image.sourcePath}#sprite-${image.entryIndex}${mirror ? "m" : ""}.png`,renderMode:"layer",
+            x:-(image.width-1)/2,y:-(image.height-1)/2,width:image.width,height:image.height};
+          urls[id]=URL.createObjectURL(blob);paths[id]=entry.file;
+          const entries=sceneEntries.get(tilesetId)??[];entries.push(entry);sceneEntries.set(tilesetId,entries);
+        }
+        image.palette=saved;
+      }
+    }
     for(const composite of alisComposites){
       const module=modName(composite.sourcePath);
       for(const tilesetId of SCENE_TARGET[module]??[]){
@@ -1157,6 +1180,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   const orderedComposites=[...alisComposites].sort((a,b)=>{
     const priority=(entry:AlisCompositeResource)=>{
       const module=entry.sourcePath.replace(/\\/g,"/").split("/").pop()?.toUpperCase();
+      if(module==="OBJET.IO" || ORIGINAL_ACTOR_MODULES.includes(module??"")) return 3;
       if(module==="FORET1.IO" && entry.entryIndex>=24 && entry.entryIndex<=37) return 2;
       if(module==="PLAINE1.IO" && entry.entryIndex>=21 && entry.entryIndex<=39) return 2;
       return ["houses","ui","font"].includes(assetCatalogGroup(`${entry.sourcePath} · ALIS #${entry.entryIndex}`)) ? 1 : 0;
@@ -1166,7 +1190,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   for(const composite of orderedComposites.slice(0,500)){
     const module=composite.sourcePath.replace(/\\/g,"/").split("/").pop()?.toUpperCase();
     // Outdoor ALIS composites place their child sprites on the x/z plane too.
-    const rendered=await compositeToPngBlob(composite,alisImageMap,alisCompositeMap,module==="FORET1.IO" || module==="PLAINE1.IO");
+    const rendered=await compositeToPngBlob(composite,alisImageMap,alisCompositeMap,module==="FORET1.IO" || module==="PLAINE1.IO" || module==="OBJET.IO" || ORIGINAL_ACTOR_MODULES.includes(module??""));
     if(!rendered) continue;
     const id=safeId(composite.sourcePath)+"-composite-"+composite.entryIndex;
     const url=URL.createObjectURL(rendered.blob);
@@ -1179,6 +1203,8 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       source:"alis",
       assetKind:"composite",
       visualStatus:rendered.paletteSuspect ? "palette-suspect" : "normal",
+      nativeOffsetX:rendered.minX,
+      nativeOffsetY:rendered.minY,
       width:rendered.width,
       height:rendered.height,
       runtimeAssigned,
@@ -1281,7 +1307,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   };
 
   const pack: LoadedAssetPack={
-    sceneLayoutVersion:22,
+    sceneLayoutVersion:28,
     manifest,
     urls,
     paths,

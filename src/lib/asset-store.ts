@@ -43,7 +43,7 @@ export const useAssetPack = create<AssetPackState>((set,get)=>({
         set({cacheStatus:"Lokale Assets werden geladen …"});
         let pack=await readCachedPack();
         if(pack && version===revision) set({pack});
-        if((!pack || (pack.sceneLayoutVersion??0)<22) && version===revision && ["127.0.0.1","localhost","[::1]"].includes(location.hostname)) {
+        if((!pack || (pack.sceneLayoutVersion??0)<28) && version===revision && ["127.0.0.1","localhost","[::1]"].includes(location.hostname)) {
           const source=await fetch("/__local/ishar-source");
           if(source.ok && source.headers.get("content-type")?.includes("application/zip")) {
             set({cacheStatus:"Lokales Ishar-Archiv wird automatisch geladen …"});
@@ -70,11 +70,12 @@ export const useAssetPack = create<AssetPackState>((set,get)=>({
                 const old=oldPreviews.get(asset.id);
                 oldPreviews.delete(asset.id);
                 const outdoorComposite=asset.assetKind==="composite" && /\/(FORET1|PLAINE1)\.IO · ALIS #/i.test(asset.path);
-                return old ? {...old,...asset,url:outdoorComposite ? asset.url : old.url,runtimeAssigned:asset.assetKind==="composite" ? asset.runtimeAssigned : old.runtimeAssigned || asset.runtimeAssigned} : asset;
+                const refreshedObject=asset.source==="alis" && /(OBJET|GOLEM1|WIZARD1|AVEUGLE5)\.IO · ALIS #/i.test(asset.path);
+                return old ? {...old,...asset,url:outdoorComposite || refreshedObject ? asset.url : old.url,runtimeAssigned:asset.assetKind==="composite" ? asset.runtimeAssigned : old.runtimeAssigned || asset.runtimeAssigned} : asset;
               }).concat([...oldPreviews.values()]);
               const keep=new Set([...Object.values(urls),...discoveredAssets.map(asset=>asset.url)]);
               for(const url of new Set([...Object.values(result.pack.urls),...(result.pack.discoveredAssets??[]).map(a=>a.url)])) if(!keep.has(url)) URL.revokeObjectURL(url);
-              pack={...pack,urls,paths,discoveredAssets,manifest:{...pack.manifest,tilesets},sceneLayoutVersion:22};
+              pack={...pack,urls,paths,discoveredAssets,manifest:{...pack.manifest,tilesets},sceneLayoutVersion:28};
             } else pack=result.pack;
             if(version===revision) {
               const kit=useKit.getState();

@@ -15,6 +15,8 @@ export interface DiscoveredAssetPreview {
   distanceSetLabel?: string;
   distanceRole?: "near" | "mid" | "far";
   distanceConfidence?: "verified" | "heuristic";
+  nativeOffsetX?: number;
+  nativeOffsetY?: number;
   width?: number;
   height?: number;
   suggestedRole?: DungeonAssetRole;

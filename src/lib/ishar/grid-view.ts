@@ -4,7 +4,8 @@
 // dispatcher 0x00b40 (DJ2 0x0090e), placement table 0x0223f (DJ2 0x01a09).
 // Evidence labels: "known" = read directly from the script; "suspected" = inferred.
 import type { Direction, IsharGrid } from "./types";
-import { cellA, cellB, decomposeCode, doorNumber, sceneTriggerAt } from "./cont-grid.ts";
+import { cellA, cellB, cellWalkable, decomposeCode, doorNumber, sceneTriggerAt } from "./cont-grid.ts";
+import { inferIrvanScene } from "./scene-state.ts";
 
 export type GridScript = "DJ1" | "DJ2" | "DJCAT";
 export type SpriteModule = "DJ1.IO" | "DJ2.IO" | "DJCAT.IO" | "PCAVE.IO" | "DJTRAP.IO" | "FDJ1.IO" | "FDJ2.IO" | "FDJCAT.IO";
@@ -121,13 +122,14 @@ export function sceneTypeAt(grid: IsharGrid, r: number, c: number, current?: num
   const here = sceneTriggerAt(grid, r, c);
   if (here !== undefined) return here;
   if (current !== undefined) return current;
+  if(grid.game==="ishar2" && grid.mapNumber===1) return inferIrvanScene(r,c);
   const seen = new Set<number>([r * grid.cols + c]);
   let queue = [[r, c]];
   while (queue.length) {
     const next: number[][] = [];
     for (const [qr, qc] of queue) for (const [dr, dc] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
       const nr = qr! + dr!, nc = qc! + dc!, k = nr * grid.cols + nc;
-      if (nr < 0 || nc < 0 || nr >= grid.rows || nc >= grid.cols || seen.has(k) || cellA(grid, nr, nc) === -1) continue;
+      if (seen.has(k) || !cellWalkable(grid, nr, nc)) continue;
       seen.add(k);
       const t = sceneTriggerAt(grid, nr, nc);
       if (t !== undefined) return t;

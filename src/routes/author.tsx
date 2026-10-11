@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { DungeonViewport } from "@/routes/playtest";
 import { compassOf, describeCell, GridMap, TOOLS, type BuilderTool, type Layers } from "@/builder/grid-builder";
@@ -10,9 +10,13 @@ import { useAssetPack } from "@/lib/asset-store";
 import { DIRECTION_LABELS, DIRECTION_VECTORS, locationAt } from "@/lib/ishar/dungeon";
 import { createRoomBlock } from "@/lib/ishar/room-builder";
 import { createSwampTestArea } from "@/lib/ishar/swamp-area";
-import { addGridLevel, bytesToBase64, cellA, cellB, ckXOf, convertLevelToGrid, decomposeCode, doorNumber, edgeViewGrid, expandGridLevels, exportCont, gridCellOf, gridLocationId, importCont, ISHAR2_COLS, ISHAR2_ROWS, isFullWall, sceneTriggerAt, setGridCell, syntheticTestGrid, trapAt } from "@/lib/ishar/cont-grid";
+import { addGridLevel, bytesToBase64, cellA, cellB, cellWalkable, ckXOf, convertLevelToGrid, decomposeCode, doorNumber, edgeViewGrid, expandGridLevels, exportCont, gridCellOf, gridLocationId, importCont, ISHAR2_COLS, ISHAR2_ROWS, sceneTriggerAt, setGridCell, syntheticTestGrid, trapAt } from "@/lib/ishar/cont-grid";
 import { assetCatalogGroup } from "@/lib/ishar/asset-catalog";
 import { validateGame } from "@/lib/ishar/project-validation";
+import { reconcileItemPlacements } from "@/lib/ishar/item-instances";
+import { NpcEditor } from "@/builder/npc-editor";
+import { OriginalMerchantEditor } from '@/components/builder/original-merchant-editor';
+import { OriginalActorInspector } from '@/components/builder/original-actor-inspector';
 import type { AuthoredDoor, AuthoredGame, AuthoredLevel, AuthoredLocation, Direction, IsharGrid } from "@/lib/ishar/types";
 
 export const Route = createFileRoute("/author")({ component: AuthorPage });
@@ -66,7 +70,7 @@ function DungeonMap({ game, levelId, selectedId, onSelect }: { game: AuthoredGam
 }
 
 function AuthorPage() {
-  const { project, setProject } = useKit();
+  const { project, builderLevelId, selectBuilderLevel, editBuilderGame, undoBuilder, redoBuilder, builderPast, builderFuture } = useKit();
   const pack = useAssetPack((s) => s.pack);
   const game = project.game;
   const problems = validateGame(game);
@@ -76,7 +80,8 @@ function AuthorPage() {
   const [roomWidth,setRoomWidth]=useState(2);
   const [roomHeight,setRoomHeight]=useState(2);
   const [newLevelKind,setNewLevelKind]=useState<AuthoredLevel["kind"]>("dungeon");
-  const [selectedLevelId,setSelectedLevelId]=useState(game.locations.find((location)=>location.id===game.startLocationId)?.levelId || "level-1");
+  const selectedLevelId=builderLevelId ?? game.locations.find((location)=>location.id===game.startLocationId)?.levelId ?? "level-1";
+  const setSelectedLevelId=selectBuilderLevel;
   const selectedLevel=game.levels.find((level)=>level.id===selectedLevelId) ?? game.levels[0]!;
   const levelLocations=game.locations.filter((location)=>(location.levelId || "level-1")===selectedLevel.id);
   const selectedLocation = levelLocations.find((location) => location.id === selectedLocationId) ?? levelLocations[0];
@@ -126,25 +131,24 @@ function AuthorPage() {
     setBuilderMessage(`Distanzset „${label}“ wurde für ${itemId} übernommen.`);
   }
 
-  // r13: undo/redo over whole game snapshots (project.game is immutable).
-  const undoStack=useRef<AuthoredGame[]>([]), redoStack=useRef<AuthoredGame[]>([]);
-  const [,setHistoryTick]=useState(0);
+  // History belongs to the project session, not this route's mount lifetime.
   function setGame(next: AuthoredGame) {
-    undoStack.current=[...undoStack.current.slice(-99),game]; redoStack.current=[];
-    setProject({ ...project, game: next }); setHistoryTick((n)=>n+1);
+    editBuilderGame(next);
+    setBuilderMessage("");
   }
-  function undo(){ const prev=undoStack.current.pop(); if(!prev) return; redoStack.current.push(game); setProject({...project,game:prev}); setHistoryTick((n)=>n+1); }
-  function redo(){ const next=redoStack.current.pop(); if(!next) return; undoStack.current.push(game); setProject({...project,game:next}); setHistoryTick((n)=>n+1); }
-  const canUndo=undoStack.current.length>0, canRedo=redoStack.current.length>0;
+  function undo(){ undoBuilder(); setBuilderMessage(""); setCellSel(undefined); }
+  function redo(){ redoBuilder(); setBuilderMessage(""); setCellSel(undefined); }
+  const canUndo=builderPast.length>0, canRedo=builderFuture.length>0;
   const navigate=useNavigate();
   const [tool,setTool]=useState<BuilderTool>("select");
   const [layers,setLayers]=useState<Layers>({shape:true,logic:true,scene:true,traps:true,hex:false});
   const [mapSize,setMapSize]=useState(14);
-  const [tab,setTab]=useState<"karte"|"gruppe"|"items"|"quests"|"begegnungen"|"tueren">("karte");
+  const [tab,setTab]=useState<"karte"|"gruppe"|"items"|"quests"|"begegnungen"|"tueren"|"npcs"|"original">("karte");
   const [previewFacing,setPreviewFacing]=useState<Direction>(game.startFacing);
 
   function patchLocation(id: string, patch: Partial<AuthoredLocation>) {
-    setGame({ ...game, locations: game.locations.map((x) => x.id === id ? { ...x, ...patch } : x) });
+    setGame({ ...game, locations: game.locations.map((x) => x.id === id ? { ...x, ...patch,
+      ...(patch.itemIds ? {itemPlacementIds:reconcileItemPlacements(x.itemIds,x.itemPlacementIds??x.itemIds.map((_,i)=>`legacy-${i}`),patch.itemIds)} : {}) } : x) });
   }
 
   function setOutdoorSurface(id:string,surface:"grass"|"water") {
@@ -263,7 +267,7 @@ function AuthorPage() {
     if(!imported.ok){setBuilderMessage(imported.error);return;}
     const start=gridStart.r!=="" && gridStart.c!=="" ? {r:Number(gridStart.r),c:Number(gridStart.c)} : undefined;
     applyGridResult(addGridLevel(game,imported.grid,selectedLocation.id,start),
-      `${file.name} als Original-Raster importiert (SHA-256 ${digest.slice(0,12)}…). Enthält Originaldaten: Projekt nicht veröffentlichen oder committen.`);
+      `${file.name}: ${imported.grid.game==="ishar2" ? "Ishar 2 · 90×60 · zwei Ebenen" : "Ishar 1 · 54×90 · eine Ebene. Der Ishar-2-Renderer ist dafür nicht geeignet"} importiert (SHA-256 ${digest.slice(0,12)}…). Enthält Originaldaten: Projekt nicht veröffentlichen oder committen.`);
   }
   function exportGridLevel(){
     const grid=selectedLevel.grid; if(!grid) return;
@@ -344,17 +348,17 @@ function AuthorPage() {
   const sel=cellSel ?? (selectedLocation ? cellOfLocation(selectedLocation) : undefined);
   const selLocation=sel ? locationAtCell(sel.r,sel.c) : undefined;
   const expandedGame=useMemo(()=>expandGridLevels(game),[game]);
-  const previewLocation=sel && viewGrid && !isFullWall(cellA(viewGrid,sel.r,sel.c))
+  const previewLocation=sel && viewGrid && cellWalkable(viewGrid,sel.r,sel.c)
     ? (editable ? expandedGame.locations.find((l)=>l.id===(selLocation?.id ?? gridLocationId(selectedLevel.id,sel.r,sel.c))) : selLocation) : undefined;
   const issues=editable ? validateGrid(selectedLevel.grid!) : [];
   const info=sel && viewGrid ? describeCell(viewGrid,sel.r,sel.c) : undefined;
   const outdoorScene=!!viewGrid && !wallRuleApplies(viewGrid);
   const legacyOutdoor=selectedLevel.biome==="swamp" || levelLocations.some((l)=>l.outdoorSurface || l.sceneryAssetId);
-  const hasSwamp=game.levels.some((l)=>l.biome==="swamp");
   const legacySurfaces=!!selLocation && !!(selLocation.wallAssetId || selLocation.floorAssetId || selLocation.ceilingAssetId);
 
   function editGrid(fn:(g:IsharGrid)=>EditResult){
     const g=selectedLevel.grid; if(!g) {setBuilderMessage("Edge-Level: zum Zeichnen „Als Raster-Kopie anlegen“ oder „Erweitert“ nutzen.");return;}
+    if(g.game!=="ishar2"){setBuilderMessage("Ishar-1-Karte: Die Ishar-2-Zeichenwerkzeuge sind für dieses Format nicht verfügbar.");return;}
     const res=fn(g.layerB ? g : {...g,layerB:bytesToBase64(new Uint8Array(g.rows*g.cols))});
     if(res.ok) patchLevel({grid:res.grid});
     setBuilderMessage(res.message ?? (res.ok ? "" : "Nicht möglich."));
@@ -369,7 +373,7 @@ function AuthorPage() {
   function onCell(r:number,c:number,side:Direction){
     setCellSel({r,c}); const l=locationAtCell(r,c); if(l) setSelectedLocationId(l.id);
     if(tool==="select") return;
-    if(tool==="start"){ if(viewGrid && isFullWall(cellA(viewGrid,r,c))) {setBuilderMessage("Start muss begehbar sein.");return;} if(!editable && !l){setBuilderMessage("Edge-Level: Start nur auf angelegten Feldern.");return;} setPreviewFacing(side); setStart(r,c,side); setBuilderMessage(`Start ${r}/${c}, Blick ${compassOf(side)}.`); return; }
+    if(tool==="start"){ if(viewGrid && !cellWalkable(viewGrid,r,c)) {setBuilderMessage("Start muss begehbar sein.");return;} if(!editable && !l){setBuilderMessage("Edge-Level: Start nur auf angelegten Feldern.");return;} setPreviewFacing(side); setStart(r,c,side); setBuilderMessage(`Start ${r}/${c}, Blick ${compassOf(side)}.`); return; }
     if(tool==="floor") editGrid((g)=>paintFloor(g,r,c));
     else if(tool==="wall") editGrid((g)=>paintWall(g,r,c));
     else if(tool==="edge") editGrid((g)=>{ const has=decomposeCode(cellA(g,r,c)).some((e)=>e>=1 && e<=8); return setEdge(g,r,c,side,!has); });
@@ -379,7 +383,8 @@ function AuthorPage() {
     else if(tool==="scene") editGrid((g)=>setSceneTrigger(g,r,c,sceneTriggerAt(g,r,c)!==undefined ? undefined : (g.mapNumber===3 ? 10 : 31)));
   }
   function testHere(){
-    if(!sel || !viewGrid || isFullWall(cellA(viewGrid,sel.r,sel.c))) {setBuilderMessage("Wähle eine begehbare Zelle.");return;}
+    if(viewGrid?.game==="ishar1"){setBuilderMessage("Diese CONT-Datei stammt aus Ishar 1. Für Thorm die CONT2.FIC aus Ishar 2 (10.800 Bytes) importieren.");return;}
+    if(!sel || !viewGrid || !cellWalkable(viewGrid,sel.r,sel.c)) {setBuilderMessage("Wähle eine begehbare Zelle.");return;}
     if(!editable && !selLocation) {setBuilderMessage("Edge-Level: nur angelegte Felder.");return;}
     setStart(sel.r,sel.c,previewFacing); void navigate({to:"/playtest"});
   }
@@ -394,7 +399,8 @@ function AuthorPage() {
       const t=ev.target as HTMLElement; if(["INPUT","TEXTAREA","SELECT"].includes(t.tagName)) return;
       if((ev.ctrlKey||ev.metaKey) && ev.key.toLowerCase()==="z"){ev.preventDefault(); ev.shiftKey ? redo() : undo(); return;}
       if((ev.ctrlKey||ev.metaKey) && ev.key.toLowerCase()==="y"){ev.preventDefault(); redo(); return;}
-      const tl=TOOLS.find((x)=>x.key.toLowerCase()===ev.key.toLowerCase()); if(tl && !ev.ctrlKey && !ev.metaKey) setTool(tl.id);
+      const tl=TOOLS.find((x)=>x.key.toLowerCase()===ev.key.toLowerCase());
+      if(tl && !ev.ctrlKey && !ev.metaKey && !ev.altKey && (editable || tl.id==="select" || tl.id==="start")) setTool(tl.id);
     };
     window.addEventListener("keydown",onKey); return ()=>window.removeEventListener("keydown",onKey);
   });
@@ -405,15 +411,16 @@ function AuthorPage() {
       <h1>Adventure Builder</h1>
       <span className="chip">{selectedLevel.name} · {selectedLevel.grid ? `Raster ${selectedLevel.grid.rows}×${selectedLevel.grid.cols}${selectedLevel.grid.mapNumber ? ` · Karte ${selectedLevel.grid.mapNumber}` : ""}` : "Edge-Modell"} · {outdoorScene ? "Außen/Stadt: Wandprüfung aus" : "Dungeon-Regeln (Wandprüfung)"}</span>
       {selectedLevel.grid?.source?.sha256 ? <span className="chip ok" title={selectedLevel.grid.source.sha256}>CONT {selectedLevel.grid.source.sha256.slice(0,8)}…</span> : null}
-      <span className={`chip ${issues.length+problems.length ? "warn" : "ok"}`}>{issues.length+problems.length ? `${issues.length+problems.length} Hinweise` : "Prüfung OK"}</span>
+      <span className={`chip ${issues.length+problems.length ? "warn" : "ok"}`}>{issues.length+problems.length ? `${issues.length+problems.length} ${issues.length+problems.length===1 ? "Hinweis" : "Hinweise"}` : "Prüfung OK"}</span>
       <span className="gb-spacer"/>
       <button className="secondary" disabled={!canUndo} onClick={undo} title="Rückgängig (Strg+Z)">↶</button>
       <button className="secondary" disabled={!canRedo} onClick={redo} title="Wiederholen (Strg+Y)">↷</button>
       <label className="file-button secondary">CONT importieren<input hidden type="file" accept=".fic,.FIC" onChange={(event)=>{const file=event.target.files?.[0];if(file) void importContFile(file);event.target.value="";}}/></label>
       <button className="secondary" disabled={!selectedLevel.grid} onClick={exportGridLevel}>CONT exportieren</button>
-      <button onClick={testHere}>▶ Ab hier testen</button>
+      <button onClick={testHere} disabled={selectedLevel.grid?.game==="ishar1"}>▶ Ab hier testen</button>
     </header>
     {builderMessage && <p className="audit-note builder-message">{builderMessage}</p>}
+    {selectedLevel.grid && <p className="audit-note">{selectedLevel.grid.game==="ishar2" ? "Ishar 2 · zwei Kartenebenen" : "Ishar 1 · eine Kartenebene. Kartenansicht und Export verfügbar; der Ishar-2-Renderer und dessen Zeichenwerkzeuge sind nicht anwendbar."}</p>}
     <div className="gb-body">
       <aside className="gb-panel gb-left">
         <h3>Level &amp; Übergänge</h3>
@@ -422,7 +429,7 @@ function AuthorPage() {
         <label>Neues Level<select value="" onChange={(event)=>{const v=event.target.value;event.target.value="";if(v==="grid") addBlankGridLevel(); else if(v==="test") addGridTestArea(); else if(v==="swamp") addSwampTestArea(); else if(v) addLevel(v as AuthoredLevel["kind"]);}}>
           <option value="">+ Level anlegen …</option><option value="grid">Raster-Dungeon (leer, empfohlen)</option><option value="test">Raster-Testebene (synthetisch)</option>
           <optgroup label="Edge-Modell (alt)"><option value="dungeon">Dungeon</option><option value="house">Haus / Innenraum</option><option value="outdoor">Oberwelt</option></optgroup>
-          {hasSwamp && <option value="swamp">Sumpf-Testgebiet (CK-Preset)</option>}</select></label>
+          <option value="swamp">Sumpf-Testgebiet (CK-Preset)</option></select></label>
         <label>Name<input value={selectedLevel.name} onChange={(event)=>patchLevel({name:event.target.value})}/></label>
         {!selectedLevel.grid && <label>Typ<select value={selectedLevel.kind} onChange={(event)=>patchLevel({kind:event.target.value as AuthoredLevel["kind"]})}><option value="dungeon">Dungeon</option><option value="house">Haus / Innenraum</option><option value="outdoor">Oberwelt</option></select></label>}
         {selectedLevel.grid && <label>Karte (Regeln/Renderer)<select value={selectedLevel.grid.mapNumber ?? 5} onChange={(event)=>patchGrid({mapNumber:Number(event.target.value)})}>{[1,2,3,4,5,6,7].map((m)=><option key={m} value={m}>{m} · {({1:"Irvan (Außen)",2:"Thorm (Wald)",3:"Zach (Stadt)",4:"Jon (Gebirge)",5:"Dungeon",6:"Dungeon",7:"Dungeon"} as Record<number,string>)[m]}</option>)}</select></label>}
@@ -434,7 +441,7 @@ function AuthorPage() {
         <h3>Ebenen</h3>
         {([["shape","Ebene A (Form, Kanten)"],["logic","Türen / Schalter (B)"],["scene","Szenenauslöser"],["traps","Fallen"],["hex","Rohbytes (hex, ab Zoom 18)"]] as const).map(([k,label])=><label key={k} className="check-row"><input type="checkbox" checked={layers[k]} onChange={(e)=>setLayers({...layers,[k]:e.target.checked})}/> {label}</label>)}
         <label>Zoom<select value={mapSize} onChange={(e)=>setMapSize(Number(e.target.value))}>{[10,14,18,24].map((s)=><option key={s} value={s}>{s} px</option>)}</select></label>
-        <div className="gb-tabs">{(["karte","gruppe","items","quests","begegnungen","tueren"] as const).map((t)=><button key={t} className={tab===t ? "" : "secondary"} onClick={()=>setTab(t)}>{({karte:"Karte",gruppe:"Gruppe",items:"Items",quests:"Quests",begegnungen:"Begegnungen",tueren:"Türen (Edge)"} as Record<string,string>)[t]}</button>)}</div>
+        <div className="gb-tabs">{(["karte","gruppe","items","quests","begegnungen","tueren","npcs","original"] as const).map((t)=><button key={t} className={tab===t ? "" : "secondary"} onClick={()=>setTab(t)}>{({karte:"Karte",gruppe:"Gruppe",items:"Items",quests:"Quests",begegnungen:"Begegnungen",tueren:"Türen (Edge)",npcs:"NPCs & Händler",original:"Originalskripte"} as Record<string,string>)[t]}</button>)}</div>
       </aside>
 
       <main className="gb-panel gb-center">
@@ -517,7 +524,7 @@ function AuthorPage() {
               })}
             </div>}
           </div>)}
-        </article> : tab==="begegnungen" ? <article className="editor-panel">
+        </article> : tab==="original" ? <><OriginalMerchantEditor /><OriginalActorInspector /></> : tab==="npcs" ? <NpcEditor game={game} onChange={setGame} pack={pack}/> : tab==="begegnungen" ? <article className="editor-panel">
           <h2>Begegnungen</h2>
           {game.encounters.map((enc) => <div key={enc.id} className="author-block">
             <label>Name<input value={enc.name} onChange={(e)=>setGame({...game,encounters:game.encounters.map(x=>x.id===enc.id?{...x,name:e.target.value}:x)})}/></label>
@@ -566,9 +573,10 @@ function AuthorPage() {
             <label>Beschreibung<textarea rows={2} value={selLocation.description} onChange={(e)=>patchLocation(selLocation.id,{description:e.target.value})}/></label>
             <label>Begegnung<select value={selLocation.encounterId ?? ""} onChange={(e)=>patchLocation(selLocation.id,{encounterId:e.target.value || undefined})}><option value="">keine</option>{game.encounters.map(e=><option key={e.id} value={e.id}>{e.name}</option>)}</select></label>
             <div className="gb-items"><span>Items</span>{game.items.map((item)=><label key={item.id} className="check-row"><input type="checkbox" checked={selLocation.itemIds.includes(item.id)} onChange={(e)=>patchLocation(selLocation.id,{itemIds:e.target.checked ? [...selLocation.itemIds,item.id] : selLocation.itemIds.filter((x)=>x!==item.id)})}/> {item.name}</label>)}</div>
+            <div className="gb-items"><span>NPCs & Händler</span>{(game.npcs??[]).map(npc=><label key={npc.id} className="check-row"><input type="checkbox" checked={selLocation.npcIds?.includes(npc.id)??false} onChange={e=>patchLocation(selLocation.id,{npcIds:e.target.checked?[...(selLocation.npcIds??[]),npc.id]:(selLocation.npcIds??[]).filter(id=>id!==npc.id)})}/>{npc.name}</label>)}</div>
             <label className="check-row"><input type="checkbox" checked={!!selLocation.ending} onChange={(e)=>patchLocation(selLocation.id,{ending:e.target.checked})}/> Abschluss-Feld</label>
             <button className="danger-button compact" disabled={levelLocations.length<=1 || selLocation.id===game.startLocationId} onClick={()=>deleteLocation(selLocation.id)}>Ort löschen</button>
-          </div> : editable && viewGrid && !isFullWall(cellA(viewGrid,sel!.r,sel!.c)) && <button className="secondary" onClick={()=>{const p=ckAt(sel!.r,sel!.c);const id=`${selectedLevel.id}-loc-${sel!.r}-${sel!.c}`;setGame({...game,locations:[...game.locations,{id,name:`Ort ${sel!.r}/${sel!.c}`,description:"",x:p.x,y:p.y,levelId:selectedLevel.id,exits:[],itemIds:[],sceneKind:"corridor"}]});setSelectedLocationId(id);}}>Ort hier anlegen (Name, Items, Begegnung)</button>}
+          </div> : editable && viewGrid && cellWalkable(viewGrid,sel!.r,sel!.c) && <button className="secondary" onClick={()=>{const p=ckAt(sel!.r,sel!.c);const id=`${selectedLevel.id}-loc-${sel!.r}-${sel!.c}`;setGame({...game,locations:[...game.locations,{id,name:`Ort ${sel!.r}/${sel!.c}`,description:"",x:p.x,y:p.y,levelId:selectedLevel.id,exits:[],itemIds:[],sceneKind:"corridor"}]});setSelectedLocationId(id);}}>Ort hier anlegen (Name, Items, Begegnung)</button>}
         </> : <p className="muted">Zelle in der Karte wählen.</p>}
         <h3>Vorschau</h3>
         <div className="gb-preview">{previewLocation ? <DungeonViewport game={editable ? expandedGame : game} location={previewLocation} facing={previewFacing} encounterDone={true} collectedItemIds={[]} pack={pack} openDoors={(editable ? expandedGame : game).doors.filter((d)=>d.initiallyOpen).map((d)=>d.id)} gridSceneType={selectedLevel.grid?.startSceneType}/> : <p className="muted">Begehbare Zelle wählen.</p>}</div>

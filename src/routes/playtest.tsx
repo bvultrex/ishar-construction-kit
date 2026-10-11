@@ -1,7 +1,17 @@
+import {originalActorFrames,type ActorListingBundle} from "@/lib/ishar/original-actor-frame";
 import { compassOf } from "@/lib/ishar/grid-editor";
 import { doorLeafKind, DUNGEON_FRAMES as FRAMES, DUNGEON_NATIVE_FRAMES, DUNGEON_ROOM_FRAMES, usesNativeDungeonProjection } from "@/lib/ishar/dungeon-scenes";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useRef, useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
+import { originalGroundSprites, pickOriginalGround, receiveOriginalGround } from "@/lib/ishar/original-ground-runtime";
+import { readActorSave } from "@/lib/ishar/save-actors";
+import { readOriginalCarrier,receiveOriginalPurchase,type OriginalPurchase } from "@/lib/ishar/original-commerce";
+import { readOriginalMerchants,readOriginalItemResources,type OriginalMerchant } from "@/lib/ishar/original-merchants";
+import { originalShopEntry } from "@/lib/ishar/original-shop-entry";
+import { OriginalShop } from "@/components/original-shop";
+import { FACING_CODE } from "@/lib/ishar/grid-view";
+import { originalStarterItem, originalItemResource, authoredItemsInSight } from "@/lib/ishar/authored-item-view";
 import { useKit } from "@/lib/store";
 import { useAssetPack } from "@/lib/asset-store";
 import { assetFor } from "@/lib/ishar/asset-pack";
@@ -10,9 +20,12 @@ import { roomViewEdges, roomsShareOpenSurface } from "@/lib/ishar/room-surfaces"
 import { visibleOutdoorCells } from "@/lib/ishar/outdoor-view";
 import { projectSwampFeature, swampFeatureForCell, swampGroundFeatureForCell, swampTreeAssetIndex, swampTreeDisplayHeight, swampWaterExtent } from "@/lib/ishar/swamp-view";
 import { validateGame } from "@/lib/ishar/project-validation";
-import { edgeViewGrid, expandGridLevels, gridCellOf, gridDoorId, gridDoorNumber, sceneTriggerAt, trapAt, trapDamage } from "@/lib/ishar/cont-grid";
+import { canStep, edgeViewGrid, expandGridLevels, gridCellOf, gridDoorId, gridDoorNumber, sceneTriggerAt, trapAt, trapDamage } from "@/lib/ishar/cont-grid";
 import { gridViewSprites, sceneTypeAt, scriptAt, type GridScript, spriteTargetId, VIEW_CLIP, VIEW_ORIGIN } from "@/lib/ishar/grid-view";
 import { outdoorView, isOutdoorMap } from "@/lib/ishar/outdoor-grid-view";
+import { inferIrvanScene, irvanSceneAfterStep } from "@/lib/ishar/scene-state";
+import { instantiateLocationItems, inventoryHasDefinition } from "@/lib/ishar/item-instances";
+import { buyFromNpc, stockKey, type TradeState } from "@/lib/ishar/trading";
 import { afterStep, newMechState, STEP_RESET_DOORS, type MechEvent, type MechState } from "@/lib/ishar/door-mechanics";
 import type { IsharGrid, AuthoredDoor, AuthoredEncounter, AuthoredGame, AuthoredLocation, Direction, DungeonAssetDepth, DungeonAssetRole } from "@/lib/ishar/types";
 import type { LoadedAssetPack } from "@/lib/ishar/asset-pack";
@@ -235,6 +248,10 @@ function semanticItemAssetId(
   depth: number,
 ) {
   if(!pack || !item || depth<0 || depth>2) return undefined;
+  const originalIndex=originalItemResource(originalStarterItem(item),depth);
+  if(pack.manifest.renderProfileId==="ishar2-dos" && originalIndex!==undefined){
+    return pack.discoveredAssets?.find(a=>a.source==="alis" && new RegExp(`(?:^|/)OBJET\\.IO · ALIS #${originalIndex}$`,"i").test(a.path))?.id;
+  }
   const explicit=depth===0 ? (item.assetNearId ?? item.assetId) : depth===1 ? item.assetMidId : item.assetFarId;
   if(explicit && pack.discoveredAssets?.some((asset)=>asset.id===explicit)) return explicit;
 
@@ -272,11 +289,12 @@ function renderDiscoveredItemAtDepth(
   if(!preview) return null;
   const profile=renderProfileForManifest(pack.manifest);
   const scale=sourceScale(profile);
-  const width=Math.max(12,(preview.width ?? 16)*scale.x);
-  const height=Math.max(12,(preview.height ?? 16)*scale.y);
+  const width=(preview.width ?? 16)*scale.x;
+  const height=(preview.height ?? 16)*scale.y;
+  const original=pack.manifest.renderProfileId==="ishar2-dos";
   const frame=FRAMES[Math.min(depth+1,FRAMES.length-1)]!;
-  const x=320-width/2;
-  const y=frame.b-height;
+  const x=original ? (VIEW_ORIGIN.x-((preview.width??16)-1)/2)*640/256 : 320-width/2;
+  const y=original ? (VIEW_ORIGIN.y-[-42,-25,-12][depth]!-((preview.height??16)-1)/2)*400/113 : frame.b-height;
   const hitWidth=Math.max(64,width+16);
   const hitHeight=Math.max(52,height+16);
   return <g key={"distance-item-"+assetId+"-"+depth}>
@@ -471,6 +489,7 @@ function renderDoorLeaf(pack:LoadedAssetPack|null,door:AuthoredDoor,open:boolean
 /** r7/r8: original-faithful view for IsharGrid levels (DJ1/DJ2/DJCAT script reimplementation, grid-view.ts).
  *  Door state is the global table main 0x4aa4 (by door number, shared by all maps; render-runtime.md §6). */
 function renderGridView(pack:LoadedAssetPack|null,grid:IsharGrid,levelId:string,r:number,c:number,facing:Direction,doorOpen:(n:number)=>boolean,sceneType?:number,lift?:{door:number;dy:number;doorId?:string},redraw=0,forcedScript?:GridScript,switchOn:(i:number)=>boolean=()=>false){
+  sceneType=sceneTypeAt(grid,r,c,sceneType);
   const outdoor=isOutdoorMap(grid.mapNumber);
   const script=outdoor ? `map${grid.mapNumber}` as GridScript : forcedScript ?? scriptAt(grid,r,c,sceneType);
   const tilesetId=outdoor ? `ishar2-out${grid.mapNumber}` : script==="DJ2" ? "ishar2-dj2" : script==="DJCAT" ? "ishar2-djcat" : "ishar2-dj1";
@@ -515,7 +534,13 @@ function renderEdgeLevelAsGrid(pack:LoadedAssetPack|null,game:AuthoredGame,level
   return renderGridView(pack,built.grid,level.id,r,c,facing,open,pick[1],edgeLift,redraw,pick[0]);
 }
 
-const startSceneTypeOf=(game:AuthoredGame)=>game.levels.find((l)=>l.id===(game.locations.find((x)=>x.id===game.startLocationId)?.levelId || "level-1"))?.grid?.startSceneType;
+const startSceneTypeOf=(game:AuthoredGame,id=game.startLocationId)=>{
+  const location=game.locations.find((x)=>x.id===id);
+  const grid=game.levels.find((l)=>l.id===(location?.levelId || "level-1"))?.grid;
+  if(!grid || !location) return undefined;
+  const {r,c}=gridCellOf(grid,location);
+  return sceneTypeAt(grid,r,c,id===game.startLocationId ? grid.startSceneType : undefined);
+};
 
 /** known (render-runtime.md §6): main 0x4aa4 is indexed by door number only and survives map changes. */
 function gridDoorOpen(game:AuthoredGame,openDoors:string[],n:number){
@@ -549,7 +574,8 @@ function FallbackDoor({x,y,width,height,grille}: {x:number;y:number;width:number
   </g>;
 }
 
-export function DungeonViewport({ game, location, facing, encounter, encounterDone, collectedItemIds, pack, openDoors, onGroundItemSelect, selectedGroundItemId, gridSceneType, gridLift, gridRedraw, gridSwitches }: {
+export function DungeonViewport({ game, location, facing, encounter, encounterDone, collectedItemIds, pack, openDoors, onGroundItemSelect, onNpcSelect, selectedGroundItemId, gridSceneType, gridLift, gridRedraw, gridSwitches, originalGroundLayer }: {
+  originalGroundLayer?: ReactNode;
   game: AuthoredGame;
   location: AuthoredLocation;
   facing: Direction;
@@ -559,6 +585,7 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
   pack: LoadedAssetPack | null;
   openDoors: string[];
   onGroundItemSelect?: (itemId: string, position?: { x: number; y: number }) => void;
+  onNpcSelect?: (npcId:string)=>void;
   selectedGroundItemId?: string | null;
   gridSceneType?: number;
   gridLift?: {door:number;dy:number};
@@ -572,7 +599,8 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
   const sceneTileset=pack?.manifest.tilesets.find(t=>t.id===locationTilesetId)
     ?? pack?.manifest.tilesets.find(t=>t.id===pack.manifest.defaultTilesetId);
   const currentLevel=game.levels.find((level)=>level.id===(location.levelId || "level-1"));
-  const sceneKind=location.sceneKind || (currentLevel?.kind==="outdoor" ? "outdoor" : currentLevel?.kind==="house" ? "room" : "corridor");
+  if(currentLevel?.grid?.game==="ishar1") return <div className="panel" role="status"><strong>Ishar-1-Karte · 54×90</strong><p>Für dieses Kartenformat ist noch kein originalgetreuer Renderer verfügbar. Für Thorm bitte CONT2.FIC aus Ishar 2 importieren (10.800 Bytes, 90×60).</p></div>;
+  const sceneKind=isOutdoorMap(currentLevel?.grid?.mapNumber) ? "outdoor" : location.sceneKind || (currentLevel?.kind==="outdoor" ? "outdoor" : currentLevel?.kind==="house" ? "room" : "corridor");
   const outdoor=sceneKind==="outdoor";
   const roomScene=sceneKind==="room";
   const nativeScene=!outdoor && usesNativeDungeonProjection(pack?.sceneLayoutVersion,sceneTileset?.id);
@@ -612,13 +640,6 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
     const forwardDoor = forward ? doorBetween(game.doors, cell, forward) : undefined;
     const forwardDoorOpen = !forwardDoor || openDoors.includes(forwardDoor.id);
 
-    if(depth>=1 && depth<=2){
-      const visibleItemId=cell.itemIds.find((id)=>!collectedItemIds.includes(id));
-      const visibleItem=visibleItemId ? game.items.find((item)=>item.id===visibleItemId) : undefined;
-      const assetId=semanticItemAssetId(pack,visibleItem,depth);
-      const layer=renderDiscoveredItemAtDepth(pack,assetId,depth);
-      if(layer) itemLayers.unshift(layer);
-    }
 
     segments.unshift(
       <g key={`segment-${depth}`} className={`dungeon-depth depth-${depth}`}>
@@ -658,21 +679,29 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
     cell = {...forward,tilesetId:levelTilesetId(forward)};
   }
 
+  if(!outdoor){
+    for(const candidate of authoredItemsInSight(game,location,facing,openDoors,collectedItemIds)){
+      if(candidate.depth===0)continue;
+      const item=game.items.find(i=>i.id===candidate.id);
+      const assetId=semanticItemAssetId(pack,item,candidate.depth);
+      const layer=renderDiscoveredItemAtDepth(pack,assetId,candidate.depth);
+      if(layer)itemLayers.push(<g key={candidate.id} data-ground-item={candidate.id} data-depth={candidate.depth}>{layer}</g>);
+    }
+  }
   const encounterLayer = encounter && !encounterDone ? renderAsset(pack, "encounter", undefined, locationTilesetId, encounter.id) : null;
-  const currentItemId=location.itemIds.find((id)=>!collectedItemIds.includes(id));
+  const currentItemIds=location.itemIds.filter((id)=>!collectedItemIds.includes(id));
+  const currentItemId=selectedGroundItemId ?? currentItemIds[0];
   const currentItem=currentItemId ? game.items.find((item)=>item.id===currentItemId) : undefined;
+  function currentItemLayerFor(currentItem:AuthoredGame["items"][number]|undefined,currentItemId:string){
   const currentItemAssetId=semanticItemAssetId(pack,currentItem,0);
   const genericCurrentItemLayer=!currentItemAssetId && currentItemId
-    ? renderAsset(pack, "item", undefined, locationTilesetId, currentItemId)
+    ? renderAsset(pack, "item", undefined, locationTilesetId, currentItem?.definitionId??currentItemId)
     : null;
-  const currentItemLayer=currentItemAssetId
+  return currentItemAssetId
     ? renderDiscoveredItemAtDepth(pack,currentItemAssetId,0)
-    : genericCurrentItemLayer ?? <g className="dungeon-item" transform="translate(500 310)">
-        <ellipse cx="0" cy="36" rx="34" ry="8" className="item-shadow"/>
-        <path d="M-22 34 L-14 -8 L14 -8 L22 34 Z" className="item-pedestal"/>
-        <circle cx="0" cy="-24" r="13" className="item-glow"/>
-        <path d="M-5 -30 L7 -25 L0 -15 L-8 -20 Z" className="item-core"/>
-      </g>;
+    : pack?.manifest.renderProfileId==="ishar2-dos" ? null : genericCurrentItemLayer;
+
+  }
 
   return <div className={`dungeon-viewport ${outdoor ? "outdoor-viewport" : roomScene ? "room-viewport" : ""}`} style={{aspectRatio:String(viewportAspect)}} data-render-profile={renderProfile.id} data-scene-layout-version={pack?.sceneLayoutVersion}>
     <svg viewBox="0 0 640 400" preserveAspectRatio="none" aria-label={`Blick nach ${compassOf(facing)}`}>
@@ -704,13 +733,23 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
       {!gridView && nativeScene && renderAsset(pack,"surface.floor",undefined,locationTilesetId)}
       {gridView ? gridView.nodes : segments}
       {itemLayers}
-      {currentItemId && <g className={`ground-item-choice${selectedGroundItemId===currentItemId ? " held" : ""}`}
+      {originalGroundLayer}
+      {(location.npcIds??[]).map((id,index)=>{
+        const npc=game.npcs?.find(n=>n.id===id); if(!npc) return null;
+        const asset=pack?.discoveredAssets?.find(a=>a.id===npc.assetId);
+        return <g key={id} role="button" tabIndex={0} aria-label={`${npc.name} ansprechen`} transform={`translate(${260+index*100} 300)`}
+          onClick={()=>onNpcSelect?.(id)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();onNpcSelect?.(id);}}}>
+          {asset ? <image href={asset.url} x={-45} y={-180} width={90} height={180} preserveAspectRatio="xMidYMax meet"/> : <g fill="#9e8764" stroke="#2f2419"><circle cy={-135} r={18}/><path d="M-18 -110H18L32 0H-32Z"/></g>}
+          <text y={20} textAnchor="middle" fill="#efdbb3" fontSize={12}>{npc.name}</text>
+        </g>;
+      })}
+      {currentItemIds.map((currentItemId)=>{ const currentItem=game.items.find(item=>item.id===currentItemId); const slot=location.itemIds.indexOf(currentItemId); return <g key={currentItemId} transform={`translate(${-100*(slot%4)} ${-55*Math.floor(slot/4)})`} className={`ground-item-choice${selectedGroundItemId===currentItemId ? " held" : ""}`}
         role="button" tabIndex={0} aria-label={`${currentItem?.name ?? currentItemId} ${selectedGroundItemId===currentItemId ? "am Fundort ablegen" : "vom Boden aufheben"}`}
         aria-pressed={selectedGroundItemId===currentItemId}
         onClick={(event)=>onGroundItemSelect?.(currentItemId,{x:event.clientX,y:event.clientY})}
         onKeyDown={(event)=>{if(event.key==="Enter" || event.key===" "){event.preventDefault();onGroundItemSelect?.(currentItemId);}}}>
-        {currentItemLayer}
-      </g>}
+        {currentItemLayerFor(currentItem,currentItemId)}
+      </g>;})}
       <path className="dungeon-vignette" d="M0 0H640V400H0Z M32 25V375H608V25Z" fillRule="evenodd"/>
       {encounter && !encounterDone && (encounterLayer ?? <g className="enemy-silhouette" transform="translate(320 232)">
         <ellipse cx="0" cy="58" rx="58" ry="13" className="enemy-shadow"/>
@@ -772,7 +811,14 @@ function PlaytestPage() {
   const originalActionBar=originalHudSprite(36);
   const originalLifeBar=originalHudSprite(1);
   // Grid levels (original CONT layers) are expanded into runtime cells/doors; the project itself is untouched.
-  const game = useMemo(()=>expandGridLevels(project.game),[project.game]);
+  const baseGame = useMemo(()=>instantiateLocationItems(expandGridLevels({...project.game,items:project.game.items.map(originalStarterItem)})),[project.game]);
+  const [trade,setTrade]=useState<TradeState>({gold:project.game.startingGold??0,remaining:{},purchased:[]});
+  const tradeRef=useRef(trade);
+  const [activeNpcId,setActiveNpcId]=useState<string|null>(null);
+  const game=useMemo(()=>({...baseGame,items:[...baseGame.items,...trade.purchased.flatMap(p=>{
+    const definition=baseGame.items.find(item=>item.id===p.definitionId);
+    return definition?[{...definition,id:p.id,definitionId:p.definitionId}]:[];
+  })]}),[baseGame,trade.purchased]);
   const hero = game.characters[0];
   const problems = useMemo(()=>validateGame(project.game),[project.game]);
   const [locationId, setLocationId] = useState(game.startLocationId);
@@ -786,6 +832,24 @@ function PlaytestPage() {
   const [selectedItemId,setSelectedItemId]=useState<string|null>(null);
   const [selectedGroundItemId,setSelectedGroundItemId]=useState<string|null>(null);
   const [heldItemStart,setHeldItemStart]=useState({x:0,y:0});
+  const [originalSave,setOriginalSave]=useState<Uint8Array|null>(null);
+  const [originalHeld,setOriginalHeld]=useState<{id:number;before:Uint8Array}|null>(null);
+  const [originalStatus,setOriginalStatus]=useState("");
+  const [shopSelector,setShopSelector]=useState<number|null>(null);
+  const [shopHeld,setShopHeld]=useState<OriginalPurchase|null>(null);
+  const [actorListings,setActorListings]=useState<ActorListingBundle|null>(null);
+  const [localMerchants,setLocalMerchants]=useState<OriginalMerchant[]>([]);
+  const [shopResources,setShopResources]=useState<Record<number,number>>({});
+  useEffect(()=>{
+    let alive=true;
+    if(!["127.0.0.1","localhost","[::1]"].includes(window.location.hostname))return;
+    void Promise.all([fetch('/__local/ishar-merchants'),fetch('/__local/ishar-object-resources'),fetch('/__local/ishar-actors')]).then(async([stock,objects,actors])=>{
+      if(actors.ok){const parsed=await actors.json() as ActorListingBundle;if(alive)setActorListings(parsed);}
+      if(stock.ok){const parsed=readOriginalMerchants(await stock.text());if(alive)setLocalMerchants(parsed);}
+      if(objects.ok){const parsed=readOriginalItemResources(await objects.text());if(alive)setShopResources(parsed);}
+    }).catch(()=>{});
+    return ()=>{alive=false;};
+  },[]);
   const [openDoors, setOpenDoors] = useState<string[]>(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));
   // r7: scene type main 0x4ef2 is state in the original, set by layer-B triggers on entry (GERDEP 0x0162a, known).
   // main 0x4ef2 is walk state (sticky); a save restores it. Without one, grid-view falls back to the nearest trigger.
@@ -810,6 +874,8 @@ function PlaytestPage() {
   },[game.characters]);
   useEffect(()=>{setOpenDoors(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));},[game.doors]);
   useEffect(()=>{setSelectedGroundItemId(null);},[locationId,facing]);
+  useEffect(()=>{setActiveNpcId(null);},[locationId]);
+  useEffect(()=>{const next={gold:project.game.startingGold??0,remaining:{},purchased:[]};tradeRef.current=next;setTrade(next);},[project.game.startingGold]);
 
   const location = useMemo(() => game.locations.find((x) => x.id === locationId), [game.locations, locationId]);
   const encounter = location?.encounterId ? game.encounters.find((x) => x.id === location.encounterId) : undefined;
@@ -820,6 +886,56 @@ function PlaytestPage() {
   const visibleItemIds = location?.itemIds.filter((id) => !inventory.includes(id)) ?? [];
   const heldItem=selectedGroundItemId ? game.items.find((item)=>item.id===selectedGroundItemId) : undefined;
   const level=game.levels.find((entry)=>entry.id===(location?.levelId || "level-1"));
+  const originalCell=location && level?.grid ? gridCellOf(level.grid,location) : null;
+  const originalView=originalCell ? {row:originalCell.r,col:originalCell.c,facing:FACING_CODE[facing],map:level?.grid?.mapNumber??0,scene:gridSceneType??0} : null;
+  const originalAsset=(index:number)=>pack?.discoveredAssets?.find(a=>new RegExp(`(?:^|/)OBJET\\.IO · ALIS #${index}$`,"i").test(a.path));
+  function giveShopPurchase(carrier:number){
+    if(!shopHeld||!originalSave)return;
+    const result=receiveOriginalPurchase(originalSave,shopHeld,carrier);
+    if(!result.ok){setOriginalStatus({'empty-character':'Charakterplatz ist leer.','insufficient-gold':'Nicht genügend Gold.','full-backpack':'Gepäck voll.','full-stack':'Stapel voll.'}[result.reason]);return;}
+    setOriginalSave(result.bytes);setShopHeld(null);setOriginalStatus(`${result.accepted} Gegenstand übernommen${result.discarded?`; ${result.discarded} aus dem Bündel verworfen`:''}.`);
+  }
+  function returnOriginalGround(){if(originalHeld){setOriginalSave(originalHeld.before);setOriginalHeld(null);setOriginalStatus("Gegenstand am Fundort abgelegt.");}}
+  function giveOriginalGround(carrier:number){
+    if(!originalHeld || !originalSave)return;
+    const next=receiveOriginalGround(originalSave,originalHeld.id,carrier);
+    if(!next){setOriginalStatus("Dieser Originalcharakter kann den Gegenstand nicht aufnehmen (nicht vorhanden oder Gepäck voll).");return;}
+    setOriginalSave(next);setOriginalHeld(null);setOriginalStatus(`Originalobjekt ${originalHeld.id} liegt im Gepäck von Charakter ${carrier+1}.`);
+  }
+  async function loadOriginalGround(file:File){
+    if(shopHeld)return;
+    try{
+      const bytes=new Uint8Array(await file.arrayBuffer()),save=readActorSave(bytes);
+      if(!save)throw new Error("Erwartet wird ein Ishar-2-DOS-Spielstand der Version 2 (8359 Bytes).");
+      const candidates=game.levels.filter(l=>l.grid?.mapNumber===save.map);
+      const target=candidates.flatMap(l=>game.locations.filter(location=>location.levelId===l.id && (()=>{const c=gridCellOf(l.grid!,location);return c.r===save.row&&c.c===save.col;})())).at(-1);
+      const direction=(Object.keys(FACING_CODE) as Direction[]).find(d=>FACING_CODE[d]===save.facing);
+      if(!target || !direction)throw new Error("Karte oder Position des Spielstands ist im aktuellen Projekt nicht vorhanden.");
+      setOriginalSave(bytes);setOriginalHeld(null);setSelectedGroundItemId(null);setLocationId(target.id);setFacing(direction);setGridSceneType(save.scene);setHudPanel(null);
+      setOriginalStatus("Originalspielstand geladen. Bodenobjekte 9 und 10 auf CONT1 sind angebunden; weitere Objektzweige folgen.");
+    }catch(error){setOriginalStatus(error instanceof Error?error.message:String(error));}
+  }
+  const originalGroundLayer=originalSave && originalView ? originalGroundSprites(originalHeld?.before??originalSave,originalView).map(sprite=>{
+    const asset=originalAsset(sprite.index);if(!asset?.width || !asset.height)return null;
+    const select=(position:{x:number;y:number})=>{
+      if(!sprite.pickable || selectedGroundItemId || defeated || !encounterDone)return;
+      if(originalHeld){if(originalHeld.id===sprite.id)returnOriginalGround();return;}
+      const next=pickOriginalGround(originalSave,originalView,sprite.id);if(!next)return;
+      setOriginalHeld({id:sprite.id,before:originalSave});setOriginalSave(next);setHeldItemStart(position);setOriginalStatus(`Originalobjekt ${sprite.id} in der Hand · Fundort oder Charakterporträt anklicken.`);
+    };
+    return <g key={`original-${sprite.id}`} role={sprite.pickable?"button":undefined} tabIndex={sprite.pickable?0:undefined} aria-label={`Originalobjekt ${sprite.id} ${originalHeld?.id===sprite.id?"am Fundort ablegen":"aufheben"}`} onClick={e=>select({x:e.clientX,y:e.clientY})} onKeyDown={e=>{if(e.key==="Enter" || e.key===" "){e.preventDefault();select(heldItemStart);}}}>
+      <image href={asset.url} x={(VIEW_ORIGIN.x+sprite.x-(asset.width-1)/2)*640/256} y={(VIEW_ORIGIN.y-sprite.y-(asset.height-1)/2)*400/113} width={asset.width*640/256} height={asset.height*400/113} opacity={originalHeld?.id===sprite.id?0.2:1} preserveAspectRatio="none"/>
+    </g>;
+  }) : null;
+  const actorResult=useMemo(()=>originalSave && originalView && actorListings ? originalActorFrames(actorListings,originalSave,originalView) : {frames:[],unsupported:[]},[actorListings,originalSave,locationId,facing,gridSceneType]);
+  const originalActorLayer=actorResult.frames.map(sprite=>{
+    const asset=pack?.discoveredAssets?.find(a=>a.path.toUpperCase().endsWith(`${sprite.module} · ALIS #${sprite.index}`));
+    if(!asset?.width||!asset.height)return null;
+    const dx=asset.nativeOffsetX??-Math.floor((asset.width-1)/2),dy=asset.nativeOffsetY??-Math.floor((asset.height-1)/2);
+    const left=(VIEW_ORIGIN.x+sprite.x+(sprite.mirror?-dx-asset.width:dx))*640/256;
+    const top=(VIEW_ORIGIN.y-sprite.y+dy)*400/113,width=asset.width*640/256;
+    return <g key={`actor-${sprite.actorId}-${sprite.index}`} aria-label={`Originalfigur ${sprite.actorId}`} transform={sprite.mirror?`translate(${2*left+width} 0) scale(-1 1)`:undefined}><image href={asset.url} x={left} y={top} width={width} height={asset.height*400/113} preserveAspectRatio="none"/></g>;
+  });
   const portalsHere=game.portals.filter((portal)=>portal.fromLocationId===locationId || portal.toLocationId===locationId);
   const facingTarget = location ? canTravel(game.locations, location, facing) : undefined;
   const facingDoor = location && facingTarget ? doorBetween(game.doors, location, facingTarget) : undefined;
@@ -828,10 +944,34 @@ function PlaytestPage() {
   const selectedMemberItems=inventory.filter((id)=>itemOwners[id]===selectedMember?.id);
   const selectedItem=selectedItemId && selectedMemberItems.includes(selectedItemId)
     ? game.items.find((item)=>item.id===selectedItemId) : undefined;
+  const activeNpc=location?.npcIds?.includes(activeNpcId??'') ? game.npcs?.find(n=>n.id===activeNpcId) : undefined;
+
+  function talkToNpc(id:string) {
+    if(defeated || !encounterDone || selectedGroundItemId || originalHeld || !location?.npcIds?.includes(id)) return;
+    setActiveNpcId(id);setHudPanel(null);
+  }
+  function buy(index:number) {
+    if(!activeNpc || defeated || selectedGroundItemId || originalHeld || !selectedMember || (partyHp[selectedMember.id]??selectedMember.hp)<=0) return;
+    const pending=tradeRef.current.purchased.filter(p=>p.ownerId===selectedMember.id&&!inventory.includes(p.id)).length;
+    const result=buyFromNpc(tradeRef.current,activeNpc,index,selectedMember.id,selectedMemberItems.length+pending,()=>crypto.randomUUID());
+    if(!result.ok){setLog(lines=>[result.message,...lines]);return;}
+    if(!game.items.some(item=>item.id===result.purchase.definitionId)) return;
+    tradeRef.current=result.state;setTrade(result.state);
+    setInventory(ids=>[...ids,result.purchase.id]);
+    setItemOwners(owners=>({...owners,[result.purchase.id]:result.purchase.ownerId}));
+    setLog(lines=>[`${selectedMember.name} kauft ${game.items.find(item=>item.id===result.purchase.definitionId)?.name}.`,...lines]);
+  }
 
   function reset() {
+    if(shopHeld)return;
+    setShopSelector(null);
+    const nextTrade={gold:game.startingGold??0,remaining:{},purchased:[]};tradeRef.current=nextTrade;setTrade(nextTrade);setActiveNpcId(null);
     setLocationId(game.startLocationId);
     setFacing(game.startFacing);
+    setGridSceneType(startSceneTypeOf(game));
+    setGridLift(undefined);
+    setGridRedraw(0);
+    viewReset.current=true;
     setPartyHp(Object.fromEntries(game.characters.map((member)=>[member.id,member.hp])));
     setEnemyHp({});
     setCompletedEncounters([]);
@@ -865,7 +1005,29 @@ function PlaytestPage() {
   }
 
   function step(direction: Direction) {
-    if (!location || !encounterDone || defeated || selectedGroundItemId) return;
+    if(shopSelector!==null)return;
+    if (!location || !encounterDone || defeated || selectedGroundItemId || originalHeld) return;
+    // Test the original cell before consulting expanded exits: event cells are
+    // intentionally not locations, but must still respond to a forward click.
+    if(level?.grid){
+      if(level.grid.game!=="ishar2"){setLog((x)=>["Für Ishar-1-Karten ist die Laufzeit noch nicht verfügbar.",...x]);return;}
+      const {r,c}=gridCellOf(level.grid,location);
+      const result=canStep(level.grid,r,c,direction,(n)=>gridDoorOpen(game,openDoors,n),direction===facing);
+      if(result.kind==="event"){
+        const phase=originalSave?new DataView(originalSave.buffer,originalSave.byteOffset,originalSave.byteLength).getUint16(90,false):1;
+        const entry=result.message===17?originalShopEntry(result.value,phase):null;
+        if(entry?.kind==='merchant'){setShopSelector(entry.selector);setHudPanel(null);setOriginalStatus('Ware wählen und anschließend das Charakterporträt anklicken.');return;}
+        if(entry?.kind==='closed'){setLog(x=>['Der Händler ist geschlossen.',...x]);return;}
+        // Original event handlers are not implemented yet; do not disguise
+        // their blocked interaction as an ordinary wall or invent a destination.
+        setLog((x)=>[result.message===17 ? `Hier ist ein Eingang oder Ereignis (${result.value}); die Interaktion ist noch nicht umgesetzt.` : "Der Durchgang ist gesperrt.",...x]);
+        return;
+      }
+      if(result.kind==="wall" || (result.kind==="door" && result.closed)){
+        setLog((x)=>[result.kind==="door" ? "Die Tür ist geschlossen." : "Dort ist eine Wand.",...x]);
+        return;
+      }
+    }
     const target = canTravel(game.locations, location, direction);
     if (!target) {
       const ahead=adjacentLocation(game.locations,location,direction);
@@ -887,7 +1049,7 @@ function PlaytestPage() {
     // DJTRAP hook (cont-grid.ts): damage formula known; which wall traps fire depends on facing (not modelled: every trap fires on entry).
     const grid=game.levels.find((entry)=>entry.id===(target.levelId || "level-1"))?.grid;
     const trap=grid ? trapAt(grid,gridCellOf(grid,target).r,gridCellOf(grid,target).c) : undefined;
-    if(grid){ const g=gridCellOf(grid,target); const t=sceneTriggerAt(grid,g.r,g.c); if(t!==undefined) setGridSceneType(t); }
+    if(grid){ const g=gridCellOf(grid,target); const t=sceneTriggerAt(grid,g.r,g.c); if(grid.game==="ishar2" && grid.mapNumber===1) setGridSceneType(current=>irvanSceneAfterStep(g.r,g.c,current??inferIrvanScene(g.r,g.c))); else if(t!==undefined) setGridSceneType(t); }
     if(grid && trap){
       const living=game.characters.filter((member)=>(partyHp[member.id] ?? member.hp)>0);
       const victim=living[Math.floor(Math.random()*living.length)];
@@ -916,7 +1078,7 @@ function PlaytestPage() {
     if (!door || openDoors.includes(door.id)) return;
     const gridN = gridDoorNumber(door.id);
     if (gridN!==undefined && (gridDoorOpen(game,openDoors,gridN) || gridLift)) return;
-    if (door.keyItemId && !inventory.includes(door.keyItemId)) {
+    if (door.keyItemId && !inventoryHasDefinition(game,inventory,door.keyItemId)) {
       const key = game.items.find((item)=>item.id===door.keyItemId);
       setLog((x)=>[`Verschlossen. Benötigt: ${key?.name ?? door.keyItemId}.`, ...x]);
       return;
@@ -944,7 +1106,7 @@ function PlaytestPage() {
     const carrier=game.characters.find((member)=>member.id===carrierId) ?? game.characters[selectedPartyIndex] ?? hero;
     if(!carrier || (partyHp[carrier.id] ?? carrier.hp)<=0){setLog((x)=>["Wähle eine handlungsfähige Figur.",...x]);return false;}
     if(inventory.filter((itemId)=>itemOwners[itemId]===carrier.id).length>=9){setLog((x)=>[`${carrier.name} hat keinen freien Platz.`,...x]);return false;}
-    setInventory((x)=>[...x,id]);
+    setInventory((x)=>x.includes(id) ? x : [...x,id]);
     setItemOwners((x)=>({...x,[id]:carrier.id}));
     setSelectedItemId(id);
     setSelectedGroundItemId(null);
@@ -954,8 +1116,9 @@ function PlaytestPage() {
 
   function selectGroundItem(id:string,position?:{x:number;y:number}){
     if(!visibleItemIds.includes(id) || defeated || !encounterDone) return;
+    if(originalHeld)return;
     if(selectedGroundItemId===id){setSelectedGroundItemId(null);return;}
-    if(selectedGroundItemId) return;
+    if(selectedGroundItemId || originalHeld) return;
     setHeldItemStart(position ?? {x:window.innerWidth/2,y:window.innerHeight/2});
     setSelectedGroundItemId(id);
   }
@@ -971,12 +1134,16 @@ function PlaytestPage() {
   }
 
   function usePortal(id:string){
-    if(defeated || !encounterDone || selectedGroundItemId) return;
+    if(defeated || !encounterDone || selectedGroundItemId || originalHeld) return;
     const portal=game.portals.find((entry)=>entry.id===id);
     if(!portal) return;
     const targetId=portal.fromLocationId===locationId ? portal.toLocationId : portal.fromLocationId;
     const target=game.locations.find((entry)=>entry.id===targetId);
     if(!target) return;
+    viewReset.current=true;
+    setGridSceneType(startSceneTypeOf(game,target.id));
+    setGridRedraw(0);
+    setGridLift(undefined);
     setLocationId(target.id);
     setLog((entries)=>[`Levelwechsel: ${target.name}.`,...entries]);
     setHudPanel(null);
@@ -989,9 +1156,11 @@ function PlaytestPage() {
       const target = event.target as HTMLElement | null;
       if (target?.closest("input,textarea,select")) return;
       const key = event.key.toLowerCase();
+      if(shopSelector!==null){if(key==='escape'){if(shopHeld)setShopHeld(null);else setShopSelector(null);}return;}
       if (["arrowup","arrowdown","arrowleft","arrowright","w","a","s","d"].includes(key)) event.preventDefault();
+      if(key==="escape" && originalHeld){returnOriginalGround();return;}
       if(key==="escape" && selectedGroundItemId){setSelectedGroundItemId(null);return;}
-      if(selectedGroundItemId) return;
+      if(selectedGroundItemId || originalHeld) return;
       if (key === "arrowleft" || key === "a") setFacing((value)=>turnLeft(value));
       else if (key === "arrowright" || key === "d") setFacing((value)=>turnRight(value));
       else if (key === "arrowup" || key === "w") step(facing);
@@ -999,20 +1168,22 @@ function PlaytestPage() {
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [facing, locationId, encounterDone, defeated, openDoors, selectedGroundItemId]);
+  }, [facing, locationId, encounterDone, defeated, openDoors, selectedGroundItemId, originalHeld,shopSelector,shopHeld]);
 
   if (problems.length || !hero || !location) return <section><header className="page-head"><div><p className="eyebrow">Dungeon Playtest</p><h1>Projekt nicht spielbar</h1><p>Behebe zuerst die Raster- oder Referenzfehler im Adventure Builder.</p></div><Link className="file-button" to="/author">Zum Builder</Link></header><div className="empty-state">{problems.map((p,i)=><p key={i}>{p.path}: {p.message}</p>)}</div></section>;
 
   return <section className="crawler-page">
     <header className="page-head crawler-head">
       <div><p className="eyebrow">First-person dungeon runtime</p><h1>{project.name}</h1><p>WASD / Pfeiltasten: drehen und schrittweise bewegen.</p></div>
-      <div className="toolbar"><Link className="file-button" to="/author">Dungeon bearbeiten</Link><Link className="file-button" to="/assets">Assets</Link><button onClick={reset}>Neu starten</button></div>
+      <div className="toolbar"><Link className="file-button" to="/author">Dungeon bearbeiten</Link><Link className="file-button" to="/assets">Assets</Link><label className="file-button">Originalspielstand laden<input type="file" accept=".sav" hidden disabled={!!originalHeld || !!shopHeld} onChange={e=>{const file=e.target.files?.[0];if(file)void loadOriginalGround(file);e.target.value="";}}/></label><button onClick={reset} disabled={!!originalHeld || !!shopHeld}>Neu starten</button></div>
     </header>
 
+    {originalStatus && <p role="status">{originalStatus}</p>}
+    {originalSave && <div className="toolbar"><button disabled={!!originalHeld || !!shopHeld} onClick={()=>{const url=URL.createObjectURL(new Blob([Uint8Array.from(originalSave).buffer],{type:"application/octet-stream"}));const a=document.createElement("a");a.href=url;a.download="ISHAR-ITEMS.SAV";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}}>Geänderten Spielstand exportieren</button><button disabled={!!originalHeld || !!shopHeld} onClick={()=>{setOriginalSave(null);setOriginalStatus("");}}>Originalspielstand schließen</button></div>}
     <div className="ishar-play-shell">
       <div className="ishar-stage-row">
         <main className="ishar-view-panel">
-          {(hudPanel==="character" || hudPanel==="inventory") ? <section className="ishar-character-sheet" aria-label={`Charakterblatt ${selectedMember.name}`}>
+          {shopSelector!==null ? <OriginalShop selector={shopSelector} merchant={(game.originalMerchants??localMerchants).find(m=>m.selector===shopSelector)} pack={pack} resources={shopResources} canBuy={!!originalSave} held={shopHeld} onSelect={(purchase,position)=>{setShopHeld(purchase);setHeldItemStart(position);}} onReturn={()=>setShopHeld(null)} onExit={()=>setShopSelector(null)}/> : (hudPanel==="character" || hudPanel==="inventory") ? <section className="ishar-character-sheet" aria-label={`Charakterblatt ${selectedMember.name}`}>
             <header className="ishar-sheet-header"><div><small>Charakterblatt · {selectedPartyIndex+1}/5</small><h2>{selectedMember.name}</h2></div><button onClick={()=>setHudPanel(null)} aria-label="Charakterblatt schließen">×</button></header>
             <div className="ishar-sheet-body">
               <div className="ishar-sheet-status"><h3>Figur</h3>
@@ -1027,10 +1198,10 @@ function PlaytestPage() {
                 <p><span>Angriff</span><strong>{selectedMember.attack}</strong></p>
                 <div className="ishar-sheet-health"><i style={{width:`${Math.max(0,Math.min(100,Math.round((partyHp[selectedMember.id] ?? selectedMember.hp)/Math.max(1,selectedMember.hp)*100)))}%`}}/></div>
               </div>
-              <div className="ishar-sheet-pack"><h3>Gegenstände · {selectedMemberItems.length}/9</h3><div className="ishar-sheet-grid">{Array.from({length:9},(_,slot)=>{const id=selectedMemberItems[slot];const item=game.items.find((entry)=>entry.id===id);return <button key={slot} disabled={!id} aria-label={id ? `Platz ${slot+1}: ${item?.name ?? id}` : `Platz ${slot+1}: leer`} aria-pressed={!!id && selectedItemId===id} onClick={()=>setSelectedItemId(id)}>{item?.name ?? ""}</button>;})}</div></div>
+              <div className="ishar-sheet-pack">{originalSave && <><h3>Originalgepäck · Charakter {selectedPartyIndex+1}</h3><div className="ishar-sheet-grid">{readOriginalCarrier(originalSave,selectedPartyIndex).slots.slice(0,9).map((code,slot)=><span key={slot}>Platz {slot+1}: {code===0?"leer":`Objekt ${code}`}</span>)}</div></>}<h3>Gegenstände · {selectedMemberItems.length}/9</h3><div className="ishar-sheet-grid">{Array.from({length:9},(_,slot)=>{const id=selectedMemberItems[slot];const item=game.items.find((entry)=>entry.id===id);return <button key={slot} disabled={!id} aria-label={id ? `Platz ${slot+1}: ${item?.name ?? id}` : `Platz ${slot+1}: leer`} aria-pressed={!!id && selectedItemId===id} onClick={()=>setSelectedItemId(id)}>{item?.name ?? ""}</button>;})}</div></div>
             </div>
-            {selectedItem && <div className="ishar-sheet-item"><strong>{selectedItem.name}</strong><p>{selectedItem.description || "Keine Beschreibung."}</p><div className="ishar-sheet-item-actions">{facingDoorClosed && facingDoor?.keyItemId===selectedItem.id && <button onClick={openFacingDoor}>An Tür verwenden</button>}{game.characters.filter((member)=>member.id!==selectedMember.id).map((member)=><button key={member.id} onClick={()=>transferItem(selectedItem.id,member.id)} disabled={inventory.filter((id)=>itemOwners[id]===member.id).length>=9}>An {member.name} geben</button>)}</div></div>}
-          </section> : <><DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} collectedItemIds={inventory} pack={pack} openDoors={openDoors} onGroundItemSelect={selectGroundItem} selectedGroundItemId={selectedGroundItemId} gridSceneType={gridSceneType} gridLift={gridLift} gridRedraw={gridRedraw} gridSwitches={mech.switches}/>
+            {selectedItem && <div className="ishar-sheet-item"><strong>{selectedItem.name}</strong><p>{selectedItem.description || "Keine Beschreibung."}</p><div className="ishar-sheet-item-actions">{facingDoorClosed && facingDoor?.keyItemId===(selectedItem.definitionId??selectedItem.id) && <button onClick={openFacingDoor}>An Tür verwenden</button>}{game.characters.filter((member)=>member.id!==selectedMember.id).map((member)=><button key={member.id} onClick={()=>transferItem(selectedItem.id,member.id)} disabled={inventory.filter((id)=>itemOwners[id]===member.id).length>=9}>An {member.name} geben</button>)}</div></div>}
+          </section> : <><DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} collectedItemIds={inventory} pack={pack} openDoors={openDoors} onGroundItemSelect={selectGroundItem} onNpcSelect={talkToNpc} selectedGroundItemId={selectedGroundItemId} gridSceneType={gridSceneType} gridLift={gridLift} gridRedraw={gridRedraw} gridSwitches={mech.switches} originalGroundLayer={<>{originalActorLayer}{originalGroundLayer}</>}/>
           <div className="asset-runtime-status"><span>Asset-Pack</span><strong>{pack ? pack.manifest.name : "SVG-Fallback"}</strong>{game.assetPackId && !pack && <small>Projekt erwartet: {game.assetPackId}</small>}</div></>}
         </main>
 
@@ -1045,23 +1216,24 @@ function PlaytestPage() {
           </nav>
           {hudPanel && hudPanel!=="character" && hudPanel!=="inventory" && <section className="ishar-hud-panel" aria-label="Spielmenü-Inhalt">
             <button className="ishar-hud-close" onClick={()=>setHudPanel(null)} aria-label="Menü schließen">×</button>
-            {hudPanel==="actions" && <><h3>Aktionen · {game.characters[selectedPartyIndex]?.name ?? hero.name}</h3><div className="ishar-hud-actions"><button onClick={attack} disabled={!encounter || encounterDone || defeated || (partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0)<=0}>Angreifen</button><button onClick={openFacingDoor} disabled={!facingDoorClosed || defeated}>Tür öffnen</button>{visibleItemIds.map((id)=><button key={id} onClick={(event)=>selectGroundItem(id,{x:event.clientX,y:event.clientY})}>{game.items.find((item)=>item.id===id)?.name ?? id} {selectedGroundItemId===id ? "zurücklegen" : "aufheben"}</button>)}{portalsHere.map((portal)=><button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone || !!selectedGroundItemId}>{portal.label}</button>)}</div></>}
+            {hudPanel==="actions" && <><h3>Aktionen · {game.characters[selectedPartyIndex]?.name ?? hero.name}</h3><div className="ishar-hud-actions"><button onClick={attack} disabled={!encounter || encounterDone || defeated || (partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0)<=0}>Angreifen</button><button onClick={openFacingDoor} disabled={!facingDoorClosed || defeated}>Tür öffnen</button>{visibleItemIds.map((id)=><button key={id} onClick={(event)=>selectGroundItem(id,{x:event.clientX,y:event.clientY})}>{game.items.find((item)=>item.id===id)?.name ?? id} {selectedGroundItemId===id ? "zurücklegen" : "aufheben"}</button>)}{portalsHere.map((portal)=><button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone || !!selectedGroundItemId || !!originalHeld || shopSelector!==null}>{portal.label}</button>)}</div></>}
             {hudPanel==="map" && <><h3>{level?.name ?? "Karte"}</h3><DungeonMiniMap game={game} location={location} facing={facing}/></>}
             {hudPanel==="quest" && <><h3>Aufträge</h3>{game.quests.map((quest)=><p key={quest.id}><strong>{quest.title}</strong> · {completedQuests.includes(quest.id) ? quest.completedText : quest.objective}</p>)}</>}
           </section>}
           <div className="ishar-dpad" aria-label="Dungeon-Steuerung">
             <span/>
-            <button onClick={()=>step(facing)} disabled={!encounterDone || defeated || !!selectedGroundItemId} aria-label="Vorwärts">▲</button>
+            <button onClick={()=>step(facing)} disabled={!encounterDone || defeated || !!selectedGroundItemId || !!originalHeld || shopSelector!==null} aria-label="Vorwärts">▲</button>
             <span/>
-            <button onClick={()=>setFacing(turnLeft(facing))} disabled={!!selectedGroundItemId} aria-label="Links drehen">◀</button>
-            <button className="dpad-center" onClick={()=>step(turnBack(facing))} disabled={!encounterDone || defeated || !!selectedGroundItemId} aria-label="Rückwärts">▼</button>
-            <button onClick={()=>setFacing(turnRight(facing))} disabled={!!selectedGroundItemId} aria-label="Rechts drehen">▶</button>
+            <button onClick={()=>setFacing(turnLeft(facing))} disabled={!!selectedGroundItemId || !!originalHeld || shopSelector!==null} aria-label="Links drehen">◀</button>
+            <button className="dpad-center" onClick={()=>step(turnBack(facing))} disabled={!encounterDone || defeated || !!selectedGroundItemId || !!originalHeld || shopSelector!==null} aria-label="Rückwärts">▼</button>
+            <button onClick={()=>setFacing(turnRight(facing))} disabled={!!selectedGroundItemId || !!originalHeld || shopSelector!==null} aria-label="Rechts drehen">▶</button>
           </div>
-          <div className="ishar-context-buttons">
+                    {activeNpc && <section className="ishar-hud-panel" aria-label="NPC-Dialog"><button onClick={()=>setActiveNpcId(null)} aria-label="Gespräch beenden">×</button><h3>{activeNpc.name}</h3><p>{activeNpc.dialogue}</p>{activeNpc.stock && <><p>Gold: {trade.gold} · Für {selectedMember?.name}</p>{activeNpc.stock.map((stock,index)=>{const remaining=trade.remaining[stockKey(activeNpc.id,index)]??stock.quantity;return <button key={index} onClick={()=>buy(index)} disabled={remaining<=0 || trade.gold<stock.price || selectedMemberItems.length>=9}>{game.items.find(item=>item.id===stock.itemId)?.name??stock.itemId} kaufen · {stock.price} Gold ({remaining})</button>})}</>}</section>}
+<div className="ishar-context-buttons">{(location.npcIds??[]).map(id=>{const npc=game.npcs?.find(n=>n.id===id);return npc?<button key={id} onClick={()=>talkToNpc(id)} disabled={defeated || !encounterDone || !!selectedGroundItemId || !!originalHeld || shopSelector!==null}>{npc.name} ansprechen</button>:null;})}
             {visibleItemIds.map((id)=><button key={id} onClick={(event)=>selectGroundItem(id,{x:event.clientX,y:event.clientY})} disabled={defeated}>{game.items.find((item)=>item.id===id)?.name ?? id} {selectedGroundItemId===id ? "zurücklegen" : "aufheben"}</button>)}
             {encounter && !encounterDone && !defeated && <button className="attack-button" onClick={attack} disabled={(partyHp[game.characters[selectedPartyIndex]?.id ?? hero.id] ?? 0)<=0}>⚔ Angriff <small>{currentEnemyHp}/{encounter.enemyHp}</small></button>}
             {facingDoorClosed && encounterDone && !defeated && <button className="door-button" onClick={openFacingDoor}>🚪 Öffnen<small>{facingDoor?.keyItemId ? "Schlüssel" : "Tür"}</small></button>}
-            {portalsHere.map((portal)=>{const target=game.locations.find((entry)=>entry.id===(portal.fromLocationId===locationId ? portal.toLocationId : portal.fromLocationId));return <button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone || !!selectedGroundItemId}>↗ {target?.name ?? portal.label}</button>})}
+            {portalsHere.map((portal)=>{const target=game.locations.find((entry)=>entry.id===(portal.fromLocationId===locationId ? portal.toLocationId : portal.fromLocationId));return <button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone || !!selectedGroundItemId || !!originalHeld || shopSelector!==null}>↗ {target?.name ?? portal.label}</button>})}
           </div>
           <div className="ishar-compass">Blick: <strong>{compassOf(facing)}</strong></div>
         </aside>
@@ -1075,13 +1247,15 @@ function PlaytestPage() {
           const ratio=member ? Math.max(0,Math.min(100,Math.round(currentHp/maxHp*100))) : 0;
           return <article className={member ? `ishar-party-card ${selectedPartyIndex===index ? "selected" : ""}` : "ishar-party-card empty"} key={member?.id ?? `empty-${index}`}>
             <button className={`ishar-action-tab ${originalActionBar ? "original-hud-sprite" : ""}`} disabled={!member} aria-label={`${member?.name ?? `Slot ${index+1}`} Aktionen`} onClick={()=>{setSelectedPartyIndex(index);toggleHud("actions");}}>{originalActionBar ? <img src={originalActionBar} alt=""/> : member ? "ACTION" : "—"}</button>
-            <button className={`ishar-portrait${selectedGroundItemId && member && currentHp>0 ? " pickup-target" : ""}`} disabled={!member || (!!selectedGroundItemId && currentHp<=0)} aria-label={selectedGroundItemId && member ? `${member.name}: Gegenstand aufnehmen` : `${member?.name ?? `Slot ${index+1}`} Gepäck ansehen`} onClick={()=>{setSelectedPartyIndex(index);if(selectedGroundItemId){takeItem(selectedGroundItemId,member?.id);}else{setSelectedItemId(null);setHudPanel("inventory");}}}>{member ? member.name.slice(0,1).toUpperCase() : ""}</button>
+            <button className={`ishar-portrait${(selectedGroundItemId || shopHeld) && member && currentHp>0 ? " pickup-target" : ""}`} disabled={(originalHeld || shopHeld) && originalSave ? !readOriginalCarrier(originalSave,index).present : !member || (!!selectedGroundItemId && currentHp<=0)} aria-label={shopHeld ? `Charakter ${index+1}: Ware übernehmen` : selectedGroundItemId && member ? `${member.name}: Gegenstand aufnehmen` : `${member?.name ?? `Slot ${index+1}`} Gepäck ansehen`} onClick={()=>{setSelectedPartyIndex(index);if(shopHeld){giveShopPurchase(index);}else if(originalHeld){giveOriginalGround(index);}else if(selectedGroundItemId){takeItem(selectedGroundItemId,member?.id);}else{setSelectedItemId(null);setHudPanel("inventory");}}}>{member ? member.name.slice(0,1).toUpperCase() : ""}</button>
             <button className="ishar-party-name" disabled={!member} onClick={()=>{setSelectedPartyIndex(index);setSelectedItemId(null);setHudPanel("character");}}>{member?.name ?? `Slot ${index+1}`}</button>
             <div className={`ishar-life-row ${originalLifeBar ? "original-life-sprite" : ""}`}>{originalLifeBar ? <img src={originalLifeBar} alt="Leben"/> : <span>LIFE</span>}<div className="ishar-life-track"><i style={{width:`${ratio}%`}}/></div></div>
           </article>;
         })}
       </div>
 
+      {originalHeld && <HeldGroundItemCursor item={{id:`original-${originalHeld.id}`,name:`Originalobjekt ${originalHeld.id}`,description:"Originales Bodenobjekt",assetId:originalAsset(originalHeld.id===9?115:90)?.id}} pack={pack} position={heldItemStart}/>}
+      {shopHeld && <HeldGroundItemCursor item={{id:`purchase-${shopHeld.objectCode}`,name:`Objekt ${shopHeld.objectCode}`,description:'Ware',assetId:shopResources[shopHeld.objectCode]===undefined?undefined:originalAsset(shopResources[shopHeld.objectCode]!)?.id}} pack={pack} position={heldItemStart}/>}
       {selectedGroundItemId && <HeldGroundItemCursor key={selectedGroundItemId} item={heldItem} pack={pack} position={heldItemStart}/>}
 
       {defeated && <div className="crawler-message danger"><strong>Die Gruppe wurde besiegt.</strong><button onClick={reset}>Erneut versuchen</button></div>}

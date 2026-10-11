@@ -377,7 +377,10 @@ export function extractAlisIndexedImages(
       transparentIndex = undefined;
     } else {
       encoding = "8bit";
-      transparentIndex = h0 === 0x14 ? (bytes[location + 5] ?? 0) : undefined;
+      // The DOS draw_8bit_0 path skips index 0. The second extra header
+      // byte is not its colour key (VDEC1's distant signs contain 10 there).
+      // https://github.com/maestun/alis/blob/master/src/image.c (draw_8bit_0)
+      transparentIndex = h0 === 0x14 ? 0 : undefined;
       const start = location + 6;
       const needed = width * height;
       if (start + needed > bytes.length) {
