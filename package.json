@@ -10,7 +10,9 @@
     "test:a1": "node scripts/check-a1.mjs",
     "test:palettes": "node scripts/check-palettes.mjs",
     "test:scenes": "node scripts/check-dungeon-scenes.mjs",
-    "test:world": "node scripts/check-world-builder.mjs"
+    "test:world": "node scripts/check-world-builder.mjs",
+    "test:cont-local": "node scripts/check-cont-local.mjs",
+    "test:builder": "node scripts/check-builder.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",

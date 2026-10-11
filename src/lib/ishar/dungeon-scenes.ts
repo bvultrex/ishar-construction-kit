@@ -27,16 +27,17 @@ export function usesNativeDungeonProjection(sceneLayoutVersion:number|undefined,
 // Roles and fitting to the CK camera are a reconstruction, not original layout evidence.
 export function dungeonSceneAssignments(sourcePath: string, index: number) {
   const name=sourcePath.replace(/\\/g,"/").split("/").pop()?.toUpperCase();
+  if(name==="PCAVE.IO") return pcaveDoorAssignments(index);
   const base=name==="DJ1.IO" ? 47 : name==="DJ2.IO" ? 35 : undefined;
   if(base===undefined) return [];
   const tilesetId=name==="DJ1.IO" ? "ishar2-dj1" : "ishar2-dj2";
   const entry=(role:DungeonAssetRole,depth:number,mirror=false)=>({tilesetId,role,depth:depth as DungeonAssetDepth,x:0,y:0,width:0,height:0,mirror});
-  // #71/#72 combine a side-facing stone niche with its wall backing at the
-  // same script positions as isolated #74/#75 columns. Use them specifically
-  // for room/corridor boundaries; this role is a CK reconstruction.
-  const roomOpeningDepth=name==="DJ1.IO" ? index===71 ? 1 : index===72 ? 2 : undefined : undefined;
-  if(roomOpeningDepth!==undefined) {
-    return [entry("opening.room.right",roomOpeningDepth),entry("opening.room.left",roomOpeningDepth,true)];
+  // #71/#72 are side reveals of edge walls (DJ1 elements 5-8, lateral ±1,
+  // resource #71+(d-2) for script depth d>=2; alis/CONT-FIC.md §2/§5). They are
+  // NOT room passages (user-rejected). Registered only; not drawn as openings.
+  const revealDepth=name==="DJ1.IO" ? index===71 ? 2 : index===72 ? 3 : undefined : undefined;
+  if(revealDepth!==undefined) {
+    return [entry("wall.reveal.right",revealDepth),entry("wall.reveal.left",revealDepth,true)];
   }
   if(name==="DJ1.IO" && index>=73 && index<=76) {
     const depth=index-73;
@@ -75,3 +76,23 @@ export const DUNGEON_NATIVE_FRAMES = [
   {l:0,t:0,r:256,b:113},{l:32,t:0,r:224,b:102},
   {l:82,t:0,r:174,b:81},{l:98,t:0,r:158,b:75},{l:106,t:0,r:150,b:71},
 ].map(f=>({l:f.l*640/256,r:f.r*640/256,t:f.t*400/113,b:f.b*400/113}));
+
+// PCAVE.IO (entity 0x43) draws door leaves in DJ1/DJ2 scenes, only for depth<4
+// (alis/CONT-FIC.md §3). Closed: even door number #8+d (wooden planks), odd
+// #12+d (grate). Open: #40 / #46; the extracted pack only has depth 0 for these
+// (#41-#44 are special-door composites), so open leaves are depth 0 only.
+export function pcaveDoorAssignments(index:number) {
+  const roles:[DungeonAssetRole,number][]=[];
+  if(index>=8&&index<=11) roles.push(["door.leaf.closed.wood",index-8]);
+  else if(index>=12&&index<=15) roles.push(["door.leaf.closed.grate",index-12]);
+  else if(index===40) roles.push(["door.leaf.open.wood",0]);
+  else if(index===46) roles.push(["door.leaf.open.grate",0]);
+  return roles.flatMap(([role,depth])=>["ishar2-dj1","ishar2-dj2"].map((tilesetId)=>
+    ({tilesetId,role,depth:depth as DungeonAssetDepth,x:0,y:0,width:0,height:0,mirror:false})));
+}
+
+/** Leaf choice follows the original door number parity; without one, keep the tileset look. */
+export function doorLeafKind(originalIndex:number|undefined,tilesetId:string|undefined):"wood"|"grate" {
+  if(Number.isInteger(originalIndex)) return originalIndex!%2===0 ? "wood" : "grate";
+  return tilesetId==="ishar2-dj2" ? "grate" : "wood";
+}

@@ -1,4 +1,5 @@
 import { directionBetween } from "./dungeon.ts";
+import { validateGridLevel } from "./cont-grid.ts";
 import type { AuthoredGame } from "./types";
 
 export interface ProjectProblem {
@@ -14,6 +15,8 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
   const questIds = new Set(game.quests.map((x) => x.id));
   const doorIds = new Set(game.doors.map((x) => x.id));
   const levelIds = new Set(game.levels.map((x)=>x.id));
+  // Grid levels derive their links from the original layers (cont-grid.ts).
+  const gridLevelIds = new Set(game.levels.filter((x)=>x.grid).map((x)=>x.id));
 
   if (!game.locations.length) problems.push({ path: "game.locations", message: "Mindestens ein Ort wird benötigt." });
   if (!game.levels.length) problems.push({path:"game.levels",message:"Mindestens ein Level wird benötigt."});
@@ -49,7 +52,7 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
     occupied.set(coordinateKey, location.id);
     if(location.outdoorSurface==="water" && location.exits.length) problems.push({path:`location.${location.id}.exits`,message:"Wasserfelder dürfen keine Ausgänge besitzen."});
 
-    for (const exit of location.exits) {
+    for (const exit of gridLevelIds.has(levelId) ? [] : location.exits) {
       const target = game.locations.find((candidate) => candidate.id === exit);
       if (!target) {
         problems.push({ path: `location.${location.id}.exits`, message: `Ausgang verweist auf unbekannten Ort "${exit}".` });
@@ -93,6 +96,8 @@ export function validateGame(game: AuthoredGame): ProjectProblem[] {
   for (const encounter of game.encounters) {
     if (encounter.questId && !questIds.has(encounter.questId)) problems.push({ path: `encounter.${encounter.id}.questId`, message: `Unbekannte Quest "${encounter.questId}".` });
   }
+
+  for (const level of game.levels) if (level.grid) problems.push(...validateGridLevel(level, game));
 
   if (!game.locations.some((x) => x.ending)) problems.push({ path: "game.locations", message: "Kein Abschluss-Ort markiert." });
   return problems;

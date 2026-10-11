@@ -142,9 +142,14 @@ export type DungeonAssetRole =
   | "wall.right"
   | "opening.left"
   | "opening.right"
-  | "opening.room.left"
-  | "opening.room.right"
+  | "wall.reveal.left"
+  | "scene.sprite"
+  | "wall.reveal.right"
   | "door.front.closed"
+  | "door.leaf.closed.wood"
+  | "door.leaf.closed.grate"
+  | "door.leaf.open.wood"
+  | "door.leaf.open.grate"
   | "door.front.open"
   | "encounter"
   | "item"
@@ -246,6 +251,40 @@ export interface AuthoredLevel {
   /** Toolkit scene preset; it does not encode an original Ishar area ID. */
   biome?: "swamp";
   tilesetId?: string;
+  /** Optional original-format grid (plan v3). Absent = legacy CK edge model. */
+  grid?: IsharGrid;
+}
+
+export type IsharGridScene = "DJ1" | "DJ2" | "DJCAT" | "PLAINE1" | "FORET1" | "MONTAGNE" | "VILLE" | (string & {});
+
+/**
+ * Mirror of an Ishar CONTn.FIC map (decompile/alis/CONT-FIC.md §1, known):
+ * Ishar 2 = two signed byte layers of 90 rows x 60 cols (A at r*60+c, B at 5400+r*60+c);
+ * Ishar 1 = one layer 54 x 90. Bytes are stored raw (base64) for byte-exact export.
+ * Grid levels may contain original data: never publish/commit such projects.
+ */
+export interface IsharGrid {
+  game: "ishar1" | "ishar2";
+  rows: number;
+  cols: number;
+  /** Layer A (geometry), base64 of raw signed bytes. */
+  layerA: string;
+  /** Layer B (doors 61..109 = door+60, traps, scene triggers), Ishar 2 only. */
+  layerB?: string;
+  /** Door-open table like main 0x4aa4, index = B-60. Missing = closed (0). */
+  doorsInitiallyOpen?: Record<string, boolean>;
+  /** main 0x4ef2 at the start position (e.g. from a savegame); the scene type is walk state in the original. */
+  startSceneType?: number;
+  /** r11b, converted edge levels only: extra edge elements (5-8) per cell index r*cols+c for doors on
+   *  cells that are not straight corridors. Not part of the CONT bytes; the exporter ignores it. */
+  edgeExtras?: Record<number, number[]>;
+  /** CK extension: key item per original door number. */
+  doorKeys?: Record<string, string>;
+  /** Scene-type rectangles like main 0x4ef2 (values per map not decoded yet: unknown). */
+  sceneRegions?: { r0: number; c0: number; r1: number; c1: number; scene: IsharGridScene }[];
+  /** CONTn number (1..7); drives map-dependent GERDEP rules (edge checks only map>4). */
+  mapNumber?: number;
+  source?: { file: string; sha256: string; evidence: EvidenceKind };
 }
 
 export interface AuthoredPortal {
@@ -261,6 +300,8 @@ export interface AuthoredDoor {
   toLocationId: string;
   initiallyOpen: boolean;
   keyItemId?: string;
+  /** Original door number (layer B − 60). Even = wooden leaf, odd = grate (PCAVE.IO). */
+  originalIndex?: number;
 }
 
 export interface AuthoredEncounter {

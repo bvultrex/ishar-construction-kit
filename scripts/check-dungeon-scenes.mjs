@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { dungeonSceneAssignments as assign, dungeonSpritePosition as position, wallColumnEdges, DUNGEON_FRAMES, DUNGEON_NATIVE_Z, DUNGEON_NATIVE_FRAMES, usesNativeDungeonProjection } from '../src/lib/ishar/dungeon-scenes.ts';
+import { doorLeafKind, pcaveDoorAssignments, dungeonSceneAssignments as assign, dungeonSpritePosition as position, wallColumnEdges, DUNGEON_FRAMES, DUNGEON_NATIVE_Z, DUNGEON_NATIVE_FRAMES, usesNativeDungeonProjection } from '../src/lib/ishar/dungeon-scenes.ts';
 for(const [module,base] of [['DJ1.IO',47],['DJ2.IO',35]]) {
   for(let depth=0;depth<4;depth++) {
     const sides=assign('game/'+module,base+depth);
@@ -24,9 +24,10 @@ for(let depth=0;depth<4;depth++) {
   assert.equal(openings[0].depth,depth);
   assert.equal(openings[1].mirror,true);
 }
-for(const [depth,index] of [[1,71],[2,72]]) {
+// DJ1 #71/#72 are side reveals (#71+(d-2), d>=2), never room passages.
+for(const [depth,index] of [[2,71],[3,72]]) {
   const openings=assign('DJ1.IO',index);
-  assert.deepEqual(openings.map(a=>a.role),['opening.room.right','opening.room.left']);
+  assert.deepEqual(openings.map(a=>a.role),['wall.reveal.right','wall.reveal.left']);
   assert.equal(openings[0].depth,depth);
   assert.equal(openings[1].mirror,true);
 }
@@ -36,6 +37,23 @@ for(const index of [77,78,79,80])
   assert.deepEqual(assign('DJ2.IO',index),[],`DJ2 #${index} is stained glass, not a generic door leaf`);
 assert.deepEqual(position(0,57,96,102),{x:-47,y:-107});
 assert.deepEqual(position(32,20,9,7),{x:28,y:-23});
+for(let index=0;index<200;index++) for(const module of ['DJ1.IO','DJ2.IO'])
+  assert.ok(assign(module,index).every((a)=>!String(a.role).startsWith('opening.room')),`${module} #${index} must not be a room passage`);
+// PCAVE.IO original door leaves: closed #8+d wood, #12+d grate, depth 0..3 only.
+for(let depth=0;depth<4;depth++){
+  for(const [base,role] of [[8,'door.leaf.closed.wood'],[12,'door.leaf.closed.grate']]){
+    const leaves=assign('game/PCAVE.IO',base+depth);
+    assert.deepEqual(leaves.map(a=>a.tilesetId),['ishar2-dj1','ishar2-dj2']);
+    assert.ok(leaves.every(a=>a.role===role && a.depth===depth && !a.mirror));
+  }
+}
+assert.deepEqual(assign('PCAVE.IO',40).map(a=>[a.role,a.depth]),[['door.leaf.open.wood',0],['door.leaf.open.wood',0]]);
+assert.deepEqual(assign('PCAVE.IO',46).map(a=>[a.role,a.depth]),[['door.leaf.open.grate',0],['door.leaf.open.grate',0]]);
+for(const index of [0,4,7,16,24,41,42,43,44,50,55]) assert.deepEqual(pcaveDoorAssignments(index),[],`PCAVE #${index} is not a generic leaf`);
+assert.equal(doorLeafKind(2,'ishar2-dj2'),'wood','even original door number = wood');
+assert.equal(doorLeafKind(3,'ishar2-dj1'),'grate','odd original door number = grate');
+assert.equal(doorLeafKind(undefined,'ishar2-dj1'),'wood');
+assert.equal(doorLeafKind(undefined,'ishar2-dj2'),'grate');
 console.log('Dungeon scene assignment / centered X-Z projection tests passed');
 
 for(let depth=0;depth<4;depth++) {
@@ -74,3 +92,6 @@ assert.equal(usesNativeDungeonProjection(8,'ishar2-dj2'),true,'DJ2 rooms and cor
 assert.equal(usesNativeDungeonProjection(3,'ishar2-dj1'),false,'Older packs retain the fallback camera');
 assert.equal(usesNativeDungeonProjection(8,'custom'),false,'Custom tilesets retain the authored camera');
 console.log('Native script-height and composite seam regressions passed');
+
+await import('./check-grid-scenes.mjs');
+await import('./check-grid-view.mjs');

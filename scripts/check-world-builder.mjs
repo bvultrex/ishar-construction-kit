@@ -230,3 +230,5 @@ assert.equal(assetCatalogGroup('Ishar2/FRISE.IO · ALIS #35'),'ui');
 assert.equal(assetCatalogGroup('Ishar2/MAIN.IO · ALIS #50'),'font');
 assert.equal(assetCatalogGroup('Ishar2/DJFONT.IO · ALIS #0'),'dungeon');
 console.log('Room block topology and catalog groups passed');
+
+await import('./check-grid-world.mjs');

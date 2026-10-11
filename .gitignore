@@ -12,6 +12,9 @@ Ishar1/
 Ishar2/
 corpus/
 fixtures/original/
+*.FIC
+*.fic
+cont-dumps/
 
 # Local analysis output
 *.bak

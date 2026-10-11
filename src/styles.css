@@ -264,3 +264,39 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 
 .known-asset-use{font-size:10px;color:#e3bf78;border-top:1px solid #35291f;padding-top:4px}
 .item-depth{image-rendering:pixelated}
+
+/* r13 builder */
+.builder-r13 .gb-top { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
+.builder-r13 .gb-top h1 { font-family:Georgia,serif; font-size:30px; margin:0 12px 0 0; }
+.builder-r13 .gb-spacer { flex:1; }
+.builder-r13 .chip { border:1px solid #6c543e; padding:4px 9px; font-size:12px; color:#c9bda7; }
+.builder-r13 .chip.ok { border-color:#6f7f5e; color:#a9c08a; } .builder-r13 .chip.warn { border-color:#c0503a; color:#e39a85; }
+.builder-r13 .gb-body { display:grid; grid-template-columns:240px minmax(0,1fr) 340px; gap:14px; align-items:start; }
+.builder-r13 .gb-panel { border:1px solid #6c543e; background:#17130f; padding:14px; min-width:0; }
+.builder-r13 .gb-panel h3 { font-family:Georgia,serif; margin:14px 0 8px; font-size:17px; } .builder-r13 .gb-panel h3:first-child { margin-top:0; }
+.builder-r13 .gb-panel label { display:block; font-size:12px; color:#b9ac97; margin:6px 0; }
+.builder-r13 .gb-panel input:not([type=checkbox]), .builder-r13 .gb-panel select, .builder-r13 .gb-panel textarea { width:100%; }
+.builder-r13 .gb-level { display:block; width:100%; text-align:left; background:transparent; color:#e8dcc4; border:1px solid transparent; padding:7px 8px; font-weight:600; }
+.builder-r13 .gb-level.on { border-color:#6a5039; background:#211a14; box-shadow:inset 3px 0 #b08a62; }
+.builder-r13 .gb-level small { display:block; color:#8f8270; font-weight:400; }
+.builder-r13 .gb-portal { font-size:12px; display:flex; justify-content:space-between; gap:6px; align-items:center; margin:4px 0; }
+.builder-r13 .gb-tabs { display:flex; flex-wrap:wrap; gap:4px; margin-top:12px; } .builder-r13 .gb-tabs button, .builder-r13 .compact { padding:5px 8px; font-size:12px; }
+.builder-r13 .gb-tools { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; } .builder-r13 .gb-tools button { padding:6px 9px; font-size:12px; } .builder-r13 kbd { font-size:10px; opacity:.7; }
+.builder-r13 .gb-scroll { overflow:auto; max-height:70vh; border:1px solid #3b2e24; background:#0e0c0a; }
+.gb-map { display:block; cursor:crosshair; } .gb-map.tool-select, .gb-map.readonly { cursor:pointer; }
+.gb-cell { stroke:#1a1510; stroke-width:.5; } .gb-floor { fill:#8a7356; } .gb-wall { fill:#2a221b; } .gb-void { fill:#14110e; }
+.gb-edge { stroke:#f1e5ce; stroke-width:3; } .gb-edge.frontal { stroke-dasharray:3 2; } .gb-edge.extra { stroke:#d9a441; }
+.gb-door rect { fill:none; stroke:#c0503a; stroke-width:2; } .gb-door text { fill:#1a1510; font-weight:800; text-anchor:middle; }
+.gb-niche { fill:#6f7f5e; } .gb-trap { fill:#9b3b8a; } .gb-plate { fill:#d9a441; } .gb-scene { fill:#5fb0e0; font-weight:700; } .gb-hex { fill:#1a1510; }
+.gb-party { fill:#5fb0e0; stroke:#0e0c0a; stroke-width:1; } .gb-selected { fill:none; stroke:#fff; stroke-width:2; } .gb-compass { fill:#b08a62; font-size:10px; }
+.builder-r13 .gb-legend { display:flex; flex-wrap:wrap; gap:12px; margin-top:8px; font-size:11px; color:#b9ac97; } .builder-r13 .gb-legend span { display:inline-flex; align-items:center; gap:5px; }
+.gb-sw { width:12px; height:12px; display:inline-block; } .gb-sw.floor { background:#8a7356; } .gb-sw.wall { background:#2a221b; border:1px solid #5b4634; } .gb-sw.edge { background:#f1e5ce; height:3px; }
+.gb-sw.door { border:2px solid #c0503a; } .gb-sw.niche { background:#6f7f5e; border-radius:6px; } .gb-sw.plate { background:#d9a441; } .gb-sw.trap { background:#9b3b8a; } .gb-sw.party { background:#5fb0e0; }
+.builder-r13 .row2 { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.builder-r13 .gb-preview { border:1px solid #3b2e24; background:#0e0c0a; min-height:80px; } .builder-r13 .gb-preview .dungeon-viewport { width:100%; }
+.builder-r13 .gb-issue { font-size:12px; border-left:3px solid #c0503a; padding:5px 8px; margin:6px 0; background:#211a14; } .builder-r13 .gb-issue.hint { border-color:#d9a441; }
+.builder-r13 .gb-issue button { margin-left:6px; }
+.builder-r13 .gb-advanced { margin-top:12px; border-top:1px solid #3b2e24; padding-top:8px; } .builder-r13 .gb-advanced summary { cursor:pointer; color:#b08a62; }
+.builder-r13 .gb-items { display:flex; flex-wrap:wrap; gap:4px 12px; font-size:12px; } .builder-r13 .gb-items > span { width:100%; color:#b9ac97; }
+@media (max-width:1300px) { .builder-r13 .gb-body { grid-template-columns:1fr; } }
+.gb-map > :not(.gb-cell) { pointer-events:none; }

@@ -6,7 +6,9 @@ const name = (path: string) => path.replace(/\\/g, '/').split('/').pop()!.toUppe
 // select the listed palettes via cpalette (0x68). See AUDIT.md for corpus offsets.
 const scenePalettes: Record<string, [string, number]> = {
   'DJ1.IO': ['FDJ1.IO', 2], 'FDJ1.IO': ['FDJ1.IO', 2],
-  'DJ2.IO': ['FDJ2.IO', 1], 'FDJ2.IO': ['FDJ2.IO', 1],
+  'DJ2.IO': ['FDJ2.IO', 1],
+  // PCAVE.IO has no own palette; it is spawned inside DJ scenes. DJ1 palette used (DJ2 unverified).
+  'PCAVE.IO': ['FDJ1.IO', 2], 'FDJ2.IO': ['FDJ2.IO', 1],
   'DJCAT.IO': ['FDJCAT.IO', 0], 'FDJCAT.IO': ['FDJCAT.IO', 0],
   'ARBO.IO': ['FARBO.IO', 1], 'PLAINE1.IO': ['FOND1.IO', 3],
   'MONTAGNE.IO': ['FMONT.IO', 3], 'VHOUSE2.IO': ['FVILLE.IO', 0],

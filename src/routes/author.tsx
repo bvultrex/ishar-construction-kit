@@ -1,13 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { DungeonViewport } from "@/routes/playtest";
+import { compassOf, describeCell, GridMap, TOOLS, type BuilderTool, type Layers } from "@/builder/grid-builder";
+import { paintFloor, paintWall, setDoor, setEdge, setNiche, setSceneTrigger, setTrap, validateGrid, wallRuleApplies, type EditResult } from "@/lib/ishar/grid-editor";
+import { nicheSwitch } from "@/lib/ishar/door-mechanics";
 import { useKit } from "@/lib/store";
 import { useAssetPack } from "@/lib/asset-store";
 import { DIRECTION_LABELS, DIRECTION_VECTORS, locationAt } from "@/lib/ishar/dungeon";
 import { createRoomBlock } from "@/lib/ishar/room-builder";
 import { createSwampTestArea } from "@/lib/ishar/swamp-area";
+import { addGridLevel, bytesToBase64, cellA, cellB, ckXOf, convertLevelToGrid, decomposeCode, doorNumber, edgeViewGrid, expandGridLevels, exportCont, gridCellOf, gridLocationId, importCont, ISHAR2_COLS, ISHAR2_ROWS, isFullWall, sceneTriggerAt, setGridCell, syntheticTestGrid, trapAt } from "@/lib/ishar/cont-grid";
 import { assetCatalogGroup } from "@/lib/ishar/asset-catalog";
 import { validateGame } from "@/lib/ishar/project-validation";
-import type { AuthoredDoor, AuthoredGame, AuthoredLevel, AuthoredLocation, Direction } from "@/lib/ishar/types";
+import type { AuthoredDoor, AuthoredGame, AuthoredLevel, AuthoredLocation, Direction, IsharGrid } from "@/lib/ishar/types";
 
 export const Route = createFileRoute("/author")({ component: AuthorPage });
 
@@ -120,9 +126,22 @@ function AuthorPage() {
     setBuilderMessage(`Distanzset „${label}“ wurde für ${itemId} übernommen.`);
   }
 
+  // r13: undo/redo over whole game snapshots (project.game is immutable).
+  const undoStack=useRef<AuthoredGame[]>([]), redoStack=useRef<AuthoredGame[]>([]);
+  const [,setHistoryTick]=useState(0);
   function setGame(next: AuthoredGame) {
-    setProject({ ...project, game: next });
+    undoStack.current=[...undoStack.current.slice(-99),game]; redoStack.current=[];
+    setProject({ ...project, game: next }); setHistoryTick((n)=>n+1);
   }
+  function undo(){ const prev=undoStack.current.pop(); if(!prev) return; redoStack.current.push(game); setProject({...project,game:prev}); setHistoryTick((n)=>n+1); }
+  function redo(){ const next=redoStack.current.pop(); if(!next) return; undoStack.current.push(game); setProject({...project,game:next}); setHistoryTick((n)=>n+1); }
+  const canUndo=undoStack.current.length>0, canRedo=redoStack.current.length>0;
+  const navigate=useNavigate();
+  const [tool,setTool]=useState<BuilderTool>("select");
+  const [layers,setLayers]=useState<Layers>({shape:true,logic:true,scene:true,traps:true,hex:false});
+  const [mapSize,setMapSize]=useState(14);
+  const [tab,setTab]=useState<"karte"|"gruppe"|"items"|"quests"|"begegnungen"|"tueren">("karte");
+  const [previewFacing,setPreviewFacing]=useState<Direction>(game.startFacing);
 
   function patchLocation(id: string, patch: Partial<AuthoredLocation>) {
     setGame({ ...game, locations: game.locations.map((x) => x.id === id ? { ...x, ...patch } : x) });
@@ -230,6 +249,38 @@ function AuthorPage() {
     setBuilderMessage(`${name} angelegt${portal.length ? " und mit dem ausgewählten Feld verbunden" : ""}.`);
   }
 
+  // ---- Original CONT grid (plan v3). Local only: imported bytes stay in the browser project.
+  const [gridStart,setGridStart]=useState({r:"",c:""});
+  function applyGridResult(result:ReturnType<typeof addGridLevel>|ReturnType<typeof convertLevelToGrid>,message:string){
+    if(!result.ok){setBuilderMessage(result.error);return;}
+    setGame(result.game);setSelectedLevelId(result.levelId);setSelectedLocationId(result.entryId);setBuilderMessage(message);
+  }
+  async function importContFile(file:File){
+    if(!selectedLocation) return;
+    const bytes=new Uint8Array(await file.arrayBuffer());
+    const digest=Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256",bytes)),(x)=>x.toString(16).padStart(2,"0")).join("");
+    const imported=importCont(bytes,file.name,digest);
+    if(!imported.ok){setBuilderMessage(imported.error);return;}
+    const start=gridStart.r!=="" && gridStart.c!=="" ? {r:Number(gridStart.r),c:Number(gridStart.c)} : undefined;
+    applyGridResult(addGridLevel(game,imported.grid,selectedLocation.id,start),
+      `${file.name} als Original-Raster importiert (SHA-256 ${digest.slice(0,12)}…). Enthält Originaldaten: Projekt nicht veröffentlichen oder committen.`);
+  }
+  function exportGridLevel(){
+    const grid=selectedLevel.grid; if(!grid) return;
+    const blob=new Blob([exportCont(grid)],{type:"application/octet-stream"});
+    const link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download=grid.source?.file || `${selectedLevel.id}.FIC`;link.click();
+    setTimeout(()=>URL.revokeObjectURL(link.href),1000);
+  }
+  function convertCurrentLevel(){
+    const result=convertLevelToGrid(game,selectedLevel.id);
+    applyGridResult(result,result.ok ? `Raster-Kopie angelegt; das Original-Level bleibt unverändert.${result.warnings.length ? " Hinweise: "+result.warnings.join(" ") : ""}` : "");
+  }
+  function addGridTestArea(){
+    if(!selectedLocation) return;
+    applyGridResult(addGridLevel(game,{...syntheticTestGrid(),source:{file:"Raster-Testebene",sha256:"",evidence:"suspected"}},selectedLocation.id,{r:9,c:2}),
+      "Synthetische Raster-Testebene (ohne Originalbytes) mit Vollmauern, Kantentüren Holz/Gitter, Säulenraum und Fallen angelegt.");
+  }
+
   function addSwampTestArea(){
     if(!selectedLocation) return;
     const result=createSwampTestArea(game,selectedLocation.id);
@@ -281,158 +332,180 @@ function AuthorPage() {
     setBuilderMessage(`Raum "${removed?.name ?? id}" wurde gelöscht; Verbindungen und Türen wurden bereinigt.`);
   }
 
-  return <section>
-    <header className="page-head">
-      <div><p className="eyebrow">Welt und Dungeon bauen</p><h1>Adventure Builder</h1><p>Baue Gänge, zusammenhängende Raumflächen und offene Außenweltfelder im kardinalen Raster. Beidseitige Verbindungen bestimmen die Bewegung.</p></div>
-      <div className="toolbar"><Link className="file-button" to="/playtest">Dungeon betreten</Link><Link className="file-button" to="/assets">Asset Lab</Link><button className="secondary" onClick={addDoor}>Tür hinzufügen</button></div>
+  // ---------------------------------------------------------------- r13 builder
+  const editable=!!selectedLevel.grid;
+  const edgeBuilt=!selectedLevel.grid ? edgeViewGrid(game,selectedLevel.id) : undefined;
+  const viewGrid=selectedLevel.grid ?? (edgeBuilt?.ok ? edgeBuilt.grid : undefined);
+  const ckAt=(r:number,c:number)=>edgeBuilt?.ok ? {x:edgeBuilt.minX+(edgeBuilt.grid.cols-1-c),y:edgeBuilt.minY+r} : selectedLevel.grid ? {x:ckXOf(selectedLevel.grid,c),y:r} : {x:0,y:0};
+  const cellOfLocation=(l:AuthoredLocation)=>edgeBuilt?.ok ? {r:l.y-edgeBuilt.minY,c:edgeBuilt.grid.cols-1-(l.x-edgeBuilt.minX)} : selectedLevel.grid ? gridCellOf(selectedLevel.grid,l) : {r:0,c:0};
+  const locationAtCell=(r:number,c:number)=>{const p=ckAt(r,c);return levelLocations.find((l)=>l.x===p.x && l.y===p.y);};
+  const startHere=levelLocations.find((l)=>l.id===game.startLocationId);
+  const [cellSel,setCellSel]=useState<{r:number;c:number}|undefined>(undefined);
+  const sel=cellSel ?? (selectedLocation ? cellOfLocation(selectedLocation) : undefined);
+  const selLocation=sel ? locationAtCell(sel.r,sel.c) : undefined;
+  const expandedGame=useMemo(()=>expandGridLevels(game),[game]);
+  const previewLocation=sel && viewGrid && !isFullWall(cellA(viewGrid,sel.r,sel.c))
+    ? (editable ? expandedGame.locations.find((l)=>l.id===(selLocation?.id ?? gridLocationId(selectedLevel.id,sel.r,sel.c))) : selLocation) : undefined;
+  const issues=editable ? validateGrid(selectedLevel.grid!) : [];
+  const info=sel && viewGrid ? describeCell(viewGrid,sel.r,sel.c) : undefined;
+  const outdoorScene=!!viewGrid && !wallRuleApplies(viewGrid);
+  const legacyOutdoor=selectedLevel.biome==="swamp" || levelLocations.some((l)=>l.outdoorSurface || l.sceneryAssetId);
+  const hasSwamp=game.levels.some((l)=>l.biome==="swamp");
+  const legacySurfaces=!!selLocation && !!(selLocation.wallAssetId || selLocation.floorAssetId || selLocation.ceilingAssetId);
+
+  function editGrid(fn:(g:IsharGrid)=>EditResult){
+    const g=selectedLevel.grid; if(!g) {setBuilderMessage("Edge-Level: zum Zeichnen „Als Raster-Kopie anlegen“ oder „Erweitert“ nutzen.");return;}
+    const res=fn(g.layerB ? g : {...g,layerB:bytesToBase64(new Uint8Array(g.rows*g.cols))});
+    if(res.ok) patchLevel({grid:res.grid});
+    setBuilderMessage(res.message ?? (res.ok ? "" : "Nicht möglich."));
+  }
+  function patchGrid(patch:Partial<IsharGrid>){ if(selectedLevel.grid) patchLevel({grid:{...selectedLevel.grid,...patch}}); }
+  function setStart(r:number,c:number,facing:Direction){
+    let loc=locationAtCell(r,c); let locations=game.locations;
+    if(!loc){ const p=ckAt(r,c); loc={id:`${selectedLevel.id}-start-${r}-${c}`,name:`Start ${r}/${c}`,description:"",x:p.x,y:p.y,levelId:selectedLevel.id,exits:[],itemIds:[],sceneKind:"corridor"}; locations=[...locations,loc]; }
+    setGame({...game,locations,startLocationId:loc.id,startFacing:facing});
+    setSelectedLocationId(loc.id);
+  }
+  function onCell(r:number,c:number,side:Direction){
+    setCellSel({r,c}); const l=locationAtCell(r,c); if(l) setSelectedLocationId(l.id);
+    if(tool==="select") return;
+    if(tool==="start"){ if(viewGrid && isFullWall(cellA(viewGrid,r,c))) {setBuilderMessage("Start muss begehbar sein.");return;} if(!editable && !l){setBuilderMessage("Edge-Level: Start nur auf angelegten Feldern.");return;} setPreviewFacing(side); setStart(r,c,side); setBuilderMessage(`Start ${r}/${c}, Blick ${compassOf(side)}.`); return; }
+    if(tool==="floor") editGrid((g)=>paintFloor(g,r,c));
+    else if(tool==="wall") editGrid((g)=>paintWall(g,r,c));
+    else if(tool==="edge") editGrid((g)=>{ const has=decomposeCode(cellA(g,r,c)).some((e)=>e>=1 && e<=8); return setEdge(g,r,c,side,!has); });
+    else if(tool==="door") editGrid((g)=>{ const used=new Set<number>(); for(let i=0;i<g.rows*g.cols;i++){const d=doorNumber(cellB(g,Math.floor(i/g.cols),i%g.cols)); if(d!==undefined) used.add(d);} let n=doorNumber(cellB(g,r,c)) ?? 1; while(used.has(n) && doorNumber(cellB(g,r,c))!==n) n++; return setDoor(g,r,c,side,n); });
+    else if(tool==="trap") editGrid((g)=>setTrap(g,r,c,trapAt(g,r,c) ? "none" : "crusher"));
+    else if(tool==="niche") editGrid((g)=>setNiche(g,r,c,nicheSwitch(g,r,c)!==undefined ? undefined : 21));
+    else if(tool==="scene") editGrid((g)=>setSceneTrigger(g,r,c,sceneTriggerAt(g,r,c)!==undefined ? undefined : (g.mapNumber===3 ? 10 : 31)));
+  }
+  function testHere(){
+    if(!sel || !viewGrid || isFullWall(cellA(viewGrid,sel.r,sel.c))) {setBuilderMessage("Wähle eine begehbare Zelle.");return;}
+    if(!editable && !selLocation) {setBuilderMessage("Edge-Level: nur angelegte Felder.");return;}
+    setStart(sel.r,sel.c,previewFacing); void navigate({to:"/playtest"});
+  }
+  function addBlankGridLevel(){
+    if(!selectedLocation) return;
+    let g:IsharGrid={game:"ishar2",rows:ISHAR2_ROWS,cols:ISHAR2_COLS,mapNumber:5,layerA:bytesToBase64(new Uint8Array(ISHAR2_ROWS*ISHAR2_COLS).fill(0xff)),layerB:bytesToBase64(new Uint8Array(ISHAR2_ROWS*ISHAR2_COLS)),source:{file:"Neues Raster",sha256:"",evidence:"suspected"}};
+    for(let c=28;c<=32;c++) g=paintFloor(g,45,c).grid;
+    applyGridResult(addGridLevel(game,g,selectedLocation.id,{r:45,c:30}),"Leeres Raster-Level (90×60, Karte 5 = Dungeon-Regeln) mit kurzem Gang angelegt.");
+  }
+  useEffect(()=>{
+    const onKey=(ev:KeyboardEvent)=>{
+      const t=ev.target as HTMLElement; if(["INPUT","TEXTAREA","SELECT"].includes(t.tagName)) return;
+      if((ev.ctrlKey||ev.metaKey) && ev.key.toLowerCase()==="z"){ev.preventDefault(); ev.shiftKey ? redo() : undo(); return;}
+      if((ev.ctrlKey||ev.metaKey) && ev.key.toLowerCase()==="y"){ev.preventDefault(); redo(); return;}
+      const tl=TOOLS.find((x)=>x.key.toLowerCase()===ev.key.toLowerCase()); if(tl && !ev.ctrlKey && !ev.metaKey) setTool(tl.id);
+    };
+    window.addEventListener("keydown",onKey); return ()=>window.removeEventListener("keydown",onKey);
+  });
+  const doorN=info?.door;
+
+  return <section className="builder-r13">
+    <header className="gb-top">
+      <h1>Adventure Builder</h1>
+      <span className="chip">{selectedLevel.name} · {selectedLevel.grid ? `Raster ${selectedLevel.grid.rows}×${selectedLevel.grid.cols}${selectedLevel.grid.mapNumber ? ` · Karte ${selectedLevel.grid.mapNumber}` : ""}` : "Edge-Modell"} · {outdoorScene ? "Außen/Stadt: Wandprüfung aus" : "Dungeon-Regeln (Wandprüfung)"}</span>
+      {selectedLevel.grid?.source?.sha256 ? <span className="chip ok" title={selectedLevel.grid.source.sha256}>CONT {selectedLevel.grid.source.sha256.slice(0,8)}…</span> : null}
+      <span className={`chip ${issues.length+problems.length ? "warn" : "ok"}`}>{issues.length+problems.length ? `${issues.length+problems.length} Hinweise` : "Prüfung OK"}</span>
+      <span className="gb-spacer"/>
+      <button className="secondary" disabled={!canUndo} onClick={undo} title="Rückgängig (Strg+Z)">↶</button>
+      <button className="secondary" disabled={!canRedo} onClick={redo} title="Wiederholen (Strg+Y)">↷</button>
+      <label className="file-button secondary">CONT importieren<input hidden type="file" accept=".fic,.FIC" onChange={(event)=>{const file=event.target.files?.[0];if(file) void importContFile(file);event.target.value="";}}/></label>
+      <button className="secondary" disabled={!selectedLevel.grid} onClick={exportGridLevel}>CONT exportieren</button>
+      <button onClick={testHere}>▶ Ab hier testen</button>
     </header>
-
-    <article className="stone-card level-builder">
-      <div><p className="eyebrow">Level-Ebenen</p><h2>{selectedLevel.name}</h2><p>Jedes Level hat ein eigenes Raster und ein Asset-Set. Übergänge verbinden die Ebenen im Playtest.</p></div>
-      <label>Aktives Level<select value={selectedLevel.id} onChange={(event)=>{const id=event.target.value;setSelectedLevelId(id);setSelectedLocationId(game.locations.find((location)=>(location.levelId || "level-1")===id)?.id || "");setBuilderMessage("");}}>{game.levels.map((level)=><option key={level.id} value={level.id}>{level.name}</option>)}</select></label>
-      <label>Name<input value={selectedLevel.name} onChange={(event)=>patchLevel({name:event.target.value})}/></label>
-      <label>Typ<select value={selectedLevel.kind} onChange={(event)=>patchLevel({kind:event.target.value as AuthoredLevel["kind"]})}><option value="dungeon">Dungeon</option><option value="house">Haus / Innenraum</option><option value="outdoor">Oberwelt</option></select></label>
-      {selectedLevel.kind==="outdoor" && <label>Landschaft<select value={selectedLevel.biome||""} onChange={(event)=>patchLevel({biome:event.target.value==="swamp" ? "swamp" : undefined})}><option value="">Allgemeine Außenwelt</option><option value="swamp">Sumpf · Testszene</option></select></label>}
-      <label>Asset-Set<select value={selectedLevel.tilesetId || ""} onChange={(event)=>patchLevel({tilesetId:event.target.value || undefined})}><option value="">Pack-Standard</option>{pack?.manifest.tilesets.map((tileset)=><option key={tileset.id} value={tileset.id}>{tileset.name}</option>)}</select></label>
-      <div className="level-create"><label>Neues Level<select value={newLevelKind} onChange={(event)=>setNewLevelKind(event.target.value as AuthoredLevel["kind"])}><option value="dungeon">Dungeon</option><option value="house">Haus / Innenraum</option><option value="outdoor">Oberwelt</option></select></label><button onClick={()=>addLevel(newLevelKind)}>Level anlegen</button></div>
-      <button className="secondary" onClick={addSwampTestArea}>Sumpf-Testgebiet anlegen</button>
-    </article>
-
-    <div className="stats-grid file-stats">
-      <article><span>Level</span><strong>{game.levels.length}</strong></article>
-      <article><span>Felder</span><strong>{levelLocations.length}</strong></article>
-      <article><span>Items</span><strong>{game.items.length}</strong></article>
-      <article><span>Begegnungen</span><strong>{game.encounters.length}</strong></article>
-      <article><span>Quests</span><strong>{game.quests.length}</strong></article>
-      <article><span>Raster</span><strong>{problems.length ? problems.length : "OK"}</strong></article>
-    </div>
-
     {builderMessage && <p className="audit-note builder-message">{builderMessage}</p>}
-    {problems.length > 0 && <article className="stone-card validation-card"><h2>Dungeon-Geometrie prüfen</h2><ul>{problems.map((p, i) => <li key={i}><code>{p.path}</code> — {p.message}</li>)}</ul></article>}
+    <div className="gb-body">
+      <aside className="gb-panel gb-left">
+        <h3>Level &amp; Übergänge</h3>
+        {game.levels.map((level)=><button key={level.id} className={`gb-level ${level.id===selectedLevel.id ? "on" : ""}`} onClick={()=>{setSelectedLevelId(level.id);setCellSel(undefined);setSelectedLocationId(game.locations.find((location)=>(location.levelId || "level-1")===level.id)?.id || "");setBuilderMessage("");}}>
+          {level.name}<small>{level.grid ? `Raster${level.grid.mapNumber ? " · Karte "+level.grid.mapNumber : ""}` : "Edge-Modell"} · {game.locations.filter((l)=>(l.levelId || "level-1")===level.id).length} Orte</small></button>)}
+        <label>Neues Level<select value="" onChange={(event)=>{const v=event.target.value;event.target.value="";if(v==="grid") addBlankGridLevel(); else if(v==="test") addGridTestArea(); else if(v==="swamp") addSwampTestArea(); else if(v) addLevel(v as AuthoredLevel["kind"]);}}>
+          <option value="">+ Level anlegen …</option><option value="grid">Raster-Dungeon (leer, empfohlen)</option><option value="test">Raster-Testebene (synthetisch)</option>
+          <optgroup label="Edge-Modell (alt)"><option value="dungeon">Dungeon</option><option value="house">Haus / Innenraum</option><option value="outdoor">Oberwelt</option></optgroup>
+          {hasSwamp && <option value="swamp">Sumpf-Testgebiet (CK-Preset)</option>}</select></label>
+        <label>Name<input value={selectedLevel.name} onChange={(event)=>patchLevel({name:event.target.value})}/></label>
+        {!selectedLevel.grid && <label>Typ<select value={selectedLevel.kind} onChange={(event)=>patchLevel({kind:event.target.value as AuthoredLevel["kind"]})}><option value="dungeon">Dungeon</option><option value="house">Haus / Innenraum</option><option value="outdoor">Oberwelt</option></select></label>}
+        {selectedLevel.grid && <label>Karte (Regeln/Renderer)<select value={selectedLevel.grid.mapNumber ?? 5} onChange={(event)=>patchGrid({mapNumber:Number(event.target.value)})}>{[1,2,3,4,5,6,7].map((m)=><option key={m} value={m}>{m} · {({1:"Irvan (Außen)",2:"Thorm (Wald)",3:"Zach (Stadt)",4:"Jon (Gebirge)",5:"Dungeon",6:"Dungeon",7:"Dungeon"} as Record<number,string>)[m]}</option>)}</select></label>}
+        <label>Asset-Set<select value={selectedLevel.tilesetId || ""} onChange={(event)=>patchLevel({tilesetId:event.target.value || undefined})}><option value="">Pack-Standard</option>{pack?.manifest.tilesets.map((tileset)=><option key={tileset.id} value={tileset.id}>{tileset.name}</option>)}</select></label>
+        {!selectedLevel.grid && <button className="secondary" onClick={convertCurrentLevel}>Als Raster-Kopie anlegen</button>}
+        <h3>Übergänge</h3>
+        {game.portals.filter((p)=>levelLocations.some((l)=>l.id===p.fromLocationId || l.id===p.toLocationId)).map((portal)=><p key={portal.id} className="gb-portal">{portal.label}<button className="secondary compact" onClick={()=>setGame({...game,portals:game.portals.filter((entry)=>entry.id!==portal.id)})}>×</button></p>)}
+        {selLocation && <label>Übergang ab {selLocation.name}<select defaultValue="" onChange={(event)=>{const to=event.target.value;if(!to)return;const target=game.locations.find((location)=>location.id===to);setGame({...game,portals:[...game.portals,{id:`portal-${Date.now()}`,fromLocationId:selLocation.id,toLocationId:to,label:`Nach ${target?.name ?? to}`}]});event.target.value="";}}><option value="">Zielort wählen</option>{game.locations.filter((location)=>(location.levelId || "level-1")!==selectedLevel.id).map((location)=><option key={location.id} value={location.id}>{game.levels.find((level)=>level.id===(location.levelId || "level-1"))?.name}: {location.name}</option>)}</select></label>}
+        <h3>Ebenen</h3>
+        {([["shape","Ebene A (Form, Kanten)"],["logic","Türen / Schalter (B)"],["scene","Szenenauslöser"],["traps","Fallen"],["hex","Rohbytes (hex, ab Zoom 18)"]] as const).map(([k,label])=><label key={k} className="check-row"><input type="checkbox" checked={layers[k]} onChange={(e)=>setLayers({...layers,[k]:e.target.checked})}/> {label}</label>)}
+        <label>Zoom<select value={mapSize} onChange={(e)=>setMapSize(Number(e.target.value))}>{[10,14,18,24].map((s)=><option key={s} value={s}>{s} px</option>)}</select></label>
+        <div className="gb-tabs">{(["karte","gruppe","items","quests","begegnungen","tueren"] as const).map((t)=><button key={t} className={tab===t ? "" : "secondary"} onClick={()=>setTab(t)}>{({karte:"Karte",gruppe:"Gruppe",items:"Items",quests:"Quests",begegnungen:"Begegnungen",tueren:"Türen (Edge)"} as Record<string,string>)[t]}</button>)}</div>
+      </aside>
 
-    <div className="map-builder-grid">
-      <article className="stone-card map-card">
-        <div className="map-card-head"><div><p className="eyebrow">Live map</p><h2>{selectedLevel.name}</h2></div><span className="audit-chip">{levelLocations.length} Felder</span></div>
-        <DungeonMap game={game} levelId={selectedLevel.id} selectedId={selectedLocation?.id ?? ""} onSelect={(id)=>{setSelectedLocationId(id);setBuilderMessage("");}}/>
-      </article>
-      <article className="editor-panel selected-room-panel">
-        <p className="eyebrow">Bearbeitungsfokus</p>
-        <h2>{selectedLocation?.name ?? "Kein Raum"}</h2>
-        {selectedLocation && <>
-          <p className="selected-room-coord">Raster {selectedLocation.x},{selectedLocation.y} · <code>{selectedLocation.id}</code></p>
-          <div className="neighbor-grid">
-            {(["north","east","south","west"] as Direction[]).map((direction)=>{
-              const vector=DIRECTION_VECTORS[direction];
-              const target=locationAt(game.locations,selectedLocation.x+vector.x,selectedLocation.y+vector.y,selectedLocation.levelId || "level-1");
-              const linked=!!target && selectedLocation.exits.includes(target.id) && target.exits.includes(selectedLocation.id);
-              return <div className={`neighbor-card ${linked ? "linked" : ""}`} key={direction}>
-                <strong>{DIRECTION_LABELS[direction]}</strong>
-                {!target ? <>
-                  <span>freies Feld</span>
-                  <button onClick={()=>createAdjacent(selectedLocation.id,direction)}>+ Raum</button>
-                </> : <>
-                  <span>{target.name}</span>
-                  <button className="secondary" onClick={()=>setSelectedLocationId(target.id)}>Auswählen</button>
-                  <button onClick={()=>setConnection(selectedLocation.id,target.id,!linked)}>{linked ? "Trennen" : "Verbinden"}</button>
-                </>}
-              </div>;
-            })}
-          </div>
-          <div className="selected-room-actions">
-            <label>Startfeld<select value={game.startLocationId} onChange={(e)=>setGame({...game,startLocationId:e.target.value})}>{game.locations.map(l=><option key={l.id} value={l.id}>{l.name} ({l.x},{l.y})</option>)}</select></label>
-            <label>Blickrichtung<select value={game.startFacing} onChange={(e)=>setGame({...game,startFacing:e.target.value as Direction})}><option value="north">Norden</option><option value="east">Osten</option><option value="south">Süden</option><option value="west">Westen</option></select></label>
-          </div>
-          <div className="room-build-controls">
-            <label>Szenentyp<select value={selectedLocation.sceneKind??"corridor"} onChange={(event)=>patchLocation(selectedLocation.id,{sceneKind:event.target.value as AuthoredLocation["sceneKind"],roomGroupId:event.target.value==="room" ? selectedLocation.roomGroupId : undefined})}><option value="corridor">Gang</option><option value="room">Raum</option><option value="outdoor">Außenwelt · ohne Wände</option></select></label>
-            <label>Breite<input type="number" min="2" max="5" value={roomWidth} onChange={(event)=>setRoomWidth(Number(event.target.value))}/></label>
-            <label>Tiefe<input type="number" min="2" max="5" value={roomHeight} onChange={(event)=>setRoomHeight(Number(event.target.value))}/></label>
-            <button onClick={addRoomBlock}>Raumfläche anlegen</button>
-          </div>
-          <p className="muted">Die ausgewählte Zelle ist die nordwestliche Ecke. Raumflächen verbinden alle Nachbarfelder im Rechteck; dazwischen stehen keine Wände.</p>
-          <div className="level-portals"><strong>Levelübergänge</strong>{game.portals.filter((portal)=>portal.fromLocationId===selectedLocation.id || portal.toLocationId===selectedLocation.id).map((portal)=>{const targetId=portal.fromLocationId===selectedLocation.id ? portal.toLocationId : portal.fromLocationId;const target=game.locations.find((location)=>location.id===targetId);return <p key={portal.id}>{portal.label} → {target?.name ?? targetId} <button className="secondary" onClick={()=>setGame({...game,portals:game.portals.filter((entry)=>entry.id!==portal.id)})}>Entfernen</button></p>})}<label>Mit anderem Level verbinden<select defaultValue="" onChange={(event)=>{const to=event.target.value;if(!to)return;const id=`portal-${Date.now()}`;const target=game.locations.find((location)=>location.id===to);setGame({...game,portals:[...game.portals,{id,fromLocationId:selectedLocation.id,toLocationId:to,label:`Nach ${target?.name ?? to}`}]});event.target.value="";}}><option value="">Zielort wählen</option>{game.locations.filter((location)=>(location.levelId || "level-1")!==(selectedLocation.levelId || "level-1")).map((location)=><option key={location.id} value={location.id}>{game.levels.find((level)=>level.id===(location.levelId || "level-1"))?.name}: {location.name}</option>)}</select></label></div>
-          {selectedLocation.sceneKind==="outdoor" && <div className="room-surface-picker"><label>Gelände<select value={selectedLocation.outdoorSurface??"grass"} onChange={(event)=>setOutdoorSurface(selectedLocation.id,event.target.value as "grass"|"water")}><option value="grass">Gras · begehbar</option><option value="water">Graues Wasser · unpassierbar</option></select></label><label>Kulisse / Bewuchs<select value={selectedLocation.sceneryAssetId??""} onChange={(event)=>patchLocation(selectedLocation.id,{sceneryAssetId:event.target.value||undefined})}><option value="">Automatischer Bewuchs (Sumpf) / freie Landschaft</option><optgroup label="Häuser">{houseAssets.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}</optgroup><optgroup label="Pflanzen und Gelände">{plantAssets.map((asset)=><option key={asset.id} value={asset.id}>{asset.path} · {asset.width}×{asset.height}</option>)}</optgroup></select></label>{selectedLocation.sceneryAssetId && <div className="surface-preview"><img src={assetById(selectedLocation.sceneryAssetId)?.url} alt="Ausgewählte Kulisse"/><code>{assetById(selectedLocation.sceneryAssetId)?.path}</code></div>}</div>}
-          {pack && <div className="room-surface-picker">
-            <div className="surface-picker-head"><strong>Raum-Oberflächen</strong><span>{terrainCandidates.length ? terrainCandidates.length+" echte Terrain-Texturen" : textureCandidates.length+" ALIS-Fallbacks"}</span></div>
-            <label className="surface-search">Asset-Suche
-              <input value={surfaceSearch} onChange={(e)=>setSurfaceSearch(e.target.value)} placeholder="z. B. DJ1.IO, STAGE.IO oder ALIS #123"/>
-              <small>{matchingSurfaceCandidates.length > MAX_SURFACE_OPTIONS
-                ? `${MAX_SURFACE_OPTIONS} von ${matchingSurfaceCandidates.length} Treffern angezeigt – Suche eingrenzen.`
-                : `${matchingSurfaceCandidates.length} Treffer`}</small>
-            </label>
-            {([
-              ["wallAssetId","Wand"],
-              ["floorAssetId","Boden"],
-              ["ceilingAssetId","Decke"],
-            ] as const).map(([field,label])=>{
-              const current=assetById(selectedLocation[field]);
-              const options=surfaceOptions(selectedLocation[field]);
-              return <label className="surface-select" key={field}>
-                <span>{label}</span>
-                <select value={selectedLocation[field] ?? ""} onChange={(e)=>patchLocation(selectedLocation.id,{[field]:e.target.value || undefined})}>
-                  <option value="">Tileset-Standard</option>
-                  {options.map((asset)=><option key={asset.id} value={asset.id}>{asset.assetKind==="terrain" ? "Terrain · " : ""}{asset.path} · {asset.width}×{asset.height}</option>)}
-                </select>
-                {current && <div className="surface-preview"><img src={current.url} alt=""/><code>{current.path}</code></div>}
-              </label>;
-            })}
-          </div>}
-          {pack && terrainCandidates.length===0 && <p className="audit-note">In diesem Import wurden noch keine ALIS-0x1C/0x1E-Terraintexturen erkannt. Die Auswahl zeigt deshalb ältere Sprite-Fallbacks.</p>}
-          <button className="danger-button" disabled={levelLocations.length<=1} onClick={()=>deleteLocation(selectedLocation.id)}>Ausgewählten Raum löschen</button>
-        </>}
-        <p className="audit-note">Klicke einen Raum direkt in der Karte an. Neue Räume werden immer relativ zu genau diesem ausgewählten Rasterfeld angelegt.</p>
-      </article>
-    </div>
-
-    <div className="author-grid">
-      <article className="editor-panel">
-        <h2>Gruppe</h2>
-        {game.characters.map((ch) => <div key={ch.id} className="author-block">
-          <label>Name<input value={ch.name} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,name:e.target.value}:x)})}/></label>
-          <div className="inline-fields">
-            <label>HP<input type="number" min="1" value={ch.hp} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,hp:Number(e.target.value)}:x)})}/></label>
-            <label>Angriff<input type="number" min="1" value={ch.attack} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,attack:Number(e.target.value)}:x)})}/></label>
-          </div>
-          <details className="character-author-details"><summary>Charakterblatt-Werte</summary>
-            <div className="inline-fields">
-              <label>Volk<input value={ch.race ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,race:e.target.value}:x)})}/></label>
-              <label>Beruf<input value={ch.profession ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,profession:e.target.value}:x)})}/></label>
-              <label>Level<input type="number" min="1" value={ch.level ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,level:e.target.value===""?undefined:Number(e.target.value)}:x)})}/></label>
-              <label>Erfahrung<input type="number" min="0" value={ch.experience ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,experience:e.target.value===""?undefined:Number(e.target.value)}:x)})}/></label>
-              <label>Körperlich<input type="number" min="0" value={ch.physical ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,physical:e.target.value===""?undefined:Number(e.target.value)}:x)})}/></label>
-              <label>Geistig<input type="number" min="0" value={ch.psychic ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,psychic:e.target.value===""?undefined:Number(e.target.value)}:x)})}/></label>
-              <label>Gesinnung<input type="number" value={ch.alignment ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,alignment:e.target.value===""?undefined:Number(e.target.value)}:x)})}/></label>
-            </div>
+      <main className="gb-panel gb-center">
+        {tab==="karte" ? <>
+          <div className="gb-tools">{TOOLS.map((t)=><button key={t.id} title={t.hint} disabled={!editable && !["select","start"].includes(t.id)} className={tool===t.id ? "" : "secondary"} onClick={()=>setTool(t.id)}><kbd>{t.key}</kbd> {t.label}</button>)}</div>
+          {!editable && <p className="muted">Edge-Level: Ansicht über die Laufzeit-Umrechnung (nur lesen). Zeichnen nach „Als Raster-Kopie anlegen“; bisherige Bearbeitung unter „Erweitert“.</p>}
+          {viewGrid ? <GridMap grid={viewGrid} selected={sel} party={startHere ? {...cellOfLocation(startHere),facing:game.startFacing} : undefined} tool={tool} layers={layers} size={mapSize} editable={editable} onCell={onCell}/>
+            : <p className="muted">{edgeBuilt && !edgeBuilt.ok ? edgeBuilt.error : "Kein Raster."}</p>}
+          <div className="gb-legend"><span><i className="gb-sw floor"/>Boden</span><span><i className="gb-sw wall"/>Mauer 0xFF</span><span><i className="gb-sw edge"/>dünne Kante</span><span><i className="gb-sw door"/>Tür (Nr.)</span><span><i className="gb-sw niche"/>Nische/Schalter</span><span><i className="gb-sw plate"/>Druckplatte</span><span><i className="gb-sw trap"/>Falle</span><span><i className="gb-sw party"/>Start</span><span>Kompass: N oben, O rechts (Original)</span></div>
+          <details className="gb-advanced"><summary>Erweitert (Edge-Modell: Verbindungen, Raumflächen, Rohwerte)</summary>
+            {selectedLocation && !selectedLevel.grid && <>
+              <div className="neighbor-grid">
+                {(["east","south","west","north"] as Direction[]).map((direction)=>{
+                  const vector=DIRECTION_VECTORS[direction];
+                  const target=locationAt(game.locations,selectedLocation.x+vector.x,selectedLocation.y+vector.y,selectedLocation.levelId || "level-1");
+                  const linked=!!target && selectedLocation.exits.includes(target.id) && target.exits.includes(selectedLocation.id);
+                  return <div className={`neighbor-card ${linked ? "linked" : ""}`} key={direction}>
+                    <strong>{compassOf(direction)}</strong>
+                    {!target ? <><span>freies Feld</span><button onClick={()=>createAdjacent(selectedLocation.id,direction)}>+ Feld</button></>
+                      : <><span>{target.name}</span><button onClick={()=>setConnection(selectedLocation.id,target.id,!linked)}>{linked ? "Trennen" : "Verbinden"}</button></>}
+                  </div>;
+                })}
+              </div>
+              <div className="room-build-controls">
+                <label>Szenentyp<select value={selectedLocation.sceneKind??"corridor"} onChange={(event)=>patchLocation(selectedLocation.id,{sceneKind:event.target.value as AuthoredLocation["sceneKind"],roomGroupId:event.target.value==="room" ? selectedLocation.roomGroupId : undefined})}><option value="corridor">Gang</option><option value="room">Raum</option><option value="outdoor">Außenwelt</option></select></label>
+                <label>Breite<input type="number" min="2" max="5" value={roomWidth} onChange={(event)=>setRoomWidth(Number(event.target.value))}/></label>
+                <label>Tiefe<input type="number" min="2" max="5" value={roomHeight} onChange={(event)=>setRoomHeight(Number(event.target.value))}/></label>
+                <button onClick={addRoomBlock}>Raumfläche anlegen</button>
+              </div>
+              <label>Verbindungen (IDs, Komma)<input value={selectedLocation.exits.join(", ")} onChange={(e)=>patchLocation(selectedLocation.id,{exits:csv(e.target.value)})}/></label>
+              <button className="secondary" onClick={addDoor}>Tür zum ersten Ausgang anlegen (Edge)</button>
+              {legacyOutdoor && selectedLocation.sceneKind==="outdoor" && <div className="room-surface-picker"><strong>CK-Oberwelt (altes Preset)</strong>
+                {selectedLevel.kind==="outdoor" && <label>Landschaft<select value={selectedLevel.biome||""} onChange={(event)=>patchLevel({biome:event.target.value==="swamp" ? "swamp" : undefined})}><option value="">Allgemeine Außenwelt</option><option value="swamp">Sumpf (CK-Heuristik)</option></select></label>}
+                <label>Gelände<select value={selectedLocation.outdoorSurface??"grass"} onChange={(event)=>setOutdoorSurface(selectedLocation.id,event.target.value as "grass"|"water")}><option value="grass">Gras · begehbar</option><option value="water">Wasser · unpassierbar</option></select></label>
+                <label>Kulisse<select value={selectedLocation.sceneryAssetId??""} onChange={(event)=>patchLocation(selectedLocation.id,{sceneryAssetId:event.target.value||undefined})}><option value="">automatisch</option><optgroup label="Häuser">{houseAssets.map((asset)=><option key={asset.id} value={asset.id}>{asset.path}</option>)}</optgroup><optgroup label="Pflanzen">{plantAssets.map((asset)=><option key={asset.id} value={asset.id}>{asset.path}</option>)}</optgroup></select></label></div>}
+            </>}
+            {selectedLevel.grid && sel && <div className="row2"><label>Ebene A (roh, signed)<input type="number" value={cellA(selectedLevel.grid,sel.r,sel.c)} onChange={(e)=>editGrid((g)=>({ok:true,grid:setGridCell(g,"A",sel.r,sel.c,Number(e.target.value))}))}/></label><label>Ebene B (roh, signed)<input type="number" value={cellB(selectedLevel.grid,sel.r,sel.c)} onChange={(e)=>editGrid((g)=>({ok:true,grid:setGridCell(g,"B",sel.r,sel.c,Number(e.target.value))}))}/></label></div>}
+            {legacySurfaces && selLocation && <p className="audit-note">Dieses Feld hat alte Wand/Boden/Decken-Texturen gesetzt. Sie wirken nur im SVG-Fallback ohne Asset-Pack; die Originalansicht zeichnet Originalsprites. <button className="secondary compact" onClick={()=>patchLocation(selLocation.id,{wallAssetId:undefined,floorAssetId:undefined,ceilingAssetId:undefined})}>Entfernen</button></p>}
           </details>
-          {game.characters.length>1 && <button className="danger-button compact" onClick={()=>setGame({...game,characters:game.characters.filter((entry)=>entry.id!==ch.id)})}>Aus Gruppe entfernen</button>}
-        </div>)}
-        <button disabled={game.characters.length>=5} onClick={()=>{let n=game.characters.length+1;while(game.characters.some((entry)=>entry.id===`hero-${n}`))n++;setGame({...game,characters:[...game.characters,{id:`hero-${n}`,name:`Figur ${n}`,hp:18,attack:4}]});}}>Figur hinzufügen ({game.characters.length}/5)</button>
-      </article>
-
-      <article className="editor-panel">
-        <h2>Quest</h2>
-        {game.quests.map((q) => <div key={q.id} className="author-block">
-          <label>Titel<input value={q.title} onChange={(e)=>setGame({...game,quests:game.quests.map(x=>x.id===q.id?{...x,title:e.target.value}:x)})}/></label>
-          <label>Ziel<textarea rows={3} value={q.objective} onChange={(e)=>setGame({...game,quests:game.quests.map(x=>x.id===q.id?{...x,objective:e.target.value}:x)})}/></label>
-          <label>Abschlusstext<textarea rows={3} value={q.completedText} onChange={(e)=>setGame({...game,quests:game.quests.map(x=>x.id===q.id?{...x,completedText:e.target.value}:x)})}/></label>
-        </div>)}
-      </article>
-
-      <article className="editor-panel">
-        <h2>Items</h2>
-        {game.items.map((item) => {
-          const distanceFields = [
-            ["assetNearId","Nah (aktueller Raum)"],
-            ["assetMidId","Mittel (1 Raum)"],
-            ["assetFarId","Fern (2 Räume)"],
-          ] as const;
-          return <div key={item.id} className="author-block">
+        </> : tab==="gruppe" ? <article className="editor-panel">
+          <h2>Gruppe</h2>
+          {game.characters.map((ch) => <div key={ch.id} className="author-block">
+            <label>Name<input value={ch.name} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,name:e.target.value}:x)})}/></label>
+            <div className="inline-fields">
+              <label>HP<input type="number" min="1" value={ch.hp} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,hp:Number(e.target.value)}:x)})}/></label>
+              <label>Angriff<input type="number" min="1" value={ch.attack} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,attack:Number(e.target.value)}:x)})}/></label>
+            </div>
+            <details className="character-author-details"><summary>Charakterblatt-Werte</summary>
+              <div className="inline-fields">
+                {([["race","Volk"],["profession","Beruf"]] as const).map(([f,l])=><label key={f}>{l}<input value={ch[f] ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,[f]:e.target.value}:x)})}/></label>)}
+                {([["level","Level"],["experience","Erfahrung"],["physical","Körperlich"],["psychic","Geistig"],["alignment","Gesinnung"]] as const).map(([f,l])=><label key={f}>{l}<input type="number" value={ch[f] ?? ""} onChange={(e)=>setGame({...game,characters:game.characters.map(x=>x.id===ch.id?{...x,[f]:e.target.value===""?undefined:Number(e.target.value)}:x)})}/></label>)}
+              </div>
+            </details>
+            {game.characters.length>1 && <button className="danger-button compact" onClick={()=>setGame({...game,characters:game.characters.filter((entry)=>entry.id!==ch.id)})}>Aus Gruppe entfernen</button>}
+          </div>)}
+          <button disabled={game.characters.length>=5} onClick={()=>{let n=game.characters.length+1;while(game.characters.some((entry)=>entry.id===`hero-${n}`))n++;setGame({...game,characters:[...game.characters,{id:`hero-${n}`,name:`Figur ${n}`,hp:18,attack:4}]});}}>Figur hinzufügen ({game.characters.length}/5)</button>
+        </article> : tab==="quests" ? <article className="editor-panel">
+          <h2>Quest</h2>
+          {game.quests.map((q) => <div key={q.id} className="author-block">
+            <label>Titel<input value={q.title} onChange={(e)=>setGame({...game,quests:game.quests.map(x=>x.id===q.id?{...x,title:e.target.value}:x)})}/></label>
+            <label>Ziel<textarea rows={3} value={q.objective} onChange={(e)=>setGame({...game,quests:game.quests.map(x=>x.id===q.id?{...x,objective:e.target.value}:x)})}/></label>
+            <label>Abschlusstext<textarea rows={3} value={q.completedText} onChange={(e)=>setGame({...game,quests:game.quests.map(x=>x.id===q.id?{...x,completedText:e.target.value}:x)})}/></label>
+          </div>)}
+        </article> : tab==="items" ? <article className="editor-panel">
+          <h2>Items</h2>
+          {game.items.map((item) => <div key={item.id} className="author-block">
             <label>Name<input value={item.name} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,name:e.target.value}:x)})}/></label>
             <label>Beschreibung<textarea rows={3} value={item.description} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,description:e.target.value}:x)})}/></label>
-            {pack && <div className="item-distance-assets">
-              <strong>Distanz-Sprites</strong>
-              {distanceFields.map(([field,label])=>{
-                const selectedId=item[field] ?? (field==="assetNearId" ? item.assetId : undefined);
-                const selectedAsset=assetById(selectedId);
+            {pack && <div className="item-distance-assets"><strong>Distanz-Sprites</strong>
+              {([["assetNearId","Nah (aktueller Raum)"],["assetMidId","Mittel (1 Raum)"],["assetFarId","Fern (2 Räume)"]] as const).map(([field,label])=>{
+                const selectedId=item[field] ?? (field==="assetNearId" ? item.assetId : undefined); const selectedAsset=assetById(selectedId);
                 return <label key={field}>{label}
                   <select value={selectedId ?? ""} onChange={(e)=>setGame({...game,items:game.items.map(x=>x.id===item.id?{...x,[field]:e.target.value || undefined,...(field==="assetNearId"?{assetId:undefined}:{})}:x)})}>
                     <option value="">Automatik / Fallback</option>
@@ -443,56 +516,69 @@ function AuthorPage() {
                 </label>;
               })}
             </div>}
-          </div>;
-        })}
-      </article>
+          </div>)}
+        </article> : tab==="begegnungen" ? <article className="editor-panel">
+          <h2>Begegnungen</h2>
+          {game.encounters.map((enc) => <div key={enc.id} className="author-block">
+            <label>Name<input value={enc.name} onChange={(e)=>setGame({...game,encounters:game.encounters.map(x=>x.id===enc.id?{...x,name:e.target.value}:x)})}/></label>
+            <div className="inline-fields">
+              <label>HP<input type="number" min="1" value={enc.enemyHp} onChange={(e)=>setGame({...game,encounters:game.encounters.map(x=>x.id===enc.id?{...x,enemyHp:Number(e.target.value)}:x)})}/></label>
+              <label>Angriff<input type="number" min="0" value={enc.enemyAttack} onChange={(e)=>setGame({...game,encounters:game.encounters.map(x=>x.id===enc.id?{...x,enemyAttack:Number(e.target.value)}:x)})}/></label>
+            </div>
+            <label>Siegtext<textarea rows={3} value={enc.victoryText} onChange={(e)=>setGame({...game,encounters:game.encounters.map(x=>x.id===enc.id?{...x,victoryText:e.target.value}:x)})}/></label>
+          </div>)}
+        </article> : <article className="editor-panel">
+          <h2>Türen (Edge-Modell)</h2>
+          <p className="muted">Türen von Edge-Leveln. Holz oder Gitter folgt der Szene (PCAVE-Regel), nicht der Parität der Nummer. Raster-Türen bearbeitest du im Inspektor.</p>
+          {game.doors.length ? game.doors.map((door) => <div key={door.id} className="author-block">
+            <label>ID<input value={door.id} readOnly/></label>
+            <div className="inline-fields">
+              <label>Von<select value={door.fromLocationId} onChange={(e)=>patchDoor(door.id,{fromLocationId:e.target.value})}>{game.locations.map((location)=><option key={location.id} value={location.id}>{location.name}</option>)}</select></label>
+              <label>Nach<select value={door.toLocationId} onChange={(e)=>patchDoor(door.id,{toLocationId:e.target.value})}>{game.locations.map((location)=><option key={location.id} value={location.id}>{location.name}</option>)}</select></label>
+            </div>
+            <label>Schlüssel-Item<select value={door.keyItemId ?? ""} onChange={(e)=>patchDoor(door.id,{keyItemId:e.target.value || undefined})}><option value="">kein Schlüssel</option>{game.items.map((item)=><option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+            <label className="check-row"><input type="checkbox" checked={door.initiallyOpen} onChange={(e)=>patchDoor(door.id,{initiallyOpen:e.target.checked})}/> Zu Spielbeginn offen</label>
+            <label>Original-Türnummer<input type="number" min="1" max="49" value={door.originalIndex ?? ""} placeholder="keine" onChange={(e)=>patchDoor(door.id,{originalIndex:e.target.value==="" ? undefined : Number(e.target.value)})}/></label>
+            <button className="danger-button compact" onClick={()=>deleteDoor(door.id)}>Tür löschen</button>
+          </div>) : <p className="muted">Keine Edge-Türen.</p>}
+        </article>}
+      </main>
 
-      <article className="editor-panel">
-        <h2>Türen</h2>
-        {game.doors.length ? game.doors.map((door) => <div key={door.id} className="author-block">
-          <label>ID<input value={door.id} readOnly/></label>
-          <div className="inline-fields">
-            <label>Von<select value={door.fromLocationId} onChange={(e)=>patchDoor(door.id,{fromLocationId:e.target.value})}>{game.locations.map((location)=><option key={location.id} value={location.id}>{location.name}</option>)}</select></label>
-            <label>Nach<select value={door.toLocationId} onChange={(e)=>patchDoor(door.id,{toLocationId:e.target.value})}>{game.locations.map((location)=><option key={location.id} value={location.id}>{location.name}</option>)}</select></label>
-          </div>
-          <label>Schlüssel-Item<select value={door.keyItemId ?? ""} onChange={(e)=>patchDoor(door.id,{keyItemId:e.target.value || undefined})}><option value="">kein Schlüssel</option>{game.items.map((item)=><option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
-          <label className="check-row"><input type="checkbox" checked={door.initiallyOpen} onChange={(e)=>patchDoor(door.id,{initiallyOpen:e.target.checked})}/> Zu Spielbeginn offen</label>
-          <button className="danger-button" onClick={()=>deleteDoor(door.id)}>Tür löschen</button>
-        </div>) : <p className="muted">Noch keine Türen angelegt.</p>}
-      </article>
-
-      <article className="editor-panel">
-        <h2>Begegnung</h2>
-        {game.encounters.map((enc) => <div key={enc.id} className="author-block">
-          <label>Name<input value={enc.name} onChange={(e)=>setGame({...game,encounters:game.encounters.map(x=>x.id===enc.id?{...x,name:e.target.value}:x)})}/></label>
-          <div className="inline-fields">
-            <label>HP<input type="number" min="1" value={enc.enemyHp} onChange={(e)=>setGame({...game,encounters:game.encounters.map(x=>x.id===enc.id?{...x,enemyHp:Number(e.target.value)}:x)})}/></label>
-            <label>Angriff<input type="number" min="0" value={enc.enemyAttack} onChange={(e)=>setGame({...game,encounters:game.encounters.map(x=>x.id===enc.id?{...x,enemyAttack:Number(e.target.value)}:x)})}/></label>
-          </div>
-          <label>Siegtext<textarea rows={3} value={enc.victoryText} onChange={(e)=>setGame({...game,encounters:game.encounters.map(x=>x.id===enc.id?{...x,victoryText:e.target.value}:x)})}/></label>
-        </div>)}
-      </article>
-    </div>
-
-    <div className="location-list">
-      <h2>Dungeon-Felder</h2>
-      {levelLocations.map((loc) => <article className="editor-panel location-editor" key={loc.id}>
-        <div className="location-title"><div><strong>{loc.name}</strong><code>{loc.id} · {loc.x},{loc.y}</code></div><div className="toolbar"><button className={loc.id===selectedLocation?.id ? "" : "secondary"} onClick={()=>setSelectedLocationId(loc.id)}>{loc.id===selectedLocation?.id ? "Ausgewählt" : "In Karte auswählen"}</button><button className="danger-button compact" disabled={levelLocations.length <= 1} onClick={()=>deleteLocation(loc.id)}>Raum löschen</button></div></div>
-        <div className="inline-fields">
-          <label>Name<input value={loc.name} onChange={(e)=>patchLocation(loc.id,{name:e.target.value})}/></label>
-          <details className="advanced-coordinates"><summary>Rasterposition (fortgeschritten)</summary><div className="coordinate-fields"><label>X<input type="number" value={loc.x} onChange={(e)=>patchLocation(loc.id,{x:Number(e.target.value)})}/></label><label>Y<input type="number" value={loc.y} onChange={(e)=>patchLocation(loc.id,{y:Number(e.target.value)})}/></label></div></details>
-        </div>
-        <label>Beschreibung<textarea rows={2} value={loc.description} onChange={(e)=>patchLocation(loc.id,{description:e.target.value})}/></label>
-        <div className="inline-fields">
-          <label>Verbindungen (fortgeschritten)<input value={loc.exits.join(", ")} onChange={(e)=>patchLocation(loc.id,{exits:csv(e.target.value)})}/></label>
-          <label>Items (IDs, Komma)<input value={loc.itemIds.join(", ")} onChange={(e)=>patchLocation(loc.id,{itemIds:csv(e.target.value)})}/></label>
-        </div>
-        <div className="inline-fields">
-          <label>Begegnung<select value={loc.encounterId ?? ""} onChange={(e)=>patchLocation(loc.id,{encounterId:e.target.value || undefined})}><option value="">keine</option>{game.encounters.map(e=><option key={e.id} value={e.id}>{e.name}</option>)}</select></label>
-          {pack ? <label>Tileset<select value={loc.tilesetId ?? ""} onChange={(e)=>patchLocation(loc.id,{tilesetId:e.target.value || undefined})}><option value="">Pack-Standard ({pack.manifest.defaultTilesetId})</option>{pack.manifest.tilesets.map((tileset)=><option key={tileset.id} value={tileset.id}>{tileset.name}</option>)}</select></label> : <label>Tileset-ID<input value={loc.tilesetId ?? ""} placeholder="Pack-Standard" onChange={(e)=>patchLocation(loc.id,{tilesetId:e.target.value || undefined})}/></label>}
-        </div>
-        <label className="check-row"><input type="checkbox" checked={!!loc.ending} onChange={(e)=>patchLocation(loc.id,{ending:e.target.checked})}/> Abschluss-Feld</label>
-      </article>)}
+      <aside className="gb-panel gb-right">
+        <h3>Inspektor{sel ? ` · Zelle r${sel.r} c${sel.c}` : ""}</h3>
+        {info ? <>
+          <div className="row2"><label>Ebene A<input readOnly value={info.aText}/></label><label>Ebene B<input readOnly value={info.bText}/></label></div>
+          {info.edges.length>0 && <p className="muted">Kanten: {info.edges.join(", ")}</p>}
+          {editable && doorN!==undefined && <div className="gb-door-edit">
+            <div className="row2">
+              <label>Originalnummer<input type="number" min="1" max="49" value={doorN} onChange={(e)=>editGrid((g)=>({ok:true,grid:setGridCell(g,"B",sel!.r,sel!.c,60+Math.max(1,Math.min(49,Number(e.target.value))))}))}/></label>
+              <label>Zu Beginn<select value={selectedLevel.grid!.doorsInitiallyOpen?.[doorN] ? "open" : "closed"} onChange={(e)=>patchGrid({doorsInitiallyOpen:{...selectedLevel.grid!.doorsInitiallyOpen,[doorN]:e.target.value==="open"}})}><option value="closed">zu</option><option value="open">offen</option></select></label>
+            </div>
+            <label>Schlüssel<select value={selectedLevel.grid!.doorKeys?.[doorN] ?? ""} onChange={(e)=>{const k={...selectedLevel.grid!.doorKeys};if(e.target.value) k[doorN]=e.target.value; else delete k[doorN];patchGrid({doorKeys:k});}}><option value="">kein Schlüssel</option>{game.items.map((item)=><option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+            {[48,24,25,26,27,28,29,8,30,12,13,5,9,17].includes(doorN) && <p className="muted">Originalmechanik: {({48:"öffnet bei Schaltern 21–26",24:"Waage gelöst",25:"Waage",26:"Waage",27:"Waage",28:"Zeittür (Stunde 1 auf, 4 zu)",29:"Gegenstand −21 / Zauber 18",8:"Gegenstand −17 / Zauber 18",30:"Gegenstand −22 (0x50ab)",12:"Druckplatte 4",13:"Druckplatten 2/3",5:"schließt nach jedem Schritt",9:"schließt nach jedem Schritt",17:"schließt nach jedem Schritt"} as Record<number,string>)[doorN]}</p>}
+            <button className="secondary compact" onClick={()=>editGrid((g)=>({ok:true,grid:setGridCell(g,"B",sel!.r,sel!.c,0)}))}>Tür entfernen</button>
+          </div>}
+          {editable && info.niche!==undefined && <label>Schalter (0x4ad8)<input type="number" min="1" max="49" value={info.niche} onChange={(e)=>editGrid((g)=>setNiche(g,sel!.r,sel!.c,Number(e.target.value)))}/></label>}
+          {editable && info.scene!==undefined && <label>Szenentyp<input type="number" value={info.scene} onChange={(e)=>editGrid((g)=>setSceneTrigger(g,sel!.r,sel!.c,Number(e.target.value)))}/></label>}
+          {editable && info.trap && <label>Falle<select value={info.trap.kind==="crusher" ? "crusher" : `wall${info.trap.variant}`} onChange={(e)=>editGrid((g)=>setTrap(g,sel!.r,sel!.c,e.target.value as "crusher"))}><option value="crusher">Fallblock (B −9)</option><option value="wall0">Wandfalle 0 (B −64)</option><option value="wall1">Wandfalle 1</option><option value="wall2">Wandfalle 2</option><option value="wall3">Wandfalle 3</option><option value="none">keine</option></select></label>}
+          {selLocation ? <div className="gb-location">
+            <label>Ort<input value={selLocation.name} onChange={(e)=>patchLocation(selLocation.id,{name:e.target.value})}/></label>
+            <label>Beschreibung<textarea rows={2} value={selLocation.description} onChange={(e)=>patchLocation(selLocation.id,{description:e.target.value})}/></label>
+            <label>Begegnung<select value={selLocation.encounterId ?? ""} onChange={(e)=>patchLocation(selLocation.id,{encounterId:e.target.value || undefined})}><option value="">keine</option>{game.encounters.map(e=><option key={e.id} value={e.id}>{e.name}</option>)}</select></label>
+            <div className="gb-items"><span>Items</span>{game.items.map((item)=><label key={item.id} className="check-row"><input type="checkbox" checked={selLocation.itemIds.includes(item.id)} onChange={(e)=>patchLocation(selLocation.id,{itemIds:e.target.checked ? [...selLocation.itemIds,item.id] : selLocation.itemIds.filter((x)=>x!==item.id)})}/> {item.name}</label>)}</div>
+            <label className="check-row"><input type="checkbox" checked={!!selLocation.ending} onChange={(e)=>patchLocation(selLocation.id,{ending:e.target.checked})}/> Abschluss-Feld</label>
+            <button className="danger-button compact" disabled={levelLocations.length<=1 || selLocation.id===game.startLocationId} onClick={()=>deleteLocation(selLocation.id)}>Ort löschen</button>
+          </div> : editable && viewGrid && !isFullWall(cellA(viewGrid,sel!.r,sel!.c)) && <button className="secondary" onClick={()=>{const p=ckAt(sel!.r,sel!.c);const id=`${selectedLevel.id}-loc-${sel!.r}-${sel!.c}`;setGame({...game,locations:[...game.locations,{id,name:`Ort ${sel!.r}/${sel!.c}`,description:"",x:p.x,y:p.y,levelId:selectedLevel.id,exits:[],itemIds:[],sceneKind:"corridor"}]});setSelectedLocationId(id);}}>Ort hier anlegen (Name, Items, Begegnung)</button>}
+        </> : <p className="muted">Zelle in der Karte wählen.</p>}
+        <h3>Vorschau</h3>
+        <div className="gb-preview">{previewLocation ? <DungeonViewport game={editable ? expandedGame : game} location={previewLocation} facing={previewFacing} encounterDone={true} collectedItemIds={[]} pack={pack} openDoors={(editable ? expandedGame : game).doors.filter((d)=>d.initiallyOpen).map((d)=>d.id)} gridSceneType={selectedLevel.grid?.startSceneType}/> : <p className="muted">Begehbare Zelle wählen.</p>}</div>
+        <div className="row2"><button className="secondary" onClick={()=>setPreviewFacing(({east:"south",south:"west",west:"north",north:"east"} as Record<Direction,Direction>)[previewFacing])}>⟳ Drehen ({compassOf(previewFacing)})</button><button className="secondary" onClick={testHere}>Blick testen</button></div>
+        <h3>Prüfung</h3>
+        {!outdoorScene ? null : <p className="muted">Karte 1–4: Wandregel-Prüfung aus (Außen ausgenommen; Stadtcodes Karte 3 noch nicht dekodiert).</p>}
+        {[...issues.map((i,k)=><div key={`g${k}`} className={`gb-issue ${i.level}`}>{i.message} <button className="secondary compact" onClick={()=>{setCellSel({r:i.r,c:i.c});setTab("karte");}}>Springen</button>{i.fix && <button className="secondary compact" onClick={()=>editGrid((g)=>({ok:true,grid:i.fix!(g),message:"Behoben."}))}>{i.fixLabel}</button>}</div>),
+          ...problems.map((p,k)=>{const loc=game.locations.find((l)=>p.path===`location.${l.id}`);return <div key={`p${k}`} className="gb-issue warn"><code>{p.path}</code> — {p.message}{loc && <button className="secondary compact" onClick={()=>{setSelectedLevelId(loc.levelId || "level-1");setSelectedLocationId(loc.id);setCellSel(undefined);}}>Springen</button>}</div>;})]}
+        {!issues.length && !problems.length && <p className="muted">Keine Hinweise.</p>}
+      </aside>
     </div>
   </section>;
 }

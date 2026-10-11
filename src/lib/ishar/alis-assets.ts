@@ -82,6 +82,10 @@ function readU32LE(bytes: Uint8Array, offset: number) {
   ) >>> 0;
 }
 
+/** VGA DAC: the 8-bit palette byte reaches the DAC as 6 bits (byte >> 2); displayed like DOSBox
+ *  ((c << 2) | (c >> 4)). Proven pixel-exact against the K5T004 DOSBox reference (21/21 colours). */
+export function vgaDac(byte: number) { const c = byte >> 2; return (c << 2) | (c >> 4); }
+
 export function defaultAlisPalette() {
   const palette = new Uint8Array(256 * 3);
   for (let bank = 0; bank < 16; bank++) {
@@ -161,9 +165,9 @@ function applyPaletteResource(
   for (let color = 0; color < colorCount; color++) {
     const source = start + color * 3;
     const target = (firstColor + color) * 3;
-    palette[target] = bytes[source] ?? 0;
-    palette[target + 1] = bytes[source + 1] ?? 0;
-    palette[target + 2] = bytes[source + 2] ?? 0;
+    palette[target] = vgaDac(bytes[source] ?? 0);
+    palette[target + 1] = vgaDac(bytes[source + 1] ?? 0);
+    palette[target + 2] = vgaDac(bytes[source + 2] ?? 0);
   }
   return { firstColor, colorCount };
 }

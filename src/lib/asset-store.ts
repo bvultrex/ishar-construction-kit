@@ -43,7 +43,7 @@ export const useAssetPack = create<AssetPackState>((set,get)=>({
         set({cacheStatus:"Lokale Assets werden geladen …"});
         let pack=await readCachedPack();
         if(pack && version===revision) set({pack});
-        if((!pack || (pack.sceneLayoutVersion??0)<16) && version===revision && location.hostname==="127.0.0.1") {
+        if((!pack || (pack.sceneLayoutVersion??0)<22) && version===revision && ["127.0.0.1","localhost","[::1]"].includes(location.hostname)) {
           const source=await fetch("/__local/ishar-source");
           if(source.ok && source.headers.get("content-type")?.includes("application/zip")) {
             set({cacheStatus:"Lokales Ishar-Archiv wird automatisch geladen …"});
@@ -53,13 +53,18 @@ export const useAssetPack = create<AssetPackState>((set,get)=>({
               const urls={...pack.urls},paths={...pack.paths};
               const tilesets=pack.manifest.tilesets.map(old=>{
                 const next=result.pack.manifest.tilesets.find(t=>t.id===old.id);
-                const isGenerated=(e: typeof old.entries[number])=>/^ishar2-dj[12]-(wall\.(left|right|front)-[0-3]|door\.front\.(open|closed)-[0-3]|opening\.(room\.)?(left|right)-[0-3]|surface\.(floor|ceiling))$/.test(e.id) && e.renderMode==="layer";
+                const isGenerated=(e: typeof old.entries[number])=>/^ishar2-(?:dj(?:[12]|cat)|out[1-4])-(wall\.(left|right|front)-[0-3]|door\.front\.(open|closed)-[0-3]|door\.leaf\.(open|closed)\.(wood|grate)-[0-3]|wall\.reveal\.(left|right)-[0-3]|sprite-[A-Z0-9]+\.IO-\d+m?|opening\.(room\.)?(left|right)-[0-3]|surface\.(floor|ceiling))$/.test(e.id) && e.renderMode==="layer";
                 for(const entry of old.entries.filter(isGenerated)){delete urls[entry.id];delete paths[entry.id];}
                 const kept=old.entries.filter(e=>!isGenerated(e));
-                const additions=(next?.entries??[]).filter(e=>!kept.some(o=>o.role===e.role && o.depth===e.depth));
+                const additions=(next?.entries??[]).filter(e=>!kept.some(o=>o.role===e.role && o.depth===e.depth && o.targetId===e.targetId));
                 for(const entry of additions){urls[entry.id]=result.pack.urls[entry.id]!;paths[entry.id]=result.pack.paths[entry.id]!;}
                 return {...old,entries:[...kept,...additions]};
               });
+              // r8: tilesets new in this layout (ishar2-djcat) are appended whole.
+              for(const t of result.pack.manifest.tilesets) if(!tilesets.some(o=>o.id===t.id)){
+                for(const entry of t.entries){urls[entry.id]=result.pack.urls[entry.id]!;paths[entry.id]=result.pack.paths[entry.id]!;}
+                tilesets.push(t);
+              }
               const oldPreviews=new Map((pack.discoveredAssets??[]).map(asset=>[asset.id,asset]));
               const discoveredAssets=(result.pack.discoveredAssets??[]).map(asset=>{
                 const old=oldPreviews.get(asset.id);
@@ -69,7 +74,7 @@ export const useAssetPack = create<AssetPackState>((set,get)=>({
               }).concat([...oldPreviews.values()]);
               const keep=new Set([...Object.values(urls),...discoveredAssets.map(asset=>asset.url)]);
               for(const url of new Set([...Object.values(result.pack.urls),...(result.pack.discoveredAssets??[]).map(a=>a.url)])) if(!keep.has(url)) URL.revokeObjectURL(url);
-              pack={...pack,urls,paths,discoveredAssets,manifest:{...pack.manifest,tilesets},sceneLayoutVersion:16};
+              pack={...pack,urls,paths,discoveredAssets,manifest:{...pack.manifest,tilesets},sceneLayoutVersion:22};
             } else pack=result.pack;
             if(version===revision) {
               const kit=useKit.getState();

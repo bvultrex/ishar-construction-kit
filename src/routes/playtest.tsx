@@ -1,6 +1,7 @@
-import { DUNGEON_FRAMES as FRAMES, DUNGEON_NATIVE_FRAMES, DUNGEON_ROOM_FRAMES, usesNativeDungeonProjection } from "@/lib/ishar/dungeon-scenes";
+import { compassOf } from "@/lib/ishar/grid-editor";
+import { doorLeafKind, DUNGEON_FRAMES as FRAMES, DUNGEON_NATIVE_FRAMES, DUNGEON_ROOM_FRAMES, usesNativeDungeonProjection } from "@/lib/ishar/dungeon-scenes";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useRef, useEffect, useMemo, useState } from "react";
 import { useKit } from "@/lib/store";
 import { useAssetPack } from "@/lib/asset-store";
 import { assetFor } from "@/lib/ishar/asset-pack";
@@ -9,7 +10,11 @@ import { roomViewEdges, roomsShareOpenSurface } from "@/lib/ishar/room-surfaces"
 import { visibleOutdoorCells } from "@/lib/ishar/outdoor-view";
 import { projectSwampFeature, swampFeatureForCell, swampGroundFeatureForCell, swampTreeAssetIndex, swampTreeDisplayHeight, swampWaterExtent } from "@/lib/ishar/swamp-view";
 import { validateGame } from "@/lib/ishar/project-validation";
-import type { AuthoredEncounter, AuthoredGame, AuthoredLocation, Direction, DungeonAssetDepth, DungeonAssetRole } from "@/lib/ishar/types";
+import { edgeViewGrid, expandGridLevels, gridCellOf, gridDoorId, gridDoorNumber, sceneTriggerAt, trapAt, trapDamage } from "@/lib/ishar/cont-grid";
+import { gridViewSprites, sceneTypeAt, scriptAt, type GridScript, spriteTargetId, VIEW_CLIP, VIEW_ORIGIN } from "@/lib/ishar/grid-view";
+import { outdoorView, isOutdoorMap } from "@/lib/ishar/outdoor-grid-view";
+import { afterStep, newMechState, STEP_RESET_DOORS, type MechEvent, type MechState } from "@/lib/ishar/door-mechanics";
+import type { IsharGrid, AuthoredDoor, AuthoredEncounter, AuthoredGame, AuthoredLocation, Direction, DungeonAssetDepth, DungeonAssetRole } from "@/lib/ishar/types";
 import type { LoadedAssetPack } from "@/lib/ishar/asset-pack";
 import { displayAspect, renderProfileForManifest, sourceScale } from "@/lib/ishar/render-profile";
 
@@ -449,6 +454,75 @@ function renderRoomLateralFront(
   </g>;
 }
 
+// Original PCAVE.IO leaves (plan v3 §5.3): closed #8+d wood / #12+d grate, depth<4 only.
+function originalDoorLeaf(pack:LoadedAssetPack|null,door:AuthoredDoor,open:boolean,depth:DungeonAssetDepth,tilesetId:string|undefined){
+  if(depth>3) return undefined;
+  const kind=doorLeafKind(door.originalIndex,tilesetId);
+  const role:DungeonAssetRole=open ? (kind==="wood" ? "door.leaf.open.wood" : "door.leaf.open.grate") : (kind==="wood" ? "door.leaf.closed.wood" : "door.leaf.closed.grate");
+  const found=assetFor(pack,role,depth,tilesetId);
+  return found && found.entry.role===role ? {role,found} : undefined;
+}
+
+function renderDoorLeaf(pack:LoadedAssetPack|null,door:AuthoredDoor,open:boolean,depth:DungeonAssetDepth,tilesetId:string|undefined){
+  const leaf=originalDoorLeaf(pack,door,open,depth,tilesetId);
+  return leaf ? renderAsset(pack,leaf.role,depth,tilesetId) : null;
+}
+
+/** r7/r8: original-faithful view for IsharGrid levels (DJ1/DJ2/DJCAT script reimplementation, grid-view.ts).
+ *  Door state is the global table main 0x4aa4 (by door number, shared by all maps; render-runtime.md §6). */
+function renderGridView(pack:LoadedAssetPack|null,grid:IsharGrid,levelId:string,r:number,c:number,facing:Direction,doorOpen:(n:number)=>boolean,sceneType?:number,lift?:{door:number;dy:number;doorId?:string},redraw=0,forcedScript?:GridScript,switchOn:(i:number)=>boolean=()=>false){
+  const outdoor=isOutdoorMap(grid.mapNumber);
+  const script=outdoor ? `map${grid.mapNumber}` as GridScript : forcedScript ?? scriptAt(grid,r,c,sceneType);
+  const tilesetId=outdoor ? `ishar2-out${grid.mapNumber}` : script==="DJ2" ? "ishar2-dj2" : script==="DJCAT" ? "ishar2-djcat" : "ishar2-dj1";
+  // r12: maps 1-4 use the original outdoor/town scripts (PLAINE1/ARBO/VHOUSE2/MONTAGNE + scene overlays).
+  const sprites=outdoor ? outdoorView(grid,r,c,facing,{sceneType,redraw}).map((s)=>({...s,routine:s.r<0 ? "background" : s.script})) : gridViewSprites(grid,r,c,facing,script,doorOpen,switchOn,{sceneType:sceneTypeAt(grid,r,c,sceneType),
+    doorLift:(n)=>lift && lift.door===n ? lift.dy : 0,backgroundMirror:redraw%2===1});
+  const sx=pack ? 640/pack.manifest.viewport.width : 2.5, sy=pack ? 400/pack.manifest.viewport.height : 400/113;
+  let background=false;
+  const nodes=sprites.map((sprite,i)=>{
+    const id=spriteTargetId(sprite.module,sprite.index,sprite.mirror);
+    const asset=assetFor(pack,"scene.sprite",undefined,tilesetId,id);
+    if(!asset || asset.entry.targetId!==id) return null;
+    if(sprite.routine==="background") background=true;
+    // known: screen x = 127 + x - (w-1)/2, y = 78 - z - (h-1)/2 (frame), window starts at frame y 13
+    const x=(VIEW_ORIGIN.x+sprite.x+(asset.entry.x??0))*sx, y=(VIEW_ORIGIN.y-sprite.y+(asset.entry.y??0))*sy;
+    return <image key={`grid-${i}`} className="asset-layer grid-sprite" data-source={asset.entry.file} data-routine={sprite.routine} data-cell={`${sprite.r}/${sprite.c}`}
+      href={asset.url} x={x} y={y} width={(asset.entry.width??0)*sx} height={(asset.entry.height??0)*sy} preserveAspectRatio="none"/>;
+  });
+  const clipId=`grid-clip-${levelId}`;
+  return {script,tilesetId,nodes:<g className="grid-view" data-script={script} data-cell={`${r}/${c}`}>
+    <defs><clipPath id={clipId}><rect x={VIEW_CLIP.x*sx} y={VIEW_CLIP.y*sy} width={VIEW_CLIP.width*sx} height={VIEW_CLIP.height*sy}/></clipPath></defs>
+    <g clipPath={`url(#${clipId})`}>
+      {!background && renderAsset(pack,"surface.ceiling",undefined,tilesetId)}
+      {!background && renderAsset(pack,"surface.floor",undefined,tilesetId)}
+      {nodes}
+    </g>
+  </g>};
+}
+
+/** r11: edge-model levels render through the original grid-view pipeline (runtime copy via
+ *  buildEdgeGrid, never written back). Script follows the level tileset (DJ1/DJ2/DJCAT); scene type is a
+ *  representative of that script (MAIN 0x01c96: 31 DJ1, 35 DJ2, 36 DJCAT; suspected for user levels). */
+const EDGE_SCRIPT_BY_TILESET:Record<string,[GridScript,number]>={"ishar2-dj1":["DJ1",31],"ishar2-dj2":["DJ2",35],"ishar2-djcat":["DJCAT",36]};
+function renderEdgeLevelAsGrid(pack:LoadedAssetPack|null,game:AuthoredGame,level:NonNullable<AuthoredGame["levels"][number]>,location:AuthoredLocation,facing:Direction,openDoors:string[],tilesetId:string|undefined,redraw=0,lift?:{door:number;dy:number;doorId?:string}){
+  const pick=EDGE_SCRIPT_BY_TILESET[location.tilesetId || tilesetId || ""];
+  if(!pick || !pack?.manifest.tilesets.some((t)=>t.entries.some((e)=>e.role==="scene.sprite"))) return undefined;
+  const built=edgeViewGrid(game,level.id);
+  if(!built.ok) return undefined;
+  const r=location.y-built.minY, c=built.grid.cols-1-(location.x-built.minX);
+  const open=(n:number)=>Object.entries(built.doorNumbers).some(([id,k])=>k===n && openDoors.includes(id));
+  const edgeLift=lift?.doorId && built.doorNumbers[lift.doorId]!==undefined ? {door:built.doorNumbers[lift.doorId]!,dy:lift.dy} : undefined;
+  return renderGridView(pack,built.grid,level.id,r,c,facing,open,pick[1],edgeLift,redraw,pick[0]);
+}
+
+const startSceneTypeOf=(game:AuthoredGame)=>game.levels.find((l)=>l.id===(game.locations.find((x)=>x.id===game.startLocationId)?.levelId || "level-1"))?.grid?.startSceneType;
+
+/** known (render-runtime.md §6): main 0x4aa4 is indexed by door number only and survives map changes. */
+function gridDoorOpen(game:AuthoredGame,openDoors:string[],n:number){
+  void game; // initiallyOpen doors start in openDoors (save state is not modelled)
+  return openDoors.some((id)=>gridDoorNumber(id)===n);
+}
+
 function FallbackDoor({x,y,width,height,grille}: {x:number;y:number;width:number;height:number;grille:boolean}) {
   // The original closed leaves have not been recovered from the ALIS resources.
   // These two silhouettes follow the visible DJ1/DJ2 playthrough references only.
@@ -475,7 +549,7 @@ function FallbackDoor({x,y,width,height,grille}: {x:number;y:number;width:number
   </g>;
 }
 
-export function DungeonViewport({ game, location, facing, encounter, encounterDone, collectedItemIds, pack, openDoors, onGroundItemSelect, selectedGroundItemId }: {
+export function DungeonViewport({ game, location, facing, encounter, encounterDone, collectedItemIds, pack, openDoors, onGroundItemSelect, selectedGroundItemId, gridSceneType, gridLift, gridRedraw, gridSwitches }: {
   game: AuthoredGame;
   location: AuthoredLocation;
   facing: Direction;
@@ -486,6 +560,10 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
   openDoors: string[];
   onGroundItemSelect?: (itemId: string, position?: { x: number; y: number }) => void;
   selectedGroundItemId?: string | null;
+  gridSceneType?: number;
+  gridLift?: {door:number;dy:number};
+  gridRedraw?: number;
+  gridSwitches?: number[];
 }) {
   const renderProfile=renderProfileForManifest(pack?.manifest);
   const viewportAspect=displayAspect(renderProfile);
@@ -503,7 +581,14 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
   const itemLayers: React.ReactNode[] = [];
   let cell: AuthoredLocation | undefined = {...location,tilesetId:locationTilesetId};
 
-  for (let depth = 0; depth < 4 && cell && !outdoor; depth++) {
+  // r12: imported CONT maps 1-4 use the original outdoor renderers instead of the CK swamp/outdoor heuristics
+  // (only when the pack has the baked outdoor sprites; old CK presets without a grid are unchanged).
+  const gridOutdoor=!!currentLevel?.grid && isOutdoorMap(currentLevel.grid.mapNumber)
+    && !!pack?.manifest.tilesets.some((t)=>t.id===`ishar2-out${currentLevel.grid!.mapNumber}`);
+  const gridView=currentLevel?.grid && (!outdoor || gridOutdoor)
+    ? (()=>{ const {r,c}=gridCellOf(currentLevel.grid!,location); return renderGridView(pack,currentLevel.grid!,currentLevel.id,r,c,facing,(n)=>gridDoorOpen(game,openDoors,n),gridSceneType,gridLift,gridRedraw,undefined,(i)=>!!gridSwitches?.[i]); })()
+    : currentLevel && !outdoor ? renderEdgeLevelAsGrid(pack,game,currentLevel,location,facing,openDoors,sceneTileset?.id,gridRedraw,gridLift) : undefined;
+  for (let depth = 0; depth < 4 && cell && !outdoor && !gridView; depth++) {
     const outer = frames[depth]!;
     const inner = frames[depth + 1]!;
     const leftDirection=turnLeft(facing);
@@ -517,14 +602,9 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
     const roomEdges=roomViewEdges(game.locations,cell,facing,game.doors);
     const leftRoomOpen=roomEdges.leftInterior;
     const rightRoomOpen=roomEdges.rightInterior;
-    const leftRoomBoundary=!!leftTarget && (cell.sceneKind==="room" || leftTarget.sceneKind==="room")
-      && !roomsShareOpenSurface(cell,leftTarget,game.doors);
-    const rightRoomBoundary=!!rightTarget && (cell.sceneKind==="room" || rightTarget.sceneKind==="room")
-      && !roomsShareOpenSurface(cell,rightTarget,game.doors);
-    const leftOpeningRole: DungeonAssetRole=leftRoomBoundary && assetFor(pack,"opening.room.left",depth as DungeonAssetDepth,cell.tilesetId)
-      ? "opening.room.left" : "opening.left";
-    const rightOpeningRole: DungeonAssetRole=rightRoomBoundary && assetFor(pack,"opening.room.right",depth as DungeonAssetDepth,cell.tilesetId)
-      ? "opening.room.right" : "opening.right";
+    // DJ1 #71/#72 are edge-wall side reveals, not room passages (plan v3 §5.4).
+    const leftOpeningRole: DungeonAssetRole="opening.left";
+    const rightOpeningRole: DungeonAssetRole="opening.right";
     const forward = canTravel(game.locations, cell, facing);
     const cellTilesetId=cell.tilesetId;
     const roomBoundary=!!forward && (cell.sceneKind==="room" || forward.sceneKind==="room")
@@ -565,9 +645,10 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         {leftOpen && !leftRoomOpen && (roomScene && !nativeScene ? renderRoomOpeningArt(pack,depth as DungeonAssetDepth,"left",cell.tilesetId,outer,inner) : renderAsset(pack,leftOpeningRole,depth as DungeonAssetDepth,cell.tilesetId))}
         {rightOpen && !rightRoomOpen && (roomScene && !nativeScene ? renderRoomOpeningArt(pack,depth as DungeonAssetDepth,"right",cell.tilesetId,outer,inner) : renderAsset(pack,rightOpeningRole,depth as DungeonAssetDepth,cell.tilesetId))}
         {!forward && (renderDiscoveredTexture(pack, cell.wallAssetId, {kind:"rect",x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, "wall-front") ?? (roomScene && !nativeScene ? renderRoomWall(pack,[[inner.l,inner.t],[inner.r,inner.t],[inner.r,inner.b],[inner.l,inner.b]],depth as DungeonAssetDepth,cell.tilesetId,"front") : renderRectAsset(pack, "wall.front", {x:inner.l,y:inner.t,width:inner.r-inner.l,height:inner.b-inner.t}, depth as DungeonAssetDepth, cell.tilesetId)))}
-        {forwardDoor && !forwardDoorOpen && renderRectAsset(pack, "door.front.closed", {x:inner.l+12,y:inner.t+4,width:Math.max(20,inner.r-inner.l-24),height:Math.max(30,inner.b-inner.t-8)}, depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id)}
-        {forwardDoor && !forwardDoorOpen && !assetFor(pack, "door.front.closed", depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id) &&
-          <FallbackDoor x={inner.l+12} y={inner.t+4} width={Math.max(20,inner.r-inner.l-24)} height={Math.max(30,inner.b-inner.t-8)} grille={sceneTileset?.id==="ishar2-dj2"}/>}
+        {forwardDoor && renderDoorLeaf(pack,forwardDoor,forwardDoorOpen,depth as DungeonAssetDepth,cell.tilesetId)}
+        {forwardDoor && !forwardDoorOpen && !originalDoorLeaf(pack,forwardDoor,false,depth as DungeonAssetDepth,cell.tilesetId) && renderRectAsset(pack, "door.front.closed", {x:inner.l+12,y:inner.t+4,width:Math.max(20,inner.r-inner.l-24),height:Math.max(30,inner.b-inner.t-8)}, depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id)}
+        {forwardDoor && !forwardDoorOpen && !originalDoorLeaf(pack,forwardDoor,false,depth as DungeonAssetDepth,cell.tilesetId) && !assetFor(pack, "door.front.closed", depth as DungeonAssetDepth, cell.tilesetId, forwardDoor.id) &&
+          <FallbackDoor x={inner.l+12} y={inner.t+4} width={Math.max(20,inner.r-inner.l-24)} height={Math.max(30,inner.b-inner.t-8)} grille={doorLeafKind(forwardDoor.originalIndex,sceneTileset?.id)==="grate"}/>}
         {roomBoundary && (nativeScene ? renderAsset(pack,"door.front.open",depth as DungeonAssetDepth,cell.tilesetId) : renderRoomFrontArch(pack,depth as DungeonAssetDepth,cell.tilesetId,inner))}
         {forwardDoor && !roomBoundary && (roomScene && !nativeScene ? renderRoomFrontArch(pack,depth as DungeonAssetDepth,cell.tilesetId,inner) : renderAsset(pack,"door.front.open",depth as DungeonAssetDepth,cell.tilesetId,forwardDoor.id))}
       </g>
@@ -594,7 +675,7 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
       </g>;
 
   return <div className={`dungeon-viewport ${outdoor ? "outdoor-viewport" : roomScene ? "room-viewport" : ""}`} style={{aspectRatio:String(viewportAspect)}} data-render-profile={renderProfile.id} data-scene-layout-version={pack?.sceneLayoutVersion}>
-    <svg viewBox="0 0 640 400" preserveAspectRatio="none" aria-label={`Blick nach ${DIRECTION_LABELS[facing]}`}>
+    <svg viewBox="0 0 640 400" preserveAspectRatio="none" aria-label={`Blick nach ${compassOf(facing)}`}>
       <defs>
         <linearGradient id="outdoor-sky" x2="0" y2="1"><stop stopColor="#24466d"/><stop offset="1" stopColor="#8f9b91"/></linearGradient>
         <linearGradient id="outdoor-ground" x2="0" y2="1"><stop stopColor="#666045"/><stop offset="1" stopColor="#2c271b"/></linearGradient>
@@ -612,16 +693,16 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         </pattern>
       </defs>
       <rect width="640" height="400" className="dungeon-dark"/>
-      {outdoor && currentLevel?.biome==="swamp" ? renderSwampScene(game,location,facing,pack) : outdoor ? <g className="outdoor-scene">
+      {gridOutdoor ? null : outdoor && currentLevel?.biome==="swamp" ? renderSwampScene(game,location,facing,pack) : outdoor ? <g className="outdoor-scene">
         <rect width="640" height="220" fill="url(#outdoor-sky)"/>
         <path d="M0 225 L60 193 L112 207 L180 181 L240 211 L330 188 L420 212 L492 184 L570 207 L640 190 V280 H0Z" fill="#4c5a51"/>
         <rect y="220" width="640" height="180" fill="url(#outdoor-ground)"/>
         {renderDiscoveredTexture(pack,location.floorAssetId,{kind:"rect",x:0,y:220,width:640,height:180},0,"outdoor-ground")}
         {renderDiscoveredLayer(pack,location.sceneryAssetId,{x:64,y:18,width:512,height:360})}
       </g> : renderAsset(pack, "viewport.background", undefined, locationTilesetId)}
-      {nativeScene && renderAsset(pack,"surface.ceiling",undefined,locationTilesetId)}
-      {nativeScene && renderAsset(pack,"surface.floor",undefined,locationTilesetId)}
-      {segments}
+      {!gridView && nativeScene && renderAsset(pack,"surface.ceiling",undefined,locationTilesetId)}
+      {!gridView && nativeScene && renderAsset(pack,"surface.floor",undefined,locationTilesetId)}
+      {gridView ? gridView.nodes : segments}
       {itemLayers}
       {currentItemId && <g className={`ground-item-choice${selectedGroundItemId===currentItemId ? " held" : ""}`}
         role="button" tabIndex={0} aria-label={`${currentItem?.name ?? currentItemId} ${selectedGroundItemId===currentItemId ? "am Fundort ablegen" : "vom Boden aufheben"}`}
@@ -640,7 +721,7 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
         <path d="M-42 -22 L-70 23 L-52 30 L-26 2 M42 -22 L70 23 L52 30 L26 2" className="enemy-arms"/>
       </g>)}
     </svg>
-    <div className="viewport-topbar"><span>{location.name}</span><strong>{DIRECTION_LABELS[facing]}</strong></div>
+    <div className="viewport-topbar"><span>{location.name}</span><strong>{compassOf(facing)}</strong></div>
     <div className="viewport-profile">{renderProfile.label} · {renderProfile.drawWidth}×{renderProfile.drawHeight}</div>
     {encounter && !encounterDone && <div className="enemy-hud"><strong>{encounter.name}</strong><span>im Weg</span></div>}
     {currentItemId && selectedGroundItemId===currentItemId && <div className="ground-item-prompt" role="status">{currentItem?.name ?? currentItemId} in der Hand · Fundort oder Charakterporträt anklicken</div>}
@@ -648,7 +729,10 @@ export function DungeonViewport({ game, location, facing, encounter, encounterDo
 }
 
 function DungeonMiniMap({ game, location, facing }: { game: AuthoredGame; location: AuthoredLocation; facing: Direction }) {
-  const locations=game.locations.filter((room)=>(room.levelId || "level-1")===(location.levelId || "level-1"));
+  const gridLevel=!!game.levels.find((level)=>level.id===(location.levelId || "level-1"))?.grid;
+  // Grid levels can hold thousands of cells; show the neighbourhood only.
+  const locations=game.locations.filter((room)=>(room.levelId || "level-1")===(location.levelId || "level-1")
+    && (!gridLevel || Math.abs(room.x-location.x)<=6 && Math.abs(room.y-location.y)<=5));
   const xs=locations.map((room)=>room.x);
   const ys=locations.map((room)=>room.y);
   const minX=Math.min(...xs,0);
@@ -687,9 +771,10 @@ function PlaytestPage() {
   )?.url;
   const originalActionBar=originalHudSprite(36);
   const originalLifeBar=originalHudSprite(1);
-  const game = project.game;
+  // Grid levels (original CONT layers) are expanded into runtime cells/doors; the project itself is untouched.
+  const game = useMemo(()=>expandGridLevels(project.game),[project.game]);
   const hero = game.characters[0];
-  const problems = validateGame(game);
+  const problems = useMemo(()=>validateGame(project.game),[project.game]);
   const [locationId, setLocationId] = useState(game.startLocationId);
   const [facing, setFacing] = useState<Direction>(game.startFacing);
   const [partyHp,setPartyHp]=useState<Record<string,number>>(()=>Object.fromEntries(game.characters.map((member)=>[member.id,member.hp])));
@@ -702,13 +787,23 @@ function PlaytestPage() {
   const [selectedGroundItemId,setSelectedGroundItemId]=useState<string|null>(null);
   const [heldItemStart,setHeldItemStart]=useState({x:0,y:0});
   const [openDoors, setOpenDoors] = useState<string[]>(game.doors.filter((door)=>door.initiallyOpen).map((door)=>door.id));
+  // r7: scene type main 0x4ef2 is state in the original, set by layer-B triggers on entry (GERDEP 0x0162a, known).
+  // main 0x4ef2 is walk state (sticky); a save restores it. Without one, grid-view falls back to the nearest trigger.
+  const [gridSceneType, setGridSceneType] = useState<number|undefined>(()=>startSceneTypeOf(game));
+  const [gridLift, setGridLift] = useState<{door:number;dy:number;doorId?:string}|undefined>(undefined);
+  // r12: switch table main 0x4ad8 + scale pans (door-mechanics.ts); doors stay in openDoors (0x4aa4 by number).
+  const [mech, setMech] = useState<MechState>(()=>newMechState());
+  const [gridRedraw, setGridRedraw] = useState(0); // first frame (0) is drawn unmirrored (FDJ* 0x13=1 -> cputnat)
+  // Alderaan render tables (known): FDJ floor/ceiling #3 is redrawn mirrored on every other view update.
+  const viewReset=useRef(true);
+  useEffect(()=>{ if(viewReset.current){viewReset.current=false;setGridRedraw(0);} else setGridRedraw((n)=>n+1); },[locationId,facing]);
   const [log, setLog] = useState<string[]>(["Du betrittst den Dungeon."]);
   const [selectedPartyIndex,setSelectedPartyIndex]=useState(0);
   const [hudPanel,setHudPanel]=useState<"actions"|"character"|"inventory"|"map"|"quest"|null>(null);
 
   // The persisted project hydrates after the route's initial render. Keep the
   // authored entrance and party in sync without restarting ordinary movement.
-  useEffect(()=>{setLocationId(game.startLocationId);setFacing(game.startFacing);},[game.startLocationId,game.startFacing]);
+  useEffect(()=>{viewReset.current=locationId!==game.startLocationId || facing!==game.startFacing;setLocationId(game.startLocationId);setFacing(game.startFacing);setGridSceneType(startSceneTypeOf(game));setGridRedraw(0);},[game.startLocationId,game.startFacing]);
   useEffect(()=>{
     setPartyHp(Object.fromEntries(game.characters.map((member)=>[member.id,member.hp])));
     setSelectedPartyIndex((index)=>Math.min(index,Math.max(0,game.characters.length-1)));
@@ -778,12 +873,39 @@ function PlaytestPage() {
       return;
     }
     const door = doorBetween(game.doors, location, target);
-    if (door && !openDoors.includes(door.id)) {
+    const gridN = door ? gridDoorNumber(door.id) : undefined;
+    if (door && !(gridN!==undefined ? gridDoorOpen(game,openDoors,gridN) : openDoors.includes(door.id))) {
       setLog((x)=>[door.keyItemId ? "Die Tür ist verschlossen." : "Die Tür ist geschlossen.", ...x]);
       return;
     }
     setLocationId(target.id);
     setLog((x)=>[`Du betrittst: ${target.name}.`, ...x]);
+    // known GERDEP 0x013f3..0x01407: after every step doors 5, 9 and 17 fall closed again.
+    const stepGrid=game.levels.find((entry)=>entry.id===(target.levelId || "level-1"))?.grid;
+    if(stepGrid){ const g=gridCellOf(stepGrid,target); applyMech(afterStep(stepGrid,g.r,g.c,{...mech,doors:doorTable()})); }
+    else if(gridN!==undefined) setOpenDoors((doors)=>doors.filter((id)=>!STEP_RESET_DOORS.includes(gridDoorNumber(id) ?? -1)));
+    // DJTRAP hook (cont-grid.ts): damage formula known; which wall traps fire depends on facing (not modelled: every trap fires on entry).
+    const grid=game.levels.find((entry)=>entry.id===(target.levelId || "level-1"))?.grid;
+    const trap=grid ? trapAt(grid,gridCellOf(grid,target).r,gridCellOf(grid,target).c) : undefined;
+    if(grid){ const g=gridCellOf(grid,target); const t=sceneTriggerAt(grid,g.r,g.c); if(t!==undefined) setGridSceneType(t); }
+    if(grid && trap){
+      const living=game.characters.filter((member)=>(partyHp[member.id] ?? member.hp)>0);
+      const victim=living[Math.floor(Math.random()*living.length)];
+      const damage=trapDamage(grid.mapNumber ?? 5,Math.floor(Math.random()*5));
+      if(victim && damage>0) setPartyHp((current)=>({...current,[victim.id]:Math.max(0,(current[victim.id] ?? victim.hp)-damage)}));
+      setLog((x)=>[`${trap.kind==="crusher" ? "Ein Block stürzt herab" : "Eine Falle schnappt zu"}${victim && damage>0 ? `: ${victim.name} verliert ${damage} LP` : ""}.`, ...x]);
+    }
+  }
+
+  /** 0x4aa4 as a 50-entry table from the runtime door ids (shared by number across grid levels). */
+  function doorTable(){ return Array.from({length:50},(_,n)=>gridDoorOpen(game,openDoors,n) ? 1 : 0); }
+  function applyMech({state,events}:{state:MechState;events:MechEvent[]}){
+    setMech(state);
+    const ids=(n:number)=>game.levels.filter((l)=>l.grid).map((l)=>gridDoorId(l.id,n));
+    const doorEv=events.filter((e)=>e.kind==="door");
+    if(doorEv.length) setOpenDoors((doors)=>{ let d=[...doors]; for(const e of doorEv){ const all=ids(e.door); d=d.filter((id)=>!all.includes(id)); if(e.open) d.push(...all); } return d; });
+    const msg=events.flatMap((e)=>e.kind==="door" && !STEP_RESET_DOORS.includes(e.door) ? [`Tür ${e.door} ${e.open ? "öffnet" : "schließt"} sich (${e.why}).`] : e.kind==="switch" ? [`Schalter ${e.index} ${e.on ? "gesetzt" : "gelöscht"} (${e.why}).`] : e.kind==="plate" ? [`Druckplatte ${e.index}.`] : []);
+    if(msg.length) setLog((x)=>[...msg.reverse(),...x]);
   }
 
   function openFacingDoor() {
@@ -792,9 +914,23 @@ function PlaytestPage() {
     if (!target) return;
     const door = doorBetween(game.doors, location, target);
     if (!door || openDoors.includes(door.id)) return;
+    const gridN = gridDoorNumber(door.id);
+    if (gridN!==undefined && (gridDoorOpen(game,openDoors,gridN) || gridLift)) return;
     if (door.keyItemId && !inventory.includes(door.keyItemId)) {
       const key = game.items.find((item)=>item.id===door.keyItemId);
       setLog((x)=>[`Verschlossen. Benötigt: ${key?.name ?? door.keyItemId}.`, ...x]);
+      return;
+    }
+    if (gridN!==undefined || level) {
+      // known PCAVE 0x0031b..0x0034e: the leaf rises 4 px per frame over 21 frames, then the door is open;
+      // frame rate ~23.5 fps (70 Hz tick, ctiming 3; hud-anim.md). Edge levels animate through their runtime grid.
+      let frame=0;
+      const timer=window.setInterval(()=>{
+        frame++;
+        if(frame>21){ window.clearInterval(timer); setGridLift(undefined); setOpenDoors((doors)=>[...doors, door.id]); return; }
+        setGridLift({door:gridN ?? -1,dy:frame*4,doorId:door.id});
+      },1000/23.5);
+      setLog((x)=>["Tür geöffnet.", ...x]);
       return;
     }
     setOpenDoors((doors)=>[...doors, door.id]);
@@ -894,7 +1030,7 @@ function PlaytestPage() {
               <div className="ishar-sheet-pack"><h3>Gegenstände · {selectedMemberItems.length}/9</h3><div className="ishar-sheet-grid">{Array.from({length:9},(_,slot)=>{const id=selectedMemberItems[slot];const item=game.items.find((entry)=>entry.id===id);return <button key={slot} disabled={!id} aria-label={id ? `Platz ${slot+1}: ${item?.name ?? id}` : `Platz ${slot+1}: leer`} aria-pressed={!!id && selectedItemId===id} onClick={()=>setSelectedItemId(id)}>{item?.name ?? ""}</button>;})}</div></div>
             </div>
             {selectedItem && <div className="ishar-sheet-item"><strong>{selectedItem.name}</strong><p>{selectedItem.description || "Keine Beschreibung."}</p><div className="ishar-sheet-item-actions">{facingDoorClosed && facingDoor?.keyItemId===selectedItem.id && <button onClick={openFacingDoor}>An Tür verwenden</button>}{game.characters.filter((member)=>member.id!==selectedMember.id).map((member)=><button key={member.id} onClick={()=>transferItem(selectedItem.id,member.id)} disabled={inventory.filter((id)=>itemOwners[id]===member.id).length>=9}>An {member.name} geben</button>)}</div></div>}
-          </section> : <><DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} collectedItemIds={inventory} pack={pack} openDoors={openDoors} onGroundItemSelect={selectGroundItem} selectedGroundItemId={selectedGroundItemId}/>
+          </section> : <><DungeonViewport game={game} location={location} facing={facing} encounter={encounter} encounterDone={encounterDone} collectedItemIds={inventory} pack={pack} openDoors={openDoors} onGroundItemSelect={selectGroundItem} selectedGroundItemId={selectedGroundItemId} gridSceneType={gridSceneType} gridLift={gridLift} gridRedraw={gridRedraw} gridSwitches={mech.switches}/>
           <div className="asset-runtime-status"><span>Asset-Pack</span><strong>{pack ? pack.manifest.name : "SVG-Fallback"}</strong>{game.assetPackId && !pack && <small>Projekt erwartet: {game.assetPackId}</small>}</div></>}
         </main>
 
@@ -927,7 +1063,7 @@ function PlaytestPage() {
             {facingDoorClosed && encounterDone && !defeated && <button className="door-button" onClick={openFacingDoor}>🚪 Öffnen<small>{facingDoor?.keyItemId ? "Schlüssel" : "Tür"}</small></button>}
             {portalsHere.map((portal)=>{const target=game.locations.find((entry)=>entry.id===(portal.fromLocationId===locationId ? portal.toLocationId : portal.fromLocationId));return <button key={portal.id} onClick={()=>usePortal(portal.id)} disabled={defeated || !encounterDone || !!selectedGroundItemId}>↗ {target?.name ?? portal.label}</button>})}
           </div>
-          <div className="ishar-compass">Blick: <strong>{DIRECTION_LABELS[facing]}</strong></div>
+          <div className="ishar-compass">Blick: <strong>{compassOf(facing)}</strong></div>
         </aside>
       </div>
 

@@ -1,5 +1,7 @@
+import { OUTDOOR_USED } from "./outdoor-grid-view.ts";
 import { dungeonSceneAssignments, dungeonSpritePosition, DUNGEON_NATIVE_Z } from "./dungeon-scenes";
-import { resolveIshar2Palettes } from "./palette-resolution";
+import { spriteTargetId } from "./grid-view";
+import { overlayAlisPalette, resolveIshar2Palettes } from "./palette-resolution";
 import JSZip from "jszip";
 import { classifyFile } from "./classify";
 import { PACKER_NEW, unpackSilm } from "./silm-pack";
@@ -1096,6 +1098,47 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       sceneEntries.set(a.tilesetId,entries);
     }
   }
+  // r7/r8: every DJ*/FDJ*/PCAVE/DJTRAP composite, plain + mirrored, anchored like cputnat/cxputat,
+  // for the original-faithful IsharGrid renderer (grid-view.ts). Modules without an own palette
+  // (PCAVE, DJTRAP) draw with the palette the scene background set (render-runtime.md §5, known):
+  // FDJ1 #2 in DJ1, FDJ2 #1 in DJ2; FDJCAT #0 in DJCAT (suspected by the same mechanism).
+  if(detectedGame==="ishar2"){
+    const SCENE_TARGET:Record<string,string[]>={"DJ1.IO":["ishar2-dj1"],"FDJ1.IO":["ishar2-dj1"],"DJ2.IO":["ishar2-dj2"],"FDJ2.IO":["ishar2-dj2"],
+      "DJCAT.IO":["ishar2-djcat"],"FDJCAT.IO":["ishar2-djcat"],"DJTRAP.IO":["ishar2-dj1","ishar2-dj2"],"PCAVE.IO":["ishar2-dj1","ishar2-dj2","ishar2-djcat"]};
+    // r12: outdoor/town scenes (maps 1-4, outdoor-grid-view.ts). Every module draws with the palette of the
+    // scene background (FOND1 #3, FARBO #1, FVILLE #0, FMONT #3); overlays per scene type from scenes.json.
+    const OUT_MODS:Record<string,string[]>={"ishar2-out1":["FOND1","PLAINE1","VILLAGE1","FORET1"],"ishar2-out2":["FARBO","ARBO","FORET1"],
+      "ishar2-out3":["FVILLE","VHOUSE2","VILLE","VDEC1","VDEC2","VDEC3","VARCHE","VARCADE","VHOUSE1","VPONT","VBIBLI","VJAIL","VMAIRIE","VNIGHT","VPASSAGE","VPORT","VTEMPLE"],
+      "ishar2-out4":["FMONT","MONTAGNE"]};
+    for(const [t,mods] of Object.entries(OUT_MODS)) for(const m of mods) (SCENE_TARGET[`${m}.IO`]??=[]).push(t);
+    const SCENE_PALETTE:Record<string,[string,number]>={"ishar2-dj1":["FDJ1.IO",2],"ishar2-dj2":["FDJ2.IO",1],"ishar2-djcat":["FDJCAT.IO",0],
+      "ishar2-out1":["FOND1.IO",3],"ishar2-out2":["FARBO.IO",1],"ishar2-out3":["FVILLE.IO",0],"ishar2-out4":["FMONT.IO",3]};
+    const foreign=new Set(["PCAVE.IO","DJTRAP.IO"]);
+    const isForeign=(m:string,t:string)=>foreign.has(m) || t.startsWith("ishar2-out");
+    const modName=(p:string)=>p.replace(/\\/g,"/").split("/").pop()!.toUpperCase();
+    for(const composite of alisComposites){
+      const module=modName(composite.sourcePath);
+      for(const tilesetId of SCENE_TARGET[module]??[]){
+        if(tilesetId.startsWith("ishar2-out") && !OUTDOOR_USED[module]?.has(composite.entryIndex)) continue;
+        const own=alisImages.filter(i=>i.sourcePath===composite.sourcePath);
+        const saved=own.map(i=>i.palette);
+        const pair=SCENE_PALETTE[tilesetId]!;
+        const scenePal=alisPalettes.find(p=>modName(p.sourcePath)===pair[0] && p.entryIndex===pair[1]);
+        if(isForeign(module,tilesetId) && scenePal && resolved?.base) for(const i of own) i.palette=overlayAlisPalette(resolved.base.palette,scenePal);
+        for(const mirror of [false,true]){
+          const rendered=await compositeToPngBlob(composite,alisImageMap,alisCompositeMap,true,mirror);
+          if(!rendered) continue;
+          const id=`${tilesetId}-sprite-${module}-${composite.entryIndex}${mirror ? "m" : ""}`;
+          const entry: DungeonAssetEntry={id,role:"scene.sprite",targetId:spriteTargetId(module,composite.entryIndex,mirror),
+            file:`${composite.sourcePath}#sprite-${composite.entryIndex}${mirror ? "m" : ""}.png`,renderMode:"layer",
+            x:rendered.minX,y:rendered.minY,width:rendered.width,height:rendered.height};
+          urls[id]=URL.createObjectURL(rendered.blob); paths[id]=entry.file;
+          const entries=sceneEntries.get(tilesetId)??[]; entries.push(entry); sceneEntries.set(tilesetId,entries);
+        }
+        own.forEach((i,k)=>{i.palette=saved[k]!;});
+      }
+    }
+  }
   if(detectedGame==="ishar2") for(const image of alisImages) {
     const module=image.sourcePath.replace(/\\/g,"/").split("/").pop()?.toUpperCase();
     const tilesetId=module==="FDJ1.IO" ? "ishar2-dj1" : module==="FDJ2.IO" ? "ishar2-dj2" : undefined;
@@ -1141,6 +1184,10 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
       runtimeAssigned,
       knownUse:runtimeAssigned && sceneAssignments.some((a)=>a.role.startsWith("opening."))
         ? "Seitendurchgang im Playtest · Rollenbelegung rekonstruiert"
+        : runtimeAssigned && sceneAssignments.some((a)=>a.role.startsWith("door.leaf."))
+          ? "Original-Türblatt (PCAVE.IO) im Playtest"
+        : runtimeAssigned && sceneAssignments.some((a)=>a.role.startsWith("wall.reveal."))
+          ? "Seitliche Wandlaibung (DJ1 #71/#72) · nicht als Raumdurchgang"
         : runtimeAssigned && sceneAssignments.some((a)=>a.role==="door.front.open")
           ? "Offener Türrahmen im Playtest · Rollenbelegung rekonstruiert"
           : module==="DJ1.IO" && composite.entryIndex>=114 && composite.entryIndex<=119
@@ -1165,13 +1212,13 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
     pixelAspectY:renderProfile.pixelAspectY,
     defaultTilesetId:sceneEntries.keys().next().value ?? "auto-default",
     shared,
-    tilesets:[...Array.from(sceneEntries,([id,entries])=>({id,name:id==="ishar2-dj1" ? "Ishar 2 · Dungeon 1" : "Ishar 2 · Dungeon 2",entries})),
+    tilesets:[...Array.from(sceneEntries,([id,entries])=>({id,name:id==="ishar2-dj1" ? "Ishar 2 · Dungeon 1" : id==="ishar2-djcat" ? "Ishar 2 · Katakomben (DJCAT)" : id.startsWith("ishar2-out") ? `Ishar 2 · Außen/Stadt (Karte ${id.slice(-1)})` : "Ishar 2 · Dungeon 2",entries})),
       {id:"auto-default",name:gameLabel+" Auto Dungeon",entries:[...defaultTilesetEntries,...tilesetEntries]}],
   };
 
   const candidateResources=inventory.filter((record)=>record.silm || record.ext===".IO" || record.ext===".FIC").length;
   const notes=[
-    sceneEntries.size ? `${Array.from(sceneEntries.values()).flat().length} Dungeon-Szenenebenen automatisch geladen (DJ1/DJ2). Höhenstaffelung skriptbelegt; Bildschirmursprung aus Bildanschlüssen rekonstruiert. FDJ-Boden und Farbfläche sowie Türrahmen integriert; DJ1-Durchgangsbögen als eigene Szenenebenen zugeordnet. Originale Türblätter bleiben ungeklärt.` : "Keine unterstützte DJ1/DJ2-Szenengeometrie geladen.",
+    sceneEntries.size ? `${Array.from(sceneEntries.values()).flat().length} Dungeon-Szenenebenen automatisch geladen (DJ1/DJ2). Höhenstaffelung skriptbelegt; Bildschirmursprung aus Bildanschlüssen rekonstruiert. FDJ-Boden und Farbfläche sowie Türrahmen integriert; DJ1-Durchgangsbögen als eigene Szenenebenen zugeordnet. Geschlossene Türblätter aus PCAVE.IO (#8+d Holz, #12+d Gitter, Tiefe 0–3).` : "Keine unterstützte DJ1/DJ2-Szenengeometrie geladen.",
     detectedGame==="unknown" ? "Spielversion konnte aus Dateinamen/-größen nicht sicher erkannt werden." : gameLabel+" wurde anhand des lokalen Dateibestands erkannt.",
     "Renderprofil: "+renderProfile.label+" · Drawspace "+renderProfile.drawWidth+"×"+renderProfile.drawHeight+" · Pixel-Aspekt Y "+renderProfile.pixelAspectY+".",
     decodedOldPacker ? decodedOldPacker+" Datei(en) mit altem Silmarils-Packer wurden für die Bildsuche entpackt." : "Keine Old-Packer-Ressource musste entpackt werden.",
@@ -1234,7 +1281,7 @@ export async function autoImportIsharZip(file: File): Promise<IsharAutoImportRes
   };
 
   const pack: LoadedAssetPack={
-    sceneLayoutVersion:16,
+    sceneLayoutVersion:22,
     manifest,
     urls,
     paths,

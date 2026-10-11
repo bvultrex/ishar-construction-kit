@@ -35,7 +35,9 @@ export interface LoadedAssetPack {
 const MANIFEST_BASENAMES = new Set(["manifest.json", "asset-pack.json", "ishar-assets.json"]);
 const ROLES = new Set<DungeonAssetRole>([
   "viewport.background", "surface.ceiling", "surface.floor", "wall.front", "wall.left", "wall.right",
-  "opening.left", "opening.right", "door.front.closed", "door.front.open", "encounter", "item", "portrait",
+  "opening.left", "opening.right", "door.front.closed", "door.front.open",
+  "door.leaf.closed.wood", "door.leaf.closed.grate", "door.leaf.open.wood", "door.leaf.open.grate",
+  "wall.reveal.left", "wall.reveal.right", "scene.sprite", "encounter", "item", "portrait",
 ]);
 
 function normalizePath(path: string) {
