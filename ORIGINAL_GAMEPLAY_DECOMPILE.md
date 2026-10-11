@@ -102,3 +102,19 @@ This event execution is not yet connected to automatic combat. EATT's decision
 and message producer, projectile child scripts for distant attacks, damage and
 NPC interaction routing still need porting before in-game attack triggers can
 use it. Current playtest idle behavior is unchanged.
+
+
+## Reachable actor test fixture correction — 2026-10-11
+
+The old synthetic placement at CONT1 11/12 put golem 53 on negative-A cell 11/11
+and started inside a narrow passage. `scripts/create-actor-test-save.mjs` now
+creates the private fixture from the local START.SAV and CONT1, without changing
+original files. New start: 45/47 facing N. NPC 51: 44/46; golem 53: 45/46;
+wizard 54: 46/46. All share inferred stable scene 3.
+
+The generator rejects blocked/event cells, checks cardinal neighboring fields,
+and flood-fills routes from the start excluding occupied actor cells. It also
+checks that approaching the actors retains their original scene identifier.
+104 safe approach cells were checked against the local original CONT1 data.
+The generated SAV remains outside Git. This corrects a test setup, not canonical
+original NPC locations; dialogue/combat interaction remains in progress.
