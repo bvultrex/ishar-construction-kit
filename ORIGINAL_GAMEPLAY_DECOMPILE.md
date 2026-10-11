@@ -55,3 +55,30 @@ This is execution infrastructure, not automatic playtest animation yet. Original
 scheduler timing, random semantics and message dispatch still need verification
 before connecting live animation, attack triggers, dialogue or actor movement.
 No actor/save state is modified by these checks.
+
+
+## Live original idle animation — 2026-10-11
+
+The local engine analyses supplied the missing semantics: `engine/rules.md`
+records the DOS ALIS RNG recurrence r = r * 0x7ab7 - 0x77f modulo 65536,
+with ornd(n) = floor(n*r/65536). `engine/hud-anim.md` verifies the VGA tick
+and default ctiming(3), approximately 23.5 script frames per second.
+
+The CONT1 playtest now retains one interpreter per visible original actor and
+advances the idle scripts at the existing verified FRAME_MS rate. AVEUGLE5 and
+WIZARD1 use their original countdown, probability and signed horizontal sway.
+Camera/save changes rebuild the EAFF entities; timers are cleaned up and hidden
+tabs pause without catch-up. The preview initializes a fresh transient 16-bit
+seed from its clock: SAV does not supply the original engine's seed, so this does
+not reproduce the precise historical random sequence of a loaded game.
+
+Unsupported later instructions stop only that actor and retain its last valid
+image. In particular GOLEM1 quest writes and all combat/dialogue messages remain
+unported. Other maps retain the existing occlusion gate. Source saves remain
+unchanged. Native listing tests cover 100 scheduler steps plus independent
+BigInt reference checks of the RNG recurrence.
+
+Browser verification: CONT1 11/12 test fixture shows all three original actors;
+rotation out and back removes/restores the correct scene. Separate DOM samples
+confirmed NPC 51 x=50 -> 52.5 and WIZARD actor 54 x=445 -> 447.5 at unchanged
+camera coordinates. No browser console errors. Proof: local original-actor-animation.png.

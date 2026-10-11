@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {join} from 'node:path';
-import {firstActorFrame,actorAnimationSteps,savedMainMemory,originalActorFrames} from '../src/lib/ishar/original-actor-frame.ts';
+import {firstActorFrame,actorAnimationSteps,savedMainMemory,originalActorFrames,createOriginalActorAnimation,originalActorRandom} from '../src/lib/ishar/original-actor-frame.ts';
 const fixture=`
   00018 ff cjmp24 L_00030
   00020 ff cput oimmb(999)
@@ -51,6 +51,13 @@ if(process.env.ISHAR_ACTOR_LISTINGS&&process.env.ISHAR2_DIR){
   const frames=originalActorFrames(bundle,patch,camera).frames;
   assert.ok(frames.some(f=>f.actorId===51&&f.index===4));assert.ok(frames.some(f=>f.actorId===53&&f.index===29));
   assert.equal(originalActorFrames(bundle,patch,{...camera,map:2}).frames.length,0,'unported occlusion maps stay disabled');
+  const runtime=createOriginalActorAnimation(bundle,patch,camera,1234),savedPatch=patch.slice();
+  const initialFrame=runtime.snapshot();
+  for(let tick=0;tick<100;tick++)runtime.advance();
+  assert.equal(initialFrame.frames.length,2,'snapshot remains intact after advancing');
+  assert.ok(runtime.snapshot().frames.some(frame=>frame.actorId===51),'NPC retained through idle loop');
+  assert.deepEqual(patch,savedPatch,'animation never mutates source save');
+  assert.equal(createOriginalActorAnimation(bundle,patch,{...camera,map:2},0).advance().frames.length,0);
   assert.deepEqual(bytes,before,'source save remains untouched');
   console.log('Actual IO loader, NPC and enemy scripts, distance resources and immutable save passed.');
 }
@@ -77,3 +84,14 @@ assert.throws(()=>actorAnimationSteps(randomListing,new Map(),{}).next(),/random
 assert.equal(actorAnimationSteps(randomListing,new Map(),{},{random:bound=>bound-1}).next().value[0].x,99);
 assert.throws(()=>actorAnimationSteps(randomListing,new Map(),{},{random:bound=>bound}).next(),/Invalid original random/);
 console.log('Resumable actor state, sprite replacement, immutable snapshots and explicit random source passed.');
+
+const dosRandom=originalActorRandom(0);
+assert.equal(dosRandom(100),97,'zero seed wraps negative recurrence to 63617');
+let seed=0n;
+const reference=originalActorRandom(0);
+for(let step=0;step<100;step++){
+  seed=(seed*0x7ab7n-0x77fn+0x10000n)&0xffffn;
+  assert.equal(reference(32767),Number((32767n*seed)>>16n));
+}
+assert.throws(()=>dosRandom(0),/Invalid random bound/);
+console.log('DOS random recurrence and 100-step original actor session checks passed.');

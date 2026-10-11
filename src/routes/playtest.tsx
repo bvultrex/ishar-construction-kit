@@ -1,4 +1,4 @@
-import {originalActorFrames,type ActorListingBundle} from "@/lib/ishar/original-actor-frame";
+import {createOriginalActorAnimation,type ActorFrame,type ActorListingBundle} from "@/lib/ishar/original-actor-frame";
 import { compassOf } from "@/lib/ishar/grid-editor";
 import { doorLeafKind, DUNGEON_FRAMES as FRAMES, DUNGEON_NATIVE_FRAMES, DUNGEON_ROOM_FRAMES, usesNativeDungeonProjection } from "@/lib/ishar/dungeon-scenes";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -26,7 +26,7 @@ import { outdoorView, isOutdoorMap } from "@/lib/ishar/outdoor-grid-view";
 import { inferIrvanScene, irvanSceneAfterStep } from "@/lib/ishar/scene-state";
 import { instantiateLocationItems, inventoryHasDefinition } from "@/lib/ishar/item-instances";
 import { buyFromNpc, stockKey, type TradeState } from "@/lib/ishar/trading";
-import { afterStep, newMechState, STEP_RESET_DOORS, type MechEvent, type MechState } from "@/lib/ishar/door-mechanics";
+import { FRAME_MS, afterStep, newMechState, STEP_RESET_DOORS, type MechEvent, type MechState } from "@/lib/ishar/door-mechanics";
 import type { IsharGrid, AuthoredDoor, AuthoredEncounter, AuthoredGame, AuthoredLocation, Direction, DungeonAssetDepth, DungeonAssetRole } from "@/lib/ishar/types";
 import type { LoadedAssetPack } from "@/lib/ishar/asset-pack";
 import { displayAspect, renderProfileForManifest, sourceScale } from "@/lib/ishar/render-profile";
@@ -927,7 +927,22 @@ function PlaytestPage() {
       <image href={asset.url} x={(VIEW_ORIGIN.x+sprite.x-(asset.width-1)/2)*640/256} y={(VIEW_ORIGIN.y-sprite.y-(asset.height-1)/2)*400/113} width={asset.width*640/256} height={asset.height*400/113} opacity={originalHeld?.id===sprite.id?0.2:1} preserveAspectRatio="none"/>
     </g>;
   }) : null;
-  const actorResult=useMemo(()=>originalSave && originalView && actorListings ? originalActorFrames(actorListings,originalSave,originalView) : {frames:[],unsupported:[]},[actorListings,originalSave,locationId,facing,gridSceneType]);
+  // A fresh camera scene gets fresh ALIS entities, as EAFF does. The engine's
+  // transient RNG seed is not stored in SAV; use a fresh seed for this preview.
+  const actorAnimation=useMemo(()=>originalSave && originalView && actorListings
+    ? createOriginalActorAnimation(actorListings,originalSave,originalView,Date.now()&65535)
+    : null,[actorListings,originalSave,locationId,facing,gridSceneType]);
+  const [actorTick,setActorTick]=useState<{source:typeof actorAnimation;frames:ActorFrame[]}|null>(null);
+  useEffect(()=>{
+    if(!actorAnimation || !actorAnimation.snapshot().frames.length)return;
+    const timer=window.setInterval(()=>{
+      // Hidden tabs do not consume random numbers or accumulate catch-up ticks.
+      if(document.hidden)return;
+      setActorTick({source:actorAnimation,frames:actorAnimation.advance().frames});
+    },FRAME_MS);
+    return ()=>window.clearInterval(timer);
+  },[actorAnimation]);
+  const actorResult=actorTick?.source===actorAnimation ? actorTick : actorAnimation?.snapshot()??{frames:[]};
   const originalActorLayer=actorResult.frames.map(sprite=>{
     const asset=pack?.discoveredAssets?.find(a=>a.path.toUpperCase().endsWith(`${sprite.module} · ALIS #${sprite.index}`));
     if(!asset?.width||!asset.height)return null;

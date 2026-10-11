@@ -132,15 +132,39 @@ export function firstActorFrame(listing:string,main:Map<number,number>,initial:R
   return actorAnimationSteps(listing,main,initial).next().value??[];
 }
 
-export function originalActorFrames(bundle:ActorListingBundle,bytes:Uint8Array,view:Omit<ActorSave,'actors'>) {
-  const saved=readActorSave(bytes);if(!saved)return {frames:[] as ActorFrame[],unsupported:[] as number[]};
+/** DOS ALIS ornd recurrence (engine/rules.md). The transient seed is not in SAV. */
+export function originalActorRandom(seed:number) {
+  let state=seed&65535;
+  return (bound:number)=>{
+    if(!Number.isInteger(bound)||bound<=0||bound>32767)throw Error('Invalid random bound');
+    state=(Math.imul(state,0x7ab7)-0x77f)&65535;
+    return Math.floor(bound*state/65536);
+  };
+}
+
+export function createOriginalActorAnimation(bundle:ActorListingBundle,bytes:Uint8Array,view:Omit<ActorSave,'actors'>,seed:number) {
+  const unsupported:number[]=[];
+  const sessions:{actorId:number;module:string;steps:ReturnType<typeof actorAnimationSteps>;frame:ActorFrame[];stopped:boolean}[]=[];
+  const random=originalActorRandom(seed);
+  const snapshot=()=>({frames:sessions.flatMap(session=>session.frame).sort((a,b)=>b.z-a.z),unsupported:[...unsupported]});
+  const advance=()=>{
+    for(const session of sessions){
+      if(session.stopped)continue;
+      try{
+        const next=session.steps.next();
+        if(next.done){session.stopped=true;session.frame=[];continue;}
+        session.frame=next.value.map(draw=>({...draw,module:session.module,actorId:session.actorId}));
+      }catch{session.stopped=true;unsupported.push(session.actorId);}
+    }
+    return snapshot();
+  };
+  const saved=readActorSave(bytes);if(!saved)return {snapshot,advance};
   const memory=savedMainMemory(bundle.loader,bytes),dispatch=readOriginalActorDispatch(bundle.dispatch);
   // The no-occlusion path is verified for CONT1 only. Other maps require EAFF's height/occlusion gates.
-  if(view.map!==1)return {frames:[] as ActorFrame[],unsupported:[] as number[]};
+  if(view.map!==1)return {snapshot,advance};
   // MAIN 0x011e5/0x036c0: stationary view, no movement in progress.
   memory.set(0x2ab7,0);
   memory.set(0x2ab4,view.row);memory.set(0x2ab5,view.col);memory.set(0x2ab6,view.facing);memory.set(0x2d18,view.map);memory.set(0x4ef2,view.scene);
-  const frames:ActorFrame[]=[],unsupported:number[]=[];
   const positions=[{x:192,y:-42,scale:10},{x:92,y:-25,scale:21},{x:60,y:-12,scale:32},{x:44,y:-7,scale:44},{x:34,y:-4,scale:56}];
   for(const actor of saved.actors){
     const relative=actorViewCandidate({...view,actors:saved.actors},actor);if(!relative)continue;
@@ -153,8 +177,13 @@ export function originalActorFrames(bundle:ActorListingBundle,bytes:Uint8Array,v
     const offset=entry.match(/^\s*[\da-f]+\s+[\da-f]+\s+cstore\s+oimmb\((-?\d+)\), ->sdirw\(0x1a\)/m);
     if(!offset || entry.indexOf(offset[0])>entry.indexOf('clive')){unsupported.push(actor.id);continue;}
     const x=relative.lateral*position.x+Math.trunc(+offset[1]!*10/position.scale);
-    try {for(const draw of firstActorFrame(script[1],memory,{0:x,2:relative.distance*99-6,4:position.y,0x0c:35*256+actor.id}))frames.push({...draw,module:script[0],actorId:actor.id});}
-    catch {unsupported.push(actor.id);}
+    const steps=actorAnimationSteps(script[1],memory,{0:x,2:relative.distance*99-6,4:position.y,0x0c:35*256+actor.id},{random});
+    sessions.push({actorId:actor.id,module:script[0],steps,frame:[],stopped:false});
   }
-  return {frames:frames.sort((a,b)=>b.z-a.z),unsupported};
+  advance();
+  return {snapshot,advance};
+}
+
+export function originalActorFrames(bundle:ActorListingBundle,bytes:Uint8Array,view:Omit<ActorSave,'actors'>) {
+  return createOriginalActorAnimation(bundle,bytes,view,0).snapshot();
 }
