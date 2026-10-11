@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {join} from 'node:path';
-import {firstActorFrame,savedMainMemory,originalActorFrames} from '../src/lib/ishar/original-actor-frame.ts';
+import {firstActorFrame,actorAnimationSteps,savedMainMemory,originalActorFrames} from '../src/lib/ishar/original-actor-frame.ts';
 const fixture=`
   00018 ff cjmp24 L_00030
   00020 ff cput oimmb(999)
@@ -30,6 +30,17 @@ if(process.env.ISHAR_ACTOR_LISTINGS&&process.env.ISHAR2_DIR){
   assert.equal(firstActorFrame(read('GOLEM1.IO'),main,{0:0,2:93,4:-42,12:35*256+53})[0].index,28);
   assert.equal(firstActorFrame(read('WIZARD1.IO'),main,{0:0,2:192,4:-25,12:35*256+53})[0].index,16);
   assert.equal(firstActorFrame(read('AVEUGLE5.IO'),main,{0:0,2:291,4:-12,12:35*256+51})[0].index,6);
+  for(const name of ['AVEUGLE5.IO','WIZARD1.IO']){
+    const steps=actorAnimationSteps(read(name),main,{0:0,2:192,4:-25,12:35*256+53},{random:()=>0});
+    const start=steps.next().value[0];
+    if(name==='AVEUGLE5.IO')assert.equal(steps.next().value[0].x,0,'first idle countdown');
+    assert.equal(steps.next().value[0].x,1,`${name}: original idle sway begins`);
+    for(let tick=0;tick<5;tick++)assert.equal(steps.next().value[0].x,1);
+    const back=steps.next().value[0];
+    assert.equal(back.x,0,`${name}: original signed direction reverses after six ticks`);
+    assert.equal(back.index,start.index,'idle movement retains distance resource');
+  }
+
   const patch=bytes.slice(),view=new DataView(patch.buffer),word=(at,value)=>view.setUint16(at,value,false);
   for(let id=50;id<110;id++)word(3261+id*2,0);
   const camera={row:20,col:30,facing:1,map:1,scene:5};
@@ -44,3 +55,25 @@ if(process.env.ISHAR_ACTOR_LISTINGS&&process.env.ISHAR2_DIR){
   console.log('Actual IO loader, NPC and enemy scripts, distance resources and immutable save passed.');
 }
 console.log('First-frame branch execution, signed fields, unknown-state rejection and instruction budget passed.');
+
+const animation=actorAnimationSteps(`
+  00018 ff cput oimmb(7)
+  00020 ff cstop
+  00030 ff cadd oimmb(3), +>adirw(0x00)
+  00040 ff cxinvon
+  00050 ff cstop
+  00060 ff cput oimmb(8)
+  00070 ff cstop
+  00080 ff cjmp24 L_00030
+`,new Map(),{0:12,2:93,4:-42});
+const first=animation.next().value;
+assert.deepEqual(first,[{index:7,x:12,z:93,y:-42,mirror:false}]);
+assert.deepEqual(animation.next().value,[{index:7,x:15,z:93,y:-42,mirror:true}]);
+assert.equal(first[0].x,12,'previous snapshot remains immutable');
+assert.deepEqual(animation.next().value,[{index:8,x:15,z:93,y:-42,mirror:true}],'cput replaces resource rather than accumulating stale frames');
+assert.equal(animation.next().value[0].x,18,'local state survives yields and branches');
+const randomListing='  00018 ff cstore (oimmb(100) ornd), ->sdirw(0x00)\n  00030 ff cput oimmb(1)\n  00040 ff cstop';
+assert.throws(()=>actorAnimationSteps(randomListing,new Map(),{}).next(),/random source required/);
+assert.equal(actorAnimationSteps(randomListing,new Map(),{},{random:bound=>bound-1}).next().value[0].x,99);
+assert.throws(()=>actorAnimationSteps(randomListing,new Map(),{},{random:bound=>bound}).next(),/Invalid original random/);
+console.log('Resumable actor state, sprite replacement, immutable snapshots and explicit random source passed.');

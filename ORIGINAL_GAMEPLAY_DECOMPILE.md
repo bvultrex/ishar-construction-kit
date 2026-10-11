@@ -35,3 +35,23 @@ The playtest now binds saved actor slots to GOLEM1, WIZARD1 and AVEUGLE5 scripts
 This is stationary first-frame rendering, not complete NPC/enemy gameplay. Color-only palette routines retain imported graphics colors; transient machine-specific day/night palette execution is pending. Random crowd placement, maps 2-7 occlusion/height checks, animation scheduling, dialogue/recruitment and EDPLT/EATT movement/combat remain unported. Saved actor positions remain fixed while the camera moves. Tests execute the actual local IO/EAFF/GOLEM1/WIZARD1/AVEUGLE5 listings and validate signed states, distance variants, rejected unknown branches and immutable saves.
 
 Browser validation with an isolated save copy at CONT1 11/12 displayed three original actor scripts. Turning away removed the view candidates; returning restored the same actor slots and coordinates. Signed negative HP now correctly excludes dead actors. The fixture and screenshots remain outside Git.
+
+
+## Resumable actor scripts — 2026-10-11
+
+`actorAnimationSteps` now preserves the program counter, call stack, local bytes,
+mirror flag and displayed resource across `cstop`/`csleep`. Position changes without
+another `cput` update the retained sprite; a new `cput` replaces it. Each scheduler
+step has an independent 512-instruction bound and returns an immutable snapshot.
+The first-frame renderer continues to use the same evaluator via a compatibility
+wrapper.
+
+Actual AVEUGLE5 and WIZARD1 listings were checked across their idle loop: countdown,
+one-unit horizontal sway, six-step pause, signed direction reversal, and unchanged
+distance resource. The random source is explicitly injected for deterministic
+verification; no default RNG or invented wall-clock interval is installed.
+
+This is execution infrastructure, not automatic playtest animation yet. Original
+scheduler timing, random semantics and message dispatch still need verification
+before connecting live animation, attack triggers, dialogue or actor movement.
+No actor/save state is modified by these checks.

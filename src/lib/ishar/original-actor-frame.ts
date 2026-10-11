@@ -35,10 +35,14 @@ export function savedMainMemory(loader:string,bytes:Uint8Array) {
 const signedByte=(value:number)=>(value&255)>=128?(value&255)-256:value&255;
 const signedWord=(value:number)=>(value&65535)>=32768?(value&65535)-65536:value&65535;
 
-/** Bounded, read-only ALIS first-frame evaluator. Unsupported opcodes fail closed.
- * It follows script branches, never evaluates listing text as JavaScript, never
- * changes the save, and stops at the first cstop/csleep. Animation/events are separate. */
-export function firstActorFrame(listing:string,main:Map<number,number>,initial:Record<number,number>) {
+export interface ActorAnimationOptions {
+  /** Supply the original engine's random source; never silently invent one. */
+  random?: (bound:number)=>number;
+}
+/** Resumable, bounded ALIS execution. Each next() advances to one scheduler yield.
+ * The caller owns timing. MAIN and saves remain read-only; unsupported operations
+ * fail closed. Local variables, branches, mirror and displayed resource persist. */
+export function* actorAnimationSteps(listing:string,main:Map<number,number>,initial:Record<number,number>,options:ActorAnimationOptions={}) {
   const code=instructions(listing),labels=new Map(code.map((line,i)=>[line.address,i]));
   const local=new Map<number,number>(),stack:number[]=[],calls:number[]=[];
   const putLocal=(at:number,value:number,word:boolean)=>{local.set(at,word?(value>>8)&255:value&255);if(word)local.set(at+1,value&255);};
@@ -60,6 +64,12 @@ export function firstActorFrame(listing:string,main:Map<number,number>,initial:R
         if(text[cursor]==='('){cursor++;const literal=text.slice(cursor).match(/^(-?(?:0x[\da-f]+|\d+))\)/);
           if(literal){arg=Number(literal[1]);cursor+=literal[0].length;}else{const previous=acc;arg=walk(true);acc=previous;}}
         if(['oimmb','oimmw'].includes(name)){acc=arg!;continue;}
+        if(name==='ornd'){
+          if(!options.random)throw Error('Original random source required');
+          const bound=acc,value=options.random(bound);
+          if(!Number.isInteger(bound)||bound<=0||!Number.isInteger(value)||value<0||value>=bound)throw Error('Invalid original random result');
+          acc=value;continue;
+        }
         if(name==='opushacc'){stack.push(acc);continue;}if(name==='opile'){if(!stack.length)throw Error('Empty expression stack');acc=stack.pop()!;continue;}
         if(name==='oabs'){acc=Math.abs(acc);continue;}if(name==='oneg'){acc=-acc;continue;}
         if(name==='odirb'||name==='odirw'){acc=read(local,arg!,name==='odirw',false);continue;}
@@ -104,12 +114,22 @@ export function firstActorFrame(listing:string,main:Map<number,number>,initial:R
       if(selected){const target=labels.get(selected[2]!);if(target===undefined)throw Error('Missing case');pc=target;}continue;
     }
     if(op==='cxinvon'){mirror=true;continue;}if(op==='cxinvoff'){mirror=false;continue;}
-    if(op==='cput'){draws.push({index:expression(args),x:read(local,0,true,false),z:read(local,2,true,false),y:read(local,4,true,false),mirror});continue;}
-    if(op==='cstop'||op==='csleep')return draws;
+    if(op==='cput'){draws.length=0;draws.push({index:expression(args),x:read(local,0,true,false),z:read(local,2,true,false),y:read(local,4,true,false),mirror});continue;}
+    if(op==='cstop'||op==='csleep'){
+      // cput selects the displayed resource; later local position changes move it
+      // without requiring another cput. Snapshots must not alias running state.
+      yield draws.map(draw=>({...draw,x:read(local,0,true,false),z:read(local,2,true,false),y:read(local,4,true,false),mirror}));
+      budget=-1;continue;
+    }
     if(['cinteron','cscanon','cinteroff','cscanoff','cfindtyp','clinking','cpalette','cforme'].includes(op))continue;
     throw Error(`Unsupported opcode ${op}`);
   }
   throw Error('Actor instruction budget exceeded');
+}
+
+/** Compatibility entry point: no timer, random call or later event is executed. */
+export function firstActorFrame(listing:string,main:Map<number,number>,initial:Record<number,number>) {
+  return actorAnimationSteps(listing,main,initial).next().value??[];
 }
 
 export function originalActorFrames(bundle:ActorListingBundle,bytes:Uint8Array,view:Omit<ActorSave,'actors'>) {
