@@ -82,3 +82,23 @@ Browser verification: CONT1 11/12 test fixture shows all three original actors;
 rotation out and back removes/restores the correct scene. Separate DOM samples
 confirmed NPC 51 x=50 -> 52.5 and WIZARD actor 54 x=445 -> 447.5 at unchanged
 camera coordinates. No browser console errors. Proof: local original-actor-animation.png.
+
+
+## Original actor event execution — 2026-10-11
+
+The interpreter accepts a message on resume only with an explicitly verified scan
+handler entry. `oscan` exposes that message to the listing's own switch; unknown
+messages restore the interrupted idle sequence. `cstart8/16/24` schedules a resume
+point, applied at the handler yield or return rather than treated as `cjmp`.
+MAIN writes require an explicit caller callback and otherwise fail closed.
+
+The actual WIZARD1 listing was tested with handler 0x00020 and message 21:
+idle resource 15, deferred start, resources 21 through 28, completion write
+MAIN 0x4b35 = 1, and return to idle 15 via cstart/cret. Tests use a recorded-write
+callback and never mutate a save. Synthetic tests also cover unknown messages,
+missing handler rejection and unauthorized MAIN writes.
+
+This event execution is not yet connected to automatic combat. EATT's decision
+and message producer, projectile child scripts for distant attacks, damage and
+NPC interaction routing still need porting before in-game attack triggers can
+use it. Current playtest idle behavior is unchanged.

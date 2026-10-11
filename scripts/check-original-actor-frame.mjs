@@ -41,6 +41,13 @@ if(process.env.ISHAR_ACTOR_LISTINGS&&process.env.ISHAR2_DIR){
     assert.equal(back.index,start.index,'idle movement retains distance resource');
   }
 
+  const attackWrites=[];
+  const wizard=actorAnimationSteps(read('WIZARD1.IO'),main,{0:0,2:93,4:-42,12:35*256+53},{random:()=>99,scanEntry:'00020',mainWrite:(...args)=>attackWrites.push(args)});
+  assert.equal(wizard.next().value[0].index,15);
+  assert.equal(wizard.next(21).value[0].index,15,'scan handler schedules attack');
+  for(let frame=21;frame<=28;frame++)assert.equal(wizard.next().value[0].index,frame,'native wizard attack sequence');
+  assert.equal(wizard.next().value[0].index,15,'native cstart/cret returns to idle');
+  assert.deepEqual(attackWrites,[[0x4b35,1,false]],'original attack completion flag');
   const patch=bytes.slice(),view=new DataView(patch.buffer),word=(at,value)=>view.setUint16(at,value,false);
   for(let id=50;id<110;id++)word(3261+id*2,0);
   const camera={row:20,col:30,facing:1,map:1,scene:5};
@@ -95,3 +102,32 @@ for(let step=0;step<100;step++){
 }
 assert.throws(()=>dosRandom(0),/Invalid random bound/);
 console.log('DOS random recurrence and 100-step original actor session checks passed.');
+
+const eventScript=`
+  00018 ff cput oimmb(1)
+  00019 ff cstop
+  0001a ff cjmp24 L_00019
+  00020 ff cstore oscan, ->sdirw(0x16)
+  00024 ff cswitch1 odirw(0x16), {21:L_00030}
+  00028 ff cstop
+  00030 ff cstart24 L_00050
+  00040 ff cstop
+  00050 ff cput oimmb(2)
+  00060 ff cstop
+  00070 ff cstore oimmb(1), ->smainb(0x4b35)
+  00080 ff cstart24 L_00018
+  00090 ff cret
+`;
+const writes=[],events=actorAnimationSteps(eventScript,new Map(),{},{scanEntry:'00020',mainWrite:(...args)=>writes.push(args)});
+assert.equal(events.next().value[0].index,1);
+assert.equal(events.next(99).value[0].index,1,'unknown message resumes idle');
+assert.equal(events.next(21).value[0].index,1,'cstart defers jump until handler yields');
+assert.equal(events.next().value[0].index,2,'original event starts sequence');
+assert.equal(events.next().value[0].index,1,'cstart followed by cret resumes scheduled idle');
+assert.deepEqual(writes,[[0x4b35,1,false]]);
+const isolated=actorAnimationSteps(eventScript,new Map(),{},{scanEntry:'00020'});
+isolated.next();isolated.next(21);isolated.next();
+assert.throws(()=>isolated.next(),/Unauthorized MAIN write/);
+const noHandler=actorAnimationSteps(eventScript,new Map(),{});noHandler.next();
+assert.throws(()=>noHandler.next(21),/Verified scan handler/);
+console.log('Scan dispatch, deferred sequence start, idle restoration and gameplay-write gate passed.');

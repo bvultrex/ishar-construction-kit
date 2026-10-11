@@ -38,6 +38,10 @@ const signedWord=(value:number)=>(value&65535)>=32768?(value&65535)-65536:value&
 export interface ActorAnimationOptions {
   /** Supply the original engine's random source; never silently invent one. */
   random?: (bound:number)=>number;
+  /** Explicitly verified oscan handler entry. No guessed interrupt vector. */
+  scanEntry?: string;
+  /** Caller must authorize/handle each gameplay write; absent means fail closed. */
+  mainWrite?: (address:number,value:number,word:boolean)=>void;
 }
 /** Resumable, bounded ALIS execution. Each next() advances to one scheduler yield.
  * The caller owns timing. MAIN and saves remain read-only; unsupported operations
@@ -64,6 +68,7 @@ export function* actorAnimationSteps(listing:string,main:Map<number,number>,init
         if(text[cursor]==='('){cursor++;const literal=text.slice(cursor).match(/^(-?(?:0x[\da-f]+|\d+))\)/);
           if(literal){arg=Number(literal[1]);cursor+=literal[0].length;}else{const previous=acc;arg=walk(true);acc=previous;}}
         if(['oimmb','oimmw'].includes(name)){acc=arg!;continue;}
+        if(name==='oscan'){acc=scan;continue;}
         if(name==='ornd'){
           if(!options.random)throw Error('Original random source required');
           const bound=acc,value=options.random(bound);
@@ -84,11 +89,13 @@ export function* actorAnimationSteps(listing:string,main:Map<number,number>,init
     };
     return walk();
   }
-  let pc=labels.get('00018')??-1,condition=0,mirror=false;
+  let pc=labels.get('00018')??-1,condition=0,mirror=false,scan=0;
+  let resume:number|undefined,interrupted:number|undefined;
   const draws:{index:number;x:number;y:number;z:number;mirror:boolean}[]=[];
   for(let budget=0;budget<512;budget++) {
     const instruction=code[pc++];if(!instruction)throw Error('Missing instruction');const {op,args}=instruction;
     const jump=()=>{const label=args.match(/L_([\da-f]+)/)?.[1],target=label?labels.get(label):undefined;if(target===undefined)throw Error('Missing branch');return target;};
+    if(/^cstart\d+$/.test(op)){resume=jump();continue;}
     if(/^cjmp\d+$/.test(op)){pc=jump();continue;}
     if(/^cjsr\d+$/.test(op)){
       const target=jump(),end=code.findIndex((line,i)=>i>=target&&line.op==='cret');
@@ -98,12 +105,23 @@ export function* actorAnimationSteps(listing:string,main:Map<number,number>,init
       if(paletteOnly)continue;
       calls.push(pc);pc=target;continue;
     }
-    if(op==='cret'){if(!calls.length)return draws;pc=calls.pop()!;continue;}
+    if(op==='cret'){
+      if(calls.length){pc=calls.pop()!;continue;}
+      if(resume!==undefined){pc=resume;resume=undefined;interrupted=undefined;continue;}
+      if(interrupted!==undefined){pc=interrupted;interrupted=undefined;continue;}
+      return draws;
+    }
     if(/^cb(?:n)?z\d+$/.test(op)){if(op.startsWith('cbnz')?condition!==0:condition===0)pc=jump();continue;}
     if(op==='ceval'){condition=expression(args);continue;}
     if(op==='cstore'||op==='cadd'||op==='csub') {
       // slocb(0xfffe) links entity ownership; cfindtyp/clinking have no first-frame pixel effect.
       if(args.endsWith('->slocb(0xfffe)'))continue;
+      const mainTarget=args.match(/->smain([bw])\(0x([\da-f]+)\)$/);
+      if(mainTarget){
+        if(op!=='cstore'||!options.mainWrite)throw Error(`Unauthorized MAIN write ${args}`);
+        const at=parseInt(mainTarget[2]!,16),word=mainTarget[1]==='w',value=expression(args.slice(0,args.lastIndexOf(',')));
+        options.mainWrite(at,value,word);continue;
+      }
       const target=args.match(/(?:->s|\+>a)dir([bw])\(0x([\da-f]+)\)$/);if(!target)throw Error(`Unsupported store ${args}`);
       const split=args.lastIndexOf(','),value=expression(args.slice(0,split)),at=parseInt(target[2]!,16),word=target[1]==='w';
       putLocal(at,op==='cstore'?value:read(local,at,word,false)+(op==='cadd'?value:-value),word);continue;
@@ -118,7 +136,16 @@ export function* actorAnimationSteps(listing:string,main:Map<number,number>,init
     if(op==='cstop'||op==='csleep'){
       // cput selects the displayed resource; later local position changes move it
       // without requiring another cput. Snapshots must not alias running state.
-      yield draws.map(draw=>({...draw,x:read(local,0,true,false),z:read(local,2,true,false),y:read(local,4,true,false),mirror}));
+      // cstart sets the next scheduler resume point and does not jump immediately.
+      if(resume!==undefined){pc=resume;resume=undefined;interrupted=undefined;calls.length=0;}
+      else if(interrupted!==undefined){pc=interrupted;interrupted=undefined;calls.length=0;}
+      const message:number|undefined=yield draws.map(draw=>({...draw,x:read(local,0,true,false),z:read(local,2,true,false),y:read(local,4,true,false),mirror}));
+      if(message!==undefined){
+        const handler=options.scanEntry===undefined?undefined:labels.get(options.scanEntry);
+        if(handler===undefined)throw Error('Verified scan handler required');
+        if(!Number.isInteger(message)||message<0||message>65535)throw Error('Invalid actor message');
+        scan=message;interrupted=pc;pc=handler;calls.length=0;
+      }
       budget=-1;continue;
     }
     if(['cinteron','cscanon','cinteroff','cscanoff','cfindtyp','clinking','cpalette','cforme'].includes(op))continue;
