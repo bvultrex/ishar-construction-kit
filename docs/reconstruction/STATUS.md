@@ -183,3 +183,7 @@ Alle 47 aus EAFF referenzierten Modul-IDs unter kontrollierten Zuständen auditi
 ## LEZARD-Palettenanforderung geklärt
 
 MAIN-DOS-Einstellungsstores für 0x51A1 und 0x51A2 direkt geprüft; keine pauschale Nullauffüllung. Expliziter Palettenauftrag im Figureninterpreter, LEZARD-Originalskript bei drei Lichtphasen mit originalen Paletteindizes/Dauer getestet. Lichtphase wird bereits gespeichert. Native Hardwareinitialisierung und tatsächlicher Überblendungsrenderer offen; LEZARD noch nicht automatisch freigeschaltet. Details: ACTOR_MODULE_AUDIT.md.
+
+## Palettenübergang als Referenzmodell
+
+Separates Modell rekonstruiert ALIS-C-topalette/topalet inklusive Float32-Schritten, Restzähler und finaler Kopie. Originalpalettenziele aller 221 Ressourcen beider Spiele gegen Rohbytes geprüft. LEZARD-Auftrag -> Originalpalette -> 44 kontrollierte Schritte für drei Phasen getestet. Keine DOS-Zeit-/Pixelgleichheit oder globale Framebufferintegration behauptet; LEZARD bleibt im Produkt noch deaktiviert. Siehe REFERENCE_PALETTE_TRANSITIONS.md.

@@ -70,7 +70,8 @@
     "test:original-alis-branch-profiles": "node scripts/check-original-alis-branch-profiles.mjs",
     "test:original-alis-loop": "node scripts/check-original-alis-loop.mjs",
     "audit:original-actor-modules": "node scripts/audit-original-actor-modules.mjs",
-    "test:original-actor-palette": "node scripts/check-original-actor-palette.mjs"
+    "test:original-actor-palette": "node scripts/check-original-actor-palette.mjs",
+    "test:reference-dos-palette-transition": "node scripts/check-reference-dos-palette-transition.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",
