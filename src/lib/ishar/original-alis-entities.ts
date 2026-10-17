@@ -24,6 +24,23 @@ export class DosAlisEntities {
   this.free.shift();this.entities.set(handle,entity);parent.next=handle;return handle;
  }
  snapshot(handle:number):DosEntitySnapshot{const e=this.get(handle);return {handle:e.handle,moduleId:e.moduleId,vram:e.vram.slice(),form:e.form,mirror:e.mirror};}
+ /** Structural killent subset only: no heap compaction, audio wait or cerasall.
+  * The returned scheduler effect must be applied by a future VM adapter. */
+ removeStructure(handle:number,current:number):{current:number;restartLoop:boolean;stopCurrent:boolean}{
+  this.get(current);const removed=this.get(handle);
+  if(handle===0)throw Error('Removing MAIN is unsupported by this entity model');
+  let previous=0;
+  const seen=new Set<number>();
+  while(this.get(previous).next!==handle){
+   if(seen.has(previous))throw Error('Entity missing from live list');
+   seen.add(previous);previous=this.get(previous).next;
+   if(previous===0)throw Error('Entity missing from live list');
+  }
+  this.get(previous).next=removed.next;
+  this.entities.delete(handle);this.free.unshift(handle);
+  const stopped=current===handle;
+  return {current:stopped?previous:current,restartLoop:stopped,stopCurrent:stopped};
+ }
  ordered():DosEntitySnapshot[]{
   const result:DosEntitySnapshot[]=[],seen=new Set<number>();let handle=0;
   do{if(seen.has(handle))throw Error('Cyclic live entity list');seen.add(handle);result.push(this.snapshot(handle));handle=this.get(handle).next;}while(handle!==0);

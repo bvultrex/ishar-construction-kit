@@ -115,3 +115,7 @@ Character Lab bindet den binär abgeleiteten Ishar-2-MAIN-Writer jetzt separat v
 ## Entity-Laufzeitbaustein
 
 Referenzbasierte alte DOS-Entityverkettung, elf Byte Vererbung, Handles, Typ-/Klassensuche und Formadapter vorhanden. Beide MAIN-Header liefern 50 Entityplätze. Originales GOLEM1-Listing mit kontrolliertem negativem Testzustand bis zum Formtreffer geprüft; START-Grundzustand aktiviert keine Form. Kein vollständiger VM-/Originalausführungsnachweis und keine pauschale Playtest-Aktivierung. Siehe [ALIS_ENTITIES.md](ALIS_ENTITIES.md).
+
+## Entity-Lebenszyklus: struktureller Teil
+
+`removeStructure` rekonstruiert das Ausketten und die Freilisten-Wiederverwendung aus der separaten ALIS-C-Referenz. Scheduler-Neustart wird als explizites Ergebnis geliefert; Audio, Renderbereinigung und Heap-Kompaktion bleiben offen. Tests prüfen unter anderem erhaltene Nachfolger, zurückgesetzte wiederverwendete Einträge und verschwundene Formtreffer. Kein vollständiges `killent`, keine neue Playtest-Integration und kein nativer Nachweis. Details: ALIS_ENTITIES.md.

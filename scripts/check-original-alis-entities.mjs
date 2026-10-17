@@ -21,3 +21,24 @@ assert.deepEqual(originalEntityFormHit(hits,query,0,forms,32767),{entityId:last,
 hits.writeWord(last,6,2);assert.equal(originalEntityFormHit(hits,query,0,forms,32767).entityId,first,'inherited context word filters');
 assert.throws(()=>originalEntityFormHit(hits,query,0,new Map([[3,forms.get(3)]]),32767),/Missing form module/);
 console.log('DOS entity core: six-byte handles, insertion after caller, inheritance of exactly 11 bytes, reset form/mirror, class/type lookup, capacity, immutable snapshots and form hits in live order passed.');
+
+// killent structural subset: unlink one entity, preserve successors and reuse freed handles first.
+const life=new DosAlisEntities(5,{id:0,vramBytes:20});
+const parent=life.spawn(0,{id:35,vramBytes:20}),child=life.spawn(parent,{id:35,vramBytes:20}),head=life.spawn(0,{id:9,vramBytes:20});
+life.writeByte(parent,13,53);life.setForm(parent,0);life.setMirror(parent,true);
+assert.deepEqual(life.removeStructure(parent,child),{current:child,restartLoop:false,stopCurrent:false});
+assert.deepEqual(life.ordered().map(e=>e.handle),[0,head,child],'removal is not recursive');
+assert.throws(()=>life.snapshot(parent),/Unknown live/);
+assert.deepEqual(life.findType(0,35,true),[child]);
+assert.equal(life.spawn(child,{id:7,vramBytes:20}),parent,'freed handle precedes unused slots');
+assert.equal(life.readByte(parent,13),0);assert.equal(life.snapshot(parent).form,-1);assert.equal(life.snapshot(parent).mirror,false);
+assert.deepEqual(life.removeStructure(parent,parent),{current:child,restartLoop:true,stopCurrent:true},'current tail resumes at predecessor');
+assert.deepEqual(life.removeStructure(head,head),{current:0,restartLoop:true,stopCurrent:true},'current head resumes at MAIN');
+assert.equal(life.spawn(0,{id:8,vramBytes:20}),head,'most recently freed handle first');
+assert.equal(life.spawn(0,{id:8,vramBytes:20}),parent);
+const before=life.ordered();assert.throws(()=>life.removeStructure(0,child),/MAIN/);assert.throws(()=>life.removeStructure(child,300),/Unknown live/);assert.deepEqual(life.ordered(),before);
+life.removeStructure(child,0);assert.throws(()=>life.removeStructure(child,0),/Unknown live/);
+// A deleted target cannot remain clickable even if its old snapshot survives externally.
+const oldTarget=hits.snapshot(first);hits.removeStructure(first,query);
+assert.equal(oldTarget.form,0);assert.equal(originalEntityFormHit(hits,query,0,forms,32767),null);
+console.log('Entity structural removal: head/middle/tail, predecessor restart intent, surviving children, stale hits, LIFO reuse and reset state passed. Full killent side effects remain unimplemented.');

@@ -45,3 +45,13 @@ Lokale MAINs: Headerwerte gelesen, je 49 zusätzliche Entities angelegt, 50er-Ka
 Das originale GOLEM1-Listing aktiviert im unveränderten START-Zustand für Actor 53 keine Form. Der Test prüft diese Abwesenheit, setzt nur in einer kopierten MAIN-Abbildung explizit negativen Zustand und erhält dann Form 0 aus dem Skript. Der Frame kann die passend gebundene Entity aktualisieren und von der SOURIS-Query getroffen werden. Falsche Actorbindung wird ohne Änderung abgewiesen; Entfernen der Form entfernt den Treffer.
 
 Offen: vollständige Original-Initialisierung und alle Entityklassen, Heap-/Kontextadressen, Beenden/Neuanlegen, Scheduler und Nachrichten, Original-Mauskoordinatenadapter und Eingabeablauf. Der Browser verwendet dieses Teilmodell noch nicht als vollständige Entity-VM; automatische NPC-Aktionen sind nicht dadurch freigegeben. Gegen eine echte DOS-Ausführung wurde es noch nicht verglichen.
+
+## Strukturelles Entfernen (2026-10-17)
+
+`removeStructure(handle,current)` bildet ausschließlich das Ausketten aus `opcodes.c:killent` (ab Zeile 6833 der lokalen C-Referenz) ab: Vorgänger zeigt auf Nachfolger; nur der gewählte Eintrag wird entfernt; der freie Handle kommt vor alle bisher freien Plätze. Nachfolger, auch vom entfernten Skript angelegte Entities, bleiben erhalten. Beim nächsten `spawn` wird der Handle mit frisch initialisiertem Zustand wiederverwendet. Handles sind daher keine dauerhaften Objektidentitäten; gespeicherte externe Handles müssen beim Lebenszykluswechsel erneut validiert werden.
+
+Wird die laufende Entity entfernt, liefert die Methode den Vorgänger als neuen `current` sowie `restartLoop=true` und `stopCurrent=true`. Dies sind Rückgabedaten für einen künftigen Scheduleradapter, keine bereits ausgeführten Scheduleraktionen. Bei anderen Entities bleibt `current` erhalten. MAIN-Entfernung und ungültige Handles werden ohne Mutation abgewiesen; das sind ausdrücklich Toolkit-Grenzen, kein belegtes natives Fehlerverhalten.
+
+Nicht enthalten: Musikende abwarten, `cerasall`, kompaktierter DOS-Heap, Zeigerkorrekturen, vollständige negative Kontextdaten oder `cstop`-Ausführung. Die Methode heißt deshalb nicht `killent`. Diese Ergänzung bleibt referenzbasiert und noch ohne DOS-Vergleich.
+
+Tests decken Kopf/Mitte/Ende, laufende/nicht laufende Entity, erhaltene Nachfolger, Freiliste vor unbenutzten Plätzen, LIFO-Wiederverwendung, Zustandsreset, abgewiesene Eingaben und das Verschwinden eines alten Formtreffers ab.
