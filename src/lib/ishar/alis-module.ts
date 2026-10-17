@@ -2,7 +2,9 @@ import {packSilmA1} from './silm-write.ts';
 import {unpackSilm,PACKER_NEW} from './silm-pack.ts';
 /** DOS ALIS container: outer six-byte envelope, optional 16 VM-spec bytes,
  * then packed/raw image. No Atari/Amiga inference is performed here.
- * Image offsets follow local alis-reference/src/script.c:script_init/load. */
+ * Image offsets follow local alis-reference/src/script.c:script_init/load.
+ * Entry = word2 + 2 is also verified against DOS 1000:8268 context creation
+ * for all 240 locally identified IO modules; other pointers need separate proof. */
 export interface AlisModuleHeader {
  id:number;codeLocation:number;entry:number;returnEntry:number|null;
  scanEntry:number|null;resourceOffset:number;vramBytes:number;
