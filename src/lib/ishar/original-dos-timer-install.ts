@@ -13,3 +13,12 @@ export function prepareOriginalDosTimerInstall(template:Uint8Array,segment:numbe
  word(0x0c,offset+0x80);word(0x52,offset+0x80);
  return {bytes,vector:{offset,segment},samplePointer:offset+128,effectiveLength,cachedWord,active:1};
 }
+
+/** Original 9009..9059 including configuration helper 0F1E, not a wall-clock measurement. */
+export function completeOriginalDosTimerInstall(stub:Uint8Array,codeSegment:number,systemType:number,settingWord:number,port61:number){
+ if(stub.length!==106||![codeSegment,systemType,settingWord].every(n=>Number.isInteger(n)&&n>=0&&n<=65535)||!Number.isInteger(port61)||port61<0||port61>255)throw Error('Invalid native timer completion state');
+ const derived=systemType===2||systemType===7?settingWord:Math.trunc(((settingWord*2)&65535)/3);
+ const signed=derived>=32768?derived-65536:derived,divisor=signed>100?0x37:0x42;
+ const bytes=Uint8Array.from(stub),v=new DataView(bytes.buffer);v.setUint16(0x5c,0x905e,true);v.setUint16(0x5e,codeSegment,true);v.setUint16(0x64,divisor,true);
+ return {bytes,derived,divisor,interruptsEnabled:true,ports:[{port:0x43,value:0xb2},{port:0x42,value:0},{port:0x42,value:0},{port:0x61,value:(port61&0xfc)|3},{port:0x43,value:0x36},{port:0x40,value:divisor},{port:0x40,value:0},{port:0x43,value:0x90}]};
+}
