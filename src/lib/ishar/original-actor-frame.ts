@@ -40,6 +40,8 @@ const signedByte=(value:number)=>(value&255)>=128?(value&255)-256:value&255;
 const signedWord=(value:number)=>(value&65535)>=32768?(value&65535)-65536:value&65535;
 
 export interface ActorAnimationOptions {
+  /** Reference-decoded command intent; resource resolution/playback belongs to caller. */
+  sound?:(event:{kind:'play';source:'local'|'main';index:number;priority:number;volume:number;loops:number;speed:number}|{kind:'stop'})=>void;
   /** Transient registers are not reconstructed from SAV; zero is preview-only. */
   initialRegisters?:AlisIntegerRegisters;
   /** Explicit visual effect adapter. No callback means transitions fail closed. */
@@ -132,6 +134,21 @@ export function* actorAnimationSteps(listing:string,main:Map<number,number>,init
       if(selected){const target=labels.get(selected[2]!);if(target===undefined)throw Error('Missing case');pc=target;}continue;
     }
     if(op==='cforme'){form=expression(args);continue;}
+    if(op==='csound'||op==='cmsound'||op==='cdelsound'){
+      if(!options.sound)throw Error('Original sound adapter required');
+      if(op==='cdelsound'){options.sound({kind:'stop'});continue;}
+      const operands:string[]=[];let depth=0,start=0;
+      for(let i=0;i<args.length;i++){
+        if(args[i]==='(')depth++;
+        else if(args[i]===')'){if(--depth<0)throw Error('Invalid sound operands');}
+        else if(args[i]===','&&depth===0){operands.push(args.slice(start,i));start=i+1;}
+      }
+      operands.push(args.slice(start));
+      if(depth!==0||operands.length!==5||operands.some(value=>!value.trim()))throw Error('Invalid sound operands');
+      // sound() calls readexec_opername five times, without saveD6 between them.
+      const values=operands.map(value=>expression(value));
+      options.sound({kind:'play',source:op==='cmsound'?'main':'local',index:values[0]!&255,priority:values[1]!&255,volume:values[2]!&255,loops:values[3]!&65535,speed:values[4]!&255});continue;
+    }
     if(op==='ctopalet'||(op==='cpalette'&&options.palette)){
       if(!options.palette)throw Error('Original palette transition adapter required');
       let depth=0,split=-1;for(let i=0;i<args.length;i++){if(args[i]==='(')depth++;else if(args[i]===')')depth--;else if(args[i]===','&&depth===0){split=i;break;}}
