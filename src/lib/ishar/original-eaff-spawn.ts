@@ -1,27 +1,32 @@
 import {evaluateOriginalAlisInteger} from './original-alis-expression.ts';
 import {originalAlisArrayAddress,type AlisArrayDeclaration} from './original-alis-arrays.ts';
 export interface EaffSpawnChoice {moduleId:number|null;lateral:number;mainWrites:{address:number;value:number}[];trace:number[]}
+export interface EaffCrowdInput {distance:number;lateral:number;random?:(bound:number)=>number}
 /** Bounded execution of Ishar-2 EAFF 0x61d..0x986 only. Records clive intent;
  * does not allocate, execute the child or process subsequent audio/placement. */
-export function chooseOriginalEaffSpawn(listing:string,actorId:number,lateral:number,main:ReadonlyMap<number,number>,arrays:ReadonlyMap<number,AlisArrayDeclaration>):EaffSpawnChoice{
+export function chooseOriginalEaffSpawn(listing:string,actorId:number,lateral:number,main:ReadonlyMap<number,number>,arrays:ReadonlyMap<number,AlisArrayDeclaration>,crowd?:EaffCrowdInput):EaffSpawnChoice{
  if(!Number.isInteger(actorId)||actorId<0||actorId>127||!Number.isInteger(lateral)||lateral< -32768||lateral>32767)throw Error('Invalid EAFF spawn input');
  const code=new Map<number,{op:string;args:string;next:number}>();
  const lines=listing.split(/\r?\n/).flatMap(line=>{const m=line.match(/^\s*([\da-f]{5})\s+[\da-f]+\s+(\w+)\s*(.*)$/);return m?[{at:parseInt(m[1]!,16),op:m[2]!,args:m[3]!}]:[];});
  lines.forEach((line,i)=>code.set(line.at,{...line,next:lines[i+1]?.at??-1}));
  const local=new Map<number,number>([[0x16,actorId],[0x1a,(lateral>>8)&255],[0x1b,lateral&255]]),overlay=new Map<number,number>(),writes:EaffSpawnChoice['mainWrites']=[],trace:number[]=[],stack:number[]=[];
+ if(crowd){
+  if(!Number.isInteger(crowd.distance)||crowd.distance<0||crowd.distance>5||!Number.isInteger(crowd.lateral)||Math.abs(crowd.lateral)>crowd.distance)throw Error('Invalid EAFF crowd geometry');
+  local.set(0x14,crowd.distance);local.set(0x15,crowd.lateral&255);
+ }
  const signed=(n:number,bits:number)=>(n&(2**bits-1))>=2**(bits-1)?(n&(2**bits-1))-2**bits:n&(2**bits-1);
  const read=(memory:ReadonlyMap<number,number>,at:number,word:boolean):number=>{
   const byte=(a:number)=>{const v=memory===main?(overlay.get(a)??memory.get(a)):memory.get(a);if(v===undefined)throw Error(`Missing EAFF memory ${a.toString(16)}`);return v;};
   return word?signed((byte(at)<<8)|byte(at+1),16):signed(byte(at),8);
  };
- const expr=(text:string)=>evaluateOriginalAlisInteger(text,{scan:0,read:(space,at,word)=>read(space==='main'?main:local,at,word),table:(_space,at,index,operandStack,word)=>{
+ const expr=(text:string)=>evaluateOriginalAlisInteger(text,{scan:0,random:crowd?.random,read:(space,at,word)=>read(space==='main'?main:local,at,word),table:(_space,at,index,operandStack,word)=>{
   const declaration=arrays.get(at);if(!declaration)throw Error(`Missing EAFF array ${at.toString(16)}`);
   return read(main,originalAlisArrayAddress(declaration,index,operandStack,word?2:1),word);
  }},stack);
- let pc=0x61d,condition=0,moduleId:number|null=null;
+ let pc=crowd?0x4c8:0x61d,condition=0,moduleId:number|null=null;
  for(let budget=0;budget<256;budget++){
   if(pc===0x986)return {moduleId,lateral:read(local,0x1a,true),mainWrites:writes,trace};
-  if(pc<0x61d||pc>=0x986)throw Error('EAFF dispatch escaped supported block');
+  if(pc<(crowd?0x4c8:0x61d)||pc>=0x986)throw Error('EAFF dispatch escaped supported block');
   const ins=code.get(pc);if(!ins)throw Error('Missing EAFF dispatch instruction');trace.push(pc);pc=ins.next;
   const jump=()=>{const m=ins.args.match(/L_([\da-f]+)/);if(!m)throw Error('Missing EAFF branch');return parseInt(m[1]!,16);};
   if(ins.op==='ceval'){condition=expr(ins.args);continue;}

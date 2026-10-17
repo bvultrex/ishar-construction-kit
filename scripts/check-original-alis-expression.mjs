@@ -22,3 +22,11 @@ assert.equal(evaluate('(oimmb(4) opushacc oimmb(11) omainti(0x2d8e))',tableConte
 for(const text of ['(oimmb(1)','oimmb(1))','(oimmb(1) osub(opile))','(oimmb(1) odiv(oimmb(0)))','(oimmb(1) omod(oimmb(0)))','(oimmb(1) oinvented)'])assert.throws(()=>evaluate(text,context));
 assert.throws(()=>evaluate('(oimmb(100) ornd)',context),/random source/);
 console.log('DOS operand registers: 48 input pairs, literal/saved-left arithmetic and comparisons, signed16 overflow, native booleans, FRISE borrowing, multidimensional operand consumption and failure cases passed.');
+// oprnd uses a stack seed and never consumes the engine's transient RNG.
+for(let raw=0;raw<65536;raw++){
+ const seed=raw>=32768?raw-65536:raw,rot=BigInt.asUintN(16,(BigInt(raw)<<10n)|(BigInt(raw)>>6n));
+ const mixed=BigInt.asUintN(16,rot*0x7ab7n-0x77fn),bound=raw%2?40:50,expected=Number(BigInt(bound)*mixed>>16n);
+ const stack=[123,seed];assert.equal(evaluate(`(oimmw(${bound}) oprnd)`,context,stack),expected);assert.deepEqual(stack,[123]);
+}
+assert.throws(()=>evaluate('(oimmb(40) oprnd)',context),/stack/);
+console.log('oprnd: all 65536 seed bit patterns checked against BigInt reference arithmetic; stack seed consumed without engine RNG.');

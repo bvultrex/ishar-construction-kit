@@ -36,3 +36,29 @@ const choice=choose(53,9),handle=table.spawn(0,{id:golem.header.id,vramBytes:gol
 initializeOriginalEaffActor(table,handle,{actorId:53,baseX:128,depth:93,height:-42,lateral:choice.lateral,divisor:10});
 assert.equal(table.readByte(handle,13),53);assert.equal(table.readByte(handle,12),35);assert.equal(table.readWord(handle,0),128);
 console.log('Original MAIN declarations verified; EAFF choice -> real GOLEM1 module -> entity initialization composed.');
+arrays.set(0x4b80,readAlisArrayDeclaration(mainImage,0x23b));
+assert.deepEqual(arrays.get(0x4b80),{address:0x4b80,elementBytes:1,strides:[]});
+const configure=(map,slots)=>{memory.set(0x2d18,map);slots.forEach((id,i)=>memory.set(0x4b80+i,id));};
+let randomCalls=0;const random=bound=>{assert.equal(bound,20);randomCalls++;return 7;};
+const crowd=(id,distance=1,lateral=0)=>{memory.set(0x3d2e+id,31);return chooseOriginalEaffSpawn(listing,id,0,memory,arrays,{distance,lateral,random});};
+configure(1,[0,0,0]);let r=crowd(53);assert.deepEqual(r.mainWrites,[{address:0x4b81,value:53}]);assert.equal(r.lateral,0);assert.equal(randomCalls,0);
+for(const w of r.mainWrites)memory.set(w.address,w.value);
+r=crowd(54);assert.deepEqual(r.mainWrites,[{address:0x4b80,value:54}]);assert.equal(r.lateral,-83);assert.equal(randomCalls,1);
+for(const w of r.mainWrites)memory.set(w.address,w.value);
+r=crowd(55);assert.deepEqual(r.mainWrites,[{address:0x4b82,value:55}]);assert.equal(r.lateral,83);assert.equal(randomCalls,2);
+for(const w of r.mainWrites)memory.set(w.address,w.value);
+r=crowd(56);assert.deepEqual(r.mainWrites,[]);assert.equal(r.lateral,0);assert.equal(randomCalls,2,'full crowd does not consume randomness');
+r=crowd(54);assert.equal(r.lateral,-83);assert.deepEqual(r.mainWrites,[]);assert.equal(randomCalls,3,'existing left slot consumes original RNG');
+configure(2,[0,0,0]);assert.equal(crowd(53,0).mainWrites[0].address,0x4b81,'non-1 map uses distance zero for crowd');
+const deterministic=(id,bound)=>{let x=BigInt(id);x=BigInt.asUintN(16,(x<<10n)|(x>>6n));x=BigInt.asUintN(16,x*0x7ab7n-0x77fn);return Number(BigInt(bound)*x>>16n);};
+for(const map of [1,2,4])for(let id=50;id<110;id++){
+ configure(map,[0,0,0]);const out=crowd(id,2,1); // avoid the frontal crowd branch
+ // Special actor slots override lateral after the deterministic expression.
+ const expected=id<53?0:map===4?-50+2*deterministic(id,50):-80+4*deterministic(id,40);
+ assert.equal(out.lateral,expected);assert.deepEqual(out.mainWrites,[]);
+}
+configure(1,[54,53,55]);memory.set(0x3d2e+54,9);const callsBefore=randomCalls;
+const override=chooseOriginalEaffSpawn(listing,54,0,memory,arrays,{distance:1,lateral:0,random});assert.equal(override.lateral,0);assert.equal(randomCalls,callsBefore+1,'later override must not erase RNG consumption');
+configure(1,[53,54,55]);assert.throws(()=>chooseOriginalEaffSpawn(listing,53,0,memory,arrays,{distance:1,lateral:0}),/random source/);
+let crowdPrefixes=0;for(const line of listing.split(/\r?\n/)){const m=line.match(/^\s*([\da-f]{5})\s+([\da-f]+)\s/);if(!m)continue;const at=parseInt(m[1],16);if(at<0x4c8||at>=0x61d)continue;const prefix=Buffer.from(m[2],'hex');assert.deepEqual(Buffer.from(image.subarray(at,at+prefix.length)),prefix);crowdPrefixes++;}
+console.log(`EAFF crowd: centre/left/right allocation, existing/full slots, explicit RNG consumption, deterministic distribution for 180 actor/map combinations and ${crowdPrefixes} original instruction prefixes checked.`);

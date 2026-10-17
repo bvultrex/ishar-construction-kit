@@ -139,3 +139,7 @@ Geometrische Vorauswahl und Orientierungshelfer aus dem Original-EAFF rekonstrui
 ## EAFF-Perspektive in Figurenpfad integriert
 
 Der CONT1-Figurenpfad liest seine Perspektivstaffel jetzt aus EAFF statt einer fest eingetragenen Tabelle. Begrenzte Listingausführung rekonstruiert zudem die Karten- und Höhenkorrekturen (Karte 4 verlangt explizite originale Geländedifferenz). 354 Perspektivfälle, 112 Original-Instruktionspräfixe und bestehende lokale Figurenskript-/Animationstests geprüft. Verdeckung, Crowd-Zufall und vollständige andere Kartenpfade bleiben offen. Siehe ALIS_ENTITIES.md.
+
+## EAFF-Crowd-Verteilung
+
+EAFF 0x4C8..0x985 zusammenhängend ausführbar: bestehende/neu belegte Dreierplätze, laterale Zufallswerte und anschließende Modulauswahl. oprnd als deterministischer Stackseed-Operator aus der C-Referenz ergänzt; 65536 Seedmuster geprüft. 180 Actor-/Kartenkombinationen und Crowd-RNG-Reihenfolge getestet, weitere 40 Instruktionspräfixe gegen Originaldatei geprüft. Kein vollständiger Slot-Lebenszyklus, keine Browseraktivierung und kein DOS-Ausführungsnachweis. Details: ALIS_ENTITIES.md.

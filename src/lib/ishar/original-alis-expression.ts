@@ -28,6 +28,13 @@ export function evaluateOriginalAlisInteger(text:string,context:AlisIntegerConte
    if(name==='opushacc'){stack.push(d7);continue;}
    if(name==='opile'){if(!stack.length)throw Error('Empty expression stack');d7=d6;d6=signed(stack.pop()!);continue;}
    if(name==='oabs'){d7=signed(Math.abs(d7));continue;}if(name==='oneg'){d7=signed(-d7);continue;}
+   if(name==='oprnd'){
+    if(!stack.length)throw Error('Empty deterministic random stack');
+    const seed=stack.pop()!;if(!Number.isInteger(seed)||seed< -32768||seed>32767)throw Error('Invalid deterministic random seed');
+    const bits=seed&65535,rotated=((bits<<10)|(bits>>>6))&65535;
+    const mixed=(rotated*0x7ab7-0x77f)&65535;
+    d7=signed(Math.floor((d7&65535)*mixed/65536));continue;
+   }
    if(name==='ornd'){
     if(!context.random)throw Error('Original random source required');
     const bound=d7,value=context.random(bound);
