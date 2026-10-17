@@ -1,5 +1,13 @@
 # Ishar Construction Kit
 
+Current reconstruction scope (2026-10-17): both Ishar 1 and Ishar 2. Start with
+[the reconstruction plan](docs/reconstruction/PLAN.md),
+[original inventory](docs/reconstruction/INVENTORY.md),
+[verified status](docs/reconstruction/STATUS.md) and
+[format coverage](docs/reconstruction/FORMATS.md). The playable slice below is
+a historical milestone, not completion of the reconstruction project.
+
+
 An audit-first construction-kit workbench for researching and authoring new Ishar-style RPG content.
 
 The project is intentionally **not** a distribution of Ishar game data. Original game files are used only as local user-supplied reverse-engineering fixtures and are excluded from Git.

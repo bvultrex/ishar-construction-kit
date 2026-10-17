@@ -26,7 +26,9 @@
     "test:save-world-items": "node scripts/check-save-world-items.mjs",
     "test:original-ground": "node scripts/check-original-ground.mjs",
     "test:item-view": "node scripts/check-authored-item-view.mjs",
-    "test:original-actor-ai": "node scripts/check-original-actor-ai.mjs"
+    "test:original-actor-ai": "node scripts/check-original-actor-ai.mjs",
+    "test:inventory": "node scripts/check-original-inventory.mjs",
+    "test:original-resources": "node scripts/check-original-resource-roundtrip.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",
