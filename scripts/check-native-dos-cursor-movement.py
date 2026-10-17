@@ -3,7 +3,7 @@ import argparse,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('--full-timer',action='store_true');a=p.parse_args()
 memory=a.capture.read_bytes();digest=hashlib.sha256(memory).hexdigest()
 assert digest in ['5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7','f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04']
 repo=Path(__file__).resolve().parent.parent
@@ -23,12 +23,35 @@ for case in cases:
   assert done==[target] and cpu.reg_read(UC_X86_REG_SP)==0xff00
   for r,v in saved:assert cpu.reg_read(r)==v
  run(0x1e97,0xf2a,0x1ea70)  # establish original background and cursor first
+ if a.full_timer:
+  cpu.mem_write(0x1dead,b''.join(bytes(r) for r in case['initialRecords']))
+  for at,value in [(0x1e948,0),(0x19414,0),(0x1e940,0),(0x1cd4a,254),(0x1cd47,3),(0x1cd48,3),(0x1cd88,0),(0x1cd75,0)]:cpu.mem_write(at,bytes([value]))
+  cpu.mem_write(0x10bf2,b'\0\3\0\x70')
+  ports=[]
+  def out(uc,port,size,value,_):assert size==1;ports.append((port,value))
+  cpu.hook_add(UC_HOOK_INSN,out,None,1,0,UC_X86_INS_OUT)
+  def timer_end(uc,address,size,_):
+   if address in [0x70200,0x70300]:done.append(address);uc.emu_stop()
+  cpu.hook_add(UC_HOOK_CODE,timer_end)
  for frame in case['frames']:
   cpu.mem_write(0x111bd,frame['nextX'].to_bytes(2,'little'));cpu.mem_write(0x111bf,frame['nextY'].to_bytes(2,'little'))
-  run(0x1000,0x670d,0x10100)
+  if not a.full_timer:run(0x1000,0x670d,0x10100)
+  else:
+   done.clear();ports.clear();cpu.mem_write(0x3fefa,b'\0\2\0\x70\x02\x06')
+   for r,v in saved+[(UC_X86_REG_CS,0x1000),(UC_X86_REG_SS,0x3000),(UC_X86_REG_SP,0xfefa),(UC_X86_REG_EFLAGS,2)]:cpu.reg_write(r,v)
+   cpu.emu_start(0x10d98,0xfffff,count=24000)
+   chain=frame['timer']['exit']=='saved-handler'
+   assert done==[0x70300 if chain else 0x70200] and ports==[(0x20,0x60)]
+   for r,v in saved:assert cpu.reg_read(r)==v
+   assert cpu.reg_read(UC_X86_REG_SP)==(0xfefa if chain else 0xff00)
+   assert cpu.mem_read(0x1cd4a,1)[0]==255 and cpu.mem_read(0x1cd47,1)[0]==frame['timer']['counter']
+   assert cpu.mem_read(0x1cd87,1)[0]==frame['timer']['selected']
+   assert bytes(cpu.mem_read(0x1dead,48))==b''.join(bytes(r) for r in frame['timer']['records'])
+   if not chain:assert cpu.reg_read(UC_X86_REG_EFLAGS)&0x600==0x600
+   else:assert bytes(cpu.mem_read(0x3fefa,6))==b'\0\2\0\x70\x02\x06'
   assert hashlib.sha256(bytes(cpu.mem_read(0x60000,65536))).hexdigest()==frame['screen'],(case['mode'],case['hidden'],case['guard'],frame)
   assert hashlib.sha256(bytes(cpu.mem_read(0x1e830,262))).hexdigest()==frame['backup']
   assert int.from_bytes(cpu.mem_read(0x1cd56,2),'little')==frame['x'] and int.from_bytes(cpu.mem_read(0x1cd58,2),'little')==frame['y']
   assert cpu.mem_read(0x1cd62,1)[0]==case['guard']
 assert a.capture.read_bytes()==memory
-print(json.dumps({'captureSha256':digest,'sequences':len(cases),'movements':len(cases)*5,'result':'persistent native 670D including restore, snapshot, save, draw and gates matches','limits':'mode1 drawing, five guards and four hidden bytes, valid coords, synthetic sprites, no real mouse driver'}))
+print(json.dumps({'captureSha256':digest,'fullTimer':a.full_timer,'sequences':len(cases),'movements':len(cases)*5,'result':'persistent original timer/cursor state and composed models match','limits':('early timer callbacks disabled, audio device mode0, external saved handler not executed, synthetic sprites and controlled IRQ frames' if a.full_timer else 'direct 670D calls, valid coordinates and synthetic sprites; no real mouse driver')}))
