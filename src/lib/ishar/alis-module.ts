@@ -34,10 +34,10 @@ export function readAlisModule(bytes:Uint8Array):AlisModule {
   image=unpacked.data;encoding='dos-a1';
  }else if(flag===0||flag===1){
   if(size!==bytes.length)throw Error('Raw ALIS declared/file size mismatch');
-  image=bytes.slice(envelopeBytes);encoding='dos-raw';
+  image=Uint8Array.from(bytes.subarray(envelopeBytes));encoding='dos-raw';
  }else throw Error(`Unsupported DOS ALIS pack flag ${flag?.toString(16)}`);
  if(image.length!==size-envelopeBytes)throw Error('ALIS decoded image size mismatch');
- return {encoding,isMain,envelopeBytes,original:bytes.slice(),image,header:readAlisImageHeader(image)};
+ return {encoding,isMain,envelopeBytes,original:Uint8Array.from(bytes),image,header:readAlisImageHeader(image)};
 }
 /** No-op writes preserve the entire original envelope/compressed stream.
  * Edits remain length-preserving. A1 changes use the deterministic format

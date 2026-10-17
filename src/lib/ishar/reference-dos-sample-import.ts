@@ -6,7 +6,7 @@ import {normalizeReferenceDosSample} from './reference-dos-sample-normalize.ts';
 export function importReferenceDosSample(resource:Uint8Array,modulePackByte:number,engineVersion:number){
  if(!Number.isInteger(modulePackByte)||modulePackByte<0||modulePackByte>255)throw Error('Invalid module pack byte');
  if(resource.length<16||![1,2].includes(resource[0]!))throw Error('Unsupported sample resource');
- const bytes=resource.slice(),v=new DataView(bytes.buffer);
+ const bytes=Uint8Array.from(resource),v=new DataView(bytes.buffer);
  if(bytes[6]===1&&modulePackByte!==0){
   const total=v.getUint32(2,true),expanded=expandReferenceDosSampleDelta(bytes.subarray(16),total);
   if(16+expanded.length>bytes.length)throw Error('Expanded sample outside resource buffer');

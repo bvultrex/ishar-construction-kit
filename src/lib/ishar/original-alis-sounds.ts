@@ -26,3 +26,13 @@ export function readAlisSoundDirectory(image:Uint8Array):AlisSoundEntry[] {
  }
  return entries;
 }
+
+/** Length-preserving raw header edit. No frequency interpretation or sample conversion.
+ * Aliased entries share the same byte and are explicitly reported to the caller. */
+export function editAlisSampleSpeed(image:Uint8Array,index:number,speed:number){
+ if(!Number.isInteger(index)||index<0||!Number.isInteger(speed)||speed<0||speed>255)throw Error('Invalid sample index/speed');
+ const entries=readAlisSoundDirectory(image),entry=entries[index];
+ if(!entry?.sampleHeader)throw Error('Selected sound is not a supported sample header');
+ const result=Uint8Array.from(image);result[entry.offset+1]=speed;
+ return {image:result,offset:entry.offset+1,affectedIndices:entries.filter(e=>e.offset===entry.offset).map(e=>e.index)};
+}

@@ -3,7 +3,7 @@
 export function normalizeReferenceDosSample(prepared:Uint8Array,engineVersion:number) {
  if(!Number.isInteger(engineVersion)||engineVersion<0||engineVersion>65535)throw Error('Invalid ALIS engine version');
  if(prepared.length<16||![1,2].includes(prepared[0]!))throw Error('Unsupported prepared sample');
- const bytes=prepared.slice(),v=new DataView(bytes.buffer);
+ const bytes=Uint8Array.from(prepared),v=new DataView(bytes.buffer);
  const range=(at:number,size:number)=>{if(!Number.isSafeInteger(at)||at<0||size<0||at+size>bytes.length)throw Error('Prepared sample range outside buffer');};
  if(bytes[0]===2){
   const total=v.getUint32(2,true),loop=v.getUint32(12,true);
