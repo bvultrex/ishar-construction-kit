@@ -151,3 +151,7 @@ GERDEP-Resetblock, EDPLT-Reservierung und bedingte FRISE-Todesfreigabe rekonstru
 ## EAFF-Crowd/Dispatch im CONT1-Ansichtsadapter verbunden
 
 Figurenpfad verwendet nun Crowd- und Dispatchausführung statt Kandidaten-/Konstantensuche. Arraydeklarationen aus lokalem MAIN-Listing, geordnete Writes nur in privater MAIN-Kopie. Tests mit echten Skripten sowie ausdrücklich synthetischem Drei-Figuren-Renderer bestanden. Runtime bleibt Teiladapter: Save-Crowdzustand wird je neuem Ansichtsaufbau übernommen; persistente Bewegungs-/Kampfzustandsmaschine und vollständiger Scheduler offen. Neuer Testserver auf 4180 liefert MAIN-Listing, Playtest-HTTP 200 geprüft.
+
+## Vollständige EAFF-Switchtabellen geprüft
+
+Neuer binärer Reader und verlustfreier Zielwort-Writer für DOS cswitch1/cswitch2. Alle zwölf EAFF-Tabellen mit 108 Fällen vollständig gegen Listingzuordnungen geprüft, einschließlich Default/Alignment/Bias. Damit ist die bisherige Präfixprüfung der langen Switchinstruktionen für diese Tabellen ergänzt. 108 gezielte Änderungen/restores erhalten das vollständige Image; keine Originaldatei verändert. Native Ausführung und andere Modulprofile offen. Siehe ALIS_SWITCHES.md.
