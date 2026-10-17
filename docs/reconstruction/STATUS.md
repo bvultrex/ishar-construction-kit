@@ -99,3 +99,7 @@ FRISE-Goldübergabe und EATT-Bestätigung als komponierter Trace rekonstruiert; 
 ## Ursprüngliche Goldauswahl
 
 FRISE-Betragsänderung mit Guthabenprüfung und Wiederholungsbeschleunigung rekonstruiert. 90 Fälle gegen begrenzte Auswertung der ursprünglichen Listing-Rechenzweige verglichen, 118 Instruktionspräfixe am Original geprüft. Gesamtes Goldfenster, Ziele, Scheduler und Originalausführung weiterhin offen; keine neue Playtest-Bedienung aktiviert. Details: NPC_GOLD_AND_OPERANDS.md.
+
+## Ishar-2-MAIN-Save-Writer
+
+141 I/O-Felder direkt aus dem hashgebundenen IO.IO abgeleitet; 21 Saves mit Listing-Loader verglichen und 2940 gezielte Änderungen geprüft. CLI schreibt explizite MAIN-Operationen in neue SAV-Kopien; NPC-Gold-Trace exportiert/zurückgelesen. Header-Sonderfall und Byte-Scalar-Vorzeichenerweiterung berücksichtigt. Originalausführung und vollständige Feldsemantik offen. Siehe [ISHAR2_SAVE_MAIN.md](ISHAR2_SAVE_MAIN.md).

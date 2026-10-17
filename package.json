@@ -46,7 +46,11 @@
     "test:original-npc-gold": "node scripts/check-original-npc-gold.mjs",
     "test:original-npc-gold-local": "node scripts/check-original-npc-gold-local.mjs",
     "test:original-gold-selection": "node scripts/check-original-gold-selection.mjs",
-    "test:original-gold-selection-local": "node scripts/check-original-gold-selection-local.mjs"
+    "test:original-gold-selection-local": "node scripts/check-original-gold-selection-local.mjs",
+    "test:ishar2-save-layout": "node scripts/check-ishar2-save-layout.mjs",
+    "test:ishar2-save-layout-local": "node scripts/check-ishar2-save-layout-local.mjs",
+    "test:save-main-cli-local": "node scripts/check-save-main-cli-local.mjs",
+    "save:main": "node scripts/save-main.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",
