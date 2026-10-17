@@ -42,3 +42,13 @@ Der bestehende Figureninterpreter verwendet diesen Schrittadapter und setzt nach
 Alle 76 in vorhandenen Listings ausgewiesenen Originalschleifen wurden direkt binär auf Distanzbreite, Ziel und Counteroffset/-breite geprüft: Ishar 1 26 (13 adirb, 9 alocb, 4 adirw); Ishar 2 50 (29 adirb, 7 alocb, 11 adirw, 3 alocw). Die native 24-Bit-Grenzsemantik bleibt wie oben offen. Keine vollständige Loop-Erreichbarkeit oder Originalausführung nachgewiesen.
 
 Reproduktion: `npm run test:original-alis-loop`; mit den vier Profilvariablen aus dem Zweigtest zusätzlich beide Originalbestände. `test:original-actor-frame` prüft die Integration. Originale werden nur gelesen.
+
+## Persistente Integerregister im Figurenadapter
+
+`evaluateOriginalAlisInteger` akzeptiert nun optional einen expliziten signed16-Registersatz D6/D7 und gibt dessen Folgezustand zurück. Ohne diesen Parameter bleibt die bisherige isolierte Ausdrucksschnittstelle erhalten. `opernames.c:osub/odiv/omod` verändert zuerst D6 und kopiert es danach nach D7; diese bisher nicht nach außen verfügbare Nebenwirkung ist korrigiert. Addition/Multiplikation/Boolesche Operationen behalten andere D6-Nebenwirkungen entsprechend den Handlern. Keine vollständige Statusregisteremulation.
+
+Der Figurenadapter bewahrt die Register über Instruktionen und Scheduler-Yields. `cstore/ceval/cadd/csub` speichern vorher D7 nach D6 gemäß `alis.c:readexec_opername_saveD7`; cput/cforme lesen ihren Operand ohne diesen zusätzlichen Schritt. csub negiert anschließend D7; skalare cloop setzen D7=-1. Bedingte Sprünge verwenden den aktuellen Registersatz, nicht ausschließlich einen früheren ceval-Wert. cbeq/cbne sind mit den dokumentierten Referenzbedingungen enthalten. Dichte Switches hinterlassen D7 als verdoppelten gültigen Index oder biasverschobenen Nichttreffer; sparse Switches behalten ihren Testwert.
+
+`initialRegisters` kann für reproduzierbare Tests explizit geliefert werden und wird kopiert. Der Default null ist eine Vorschauinitialisierung, kein aus SAV nachgewiesener Originalregisterzustand. Dieser Adapter überspringt weiterhin einzelne reine Darstellungs-/Kontextpfade; vollständige Registergleichheit aller Befehle oder nativer Schedulerzustände wird nicht behauptet.
+
+Tests prüfen beide Register bei sub/div/mod, literalem Lesen und Addition, Vergleichssprünge nach mehreren Befehlen, Sprünge nach Stores, Fortsetzung nach Yield und dense/sparse-Switchzustände. Lokale Original-Figuren-/Crowd-/Goldauswahltests bestehen nach der Änderung, einschließlich 90 Fällen gegen Original-Listingarithmetik. Auch diese Tests verwenden teilweise den gemeinsamen Operandenrechenkern und ersetzen keinen DOS-Abgleich.

@@ -171,3 +171,7 @@ Neue strukturelle Integeroperanden-Längenprüfung erlaubt den direkten Tabellen
 ## ALIS-Zählschleifen
 
 Alle 76 ausgewiesenen cloop-Stellen beider Profile mit skalarem Counter direkt binär geprüft. Separate Sprungbasis vor Counteroperand und Fallthrough dahinter rekonstruiert; Byte-/Wortüberlauf und Zero-Flag geprüft. Figureninterpreter führt vier originale Counterformen aus. Keine vollständige VM-/Originalausführungsbehauptung. Details: ALIS_BRANCHES.md.
+
+## Registerübergänge im Figurenpfad
+
+D6/D7 bleiben jetzt über Befehle und Yields erhalten; sub/div/mod-Nebenwirkungen auf D6 korrigiert. Figurenpfad unterstützt registerabhängige beq/bne und berücksichtigt cstore-/csub-/Switch-Folgezustände. Explizite Registerinitialisierung verfügbar; Default null bleibt Vorschauannahme. Neue Integrationstests und bestehende lokale Figuren-/EAFF-/Goldauswahltests bestanden. Kein vollständiger VM- oder DOS-Zustandsnachweis. Siehe ALIS_BRANCHES.md.

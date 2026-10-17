@@ -1,4 +1,4 @@
-import {evaluateOriginalAlisInteger} from './original-alis-expression.ts';
+import {evaluateOriginalAlisInteger,type AlisIntegerRegisters} from './original-alis-expression.ts';
 import {originalEaffPerspective} from './original-eaff-perspective.ts';
 import {chooseOriginalEaffSpawn} from './original-eaff-spawn.ts';
 import {readRequiredAlisArrays} from './original-alis-arrays.ts';
@@ -40,6 +40,8 @@ const signedByte=(value:number)=>(value&255)>=128?(value&255)-256:value&255;
 const signedWord=(value:number)=>(value&65535)>=32768?(value&65535)-65536:value&65535;
 
 export interface ActorAnimationOptions {
+  /** Transient registers are not reconstructed from SAV; zero is preview-only. */
+  initialRegisters?:AlisIntegerRegisters;
   /** Supply the original engine's random source; never silently invent one. */
   random?: (bound:number)=>number;
   /** Explicitly verified oscan handler entry. No guessed interrupt vector. */
@@ -53,21 +55,24 @@ export interface ActorAnimationOptions {
 export function* actorAnimationSteps(listing:string,main:Map<number,number>,initial:Record<number,number>,options:ActorAnimationOptions={}) {
   const code=instructions(listing),labels=new Map(code.map((line,i)=>[line.address,i]));
   const local=new Map<number,number>(),stack:number[]=[],calls:number[]=[];
+  const registers={d6:options.initialRegisters?.d6??0,d7:options.initialRegisters?.d7??0};
+  if(![registers.d6,registers.d7].every(n=>Number.isInteger(n)&&n>=-32768&&n<=32767))throw Error('Invalid initial actor registers');
   const putLocal=(at:number,value:number,word:boolean)=>{local.set(at,word?(value>>8)&255:value&255);if(word)local.set(at+1,value&255);};
   for(const [at,value] of Object.entries(initial))putLocal(+at,value,true);
   function read(memory:Map<number,number>,at:number,word:boolean,require:boolean) {
     if(require&&!memory.has(at))throw Error(`Unsaved MAIN ${at.toString(16)}`);
     return word?signedWord(((memory.get(at)??0)<<8)|(memory.get(at+1)??0)):signedByte(memory.get(at)??0);
   }
-  function expression(text:string):number {
+  function expression(text:string,saveD7=false):number {
+    if(saveD7)registers.d6=registers.d7;
     return evaluateOriginalAlisInteger(text,{
       scan,random:options.random,
       read:(space,at,word)=>read(space==='main'?main:local,at,word,space==='main'),
       // This visual subset currently uses one-dimensional MAIN arrays only.
       table:(_space,at,index,_stack,word)=>read(main,at+index*(word?2:1),word,true),
-    },stack);
+    },stack,registers);
   }
-  let pc=labels.get('00018')??-1,condition=0,mirror=false,scan=0,form=-1;
+  let pc=labels.get('00018')??-1,mirror=false,scan=0,form=-1;
   let resume:number|undefined,interrupted:number|undefined;
   const draws:{index:number;x:number;y:number;z:number;mirror:boolean}[]=[];
   for(let budget=0;budget<512;budget++) {
@@ -89,31 +94,39 @@ export function* actorAnimationSteps(listing:string,main:Map<number,number>,init
       if(interrupted!==undefined){pc=interrupted;interrupted=undefined;continue;}
       return draws;
     }
-    if(/^cb(?:n)?z\d+$/.test(op)){if(op.startsWith('cbnz')?condition!==0:condition===0)pc=jump();continue;}
+    if(/^c(?:bz|bnz|beq|bne)(?:8|16|24)$/.test(op)){
+      const taken=op.startsWith('cbnz')?registers.d7!==0:op.startsWith('cbz')?registers.d7===0:op.startsWith('cbeq')?registers.d7!==registers.d6:registers.d7===registers.d6;
+      if(taken)pc=jump();continue;
+    }
     if(/^cloop(?:8|16|24)$/.test(op)){
       const target=args.match(/, \+>a(loc|dir)([bw])\(0x([\da-f]+)\)$/);if(!target)throw Error('Unsupported actor loop counter');
       const address=parseInt(target[3]!,16),word=target[2]==='w';
       if(target[1]==='loc'&&address>=32768)throw Error('Actor loop needs unavailable negative context');
       const result=stepOriginalDosLoop({counterBytes:word?2:1,next:pc,target:jump()},read(local,address,word,false));
-      putLocal(address,result.value,word);condition=-1;pc=result.next;continue;
+      putLocal(address,result.value,word);registers.d7=-1;pc=result.next;continue;
     }
-    if(op==='ceval'){condition=expression(args);continue;}
+    if(op==='ceval'){expression(args,true);continue;}
     if(op==='cstore'||op==='cadd'||op==='csub') {
       // slocb(0xfffe) links entity ownership; cfindtyp/clinking have no first-frame pixel effect.
       if(args.endsWith('->slocb(0xfffe)'))continue;
       const mainTarget=args.match(/->smain([bw])\(0x([\da-f]+)\)$/);
       if(mainTarget){
         if(op!=='cstore'||!options.mainWrite)throw Error(`Unauthorized MAIN write ${args}`);
-        const at=parseInt(mainTarget[2]!,16),word=mainTarget[1]==='w',value=expression(args.slice(0,args.lastIndexOf(',')));
+        const at=parseInt(mainTarget[2]!,16),word=mainTarget[1]==='w',value=expression(args.slice(0,args.lastIndexOf(',')),true);
         options.mainWrite(at,value,word);continue;
       }
       const target=args.match(/(?:->s|\+>a)dir([bw])\(0x([\da-f]+)\)$/);if(!target)throw Error(`Unsupported store ${args}`);
-      const split=args.lastIndexOf(','),value=expression(args.slice(0,split)),at=parseInt(target[2]!,16),word=target[1]==='w';
+      const split=args.lastIndexOf(','),value=expression(args.slice(0,split),true),at=parseInt(target[2]!,16),word=target[1]==='w';
+      if(op==='csub')registers.d7=signedWord(-registers.d7);
       putLocal(at,op==='cstore'?value:read(local,at,word,false)+(op==='cadd'?value:-value),word);continue;
     }
     if(op==='cswitch1'||op==='cswitch2') {
-      const split=args.indexOf(', {');condition=expression(args.slice(0,split));
-      const selected=[...args.slice(split).matchAll(/(-?\d+):L_([\da-f]+)/g)].find(m=>+m[1]===condition);
+      const split=args.indexOf(', {'),value=expression(args.slice(0,split));
+      const cases=[...args.slice(split).matchAll(/(-?\d+):L_([\da-f]+)/g)],selected=cases.find(m=>+m[1]===value);
+      if(op==='cswitch2'){
+        if(!cases.length||!cases.every((entry,i)=>+entry[1]===+cases[0]![1]+i))throw Error('Invalid dense actor switch');
+        const index=signedWord(value-(+cases[0]![1]));registers.d7=index>=0&&index<cases.length?signedWord(index*2):index;
+      }
       if(selected){const target=labels.get(selected[2]!);if(target===undefined)throw Error('Missing case');pc=target;}continue;
     }
     if(op==='cforme'){form=expression(args);continue;}

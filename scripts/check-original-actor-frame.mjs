@@ -161,3 +161,46 @@ for(const target of ['adirb(0x0e)','adirw(0x0e)','alocb(0x000e)','alocw(0x000e)'
  assert.equal(firstActorFrame(compatible,new Map(),{0:0})[0].x,3,`${target}: loops until wrapped counter is zero`);
 }
 console.log('Actor interpreter executes scalar original loop forms through three iterations before drawing.');
+for(const [branch,second,shouldJump] of [['cbeq8',5,true],['cbeq16',3,false],['cbne24',3,true],['cbne8',5,false]]){
+ const script=`  00018 ff ceval oimmb(3)
+  00020 ff ceval oimmb(${second})
+  00024 ff ${branch} L_00040
+  00028 ff cput oimmb(7)
+  0002a ff cstop
+  00040 ff cput oimmb(9)
+  00042 ff cstop`;
+ assert.equal(firstActorFrame(script,new Map(),{})[0].index,shouldJump?9:7);
+}
+const storedBranch=`  00018 ff ceval oimmb(0)
+  00020 ff cstore oimmb(1), ->sdirb(0x0e)
+  00024 ff cbz8 L_00040
+  00028 ff cput oimmb(7)
+  0002a ff cstop
+  00040 ff cput oimmb(9)
+  00042 ff cstop`;
+assert.equal(firstActorFrame(storedBranch,new Map(),{})[0].index,7,'branch sees latest operand result, not only last ceval');
+const resumeRegisters=actorAnimationSteps(`  00018 ff cput oimmb(7)
+  00020 ff cstop
+  00024 ff ceval oimmb(7)
+  00028 ff cbne8 L_00040
+  00030 ff cput oimmb(99)
+  00032 ff cstop
+  00040 ff cput oimmb(9)
+  00042 ff cstop`,new Map(),{});
+assert.equal(resumeRegisters.next().value[0].index,7);assert.equal(resumeRegisters.next().value[0].index,9,'registers survive scheduler yield');
+for(const [switchOp,expected] of [['cswitch2',9],['cswitch1',7]]){
+ const script=`  00018 ff ${switchOp} oimmb(50), {50:L_00020, 51:L_00020}
+  00020 ff cbz8 L_00040
+  00028 ff cput oimmb(7)
+  0002a ff cstop
+  00040 ff cput oimmb(9)
+  00042 ff cstop`;
+ assert.equal(firstActorFrame(script,new Map(),{})[0].index,expected,'dense switch changes D7 to doubled index; sparse retains test value');
+}
+console.log('Actor D6/D7 integration: beq/bne reference conditions, stores, yield persistence and dense/sparse switch post-state passed.');
+const supplied={d6:3,d7:5},initialBranch=`  00018 ff cbeq8 L_00040
+  00020 ff cput oimmb(7)
+  00022 ff cstop
+  00040 ff cput oimmb(9)
+  00042 ff cstop`;
+assert.equal(actorAnimationSteps(initialBranch,new Map(),{},{initialRegisters:supplied}).next().value[0].index,9);assert.deepEqual(supplied,{d6:3,d7:5},'input register snapshot is copied');

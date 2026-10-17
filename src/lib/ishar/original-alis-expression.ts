@@ -7,8 +7,10 @@ export interface AlisIntegerContext {
  scan:number;random?: (bound:number)=>number;
 }
 const signed=(n:number)=>((n&65535)^32768)-32768;
-export function evaluateOriginalAlisInteger(text:string,context:AlisIntegerContext,stack:number[]=[]):number {
- let cursor=0,d6=0,d7=0;
+export interface AlisIntegerRegisters {d6:number;d7:number}
+export function evaluateOriginalAlisInteger(text:string,context:AlisIntegerContext,stack:number[]=[],registers?:AlisIntegerRegisters):number {
+ if(registers&&![registers.d6,registers.d7].every(n=>Number.isInteger(n)&&n>=-32768&&n<=32767))throw Error('Invalid ALIS integer registers');
+ let cursor=0,d6=registers?.d6??0,d7=registers?.d7??0;
  const binary=new Set(['oadd','osub','omul','odiv','omod','oegal','odiff','oinf','osup','oinfeg','osupeg','oand','oor','oxor']);
  function walk(nested=false):void {
   while(cursor<text.length){
@@ -47,9 +49,9 @@ export function evaluateOriginalAlisInteger(text:string,context:AlisIntegerConte
    }
    if(!binary.has(name)||arg===undefined)throw Error(`Unsupported ${name}`);
    switch(name){
-    case 'oadd':d7=signed(d6+d7);break;case 'osub':d7=signed(d6-d7);break;case 'omul':d7=signed(d6*d7);break;
-    case 'odiv':if(!d7)throw Error('Zero divisor');d7=signed(Math.trunc(d6/d7));break;
-    case 'omod':if(!d7)throw Error('Zero divisor');d7=signed(d6%d7);break;
+    case 'oadd':d7=signed(d6+d7);break;case 'osub':d6=d7=signed(d6-d7);break;case 'omul':d7=signed(d6*d7);break;
+    case 'odiv':if(!d7)throw Error('Zero divisor');d6=d7=signed(Math.trunc(d6/d7));break;
+    case 'omod':if(!d7)throw Error('Zero divisor');d6=d7=signed(d6%d7);break;
     case 'oegal':d7=d6===d7?-1:0;break;case 'odiff':d7=d6!==d7?-1:0;break;
     case 'oinf':d7=d6<d7?-1:0;break;case 'osup':d7=d6>d7?-1:0;break;
     case 'oinfeg':d7=d6<=d7?-1:0;break;case 'osupeg':d7=d6>=d7?-1:0;break;
@@ -58,5 +60,5 @@ export function evaluateOriginalAlisInteger(text:string,context:AlisIntegerConte
   }
   if(nested)throw Error('Unbalanced expression');
  }
- walk();return d7;
+ walk();if(registers){registers.d6=d6;registers.d7=d7;}return d7;
 }

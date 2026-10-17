@@ -36,3 +36,9 @@ assert.deepEqual(readRequiredAlisArrays('  0009b  298e2d01021e00 cdim var=0x2d8e
 assert.throws(()=>readRequiredAlisArrays('  0009b  298e2d0102 cdim var=0x2d8e, ndim=1',[0x2d8e]),/Truncated/);
 assert.throws(()=>readRequiredAlisArrays('',[0x2d8e]),/Missing/);
 assert.throws(()=>readRequiredAlisArrays('  0009b  298e2d01021e00 cdim var=0x2d8e\n  000aa  298e2d01021e00 cdim var=0x2d8e',[0x2d8e]),/Ambiguous/);
+const regs={d6:123,d7:17};evaluate('(oimmb(5))',context,[],regs);assert.deepEqual(regs,{d6:123,d7:5},'literal preserves prior D6');
+for(const [op,expected] of [['osub',3],['odiv',1],['omod',3]]){regs.d6=91;regs.d7=7;evaluate(`(${op}(oimmb(4)))`,context,[],regs);assert.deepEqual(regs,{d6:expected,d7:expected},`${op} updates both registers`);}
+regs.d6=91;regs.d7=7;evaluate('(oadd(oimmb(4)))',context,[],regs);assert.deepEqual(regs,{d6:7,d7:11},'addition retains saved left operand in D6');
+assert.throws(()=>evaluate('(oimmb(1))',context,[],{d6:65535,d7:0}),/registers/);
+console.log('Persistent D6/D7: literals, saved-left arithmetic and both-register sub/div/mod side effects passed.');
+
