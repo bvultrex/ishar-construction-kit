@@ -7,3 +7,9 @@ export function planOriginalDosStartupMemory(upperSegment:number,existingScreenS
  const screenSegment=existingScreenSegment===0?frontier:existingScreenSegment;
  return {frontier,screenSegment,screenBytes,frontierOffset:0,bufferOffset:existingScreenSegment===0?0:existingScreenOffset,mirrors:[screenSegment,screenSegment,screenSegment]};
 }
+/** Native 0853..08EA composition; INT12 returns KiB, EMS helper returns AX. */
+export function planOriginalDosBiosEmsMemory(biosKiB:number,emsAX:number,graphicsByte:number,performanceByte:number,inputMode:number){
+ if(!Number.isInteger(biosKiB)||biosKiB<0||biosKiB>65535)throw new Error('BIOS memory result must be a word');
+ const upper=((biosKiB*64)-1)&65535;
+ return planOriginalDosStartupMemory(upper,emsAX,graphicsByte,performanceByte,inputMode,0);
+}
