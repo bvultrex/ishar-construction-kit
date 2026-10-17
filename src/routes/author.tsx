@@ -1,3 +1,4 @@
+import {createGridContPatch} from '@/lib/ishar/cont-patch';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
@@ -269,6 +270,17 @@ function AuthorPage() {
     applyGridResult(addGridLevel(game,imported.grid,selectedLocation.id,start),
       `${file.name}: ${imported.grid.game==="ishar2" ? "Ishar 2 · 90×60 · zwei Ebenen" : "Ishar 1 · 54×90 · eine Ebene. Der Ishar-2-Renderer ist dafür nicht geeignet"} importiert (SHA-256 ${digest.slice(0,12)}…). Enthält Originaldaten: Projekt nicht veröffentlichen oder committen.`);
   }
+  async function exportGridPatch(file:File){
+    const grid=selectedLevel.grid;if(!grid)return;
+    try{
+      const patch=await createGridContPatch(grid,new Uint8Array(await file.arrayBuffer()));
+      const blob=new Blob([JSON.stringify(patch,null,2)+'\n'],{type:'application/json'});
+      const url=URL.createObjectURL(blob),link=document.createElement('a');
+      link.href=url;link.download=patch.resource+'.patch.json';link.click();
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+      setBuilderMessage(`${patch.resource}: Patch mit ${patch.edits.length} Byteänderungen exportiert. Nur CONT-Kartendaten; Zusatzinhalte des Projekts sind nicht enthalten. Noch nicht im Originalspiel geprüft.`);
+    }catch(error){setBuilderMessage(error instanceof Error?error.message:String(error));}
+  }
   function exportGridLevel(){
     const grid=selectedLevel.grid; if(!grid) return;
     const blob=new Blob([exportCont(grid)],{type:"application/octet-stream"});
@@ -417,6 +429,7 @@ function AuthorPage() {
       <button className="secondary" disabled={!canRedo} onClick={redo} title="Wiederholen (Strg+Y)">↷</button>
       <label className="file-button secondary">CONT importieren<input hidden type="file" accept=".fic,.FIC" onChange={(event)=>{const file=event.target.files?.[0];if(file) void importContFile(file);event.target.value="";}}/></label>
       <button className="secondary" disabled={!selectedLevel.grid} onClick={exportGridLevel}>CONT exportieren</button>
+      {selectedLevel.grid?.source&&<label className="file-button secondary" title="Unveränderte Originaldatei dieser Karte wählen. Der Patch enthält nur CONT-Bytes und ist an deren Prüfsumme gebunden.">Patch: Originaldatei wählen<input hidden type="file" accept=".fic,.FIC" onChange={event=>{const file=event.currentTarget.files?.[0];event.currentTarget.value='';if(file)void exportGridPatch(file);}}/></label>}
       <button onClick={testHere} disabled={selectedLevel.grid?.game==="ishar1"}>▶ Ab hier testen</button>
     </header>
     {builderMessage && <p className="audit-note builder-message">{builderMessage}</p>}

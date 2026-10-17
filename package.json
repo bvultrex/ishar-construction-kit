@@ -28,7 +28,9 @@
     "test:item-view": "node scripts/check-authored-item-view.mjs",
     "test:original-actor-ai": "node scripts/check-original-actor-ai.mjs",
     "test:inventory": "node scripts/check-original-inventory.mjs",
-    "test:original-resources": "node scripts/check-original-resource-roundtrip.mjs"
+    "test:original-resources": "node scripts/check-original-resource-roundtrip.mjs",
+    "test:cont-mod": "node scripts/check-cont-mod.mjs",
+    "mod:cont": "node scripts/cont-mod.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",

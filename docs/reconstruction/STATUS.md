@@ -36,8 +36,9 @@ Node und Git sind ausführbar. Die vorhandenen Node-Tests importieren TypeScript
 per nativer Type-Stripping-Unterstützung. Ein gebündelter Python-Interpreter ist
 vorhanden; `python` im PATH ist dagegen ein WindowsApps-Alias.
 DOSBox/dosbox-x/gh wurden nicht im PATH gefunden. Das beweist nicht, dass kein
-Emulator installiert ist. Eine Originalausführung wurde in diesem Audit noch
-nicht gestartet. ALIS-Referenz nennt CMake/SDL2; deren Build ist noch zu prüfen.
+Emulator installiert ist. Später über die Desktop-Verknüpfung gefunden:
+`E:/Programme/Dosbox/DOSBox.exe` (Fenster: 0.74). Ishar 2 startet aus separater
+Kopie bis zur Sprach-/Musikauswahl; Original-Ingame-Modvergleich noch offen. ALIS-Referenz nennt CMake/SDL2; deren Build ist noch zu prüfen.
 
 Originalinstallationen und Analyseausgaben bleiben getrennt. Keine Originaldatei
 wird bearbeitet. Repository enthält eigene Werkzeuge und Dokumentation; keine
@@ -52,3 +53,13 @@ aus einer lokal vorhandenen Datei ableiten.
   gezielte A-Änderung, Erhalt aller übrigen Bytes, unveränderter Quellpuffer.
 - Keine Originalspielausführung, keine Grafikgleichheit und kein vollständiger
   Mod-Workflow durch diese Tests nachgewiesen.
+
+
+## Export-Integration (weiterer Zwischenstand)
+
+`cont-patch.ts` und `scripts/cont-mod.mjs` binden Änderungen an ihren Quellhash
+und erstellen ausschließlich neue Spielkopien mit vollständigem Hash-Readback.
+Builder exportiert diesen Patch nach Auswahl der passenden Originaldatei.
+`test:cont-mod` prüft beide Profile, Fehlereingaben, Quellschutz und Daten-Erhalt.
+Browser-Ishar-2-Export und Anwendung auf 190-Dateien-Kopie nachgewiesen;
+Originalspiel-Modprüfung bleibt offen. Ablauf und Grenzen: MOD_WORKFLOW.md.

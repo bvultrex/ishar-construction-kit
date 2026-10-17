@@ -34,9 +34,9 @@ Ein bestandener synthetischer Test beweist keine Original-Verhaltensgleichheit.
 
 ## Nächster konkreter Schritt
 
-Den vorhandenen CONT-Parser weiterverwenden. Einen reproduzierbaren Patch-Export
+Der vorhandene CONT-Parser trägt jetzt einen reproduzierbaren Patch-Export
 mit Eingangs-Hashbindung, Änderungsmanifest und Ausgabe ausschließlich außerhalb
-der Originalinstallation erstellen. Danach Originalausführung in einer separaten
+der Originalinstallation (siehe MOD_WORKFLOW.md). Als Nächstes Originalausführung in einer separaten
 Kopie einrichten und eine bewusst gewählte Kartenänderung in beiden Spielen
 prüfen. Parallel keine neuen Kampfregeln als Ersatz für fehlende Decompilierung
 hinzufügen. EATT bleibt offen, bis Sender, Empfänger und Rückmeldeflags zusammen
@@ -47,6 +47,7 @@ nachgewiesen sind.
 - INVENTORY.md: Versionen, Dateien, Werkzeuge und Herkunft.
 - STATUS.md: getrennte Abdeckung beider Spiele, Architektur und Grenzen.
 - FORMATS.md: erste Formatspezifikation, weitere Typen explizit offen.
+- MOD_WORKFLOW.md: vorhandener Builder-/CLI-Export und noch offene Originalprüfung.
 - Dieses Dokument: Plan und Abnahmebelege.
 - README.md und bestehende GRID_MODEL/ASSET_PACK/ORIGINAL_GAMEPLAY_DECOMPILE:
   Einrichtung sowie bisherige Analysen; alte Aussagen immer gegen aktuellen Code prüfen.
