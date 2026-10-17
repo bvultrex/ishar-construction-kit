@@ -3,7 +3,8 @@ import argparse,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('--complete-fm-stop',action='store_true');a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('--complete-fm-stop',action='store_true');p.add_argument('--with-resource',action='store_true');a=p.parse_args()
+assert not a.with_resource or a.complete_fm_stop, '--with-resource requires --complete-fm-stop'
 memory=a.capture.read_bytes();digest=hashlib.sha256(memory).hexdigest()
 assert digest in ['5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7','f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04']
 repo=Path(__file__).resolve().parent.parent
@@ -21,6 +22,7 @@ for case in cases:
  done.clear();io.clear()
  if a.complete_fm_stop:
   cpu.mem_write(0x19414,b'\x01\x01');cpu.mem_write(0x1b71a,b'\xa5'*256);cpu.mem_write(0x1e960,b'\0\0')
+  if a.with_resource:cpu.mem_write(0x1e960,b'\0\x40');cpu.mem_write(0x1cc46,b'\xff\x3f');cpu.mem_write(0x3fff0,b'\x20\0')
   for at in [0x1ceba,0x1cd88,0x186c1]:cpu.mem_write(at,b'\x55')
  for offset,size,key in fields:cpu.mem_write(0x19410+offset,case['source'][key].to_bytes(size,'little'))
  cpu.mem_write(0x3fefe,b'\0\1')
@@ -33,8 +35,9 @@ for case in cases:
   assert io==case['stopIo'] and bytes(cpu.mem_read(0x1b71a,256))==bytes(case['stopShadow'])
   for at in [0x1ceba,0x1cd88,0x186c1]:assert cpu.mem_read(at,1)[0]==(0 if expected['stopCall'] else 0x55)
   assert cpu.mem_read(0x19414,1)[0]==(0 if expected['stopCall'] else 1)
-  assert cpu.mem_read(0x1e960,2)==b'\0\0'
+  assert bytes(cpu.mem_read(0x1e960,2))==(b'\0\x40' if a.with_resource and not expected['stopCall'] else b'\0\0')
+  if a.with_resource:assert int.from_bytes(cpu.mem_read(0x1cc46,2),'little')==(case['release']['frontier'] if expected['stopCall'] else 0x3fff)
   for r,v in saved:assert cpu.reg_read(r)==v
   stops+=int(expected['stopCall'])
 assert a.capture.read_bytes()==memory
-print(json.dumps({'captureSha256':digest,'cases':len(cases),'completeFmStop':a.complete_fm_stop,'executedStops':stops,'result':'native envelope state and configured stop composition match','limits':'nonfaulting DIV; complete-stop mode uses FM device and zero resource handle, other stop paths excluded'}))
+print(json.dumps({'captureSha256':digest,'cases':len(cases),'completeFmStop':a.complete_fm_stop,'withResource':a.with_resource,'executedStops':stops,'result':'native envelope state and configured stop composition match','limits':'nonfaulting DIV; FM device, controlled zero or frontier resource handle; other stop paths excluded'}))
