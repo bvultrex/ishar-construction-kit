@@ -202,6 +202,47 @@ function readPaletteTimeline(
   return palettes;
 }
 
+export interface AlisEditablePalette {
+  entryIndex:number;dataOffset:number;firstColor:number;colorCount:number;
+  encoding:'dos-packed16'|'dos-rgb';maxChannel:7|255;
+  colors:[number,number,number][];
+}
+/** Stored DOS palette components, not inferred runtime palette assignments. */
+export function describeAlisPalettes(image:Uint8Array):AlisEditablePalette[]{
+  const table=findGraphicsTable(image,true);if(!table)return [];
+  const result:AlisEditablePalette[]=[];
+  for(let index=0;index<table.entries;index++){
+    const at=entryLocation(image,table.address,index);if(at===undefined||image[at-2]!==0xfe)continue;
+    const control=image[at-1]!;
+    if(control===0){
+      if(at+32>image.length)continue;
+      result.push({entryIndex:index,dataOffset:at,firstColor:0,colorCount:16,encoding:'dos-packed16',maxChannel:7,
+        colors:Array.from({length:16},(_,color)=>[image[at+color*2]!&7,(image[at+color*2+1]!>>4)&7,image[at+color*2+1]!&7])});
+    }else{
+      const firstColor=image[at]!,count=control+1;
+      if(firstColor+count>256||at+2+count*3>image.length)continue;
+      result.push({entryIndex:index,dataOffset:at,firstColor,colorCount:count,encoding:'dos-rgb',maxChannel:255,
+        colors:Array.from({length:count},(_,color)=>[image[at+2+color*3]!,image[at+3+color*3]!,image[at+4+color*3]!])});
+    }
+  }
+  return result;
+}
+/** Edit one declared color; preserve pointer tables, controls and unused bits. */
+export function editAlisPalette(image:Uint8Array,entryIndex:number,color:number,rgb:readonly number[]):Uint8Array {
+  const palette=describeAlisPalettes(image).find(entry=>entry.entryIndex===entryIndex);
+  if(!palette)throw Error('Keine unterstützte DOS-Palette an diesem Ressourceneintrag.');
+  if(!Number.isInteger(color)||color<palette.firstColor||color>=palette.firstColor+palette.colorCount)throw Error('Farbindex außerhalb dieser Palette.');
+  if(rgb.length!==3||rgb.some(value=>!Number.isInteger(value)||value<0||value>palette.maxChannel))throw Error(`RGB-Werte müssen ganze Zahlen von 0 bis ${palette.maxChannel} sein.`);
+  const result=image.slice(),local=color-palette.firstColor;
+  if(palette.encoding==='dos-rgb')result.set(rgb,palette.dataOffset+2+local*3);
+  else{
+    const at=palette.dataOffset+local*2;
+    result[at]=(result[at]!&0xf8)|rgb[0]!;
+    result[at+1]=(result[at+1]!&0x88)|(rgb[1]!<<4)|rgb[2]!;
+  }
+  return result;
+}
+
 function paletteForEntry(entryIndex: number, palettes: AlisPaletteResource[]) {
   if (!palettes.length) return undefined;
   let selected = palettes[0]!;

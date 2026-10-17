@@ -312,3 +312,13 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 /* Let editor columns shrink so export controls remain reachable on narrow screens. */
 .workspace,.sidebar{min-width:0}
 .builder-r13 .gb-top>.chip{max-width:100%;overflow-wrap:anywhere}
+
+/* Original-module palette editing uses the stored DOS color components. */
+.palette-module-editor{margin:20px 0;overflow-wrap:anywhere}
+.palette-module-editor .toolbar{flex-wrap:wrap}
+.palette-module-editor select{max-width:100%;width:100%}
+.palette-edit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:4px;margin:16px 0}
+.palette-edit-grid button{min-height:44px;min-width:0;padding:4px;font-size:11px;border:1px solid #68543e}
+.palette-edit-grid button[aria-pressed=true]{outline:3px solid #e5bf76;outline-offset:-3px}
+.palette-edit-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:12px 0}
+.palette-edit-fields input{width:100%;min-width:0}

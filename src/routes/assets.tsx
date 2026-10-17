@@ -1,3 +1,4 @@
+import {AlisPaletteEditor} from '@/components/alis-palette-editor';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { createDemoAssetPack, exampleAssetManifest, loadAssetPack, type DiscoveredAssetPreview } from "@/lib/ishar/asset-pack";
@@ -158,6 +159,8 @@ function AssetsPage() {
         <button className="secondary" disabled={busy} onClick={()=>{setAutoReport(null);activatePack(createDemoAssetPack());}}>Demo-Pack</button>
       </div>
     </header>
+
+    <AlisPaletteEditor />
 
     <div className="asset-import-steps">
       <article><strong>1</strong><span>Ishar-ZIP auswählen</span><small>Originaldateien bleiben lokal im Browser.</small></article>

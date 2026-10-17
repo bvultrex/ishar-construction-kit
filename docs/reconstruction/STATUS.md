@@ -83,3 +83,7 @@ lokale Module gegen TypeScript und Python zurückgelesen; No-op byteidentisch,
 VM-Spezifikationen und unbekannte vollständige Trailer erhalten. Original-
 Ausführung, Größen-/Referenzerweiterungen und vollständige Editoren bleiben offen.
 Keine Originaldateien verändert. Details: A1_WRITER.md.
+
+## DOS-Paletteneditor
+
+Asset Lab bietet jetzt lokale IO-Palettenbearbeitung, Undo/Redo, IO-Kopie und Änderungsbericht. 60 Paletten aus Ishar 1 und 161 aus Ishar 2 wurden gezielt geändert und zurückgelesen; übrige Imagebytes erhalten. Browserexport mit FOND1.IO byteweise kontrolliert. Skriptzuordnung und Originalspielprüfung bleiben offen. Format, Bedienung und Testgrenzen: [PALETTE_EDITOR.md](PALETTE_EDITOR.md).
