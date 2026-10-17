@@ -37,4 +37,8 @@ npm run test:original-actor-signal-local
 
 Tests prüfen Aktivierung, Bestätigungen, Rücksetzungen/Schreibreihenfolge, signed-Vergleiche, alle fünf Gruppenpositionen, vier Blickrichtungen, identische Position, fehlenden Zustand und Quellschutz. Originaltest prüft EATT-Hash/Instruktionspräfixe sowie zwei cdim-Deklarationen direkt im MAIN-Image. Die isolierte Routine kann für alle 60 START.SAV-Slots ohne Mutation ausgewertet werden; ohne Aufrufvoraussetzungen sind solche Ergebnisse keine vorhergesagten Spielsituationen.
 
-Offen: unabhängiger Originalausführungsvergleich, MESSAGE-Initialparameter/Scheduler/Bestätigung zurück nach EATT, vollständige Sprach-/Textwahl und Dialoginteraktion, negative Kampfzweige samt Zielwahl und Schaden. Diese Lücken werden nicht durch erfundene Spielregeln ersetzt.
+Offen: unabhängiger Originalausführungsvergleich, MESSAGE-Initialparameter/Scheduler und vollständige Interaktionsrückmeldung, vollständige Sprach-/Textwahl und Dialoginteraktion, negative Kampfzweige samt Zielwahl und Schaden. Diese Lücken werden nicht durch erfundene Spielregeln ersetzt.
+
+## Präzisierung der Rückmeldung
+
+Die untersuchte Bestätigung 0x442A+Slot = 1 stammt aus FRISEs Goldübergabe, nicht direkt aus MESSAGE. Siehe [NPC_GOLD_AND_OPERANDS.md](NPC_GOLD_AND_OPERANDS.md). Ein allgemeiner Dialoghandshake ist damit weiterhin nicht nachgewiesen.

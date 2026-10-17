@@ -1,3 +1,4 @@
+import {evaluateOriginalAlisInteger} from './original-alis-expression.ts';
 import {actorScriptCandidates,readOriginalActorDispatch} from './original-actor-dispatch.ts';
 import {actorViewCandidate,readActorSave,type ActorSave} from './save-actors.ts';
 
@@ -56,38 +57,12 @@ export function* actorAnimationSteps(listing:string,main:Map<number,number>,init
     return word?signedWord(((memory.get(at)??0)<<8)|(memory.get(at+1)??0)):signedByte(memory.get(at)??0);
   }
   function expression(text:string):number {
-    let cursor=0,acc=0;
-    const walk=(nested=false):number=>{
-      while(cursor<text.length){
-        const ch=text[cursor]!;if(/\s/.test(ch)){cursor++;continue;}
-        if(ch===')'){if(!nested)throw Error('Unbalanced expression');cursor++;return acc;}
-        if(ch==='('){cursor++;walk(true);continue;}
-        const token=text.slice(cursor).match(/^(o\w+)/);if(!token)throw Error(`Unknown expression ${text.slice(cursor)}`);
-        const name=token[1]!;cursor+=name.length;
-        let arg:number|undefined;
-        if(text[cursor]==='('){cursor++;const literal=text.slice(cursor).match(/^(-?(?:0x[\da-f]+|\d+))\)/);
-          if(literal){arg=Number(literal[1]);cursor+=literal[0].length;}else{const previous=acc;arg=walk(true);acc=previous;}}
-        if(['oimmb','oimmw'].includes(name)){acc=arg!;continue;}
-        if(name==='oscan'){acc=scan;continue;}
-        if(name==='ornd'){
-          if(!options.random)throw Error('Original random source required');
-          const bound=acc,value=options.random(bound);
-          if(!Number.isInteger(bound)||bound<=0||!Number.isInteger(value)||value<0||value>=bound)throw Error('Invalid original random result');
-          acc=value;continue;
-        }
-        if(name==='opushacc'){stack.push(acc);continue;}if(name==='opile'){if(!stack.length)throw Error('Empty expression stack');acc=stack.pop()!;continue;}
-        if(name==='oabs'){acc=Math.abs(acc);continue;}if(name==='oneg'){acc=-acc;continue;}
-        if(name==='odirb'||name==='odirw'){acc=read(local,arg!,name==='odirw',false);continue;}
-        if(name==='omainb'||name==='omainw'){acc=read(main,arg!,name==='omainw',true);continue;}
-        if(name==='omaintc'||name==='omainti'){acc=read(main,arg!+acc*(name==='omainti'?2:1),name==='omainti',true);continue;}
-        const rhs=arg;if(rhs===undefined)throw Error(`Unsupported ${name}`);
-        switch(name){case 'oadd':acc+=rhs;break;case 'osub':acc-=rhs;break;case 'omul':acc*=rhs;break;case 'odiv':if(!rhs)throw Error('Zero divisor');acc=Math.trunc(acc/rhs);break;
-          case 'oegal':acc=+(acc===rhs);break;case 'odiff':acc=+(acc!==rhs);break;case 'oinf':acc=+(acc<rhs);break;case 'osup':acc=+(acc>rhs);break;case 'oinfeg':acc=+(acc<=rhs);break;case 'osupeg':acc=+(acc>=rhs);break;
-          case 'oand':acc=acc&rhs;break;case 'oor':acc=acc|rhs;break;default:throw Error(`Unsupported ${name}`);}
-      }
-      if(nested)throw Error('Unbalanced expression');return acc;
-    };
-    return walk();
+    return evaluateOriginalAlisInteger(text,{
+      scan,random:options.random,
+      read:(space,at,word)=>read(space==='main'?main:local,at,word,space==='main'),
+      // This visual subset currently uses one-dimensional MAIN arrays only.
+      table:(_space,at,index,_stack,word)=>read(main,at+index*(word?2:1),word,true),
+    },stack);
   }
   let pc=labels.get('00018')??-1,condition=0,mirror=false,scan=0;
   let resume:number|undefined,interrupted:number|undefined;

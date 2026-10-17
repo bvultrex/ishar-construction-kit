@@ -41,7 +41,10 @@
     "test:palette-edit": "node scripts/check-alis-palette-edit.mjs",
     "test:palette-edit-local": "node scripts/check-alis-palette-local.mjs",
     "test:original-actor-signal": "node scripts/check-original-actor-signal.mjs",
-    "test:original-actor-signal-local": "node scripts/check-original-actor-signal-local.mjs"
+    "test:original-actor-signal-local": "node scripts/check-original-actor-signal-local.mjs",
+    "test:original-alis-expression": "node scripts/check-original-alis-expression.mjs",
+    "test:original-npc-gold": "node scripts/check-original-npc-gold.mjs",
+    "test:original-npc-gold-local": "node scripts/check-original-npc-gold-local.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",

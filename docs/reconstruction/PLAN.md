@@ -52,6 +52,7 @@ nachgewiesen sind.
 - A1_WRITER.md: Schreiben geänderter A1-Images, Codec-Tests und Original-Grenzen.
 - PALETTE_EDITOR.md: originalbasierte DOS-Farbtabellen, Export und Testgrenzen.
 - EATT_SIGNALS.md: positiver EATT-Signalpfad und mehrdimensionale ALIS-Zugriffe.
+- NPC_GOLD_AND_OPERANDS.md: FRISE-Goldübergabe, EATT-Bestätigung und korrigierte Operandenregister.
 - Dieses Dokument: Plan und Abnahmebelege.
 - README.md und bestehende GRID_MODEL/ASSET_PACK/ORIGINAL_GAMEPLAY_DECOMPILE:
   Einrichtung sowie bisherige Analysen; alte Aussagen immer gegen aktuellen Code prüfen.

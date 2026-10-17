@@ -91,3 +91,7 @@ Asset Lab bietet jetzt lokale IO-Palettenbearbeitung, Undo/Redo, IO-Kopie und Ä
 ## EATT-Signalroutine
 
 Originaler positiver EATT-Zustands-/Signalpfad samt Aufrufprädikat als unverändernder Trace rekonstruiert. DOS-cdim-Byte-Strides für zwei mehrdimensionale Tabellen direkt im lokalen MAIN verifiziert. Noch keine Playtest-Verdrahtung, MESSAGE-Rückmeldung oder Originalausführung. Siehe [EATT_SIGNALS.md](EATT_SIGNALS.md).
+
+## NPC-Gold und Operandenregister
+
+FRISE-Goldübergabe und EATT-Bestätigung als komponierter Trace rekonstruiert; bisherige Annahme einer direkten MESSAGE-Bestätigung korrigiert. Registertausch bei opile, signed16-Arithmetik und native Vergleichswerte im Figurenskriptinterpreter berichtigt. Lokale Figurenskripttests weiter bestanden. Originalausführung und vollständige Interaktionsverdrahtung offen. Siehe [NPC_GOLD_AND_OPERANDS.md](NPC_GOLD_AND_OPERANDS.md).
