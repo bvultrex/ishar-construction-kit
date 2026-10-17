@@ -19,6 +19,6 @@ export function NativeScriptDiagnosticPanel(){
     <tr><td>Kontextzeiger BP</td><td>{hex(state.bp)}</td></tr><tr><td>Header-Einstieg</td><td>{hex(state.module.header.entry)}</td></tr><tr><td>Skriptzeiger SI</td><td>{hex(state.si)}</td></tr><tr><td>Timer-Zielbyte (SS:0x0C99)</td><td>{state.globals[0xc99]}</td></tr>
     <tr><td>Nächstes Opcodebyte</td><td>{state.si<state.module.image.length?hex(state.module.image[state.si]):'außerhalb des Moduls'}</td></tr><tr><td>Skriptstackoffset (BP−0x0A)</td><td>{hex(word(-10))}</td></tr><tr><td>Gespeicherter Skriptzeiger (BP−0x08)</td><td>{hex(word(-8))}</td></tr><tr><td>Ausgeführte Schritte</td><td>{state.steps}</td></tr></tbody></table>
   </>}
-  <p>Kontextaufbau: gegen alle 240 lokalen Originalmodule geprüft. Einzelschritte: Opcodes 5–10, 17, 41, 66 und 106; andere Befehle stoppen unverändert. Noch keine vollständige VM, NPC-Simulation oder Scheduler-Ausführung. Für Module über 64 KiB ist nur die Kontextprüfung angebunden.</p>
+  <p>Kontextaufbau: gegen alle 240 lokalen Originalmodule geprüft. Einzelschritte: Opcodes 5–10, 17, 41, 66, 71 und 106; andere Befehle stoppen unverändert. Noch keine vollständige VM, NPC-Simulation oder Scheduler-Ausführung. Für Module über 64 KiB ist nur die Kontextprüfung angebunden.</p>
  </section>;
 }

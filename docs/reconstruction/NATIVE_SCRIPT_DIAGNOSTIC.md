@@ -17,3 +17,7 @@ Nächste Schritte: weitere belegte Handler an den Adapter anbinden, Scheduler-/C
 Opcode106 ist mit den Zahlenoperand-Tags0/2/6/8 angebunden: vorzeichenbehaftetes Literalbyte, Literalwort, Kontextbyte und Kontextwort. Das Timer-Zielbyte SS:0C99h wird angezeigt. Die Globals starten als kontrollierter Nullkontext, nicht als Originalspielzustand.
 
 Diese Erweiterung ersetzt die oben genannte Grenze bei Opcode106: Ishar2 `IO.IO` erreicht nach14 Schritten SI0062h und Timerziel1. Der folgende Opcode71 stoppt unverändert. Native Vergleiche mit je1056 Fällen beider Spiele und Adaptertests bestehen. Die erneute Browserprüfung dieser Erweiterung steht noch aus.
+
+## Erweiterung: Opcode71
+
+Auch Opcode71 ist angebunden: Ein Literalwort wird nach ES:[BP-16h] übernommen. Die Bedeutung dieses Rohfelds wird nicht geraten. Damit erreicht Ishar2 IO.IO nun15 Schritte und SI0065h; dort hält Opcode76 an. Je144 native Vergleichsfälle pro Spiel bestehen. Der echte Modulablauf ist per Hostausführung geprüft; die erneute Browserprüfung bleibt offen.
