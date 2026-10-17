@@ -11,3 +11,14 @@ export function resumeOriginalDosScript(context:Uint8Array,module:Uint8Array,obj
  memory[u(bp-1)]=memory[u(bp-2)];
  return {memory,objects:result.memory,globals:{} as Record<number,number>,phase:'next' as const,ds:result.loadedObjectSegment?objectSegment:segment,si:base};
 }
+/** Return-callback continuation26D5..26E8. savedStack is SS:C56.
+ * Callback execution must be handled separately; this restores its saved stack.
+ */
+export function finishOriginalDosScriptCallback(context:Uint8Array,objects:Uint8Array,bp:number,savedStack:number,snapshot:readonly number[],ds:number,si:number,objectSegment:number){
+ if(context.length!==65536||objects.length!==65536||![bp,savedStack,ds,si,objectSegment].every(v=>Number.isInteger(v)&&v>=0&&v<=65535))throw Error('Invalid native callback return inputs');
+ const memory=context.slice(),u=(v:number)=>v&65535,w=(at:number)=>memory[u(bp+at)]|(memory[u(bp+at+1)]<<8);
+ memory[u(bp-10)]=savedStack&255;memory[u(bp-9)]=savedStack>>>8;
+ const result=applyOriginalDosContextDelta(objects,[w(0),w(2),w(4)],snapshot,w(-24));
+ memory[u(bp-1)]=memory[u(bp-2)];
+ return {memory,objects:result.memory,globals:{} as Record<number,number>,phase:'next' as const,ds:result.loadedObjectSegment?objectSegment:ds,si};
+}
