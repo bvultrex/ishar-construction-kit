@@ -135,3 +135,7 @@ Begrenzte Ausführung von EAFF 0x61D..0x985 liefert konkrete Modulauswahl, later
 ## EAFF-Vorauswahl und bestehender Filter korrigiert
 
 Geometrische Vorauswahl und Orientierungshelfer aus dem Original-EAFF rekonstruiert. Der bisherige Actorfilter verglich die gespeicherte Blickrichtung zu früh; er verwendet nun den vorher vom Original berechneten Wert und die konkreten Kartenfälle 2..7. signed8-Koordinatendifferenzen berücksichtigt. 432 Helferfälle gegen bounded Listingausführung, 110 Instruktionspräfixe gegen Originalbytes geprüft; Save-Actor- und Figurenframe-Tests bestanden. Terrain/Verdeckung und vollständige Erzeugung bleiben offen. Details: ALIS_ENTITIES.md.
+
+## EAFF-Perspektive in Figurenpfad integriert
+
+Der CONT1-Figurenpfad liest seine Perspektivstaffel jetzt aus EAFF statt einer fest eingetragenen Tabelle. Begrenzte Listingausführung rekonstruiert zudem die Karten- und Höhenkorrekturen (Karte 4 verlangt explizite originale Geländedifferenz). 354 Perspektivfälle, 112 Original-Instruktionspräfixe und bestehende lokale Figurenskript-/Animationstests geprüft. Verdeckung, Crowd-Zufall und vollständige andere Kartenpfade bleiben offen. Siehe ALIS_ENTITIES.md.

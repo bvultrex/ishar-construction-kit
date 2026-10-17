@@ -1,4 +1,5 @@
 import {evaluateOriginalAlisInteger} from './original-alis-expression.ts';
+import {originalEaffPerspective} from './original-eaff-perspective.ts';
 import {actorScriptCandidates,readOriginalActorDispatch} from './original-actor-dispatch.ts';
 import {actorViewCandidate,readActorSave,type ActorSave} from './save-actors.ts';
 
@@ -169,19 +170,19 @@ export function createOriginalActorAnimation(bundle:ActorListingBundle,bytes:Uin
   // MAIN 0x011e5/0x036c0: stationary view, no movement in progress.
   memory.set(0x2ab7,0);
   memory.set(0x2ab4,view.row);memory.set(0x2ab5,view.col);memory.set(0x2ab6,view.facing);memory.set(0x2d18,view.map);memory.set(0x4ef2,view.scene);
-  const positions=[{x:192,y:-42,scale:10},{x:92,y:-25,scale:21},{x:60,y:-12,scale:32},{x:44,y:-7,scale:44},{x:34,y:-4,scale:56}];
   for(const actor of saved.actors){
     const relative=actorViewCandidate({...view,actors:saved.actors},actor);if(!relative)continue;
-    const binding=actorScriptCandidates(dispatch,actor),position=positions[relative.distance-1];
-    if(!binding||binding.conditional||binding.scriptIds.length!==1||!position){unsupported.push(actor.id);continue;}
+    const binding=actorScriptCandidates(dispatch,actor);
+    if(!binding||binding.conditional||binding.scriptIds.length!==1||relative.distance===0){unsupported.push(actor.id);continue;}
+    const position=originalEaffPerspective(bundle.dispatch,{map:view.map,distance:relative.distance,lateral:relative.lateral});
     const script=Object.entries(bundle.scripts).find(([,text])=>parseInt(text.match(/id=0x([\da-f]+)/)?.[1]??'-1',16)===binding.scriptIds[0]);
     if(!script){unsupported.push(actor.id);continue;}
     // EAFF explicitly sets offset to zero for these branches; unported/random crowd offsets stay disabled.
     const entry=bundle.dispatch.slice(bundle.dispatch.indexOf(`L_${binding.entry.slice(2)}:`));
     const offset=entry.match(/^\s*[\da-f]+\s+[\da-f]+\s+cstore\s+oimmb\((-?\d+)\), ->sdirw\(0x1a\)/m);
     if(!offset || entry.indexOf(offset[0])>entry.indexOf('clive')){unsupported.push(actor.id);continue;}
-    const x=relative.lateral*position.x+Math.trunc(+offset[1]!*10/position.scale);
-    const steps=actorAnimationSteps(script[1],memory,{0:x,2:relative.distance*99-6,4:position.y,0x0c:35*256+actor.id},{random});
+    const x=position.baseX+Math.trunc(+offset[1]!*10/position.divisor);
+    const steps=actorAnimationSteps(script[1],memory,{0:x,2:position.depth-1,4:position.height,0x0c:35*256+actor.id},{random});
     sessions.push({actorId:actor.id,module:script[0],steps,frame:[],stopped:false});
   }
   advance();
