@@ -127,3 +127,7 @@ Der strukturelle Entity-Abbau ist nun mit EAFF 0x3A..0x5F verbunden: vorab erfas
 ## EAFF-Erzeugung: sechs Initialstores
 
 EAFF 0x99A..0x9E8 ist als Initialisierungsadapter rekonstruiert und vollständig byteweise gegen die lokale Originaldatei geprüft. Koordinaten verwenden die vorhandene signed16-Operandenrekonstruktion; Actor-ID und Klasse werden aus dem Skript gesetzt. Komposition mit Figurenskript-Frame, Aufräumen und Handle-Wiederverwendung getestet. Keine automatische Spawn-Auswahl oder Browseraktivierung. Siehe ALIS_ENTITIES.md.
+
+## EAFF-Modulauswahl
+
+Begrenzte Ausführung von EAFF 0x61D..0x985 liefert konkrete Modulauswahl, laterale Overrides und geordnete MAIN-Schreibtraces. Alle 128 nichtnegativen Typwerte und drei Sonderplätze geprüft; Typ-43-Inventargate einschließlich mehrdimensionaler MAIN-Adressierung enthalten. 154 Instruktionspräfixe gegen hashgebundene Original-EAFF geprüft, Arraydeklarationen gegen MAIN. Keine native Ausführungsprüfung, kein vollständiger Spawn-/Sichtbarkeitsablauf und keine Browseraktivierung. Dokumentation: ALIS_ENTITIES.md.
