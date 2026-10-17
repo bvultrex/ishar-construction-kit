@@ -2,6 +2,7 @@
  * These are file offsets, not the similarly named ALIS memory addresses.
  * MAIN.IO 0x00a7d initializes the actor upper bound to 110; EAFF starts at 50.
  * These are candidates: sprite dispatch and occlusion remain separate. */
+import {originalEaffViewGate} from './original-eaff-view.ts';
 export interface SaveActor {
   id: number; row: number; col: number; facing: number;
   hp: number; type: number; scene: number;
@@ -26,13 +27,10 @@ export function readActorSave(bytes: Uint8Array): ActorSave | null {
 /** EAFF's geometric and scene gate only. Occlusion, map-specific height,
  * spawn exceptions and animation remain separate. */
 export function actorViewCandidate(save:ActorSave,actor:SaveActor) {
-  if(actor.hp<=0 || actor.scene!==save.scene) return null;
-  const dr=actor.row-save.row,dc=actor.col-save.col;
-  const relative:Record<number,[number,number]>={1:[-dc,dr],2:[dr,dc],3:[dc,-dr],4:[-dr,-dc]};
-  const pair=relative[save.facing];
-  if(!pair) return null;
-  const [distance,lateral]=pair;
-  if(distance<0 || distance>=6 || Math.abs(lateral)>distance) return null;
-  if(save.map!==1 && actor.facing!==save.facing) return null;
-  return {distance,lateral,placementKey:(distance+(save.map===1 ? 0 : 1))*99};
+  const gate=originalEaffViewGate(save,actor);if(!gate)return null;
+  // EAFF updates actor orientation before the map-specific gate. The pure
+  // candidate API uses that value without mutating the supplied save.
+  const map=save.map&255,offset=[2,3,4,5,6,7].includes(map)?1:0;
+  if(offset&&gate.facing!==save.facing)return null;
+  return {distance:gate.distance,lateral:gate.lateral,placementKey:(gate.distance+offset)*99};
 }

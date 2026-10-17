@@ -12,7 +12,8 @@ assert.deepEqual(actorViewCandidate(save,actor),{distance:1,lateral:0,placementK
 for(const [facing,row,col] of [[1,20,29],[2,21,30],[3,20,31],[4,19,30]]){
   assert.equal(actorViewCandidate({...save,facing},{...actor,row,col}).distance,1);
 }
-assert.equal(actorViewCandidate({...save,map:2},actor),null,'non-Irvan facing gate');
+assert.deepEqual(actorViewCandidate({...save,map:2},actor),{distance:1,lateral:0,placementKey:198},'EAFF recalculates facing before the non-Irvan gate');
+assert.equal(actorViewCandidate({...save,map:2},{...actor,col:save.col,row:save.row}),null,'same tile preserves stored facing, so later gate can reject');
 assert.equal(actorViewCandidate(save,{...actor,hp:0}),null);
 const dead=bytes.slice();new DataView(dead.buffer).setInt16(3261+100,-1,false);
 assert.equal(readActorSave(dead).actors[0].hp,-1,'EAFF reads signed HP, not 65535');

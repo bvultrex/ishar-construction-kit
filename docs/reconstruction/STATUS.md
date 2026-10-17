@@ -131,3 +131,7 @@ EAFF 0x99A..0x9E8 ist als Initialisierungsadapter rekonstruiert und vollständig
 ## EAFF-Modulauswahl
 
 Begrenzte Ausführung von EAFF 0x61D..0x985 liefert konkrete Modulauswahl, laterale Overrides und geordnete MAIN-Schreibtraces. Alle 128 nichtnegativen Typwerte und drei Sonderplätze geprüft; Typ-43-Inventargate einschließlich mehrdimensionaler MAIN-Adressierung enthalten. 154 Instruktionspräfixe gegen hashgebundene Original-EAFF geprüft, Arraydeklarationen gegen MAIN. Keine native Ausführungsprüfung, kein vollständiger Spawn-/Sichtbarkeitsablauf und keine Browseraktivierung. Dokumentation: ALIS_ENTITIES.md.
+
+## EAFF-Vorauswahl und bestehender Filter korrigiert
+
+Geometrische Vorauswahl und Orientierungshelfer aus dem Original-EAFF rekonstruiert. Der bisherige Actorfilter verglich die gespeicherte Blickrichtung zu früh; er verwendet nun den vorher vom Original berechneten Wert und die konkreten Kartenfälle 2..7. signed8-Koordinatendifferenzen berücksichtigt. 432 Helferfälle gegen bounded Listingausführung, 110 Instruktionspräfixe gegen Originalbytes geprüft; Save-Actor- und Figurenframe-Tests bestanden. Terrain/Verdeckung und vollständige Erzeugung bleiben offen. Details: ALIS_ENTITIES.md.

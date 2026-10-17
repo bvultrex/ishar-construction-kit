@@ -59,7 +59,8 @@
     "test:original-alis-entities-local": "node scripts/check-original-alis-entities-local.mjs",
     "test:original-eaff-cleanup": "node scripts/check-original-eaff-cleanup.mjs",
     "test:original-eaff-placement": "node scripts/check-original-eaff-placement.mjs",
-    "test:original-eaff-spawn-local": "node scripts/check-original-eaff-spawn-local.mjs"
+    "test:original-eaff-spawn-local": "node scripts/check-original-eaff-spawn-local.mjs",
+    "test:original-eaff-view": "node scripts/check-original-eaff-view.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",
