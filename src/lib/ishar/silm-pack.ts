@@ -105,6 +105,8 @@ class BitReader {
     this.bytes = bytes;
   }
 
+  get consumedBytes(){return Math.ceil(this.position/8);}
+
   read(width: number): number {
     if (!Number.isInteger(width) || width < 0 || width > 24) throw new Error(`Ungültige Bitbreite ${width}.`);
     if (this.position + width > this.bytes.length * 8) {
@@ -121,7 +123,7 @@ class BitReader {
   }
 }
 
-function unpackNewA1(bytes: Uint8Array, header: SilmHeader): Uint8Array {
+function unpackNewA1(bytes: Uint8Array, header: SilmHeader) {
   if (header.packerKind !== PACKER_NEW) throw new Error("Kein A1-Modul.");
   if (header.endian !== "le") throw new Error("A1-Decoder ist für DOS/Little-Endian verifiziert.");
 
@@ -186,24 +188,27 @@ function unpackNewA1(bytes: Uint8Array, header: SilmHeader): Uint8Array {
     }
   }
 
-  return output.slice(0, unpackedSize);
+  return {data:output.slice(0, unpackedSize),trailingBytes:bytes.slice(packedHeaderSize+DICT+Math.min(bits.consumedBytes,packed.length))};
 }
 
 export function unpackSilm(bytes: Uint8Array): {
   header: SilmHeader;
   data: Uint8Array | null;
   note: string;
+  /** Whole bytes after the consumed A1 stream; preserve opaque trailers on edits. */
+  trailingBytes?: Uint8Array;
 } | null {
   const header = detectSilm(bytes);
   if (!header) return null;
 
   if (header.packerKind === PACKER_NEW) {
     try {
-      const data = unpackNewA1(bytes, header);
+      const decoded = unpackNewA1(bytes, header);
       return {
         header,
-        data,
-        note: `Entpackt mit DOS A1/New-Packer (${data.length} Bytes, bounded decoder).`,
+        data:decoded.data,
+        trailingBytes:decoded.trailingBytes,
+        note: `Entpackt mit DOS A1/New-Packer (${decoded.data.length} Bytes, bounded decoder).`,
       };
     } catch (err) {
       return { header, data: null, note: `A1-Unpack fehlgeschlagen: ${String(err)}` };

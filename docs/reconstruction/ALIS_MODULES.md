@@ -58,8 +58,10 @@ Ressourcenreferenzen gültig sind. Ein vollständiger Validator fehlt noch.
 Umschlag und VM-Spezifikationen byteidentisch zurück. Für ungepackte Module sind
 gleichlange Imageänderungen möglich; übrige Bytes bleiben erhalten.
 
-Geänderte gepackte Images werden ausdrücklich abgewiesen: Ein verifizierter
-A1-Writer fehlt. Es erfolgt keine heimliche Umwandlung in einen anderen Packmodus.
+Geänderte gepackte Images nutzen jetzt den deterministischen A1-Writer mit
+Readback und Trailer-Erhalt. 240 lokale Änderungsfälle wurden gegen beide
+Decoder geprüft; Originalausführung bleibt offen. Grenzen: A1_WRITER.md.
+Es erfolgt keine heimliche Umwandlung in einen anderen Packmodus.
 Vergrößerungen und neue Modul-IDs/-Referenzen sind ebenfalls noch keine
 fertige Content-Pipeline. Unveränderte Roundtrips sind daher kein Beleg für einen
 vollständigen Grafik-/Scripteditor.
@@ -99,8 +101,8 @@ bei Imageoffset 0x3fec (`eval runaway`). Listings liegen lokal in
 Dies sind automatisch erzeugte Listings, keine fertige lesbare Rekonstruktion.
 
 Nächste Aufgaben: Speicherfelder aus ihren Original-Verwendungen semantisch
-zuordnen; sichere Editoren daran binden; A1-Writer entwickeln und mit externem
-Decoder sowie Originalausführung prüfen; unbekannte FRISE-Daten/Codegrenze
+zuordnen; sichere Editoren daran binden; den gegen den externen Decoder
+geprüften A1-Writer auch in der Originalausführung prüfen; unbekannte FRISE-Daten/Codegrenze
 aufklären. Dafür keine Ersatzregeln erfinden.
 
 ## Reproduktion

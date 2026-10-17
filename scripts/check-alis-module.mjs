@@ -1,3 +1,4 @@
+import {packSilmA1} from '../src/lib/ishar/silm-write.ts';
 import assert from 'node:assert/strict';
 import {readAlisModule,writeAlisModule,readAlisImageHeader} from '../src/lib/ishar/alis-module.ts';
 function raw(main=false){
@@ -32,3 +33,12 @@ assert.throws(()=>readAlisModule(new Uint8Array(5)),/truncated/);
 assert.throws(()=>readAlisImageHeader(new Uint8Array(23)),/truncated/);
 const unsupported=raw();unsupported[3]=0x81;assert.throws(()=>readAlisModule(unsupported),/Unsupported/);
 console.log('ALIS raw/main envelopes, header bounds, unknown-byte preservation, no-op/raw edits and explicit unsupported-mode rejection passed.');
+
+const seed=raw(),payload=seed.slice(6),packed=packSilmA1(payload,seed.slice(0,6)),opaque=Uint8Array.of(0xde,0xad,0xbe,0xef);
+const packedWithTail=new Uint8Array(packed.length+opaque.length);packedWithTail.set(packed);packedWithTail.set(opaque,packed.length);
+const moduleWithTail=readAlisModule(packedWithTail),changed=moduleWithTail.image.slice();changed[31]^=1;
+assert.deepEqual(writeAlisModule(moduleWithTail),packedWithTail,'no-op retains all trailer bytes');
+const repacked=writeAlisModule(moduleWithTail,changed);
+assert.deepEqual(repacked.subarray(-4),opaque,'unknown complete trailer bytes preserved after recompression');
+assert.deepEqual(readAlisModule(repacked).image,changed);
+console.log('A1 unknown trailer preservation passed.');

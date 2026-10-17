@@ -26,7 +26,8 @@ Codes sind teilweise in GRID_MODEL/cont-grid dokumentiert.
 
 - `.IO`: ALIS-Module, Code und Ressourcen. 240 lokale DOS-A1/raw-Module samt
   Headern und unverändertem Roundtrip geprüft; Details: ALIS_MODULES.md.
-  Geänderte A1-Dateien und neue Module weiterhin offen.
+  Geänderte A1-Dateien: Writer mit beidseitigem Decoder-Readback vorhanden
+  (A1_WRITER.md), Originalausführung und neue Module weiterhin offen.
 - `.SAV`: Ishar-2-DOS-Teilpfade für 8359-Byte-Saves auf IO-Lader zurückgeführt.
   Ishar-1-MAIN-Lese-/Schreibsequenzen jetzt getrennt abgeleitet: 107 Felder/Blöcke,
   5216 Bytes, acht Saves byteidentisch aufgeteilt; Blocksemantik noch offen.

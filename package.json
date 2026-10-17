@@ -33,7 +33,11 @@
     "mod:cont": "node scripts/cont-mod.mjs",
     "test:alis-module": "node scripts/check-alis-module.mjs",
     "test:ishar1-save-layout": "node scripts/check-ishar1-save-layout.mjs",
-    "audit:alis": "node scripts/audit-alis-modules.mjs"
+    "audit:alis": "node scripts/audit-alis-modules.mjs",
+    "test:a1-writer": "node scripts/check-a1-writer.mjs",
+    "test:a1-writer-local": "node scripts/check-a1-writer-local.mjs",
+    "alis:module": "node scripts/alis-module.mjs",
+    "test:alis-cli": "node scripts/check-alis-module-cli.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",

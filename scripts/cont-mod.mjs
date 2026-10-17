@@ -42,7 +42,7 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
   const [source,edited,output]=args;if(!source||!edited||!output)throw Error('diff <original CONT> <edited CONT> <new patch.json>');
   const patch=await createContPatch(new Uint8Array(await readFile(source)),new Uint8Array(await readFile(edited)),basename(source));
   // Metadata export must also stay outside the original installation directory.
-  if(within(await realpath(dirname(source)),await physical(output)))throw Error('Patch output must be outside original directory');
+  if(within(dirname(await realpath(source)),await physical(output)))throw Error('Patch output must be outside original directory');
   await writeFile(output,JSON.stringify(patch,null,2)+'\n',{flag:'wx'});console.log(`${patch.edits.length} byte changes; source ${patch.sourceSha256}`);
  }else if(command==='apply'){
   const [root,patchFile,output]=args;if(!root||!patchFile||!output)throw Error('apply <original installation> <patch.json> <new output directory>');

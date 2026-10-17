@@ -10,7 +10,7 @@ assert.equal(layout.fields.length,107);assert.equal(layout.fields.at(-1).fileOff
 assert.deepEqual(layout.fields.slice(0,5).map(field=>field.memoryAddress),[0x421f,0x137c,0x137d,0x137e,0x1508]);
 const nativeModule=readAlisModule(main),edit=nativeModule.image.slice();edit[25]^=1;
 assert.deepEqual(writeAlisModule(nativeModule),main);
-assert.throws(()=>writeAlisModule(nativeModule,edit),/verified A1 writer/);
+assert.deepEqual(readAlisModule(writeAlisModule(nativeModule,edit)).image,edit,'packed MAIN edit roundtrip');
 const names=readdirSync(root).filter(name=>/\.SAV$/i.test(name));assert.ok(names.length);
 for(const name of names){
  const bytes=new Uint8Array(readFileSync(join(root,name))),before=bytes.slice(),fields=inspectIshar1Save(bytes,layout),roundtrip=new Uint8Array(bytes.length),view=new DataView(roundtrip.buffer);

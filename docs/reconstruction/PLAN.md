@@ -21,7 +21,7 @@ Ein bestandener synthetischer Test beweist keine Original-Verhaltensgleichheit.
 | P0 | Bestands- und Versionsprofile beider Spiele | Dateimanifeste, Hashes, Herkunft und aktive Sprache | Inventur vorhanden; Edition/Sprache unbestätigt |
 | P0 | Sicherer verlustfreier Datenzugriff | No-op-Roundtrip, gezielte Änderung, unbekannte Bytes erhalten, defekte Eingaben abgewiesen | 13 CONT-Dateien geprüft; weitere Formate offen |
 | P0 | Vollständiger erster Mod-Ablauf pro Spiel | Import, Änderung, Export in Arbeitskopie, Original startet und zeigt Änderung | Noch nicht nachgewiesen |
-| P1 | ALIS-/Packer-Profile beider Spiele | Header-/Opcode-/Adresszuordnung pro Hash, Loader-/Writer-Tests | Ishar-1/2-Images auditiert; Ishar-1-Listings und SAV-I/O abgeleitet; Writer/Verhaltensbelege offen |
+| P1 | ALIS-/Packer-Profile beider Spiele | Header-/Opcode-/Adresszuordnung pro Hash, Loader-/Writer-Tests | Ishar-1/2-Images auditiert; Ishar-1-Listings und SAV-I/O abgeleitet; A1-Writer gegen Decoder geprüft, Original-Verhaltensbelege offen |
 | P1 | Laufzeit und Originalvergleich | reproduzierbarer Start, kontrollierte Eingaben/Zeit/RNG, Zustands- und Bildvergleich | Browser verfügbar; Original-Testumgebung neu prüfen |
 | P1 | Welt und Zustandsverwaltung | alle Karten-/Gebietswechsel und Kollisionen je Spiel vergleichen | Ishar 2 teilweise; Ishar 1 Kartenbytes gelesen |
 | P1 | Charaktere, Items und Handel | Save-/Codeherkunft, Export und Original-Readback | Ishar 2 teilweise; Kandidatentabellen nicht pauschal bestätigt |
@@ -49,6 +49,7 @@ nachgewiesen sind.
 - FORMATS.md: erste Formatspezifikation, weitere Typen explizit offen.
 - MOD_WORKFLOW.md: vorhandener Builder-/CLI-Export und noch offene Originalprüfung.
 - ALIS_MODULES.md: DOS-Modulprofile, Roundtrips und originales Ishar-1-SAV-I/O.
+- A1_WRITER.md: Schreiben geänderter A1-Images, Codec-Tests und Original-Grenzen.
 - Dieses Dokument: Plan und Abnahmebelege.
 - README.md und bestehende GRID_MODEL/ASSET_PACK/ORIGINAL_GAMEPLAY_DECOMPILE:
   Einrichtung sowie bisherige Analysen; alte Aussagen immer gegen aktuellen Code prüfen.

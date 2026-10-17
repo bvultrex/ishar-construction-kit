@@ -1,3 +1,4 @@
+import {packSilmA1} from './silm-write.ts';
 import {unpackSilm,PACKER_NEW} from './silm-pack.ts';
 /** DOS ALIS container: outer six-byte envelope, optional 16 VM-spec bytes,
  * then packed/raw image. No Atari/Amiga inference is performed here.
@@ -39,13 +40,20 @@ export function readAlisModule(bytes:Uint8Array):AlisModule {
  return {encoding,isMain,envelopeBytes,original:bytes.slice(),image,header:readAlisImageHeader(image)};
 }
 /** No-op writes preserve the entire original envelope/compressed stream.
- * Editing raw modules is length-preserving. Packed edits fail closed until a
- * verified A1 writer exists; no silent conversion to a different pack mode. */
+ * Edits remain length-preserving. A1 changes use the deterministic format
+ * writer and are decoded/read back before return; pack mode stays unchanged. */
 export function writeAlisModule(module:AlisModule,image:Uint8Array=module.image):Uint8Array {
  const baseline=readAlisModule(module.original);
  if(image.length!==baseline.image.length)throw Error('ALIS image resizing is not supported');
  readAlisImageHeader(image);
  if(image.every((value,index)=>value===baseline.image[index]))return baseline.original.slice();
- if(baseline.encoding!=='dos-raw')throw Error('Packed ALIS edits require a verified A1 writer');
+ if(baseline.encoding==='dos-a1'){
+  const stream=packSilmA1(image,baseline.original.slice(0,baseline.envelopeBytes));
+  const tail=unpackSilm(baseline.original)?.trailingBytes??new Uint8Array();
+  const result=new Uint8Array(stream.length+tail.length);result.set(stream);result.set(tail,stream.length);
+  const readback=readAlisModule(result);
+  if(!image.every((value,index)=>value===readback.image[index]))throw Error('ALIS writer readback mismatch');
+  return result;
+ }
  const result=baseline.original.slice();result.set(image,baseline.envelopeBytes);return result;
 }
