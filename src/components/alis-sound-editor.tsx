@@ -26,8 +26,8 @@ export function AlisSoundEditor(){
   <h2 id="sound-editor-title">Originalmodul: Soundressourcen</h2>
   <p>Soundheader eines lokalen DOS-IO-Moduls untersuchen und die gespeicherte Geschwindigkeit ändern. Die Quelldatei bleibt unverändert.</p>
   <div className="toolbar"><label className="file-button">IO-Modul für Sound öffnen<input hidden type="file" accept=".io,.IO" disabled={busy} onChange={e=>{const file=e.currentTarget.files?.[0];e.currentTarget.value='';if(file)void load(file);}}/></label>
-   <button disabled={busy||!past.length} onClick={()=>{if(!image)return;const next=past.at(-1)!;setFuture([image,...future]);setPast(past.slice(0,-1));setImage(next);setDraft(String(readAlisSoundDirectory(next)[index]?.sampleHeader?.speed??10));}}>Sound rückgängig</button>
-   <button disabled={busy||!future.length} onClick={()=>{if(!image)return;const next=future[0]!;setPast([...past,image]);setFuture(future.slice(1));setImage(next);setDraft(String(readAlisSoundDirectory(next)[index]?.sampleHeader?.speed??10));}}>Sound wiederholen</button>
+   <button disabled={busy||!past.length} onClick={()=>{if(!image)return;const next=past.at(-1)!;setFuture([image,...future]);setPast(past.slice(0,-1));setImage(next);setError('');setMessage('Änderung rückgängig gemacht.');setDraft(String(readAlisSoundDirectory(next)[index]?.sampleHeader?.speed??10));}}>Sound rückgängig</button>
+   <button disabled={busy||!future.length} onClick={()=>{if(!image)return;const next=future[0]!;setPast([...past,image]);setFuture(future.slice(1));setImage(next);setError('');setMessage('Änderung wiederhergestellt.');setDraft(String(readAlisSoundDirectory(next)[index]?.sampleHeader?.speed??10));}}>Sound wiederholen</button>
    <button disabled={busy||!source} onClick={exportModule}>Sound-IO-Kopie exportieren</button>
   </div>
   {error&&<p role="alert">{error}</p>}{message&&<p role="status">{message}</p>}
