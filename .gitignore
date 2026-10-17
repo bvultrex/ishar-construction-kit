@@ -12,9 +12,16 @@ Ishar1/
 Ishar2/
 corpus/
 fixtures/original/
+*.FIC
+*.fic
+cont-dumps/
 
 # Local analysis output
 *.bak
 *.tmp
 .DS_Store
 Thumbs.db
+
+# Local DOSBox diagnostics (never project source)
+/stdout.txt
+/stderr.txt
