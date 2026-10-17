@@ -163,3 +163,7 @@ Die zweite CONT-Schicht ist über Original-MAIN-Deklarationen und vollständige 
 ## Switchvergleich Ishar 1 und Ishar 2
 
 Neue strukturelle Integeroperanden-Längenprüfung erlaubt den direkten Tabellenvergleich ohne manuell gesetzte Operandenden. Vorhandene Listings: Ishar 1 284 Tabellen/3098 Fälle in 81 Modulen, Ishar 2 378 Tabellen/3801 Fälle in 118 Modulen, keine Prüfungsfehler. Pro Tabelle gezielte IO-Kopienänderung mit Pack-/Unpack-Readback und byteidentischer Wiederherstellung getestet. Lokaler Hashbericht außerhalb Git. Keine Behauptung vollständiger Codeabdeckung oder nativer Ausführung. Siehe ALIS_SWITCHES.md.
+
+## Direkte Kontrollflussprüfung beider Profile
+
+23964 direkte Sprünge/Aufrufe/Resumeziele mit Opcodeart und Breite gegen jeweilige Originalmodule geprüft: Ishar 1 10616 Stellen in 94 Modulen, Ishar 2 13348 in 140, keine Fehler. Gezielter IO-Kopienpatch und Pack-/Unpack-Readback pro betroffenem Modul. Neue negative 24-Bit-Ziele bleiben mangels Originalfall/DOS-Nachweis abgewiesen; der Referenzreader ist dort fehlerverdächtig. Kein vollständiger CFG-/Ausführungsnachweis. Dokumentation: ALIS_BRANCHES.md.
