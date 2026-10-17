@@ -137,8 +137,10 @@ function unpackNewA1(bytes: Uint8Array, header: SilmHeader) {
     throw new Error("A1-Dictionary ist ungültig.");
   }
 
-  // The original decoder can read a few zero-filled words beyond the physical
-  // packed stream. Reproduce that behavior in a bounded buffer.
+  // Deterministic host policy: zero-extend lookahead in a bounded buffer.
+  // Native DOS short reads leave the rest of the input buffer unchanged;
+  // bytes beyond EOF are therefore not guaranteed to be zero (AZAL.IO).
+  // Do not describe this safety policy as exact native EOF behavior.
   const packed = bytes.slice(packedHeaderSize + DICT);
   const padded = new Uint8Array(packed.length + A1_ZERO_LOOKAHEAD);
   padded.set(packed);
