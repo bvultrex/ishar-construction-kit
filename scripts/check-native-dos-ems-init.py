@@ -3,7 +3,8 @@ import argparse,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('--startup',action='store_true');a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('--startup',action='store_true');p.add_argument('--shutdown',action='store_true');a=p.parse_args()
+assert not(a.startup and a.shutdown), 'Use separate startup and shutdown checks'
 memory=a.capture.read_bytes();digest=hashlib.sha256(memory).hexdigest()
 assert digest in ['5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7','f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04']
 repo=Path(__file__).resolve().parent.parent
@@ -42,5 +43,16 @@ for case in cases:
  else:
   layout=case['layout'];assert cpu.reg_read(UC_X86_REG_SP)==0xfefe
   for offset,value in [(0xb8a,layout['screenSegment']),(0xb88,0),(0xb94,0),(0xb96,layout['frontier']),(0x1df9,0),(0x1dfb,layout['screenSegment']),(0xc24,0),(0xc26,layout['screenSegment']),(0xb5a,0),(0xb5c,layout['screenSegment'])]:assert int.from_bytes(cpu.mem_read(0x1c0b0+offset,2),'little')==value,(case,offset)
+ if a.shutdown:
+  for attempt in range(2):
+   calls.clear();done.clear();cpu.mem_write(0x3fefe,b'\0\1')
+   for r,v in saved+[(UC_X86_REG_AX,0xabcd),(UC_X86_REG_CS,0x1000),(UC_X86_REG_SS,0x3000),(UC_X86_REG_SP,0xfefe)]:cpu.reg_write(r,v)
+   cpu.emu_start(0x10bbc,0xfffff,count=40)
+   assert done==[0x10100] and len(calls)==len(case['release']['calls'])
+   for actual,wanted in zip(calls,case['release']['calls']):
+    for key,value in wanted.items():assert actual[key]==value
+   for at,key in [(0x10b1a,'savedFrame'),(0x10b18,'savedHandle'),(0x10b1c,'active')]:assert int.from_bytes(cpu.mem_read(at,2),'little')==expected[key]
+   for r,v in saved+[(UC_X86_REG_AX,0xabcd)]:assert cpu.reg_read(r)==v
+   assert cpu.reg_read(UC_X86_REG_SP)==0xff00
 assert a.capture.read_bytes()==memory
-print(json.dumps({'captureSha256':digest,'startup':a.startup,'cases':len(cases),'result':'original EMS protocol and configured startup memory layout match','limits':'mocked BIOS/DOS/EMS replies, no actual expanded-memory manager or page contents'}))
+print(json.dumps({'captureSha256':digest,'startup':a.startup,'shutdown':a.shutdown,'cases':len(cases),'result':'original EMS protocol and configured startup/shutdown state match','limits':'mocked BIOS/DOS/EMS replies, no actual expanded-memory manager or page contents'}))

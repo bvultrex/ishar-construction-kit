@@ -15,3 +15,10 @@ export function planOriginalDosEmsInit(signatureMatches:boolean,queryStatus:numb
  }
  return result(1,pageFrame);
 }
+/** Native 1000:0BBC..0BDF. Does not clear the active word or handle and
+ * does not inspect the driver's release status, even on repeated calls.
+ */
+export function planOriginalDosEmsRelease(active:number,handle:number){
+ if(![active,handle].every(v=>Number.isInteger(v)&&v>=0&&v<=65535))throw new Error('Invalid native EMS release state');
+ return {active,handle,calls:active===0?[]:[{interrupt:0x67,ah:0x45,dx:handle}]};
+}
