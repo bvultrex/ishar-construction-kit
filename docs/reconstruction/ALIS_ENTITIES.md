@@ -65,3 +65,13 @@ Der Originalpfad führt `clistent` aus, prüft bis zum -1-Sentinel das Klassenby
 Kein vollständiger EAFF-Gebietswechsel: Bildschirm-/Linkzustand, native `ckill`-Nebenwirkungen, erneute Actorauswahl/Erzeugung und Scheduler fehlen. Keine Aktivierung in der Browserlaufzeit und keine Ishar-1-Zuordnung behauptet.
 
 Reproduktion: `node scripts/check-original-eaff-cleanup.mjs`; mit `ISHAR2_DIR` erfolgt der direkte Originalbytevergleich, mit `ISHAR_ACTOR_LISTINGS` zusätzlich der Listingvergleich. Synthetische Tests prüfen Klassenfilter, Wurzel-Ausnahme, erhaltene Nachfolger, Entfernen mehrerer Einträge ohne Überspringen und Freilistenreihenfolge.
+
+## Ishar-2-EAFF-Initialisierung nach clive
+
+`original-eaff-placement.ts:initializeOriginalEaffActor` rekonstruiert EAFF 0x099A..0x09E8 (gleiche EAFF.IO-Prüfsumme wie oben). Ein lokaler Test prüft den vollständigen 79-Byte-Block direkt gegen das entpackte Original. Eingaben sind ausdrücklich EAFF-Lokalwerte, keine frei interpretierten Kartenkoordinaten: +0x10 Basis-X, +0x1A lateraler Wert, +0x1E Divisor, +0x0E Tiefe, +0x12 Höhe und Byte +0x16 Actor-ID.
+
+Bei Handle -1 überspringt der Originalzweig alle Stores. Sonst schreibt er in das Ziel: Wort +0 = Basis-X + trunc(signed16(lateral*10)/divisor) mit signed16-Zwischenschritten; Wort +2 = Tiefe-1; Wort +4 = Höhe; Byte +13 = Actor-ID; Byte +12 = 35; Byte +9 = 38. Der gemeinsame Operandeninterpreter verarbeitet die beiden Rechenausdrücke einschließlich Stack-/Registersemantik. Der Adapter setzt weder Form noch Spiegelung, weil dieser Block dies nicht tut. Die Bedeutung von Byte +9 wird hier nicht weiter behauptet.
+
+Ungültige Eingaben, fehlender Zielhandle oder Division durch null werden vor Schreibzugriffen abgewiesen; diese kontrollierten Fehler sind Toolkit-Grenzen. Die originale Fehlerbehandlung ist nicht belegt. Vorhergehende Soundzustände 0x0986..0x0999, Auswahl des clive-Moduls, Elternkontext und Scheduler sind nicht Teil dieser Funktion. Kein vollständiges EAFF und keine native Ausführungsprüfung.
+
+Test: `node scripts/check-original-eaff-placement.mjs`, mit `ISHAR2_DIR` zusätzlicher Originalbytevergleich. Geprüft sind sechs Stores, negative Division, signed16-Überlauf, fehlgeschlagenes clive und unveränderter Zustand bei ungültigen Eingaben. Komposition: Initialisierung -> passender Actorframe -> EAFF-Entfernung -> wiederverwendeter Handle lehnt den alten Actorframe ab.

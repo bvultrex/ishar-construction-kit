@@ -123,3 +123,7 @@ Referenzbasierte alte DOS-Entityverkettung, elf Byte Vererbung, Handles, Typ-/Kl
 ## Ishar-2-EAFF-Bindung
 
 Der strukturelle Entity-Abbau ist nun mit EAFF 0x3A..0x5F verbunden: vorab erfasste Live-Liste, Entfernung aller Klasse-35-Einträge, Erhalt anderer Klassen. Der gesamte Skriptblock ist direkt gegen die lokale EAFF.IO geprüft; Opcode-Semantik bleibt referenzbasiert. Vollständige killent-Nebenwirkungen und Browserintegration weiter offen. Test: `node scripts/check-original-eaff-cleanup.mjs` (Originalvergleich mit ISHAR2_DIR).
+
+## EAFF-Erzeugung: sechs Initialstores
+
+EAFF 0x99A..0x9E8 ist als Initialisierungsadapter rekonstruiert und vollständig byteweise gegen die lokale Originaldatei geprüft. Koordinaten verwenden die vorhandene signed16-Operandenrekonstruktion; Actor-ID und Klasse werden aus dem Skript gesetzt. Komposition mit Figurenskript-Frame, Aufräumen und Handle-Wiederverwendung getestet. Keine automatische Spawn-Auswahl oder Browseraktivierung. Siehe ALIS_ENTITIES.md.
