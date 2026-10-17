@@ -25,9 +25,9 @@ Ein bestandener synthetischer Test beweist keine Original-Verhaltensgleichheit.
 | P1 | Laufzeit und Originalvergleich | reproduzierbarer Start, kontrollierte Eingaben/Zeit/RNG, Zustands- und Bildvergleich | Browser verfügbar; Original-Testumgebung neu prüfen |
 | P1 | Welt und Zustandsverwaltung | alle Karten-/Gebietswechsel und Kollisionen je Spiel vergleichen | Ishar 2 teilweise; Ishar 1 Kartenbytes gelesen |
 | P1 | Charaktere, Items und Handel | Save-/Codeherkunft, Export und Original-Readback | Ishar 2 teilweise; Kandidatentabellen nicht pauschal bestätigt |
-| P1 | NPCs, Gegner und Kampf | EATT-Sender, Zielwahl, Flags, Schaden, Projektilskripte Ende zu Ende | Nur Eingangsprüfungen und drei Figurenskripte teilweise |
+| P1 | NPCs, Gegner und Kampf | EATT-Sender, Zielwahl, Flags, Schaden, Projektilskripte Ende zu Ende | Eingangsprüfung, positiver Signalpfad als Trace und drei Figurenskripte teilweise; vollständiger Handshake offen |
 | P2 | Zauber, Dialoge, Quests, Trigger | tatsächliche Originaltabellen und Codepfade editieren/prüfen | Nicht vollständig erschlossen |
-| P2 | Grafik, Animation, Texte und Audio | Decoder/Writer, Editor, Import/Export, Referenztests | Grafikvorschau teilweise; Writer/Audio offen |
+| P2 | Grafik, Animation, Texte und Audio | Decoder/Writer, Editor, Import/Export, Referenztests | Grafikvorschau und DOS-Paletteneditor samt IO-Writer vorhanden; Pixel-/Animationswriter und Audio offen |
 | P2 | Integrierte Ressourcen-/Modverwaltung | Abhängigkeiten, Undo/Redo, Sicherung, reproduzierbarer Export | Teilweise Browserprojekt; binäre Mod-Pipeline offen |
 | P3 | Neue Inhalte | ID-/Speichergrenzen, neue Referenzen, Ausführung und Exportziel dokumentiert | Authored-JSON-Zusätze existieren, Originalexport nicht belegt |
 | P3 | Vollständigkeitsprüfung | alle Bereiche beider Spiele und alle Abnahmekriterien einzeln belegt | Offen |
@@ -50,6 +50,8 @@ nachgewiesen sind.
 - MOD_WORKFLOW.md: vorhandener Builder-/CLI-Export und noch offene Originalprüfung.
 - ALIS_MODULES.md: DOS-Modulprofile, Roundtrips und originales Ishar-1-SAV-I/O.
 - A1_WRITER.md: Schreiben geänderter A1-Images, Codec-Tests und Original-Grenzen.
+- PALETTE_EDITOR.md: originalbasierte DOS-Farbtabellen, Export und Testgrenzen.
+- EATT_SIGNALS.md: positiver EATT-Signalpfad und mehrdimensionale ALIS-Zugriffe.
 - Dieses Dokument: Plan und Abnahmebelege.
 - README.md und bestehende GRID_MODEL/ASSET_PACK/ORIGINAL_GAMEPLAY_DECOMPILE:
   Einrichtung sowie bisherige Analysen; alte Aussagen immer gegen aktuellen Code prüfen.

@@ -39,7 +39,9 @@
     "alis:module": "node scripts/alis-module.mjs",
     "test:alis-cli": "node scripts/check-alis-module-cli.mjs",
     "test:palette-edit": "node scripts/check-alis-palette-edit.mjs",
-    "test:palette-edit-local": "node scripts/check-alis-palette-local.mjs"
+    "test:palette-edit-local": "node scripts/check-alis-palette-local.mjs",
+    "test:original-actor-signal": "node scripts/check-original-actor-signal.mjs",
+    "test:original-actor-signal-local": "node scripts/check-original-actor-signal-local.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",

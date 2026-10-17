@@ -87,3 +87,7 @@ Keine Originaldateien verändert. Details: A1_WRITER.md.
 ## DOS-Paletteneditor
 
 Asset Lab bietet jetzt lokale IO-Palettenbearbeitung, Undo/Redo, IO-Kopie und Änderungsbericht. 60 Paletten aus Ishar 1 und 161 aus Ishar 2 wurden gezielt geändert und zurückgelesen; übrige Imagebytes erhalten. Browserexport mit FOND1.IO byteweise kontrolliert. Skriptzuordnung und Originalspielprüfung bleiben offen. Format, Bedienung und Testgrenzen: [PALETTE_EDITOR.md](PALETTE_EDITOR.md).
+
+## EATT-Signalroutine
+
+Originaler positiver EATT-Zustands-/Signalpfad samt Aufrufprädikat als unverändernder Trace rekonstruiert. DOS-cdim-Byte-Strides für zwei mehrdimensionale Tabellen direkt im lokalen MAIN verifiziert. Noch keine Playtest-Verdrahtung, MESSAGE-Rückmeldung oder Originalausführung. Siehe [EATT_SIGNALS.md](EATT_SIGNALS.md).
