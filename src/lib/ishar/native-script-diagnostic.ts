@@ -2,6 +2,7 @@ import {readAlisModule,type AlisModule} from './alis-module.ts';
 import {createOriginalDosScriptContext} from './original-dos-script-context.ts';
 import {branchOriginalDosScript} from './original-dos-script-branch.ts';
 import {returnOriginalDosScript} from './original-dos-script-return.ts';
+import {writeOriginalDosScriptBlock} from './original-dos-script-block.ts';
 export interface NativeScriptDiagnostic {module:AlisModule;memory:Uint8Array;bp:number;si:number;steps:number;status:'ready'|'yield'|'stopped';message:string}
 /** Editor-only controlled context. Does not alter the playtest or source file. */
 export function openNativeScriptDiagnostic(bytes:Uint8Array):NativeScriptDiagnostic{
@@ -20,6 +21,10 @@ export function stepNativeScriptDiagnostic(state:NativeScriptDiagnostic):NativeS
   const length=[1,2,3][(opcode-5)%3];if(state.si+1+length>state.module.image.length)return stop('Operand ist im Modul abgeschnitten.');
   const script=new Uint8Array(65536);script.set(state.module.image);
   const next=branchOriginalDosScript(script,memory,opcode,after,state.bp);memory=next.memory;si=next.si;
+ }else if(opcode===41){
+  if(state.si+5>state.module.image.length)return stop('Blockheader ist im Modul abgeschnitten.');
+  const length=4+state.module.image[after+2]*2;if(after+length>state.module.image.length)return stop('Blockdaten sind im Modul abgeschnitten.');
+  const script=new Uint8Array(65536);script.set(state.module.image);const next=writeOriginalDosScriptBlock(script,memory,after,state.bp);memory=next.memory;si=next.si;
  }else if(opcode===17){const next=returnOriginalDosScript(memory,state.bp,after,1,0);memory=next.memory;si=next.si;
  }else if(opcode===66)status='yield';
  else return stop(`Opcode ${opcode} (0x${opcode.toString(16).padStart(2,'0')}) ist in dieser Diagnose noch nicht angebunden. Keine Ausführung und kein Überspringen.`);

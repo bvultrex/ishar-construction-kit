@@ -7,4 +7,6 @@ state=stepNativeScriptDiagnostic(state);assert.equal(state.si,28);assert.equal(s
 state=stepNativeScriptDiagnostic(state);assert.equal(state.si,26);state=stepNativeScriptDiagnostic(state);assert.equal(state.si,27);assert.equal(state.status,'yield');assert.equal(state.steps,3);assert.equal(stepNativeScriptDiagnostic(state),state);
 const unknown=bytes.slice();unknown[30]=0;const stopped=stepNativeScriptDiagnostic(openNativeScriptDiagnostic(unknown));assert.equal(stopped.status,'stopped');assert.equal(stopped.si,24);assert.equal(stopped.steps,0);
 assert.deepEqual(bytes,original);assert.deepEqual(state.module.original,original);
+const block=bytes.slice();block.set([41,2,0,1,0x87,0x34,0x12],30);const blockState=stepNativeScriptDiagnostic(openNativeScriptDiagnostic(block));assert.equal(blockState.si,31);assert.equal(blockState.steps,1);assert.equal(blockState.memory[blockState.bp],0x87);assert.equal(blockState.memory[(blockState.bp-2)&65535],0x34);assert.equal(blockState.memory[(blockState.bp-1)&65535],0x12);
+const cut=block.slice();cut[33]=255;const cutState=stepNativeScriptDiagnostic(openNativeScriptDiagnostic(cut));assert.equal(cutState.status,'stopped');assert.equal(cutState.si,24);assert.equal(cutState.steps,0);
 console.log('Native diagnostic: original module -> context -> call -> return -> yield, unsupported opcode stop and source preservation passed.');
