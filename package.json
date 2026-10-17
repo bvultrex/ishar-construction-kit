@@ -68,7 +68,8 @@
     "test:original-alis-switch-profiles": "node scripts/check-original-alis-switch-profiles.mjs",
     "test:original-alis-branch": "node scripts/check-original-alis-branch.mjs",
     "test:original-alis-branch-profiles": "node scripts/check-original-alis-branch-profiles.mjs",
-    "test:original-alis-loop": "node scripts/check-original-alis-loop.mjs"
+    "test:original-alis-loop": "node scripts/check-original-alis-loop.mjs",
+    "audit:original-actor-modules": "node scripts/audit-original-actor-modules.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",

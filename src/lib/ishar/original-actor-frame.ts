@@ -7,7 +7,7 @@ import {actorViewCandidate,readActorSave,type ActorSave} from './save-actors.ts'
 
 export interface ActorListingBundle { loader:string; dispatch:string; main:string; scripts:Record<string,string> }
 export interface ActorFrame { actorId:number; module:string; index:number; x:number; y:number; z:number; mirror:boolean;form?:number }
-export const ORIGINAL_ACTOR_MODULES=['GOLEM1.IO','WIZARD1.IO','AVEUGLE5.IO'];
+export const ORIGINAL_ACTOR_MODULES=['GOLEM1.IO','WIZARD1.IO','AVEUGLE5.IO','MARIN.IO','GEANT.IO'];
 interface Instruction { address:string; op:string; args:string }
 function instructions(listing:string):Instruction[] {
   return listing.split(/\r?\n/).flatMap(line=>{

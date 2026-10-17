@@ -175,3 +175,7 @@ Alle 76 ausgewiesenen cloop-Stellen beider Profile mit skalarem Counter direkt b
 ## Registerübergänge im Figurenpfad
 
 D6/D7 bleiben jetzt über Befehle und Yields erhalten; sub/div/mod-Nebenwirkungen auf D6 korrigiert. Figurenpfad unterstützt registerabhängige beq/bne und berücksichtigt cstore-/csub-/Switch-Folgezustände. Explizite Registerinitialisierung verfügbar; Default null bleibt Vorschauannahme. Neue Integrationstests und bestehende lokale Figuren-/EAFF-/Goldauswahltests bestanden. Kein vollständiger VM- oder DOS-Zustandsnachweis. Siehe ALIS_BRANCHES.md.
+
+## Zwei weitere Original-Figurenmodule
+
+Alle 47 aus EAFF referenzierten Modul-IDs unter kontrollierten Zuständen auditierbar; lokale Hashberichte und Grafik-/Composite-/Formreferenzprüfung vorhanden. Vier konkrete Interpreter-/Transientzustandslücken dokumentiert. MARIN.IO und GEANT.IO bestehen je 20 Szenarien/2000 Ausgabeframes und sind jetzt in Skriptbundle und Assetaufnahme enthalten. Original-EAFF -> Originalskript -> 100 weitere Schritte separat geprüft; kein Anspruch vollständiger NPC-/Eventunterstützung oder DOS-Bildgleichheit. Siehe ACTOR_MODULE_AUDIT.md.

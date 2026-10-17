@@ -41,4 +41,3 @@ for(const [op,expected] of [['osub',3],['odiv',1],['omod',3]]){regs.d6=91;regs.d
 regs.d6=91;regs.d7=7;evaluate('(oadd(oimmb(4)))',context,[],regs);assert.deepEqual(regs,{d6:7,d7:11},'addition retains saved left operand in D6');
 assert.throws(()=>evaluate('(oimmb(1))',context,[],{d6:65535,d7:0}),/registers/);
 console.log('Persistent D6/D7: literals, saved-left arithmetic and both-register sub/div/mod side effects passed.');
-

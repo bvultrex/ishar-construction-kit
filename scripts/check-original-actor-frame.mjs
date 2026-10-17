@@ -204,3 +204,16 @@ const supplied={d6:3,d7:5},initialBranch=`  00018 ff cbeq8 L_00040
   00040 ff cput oimmb(9)
   00042 ff cstop`;
 assert.equal(actorAnimationSteps(initialBranch,new Map(),{},{initialRegisters:supplied}).next().value[0].index,9);assert.deepEqual(supplied,{d6:3,d7:5},'input register snapshot is copied');
+if(process.env.ISHAR_ACTOR_LISTINGS&&process.env.ISHAR2_DIR){
+ const dir=process.env.ISHAR_ACTOR_LISTINGS,read=name=>readFileSync(join(dir,name+'.asm'),'utf8'),source=new Uint8Array(readFileSync(join(process.env.ISHAR2_DIR,'START.SAV')));
+ const {ORIGINAL_ACTOR_MODULES}=await import('../src/lib/ishar/original-actor-frame.ts');
+ const bundle={loader:read('IO.IO'),dispatch:read('EAFF.IO'),main:read('MAIN.IO'),scripts:Object.fromEntries(ORIGINAL_ACTOR_MODULES.map(name=>[name,read(name)]))};
+ for(const [type,name,index] of [[12,'MARIN.IO',7],[39,'GEANT.IO',16]]){
+  const patch=source.slice(),v=new DataView(patch.buffer);for(let id=50;id<110;id++)v.setUint16(3261+id*2,0,false);
+  v.setUint16(2601+53*2,20,false);v.setUint16(2821+53*2,29,false);v.setUint16(3261+53*2,40,false);patch[4911+53]=type;patch[6781+53]=5;
+  const before=patch.slice(),runtime=createOriginalActorAnimation(bundle,patch,{row:20,col:30,facing:1,map:1,scene:5},1234),first=runtime.snapshot();
+  assert.equal(first.frames[0].module,name);assert.equal(first.frames[0].index,index);assert.deepEqual(first.unsupported,[]);
+  for(let tick=0;tick<100;tick++)runtime.advance();assert.ok(runtime.snapshot().frames.length>0);assert.deepEqual(runtime.snapshot().unsupported,[]);assert.deepEqual(patch,before);
+ }
+ console.log('MARIN and GEANT: original EAFF type selection -> real script -> 100 resumed frames with unchanged SAV passed.');
+}
