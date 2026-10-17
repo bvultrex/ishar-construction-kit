@@ -150,3 +150,14 @@ if(process.env.ISHAR_ACTOR_LISTINGS&&process.env.ISHAR2_DIR){
  assert.deepEqual(createOriginalActorAnimation(bundle,prepared,camera,1234).snapshot(),frames,'explicit seed reproduces crowd');
  console.log('Integrated EAFF crowd -> module selection -> three positioned renderer frames passed with explicit synthetic module; source SAV unchanged.');
 }
+for(const target of ['adirb(0x0e)','adirw(0x0e)','alocb(0x000e)','alocw(0x000e)']){
+ const script=`  00018 ff cstore oimmb(3), ->sdirb(0x0e)
+  00020 ff cadd oimmb(1), +>adirw(0x00)
+  00024 ff cloop8 L_00020, +>${target}
+  00029 ff cput oimmb(7)
+  0002b ff cstop`;
+ // Initialize the counter as a full word when testing a word target.
+ const compatible=target.includes('w(')?script.replace('->sdirb(0x0e)','->sdirw(0x0e)'):script;
+ assert.equal(firstActorFrame(compatible,new Map(),{0:0})[0].x,3,`${target}: loops until wrapped counter is zero`);
+}
+console.log('Actor interpreter executes scalar original loop forms through three iterations before drawing.');

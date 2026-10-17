@@ -30,3 +30,15 @@ Je Stelle Opcodeart, Breite, vollständiges Ziel und byteidentischer No-op gepr�
 Reproduktion: `npm run test:original-alis-branch`; für `test:original-alis-branch-profiles` dieselben vier Variablen wie beim Switchprofiltest (ISHAR1_DIR, ISHAR2_DIR, ISHAR1_LISTINGS, ISHAR_ACTOR_LISTINGS) setzen. Optional einen neuen, separaten Berichtordner als Argument übergeben; vorhandene Berichte werden nicht überschrieben.
 
 Die Zähler beziehen sich auf bereits ausgewiesene Listingstellen. Nicht gelistete/fehlinterpretiert unerreichbare Daten oder Funktionen sind dadurch nicht erschlossen. Kein Vollständigkeits-, Binäridentitäts- oder DOS-Ausführungsnachweis.
+
+## Zählschleifen cloop
+
+`original-alis-loop.ts` liest cloop8/16/24 mit skalarem alocb/alocw/adirb/adirw-Zähler. Referenz `opcodes.c:cloop` setzt D7=-1, merkt sich PC unmittelbar nach dem Distanzfeld, führt den Addoperanden aus und prüft dessen Zero-Flag. Bei nichtnull wird PC auf diese gemerkte Basis zurückgesetzt und die Distanz addiert. Nur beim Ende läuft PC hinter dem Zähleroperanden weiter. Daher dürfen Sprungbasis und Fallthrough nicht gleichgesetzt werden. Der missverständliche Quellkommentar „if ... zero ... jump“ beschreibt die Bedingung umgekehrt; der Handler selbst prüft `!alis.sr.zero`.
+
+`addnames.c` setzt für die vier unterstützten skalaren lokalen/direkten Formen das Zero-Flag anhand des gespeicherten Bytes/Worts. Der reine Schrittadapter liefert den um eins verminderten Bitwert, Zero und Folgeziel. 0 läuft zu 255/65535 über und springt weiter; 1 wird 0 und beendet die Schleife. Andere Addoperanden werden nicht über Symmetrie geraten, da einige Referenzhandler das Zero-Flag nicht aktualisieren. Negative Kontextadressen können strukturell gelesen werden, sind im Figurenadapter ohne vollständigen VM-Kontext aber abgewiesen.
+
+Der bestehende Figureninterpreter verwendet diesen Schrittadapter und setzt nach dem skalaren Loop D7-Bedingung auf -1 entsprechend dem Originalhandler. Synthetische Drei-Iterations-Skripte prüfen alle vier Zählerformen bis zur Ausgabe. Dies erweitert den begrenzten Interpreter, ersetzt keinen vollständigen VM-/Register-/Schedulerabgleich.
+
+Alle 76 in vorhandenen Listings ausgewiesenen Originalschleifen wurden direkt binär auf Distanzbreite, Ziel und Counteroffset/-breite geprüft: Ishar 1 26 (13 adirb, 9 alocb, 4 adirw); Ishar 2 50 (29 adirb, 7 alocb, 11 adirw, 3 alocw). Die native 24-Bit-Grenzsemantik bleibt wie oben offen. Keine vollständige Loop-Erreichbarkeit oder Originalausführung nachgewiesen.
+
+Reproduktion: `npm run test:original-alis-loop`; mit den vier Profilvariablen aus dem Zweigtest zusätzlich beide Originalbestände. `test:original-actor-frame` prüft die Integration. Originale werden nur gelesen.

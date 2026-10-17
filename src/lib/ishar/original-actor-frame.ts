@@ -2,6 +2,7 @@ import {evaluateOriginalAlisInteger} from './original-alis-expression.ts';
 import {originalEaffPerspective} from './original-eaff-perspective.ts';
 import {chooseOriginalEaffSpawn} from './original-eaff-spawn.ts';
 import {readRequiredAlisArrays} from './original-alis-arrays.ts';
+import {stepOriginalDosLoop} from './original-alis-loop.ts';
 import {actorViewCandidate,readActorSave,type ActorSave} from './save-actors.ts';
 
 export interface ActorListingBundle { loader:string; dispatch:string; main:string; scripts:Record<string,string> }
@@ -89,6 +90,13 @@ export function* actorAnimationSteps(listing:string,main:Map<number,number>,init
       return draws;
     }
     if(/^cb(?:n)?z\d+$/.test(op)){if(op.startsWith('cbnz')?condition!==0:condition===0)pc=jump();continue;}
+    if(/^cloop(?:8|16|24)$/.test(op)){
+      const target=args.match(/, \+>a(loc|dir)([bw])\(0x([\da-f]+)\)$/);if(!target)throw Error('Unsupported actor loop counter');
+      const address=parseInt(target[3]!,16),word=target[2]==='w';
+      if(target[1]==='loc'&&address>=32768)throw Error('Actor loop needs unavailable negative context');
+      const result=stepOriginalDosLoop({counterBytes:word?2:1,next:pc,target:jump()},read(local,address,word,false));
+      putLocal(address,result.value,word);condition=-1;pc=result.next;continue;
+    }
     if(op==='ceval'){condition=expression(args);continue;}
     if(op==='cstore'||op==='cadd'||op==='csub') {
       // slocb(0xfffe) links entity ownership; cfindtyp/clinking have no first-frame pixel effect.

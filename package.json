@@ -67,7 +67,8 @@
     "test:original-eaff-terrain": "node scripts/check-original-eaff-terrain.mjs",
     "test:original-alis-switch-profiles": "node scripts/check-original-alis-switch-profiles.mjs",
     "test:original-alis-branch": "node scripts/check-original-alis-branch.mjs",
-    "test:original-alis-branch-profiles": "node scripts/check-original-alis-branch-profiles.mjs"
+    "test:original-alis-branch-profiles": "node scripts/check-original-alis-branch-profiles.mjs",
+    "test:original-alis-loop": "node scripts/check-original-alis-loop.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",

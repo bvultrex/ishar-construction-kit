@@ -167,3 +167,7 @@ Neue strukturelle Integeroperanden-Längenprüfung erlaubt den direkten Tabellen
 ## Direkte Kontrollflussprüfung beider Profile
 
 23964 direkte Sprünge/Aufrufe/Resumeziele mit Opcodeart und Breite gegen jeweilige Originalmodule geprüft: Ishar 1 10616 Stellen in 94 Modulen, Ishar 2 13348 in 140, keine Fehler. Gezielter IO-Kopienpatch und Pack-/Unpack-Readback pro betroffenem Modul. Neue negative 24-Bit-Ziele bleiben mangels Originalfall/DOS-Nachweis abgewiesen; der Referenzreader ist dort fehlerverdächtig. Kein vollständiger CFG-/Ausführungsnachweis. Dokumentation: ALIS_BRANCHES.md.
+
+## ALIS-Zählschleifen
+
+Alle 76 ausgewiesenen cloop-Stellen beider Profile mit skalarem Counter direkt binär geprüft. Separate Sprungbasis vor Counteroperand und Fallthrough dahinter rekonstruiert; Byte-/Wortüberlauf und Zero-Flag geprüft. Figureninterpreter führt vier originale Counterformen aus. Keine vollständige VM-/Originalausführungsbehauptung. Details: ALIS_BRANCHES.md.
