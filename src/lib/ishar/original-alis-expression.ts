@@ -34,7 +34,7 @@ export function evaluateOriginalAlisInteger(text:string,context:AlisIntegerConte
     if(!Number.isInteger(bound)||bound<=0||!Number.isInteger(value)||value<0||value>=bound)throw Error('Invalid original random result');
     d7=signed(value);continue;
    }
-   if(['odirb','odirw','omainb','omainw','omaintc','omainti'].includes(name)){
+   if(['odirb','odirw','olocb','olocw','omainb','omainw','omaintc','omainti'].includes(name)){
     if(arg===undefined)throw Error('Missing memory operand');
     d7=signed(name.startsWith('omaint')?context.table('main',arg,d7,stack,name==='omainti'):context.read(name.startsWith('omain')?'main':'local',arg,name.endsWith('w')));continue;
    }

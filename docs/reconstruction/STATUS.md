@@ -95,3 +95,7 @@ Originaler positiver EATT-Zustands-/Signalpfad samt Aufrufprädikat als unverän
 ## NPC-Gold und Operandenregister
 
 FRISE-Goldübergabe und EATT-Bestätigung als komponierter Trace rekonstruiert; bisherige Annahme einer direkten MESSAGE-Bestätigung korrigiert. Registertausch bei opile, signed16-Arithmetik und native Vergleichswerte im Figurenskriptinterpreter berichtigt. Lokale Figurenskripttests weiter bestanden. Originalausführung und vollständige Interaktionsverdrahtung offen. Siehe [NPC_GOLD_AND_OPERANDS.md](NPC_GOLD_AND_OPERANDS.md).
+
+## Ursprüngliche Goldauswahl
+
+FRISE-Betragsänderung mit Guthabenprüfung und Wiederholungsbeschleunigung rekonstruiert. 90 Fälle gegen begrenzte Auswertung der ursprünglichen Listing-Rechenzweige verglichen, 118 Instruktionspräfixe am Original geprüft. Gesamtes Goldfenster, Ziele, Scheduler und Originalausführung weiterhin offen; keine neue Playtest-Bedienung aktiviert. Details: NPC_GOLD_AND_OPERANDS.md.

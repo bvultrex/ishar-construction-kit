@@ -38,3 +38,21 @@ npm run test:original-actor-frame
 48 Operandenpaare mit direkter und stapelbasierter Rechnung/Relation, native boolesche Werte, Wortüberläufe und die konkrete FRISE-Borgexpression wurden geprüft. Die lokalen GOLEM1/WIZARD1/AVEUGLE5-Tests einschließlich Leerlauf und Wizard-Nachricht 21 laufen weiter. Goldtests prüfen Übertrag, Borgen, exakte Tausender, unzureichende Deckung, Schreibreihenfolge, Quellschutz und FRISE→EATT als komponierten Trace. 50 Instruktionspräfixe der betreffenden FRISE-Bereiche passen zur per Hash identifizierten Originaldatei. Präfixabgleich ist kein vollständiger Bytecode- oder Verhaltensvergleich.
 
 Originalausführung dieses Ablaufs ist nicht geprüft. Kein neuer NPC-Klickpfad oder Goldtransfer wurde im Playtest aktiviert. Vollständige Goldauswahl, Entityauflösung, Sprach-/Textrouting, Ein-/Ausgabe und Rückwirkungen weiterer NPC-Typen bleiben offen. Ishar 1 ist hier nicht verifiziert.
+
+## Goldauswahl vor Übergabe (weiterer Zwischenstand)
+
+`original-gold-selection.ts` rekonstruiert die Rechenzweige aus FRISE 0x044CD–0x046A4 sowie den expliziten Alles-Auswahlwert aus 0x0426E–0x042A3. Eingaben sind originale logische Mauskoordinaten und ein expliziter transienter Auswahlzustand, keine Browserpixel oder erfundene neue Bedienregeln.
+
+Im Originalpfad gilt für die Pfeilzeile 82 < y <= 98: Erhöhen bei 183 < x < 195, Verringern bei 220 < x < 232, Beenden bei 231 < x < 256. Button 2 beendet; andere Werte als 1/2 setzen Schrittweite auf 1 und Wiederholungszähler auf 0. Ein gedrückter linker Button außerhalb der Rechenbereiche setzt die Wiederholungswerte nicht zurück. Anfangsbetrag ist null, Schrittweite 1; der Zähler 0x010C wird am Eintritt nicht gesetzt und muss deshalb explizit übergeben werden.
+
+Erhöhen nutzt die originale Zweiwortaddition und übernimmt nur Ergebnisse <= Charakterguthaben, ohne Clamp. Verringern nutzt die originale Subtraktion. Bei fehlender Deckung bleibt die Auswahl unverändert, kann aber trotzdem den Wiederholungszähler erhöhen. Vor Erhöhung des Zählers wird bei >=25 die Schrittweite (solange <100) verzehnfacht und der Zähler auf 0 gesetzt. Deshalb addiert Aktion 26 noch den alten Schritt und erhöht erst anschließend die Schrittweite.
+
+Die Funktion bildet noch nicht das gesamte Goldfenster ab: Gruppenaufteilung, Ziele unter dem Mauszeiger, Grafikaufrufe, zusätzliche Scheduler-Yields, Auswahlbereinigung und Ereignisweiterleitung sind nicht integriert. `selectAllOriginalGold` ist die getrennte ursprüngliche Alles-Auswahl; der entsprechende obere Mausbereich wird von der Pfeilfunktion nicht als vollständig implementiert ausgegeben.
+
+```powershell
+npm run test:original-gold-selection
+# Mit denselben ISHAR2_DIR/ISHAR_ACTOR_LISTINGS wie oben:
+npm run test:original-gold-selection-local
+```
+
+Der lokale Test bindet FRISE an denselben Quellhash und vergleicht 118 Instruktionspräfixe. Ein begrenzter Listing-Auswerter führt die ursprünglichen Rechenzweige bis zum Scheduler-Yield oder Austritt aus: 90 Kombinationen aus Betrag, Schrittweite, Zähler und Richtung stimmen mit der strukturierten Rekonstruktion überein. Beide Pfade verwenden denselben Operandenregisterkern; dies ist kein unabhängiger VM- oder Originalausführungsbeweis. Zusätzliche synthetische Tests prüfen Mausgrenzen, Loslassen, Beenden, Guthabenlimit, Alles-Auswahl und unveränderten Eingabezustand. Der Operandenregisterkern unterstützt nun auch die hier benötigten `olocb`/`olocw`-Zugriffe.

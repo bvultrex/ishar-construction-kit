@@ -44,7 +44,9 @@
     "test:original-actor-signal-local": "node scripts/check-original-actor-signal-local.mjs",
     "test:original-alis-expression": "node scripts/check-original-alis-expression.mjs",
     "test:original-npc-gold": "node scripts/check-original-npc-gold.mjs",
-    "test:original-npc-gold-local": "node scripts/check-original-npc-gold-local.mjs"
+    "test:original-npc-gold-local": "node scripts/check-original-npc-gold-local.mjs",
+    "test:original-gold-selection": "node scripts/check-original-gold-selection.mjs",
+    "test:original-gold-selection-local": "node scripts/check-original-gold-selection-local.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",
