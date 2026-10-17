@@ -24,10 +24,12 @@ Codes sind teilweise in GRID_MODEL/cont-grid dokumentiert.
 
 ## Weitere gefundene Ressourcen
 
-- `.IO`: ALIS-Module, teils gepackt, Code und Ressourcen. Vorhandene Decoder und
-  lokale Ishar-2-Listings; vollständige Versionsprofile, Writer und Referenzen offen.
+- `.IO`: ALIS-Module, Code und Ressourcen. 240 lokale DOS-A1/raw-Module samt
+  Headern und unverändertem Roundtrip geprüft; Details: ALIS_MODULES.md.
+  Geänderte A1-Dateien und neue Module weiterhin offen.
 - `.SAV`: Ishar-2-DOS-Teilpfade für 8359-Byte-Saves auf IO-Lader zurückgeführt.
-  Ishar-1-Saves lokal vorhanden; Layout vollständig getrennt zu bestätigen.
+  Ishar-1-MAIN-Lese-/Schreibsequenzen jetzt getrennt abgeleitet: 107 Felder/Blöcke,
+  5216 Bytes, acht Saves byteidentisch aufgeteilt; Blocksemantik noch offen.
 - Andere `.FIC`: nicht allein anhand der Endung als Karten behandeln.
 - `.STP`, `.AO`, weitere Dateitypen: inventarisiert, Bedeutung nicht vollständig
   bestätigt. PDFs/Bilder/Office/MP3 in Ordnern können Begleit- oder Nutzerdateien

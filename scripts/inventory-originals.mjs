@@ -25,9 +25,13 @@ export async function inventoryInstallation(root,game){
  const extensions={};for(const file of files){const key=file.extension||'(none)';extensions[key]=(extensions[key]??0)+1;}
  return {schemaVersion:1,game,profileSha256:sha(JSON.stringify(files)),version:'unidentified: hash profile only',language:'unverified',platform:files.some(f=>f.executableSignature==='MZ')?'DOS-compatible MZ executable present; exact target unverified':'unverified',fileCount:files.length,totalBytes:files.reduce((sum,f)=>sum+f.size,0),extensions,files,excluded};
 }
-export async function writeInventory(installations,output){
+export async function separateAnalysisOutput(roots,output){
  output=await physical(output);
- for(const {root} of installations)if(within(await realpath(root),output))throw Error('Output must be outside original installations');
+ for(const root of roots)if(within(await realpath(root),output))throw Error('Output must be outside original installations');
+ return output;
+}
+export async function writeInventory(installations,output){
+ output=await separateAnalysisOutput(installations.map(item=>item.root),output);
  const reports=[];for(const {root,game} of installations)reports.push(await inventoryInstallation(root,game));
  await mkdir(output,{recursive:true});
  for(const report of reports){

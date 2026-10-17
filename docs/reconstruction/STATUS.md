@@ -8,8 +8,8 @@ Stand: 2026-10-17. Keine prozentuale Vollständigkeitsbehauptung.
 | Edition / aktive Sprache | unbestätigt | unbestätigt |
 | CONT-Leser/Writer | 6 Originaldateien byteidentisch geprüft | 7 Originaldateien byteidentisch geprüft |
 | gezielte Kartenbyteänderung | nur geändertes Byte, Rest unverändert geprüft | ebenso |
-| Save-Editor | Kandidatentabellen; keine pauschale Feldbestätigung | einzelne decompile-basierte Teilpfade und ältere Kandidaten koexistieren |
-| Grafiken/Packer | vorhandener gemeinsamer Code, Spielabdeckung nicht auditiert | Import/Paletten/Sprites teilweise; keine vollständigen Writer |
+| Save-Editor | Original-I/O-Aufteilung für 5216 Bytes nachgewiesen; UI-Feldnamen weiter Kandidaten | einzelne decompile-basierte Teilpfade und ältere Kandidaten koexistieren |
+| Grafiken/Packer | 98 IO-Hüllen/Images auditiert; Grafiksemantik und A1-Writer offen | 142 IO-Hüllen/Images auditiert; Import/Paletten/Sprites teilweise, A1-Writer offen |
 | Kartenlaufzeit | nicht als originalgleich nachgewiesen | CONT1–7 teilweise dargestellt, Originalvergleich lückenhaft |
 | NPCs/Kampf | offen | EAFF/EATT teilweise; Leerlauf für drei Module, kein vollständiger Kampf |
 | Dialog/Quest/Zauber/Audio | offen | offen bzw. Analysefragmente; nicht vollständig integriert |
@@ -63,3 +63,14 @@ Builder exportiert diesen Patch nach Auswahl der passenden Originaldatei.
 `test:cont-mod` prüft beide Profile, Fehlereingaben, Quellschutz und Daten-Erhalt.
 Browser-Ishar-2-Export und Anwendung auf 190-Dateien-Kopie nachgewiesen;
 Originalspiel-Modprüfung bleibt offen. Ablauf und Grenzen: MOD_WORKFLOW.md.
+
+
+## ALIS-/Ishar-1-Analyse
+
+Alle 240 lokalen IO-Module wurden strukturell geprüft, per No-op byteidentisch
+zurückgegeben und gegen den separaten Python-Decoder verglichen. Für Ishar 1
+liegen neue lokale Listings vor (FRISE-Abbruch offen). Der originale MAIN-SAV-
+Reader und Writer stimmen bei 107 Feldern/5216 Bytes überein; alle acht lokalen
+Saves sind mit dieser Struktur byteidentisch rekonstruierbar. Keine Aussage über
+vollständige Feldsemantik oder erfolgreichen Originalspiel-Modtest.
+Details, Profilhashes und Reproduktion: ALIS_MODULES.md.
