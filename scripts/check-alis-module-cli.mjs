@@ -19,3 +19,16 @@ assert.deepEqual(new Uint8Array(await readFile(source)),packed,'source stays unc
 assert.throws(()=>cli('replace-image',source,edited,target),'existing output must not be overwritten');
 await writeFile(join(out,'short.bin'),new Uint8Array(30));assert.throws(()=>cli('replace-image',source,join(out,'short.bin'),join(out,'bad.IO')));await assert.rejects(access(join(out,'bad.IO')));
 console.log('ALIS inspect/extract/replace CLI: full file readback, source/output guards and invalid-size rejection passed.');
+const soundImage=new Uint8Array(80),sv=new DataView(soundImage.buffer);sv.setUint16(0,5,true);sv.setUint16(2,22,true);sv.setUint32(14,24,true);sv.setUint32(36,20,true);sv.setUint16(40,1,true);sv.setUint32(44,12,true);soundImage[56]=1;soundImage[57]=10;
+const soundSource=join(root,'SOUND.IO'),soundPacked=packSilmA1(soundImage);await writeFile(soundSource,soundPacked);
+assert.equal(cli('sounds',soundSource).sounds[0].sampleHeader.speed,10);
+const soundTarget=join(out,'SOUND.IO'),soundReport=cli('sample-speed',soundSource,'0','12',soundTarget);
+assert.deepEqual(soundReport.sampleEdit,{index:0,speed:12,imageOffset:57,affectedIndices:[0]});
+const soundReadback=readAlisModule(new Uint8Array(await readFile(soundTarget))).image;
+assert.deepEqual([...soundReadback.keys()].filter(i=>soundReadback[i]!==soundImage[i]),[57]);
+assert.deepEqual(await readFile(soundSource),Buffer.from(soundPacked));
+assert.throws(()=>cli('sample-speed',soundSource,'0','12',soundTarget));
+assert.throws(()=>cli('sample-speed',soundSource,'0','12',join(root,'COPY.IO')));
+for(const value of ['256','-1','NaN',''])assert.throws(()=>cli('sample-speed',soundSource,'0',value,join(out,'BAD.IO')));
+await assert.rejects(access(join(out,'BAD.IO')));
+console.log('Sound listing/speed CLI: single-byte readback, metadata, source protection, no overwrite and invalid-value rejection passed.');

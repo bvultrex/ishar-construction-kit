@@ -81,3 +81,16 @@ Folgerung: Die gemischte MAIN/aktuelle-Skript-Adressierung von cmsound in der se
 Der Test `node scripts/check-original-sample-speed.mjs` prüft Aliasbericht, ungültige Eingaben und Buffer-Kopierisolation. Mit beiden Installationspfaden werden 52 Header in 25 Ishar-1-Modulen und 113 in 51 Ishar-2-Modulen jeweils um genau ein Imagebyte verändert, mit dem bestehenden Hüllen-/A1-Writer geschrieben und eingelesen. Nach Rücksetzen entsteht über das ursprüngliche Modulobjekt wieder exakt die ursprüngliche Datei. Originaldateien werden nicht geschrieben. Native Modausführung ist noch nicht geprüft; GUI/CLI-Anbindung folgt separat.
 
 Dabei wurde ein Node-Buffer-Aliasproblem korrigiert: Buffer.slice teilt Speicher. Der Modulreader kopiert nun rohe Images und Originalhüllen explizit als Uint8Array; Sampleeditor sowie Import-/Normalisierungsfunktionen kopieren ebenfalls unabhängig vom Eingabetyp. Bestehende Modul- und A1-Tests sowie Typprüfung bestehen. Dies ist ein Quellschutzfix, keine Änderung des Dateiformats.
+
+## Kommandozeilen-Anbindung
+
+Das bestehende Werkzeug unterstützt jetzt zusätzlich:
+
+```powershell
+node scripts/alis-module.mjs sounds <Original.IO>
+node scripts/alis-module.mjs sample-speed <Original.IO> <Index> <Rohwert-0-bis-255> <neue-Ausgabe.IO>
+```
+
+`sounds` zeigt alle Tabellenplätze einschließlich unbekannter Typen und der belegten Headerfelder als JSON, zusammen mit Quell-/Imagehash und Hüllenmetadaten. `sample-speed` schreibt eine neue Datei über den bestehenden Hüllen-/A1-Writer. Index und Wert müssen dezimale Ganzzahlen sein. Der Bericht nennt geänderten Imageoffset und alle betroffenen Aliasindizes. Quellordner als Ausgabeziel und Überschreiben bestehender Dateien bleiben verboten. Die neue Datei wird vollständig eingelesen und per Hash verglichen; der Writer prüft bereits vor Ausgabe den dekodierten Inhalt. Status nennt ausdrücklich, dass Originalausführung noch nicht geprüft ist.
+
+`npm run test:alis-cli` deckt die neuen Befehle mit einer gepackten synthetischen Ressource ab: angezeigtes Headerfeld, genau ein geändertes Imagebyte nach Export/Readback, Quellschutz, vorhandenes Ziel, Quellordnerziel und ungültige Werte ohne Ausgabedatei. Alle bisherigen CLI-Prüfungen sowie Typprüfung bestehen. Dies ist eine CLI-Erweiterung; die grafische Toolkit-Anbindung und native Modprüfung bleiben offen.
