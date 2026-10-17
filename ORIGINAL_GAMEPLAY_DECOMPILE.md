@@ -118,3 +118,25 @@ checks that approaching the actors retains their original scene identifier.
 104 safe approach cells were checked against the local original CONT1 data.
 The generated SAV remains outside Git. This corrects a test setup, not canonical
 original NPC locations; dialogue/combat interaction remains in progress.
+
+
+## EATT entry gates — 2026-10-17
+
+`original-actor-ai.ts` ports EATT 0x00061..0x00167 as a read-only classification.
+It preserves the ordered movement, scene, nonzero HP, status 0x3946/0x3a24,
+special 0x3b02 and negative-state type gates. The near-axis branch uses abs(delta)
+<2 on map 1, <1 on other maps, and at least one zero coordinate delta. This is
+only the entry branch, not permission to attack: downstream cooldown, activation,
+target selection, movement and damage are still unported.
+
+The original actor inspector loads the optional local IO/EAFF listings and shows
+the entry result beside each living actor in an uploaded original save. It labels
+the stationary assumption and incomplete attack decision explicitly. Unknown MAIN
+bytes fail closed. Tests cover branch ordering, signed values, range boundaries,
+special cases and all 60 actor slots from the local START.SAV without mutation.
+
+EATT 0x00ae6 sends message 21 to the matching class-35 visual entity after target
+and combat calculations; its sender also waits on 0x4d1b. WIZARD1's near attack
+writes 0x4b35 instead. These are distinct flags and must not be merged merely to
+make an animation run. Automatic combat remains disabled until the sender's full
+handshake is ported.

@@ -25,7 +25,8 @@
     "test:original-actor-dispatch": "node scripts/check-original-actor-dispatch.mjs",
     "test:save-world-items": "node scripts/check-save-world-items.mjs",
     "test:original-ground": "node scripts/check-original-ground.mjs",
-    "test:item-view": "node scripts/check-authored-item-view.mjs"
+    "test:item-view": "node scripts/check-authored-item-view.mjs",
+    "test:original-actor-ai": "node scripts/check-original-actor-ai.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",
