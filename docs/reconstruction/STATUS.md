@@ -179,3 +179,7 @@ D6/D7 bleiben jetzt über Befehle und Yields erhalten; sub/div/mod-Nebenwirkunge
 ## Zwei weitere Original-Figurenmodule
 
 Alle 47 aus EAFF referenzierten Modul-IDs unter kontrollierten Zuständen auditierbar; lokale Hashberichte und Grafik-/Composite-/Formreferenzprüfung vorhanden. Vier konkrete Interpreter-/Transientzustandslücken dokumentiert. MARIN.IO und GEANT.IO bestehen je 20 Szenarien/2000 Ausgabeframes und sind jetzt in Skriptbundle und Assetaufnahme enthalten. Original-EAFF -> Originalskript -> 100 weitere Schritte separat geprüft; kein Anspruch vollständiger NPC-/Eventunterstützung oder DOS-Bildgleichheit. Siehe ACTOR_MODULE_AUDIT.md.
+
+## LEZARD-Palettenanforderung geklärt
+
+MAIN-DOS-Einstellungsstores für 0x51A1 und 0x51A2 direkt geprüft; keine pauschale Nullauffüllung. Expliziter Palettenauftrag im Figureninterpreter, LEZARD-Originalskript bei drei Lichtphasen mit originalen Paletteindizes/Dauer getestet. Lichtphase wird bereits gespeichert. Native Hardwareinitialisierung und tatsächlicher Überblendungsrenderer offen; LEZARD noch nicht automatisch freigeschaltet. Details: ACTOR_MODULE_AUDIT.md.

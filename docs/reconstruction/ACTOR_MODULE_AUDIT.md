@@ -24,3 +24,17 @@ ORIGINAL_ACTOR_MODULES und der optionale lokale Serverbundle enthalten zusätzli
 Ein separater Integrationstest erzeugt aus einer SAV-Kopie je eine kontrollierte passende Actor-Konfiguration, folgt der tatsächlichen EAFF-Auswahl und führt das Originalskript über 100 weitere Schritte aus. MARIN beginnt in dieser Distanz mit Ressource 7, GEANT mit 16. Die SAV-Eingabe bleibt unverändert. Dieser Test belegt die Verbindung der vorhandenen Bausteine, nicht das Auftreten dieser Figuren an frei erfundenen Produktpositionen.
 
 Der Produktpfad bleibt auf CONT1 begrenzt; andere Karten sind durch zusätzliche Sicht-/Höhen-/Verdeckungsregeln noch nicht vollständig freigegeben. Andere positiv auditierte Module werden nicht allein aufgrund der Testfälle automatisch aktiviert. Vollständiger Kampf, Dialog, Audio und Originalvergleich bleiben offen.
+
+## LEZARD-Palettenzustand weiter erschlossen
+
+Die im Audit fehlende Variable 0x51A1 ist im geprüften MAIN eine Palettenüberblendungsfreigabe. MAIN initialisiert sie zunächst bei 0x03ED mit null; der DOS-Einstellungszweig setzt sie bei 0x04BB auf eins. 0x04AE schreibt Wortliteral 300 in Byteziel 0x51A2, somit 44. Die Original-MAIN.IO ist hashgebunden: `bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95`. Beide vollständigen Storesequenzen wurden gegen Originalbytes geprüft.
+
+`readIshar2DosPaletteSettings` liest genau diese beiden Werte aus dem bereitgestellten Originalimage. Es ist kein Plattformdetektor und führt nicht die komplette Initialisierung inklusive Laufwerks-/Speicherprüfungen aus. Der Aufrufer muss belegen, dass dieser Einstellungszweig für seine Ausführung gilt. Die separate C-Referenz liefert für PC Modell 2000, enthält jedoch auch unvollständige Hardware-/Laufwerksoperanden; daraus wird kein vollständiger Bootnachweis abgeleitet.
+
+Die Lichtphase 0x519F und ihr Vorwert 0x51A0 sind entgegen einer möglichen Vermutung bereits im SAV gespeichert (IO schreibt bei 0x0B51/0x0B55, liest bei 0x0EA8/0x0EAC). Es wird keine neue Phase aus der Uhrzeit geraten. Nur die nicht gespeicherten Überblendungseinstellungen müssen aus dem zutreffenden Startpfad kommen.
+
+Der Figureninterpreter besitzt jetzt einen expliziten `palette`-Callback für cpalette/ctopalet. Er meldet Palettenindex und bei Übergängen den Daueroperand; dessen D6/D7-Übergabe folgt `readexec_opername_saveD6`. Ohne Adapter wird ein tatsächlich ausgeführtes ctopalet abgewiesen, nicht als NOP behandelt. Die ältere optionale Vorschauausnahme für ausschließlich cpalette enthaltende Unterroutinen bleibt ohne Callback bestehen; mit Callback werden auch diese Routinen ausgeführt. Das ist weiterhin keine pixel-/zeitgetreue Palettenüberblendung.
+
+Kontrollierte LEZARD-Tests mit Originalskript und den nachgewiesenen Einstellungen ergeben bei Lichtphase 1/2/3 die Palettenressourcen 34/35/36 mit Dauer 44; alle drei Paletten sind im Originalmodul vorhanden. Fehlender Callback wird abgewiesen. MAIN-/SAV-Eingaben werden nicht verändert. `npm run test:original-actor-palette`, mit ISHAR2_DIR und ISHAR_ACTOR_LISTINGS für diese Originalprüfung. Bisherige Figurentests bestehen ebenfalls.
+
+LEZARD wird noch nicht automatisch im Produkt freigeschaltet: Hardware-/Lichtzustand, echter Palettenrenderer, weitere Scan-/Soundpfade und native Ausführung bleiben zu verbinden. Der ursprüngliche Vier-Lücken-Audit bleibt ein Bericht über seine damaligen ausdrücklich begrenzten Eingaben, keine dauerhafte Aussage, dass 0x51A1 prinzipiell unbekannt sei.

@@ -42,6 +42,8 @@ const signedWord=(value:number)=>(value&65535)>=32768?(value&65535)-65536:value&
 export interface ActorAnimationOptions {
   /** Transient registers are not reconstructed from SAV; zero is preview-only. */
   initialRegisters?:AlisIntegerRegisters;
+  /** Explicit visual effect adapter. No callback means transitions fail closed. */
+  palette?:(event:{kind:'set'|'transition';index:number;duration?:number})=>void;
   /** Supply the original engine's random source; never silently invent one. */
   random?: (bound:number)=>number;
   /** Explicitly verified oscan handler entry. No guessed interrupt vector. */
@@ -85,7 +87,7 @@ export function* actorAnimationSteps(listing:string,main:Map<number,number>,init
       // Color-only routines depend on transient machine/palette state absent from
       // saves. Keep the imported palette; never skip gameplay or draw branches.
       const paletteOnly=end>=target&&code.slice(target,end).some(line=>line.op==='cpalette')&&code.slice(target,end).every(line=>/^(?:ceval|cbz\d+|cjmp\d+|cpalette)$/.test(line.op));
-      if(paletteOnly)continue;
+      if(paletteOnly&&!options.palette)continue;
       calls.push(pc);pc=target;continue;
     }
     if(op==='cret'){
@@ -130,6 +132,15 @@ export function* actorAnimationSteps(listing:string,main:Map<number,number>,init
       if(selected){const target=labels.get(selected[2]!);if(target===undefined)throw Error('Missing case');pc=target;}continue;
     }
     if(op==='cforme'){form=expression(args);continue;}
+    if(op==='ctopalet'||(op==='cpalette'&&options.palette)){
+      if(!options.palette)throw Error('Original palette transition adapter required');
+      let depth=0,split=-1;for(let i=0;i<args.length;i++){if(args[i]==='(')depth++;else if(args[i]===')')depth--;else if(args[i]===','&&depth===0){split=i;break;}}
+      if(op==='cpalette'){options.palette({kind:'set',index:expression(args)});continue;}
+      if(split<0)throw Error('Invalid palette transition operands');
+      const index=expression(args.slice(0,split)),saved=registers.d7;
+      expression(args.slice(split+1),true);const duration=registers.d7;registers.d6=duration;registers.d7=saved;
+      options.palette({kind:'transition',index,duration:duration&65535});continue;
+    }
     if(op==='cdelforme'){form=-1;continue;}
     if(op==='cxinvon'){mirror=true;continue;}if(op==='cxinvoff'){mirror=false;continue;}
     if(op==='cput'){draws.length=0;draws.push({index:expression(args),x:read(local,0,true,false),z:read(local,2,true,false),y:read(local,4,true,false),mirror});continue;}
