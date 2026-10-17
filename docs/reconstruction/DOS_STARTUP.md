@@ -108,3 +108,13 @@ Pop bei leerem Stapel setzt ausschließlich Activeflag null. Sonst wird der Zäh
 `python scripts/check-native-dos-audio-pending.py <memory.bin>` vergleicht Original-x86 mit dem tatsächlichen TypeScript-Modell in 144 Fällen je Profil: Stapeltiefen 0/1/5/6, Activeflags 0/1/2, vier alte und drei neue Prioritäten. Einlagern und anschließendes Pop stimmen bei Satzbytes, Zähler, Zeiger, aktuellen CS-Feldern, Activeflag und Stacktiefe überein. Die DS-Spiegelstores werden durch den Originalcode ausgeführt, sind im aktuellen Test aber nicht separat als Assertion abgedeckt. Kein Scheduler oder Playback. Typprüfung bestanden; Originalcaptures unverändert.
 
 Damit ist der Helfer hinter dem zuvor offenen Abschalt-Pendingzweig rekonstruiert. Die Komposition aus Pop, erneuter Installation und laufenden Timerinterrupts muss noch gemeinsam geprüft werden; die gesamte Audiolebensdauer ist weiterhin nicht abgeschlossen.
+
+## Komposition: Stop, Pending-Pop und erneute Installation
+
+`check-native-dos-audio-resume.py` führt den vollständigen Originalpfad von 8E2C bis vor dem abschließenden RET 8EB7 aus, einschließlich 89E0 und 8F49/8F22/0F1E. Erwartungswerte werden durch Komposition der produktiven TypeScript-Teilmodelle erzeugt, nicht durch Auslassen der Originalhelfer. 24 Fälle je Profil: ein oder sechs gespeicherte Aufträge, Geschwindigkeitsbytes 1/10/20, positive bzw. signed-negative Wiederholungsworte und zwei Eingangswerte für Port61. Alle Fälle bestehen.
+
+Verglichen werden die zwölf OUT-Aufträge (vier Stop, acht Install), zwei IN-Aufträge mit fortgeschriebenem emuliertem Portzustand, 106 Stubbytes, unveränderter Pufferrest, neu gesetzter Vektor, Stapelzähler/-zeiger, aktuelle CS-Felder und die fünf DS:1C0B-Spiegelfelder, Activeflags sowie Register-/Stackrückbau (AX und allgemeine Flags nicht als erhalten behauptet). IF ist nach Wiederinstallation gesetzt, während der einfache Stop ohne Pending es gelöscht lässt. Keine asynchronen Interruptticks werden ausgelöst; kein Hardware-I/O.
+
+Eine belegte Pfadbesonderheit: 8E9F übernimmt das gespeicherte Geschwindigkeitsbyte direkt in BL und 8EA6 das gespeicherte Wiederholungswort in CX vor CALL 8F49. Anders als beim früheren Gerätepfad vor 88B9 wird hier kein SUB BX,1 ausgeführt. Das Testmodell bewahrt diesen Unterschied ausdrücklich, statt die Pfade vermeintlich zu vereinheitlichen. Welche inhaltliche Quelle alle Pending-Aufträge haben, bleibt weiter zu verfolgen.
+
+Die zuvor offene Kompositionsprüfung ist damit für diese kontrollierten gültigen Stapelzustände erledigt. Vollständiger Audiobetrieb mit Laufzeit-/Geräteauswahl, Sampletickfolge, realer Rechnerkonfiguration und Original-Klangvergleich bleibt offen.
