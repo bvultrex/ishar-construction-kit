@@ -107,3 +107,7 @@ FRISE-Betragsänderung mit Guthabenprüfung und Wiederholungsbeschleunigung reko
 ## Belegter Save-Editor im Toolkit
 
 Character Lab bindet den binär abgeleiteten Ishar-2-MAIN-Writer jetzt separat von den Kandidatenfeldern ein: Profilprüfung, Bereich/Byteindex, aktueller Rohwert, Undo/Redo, neue SAV-Kopie und Hash-/Bytebericht. Browserexport am Originalsave byteweise geprüft; Desktop/Mobil ohne beobachtete Konsolenfehler. Originalspielprüfung und vollständige NPC-Bedienung bleiben offen.
+
+## Formen und Zielauswahl
+
+667 DOS-ALIS-Formen beider Spiele erschlossen; 660 Boxen mit gezielter Änderung und Modul-Readback geprüft. Referenzbasierter erster Formtreffer, aktive cforme-Snapshots und Ishar-2-SOURIS/FRISE-Auswahlphasen rekonstruiert. Komponententest bis zur NPC-Gold-SAV-Kopie; kein nativer Ausführungsnachweis. ALIS-C-Referenz ist kein dekompilierter DOS-EXE-Quelltext. Details: [ALIS_FORMS_AND_SELECTION.md](ALIS_FORMS_AND_SELECTION.md).

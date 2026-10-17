@@ -3,7 +3,7 @@ import {actorScriptCandidates,readOriginalActorDispatch} from './original-actor-
 import {actorViewCandidate,readActorSave,type ActorSave} from './save-actors.ts';
 
 export interface ActorListingBundle { loader:string; dispatch:string; scripts:Record<string,string> }
-export interface ActorFrame { actorId:number; module:string; index:number; x:number; y:number; z:number; mirror:boolean }
+export interface ActorFrame { actorId:number; module:string; index:number; x:number; y:number; z:number; mirror:boolean;form?:number }
 export const ORIGINAL_ACTOR_MODULES=['GOLEM1.IO','WIZARD1.IO','AVEUGLE5.IO'];
 interface Instruction { address:string; op:string; args:string }
 function instructions(listing:string):Instruction[] {
@@ -64,7 +64,7 @@ export function* actorAnimationSteps(listing:string,main:Map<number,number>,init
       table:(_space,at,index,_stack,word)=>read(main,at+index*(word?2:1),word,true),
     },stack);
   }
-  let pc=labels.get('00018')??-1,condition=0,mirror=false,scan=0;
+  let pc=labels.get('00018')??-1,condition=0,mirror=false,scan=0,form=-1;
   let resume:number|undefined,interrupted:number|undefined;
   const draws:{index:number;x:number;y:number;z:number;mirror:boolean}[]=[];
   for(let budget=0;budget<512;budget++) {
@@ -106,6 +106,8 @@ export function* actorAnimationSteps(listing:string,main:Map<number,number>,init
       const selected=[...args.slice(split).matchAll(/(-?\d+):L_([\da-f]+)/g)].find(m=>+m[1]===condition);
       if(selected){const target=labels.get(selected[2]!);if(target===undefined)throw Error('Missing case');pc=target;}continue;
     }
+    if(op==='cforme'){form=expression(args);continue;}
+    if(op==='cdelforme'){form=-1;continue;}
     if(op==='cxinvon'){mirror=true;continue;}if(op==='cxinvoff'){mirror=false;continue;}
     if(op==='cput'){draws.length=0;draws.push({index:expression(args),x:read(local,0,true,false),z:read(local,2,true,false),y:read(local,4,true,false),mirror});continue;}
     if(op==='cstop'||op==='csleep'){
@@ -114,7 +116,7 @@ export function* actorAnimationSteps(listing:string,main:Map<number,number>,init
       // cstart sets the next scheduler resume point and does not jump immediately.
       if(resume!==undefined){pc=resume;resume=undefined;interrupted=undefined;calls.length=0;}
       else if(interrupted!==undefined){pc=interrupted;interrupted=undefined;calls.length=0;}
-      const message:number|undefined=yield draws.map(draw=>({...draw,x:read(local,0,true,false),z:read(local,2,true,false),y:read(local,4,true,false),mirror}));
+      const message:number|undefined=yield draws.map(draw=>({...draw,x:read(local,0,true,false),z:read(local,2,true,false),y:read(local,4,true,false),mirror,...(form>=0?{form}:{})}));
       if(message!==undefined){
         const handler=options.scanEntry===undefined?undefined:labels.get(options.scanEntry);
         if(handler===undefined)throw Error('Verified scan handler required');
@@ -123,7 +125,7 @@ export function* actorAnimationSteps(listing:string,main:Map<number,number>,init
       }
       budget=-1;continue;
     }
-    if(['cinteron','cscanon','cinteroff','cscanoff','cfindtyp','clinking','cpalette','cforme'].includes(op))continue;
+    if(['cinteron','cscanon','cinteroff','cscanoff','cfindtyp','clinking','cpalette'].includes(op))continue;
     throw Error(`Unsupported opcode ${op}`);
   }
   throw Error('Actor instruction budget exceeded');
