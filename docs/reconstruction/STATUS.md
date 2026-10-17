@@ -159,3 +159,7 @@ Neuer binärer Reader und verlustfreier Zielwort-Writer für DOS cswitch1/cswitc
 ## CONT4-Geländehöhen an EAFF angebunden
 
 Die zweite CONT-Schicht ist über Original-MAIN-Deklarationen und vollständige Lesesequenz an 0x159C gebunden. EAFFs vollständiger Höhenlookup-/Differenzblock direkt geprüft; neuer Adapter liefert den signed8-Höheneingang. 5340 originale CONT4-Feldpaare und eine gezielte B-Feldänderung mit byteerhaltendem Export geprüft. Keine Freischaltung vollständiger CONT4-Figuren, keine Verdeckungs- oder DOS-Prüfung. Siehe ALIS_ENTITIES.md.
+
+## Switchvergleich Ishar 1 und Ishar 2
+
+Neue strukturelle Integeroperanden-Längenprüfung erlaubt den direkten Tabellenvergleich ohne manuell gesetzte Operandenden. Vorhandene Listings: Ishar 1 284 Tabellen/3098 Fälle in 81 Modulen, Ishar 2 378 Tabellen/3801 Fälle in 118 Modulen, keine Prüfungsfehler. Pro Tabelle gezielte IO-Kopienänderung mit Pack-/Unpack-Readback und byteidentischer Wiederherstellung getestet. Lokaler Hashbericht außerhalb Git. Keine Behauptung vollständiger Codeabdeckung oder nativer Ausführung. Siehe ALIS_SWITCHES.md.

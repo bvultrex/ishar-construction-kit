@@ -26,3 +26,32 @@ Der Aufrufer muss Zielinstruktion und Spiellogik prüfen. Ein strukturell kodier
 Mit ISHAR2_DIR und ISHAR_ACTOR_LISTINGS: alle zwölf EAFF-Tabellen mit 108 Fällen vollständig binär gelesen und gegen sämtliche Listingzuordnungen verglichen; alle 65536 signed16-Eingaben je Tabelle geprüft. Die Operandenden sind für diese zwölf Instruktionen explizit aus deren Operandformen angegeben, nicht durch eine heuristische Bytesuche geraten. Jedes der 108 Ziele wird auf ein bereits vorhandenes Tabellenziel umgebogen und wiederhergestellt; das vollständige Image muss danach byteidentisch sein. Originaldateien bleiben unverändert.
 
 Damit ist die frühere Lücke der verkürzten Listing-Hexpräfixe für diese EAFF-Switchtabellen geschlossen. Es ist kein Vollständigkeitsnachweis aller Originalmodule, kein Ishar-1-Originaltest und keine DOS-Ausführung. Gemeinsame Arithmetik und Formatsemantik bleiben referenzbasiert.
+
+## Erweiterter Ressourcenvergleich für beide Spiele
+
+`original-alis-operand-layout.ts` bestimmt strukturell das Ende unterstützter Integeroperanden (Byte-/Wortliterale, numerische Speicher-/Arrayzugriffe, numerische Operatoren und verschachtelte EVAL-Folgen). Literalbytes werden längengerecht übersprungen; ein eingebettetes 0x3A beendet deshalb nicht versehentlich den Ausdruck. Unbekannte/String-/unfertige Referenzoperanden werden abgewiesen. Tiefen- und Arbeitsbudget begrenzen beschädigte Eingaben. Das ist kein vollständiger ALIS-Operanddecoder und keine Operandenausführung.
+
+`test:original-alis-switch-profiles` durchläuft die vorhandenen lokalen Listings getrennt nach Spiel und prüft jede dort ausgewiesene Switchtabelle gegen das jeweilige Originalmodul. Ergebnisse am 2026-10-17:
+
+| Profil | Module mit geprüften Switches | Tabellen | Fälle | Prüfungsfehler |
+|---|---:|---:|---:|---:|
+| lokales Ishar 1 DOS | 81 | 284 | 3098 | 0 |
+| lokales Ishar 2 DOS | 118 | 378 | 3801 | 0 |
+
+Für jede Tabelle sind sämtliche Fallwerte und Ziele verglichen. No-op-Zieländerungen erhalten das vollständige Image. Zusätzlich wird der erste Fall gezielt zum vorhandenen Defaultpfad umgebogen, als IO-Kopie gepackt, erneut entpackt und byteweise mit dem erwarteten Image verglichen. Wiederherstellen des Fallziels ergibt über den Containerwriter wieder die byteidentische Originaldatei. Keine Originaldatei wird geschrieben. Das bedeutet strukturell korrektes Schreiben/Readback, nicht automatisch sinnvolle Spielsemantik oder originale Ausführung.
+
+Der lokale Bericht `analysis-output/switch-profiles-2026-10-17/switch-profiles.json` außerhalb des Repository enthält Dateinamen, Originalgrößen und SHA256 pro untersuchtem Modul sowie getrennte Zähler/Fehler. Keine Spielbytecodes im Bericht. Die geprüften Listings sind selbst referenzbasiert und können unentdeckte Programmbereiche auslassen; diese Zähler belegen nicht alle Switches im gesamten Originalprogramm. Beide Profile stimmen bei den untersuchten Tabellen mit unsigned16-Sprungdistanzen überein. Der separate Python-Disassembler liest Distanzen als signed16; für diese Tabellen ergeben sich keine Abweichungen. Negative Distanzen sind damit nicht als natives Feature nachgewiesen.
+
+Reproduktion in PowerShell:
+
+```powershell
+$env:ISHAR1_DIR='E:\Spiele\Ishar1'
+$env:ISHAR2_DIR='E:\Spiele\Ishar2'
+$env:ISHAR1_LISTINGS='<lokaler Ishar-1-Listingordner>'
+$env:ISHAR_ACTOR_LISTINGS='<lokaler Ishar-2-Listingordner>'
+npm run test:original-alis-switch-profiles
+# Optional neuer, von Installationen getrennter Berichtordner:
+npm run test:original-alis-switch-profiles -- '<neuer Analyseordner>'
+```
+
+Der Bericht wird exklusiv neu angelegt; vorhandene Berichte werden nicht überschrieben. Fehlende Voraussetzungen oder irgendein Tabellenfehler dürfen nicht stillschweigend als bestandener Gesamttest zählen.
