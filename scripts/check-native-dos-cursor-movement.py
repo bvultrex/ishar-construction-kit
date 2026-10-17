@@ -31,4 +31,4 @@ for case in cases:
   assert int.from_bytes(cpu.mem_read(0x1cd56,2),'little')==frame['x'] and int.from_bytes(cpu.mem_read(0x1cd58,2),'little')==frame['y']
   assert cpu.mem_read(0x1cd62,1)[0]==case['guard']
 assert a.capture.read_bytes()==memory
-print(json.dumps({'captureSha256':digest,'sequences':len(cases),'movements':len(cases)*5,'result':'persistent native 670D including restore, snapshot, save, draw and gates matches','limits':'mode1 drawing, guards0/255, valid coords, synthetic sprites, no real mouse driver'}))
+print(json.dumps({'captureSha256':digest,'sequences':len(cases),'movements':len(cases)*5,'result':'persistent native 670D including restore, snapshot, save, draw and gates matches','limits':'mode1 drawing, five guards and four hidden bytes, valid coords, synthetic sprites, no real mouse driver'}))
