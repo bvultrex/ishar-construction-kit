@@ -1,5 +1,6 @@
 import {AlisPaletteEditor} from '@/components/alis-palette-editor';
 import {AlisSoundEditor} from '@/components/alis-sound-editor';
+import {NativeScriptDiagnosticPanel} from '@/components/native-script-diagnostic';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { createDemoAssetPack, exampleAssetManifest, loadAssetPack, type DiscoveredAssetPreview } from "@/lib/ishar/asset-pack";
@@ -161,6 +162,7 @@ function AssetsPage() {
       </div>
     </header>
 
+    <NativeScriptDiagnosticPanel />
     <AlisPaletteEditor />
     <AlisSoundEditor />
 

@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {openNativeScriptDiagnostic,stepNativeScriptDiagnostic} from '../src/lib/ishar/native-script-diagnostic.ts';
+const image=new Uint8Array(32),view=new DataView(image.buffer);view.setUint16(0,1,true);view.setUint16(2,22,true);view.setUint16(20,8,true);image.set([5,2,66,0,17],24);
+const bytes=new Uint8Array(38);new DataView(bytes.buffer).setUint32(0,38,true);bytes[4]=1;bytes.set(image,6);const original=bytes.slice();
+let state=openNativeScriptDiagnostic(bytes);assert.equal(state.si,24);assert.equal(state.module.header.id,1);const initial=state.memory.slice();
+state=stepNativeScriptDiagnostic(state);assert.equal(state.si,28);assert.equal(state.steps,1);assert.deepEqual(initial,openNativeScriptDiagnostic(bytes).memory);
+state=stepNativeScriptDiagnostic(state);assert.equal(state.si,26);state=stepNativeScriptDiagnostic(state);assert.equal(state.si,27);assert.equal(state.status,'yield');assert.equal(state.steps,3);assert.equal(stepNativeScriptDiagnostic(state),state);
+const unknown=bytes.slice();unknown[30]=0;const stopped=stepNativeScriptDiagnostic(openNativeScriptDiagnostic(unknown));assert.equal(stopped.status,'stopped');assert.equal(stopped.si,24);assert.equal(stopped.steps,0);
+assert.deepEqual(bytes,original);assert.deepEqual(state.module.original,original);
+console.log('Native diagnostic: original module -> context -> call -> return -> yield, unsupported opcode stop and source preservation passed.');
