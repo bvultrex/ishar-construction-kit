@@ -1,23 +1,25 @@
 # Native Skript-Diagnose im Toolkit
 
-Im Asset Lab (`/assets`) steht die Sektion **Native Skript-Diagnose**. Über **IO-Modul für Skript-Diagnose öffnen** wird eine lokale DOS-IO-Datei aus Ishar1 oder Ishar2 geladen. Die Datei wird nur gelesen; weder der aktive Playtest noch das Mod-Projekt werden verändert. Der Import ist noch getrennt von der gemeinsamen Projektverwaltung.
+Im Asset Lab (`/assets`) öffnet **IO-Modul für Skript-Diagnose öffnen** eine lokale DOS-IO-Datei aus Ishar1 oder Ishar2. Die Quelldatei, der Playtest und das Mod-Projekt bleiben unverändert. Der Import ist noch getrennt von der gemeinsamen Projektverwaltung.
 
-Die Anzeige baut mit `createOriginalDosScriptContext` einen kontrollierten Kontext auf: Moduloffset0/Segment4000h, Kontextsegment5000h, Pooloffset0200h, Tabellenslot6 und obere GrenzeFFFFh. Diese Werte sind Testparameter, kein aus einem Originalspielstand wiederhergestellter Zustand. Angezeigt werden Modul-ID, Bildgröße, Header-Einstieg, BP, SI, nächstes Opcodebyte, Skriptstackoffset und gespeicherter Skriptzeiger.
+Der kontrollierte Kontext verwendet Moduloffset0/Segment4000h, Kontextsegment5000h, Pooloffset0200h, Tabellenslot6 und obere GrenzeFFFFh. Globals beginnen mit null. Diese Testparameter stellen keinen wiederhergestellten Originalspielzustand dar. Angezeigt werden Modul-ID, Bildgröße, Einstieg, BP, SI, nächstes Opcodebyte, Skriptstackoffset, gespeicherter Skriptzeiger und Timer-Zielbyte SS:0C99h.
 
-**Einen nativen Kontrollfluss-Schritt ausführen** ruft die gegen Originalinstruktionen geprüften Rekonstruktionen auf: Opcodes5–10 für relative Aufrufe/Sprünge,41 für rohe Kontextblöcke und17 für Skript-Return im kontrollierten Hauptskriptmodus. Opcode66 gibt per Yield ab; der Schrittadapter stoppt dort ausdrücklich vor dem Scheduler. Es läuft keine x86-Emulation im Browser. Andere Opcodes werden nicht geraten oder übersprungen: Der Adapter hält an, ohne SI oder Schrittzahl zu verändern. Beispiel: Ishar2 `IO.IO` führt13 Opcode41-Blöcke aus und hält dann bei Opcode106 an Offset005Fh. Das ist die aktuelle Abdeckungsgrenze, kein vollständiger VM-Test.
+**Einen nativen Kontrollfluss-Schritt ausführen** verwendet gegen Originalinstruktionen geprüfte Rekonstruktionen:
 
-**Diagnose zurücksetzen** erzeugt den unveränderten Anfangskontext aus der eingelesenen Originalkopie erneut. Für Module über64KiB ist nur die Kontextprüfung eingebunden; Einzelbefehle bleiben dort gesperrt. Fehlende Operanden oder Skriptzeiger außerhalb der Bilddaten führen zu einem sichtbaren Halt. Der Adapter enthält keine automatische Schleife und verändert Originaldateien nicht.
+- Opcodes5–10: relative Aufrufe und Sprünge.
+- Opcode17: Skript-Return im kontrollierten Hauptskriptmodus.
+- Opcode41: rohe Kontextblöcke.
+- Opcode66: Yield; ausdrücklich keine Scheduler-Fortsetzung.
+- Opcode71: Literalwort nach ES:[BP-16h], ohne höhere Feldsemantik zu behaupten.
+- Opcode76: drei aufeinanderfolgende Zahlenoperanden nach ES:BP,+2,+4. Spätere Operanden sehen frühere Änderungen.
+- Opcode106: niedriges Ergebnisbyte eines Zahlenoperanden nach SS:0C99h.
 
-Nachweise: Native Kontextkonstruktion wurde separat gegen alle240 lokalen IO-Header geprüft (siehe `NATIVE_CONTEXT_CORPUS_2026-10-18.json`). Die neue Toolkit-Anbindung öffnet ebenfalls alle98/142 Module. `node scripts/check-native-script-diagnostic.mjs` prüft einen synthetischen gültigen Modulablauf Kontext→Aufruf→Return→Yield, Halt bei unbekanntem Opcode und unveränderte Quelldaten. Typecheck und Produktionsbuild bestehen. Im Browser wurden Import von Ishar2 `IO.IO`, angezeigte Kontextwerte,13 Blockschritte und unveränderter Halt auf Opcode106 geprüft. Diese UI-Prüfung beweist keine vollständige NPC-/Gegnerausführung.
+Die Zahlenoperanden unterstützen Tags0/2/6/8: vorzeichenbehaftetes Literalbyte, Literalwort, Kontextbyte und Kontextwort. Andere Formen oder Opcodes werden nicht geraten oder übersprungen. Der Adapter hält ohne Änderung von SI und Schrittzahl an. Die Hostfunktionen ersetzen keine vollständige x86-Emulation oder ALIS-VM.
 
-Nächste Schritte: weitere belegte Handler an den Adapter anbinden, Scheduler-/Callbackzustände darstellen, Schrittprotokoll ergänzen und anschließend den Diagnoseimport in die gemeinsame Projektverwaltung integrieren. Mehrsegmentausführung und die vollständige native VM bleiben eigene offene Arbeit.
+**Diagnose zurücksetzen** erzeugt den Anfangskontext erneut. Für Module über64KiB ist nur die Kontextprüfung verfügbar. Fehlende Operanden oder Skriptzeiger außerhalb der Bilddaten führen zum Halt. Nicht unterstützte Wortzugriffe über eine Segmentgrenze werden von den Hostfunktionen abgelehnt. Keine automatische Ausführungsschleife ist eingebunden.
 
-## Erweiterung: Opcode106
+Nachweise: Kontextaufbau gegen alle240 lokalen IO-Header (98/142) geprüft. Opcode41 mit je1536, Zahlenoperanden/106 mit je1056, Opcode71 mit je144 und Opcode76 mit je384 nativen Vergleichsfällen pro Spiel geprüft. Adaptertests prüfen unter anderem Aufruf→Return→Yield, Kontextänderungen, unveränderte Vorgängerzustände und sichere Halte bei unbekannten oder abgeschnittenen Operanden. Typecheck und Produktionsbuild bestehen.
 
-Opcode106 ist mit den Zahlenoperand-Tags0/2/6/8 angebunden: vorzeichenbehaftetes Literalbyte, Literalwort, Kontextbyte und Kontextwort. Das Timer-Zielbyte SS:0C99h wird angezeigt. Die Globals starten als kontrollierter Nullkontext, nicht als Originalspielzustand.
+Am18.10.2026 wurde Ishar2 IO.IO erneut im Browser importiert und16 Schritte ausgeführt: SI006Ch, Timerziel1, nächster Opcode156. Ein weiterer Klick hält dort ohne Änderung von SI/Schrittzahl an. Dies deckt die zuletzt hinzugefügten Opcodes106,71,76 im tatsächlichen UI-Ablauf ab. Es beweist keine vollständige NPC-/Gegnerausführung.
 
-Diese Erweiterung ersetzt die oben genannte Grenze bei Opcode106: Ishar2 `IO.IO` erreicht nach14 Schritten SI0062h und Timerziel1. Der folgende Opcode71 stoppt unverändert. Native Vergleiche mit je1056 Fällen beider Spiele und Adaptertests bestehen. Die erneute Browserprüfung dieser Erweiterung steht noch aus.
-
-## Erweiterung: Opcode71
-
-Auch Opcode71 ist angebunden: Ein Literalwort wird nach ES:[BP-16h] übernommen. Die Bedeutung dieses Rohfelds wird nicht geraten. Damit erreicht Ishar2 IO.IO nun15 Schritte und SI0065h; dort hält Opcode76 an. Je144 native Vergleichsfälle pro Spiel bestehen. Der echte Modulablauf ist per Hostausführung geprüft; die erneute Browserprüfung bleibt offen.
+Nächste Schritte: Opcode156 und seine Abhängigkeiten rekonstruieren, weitere belegte Handler anbinden, Scheduler-/Callbackzustände und Schrittprotokoll darstellen, Diagnoseimport in die gemeinsame Projektverwaltung integrieren. Mehrsegmentausführung und vollständige native VM bleiben offen.
