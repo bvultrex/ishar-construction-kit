@@ -11,3 +11,9 @@ Die Anzeige baut mit `createOriginalDosScriptContext` einen kontrollierten Konte
 Nachweise: Native Kontextkonstruktion wurde separat gegen alle240 lokalen IO-Header geprüft (siehe `NATIVE_CONTEXT_CORPUS_2026-10-18.json`). Die neue Toolkit-Anbindung öffnet ebenfalls alle98/142 Module. `node scripts/check-native-script-diagnostic.mjs` prüft einen synthetischen gültigen Modulablauf Kontext→Aufruf→Return→Yield, Halt bei unbekanntem Opcode und unveränderte Quelldaten. Typecheck und Produktionsbuild bestehen. Im Browser wurden Import von Ishar2 `IO.IO`, angezeigte Kontextwerte,13 Blockschritte und unveränderter Halt auf Opcode106 geprüft. Diese UI-Prüfung beweist keine vollständige NPC-/Gegnerausführung.
 
 Nächste Schritte: weitere belegte Handler an den Adapter anbinden, Scheduler-/Callbackzustände darstellen, Schrittprotokoll ergänzen und anschließend den Diagnoseimport in die gemeinsame Projektverwaltung integrieren. Mehrsegmentausführung und die vollständige native VM bleiben eigene offene Arbeit.
+
+## Erweiterung: Opcode106
+
+Opcode106 ist mit den Zahlenoperand-Tags0/2/6/8 angebunden: vorzeichenbehaftetes Literalbyte, Literalwort, Kontextbyte und Kontextwort. Das Timer-Zielbyte SS:0C99h wird angezeigt. Die Globals starten als kontrollierter Nullkontext, nicht als Originalspielzustand.
+
+Diese Erweiterung ersetzt die oben genannte Grenze bei Opcode106: Ishar2 `IO.IO` erreicht nach14 Schritten SI0062h und Timerziel1. Der folgende Opcode71 stoppt unverändert. Native Vergleiche mit je1056 Fällen beider Spiele und Adaptertests bestehen. Die erneute Browserprüfung dieser Erweiterung steht noch aus.
