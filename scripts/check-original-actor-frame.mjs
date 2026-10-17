@@ -54,7 +54,7 @@ if(process.env.ISHAR_ACTOR_LISTINGS&&process.env.ISHAR2_DIR){
   for(const [id,type,row,col] of [[51,0,20,29],[53,9,21,28]]){
     word(2601+id*2,row);word(2821+id*2,col);word(3041+id*2,3);word(3261+id*2,40);patch[4911+id]=type;patch[6781+id]=5;
   }
-  const bundle={loader:read('IO.IO'),dispatch:read('EAFF.IO'),scripts:Object.fromEntries(['GOLEM1.IO','WIZARD1.IO','AVEUGLE5.IO'].map(name=>[name,read(name)]))};
+  const bundle={loader:read('IO.IO'),dispatch:read('EAFF.IO'),main:read('MAIN.IO'),scripts:Object.fromEntries(['GOLEM1.IO','WIZARD1.IO','AVEUGLE5.IO'].map(name=>[name,read(name)]))};
   const frames=originalActorFrames(bundle,patch,camera).frames;
   assert.ok(frames.some(f=>f.actorId===51&&f.index===4));assert.ok(frames.some(f=>f.actorId===53&&f.index===29));
   assert.equal(originalActorFrames(bundle,patch,{...camera,map:2}).frames.length,0,'unported occlusion maps stay disabled');
@@ -131,3 +131,22 @@ assert.throws(()=>isolated.next(),/Unauthorized MAIN write/);
 const noHandler=actorAnimationSteps(eventScript,new Map(),{});noHandler.next();
 assert.throws(()=>noHandler.next(21),/Verified scan handler/);
 console.log('Scan dispatch, deferred sequence start, idle restoration and gameplay-write gate passed.');
+if(process.env.ISHAR_ACTOR_LISTINGS&&process.env.ISHAR2_DIR){
+ const dir=process.env.ISHAR_ACTOR_LISTINGS,read=name=>readFileSync(join(dir,name+'.asm'),'utf8');
+ const source=new Uint8Array(readFileSync(join(process.env.ISHAR2_DIR,'START.SAV'))),patch=source.slice(),v=new DataView(patch.buffer),word=(at,n)=>v.setUint16(at,n,false);
+ for(let id=50;id<110;id++)word(3261+id*2,0);
+ // Controlled renderer fixture for module 43: validates wiring without claiming
+ // that the synthetic cput body is an original NPC script.
+ const synthetic='; test-only id=0x002b\n  00018 ff cput oimmb(7)\n  0001a ff cstop';
+ const bundle={loader:read('IO.IO'),dispatch:read('EAFF.IO'),main:read('MAIN.IO'),scripts:{'TEST.IO':synthetic}};
+ const {deriveIshar2SaveLayout,patchIshar2SavedMain}=await import('../src/lib/ishar/ishar2-save-layout.ts');
+ const layout=await deriveIshar2SaveLayout(readFileSync(join(process.env.ISHAR2_DIR,'IO.IO')));
+ const prepared=patchIshar2SavedMain(patch,layout,[0,1,2].map(i=>({address:0x4b80+i,width:1,value:0})));
+ const view=new DataView(prepared.buffer),put=(at,n)=>view.setUint16(at,n,false);
+ for(const id of [53,54,55]){put(2601+id*2,20);put(2821+id*2,29);put(3261+id*2,40);prepared[4911+id]=31;prepared[6781+id]=5;}
+ const camera={row:20,col:30,facing:1,map:1,scene:5},before=prepared.slice(),frames=createOriginalActorAnimation(bundle,prepared,camera,1234).snapshot();
+ assert.equal(frames.frames.length,3);assert.deepEqual(frames.unsupported,[]);
+ const x=id=>frames.frames.find(f=>f.actorId===id).x;assert.equal(x(53),0);assert.ok(x(54)>=-90&&x(54)<=-71);assert.ok(x(55)>=71&&x(55)<=90);assert.deepEqual(prepared,before);
+ assert.deepEqual(createOriginalActorAnimation(bundle,prepared,camera,1234).snapshot(),frames,'explicit seed reproduces crowd');
+ console.log('Integrated EAFF crowd -> module selection -> three positioned renderer frames passed with explicit synthetic module; source SAV unchanged.');
+}

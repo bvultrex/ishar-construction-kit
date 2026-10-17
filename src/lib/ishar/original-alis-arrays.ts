@@ -1,6 +1,19 @@
 /** DOS ALIS (< v30) cdim/tabchar/tabint. Metadata contains BYTE strides,
  * not element counts. Extra indices are popped in declaration order. */
 export interface AlisArrayDeclaration { address:number; elementBytes:number; strides:number[] }
+/** Import required declarations from complete cdim instruction bytes in a local
+ * listing. Truncated disassembler previews must never become guessed strides. */
+export function readRequiredAlisArrays(listing:string,addresses:readonly number[]):Map<number,AlisArrayDeclaration>{
+ const result=new Map<number,AlisArrayDeclaration>();
+ for(const line of listing.split(/\r?\n/)){
+  const m=line.match(/^\s*[\da-f]{5}\s+([\da-f]+)\s+cdim\s+var=0x([\da-f]+)/);if(!m||!addresses.includes(parseInt(m[2]!,16)))continue;
+  if(m[1]!.length%2)throw Error('Incomplete cdim hex bytes');
+  const bytes=Uint8Array.from(m[1]!.match(/../g)!.map(v=>parseInt(v,16))),declaration=readAlisArrayDeclaration(bytes,0);
+  if(declaration.address!==parseInt(m[2]!,16)||result.has(declaration.address))throw Error('Ambiguous cdim listing');result.set(declaration.address,declaration);
+ }
+ for(const address of addresses)if(!result.has(address))throw Error(`Missing MAIN array declaration ${address.toString(16)}`);
+ return result;
+}
 export function readAlisArrayDeclaration(image:Uint8Array,offset:number):AlisArrayDeclaration {
  if(!Number.isInteger(offset)||offset<0||offset+5>image.length||image[offset]!==0x29)throw Error('Expected complete DOS cdim instruction');
  const view=new DataView(image.buffer,image.byteOffset,image.byteLength),count=image[offset+3]!;

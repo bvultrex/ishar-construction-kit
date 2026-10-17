@@ -30,3 +30,9 @@ for(let raw=0;raw<65536;raw++){
 }
 assert.throws(()=>evaluate('(oimmb(40) oprnd)',context),/stack/);
 console.log('oprnd: all 65536 seed bit patterns checked against BigInt reference arithmetic; stack seed consumed without engine RNG.');
+// Required MAIN declarations: preserve original strides; reject previews and duplicates.
+const {readRequiredAlisArrays}=await import('../src/lib/ishar/original-alis-arrays.ts');
+assert.deepEqual(readRequiredAlisArrays('  0009b  298e2d01021e00 cdim var=0x2d8e, ndim=1', [0x2d8e]).get(0x2d8e),{address:0x2d8e,elementBytes:2,strides:[30]});
+assert.throws(()=>readRequiredAlisArrays('  0009b  298e2d0102 cdim var=0x2d8e, ndim=1',[0x2d8e]),/Truncated/);
+assert.throws(()=>readRequiredAlisArrays('',[0x2d8e]),/Missing/);
+assert.throws(()=>readRequiredAlisArrays('  0009b  298e2d01021e00 cdim var=0x2d8e\n  000aa  298e2d01021e00 cdim var=0x2d8e',[0x2d8e]),/Ambiguous/);

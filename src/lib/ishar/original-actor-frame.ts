@@ -1,9 +1,10 @@
 import {evaluateOriginalAlisInteger} from './original-alis-expression.ts';
 import {originalEaffPerspective} from './original-eaff-perspective.ts';
-import {actorScriptCandidates,readOriginalActorDispatch} from './original-actor-dispatch.ts';
+import {chooseOriginalEaffSpawn} from './original-eaff-spawn.ts';
+import {readRequiredAlisArrays} from './original-alis-arrays.ts';
 import {actorViewCandidate,readActorSave,type ActorSave} from './save-actors.ts';
 
-export interface ActorListingBundle { loader:string; dispatch:string; scripts:Record<string,string> }
+export interface ActorListingBundle { loader:string; dispatch:string; main:string; scripts:Record<string,string> }
 export interface ActorFrame { actorId:number; module:string; index:number; x:number; y:number; z:number; mirror:boolean;form?:number }
 export const ORIGINAL_ACTOR_MODULES=['GOLEM1.IO','WIZARD1.IO','AVEUGLE5.IO'];
 interface Instruction { address:string; op:string; args:string }
@@ -164,24 +165,26 @@ export function createOriginalActorAnimation(bundle:ActorListingBundle,bytes:Uin
     return snapshot();
   };
   const saved=readActorSave(bytes);if(!saved)return {snapshot,advance};
-  const memory=savedMainMemory(bundle.loader,bytes),dispatch=readOriginalActorDispatch(bundle.dispatch);
+  const memory=savedMainMemory(bundle.loader,bytes);
   // The no-occlusion path is verified for CONT1 only. Other maps require EAFF's height/occlusion gates.
   if(view.map!==1)return {snapshot,advance};
+  let arrays:ReturnType<typeof readRequiredAlisArrays>;
+  try{arrays=readRequiredAlisArrays(bundle.main,[0x3d2e,0x43ba,0x2d5c,0x2d8e,0x4b80]);}
+  catch{unsupported.push(...saved.actors.filter(actor=>actor.hp>0).map(actor=>actor.id));return {snapshot,advance};}
   // MAIN 0x011e5/0x036c0: stationary view, no movement in progress.
   memory.set(0x2ab7,0);
   memory.set(0x2ab4,view.row);memory.set(0x2ab5,view.col);memory.set(0x2ab6,view.facing);memory.set(0x2d18,view.map);memory.set(0x4ef2,view.scene);
   for(const actor of saved.actors){
     const relative=actorViewCandidate({...view,actors:saved.actors},actor);if(!relative)continue;
-    const binding=actorScriptCandidates(dispatch,actor);
-    if(!binding||binding.conditional||binding.scriptIds.length!==1||relative.distance===0){unsupported.push(actor.id);continue;}
+    if(relative.distance===0){unsupported.push(actor.id);continue;}
     const position=originalEaffPerspective(bundle.dispatch,{map:view.map,distance:relative.distance,lateral:relative.lateral});
-    const script=Object.entries(bundle.scripts).find(([,text])=>parseInt(text.match(/id=0x([\da-f]+)/)?.[1]??'-1',16)===binding.scriptIds[0]);
+    const choice=chooseOriginalEaffSpawn(bundle.dispatch,actor.id,0,memory,arrays,{distance:relative.distance,lateral:relative.lateral,random});
+    // Apply only to this private MAIN copy, in original actor scan order.
+    for(const write of choice.mainWrites)memory.set(write.address,write.value);
+    if(choice.moduleId===null)continue;
+    const script=Object.entries(bundle.scripts).find(([,text])=>parseInt(text.match(/id=0x([\da-f]+)/)?.[1]??'-1',16)===choice.moduleId);
     if(!script){unsupported.push(actor.id);continue;}
-    // EAFF explicitly sets offset to zero for these branches; unported/random crowd offsets stay disabled.
-    const entry=bundle.dispatch.slice(bundle.dispatch.indexOf(`L_${binding.entry.slice(2)}:`));
-    const offset=entry.match(/^\s*[\da-f]+\s+[\da-f]+\s+cstore\s+oimmb\((-?\d+)\), ->sdirw\(0x1a\)/m);
-    if(!offset || entry.indexOf(offset[0])>entry.indexOf('clive')){unsupported.push(actor.id);continue;}
-    const x=position.baseX+Math.trunc(+offset[1]!*10/position.divisor);
+    const x=position.baseX+Math.trunc(choice.lateral*10/position.divisor);
     const steps=actorAnimationSteps(script[1],memory,{0:x,2:position.depth-1,4:position.height,0x0c:35*256+actor.id},{random});
     sessions.push({actorId:actor.id,module:script[0],steps,frame:[],stopped:false});
   }

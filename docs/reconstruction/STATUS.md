@@ -147,3 +147,7 @@ EAFF 0x4C8..0x985 zusammenhängend ausführbar: bestehende/neu belegte Dreierpl�
 ## Crowd-Lebenszyklus belegt
 
 GERDEP-Resetblock, EDPLT-Reservierung und bedingte FRISE-Todesfreigabe rekonstruiert. Direkte Originalbyte-/Listingprüfungen und Komposition mit einer SAV-Arbeitskopie bestanden; gespeicherte Crowdplätze bleiben damit über den Save-Codec erhalten. Kein pauschaler Redrawreset, keine vollständige Kampf-/Bewegungsintegration. Details und konkrete Auslösergrenzen: ALIS_ENTITIES.md.
+
+## EAFF-Crowd/Dispatch im CONT1-Ansichtsadapter verbunden
+
+Figurenpfad verwendet nun Crowd- und Dispatchausführung statt Kandidaten-/Konstantensuche. Arraydeklarationen aus lokalem MAIN-Listing, geordnete Writes nur in privater MAIN-Kopie. Tests mit echten Skripten sowie ausdrücklich synthetischem Drei-Figuren-Renderer bestanden. Runtime bleibt Teiladapter: Save-Crowdzustand wird je neuem Ansichtsaufbau übernommen; persistente Bewegungs-/Kampfzustandsmaschine und vollständiger Scheduler offen. Neuer Testserver auf 4180 liefert MAIN-Listing, Playtest-HTTP 200 geprüft.
