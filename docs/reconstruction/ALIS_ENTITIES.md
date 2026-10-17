@@ -55,3 +55,13 @@ Wird die laufende Entity entfernt, liefert die Methode den Vorgänger als neuen 
 Nicht enthalten: Musikende abwarten, `cerasall`, kompaktierter DOS-Heap, Zeigerkorrekturen, vollständige negative Kontextdaten oder `cstop`-Ausführung. Die Methode heißt deshalb nicht `killent`. Diese Ergänzung bleibt referenzbasiert und noch ohne DOS-Vergleich.
 
 Tests decken Kopf/Mitte/Ende, laufende/nicht laufende Entity, erhaltene Nachfolger, Freiliste vor unbenutzten Plätzen, LIFO-Wiederverwendung, Zustandsreset, abgewiesene Eingaben und das Verschwinden eines alten Formtreffers ab.
+
+## Ishar-2-EAFF-Aufräumroutine
+
+`original-eaff-cleanup.ts` bindet die strukturelle Entfernung an den konkreten Originalpfad EAFF 0x003A..0x005F. Originaldatei EAFF.IO SHA256 `6ab9102e2566617a9e7511ae1503f3302db1e81ea006081f3bb76d08835957ab`, Modul 13. Der Test vergleicht den gesamten 38-Byte-Block direkt mit dem entpackten Original; optional auch mit dem Listing. Damit ist die verwendete Skriptfolge direkt belegt, die Opcodeausführung bleibt aus der C-Referenz rekonstruiert.
+
+Der Originalpfad führt `clistent` aus, prüft bis zum -1-Sentinel das Klassenbyte +0x0C auf 35, ruft gegebenenfalls `ckill` auf und geht über `csuccent` weiter. Referenz `clistent` kopiert vorab alle Nicht-Root-Handles in die Ergebnisliste (einschließlich Aufrufer); es ist keine rekursive Elternsuche. Der Adapter verwendet deshalb eine unveränderliche Handleliste. Alle Klasse-35-Entities werden in dieser Reihenfolge strukturell entfernt, unabhängig von Modul-ID/Actor-ID. Andere Klassen bleiben erhalten. Einen selbst als Klasse 35 markierten EAFF-Aufrufer weist der Adapter vor Änderungen ab, weil dessen Schedulerabbruch hier nicht ausgeführt wird.
+
+Kein vollständiger EAFF-Gebietswechsel: Bildschirm-/Linkzustand, native `ckill`-Nebenwirkungen, erneute Actorauswahl/Erzeugung und Scheduler fehlen. Keine Aktivierung in der Browserlaufzeit und keine Ishar-1-Zuordnung behauptet.
+
+Reproduktion: `node scripts/check-original-eaff-cleanup.mjs`; mit `ISHAR2_DIR` erfolgt der direkte Originalbytevergleich, mit `ISHAR_ACTOR_LISTINGS` zusätzlich der Listingvergleich. Synthetische Tests prüfen Klassenfilter, Wurzel-Ausnahme, erhaltene Nachfolger, Entfernen mehrerer Einträge ohne Überspringen und Freilistenreihenfolge.

@@ -119,3 +119,7 @@ Referenzbasierte alte DOS-Entityverkettung, elf Byte Vererbung, Handles, Typ-/Kl
 ## Entity-Lebenszyklus: struktureller Teil
 
 `removeStructure` rekonstruiert das Ausketten und die Freilisten-Wiederverwendung aus der separaten ALIS-C-Referenz. Scheduler-Neustart wird als explizites Ergebnis geliefert; Audio, Renderbereinigung und Heap-Kompaktion bleiben offen. Tests prüfen unter anderem erhaltene Nachfolger, zurückgesetzte wiederverwendete Einträge und verschwundene Formtreffer. Kein vollständiges `killent`, keine neue Playtest-Integration und kein nativer Nachweis. Details: ALIS_ENTITIES.md.
+
+## Ishar-2-EAFF-Bindung
+
+Der strukturelle Entity-Abbau ist nun mit EAFF 0x3A..0x5F verbunden: vorab erfasste Live-Liste, Entfernung aller Klasse-35-Einträge, Erhalt anderer Klassen. Der gesamte Skriptblock ist direkt gegen die lokale EAFF.IO geprüft; Opcode-Semantik bleibt referenzbasiert. Vollständige killent-Nebenwirkungen und Browserintegration weiter offen. Test: `node scripts/check-original-eaff-cleanup.mjs` (Originalvergleich mit ISHAR2_DIR).
