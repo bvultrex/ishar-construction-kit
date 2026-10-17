@@ -187,3 +187,7 @@ MAIN-DOS-Einstellungsstores für 0x51A1 und 0x51A2 direkt geprüft; keine pausch
 ## Palettenübergang als Referenzmodell
 
 Separates Modell rekonstruiert ALIS-C-topalette/topalet inklusive Float32-Schritten, Restzähler und finaler Kopie. Originalpalettenziele aller 221 Ressourcen beider Spiele gegen Rohbytes geprüft. LEZARD-Auftrag -> Originalpalette -> 44 kontrollierte Schritte für drei Phasen getestet. Keine DOS-Zeit-/Pixelgleichheit oder globale Framebufferintegration behauptet; LEZARD bleibt im Produkt noch deaktiviert. Siehe REFERENCE_PALETTE_TRANSITIONS.md.
+
+## Audio: statisches Ressourcenverzeichnis
+
+Für beide lokalen DOS-Profile sind jetzt alle 240 IO-Module auf Soundtabellen geprüft: 55 Einträge in Ishar 1, 149 in Ishar 2. Reader mit Bereichsprüfung und unverändertem Quellpuffer vorhanden; Typ-1/2-Header bleiben vor Importnormalisierung. Packungs-/Samplekonvertierung, Musikformate, Audioeditor und echte Wiedergabe sind weiterhin offen. Herkunft, Feldaufbau und Reproduktion: ALIS_SOUNDS.md.
