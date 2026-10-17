@@ -5,12 +5,12 @@ export function expandReferenceDosSampleDelta(packed:Uint8Array,declaredLength:n
  const count=Math.floor((declaredLength-16)/2);
  if(packed.length<count)throw Error('Truncated reference delta sample');
  const delta=[-34,-21,-13,-8,-5,-3,-2,-1,1,2,3,5,8,13,21,34];
- // C writes 1 + 2*(count-1) decoded bytes, then two zero bytes;
- // its following length update excludes one of those marker bytes.
- const out=new Uint8Array(count*2+1);let value=packed[0]!;out[0]=value;
+ // C overwrites the final decoded pair through smpptr2; it does not append markers.
+ const out=new Uint8Array(count*2-1);let value=packed[0]!;out[0]=value;
  for(let i=1;i<count;i++){
   value=(value+delta[packed[i]!>>4]!)&255;out[2*i-1]=value;
   value=(value+delta[packed[i]!&15]!)&255;out[2*i]=value;
  }
+ out[out.length-2]=0;out[out.length-1]=0;
  return out;
 }
