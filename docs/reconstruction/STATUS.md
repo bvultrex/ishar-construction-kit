@@ -143,3 +143,7 @@ Der CONT1-Figurenpfad liest seine Perspektivstaffel jetzt aus EAFF statt einer f
 ## EAFF-Crowd-Verteilung
 
 EAFF 0x4C8..0x985 zusammenhängend ausführbar: bestehende/neu belegte Dreierplätze, laterale Zufallswerte und anschließende Modulauswahl. oprnd als deterministischer Stackseed-Operator aus der C-Referenz ergänzt; 65536 Seedmuster geprüft. 180 Actor-/Kartenkombinationen und Crowd-RNG-Reihenfolge getestet, weitere 40 Instruktionspräfixe gegen Originaldatei geprüft. Kein vollständiger Slot-Lebenszyklus, keine Browseraktivierung und kein DOS-Ausführungsnachweis. Details: ALIS_ENTITIES.md.
+
+## Crowd-Lebenszyklus belegt
+
+GERDEP-Resetblock, EDPLT-Reservierung und bedingte FRISE-Todesfreigabe rekonstruiert. Direkte Originalbyte-/Listingprüfungen und Komposition mit einer SAV-Arbeitskopie bestanden; gespeicherte Crowdplätze bleiben damit über den Save-Codec erhalten. Kein pauschaler Redrawreset, keine vollständige Kampf-/Bewegungsintegration. Details und konkrete Auslösergrenzen: ALIS_ENTITIES.md.

@@ -61,7 +61,8 @@
     "test:original-eaff-placement": "node scripts/check-original-eaff-placement.mjs",
     "test:original-eaff-spawn-local": "node scripts/check-original-eaff-spawn-local.mjs",
     "test:original-eaff-view": "node scripts/check-original-eaff-view.mjs",
-    "test:original-eaff-perspective-local": "node scripts/check-original-eaff-perspective-local.mjs"
+    "test:original-eaff-perspective-local": "node scripts/check-original-eaff-perspective-local.mjs",
+    "test:original-crowd-lifecycle": "node scripts/check-original-crowd-lifecycle.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",
