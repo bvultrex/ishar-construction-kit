@@ -63,7 +63,8 @@
     "test:original-eaff-view": "node scripts/check-original-eaff-view.mjs",
     "test:original-eaff-perspective-local": "node scripts/check-original-eaff-perspective-local.mjs",
     "test:original-crowd-lifecycle": "node scripts/check-original-crowd-lifecycle.mjs",
-    "test:original-alis-switch": "node scripts/check-original-alis-switch.mjs"
+    "test:original-alis-switch": "node scripts/check-original-alis-switch.mjs",
+    "test:original-eaff-terrain": "node scripts/check-original-eaff-terrain.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",

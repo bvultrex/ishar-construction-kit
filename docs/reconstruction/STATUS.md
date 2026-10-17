@@ -155,3 +155,7 @@ Figurenpfad verwendet nun Crowd- und Dispatchausführung statt Kandidaten-/Konst
 ## Vollständige EAFF-Switchtabellen geprüft
 
 Neuer binärer Reader und verlustfreier Zielwort-Writer für DOS cswitch1/cswitch2. Alle zwölf EAFF-Tabellen mit 108 Fällen vollständig gegen Listingzuordnungen geprüft, einschließlich Default/Alignment/Bias. Damit ist die bisherige Präfixprüfung der langen Switchinstruktionen für diese Tabellen ergänzt. 108 gezielte Änderungen/restores erhalten das vollständige Image; keine Originaldatei verändert. Native Ausführung und andere Modulprofile offen. Siehe ALIS_SWITCHES.md.
+
+## CONT4-Geländehöhen an EAFF angebunden
+
+Die zweite CONT-Schicht ist über Original-MAIN-Deklarationen und vollständige Lesesequenz an 0x159C gebunden. EAFFs vollständiger Höhenlookup-/Differenzblock direkt geprüft; neuer Adapter liefert den signed8-Höheneingang. 5340 originale CONT4-Feldpaare und eine gezielte B-Feldänderung mit byteerhaltendem Export geprüft. Keine Freischaltung vollständiger CONT4-Figuren, keine Verdeckungs- oder DOS-Prüfung. Siehe ALIS_ENTITIES.md.
