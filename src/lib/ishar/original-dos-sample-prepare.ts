@@ -7,3 +7,11 @@ export function prepareOriginalDosSample(header:Uint8Array,segment:number,offset
  const length=((header[2]!|(header[3]!<<8))-16)&65535;
  return {speed,length,sampleOffset:(offset+16)&65535,sampleSegment:segment,frequency:(speed*1000)&65535};
 }
+
+/** Later native device branch CS:886D..8885, distinct from parameter setup.
+ * Reached only after its device/priority guards; not universal sample behavior. */
+export function normalizeOriginalDosDeviceSpeed(speed:number){
+ if(!Number.isInteger(speed)||speed<0||speed>255)throw Error('Invalid native device speed');
+ const signed=speed>=128?speed-256:speed;
+ return signed<1||signed>20?10:speed;
+}

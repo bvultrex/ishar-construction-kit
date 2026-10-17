@@ -144,3 +144,5 @@ Ergebnis in beiden lokalen Spielen: 776 Fälle stimmen überein. Abdeckung: alle
 ## Native Gegenprüfung präzisiert die Referenzgrenzen
 
 Der direkt aus dem DOS-Code rekonstruierte Parameterblock CS:6302..633E weicht von der separaten C-Referenz ab: u16-Längenlesen und u16-Frequenzprodukt ohne 1..20-Clamp. Je 768 Fälle beider Spiele sind gegen die Original-x86-Ausführung geprüft. Siehe DOS_STARTUP.md und original-dos-sample-prepare.ts. Die reference-Samplepläne sind damit weiterhin ausdrücklich Referenzwerkzeuge und kein Nachweis originalgleicher Audioausgabe. Die Browserlaufzeit erhält nicht stillschweigend die unbestätigten Hostmixer-Regeln.
+
+Nachtrag zur nativen Gegenprüfung: Die 1..20/10-Begrenzung ist inzwischen im späteren Original-Gerätepfad CS:886D..8885 gefunden und für alle 256 Bytewerte beider Spiele CPU-geprüft. Der frühe Parameterblock bleibt davon getrennt. Die ursprüngliche Gegenüberstellung allein dieses frühen Blocks darf deshalb nicht als Aussage gelesen werden, das Original kenne überhaupt keine Geschwindigkeitsbegrenzung. Vollständige Gerätepfad-Zuordnung siehe DOS_STARTUP.md.
