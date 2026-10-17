@@ -48,4 +48,12 @@ npm run test:save-main-cli-local
 
 Eine rekonstruierte NPC-Goldübergabe wurde per CLI als neue SAV-Datei exportiert und über das abgeleitete Layout gelesen. Überschreib- und Originalverzeichnisschutz sind geprüft. Die CLI-Testdateien bleiben im lokalen temporären Testordner. Originalinventur wird separat überprüft.
 
-Nicht belegt: Laden dieser Änderung im Originalspiel und sichtbare erfolgreiche NPC-Interaktion. Die vollständige Bedeutung aller 141 Felder ist weiterhin unbekannt. Die Dateiabbildung darf nicht als vollständige Semantik, vollständiger Spielzustand oder vollständige Decompilierung ausgegeben werden. UI-Einbindung und vollständiger NPC-Eingabeablauf bleiben weitere Arbeitsschritte.
+Nicht belegt: Laden dieser Änderung im Originalspiel und sichtbare erfolgreiche NPC-Interaktion. Die vollständige Bedeutung aller 141 Felder ist weiterhin unbekannt. Die Dateiabbildung darf nicht als vollständige Semantik, vollständiger Spielzustand oder vollständige Decompilierung ausgegeben werden. Vollständiger NPC-Eingabeablauf bleibt offen; die zunächst einfache Rohwert-UI ist unten beschrieben.
+
+## Integrierter Editor im Character Lab
+
+Unter „Original-Save: belegte MAIN-Felder“ zuerst das lokale IO.IO prüfen und einen Ishar-2-Save öffnen (Reihenfolge austauschbar). Der Quellhash und Profilstatus werden angezeigt. 140 gespeicherte MAIN-Bereiche stehen zur Wahl; der 141. I/O-Eintrag ist der getrennt erhaltene Header. Bereich und Byteindex wählen, den aktuellen Wert kontrollieren, einen neuen Wert 0–255 eingeben und ausdrücklich übernehmen. Wortfelder werden hier als zwei normalisierte BE-Bytes gezeigt, ohne ungeklärte Bedeutungen zu erfinden. Die Original-I/O-Adressen bleiben sichtbar.
+
+Undo/Redo hält bis zu 32 Änderungen. „MAIN-SAV exportieren“ lädt eine neue SAV-Kopie herunter; „MAIN-Bericht exportieren“ enthält Quell-/Zielhash, IO-Profilhash und tatsächliche geänderte Dateibytes. Nicht übernommene Eingaben werden nicht exportiert. Der Zustand bleibt nur in der aktuellen Browseransicht; Neuladen verwirft die Arbeitskopie. Die Datei wird unabhängig von der älteren Kandidaten-Charakteransicht geladen und verändert deren Projektzustand nicht.
+
+Browserprüfung am Produktionsbuild: Original IO.IO und START.SAV importiert, MAIN 0x2AB4 von 11 auf 28 geändert, Undo auf 11 und Redo auf 28 kontrolliert. Export unterscheidet sich ausschließlich an Saveoffset 3 (11→28); Bericht stimmt bytegenau überein. Bytewert 256 und Index außerhalb des gewählten Bereichs abgewiesen. Desktop und 390×844 visuell kontrolliert, kein horizontaler Überlauf und keine Konsolenfehler beobachtet. Lokale Belege liegen außerhalb des Repositorys. Keine Originalspielausführung und keine automatische NPC-Interaktion dadurch nachgewiesen.

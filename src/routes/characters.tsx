@@ -1,3 +1,4 @@
+import {OriginalSaveMainEditor} from '@/components/original-save-main-editor';
 import { createFileRoute } from "@tanstack/react-router";
 import { useKit } from "@/lib/store";
 import { className, raceName, ISHAR1_SAVE, ISHAR2_SAVE } from "@/lib/ishar/save-maps";
@@ -44,6 +45,7 @@ function CharacterLab() {
         <button className="secondary" disabled={!state.originalBytes} onClick={exportPatched}>Patch exportieren</button>
       </div>
     </header>
+    <OriginalSaveMainEditor/>
     <div className="control-bar">
       <label>Spiel<select value={game} onChange={(e)=>setGame(e.target.value as "ishar1"|"ishar2")}><option value="ishar1">Ishar 1</option><option value="ishar2">Ishar 2</option></select></label>
       <label>Endian<select value={endian} onChange={(e)=>setEndian(e.target.value as "be"|"le")}><option value="be">Big endian</option><option value="le">Little endian</option></select></label>

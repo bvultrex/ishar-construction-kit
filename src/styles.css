@@ -322,3 +322,10 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .palette-edit-grid button[aria-pressed=true]{outline:3px solid #e5bf76;outline-offset:-3px}
 .palette-edit-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:12px 0}
 .palette-edit-fields input{width:100%;min-width:0}
+
+.original-save-main{margin:20px 0;overflow-wrap:anywhere}
+.original-save-main .toolbar{flex-wrap:wrap}
+.original-save-main select,.original-save-main input{max-width:100%;width:100%;min-width:0}
+
+.original-save-main input,.original-save-main select{min-height:44px;padding:9px 10px;font:inherit}
+.original-save-main select{background:#0f0d0b;color:#e8dcc4;border:1px solid #574331}

@@ -103,3 +103,7 @@ FRISE-Betragsänderung mit Guthabenprüfung und Wiederholungsbeschleunigung reko
 ## Ishar-2-MAIN-Save-Writer
 
 141 I/O-Felder direkt aus dem hashgebundenen IO.IO abgeleitet; 21 Saves mit Listing-Loader verglichen und 2940 gezielte Änderungen geprüft. CLI schreibt explizite MAIN-Operationen in neue SAV-Kopien; NPC-Gold-Trace exportiert/zurückgelesen. Header-Sonderfall und Byte-Scalar-Vorzeichenerweiterung berücksichtigt. Originalausführung und vollständige Feldsemantik offen. Siehe [ISHAR2_SAVE_MAIN.md](ISHAR2_SAVE_MAIN.md).
+
+## Belegter Save-Editor im Toolkit
+
+Character Lab bindet den binär abgeleiteten Ishar-2-MAIN-Writer jetzt separat von den Kandidatenfeldern ein: Profilprüfung, Bereich/Byteindex, aktueller Rohwert, Undo/Redo, neue SAV-Kopie und Hash-/Bytebericht. Browserexport am Originalsave byteweise geprüft; Desktop/Mobil ohne beobachtete Konsolenfehler. Originalspielprüfung und vollständige NPC-Bedienung bleiben offen.
