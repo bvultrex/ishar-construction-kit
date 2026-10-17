@@ -55,6 +55,7 @@ nachgewiesen sind.
 - NPC_GOLD_AND_OPERANDS.md: FRISE-Goldübergabe, EATT-Bestätigung und korrigierte Operandenregister.
 - ISHAR2_SAVE_MAIN.md: binär abgeleitete Save-Abbildung und geschützter MAIN-Patch-Export.
 - ALIS_FORMS_AND_SELECTION.md: Formressourcen, referenzbasierte Treffer und originaler Auswahlablauf.
+- ALIS_ENTITIES.md: referenzbasierte Live-Entityliste und Originalform-Adapter.
 - Dieses Dokument: Plan und Abnahmebelege.
 - README.md und bestehende GRID_MODEL/ASSET_PACK/ORIGINAL_GAMEPLAY_DECOMPILE:
   Einrichtung sowie bisherige Analysen; alte Aussagen immer gegen aktuellen Code prüfen.

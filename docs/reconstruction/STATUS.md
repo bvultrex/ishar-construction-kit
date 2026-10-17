@@ -111,3 +111,7 @@ Character Lab bindet den binär abgeleiteten Ishar-2-MAIN-Writer jetzt separat v
 ## Formen und Zielauswahl
 
 667 DOS-ALIS-Formen beider Spiele erschlossen; 660 Boxen mit gezielter Änderung und Modul-Readback geprüft. Referenzbasierter erster Formtreffer, aktive cforme-Snapshots und Ishar-2-SOURIS/FRISE-Auswahlphasen rekonstruiert. Komponententest bis zur NPC-Gold-SAV-Kopie; kein nativer Ausführungsnachweis. ALIS-C-Referenz ist kein dekompilierter DOS-EXE-Quelltext. Details: [ALIS_FORMS_AND_SELECTION.md](ALIS_FORMS_AND_SELECTION.md).
+
+## Entity-Laufzeitbaustein
+
+Referenzbasierte alte DOS-Entityverkettung, elf Byte Vererbung, Handles, Typ-/Klassensuche und Formadapter vorhanden. Beide MAIN-Header liefern 50 Entityplätze. Originales GOLEM1-Listing mit kontrolliertem negativem Testzustand bis zum Formtreffer geprüft; START-Grundzustand aktiviert keine Form. Kein vollständiger VM-/Originalausführungsnachweis und keine pauschale Playtest-Aktivierung. Siehe [ALIS_ENTITIES.md](ALIS_ENTITIES.md).

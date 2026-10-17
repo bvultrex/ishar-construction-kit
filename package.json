@@ -54,7 +54,9 @@
     "test:original-alis-forms": "node scripts/check-original-alis-forms.mjs",
     "test:original-alis-forms-local": "node scripts/check-original-alis-forms-local.mjs",
     "test:original-target-selection": "node scripts/check-original-target-selection.mjs",
-    "test:original-target-selection-local": "node scripts/check-original-target-selection-local.mjs"
+    "test:original-target-selection-local": "node scripts/check-original-target-selection-local.mjs",
+    "test:original-alis-entities": "node scripts/check-original-alis-entities.mjs",
+    "test:original-alis-entities-local": "node scripts/check-original-alis-entities-local.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "^1.170.0",
