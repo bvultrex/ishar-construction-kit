@@ -1,6 +1,9 @@
 # Technischer Iststand
 
-Stand: 2026-10-17. Keine prozentuale Vollständigkeitsbehauptung.
+Stand der zusammengefassten Inventur: 2026-10-17. Keine prozentuale Vollständigkeitsbehauptung.
+Aktualisierte subsystemübergreifende Abdeckung und nächste Abnahmen (2026-10-18):
+[COVERAGE.md](COVERAGE.md). Die nachfolgenden Einträge dokumentieren Teilmeilensteine;
+neuere native Start-/VM-Nachweise stehen in DOS_STARTUP.md und NATIVE_SCRIPT_DIAGNOSTIC.md.
 
 | Bereich | Ishar 1 | Ishar 2 |
 |---|---|---|

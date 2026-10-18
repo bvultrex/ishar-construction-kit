@@ -34,6 +34,12 @@ Ein bestandener synthetischer Test beweist keine Original-Verhaltensgleichheit.
 
 ## Nächster konkreter Schritt
 
+Aktualisierung 2026-10-18: Die native MAIN-Ladekette ist inzwischen bis zur
+Kontextanlage und Rückkehr geprüft. Nächste technische Lücke ist die hostseitige
+Grafiknotification und die Verbindung dieses Kontexts mit der Skriptausführung.
+Die vollständige Lieferstrecke und getrennte Abdeckung beider Profile stehen in
+[COVERAGE.md](COVERAGE.md). Der folgende Original-Modnachweis bleibt ebenfalls offen.
+
 Der vorhandene CONT-Parser trägt jetzt einen reproduzierbaren Patch-Export
 mit Eingangs-Hashbindung, Änderungsmanifest und Ausgabe ausschließlich außerhalb
 der Originalinstallation (siehe MOD_WORKFLOW.md). Als Nächstes Originalausführung in einer separaten

@@ -4,8 +4,13 @@ Current reconstruction scope (2026-10-17): both Ishar 1 and Ishar 2. Start with
 [the reconstruction plan](docs/reconstruction/PLAN.md),
 [original inventory](docs/reconstruction/INVENTORY.md),
 [verified status](docs/reconstruction/STATUS.md) and
-[format coverage](docs/reconstruction/FORMATS.md). The current hash-bound map
-export workflow is described in [MOD_WORKFLOW.md](docs/reconstruction/MOD_WORKFLOW.md). The playable slice below is
+[format coverage](docs/reconstruction/FORMATS.md).
+
+The cross-game [coverage and acceptance matrix](docs/reconstruction/COVERAGE.md)
+(2026-10-18) distinguishes native component evidence from editor integration and
+complete playable flows; no measured overall completion percentage is claimed.
+
+The current hash-bound map export workflow is described in [MOD_WORKFLOW.md](docs/reconstruction/MOD_WORKFLOW.md). The playable slice below is
 a historical milestone, not completion of the reconstruction project.
 
 
