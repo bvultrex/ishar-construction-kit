@@ -38,3 +38,9 @@ Metadaten: `DOS_FINDNEXT_ORACLE_2026-10-18.json`. runtime.processExited ist true
 Der derzeitige ausdrückliche `OriginalDosFileSearch`-Vertrag für Ausdruck156 bildet weiterhin nur die geprüfte Carry-/Register- und Laufwerksgrenze ab. Er ist nicht automatisch an die Toolkitdiagnose angebunden. DTA-Schreibeffekte, Zustandsverwaltung und reale Ressourcen müssen vor einer vollständigen Anbindung integriert werden. Weitere offene Punkte sind Attributfilter, Verzeichnisse, komplexe Pfade/Wildcards, Laufwerkswechsel und Ishars tatsächlich aktiver DTA-Pointer nach Spielinitialisierung.
 
 Der nächste Schritt soll wieder an Ishars konkreten Dateiaufrufen ansetzen: deren DTA-Verwendung und Ressourcenpfade prüfen und die erforderlichen Plattformwirkungen ausdrücklich erfassen. Eine vollständige DOS-Neuentwicklung ist kein Ersatz für die Rekonstruktion der Spielengine.
+
+## Ishars Öffnungshelfer als separater Enginebaustein
+
+`original-dos-file-open.ts` rekonstruiert inzwischen1F97 samt Such-/Anlege-/Öffnungs-/Seekzweigen und Laufwerksfallback mit ausdrücklich gelieferten DOS-Antworten. Je280 native Fälle beider Spiele vergleichen Requests, Register, Globalfelder und Fehlerstack. Die kontrollierte DOS-Grenze führt keinerlei echte Dateioperationen aus. Auch der MAIN-Headernachweis enthält jetzt den Original-Öffnungsaufruf und vergleicht anschließend beide Reads sowie alle Tabellenfelder im selben CPU-Zustand (je8 Fälle).
+
+Dies schließt eine konkrete Engine-Lücke, ohne den noch offenen DTA-/Dateisystemzustand durch einen vermeintlich originalen Hostdienst zu ersetzen. Details und verbleibende Grenzen stehen in DOS_STARTUP.md.

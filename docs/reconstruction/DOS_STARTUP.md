@@ -823,3 +823,27 @@ Die DOSBox-Referenzprüfung wurde um acht Suchfolgen mit jeweils FindFirst und d
 Wesentliche neue Evidenz: Nach Sicherung des DTA bei TrefferA, FindNext zuB und vollständigem Rückspielen aller43 Snapshotbytes liefert FindNext weiterhinC. Beide Pufferarten zeigen dasselbe Verhalten. Der DTA allein ist damit in dieser Referenz kein vollständiger Suchcursor-Snapshot; zusätzlicher Fortsetzungszustand liegt außerhalb dieses Datensatzes. Erfolgreiche FindNext-Aufrufe ändern hier Ergebnisfelder, aber nicht die ersten21 DTA-Bytes. Erfolgloses FindNext nach Ende beziehungsweise erfolglosem FindFirst liefert AX18 und ließ den Datensatz unverändert. Diese Befunde ersetzen keine vollständige DOS-Spezifikation.
 
 Alle40 Datensatz-No-op-Roundtrips, Treffer-/Fehlerfolgen, Pufferpointer und byteweisen Snapshot-Rückspiele bestehen. Der ursprüngliche Acht-Fälle-Lauf besteht weiterhin. Der Dateidienst bleibt bis zur korrekten Abbildung der Zustandswirkungen ausdrücklich von der Toolkitdiagnose getrennt; es wird keine vollständige Dateisuche behauptet.
+
+## Vollständiger Engine-Öffnungshelfer1F97
+
+Am18.10.2026 wurde der Kontrollfluss1000:1F97..2060 einschließlich der aufgerufenen Suchroutine2064 und Anlageroutine20EA..211D rekonstruiert. `original-dos-file-open.ts` nimmt Originalregister und Globals entgegen und verlangt für jeden DOS-Aufruf eine ausdrückliche Antwort. Er führt selbst keine Dateizugriffe aus. Zweige werden anhand der tatsächlich jeweils vorhandenen AX-Bits ausgewertet, nicht anhand eines getrennt konservierten Hostmodus.
+
+Wesentliche Originaldetails:
+
+- Bit0200h kann eine Suche und bei Fehler anschließend Anlegen auslösen. Die danach erfolgende Prüfung von0400h sieht das durch FindFirst veränderte AX. FindFirst kann dadurch weitere ursprünglich gesetzte Modusbits löschen oder verändern.
+- Die normale Öffnung verwendet DOS AX=3D02h. DS:DX wird vor jedem Versuch nach SS:28A6/28A4 gespeichert. Die DOS-Antwort AX wird immer nach0BBE geschrieben, auch bei Fehler; AX selbst wird danach aus dem vor dem Aufruf gesicherten Wert restauriert.
+- Nur Fallbackflag289B exakt1 aktiviert Laufwerkswahl und Wiederholung. Die normale Öffnung wählt zunächst289C, bei Fehler289D; nach zweitem Fehler wird289C wieder gewählt. Erfolgreiche Wiederholung belässt das Ersatzlaufwerk aktiv.
+- Der Anlegezweig setzt AX zunächst0, wählt gegebenenfalls289D und verwendet DOS3C00h mit CX0. DOS-AX wird nach0BBE geschrieben. Fehler führen mit Enginefehler8 vor8468; der innere CALL20EA liegt dabei noch auf dem Stack.
+- Bit0800h nach erfolgreicher Öffnung führt zu DOS4202h. BX/CX/DX werden davor im Original nicht zusätzlich normalisiert oder aus dem Handlefeld geladen; das Hostmodell erfindet keine Ersatzwerte. AX wird nach dem Seek wiederhergestellt, ein zurückgegebenes DX bleibt erhalten. Öffnungs-/Seekfehler führen mit Enginefehler1 vor8468.
+
+Die DOS-Schnittstelle dieser Rekonstruktion ist ausdrücklich kontrolliert: BX/CX/DS bleiben durch DOS erhalten; FindFirst setzt im Enginecode CX0; Seek kann DX zurückgeben. DTA, tatsächliche Dateiinhalte, DOS-internes Laufwerk und der Fehlerhandler8468 sind nicht implementiert. Laufwerkswahlen werden als Ereignisse/Endzustand zurückgegeben. Die Rückgabe dokumentiert auch die relative Stacklage: erfolgreiche Rückkehr+2, Fehler1 unverändert, Fehler8 im aufgerufenen Anlegehelfer−2.
+
+`check-native-dos-file-open.py <capture>` führt je280 Fälle beider Spiele nativ ab1F97 aus: zehn anfängliche AX-Werte, vier Fallbackflagwerte und sieben kontrollierte DOS-Szenarien. Je212 erfolgreiche Rückkehrpfade,48 Fehler1 und20 Fehler8 stimmen überein. Geprüft werden sämtliche DOS-Requests und Laufwerksereignisse, AX/BX/CX/DX/DS, erhaltene SI/BP/ES, Stacklage und Globals bis28BFh. INT21-Antworten sind kontrollierte Eingaben; es werden keine Originaldateien angelegt, überschrieben oder geöffnet. Tests erfassen auch die Wirkung eines kontrollierten FindFirst-AX auf spätere Modusprüfungen.
+
+`scripts/check-original-dos-file-open.mjs` prüft separat unveränderte Eingaben, AX-Modusverlust durch FindFirst, unverändert weitergereichte Seekregister, Anlege-/Fehlerstack und Ablehnung ungültiger DOS-Antworten. Typecheck besteht.
+
+## Zusammenhängender MAIN-Öffnungs-/Headerpfad
+
+Der bestehende `check-native-dos-resource-file.py <capture> <MAIN.IO>` beginnt nun bei76BC (AX2, CALL1F97), nicht erst nach der Öffnung bei76C2. Die DOS-Öffnungsantwort Handle5 ist kontrolliert; Hostkomposition und native Rückkehr vergleichen Register, Handle0BBE und Dateinamenspointer28A4/28A6. Danach folgen im selben CPU-Zustand die beiden Original-Lesehelfer212D für6 und16 Bytes, gespeist aus der identifizierten schreibgeschützt gelesenen MAIN.IO. Alle18 Tabellen-/Grenzworte sowie finale Register/Stacktiefe stimmen weiterhin überein: je8 Fälle für Ishar1 und Ishar2. Datei- und Capturehash bleiben unverändert.
+
+Damit ist die vorherige Lücke „Öffnungshelfer ausgeschlossen“ dieses Headernachweises geschlossen. Dekompression und nachfolgende Tabellenverbraucher sind weiterhin nicht Teil dieser zusammenhängenden Prüfung; die vorhandenen separaten Decoderbelege bleiben eigenständig. Der neue Öffnungshelfer ist noch kein automatisch angebundener Dateidienst der Toolkitdiagnose.
