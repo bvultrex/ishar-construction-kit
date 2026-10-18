@@ -2346,3 +2346,33 @@ check-native-dos-configuration-entry.py CAPTURE START.STP --blancpc BLANCPC.IO.
 Evidence: BLANCPC_LOAD_NATIVE_2026-10-18.json. The next connection is the
 BIOS/EMS path0853..08EA to the already verified framebuffer reservation.
 Full boot, loaded MAIN execution and a valid visible frame remain open.
+
+## Physical BIOS/EMS startup and framebuffer composition (2026-10-18)
+
+`initializeOriginalDosPhysicalEmsStartup` follows0853..08EA on the same1MiB
+image. It reads BIOS conventional KiB, checks the returned EMS vector segment
+signature at offset000A against original engine0B10, reuses the verified EMS
+protocol planner, writes the original CS frame/handle/active words and composes
+the physical framebuffer reservation. DF0 is an explicit precondition; no
+successful signature or expanded-memory contents are invented. Driver register
+replies are controlled; actual page remapping/content is outside this contract.
+
+256 cases per profile pass full1MiB except22-byte CPU saves FEEA..FEFF, service
+events, AX/BX and SP. Cases include signature/query/allocation failures, each
+page-map failure and success; BIOS0/640; page-frame0/E000; handle0/1234 and
+four graphics/performance/mode configurations. The earlier protocol-only checks
+remain separate evidence; these comparisons now cover the full shared image.
+
+Another32 cases per profile execute original instructions contiguously from
+1000:0787 through configuration, video selection, early services, BLANCPC and
+BIOS/EMS to1000:08EB (menu cases stop at their original boundary). Controlled
+fixtures include signature absent/present and normal register-only EMS success.
+The host composes the verified helpers without resetting shared globals.
+Combined stack mask remains FEC0..FEFF; text/resources stay local.
+
+Reproduce: check-native-dos-physical-ems-startup.py CAPTURE;
+check-native-dos-configuration-entry.py CAPTURE START.STP --blancpc BLANCPC.IO --ems.
+Evidence: PHYSICAL_EMS_STARTUP_NATIVE_2026-10-18.json. Original files unchanged.
+Next:08EB platform/audio initialization and subsequent graphics/input/timer
+startup before MAIN. Earlier072D handling and actual settings-menu paths remain
+open. No valid visible game frame or full boot is claimed.
