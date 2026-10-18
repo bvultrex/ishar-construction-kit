@@ -11,6 +11,7 @@ import {decrementOriginalDosScript} from './original-dos-script-decrement.ts';
 import {setOriginalDosObjectVisibility} from './original-dos-object-visibility.ts';
 import {updateOriginalDosSelectedObject} from './original-dos-object-selection.ts';
 import {executeOriginalDosResourceDraw} from './original-dos-resource-draw.ts';
+import {writeOriginalDosPhysicalGlobalOperands} from './original-dos-script-opcode186.ts';
 
 export interface OriginalDosPhysicalScriptRegisters {ds:number;es:number;si:number;bp:number;dx:number;cx:number}
 /** Bounded original-script step on physical memory. Only the listed ALIS state
@@ -35,6 +36,7 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
  else if(opcode===78||opcode===79){const next=setOriginalDosObjectVisibility(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if([71,192,193,194].includes(opcode)){const next=updateOriginalDosSelectedObject(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===72||opcode===73){const next=executeOriginalDosResourceDraw(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
+ else if(opcode===186||opcode===191){const next=writeOriginalDosPhysicalGlobalOperands(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===188){
   const next=prepareOriginalDosPaletteControl(memory,ss,{...input,si:after});
   if(next.phase!=='return')throw Error(`Original palette control reaches ${next.phase} boundary at${next.entry.toString(16)}`);

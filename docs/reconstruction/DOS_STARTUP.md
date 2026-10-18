@@ -1746,3 +1746,40 @@ diesen Nachweis behauptet; Ishar1 hat die synthetischen Befehlsnachweise, nicht
 den entsprechenden vollständigen MAIN-Start. Hosttests für Allokation,
 Wiederverwendung, Dispatch und atomare Fehlerschranken, bestehende Regressionen,
 Typecheck und Diffprüfung bestanden. Nächste konkrete Stelle ist186 nach73.
+
+### Gemeinsamer Speicher für globale Operanden186/191 (18.10.2026)
+
+Die vorhandene186-Rekonstruktion wird um eine physische Variante erweitert:
+`writeOriginalDosPhysicalGlobalOperands` im selben Modul liest die Operanden
+aus der jeweils aktuellen gemeinsamen Speicheransicht. Spätere Operanden
+sehen frühere Schreibzugriffe auch dann, wenn DS oder ES mit SS identisch sind.
+Eine einmalige Kopie der Operanden-/Kontextfenster würde dieses Verhalten
+verlieren. Der getrennte Diagnosepfad bleibt unverändert bestehen.
+
+186 (296B..2993) schreibt fünf Werte: Wort BA8, Wort BA0, Byte BA2, Byte BA4,
+Wort BA6.191 (2994..29B4) schreibt Wort C02/C04/C06 und ausschließlich das
+Byte C0E. Das Nachbarbyte C0F bleibt erhalten;73 schreibt an C0E dagegen ein
+Wort. Jeder69A6-Aufruf übernimmt den bisherigen DX-Wert nach CX, auch für
+Byteziele; DX bleibt der gesamte numerische Wert. Unterstützte Formate sind
+0/2/6/8/30/32. Höhere Bedeutungen der BA-Felder werden noch nicht behauptet.
+Beide Befehle sind an die physische Skriptausführung angeschlossen.
+
+`check-native-dos-physical-global-operands.py <memory.bin>` prüft je192 Fälle
+beider Captures: beide Befehle, DS/ES jeweils getrennt oder SS-aliasierend,
+vier erste Wortgrenzwerte und sechs zweite Operandformen. Nachfolgende
+Operanden lesen zuvor beschriebene Felder; Byteziele haben vorbesetzte
+Nachbarbytes. Register, SP und gesamter Speicher außer dem bekannten
+CPU-Stack-Sicherungsbereich stimmen nativ überein. Die Quellcaptures bleiben
+unverändert. Metadaten: `PHYSICAL_GLOBAL_OPERANDS_NATIVE_2026-10-18.json`.
+
+Der bestehende MAIN-Prüfer (`--complete --follow`) vergleicht die Originalfolge
+73→186→191 in allen drei gültigen Ishar2-Layouts. Nach191 gilt SI15046, DX10,
+CX120. Der nächste Befehl ist185 (2A78): Stringausgabe über69B5 und2ABE/2C77.
+Dieser Ausgabepfad wird noch nicht ausgeführt oder durch einen Stub ersetzt.
+Metadaten: `MAIN_GLOBAL_OPERANDS_NATIVE_2026-10-18.json`.
+
+Der Hosttest prüft insbesondere sequenzielle Aliaszugriffe, Byteerhalt und
+atomare Ablehnung eines nicht erschlossenen Operanden. Er sowie bestehende
+Diagnose-/Schrittregressionen, Typecheck und Diffprüfung bestehen. Die frühere
+kontrollierte Startumgebung und der getrennte Ishar1-MAIN-Start bleiben Grenzen;
+eine sichtbare Browser- oder Pixelausgabe ist weiterhin nicht nachgewiesen.

@@ -66,7 +66,8 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Verbundeintrag sind inzwischen nativ verglichen (Typ1, Grenze3432). Die
    Datensatzübernahme, alle drei Teilgrafiken und die Rückkehr sind inzwischen
    ebenfalls nativ verglichen; der normale/Verbundpfad72/73 ist angebunden.
-   MAIN steht danach bei SI15026 auf186. FE-Sonderpfad, weitere Operandformen
+   Die folgenden186/191 sind ebenfalls angebunden und nativ verglichen; MAIN
+   steht danach bei SI15046 auf185 (Stringausgabe). FE-Sonderpfad, weitere Operandformen
    und sichtbare Ausgabe bleiben offen. Verwandte Wortänderungen192/193/194 haben separate
    native Befehlsnachweise, noch keinen vollständigen Inhaltsablauf.
    Ohne BIOS-Antwort bleibt der Callback an116 stehen. Aktive Objektliste und

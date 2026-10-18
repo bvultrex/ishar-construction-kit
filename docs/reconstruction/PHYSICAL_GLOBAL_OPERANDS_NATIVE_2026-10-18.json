@@ -1,0 +1,47 @@
+{
+  "description": "Original186/191 physical global operands; no original bytes",
+  "matrix": {
+    "opcodes": [
+      186,
+      191
+    ],
+    "ds": [
+      16384,
+      7179
+    ],
+    "es": [
+      20480,
+      7179
+    ],
+    "firstValues": [
+      0,
+      255,
+      32768,
+      65535
+    ],
+    "secondTags": [
+      0,
+      2,
+      6,
+      8,
+      30,
+      32
+    ],
+    "laterOperands": "Read preceding target word/byte; aliasing observes writes sequentially"
+  },
+  "profiles": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 192,
+      "resultsSha256": "5417f91607440b55cb4a23602b550fdf43785bfe1f132095a1176b2e37395917"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 192,
+      "resultsSha256": "6ca70d991fba2cea1d08bf579b45f0dfe005afa1b7dcf5034e3881c357c8b530"
+    }
+  ],
+  "limits": "Six script registers/SP and full physical memory except CPU stack saves; numeric forms only; consumer meanings not assigned"
+}
