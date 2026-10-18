@@ -1,4 +1,4 @@
-"""Original normal-object first FF batch through pixel call boundary."""
+"""Original normal-object new/changed/retired first-record batch through pixel call boundary."""
 import argparse,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
@@ -16,7 +16,7 @@ for case in cases:
  for at,value in [(0xbf6,0x200),(0xbea,0x7000),(0xb18,0x200),(0xbec,0x2000)]:word(0x1c0b,at,value)
  m[case['es']*16+0x300]=128 if case['dirty'] else 0;m[case['es']*16+0x31d]=255;m[case['es']*16+0x324]=1;word(case['es'],0x302,0x200);word(0x7000,0x206,0x1000)
  word(0x6000,0x100,0x100);m[0x60200]=1;word(0x6000,0x202,4);word(0x6000,0x204,6)
- statuses=[255]+case['tail']
+ statuses=[case['firstStatus']]+case['tail']
  for i,status in enumerate(statuses):
   at=0x1000+i*0x100;m[0x70000+at]=status;word(0x7000,at+2,0x100);word(0x7000,at+6,at+0x100 if i+1<len(statuses) else 0)
   for offset,value in [(8,0x100),(10,0x6000),(12,10),(14,10),(16,1),(18,0x100),(20,0x6000),(22,100+i),(24,20),(26,5),(30,case['otherGroup'] if i else 65535 if case['negative'] else 0)]:word(0x7000,at+offset,value)
@@ -32,4 +32,4 @@ for case in cases:
  actual=bytearray(cpu.mem_read(0,0x100000));actual[g+0xfec0:g+0xff10]=bytes(0x50)
  assert hashlib.sha256(actual).hexdigest()==case['hash'],case
 assert a.capture.read_bytes()==original
-print(json.dumps({'profile':profiles[digest],'captureSha256':digest,'caseCount':len(cases),'cases':cases,'limits':'six script registers/SP and full physical memory except CPU stack saves; no drawing or device calls'}))
+print(json.dumps({'profile':profiles[digest],'captureSha256':digest,'caseCount':len(cases),'caseMetadataSha256':hashlib.sha256(json.dumps(cases,sort_keys=True).encode()).hexdigest(),'limits':'six script registers/SP and full physical memory except CPU stack saves; no drawing or device calls'}))

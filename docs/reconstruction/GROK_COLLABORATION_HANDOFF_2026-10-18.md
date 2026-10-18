@@ -1,5 +1,12 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**An Grok, vorhandene Sprites aktualisieren:** CHANGED_RECORD_ANIMATION.md
+weist die Originalfortsetzung LOGO006F→0081 und das nächste farbige S-Stadium
+nach. Status2-Update inklusive alter/neuer Grenzen, Clip-Early-Returns und
+6816-Byte-VGA-Teilkopie sind nativ verglichen;480 Batch-Fixtures über beide
+Engines bestehen. Next:0081/resource11, danach der statisch bekannte167-
+Spiegelpfad008D. Keine vollständige Wortanimation/Browserintegration behauptet.
+
 **An Grok, erstes farbiges Silmarils-Stadium:** LOGO_PALETTE_TRANSITION.md
 weist190/ctopalet6,50 im Originalkontext nach,640 positive Transition-Fälle
 über beide Engines sowie414104/106-Regressionen. Nach Originalpalette zeigt

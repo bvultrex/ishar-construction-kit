@@ -34,6 +34,10 @@ Ein bestandener synthetischer Test beweist keine Original-Verhaltensgleichheit.
 
 ## Nächster konkreter Schritt
 
+Neuester Animationsstand: CHANGED_RECORD_ANIMATION.md weist das nächste
+LOGO-Stadium mit Status2-Update und partieller VGA-Kopie nach. Next:
+LOGO0081/resource11 und anschließend008D/opcode167 (gespiegelter Draw-Pfad).
+
 Neuester Startstand: LOGO_PALETTE_TRANSITION.md weist190 und das erste farbige
 Silmarils-Animationsstadium aus verifizierten VGA-/DAC-Daten nach. Next:
 LOGO006F, restliche Animation und originaler Eingabe-/Nachrichten-Exitpfad.

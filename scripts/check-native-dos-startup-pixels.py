@@ -29,10 +29,14 @@ for path in paths:
   actual=bytearray(cpu.mem_read(0,0x100000));actual[g+mask_start:g+mask_end]=bytes(mask_end-mask_start);assert hashlib.sha256(actual).hexdigest()==expected['hash'],('physical memory',hex(start))
  def interrupt(uc,number,_):raise AssertionError(f'Unexpected interrupt{number:02X}')
  cpu.hook_add(UC_HOOK_INTR,interrupt)
- owner=cpu.reg_read(regs['bx']);batch_snapshot=request({'object':owner});prepared=model('dos-visible-object-vector.mjs',{'object':owner});compare(0x13de4,prepared,0x10000+prepared['entry'],prepared['stackDelta']);assert prepared['phase']=='new-record'
- run(0x1408a,0x136e1,-4,20);projected=model('dos-record-projection-vector.mjs',{'di':prepared['di']});compare(0x136e1,projected,0x140dc,2)
- committed=model('dos-projected-record-vector.mjs',{'di':prepared['di'],'bx':prepared['bx']});compare(0x140dc,committed,0x1408d,2)
- batch=model('dos-object-batch-vector.mjs',snapshot=batch_snapshot);compare(0x1408d,batch,0x10000+batch['entry'],6);assert batch['phase']=='pixels'
+ owner=cpu.reg_read(regs['bx']);batch_snapshot=request({'object':owner});prepared=model('dos-visible-object-vector.mjs',{'object':owner});compare(0x13de4,prepared,0x10000+prepared['entry'],prepared['stackDelta']);assert prepared['phase'] in ('new-record','changed-record','other-record')
+ projected=None;committed=None
+ if prepared['phase']=='new-record':
+  run(0x1408a,0x136e1,-4,20);projected=model('dos-record-projection-vector.mjs',{'di':prepared['di']});compare(0x136e1,projected,0x140dc,2)
+  committed=model('dos-projected-record-vector.mjs',{'di':prepared['di'],'bx':prepared['bx']});compare(0x140dc,committed,0x1408d,2)
+  batch=model('dos-object-batch-vector.mjs',snapshot=batch_snapshot);compare(0x1408d,batch,0x10000+batch['entry'],6);assert batch['phase']=='pixels'
+ else:
+  batch=model('dos-object-batch-vector.mjs',snapshot=batch_snapshot);compare(0x10000+prepared['entry'],batch,0x10000+batch['entry'],6);assert batch['phase']=='pixels'
  pixels=model('dos-pixel-batch-vector.mjs',{'bx':batch['bx'],'di':batch['di'],'callerEntry':batch['entry']});compare(0x10000+batch['entry'],pixels,0x10000+pixels['entry'],pixels['stackDelta']);assert pixels['phase']=='record'
  sprite=model('dos-sprite-blit-vector.mjs',{'di':pixels['di']});compare(0x10000+pixels['entry'],sprite,sprite['graphicsSegment']*16+sprite['entry'],sprite['stackDelta']);assert sprite['phase']=='format' and sprite['type']==1
  solid=model('dos-solid-blit-vector.mjs',{'di':sprite['di']});assert solid['destination']['segment']==int.from_bytes(source[g+0xb8a:g+0xb8c],'little') and solid['destination']['pitch']==320;target_base=solid['destination']['segment']*16
