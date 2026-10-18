@@ -1,0 +1,41 @@
+"""Continue original-startup430A checkpoints through following solid/type16 records."""
+import argparse,base64,hashlib,json,subprocess
+from pathlib import Path
+from unicorn import *
+from unicorn.x86_const import *
+p=argparse.ArgumentParser();p.add_argument('checkpoints',type=Path);p.add_argument('--checkpoint-end',type=Path);a=p.parse_args();repo=Path(__file__).resolve().parent.parent;rows=[];g=0x1c0b0
+regs={'ax':UC_X86_REG_AX,'bx':UC_X86_REG_BX,'cx':UC_X86_REG_CX,'dx':UC_X86_REG_DX,'di':UC_X86_REG_DI,'si':UC_X86_REG_SI,'bp':UC_X86_REG_BP,'ds':UC_X86_REG_DS,'es':UC_X86_REG_ES,'ss':UC_X86_REG_SS,'sp':UC_X86_REG_SP,'cs':UC_X86_REG_CS,'ip':UC_X86_REG_IP,'flags':UC_X86_REG_EFLAGS}
+if a.checkpoint_end:
+ assert not any(a.checkpoint_end.resolve().is_relative_to(root.resolve()) for root in [repo,a.checkpoints]),'Output must stay outside repo/input checkpoint directory'
+ a.checkpoint_end.mkdir(parents=True,exist_ok=True)
+paths=sorted(a.checkpoints.glob('*.bin'));assert paths
+for path in paths:
+ source=path.read_bytes();meta=json.loads(path.with_suffix('.json').read_text());assert hashlib.sha256(source).hexdigest()==meta['memorySha256'] and len(source)==0x100000;assert meta['profile']=='ishar2' and meta['boundary']==0x430a and meta['registers']['ip']==0x430a and meta['captureSha256']=='f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04'
+ cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,source)
+ for key,value in meta['registers'].items():cpu.reg_write(regs[key],value)
+ def model(script,extra):
+  request={'memory':base64.b64encode(bytes(cpu.mem_read(0,0x100000))).decode(),'ss':0x1c0b,'registers':{key:cpu.reg_read(regs[key]) for key in ['ds','es','si','bp','dx','cx']},'stackMaskStart':0x79e,'stackMaskEnd':0x7ee,**extra}
+  return json.loads(subprocess.check_output(['node',str(repo/'scripts'/script)],input=json.dumps(request),text=True,cwd=repo))
+ def compare(start,expected,target):
+  done=[];sp=cpu.reg_read(regs['sp'])
+  def stop(uc,address,size,_):done.append(True);uc.emu_stop()
+  h=cpu.hook_add(UC_HOOK_CODE,stop,None,target,target);cpu.emu_start(start,0xfffff,count=200000);cpu.hook_del(h);assert done==[True] and cpu.reg_read(regs['sp'])==sp+expected['stackDelta']
+  for key,value in expected['registers'].items():assert cpu.reg_read(regs[key])==value,(key,cpu.reg_read(regs[key]),value)
+  for key in ['bx','di']:
+   if key in expected:assert cpu.reg_read(regs[key])==expected[key],key
+  actual=bytearray(cpu.mem_read(0,0x100000));actual[g+0x79e:g+0x7ee]=bytes(80);assert hashlib.sha256(actual).hexdigest()==expected['hash'],('physical memory',hex(start))
+ steps=[]
+ for index in range(3):
+  advanced=model('dos-pixel-record-next-vector.mjs',{'bx':cpu.reg_read(regs['bx']),'di':cpu.reg_read(regs['di']),'sp':cpu.reg_read(regs['sp'])});compare(0x1430a,advanced,0x10000+advanced['entry']);assert advanced['phase']=='record'
+  sprite=model('dos-sprite-blit-vector.mjs',{'di':advanced['di']});compare(0x10000+advanced['entry'],sprite,sprite['graphicsSegment']*16+sprite['entry']);assert sprite['phase']=='format' and sprite['type'] in [1,16]
+  drawn=model('dos-solid-blit-vector.mjs' if sprite['type']==1 else 'dos-nibble-blit-vector.mjs',{'di':sprite['di']});writes=[0];target_base=drawn['destination']['segment']*16
+  def write(uc,access,address,size,value,_):
+   if target_base<=address<target_base+65536:writes[0]+=size
+  h=cpu.hook_add(UC_HOOK_MEM_WRITE,write);compare(sprite['graphicsSegment']*16+sprite['entry'],drawn,0x10000+drawn['entry']);cpu.hook_del(h);assert writes[0]==drawn['pixelWrites'];steps.append({'advance':advanced,'sprite':sprite,'draw':drawn,'nativePixelWrites':writes[0]})
+ assert [x['sprite']['type'] for x in steps]==[1,1,16];assert path.read_bytes()==source
+ if a.checkpoint_end:
+  raw=bytes(cpu.mem_read(0,0x100000));state={key:cpu.reg_read(reg) for key,reg in regs.items()}
+  with (a.checkpoint_end/path.name).open('xb') as f:f.write(raw)
+  with (a.checkpoint_end/path.with_suffix('.json').name).open('x',encoding='utf-8') as f:json.dump({'profile':meta['profile'],'captureSha256':meta['captureSha256'],'memorySha256':hashlib.sha256(raw).hexdigest(),'sourceCheckpointSha256':meta['memorySha256'],'boundary':state['ip'],'registers':state},f,indent=2)
+ rows.append({'checkpoint':path.name,'checkpointSha256':meta['memorySha256'],'steps':steps,'renderBufferSha256':hashlib.sha256(bytes(cpu.mem_read(0xe0000,64000))).hexdigest(),'boundary':cpu.reg_read(regs['ip'])})
+print(json.dumps({'profile':'ishar2','caseCount':len(rows),'cases':rows,'stackMask':'079E..07ED active CPU stack; original entry saves compared','limits':'Original430A saved-register return and next-record traversal, two solid fills and first unmirrored type16 against host, full1MiB except stack plus script registers/BX/DI/SP and pixel-write counts. No IRQ/device injection, no complete displayed frame or mirrored type16 claim.'}))

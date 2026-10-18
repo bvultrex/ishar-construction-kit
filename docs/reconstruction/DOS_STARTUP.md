@@ -2886,3 +2886,50 @@ these further solid records and the type16 pixel decoder, then presentation
 from the original render buffer to VGA. Only the first uniform rectangle is
 verified here; no complete displayed startup image is claimed. IRQ-driven
 palette processing and remaining Ishar1 opcode106 are still open.
+
+
+### Post-fill record return and normal type16 nibble pixels (2026-10-18)
+
+`original-dos-pixel-record-next.ts` reconstructs normal record-call RET430A
+through449C register restoration and447A traversal to the next graphics call.
+The original saved CPU stack supplies ES/DS/CX/SI/DI; the449C return word is
+checked rather than invented. Negative status/type and negative resource
+records are skipped in physical memory. It stops before the next far graphics
+call (4305/4313) or the next-object boundary442F. Other return callers remain
+explicitly unsupported. The actual-startup three normal next-record transitions
+are natively verified; other skip/next-object branches are static reconstruction
+pending additional targeted native cases.
+
+`original-dos-nibble-blit.ts` reconstructs unmirrored VGA type16 at0553..05A9,
+including038B..0481 setup and far return430A, DF0. Each byte has high/low
+4-bit pixels; zero is transparent, nonzero adds the resource palette base with
+byte wrap. Horizontal clipping selects high/low parity and adjusts source
+stride for odd starts/even widths; vertical offsets retain the original MUL
+low-word-before-SHR arithmetic. Destination stride/pitch and offsets wrap as
+words. The mirrored05AA branch is explicitly rejected until reconstructed.
+
+Independent native comparison passes360 cases per capture (720 total): zero/
+nonzero nibble patterns, left offsets0/1/2, odd/even clipped widths, top clip,
+pitch0/16/320, destination offsets0020/FFFC and palette bases0/250. Script
+registers,BX/DI,SP,pixel-write counts, graphics scratch and entire1MiB except
+FEC0..FF0F CPU saves match; original source remains immutable. Evidence:
+NIBBLE_BLIT_NATIVE_2026-10-18.json. Reproduce:
+`check-native-dos-nibble-blit.py CAPTURE`.
+
+The connected native checker resumes both actual-startup first-fill430A
+checkpoints. It compares each record return, sprite resolution/clip and draw:
+solid records230/268 write15000/14504 bytes, then type16 record306 writes15
+nontransparent glyph pixels. Full physical memory except079E..07ED active
+CPU scratch, script registers/BX/DI/SP and native write counts match at every
+boundary. Both states produce the same updated E000 render-buffer hash.
+Evidence: STARTUP_RECORDS_NATIVE_2026-10-18.json. Reproduce:
+`check-native-dos-startup-records.py PRIVATE_FIRST_FILL_DIRECTORY`.
+Optional `--checkpoint-end PRIVATE_OUTPUT_DIRECTORY` exclusively writes the
+verified terminal memory/CPU state outside repo/input folders; all originals
+and pixel dumps remain private. Typecheck passes.
+
+Next: repeat/extend the verified record traversal for remaining glyphs,
+complete active-object/end-of-batch handling and reconstruct presentation to
+VGA. Mirrored formats, IRQ palette work and Ishar1 opcode106 remain open.
+This verifies first glyph pixels in the original render buffer, not a complete
+displayed game image.
