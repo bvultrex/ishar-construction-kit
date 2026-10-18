@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {decodeOriginalDosPhysicalA1} from '../src/lib/ishar/original-dos-physical-a1.ts';
 import {closeOriginalDosDecodedModule} from '../src/lib/ishar/original-dos-module-close.ts';
 import {prepareOriginalDosPhysicalModuleRegistration} from '../src/lib/ishar/original-dos-physical-module-register.ts';
+import {returnOriginalDosEmptyModule} from '../src/lib/ishar/original-dos-empty-module-return.ts';
 let text='';for await(const chunk of process.stdin)text+=chunk;
 const q=JSON.parse(text),source=new Uint8Array(Buffer.from(q.memory,'base64')),packed=Buffer.from(q.packed,'base64');let position=6;
 const before=source.slice(),lengths=[];
@@ -14,6 +15,7 @@ const result=decodeOriginalDosPhysicalA1(source,q.ss,q.registers,request=>{
 assert.deepEqual(source,before);assert.deepEqual(lengths,[8000,6414]);
 assert.equal(result.outputWrites,40638);assert.equal(result.entry,0x795c);
 const tail=q.closePhase?closeOriginalDosDecodedModule(result.memory,q.ss,result.registers,request=>{assert.equal(request.operation,'close');return {ax:0,carry:false};}):result;
-const final=q.registerPhase?prepareOriginalDosPhysicalModuleRegistration(tail.memory,q.ss,tail.registers):tail;
+const registry=q.registerPhase?prepareOriginalDosPhysicalModuleRegistration(tail.memory,q.ss,tail.registers):tail;
+const final=q.returnPhase?returnOriginalDosEmptyModule(registry.memory,q.ss,tail.registers):registry;
 final.memory.fill(0,0x1c0b0+0x780,0x1c0b0+0x7e6);
 console.log(JSON.stringify({registers:final.registers,events:q.closePhase?[...result.events,...tail.events]:result.events,hash:createHash('sha256').update(final.memory).digest('hex'),reads:result.reads,outputWrites:result.outputWrites,endSegment:result.endSegment,endOffset:result.endOffset}));

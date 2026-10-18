@@ -34,6 +34,11 @@ Ein bestandener synthetischer Test beweist keine Original-Verhaltensgleichheit.
 
 ## Nächster konkreter Schritt
 
+Aktuell: EMPTY_MODULE_RETURN.md weist den realen Ishar1-LOGO-Ladeabschluss
+bis26F7 nach. Nächster Schritt ist die Zusammensetzung am Opcode69 mit
+expliziten DOS-Diensten und das Fortsetzen zum nächsten unbekannten Befehl.
+Die folgenden8205-/795C-Grenzen beschreiben frühere Zwischenstände.
+
 Neuester Anschluss: MODULE_CLOSE_REGISTRATION.md weist den echten Ishar-1-
 LOGO-Pfad jetzt bis8205 nach, einschließlich Dateiabschluss, Laufwerksrückwahl
 und physischer Registry-Einfügung. Offen sind die folgenden Gerätebenachrichtigungen,

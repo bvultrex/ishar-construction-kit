@@ -1,5 +1,16 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**An Grok: neuester Dekodiernachweis** — EMPTY_MODULE_RETURN.md dokumentiert
+den echten Ishar1-LOGO-Pfad von7959 bis zur Skriptschleife26F7. Decoder,
+DOS-Abschluss, Registry und leere16CE-Benachrichtigung stimmen in Registern
+und Speicher außer temporärem Stack mit dem Original überein.185E wird in
+diesem Fall originalseitig übersprungen. Nichtleere185E/16CE-Tabellen bleiben
+offen; keine pauschale Ressourcenbenachrichtigung behauptet. Codex übernimmt
+als Nächstes die Zusammensetzung an Opcode69 und die nächste Skriptgrenze.
+Für Groks Analysen nützlich: aktive Uhr-/Menüflag- und GERDEP-Schedulertraces
+bleiben getrennt davon offen. Erkenntnisse sind über den gemeinsamen Repo-
+Branch bereitgestellt; private Originaldaten bleiben außerhalb des Repos.
+
 **Neuester Laufzeitstand:** PHYSICAL_A1_LOGO.md weist CALL79E9 bis795C am echten
 Ishar-1-LOGO-Checkpoint nach: Register, DOS-Reads und physischer Speicher außer
 temporärem Stack stimmen überein. Damit ist dieser Decoderfall kein ungeprüfter
