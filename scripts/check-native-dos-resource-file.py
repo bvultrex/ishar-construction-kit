@@ -12,12 +12,14 @@ the earlier platform services and loader caller are outside this test.
 --callback follows the actual callback; --shift-flags is an explicit INT16 AL reply.
 --callback-return includes26D5 stack restoration/selection after callback yield.
 --frame runs to a verified frame return/wait/device boundary; --next-main resumes264C.
+--cycles N follows up to N additional yield/callback/frame/MAIN cycles on the
+same CPU, stopping at the first unsupported operation or nonreturning boundary.
 """
 import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');p.add_argument('--objects',action='store_true');p.add_argument('--blocks',action='store_true');p.add_argument('--assignments',action='store_true');p.add_argument('--execute',action='store_true');p.add_argument('--finish-main-yield',action='store_true');p.add_argument('--callback',action='store_true');p.add_argument('--callback-return',action='store_true');p.add_argument('--frame',action='store_true');p.add_argument('--next-main',action='store_true');p.add_argument('--resume-after-frame',action='store_true');p.add_argument('--shift-flags',type=int);a=p.parse_args();assert a.shift_flags is None or 0<=a.shift_flags<=255;a.next_main=a.next_main or a.resume_after_frame;a.frame=a.frame or a.next_main;a.callback_return=a.callback_return or a.frame;a.callback=a.callback or a.callback_return;a.finish_main_yield=a.finish_main_yield or a.callback;a.execute=a.execute or a.finish_main_yield;a.assignments=a.assignments or a.execute;a.blocks=a.blocks or a.assignments;a.objects=a.objects or a.blocks;a.schedule=a.schedule or a.objects;a.root=a.root or a.schedule;a.decode=a.decode or a.root
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');p.add_argument('--objects',action='store_true');p.add_argument('--blocks',action='store_true');p.add_argument('--assignments',action='store_true');p.add_argument('--execute',action='store_true');p.add_argument('--finish-main-yield',action='store_true');p.add_argument('--callback',action='store_true');p.add_argument('--callback-return',action='store_true');p.add_argument('--frame',action='store_true');p.add_argument('--next-main',action='store_true');p.add_argument('--resume-after-frame',action='store_true');p.add_argument('--cycles',type=int,default=0);p.add_argument('--shift-flags',type=int);a=p.parse_args();assert 0<=a.cycles<=1000;a.resume_after_frame=a.resume_after_frame or a.cycles>0;assert a.shift_flags is None or 0<=a.shift_flags<=255;a.next_main=a.next_main or a.resume_after_frame;a.frame=a.frame or a.next_main;a.callback_return=a.callback_return or a.frame;a.callback=a.callback or a.callback_return;a.finish_main_yield=a.finish_main_yield or a.callback;a.execute=a.execute or a.finish_main_yield;a.assignments=a.assignments or a.execute;a.blocks=a.blocks or a.assignments;a.objects=a.objects or a.blocks;a.schedule=a.schedule or a.objects;a.root=a.root or a.schedule;a.decode=a.decode or a.root
 memory=a.capture.read_bytes();data=a.main.read_bytes()
 digest=hashlib.sha256(memory).hexdigest();file_digest=hashlib.sha256(data).hexdigest()
 profiles={
@@ -269,6 +271,40 @@ for case in vectors['cases']:
     actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
     assert hashlib.sha256(actual).hexdigest()==step['hash'],('resumed MAIN memory',index,step['opcode'])
    row['resumedMain']={'steps':len(expected['steps']),'nextOpcode':expected['nextOpcode'],'reason':expected['reason'],'last':expected['steps'][-1] if expected['steps'] else None}
+  if a.cycles and 'resumedMain' in row and row['resumedMain']['last']['status']=='yield':
+   scheduler_expected.clear();object_phase[0]=False;yield_phase[0]=False;row['cycles']=[]
+   def model(script,extra=None):
+    request={'memory':base64.b64encode(bytes(cpu.mem_read(0,0x100000))).decode(),'ss':0x1c0b,'registers':{name:cpu.reg_read(r) for name,r in names.items()}}
+    if a.shift_flags is not None:request['shiftFlags']=a.shift_flags
+    request.update(extra or {})
+    return json.loads(subprocess.check_output(['node',str(repo/'scripts'/script)],input=json.dumps(request),text=True,cwd=repo))
+   def compare(start,expected,endpoint,stack_delta):
+    frame_boundary[0]=endpoint;frame_done.clear();previous_sp=cpu.reg_read(UC_X86_REG_SP)
+    cpu.emu_start(start,0xfffff,count=100000)
+    assert frame_done==[endpoint] and cpu.reg_read(UC_X86_REG_SP)==(previous_sp+stack_delta)&65535,('cycle endpoint',start,endpoint)
+    for name,value in expected['registers'].items():assert cpu.reg_read(names[name])==value,('cycle register',start,name)
+    actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
+    assert hashlib.sha256(actual).hexdigest()==expected['hash'],('cycle memory',start)
+   def prefix(callback=False):
+    result=model('dos-physical-script-prefix-vector.mjs')
+    for step in result['steps']:
+     yielding=step['status']=='yield'
+     compare(0x126eb,step,(0x126d5 if callback else 0x126b2) if yielding else 0x126f7,2 if yielding else 0)
+    return {'steps':len(result['steps']),'nextOpcode':result['nextOpcode'],'reason':result['reason'],'last':result['steps'][-1] if result['steps'] else None}
+   for cycle in range(a.cycles):
+    item={'cycle':cycle+1};row['cycles'].append(item)
+    finish=model('dos-physical-yield-vector.mjs');compare(0x126b2,finish,0x10000+finish['entry'],finish['stackDelta']);item['yieldFinish']=finish
+    if finish['phase']!='callback':break
+    callback=prefix(True);item['callback']=callback
+    if not callback['last'] or callback['last']['status']!='yield':break
+    returned=model('dos-physical-yield-vector.mjs',{'entry':'callback-return'});compare(0x126d5,returned,0x10000+returned['entry'],returned['stackDelta']);item['callbackReturn']=returned
+    if returned['phase']!='frame':break
+    frame=model('dos-physical-frame-vector.mjs');compare(0x12649,frame,0x10000+frame['entry'],frame['stackDelta']);item['frame']=frame
+    if frame['phase']!='return':break
+    context=model('dos-physical-context-vector.mjs');compare(0x1264c,context,0x10000+context['entry'],context['stackDelta']);item['context']=context
+    if context['phase']!='main':break
+    main=prefix();item['main']=main
+    if not main['last'] or main['last']['status']!='yield':break
   results.append(row)
 assert a.capture.read_bytes()==memory and a.main.read_bytes()==data
 print(json.dumps({'profile':profiles[digest][0],'captureSha256':digest,'mainSha256':file_digest,'cases':len(vectors['cases']),'decodedBytes':vectors['decodedBytes'],'decodeAndClose':a.decode,'rootCreation':a.root,'decodeResults':results,'result':'MAIN chain through requested initialization/decode/root boundary matches','limits':('controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed' if a.root else 'controlled DOS replies; initialization memory checked; registry/root and notification bodies excluded')}))

@@ -58,7 +58,9 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Callback, Rückkehr, Frame mit zwei verdeckten Einträgen und Wiedereinstieg
    in MAIN sind nativ geprüft. Auch die folgenden43→66 (Dekrement/Sprung→Yield)
    stimmen in drei gültigen Speicherlayouts mit dem Original überein. Der
-   vollständige Ablauf bis zum Ende dieser Warteschleife bleibt offen.
+   Ablauf bis zum Ende dieser Warteschleife ist ebenfalls verglichen: Nach29
+   zusätzlichen vollständigen Schedulerzyklen folgt43→17, dann Opcode78 bei
+   SI15009. Dieser Aktivierungsbefehl und die folgende sichtbare Ausgabe bleiben offen.
    Ohne BIOS-Antwort bleibt der Callback an116 stehen. Aktive Objektliste und
    leere Kontextobjektkette bleiben getrennt;188-Grafikzweige sind separat offen.
    Abnahme:

@@ -1528,3 +1528,33 @@ Unicorn-PYTHONPATH. Metadaten: `DECREMENT_BRANCH_NATIVE_2026-10-18.json`.
 Schritt-/Yield-/Frame-Regressionen und Typecheck bestanden. Nächste offene
 Abnahme ist die wiederholte Scheduler-/Callback-Fortsetzung bis zu einem
 neuen Originalpfad, ohne einen Zähler oder Dienst künstlich zu überspringen.
+
+### Vollständiges Auslaufen der ersten MAIN-Warteschleife (18.10.2026)
+
+Der Ressourcenchecker kann mit `--cycles N` den vorhandenen nativen CPU-Zustand
+über weitere Yield-/Callback-/Frame-/Kontext-/MAIN-Folgen fortsetzen. Jeder
+rekonstruierte Abschnitt wird vor seiner nativen Ausführung berechnet und
+danach anhand der sechs Skriptregister, SP und des physischen Speichers geprüft.
+Der bekannte CPU-Stack-Sicherungsbereich bleibt wie bisher maskiert. Unbekannte
+Operationen werden nicht übersprungen. N ist eine Hostgrenze, keine Spielregel.
+
+Prüfung mit Ishar2-MAIN, `--cycles 40 --shift-flags 0`: Alle drei gültigen
+Speicherlayouts verlassen die Schleife nach29 zusätzlichen Zyklen. In den
+ersten28 weiteren MAIN-Folgen läuft43→66, in der letzten43→17. Der originale
+Unterprogramm-Rücksprung stellt SI15009 her; dort folgt78. Sämtliche bis zu
+dieser Grenze ausgeführten Abschnitte stimmen nativ überein. Originalzähler,
+Scriptbytes und gespeicherte Rücksprungadressen wurden nicht nachgebessert.
+Die Callbacks laufen jedes Mal von ihrem originalen Einstieg und erreichen
+jeweils nach sieben Schritten den Yield. Beide Frameeinträge bleiben verborgen.
+
+Statische nächste Stelle: Opcode78 dispatcht nach325F, löscht Flag40, setzt
+Flag80 und ruft32B1 (Entfernen aus der aktiven Liste) und3288 (Anhängen an deren
+Ende) auf. Diese Analyse ist noch keine implementierte/nativ verglichene
+Aktivierungsfunktion. Sie erklärt die nächste Verbindung zur sichtbaren Ausgabe.
+
+Metadaten ohne Originalressourcen: `MAIN_WAIT_LOOP_NATIVE_2026-10-18.json`.
+Reproduktion mit lokalem Capture und Original-MAIN über
+`check-native-dos-resource-file.py <memory.bin> <MAIN.IO> --cycles 40 --shift-flags 0`.
+Die kontrollierte Startumgebung, BIOS-Antwort und fehlenden Plattformpfade
+bleiben Grenzen; insbesondere ist dies keine sichtbare Browsererweiterung
+und kein Nachweis für den Ishar1-Startablauf mit dessen offener Dateisuche.
