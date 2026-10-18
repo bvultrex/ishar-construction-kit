@@ -1430,6 +1430,189 @@
    }
   },
   {
+   "id": "M45",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_STEP_RESET.md (HOTSR1 -> B,F -> HOTSR2: 7386 1->0; GERDEP L_013af 0x013f3)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7386,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "step"
+     },
+     {
+      "op": "step"
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "7386": 0
+    }
+   },
+   "note": "Tür 5 fällt nach dem ersten erfolgreichen Schritt zu"
+  },
+  {
+   "id": "M46",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_STEP_RESET.md (HOTSL1..HOTSL4: 7387/7437 bleiben 0 über 22 Schritte/Drehungen)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7387,
+      "u8": 0
+     },
+     {
+      "offset": 7437,
+      "u8": 0
+     }
+    ],
+    "ops": [
+     {
+      "op": "step"
+     },
+     {
+      "op": "step"
+     },
+     {
+      "op": "step"
+     },
+     {
+      "op": "step"
+     },
+     {
+      "op": "step"
+     },
+     {
+      "op": "step"
+     }
+    ]
+   },
+   "expected": {
+    "changes": {}
+   },
+   "note": "Tür 6 / Hebel 6 sind nicht in L_013af"
+  },
+  {
+   "id": "M47",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_STEP_RESET.md (HOTSR1 frisch geladen: offen; Laden ist kein Schritt)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7386,
+      "u8": 1
+     }
+    ],
+    "ops": []
+   },
+   "expected": {
+    "changes": {}
+   }
+  },
+  {
+   "id": "M48",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "GERDEP 0x013d5-0x01407 (eigene Listing-Lesung; Türen 9/17 und Kontaktliste nicht im Original getestet)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7390,
+      "u8": 1
+     },
+     {
+      "offset": 7398,
+      "u8": 1
+     },
+     {
+      "offset": 7576,
+      "u8": 91
+     },
+     {
+      "offset": 7577,
+      "u8": 92
+     },
+     {
+      "offset": 7578,
+      "u8": 93
+     },
+     {
+      "offset": 7387,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "step"
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "7390": 0,
+     "7398": 0,
+     "7576": 0,
+     "7577": 0,
+     "7578": 0
+    }
+   },
+   "note": "L_013af setzt auch 0x4b80[0..2] = 0; Tür 6 bleibt"
+  },
+  {
+   "id": "M49",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "GERDEP 0x00682 ff. (L_013af nur bei erfolgreichem Schritt, odirb(0x16)==1)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7386,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "turn"
+     },
+     {
+      "op": "blockedStep"
+     }
+    ]
+   },
+   "expected": {
+    "changes": {}
+   },
+   "note": "Drehen bzw. blockierter Schritt setzen nicht zurück (HOTSR3: Vorwärts gegen die geschlossene Tür 5 blockiert)"
+  },
+  {
    "id": "R01",
    "contract": "rng",
    "status": "suspected",

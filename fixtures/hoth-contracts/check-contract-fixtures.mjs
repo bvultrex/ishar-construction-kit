@@ -57,6 +57,8 @@ function mech(v) {
     else if (op.op === 'frame') { b[L.door + op.d] = 1; }
     else if (op.op === 'keyhole') { const p = i.pos; if (p.map === 5 && p.row === 61 && p.col === 15 && p.facing === 2 && op.held === -17) b[L.door + 8] = 1; res.keyConsumed = false; }
     else if (op.op === 'keyOnLeaf') { /* leaf has no form: nothing */ }
+    else if (op.op === 'step') { for (const d of [5, 9, 17]) b[L.door + d] = 0; for (let k = 0; k < 3; k++) b[L.contact + k] = 0; } // GERDEP L_013af
+    else if (op.op === 'turn' || op.op === 'blockedStep') { /* no L_013af */ }
     else if (op.op === 'hour') {
       const from = rd(b, L.hour), to = op.to; wr(b, L.hour, to);
       if (from !== to) { if (to === 1) b[L.door + 28] = 1; if (to === 4) b[L.door + 28] = 0;

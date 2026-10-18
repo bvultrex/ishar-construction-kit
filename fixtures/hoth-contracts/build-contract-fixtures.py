@@ -98,6 +98,19 @@ v('M43',C,'suspected',Q+'zeit-ishar2.md',
 v('M44',C,'suspected',Q+'zeit-ishar2.md (Ticks nur wenn 0x2ab7 == 0)',
   {'save':[be(44,5),be(48,10)],'paused':True,'ops':[{'op':'ticks','n':50}]},{'hour':5,'day':0,'ticks':10})
 
+SR=H+'STEP_RESET.md'
+v('M45',C,'known',SR+' (HOTSR1 -> B,F -> HOTSR2: 7386 1->0; GERDEP L_013af 0x013f3)',
+  {'save':[by(7386,1)],'ops':[{'op':'step'},{'op':'step'}]},{'changes':{'7386':0}},'Tür 5 fällt nach dem ersten erfolgreichen Schritt zu')
+v('M46',C,'known',SR+' (HOTSL1..HOTSL4: 7387/7437 bleiben 0 über 22 Schritte/Drehungen)',
+  {'save':[by(7387,0),by(7437,0)],'ops':[{'op':'step'}]*6},{'changes':{}},'Tür 6 / Hebel 6 sind nicht in L_013af')
+v('M47',C,'known',SR+' (HOTSR1 frisch geladen: offen; Laden ist kein Schritt)',
+  {'save':[by(7386,1)],'ops':[]},{'changes':{}})
+v('M48',C,'suspected','GERDEP 0x013d5-0x01407 (eigene Listing-Lesung; Türen 9/17 und Kontaktliste nicht im Original getestet)',
+  {'save':[by(7390,1),by(7398,1),by(7576,91),by(7577,92),by(7578,93),by(7387,1)],'ops':[{'op':'step'}]},
+  {'changes':{'7390':0,'7398':0,'7576':0,'7577':0,'7578':0}},'L_013af setzt auch 0x4b80[0..2] = 0; Tür 6 bleibt')
+v('M49',C,'suspected','GERDEP 0x00682 ff. (L_013af nur bei erfolgreichem Schritt, odirb(0x16)==1)',
+  {'save':[by(7386,1)],'ops':[{'op':'turn'},{'op':'blockedStep'}]},{'changes':{}},'Drehen bzw. blockierter Schritt setzen nicht zurück (HOTSR3: Vorwärts gegen die geschlossene Tür 5 blockiert)')
+
 # ---------------- 3 combat ----------------
 def tdiv(a,b): q=abs(a)//abs(b); return q if (a>=0)==(b>0) else -q
 def rng(r): return (r*0x7ab7+0xf881)&0xffff
