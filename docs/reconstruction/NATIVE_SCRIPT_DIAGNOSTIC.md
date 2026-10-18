@@ -11,6 +11,7 @@ Der kontrollierte Kontext verwendet Moduloffset0/Segment4000h, Kontextsegment500
 - Opcodes18–29: bedingte relative Sprünge bei DX=0/!=0 oder DX=CX/!=CX, jeweils mit drei Offsetcodierungen.
 - Opcode31: direkte Zahlenformen, Ausdrucksschleifen56/58 und sechs Vergleiche74–84; andere Ausdruckstags halten an.
 - Opcode41: rohe Kontextblöcke.
+- Opcode62: nichtnegativer Slot setzt das Aktivitätsbyte des gefundenen Kontexts; negative Worte ändern nichts.
 - Opcode66: Yield; ausdrücklich keine Scheduler-Fortsetzung.
 - Opcode71: Literalwort nach ES:[BP-16h], ohne höhere Feldsemantik zu behaupten.
 - Opcode76: drei aufeinanderfolgende Zahlenoperanden nach ES:BP,+2,+4. Spätere Operanden sehen frühere Änderungen.
@@ -34,6 +35,10 @@ Aktueller Hoststand:19 Schritte mit Ishar2 IO.IO bis SI0095h, nächster Halt148.
 
 Aktueller Hoststand:20 Schritte mit Ishar2 IO.IO bis SI009Bh, DXFFFFh, CX1E7Eh; nächster Halt62. Opcode148 ist mit je2160 nativen Fällen pro Spiel geprüft. Die fortlaufende Originalprüfung bestätigt alle20 Schritte. Die erneute Browserprüfung für148 ist noch offen.
 
-Nächste Schritte: Opcode62 und seine Abhängigkeiten rekonstruieren, weitere belegte Handler anbinden, Scheduler-/Callbackzustände und Schrittprotokoll darstellen, Diagnoseimport in die gemeinsame Projektverwaltung integrieren. Mehrsegmentausführung und vollständige native VM bleiben offen.
+Aktueller Hoststand:22 Schritte mit Ishar2 IO.IO einschließlich erstem Yield. Opcode62 besteht je3168 native Fälle pro Spiel. Die fortlaufende Originalprüfung bestätigt alle22 Schritte einschließlich tatsächlicher Yield-Stackwirkung. Der Dateichecker unterstützt jetzt die Yield-Grenze, aber keine Scheduler-Fortsetzung.
 
-Die aktuelle Browserprüfung bestätigt ebenfalls19 Schritte bis SI0095h und den unveränderten Halt auf148. Für fortlaufende native Vergleiche: `python scripts/check-native-script-diagnostic-file.py <capture-memory.bin> <lokales-Modul.IO>` mit dem isolierten Unicorn-Pythonpfad aus der Testumgebung. Das Werkzeug prüft jeden unterstützten Schritt; Yield/Scheduler und Mehrsegmentmodule werden ausdrücklich noch nicht verglichen. Es schreibt keine Originalressourcen ins Repo.
+Nächste Schritte: Scheduler-Fortsetzung nach Yield an den kontrollierten Kontext anbinden, weitere belegte Handler anbinden, Scheduler-/Callbackzustände und Schrittprotokoll darstellen, Diagnoseimport in die gemeinsame Projektverwaltung integrieren. Mehrsegmentausführung und vollständige native VM bleiben offen.
+
+Die aktuelle Browserprüfung bestätigt ebenfalls19 Schritte bis SI0095h und den unveränderten Halt auf148. Für fortlaufende native Vergleiche: `python scripts/check-native-script-diagnostic-file.py <capture-memory.bin> <lokales-Modul.IO>` mit dem isolierten Unicorn-Pythonpfad aus der Testumgebung. Das Werkzeug prüft jeden unterstützten Schritt; Die Yield-Grenze wird jetzt verglichen; Scheduler-Fortsetzung und Mehrsegmentmodule werden ausdrücklich noch nicht verglichen. Es schreibt keine Originalressourcen ins Repo.
+
+Aktuelle Browserprüfung am18.10.2026:22 Schritte bis zum ersten Yield, SI00A0h, DXFFFFh, CXFFFFh, Timerziel1. Die Oberfläche deaktiviert die weitere Ausführung an dieser Grenze. Damit sind auch die zuvor offenen UI-Prüfungen von148 und62 abgedeckt. Eine Scheduler-Fortsetzung steht weiterhin aus.

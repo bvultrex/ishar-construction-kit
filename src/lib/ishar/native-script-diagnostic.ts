@@ -11,6 +11,7 @@ import {storeOriginalDosScriptResult} from './original-dos-script-result.ts';
 import {evaluateOriginalDosScriptExpression} from './original-dos-script-expression.ts';
 import {branchOriginalDosScriptConditional} from './original-dos-script-conditional.ts';
 import {findOriginalDosContextsByModule} from './original-dos-context-query.ts';
+import {activateOriginalDosScriptContext} from './original-dos-context-active.ts';
 export interface NativeScriptDiagnostic {module:AlisModule;memory:Uint8Array;globals:Uint8Array;bp:number;si:number;dx:number;cx:number;steps:number;status:'ready'|'yield'|'stopped';message:string}
 /** Editor-only controlled context. Does not alter the playtest or source file. */
 export function openNativeScriptDiagnostic(bytes:Uint8Array):NativeScriptDiagnostic{
@@ -42,6 +43,11 @@ export function stepNativeScriptDiagnostic(state:NativeScriptDiagnostic):NativeS
   if(!length)return stop(`Zahlenoperand-Tag ${tag} ist noch nicht angebunden. Befehl unverändert angehalten.`);
   if(after+length>state.module.image.length)return stop('Zahlenoperand ist im Modul abgeschnitten.');
   const script=new Uint8Array(65536);script.set(state.module.image);const next=readOriginalDosNumericOperand(script,memory,after,state.bp);globals=globals.slice();globals[0xc99]=next.value&255;si=next.si;cx=dx;dx=next.value;
+ }else if(opcode===62){
+  const tag=state.module.image[after],length=tag===0?2:[2,6,8].includes(tag)?3:0;
+  if(!length)return stop(`Aktivierungsoperand-Tag ${tag} ist noch nicht angebunden. Befehl unverändert angehalten.`);
+  if(state.si+1+length>state.module.image.length)return stop('Aktivierungsoperand ist im Modul abgeschnitten.');
+  const script=new Uint8Array(65536);script.set(state.module.image);const next=activateOriginalDosScriptContext(script,memory,globals,after,state.bp);memory=next.memory;si=next.si;cx=dx;dx=next.dx;
  }else if(opcode===31){
   const script=new Uint8Array(65536);script.set(state.module.image);
   try{const next=evaluateOriginalDosScriptExpression(script,memory,after,state.bp,dx,state.module.image.length);si=next.si;dx=next.dx;cx=next.cx;}
