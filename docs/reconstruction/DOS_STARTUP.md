@@ -2933,3 +2933,53 @@ complete active-object/end-of-batch handling and reconstruct presentation to
 VGA. Mirrored formats, IRQ palette work and Ishar1 opcode106 remain open.
 This verifies first glyph pixels in the original render buffer, not a complete
 displayed game image.
+
+
+### Remaining glyph chain and original first VGA transfer (2026-10-18)
+
+`--all-records` extends the connected record checker until the real chain end
+with an explicit500-record host limit. Both first-glyph checkpoints compare
+27 further type16 glyphs and the terminal430A restoration to442F. Combined
+with the previously verified three solid fills and first glyph, this completes
+all31 records (three surfaces,28 glyphs) for this original-startup draw batch.
+Each return/clip/draw matches full physical memory except active CPU scratch,
+registers/BX/DI/SP and native pixel counts. No glyph is replaced or skipped.
+
+`original-dos-pixel-objects-end.ts` reconstructs442F..4458/44A3..44F5 to the
+next owner/special-record/restore/present boundary. The actual last-owner,
+CB0-zero path to431F is independently compared on both connected states.
+Other owner/special branches remain static reconstruction pending targeted
+native cases. In these states CB1=FF takes the original431F->43CB path,
+bypassing cursor/device branches, and far-calls VGA0010.
+
+`original-dos-vga-present.ts` reconstructs0010->0148..01A6->0013 far return
+through43D0, DF0. It copies the C1A/C1C..C1E/C20 rectangle from B88/B8A to
+B84/B86 using original REP MOVSW semantics and1DD5 pitch. Width is truncated
+to whole words: an odd last column is deliberately not copied. Offset/stride
+arithmetic wraps as16-bit words and source/destination overlap is processed
+in native forward word order, not using a whole-buffer snapshot copy.
+All nine CPU registers are preserved by the original routine.
+
+Native present comparison passes180 cases per capture (360 total): odd/even
+widths including zero word count, pitch0/16/320, wrapped offsets, rows and
+same/overlapping/disjoint buffers. Full memory except FEC0..FF03 CPU saves,
+nine registers/SP and exact copied-byte counts match; sources remain unchanged.
+Evidence: VGA_PRESENT_NATIVE_2026-10-18.json. Reproduce:
+`check-native-dos-vga-present.py CAPTURE`.
+
+On both actual-startup states the connected present path copies320x200 bytes
+from E000:0000 to A000:0000. Native VGA writes count64000 and final64000-byte
+VGA hash equals the rendered source hash. The deeper present-call save frame
+reaches0798, so the connected mask is now explicitly0798..07ED; original entry
+saves07EE..07FF remain compared. No palette, retrace, mouse input or timer IRQ
+is synthesized. This proves the original indexed-pixel transfer, not a fully
+colored/timed startup screen or a complete original device implementation.
+Evidence: STARTUP_VGA_FIRST_COPY_NATIVE_2026-10-18.json. Reproduce:
+`check-native-dos-startup-records.py PRIVATE_FIRST_GLYPH_DIRECTORY --present`.
+Optional exclusive private terminal checkpoints end at43D0. Protected pixel
+images remain outside the repository. Typecheck passes.
+
+Next: finish the caller/frame returns after43D0, resume the actual MAIN path,
+and reconstruct IRQ palette/DAC progression needed for original visible colors.
+Ishar1 opcode106, cursor/device branches, mirrored formats and remaining engine/
+editor coverage are still open; the total project is not complete.
