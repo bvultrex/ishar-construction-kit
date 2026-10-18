@@ -83,7 +83,9 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Modulauswahl sind nun für beide Profile komponiert geprüft (je60 Fälle).
    Die Geräteerkennung ist für den VGA-/Joystick-Frühabbruchpfad mit64
    Fällen separat geprüft. Die Bestätigungsabfrage ist mit72 Fällen belegt. Achsenmessung und
-   äußere Aufrufkette einschließlich des eigentlichen Menüs bleiben offen. Die originale Aufrufkette
+   das eigentliche Menü bleiben offen. Die äußere Konfigurationsroutine
+   und ihre Rückkehr zur Grafikmodulauswahl sind inzwischen durchgehend
+   nativ geprüft (128 Fälle beider Profile, explizite externe Antworten). Die originale Aufrufkette
    einschlieÃŸlich MAIN muss diese ZustÃ¤nde noch selbst herstellen. Das hat Vorrang
    vor einer sichtbaren Ausgabe oder weiteren Aussagen zur Bildgleichheit.
    FE-Sonderpfad, weitere Operandformen

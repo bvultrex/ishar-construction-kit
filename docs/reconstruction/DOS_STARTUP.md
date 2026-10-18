@@ -2253,3 +2253,36 @@ check-native-dos-configuration-prompt.py CAPTURE. Original captures unchanged.
 Next: compose the outer configuration entry, including Ishar2 drive probing,
 return-to-start path and an explicit boundary for the actual settings menu.
 Joystick axis/non-VGA discovery and the settings UI remain separate open paths.
+
+## Contiguous outer configuration and caller handoff (2026-10-18)
+
+`probeOriginalDosConfigurationDrives` reconstructs Ishar2 module1C33..1D06:
+current drive/directory, candidate drives starting at index2, directory/create
+probe, close/delete on success, fallback drive2 and original-drive restoration.
+All DOS responses are explicit; guest filesystem changes are events only.
+36 cases cover initial drives0/2/5, drive counts2/3/5, success, directory
+failure, creation failure and second candidate success. Full memory except
+nine saved registers FEEE..FEFF, general registers and SP match native code.
+
+`runOriginalDosConfigurationEntry` composes the real outer sequence, Ishar1
+1AFA / Ishar2 1BCE: optional Ishar2 drive probe, clear B91/B90, discovery, file
+load/decode, confirmation, selection transfer and final video mode2. It stops
+at the actual menu entry1498/156C or final RETF1B5B/1C32. Menu body, exit
+from that body, non-VGA and joystick-axis branches remain open.
+
+The native checker executes each entire entry contiguously without internal
+component jumps/stubs:32 cases per game, covering countries/mouse presence,
+open/read/close failures, timeout and requested configuration. Another32 per
+game start at engine1000:0787, execute the original far call and RETF, then
+original098F video selection to1000:078F. Menu branches stop at their original
+entry with the caller stack intact. Host comparison composes the verified
+helpers on the same shared memory. General scratch registers/flags remain
+outside this outer API; full memory outside stack FEC0..FEFF, all external
+service/port events and SP match. Text bytes stay local; only trace hashes
+are published. This closes this supported caller/callee handoff, not072D or
+the full engine startup. Earlier argument parsing and later OS/timer services
+still require connection before MAIN can run from a genuine full start.
+
+Reproduce: check-native-dos-configuration-drives.py ISHAR2_CAPTURE;
+check-native-dos-configuration-entry.py CAPTURE START.STP [--caller-select].
+Evidence: CONFIGURATION_ENTRY_NATIVE_2026-10-18.json. Original files unchanged.
