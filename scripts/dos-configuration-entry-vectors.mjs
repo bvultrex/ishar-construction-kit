@@ -11,7 +11,10 @@ import {initializeOriginalDosVgaViewport as initializeGraphics} from '../src/lib
 import {initializeOriginalDosMouseStartup as initializeMouse} from '../src/lib/ishar/original-dos-mouse-startup.ts';
 import {prepareOriginalDosTimerStartup as prepareTimer} from '../src/lib/ishar/original-dos-timer-startup.ts';
 import {completeOriginalDosTimerStartup as completeTimer} from '../src/lib/ishar/original-dos-startup-timer-irq.ts';
-const timerComplete=process.argv.includes('--timer-complete'),timerPrefix=timerComplete||process.argv.includes('--timer-prefix'),mouse=timerPrefix||process.argv.includes('--mouse'),graphics=mouse||process.argv.includes('--graphics'),keyboard=graphics||process.argv.includes('--keyboard');
+import {initializeOriginalDosJoystick as initializeJoystick} from '../src/lib/ishar/original-dos-joystick-startup.ts';
+import {checkOriginalDosStartup as checkStartup} from '../src/lib/ishar/original-dos-startup-checks.ts';
+const startupChecks=process.argv.includes('--startup-checks'),joystick=startupChecks||process.argv.includes('--joystick');
+const timerComplete=joystick||process.argv.includes('--timer-complete'),timerPrefix=timerComplete||process.argv.includes('--timer-prefix'),mouse=timerPrefix||process.argv.includes('--mouse'),graphics=mouse||process.argv.includes('--graphics'),keyboard=graphics||process.argv.includes('--keyboard');
 const audio=keyboard||process.argv.includes('--audio'),ems=audio||process.argv.includes('--ems');
 const blancpcIndex=process.argv.indexOf('--blancpc'),blancpc=blancpcIndex>=0?new Uint8Array(readFileSync(process.argv[blancpcIndex+1])):null;
 const earlyServices=!!blancpc||process.argv.includes('--early-services'),callerSelect=earlyServices||process.argv.includes('--caller-select');
@@ -31,7 +34,11 @@ for(const countryAL of [0x21,0x31])for(const mouseAX of [0,65535])for(const fail
  if(graphics){const initializedGraphics=initializeGraphics(memory,0x1c0b,0x1e97,{biosWrites:[{address:0x449,data:Uint8Array.of(19)},{address:0x463,data:Uint8Array.of(0xd4,3)}],vectorOffset:0x1234,vectorSegment:0x7000,crtData:255,picMask:255,miscRead:128,retraceRead:8,irq0A:'none'});memory=initializedGraphics.memory;result.stages.push({stage:'graphics',events:initializedGraphics.events});result.boundary=0x8f9;
  if(mouse){const initializedMouse=initializeMouse(memory,0x1c0b,mouseAX);memory=initializedMouse.memory;result.stages.push({stage:'mouse',events:initializedMouse.events});result.boundary=0x8fc;
  if(timerPrefix){const preparedTimer=prepareTimer(memory,0x1c0b,{vectorOffset:0x1234,vectorSegment:0x7000,retraceReads:[0,8,0,8],pitCounterWord:0x8000,noInterrupts:true});if(preparedTimer.phase!=='wait')throw Error('Unexpected timer calibration fault');memory=preparedTimer.memory;result.stages.push({stage:'timer',events:preparedTimer.events});result.reason='wait-timer';result.boundary=0xcfe;
- if(timerComplete){const completed=completeTimer(memory,0x1c0b,{secondAt:0,thirdAt:countryAL===0x21?79:40000,retraceReads:[[0,8],[8],[0,0,8]]});memory=completed.memory;result.stages.push({stage:'timer-irq',events:completed.events});result.reason='return';result.boundary=0x8ff;result.timerMeasurement=completed.registers;}
+ if(timerComplete){const completed=completeTimer(memory,0x1c0b,{secondAt:0,thirdAt:countryAL===0x21?79:40000,retraceReads:[[0,8],[8],[0,0,8]]});memory=completed.memory;result.stages.push({stage:'timer-irq',events:completed.events});result.reason='return';result.boundary=0x8ff;result.timerMeasurement=completed.registers;
+ if(joystick){const initialized=initializeJoystick(memory,0x1c0b,Array(201).fill(0),completed.registers.bx);memory=initialized.memory;result.stages.push({stage:'joystick',events:initialized.events.length?[{kind:'in',port:0x201,value:0,repeat:201}]:[]});result.boundary=0x902;result.finalRegisters=initialized.registers;
+ if(startupChecks){const checked=checkStartup(memory,0x1c0b,initialized.registers,profile);memory=checked.memory;result.stages.push({stage:'startup-checks',events:checked.events});result.boundary=checked.boundary;result.finalRegisters={...initialized.registers,...checked.registers};result.reason=checked.reason;}
+ }
+ }
  }
  }
  }
@@ -42,6 +49,6 @@ for(const countryAL of [0x21,0x31])for(const mouseAX of [0,65535])for(const fail
  }
  }
  if(!initial.every((v,i)=>v===before[i]))throw Error('Entry mutated source');
- memory.fill(0,0x1c0b0+(graphics&&result.reason!=='menu'?0xfebc:0xfec0),0x1c0b0+0xff00);cases.push({timerComplete,timerPrefix,mouse,graphics,keyboard,audio,ems,earlyServices,callerSelect,boundarySegment:callerSelect&&result.reason!=='menu'?0x1000:0x23d7,countryAL,mouseAX,failure,configure,...result,hash:createHash('sha256').update(memory).digest('hex')});
+ memory.fill(0,0x1c0b0+(graphics&&result.reason!=='menu'?0xfebc:0xfec0),0x1c0b0+0xff00);cases.push({startupChecks,joystick,timerComplete,timerPrefix,mouse,graphics,keyboard,audio,ems,earlyServices,callerSelect,boundarySegment:callerSelect&&result.reason!=='menu'?0x1000:0x23d7,countryAL,mouseAX,failure,configure,...result,hash:createHash('sha256').update(memory).digest('hex')});
 }
 console.log(JSON.stringify(cases));

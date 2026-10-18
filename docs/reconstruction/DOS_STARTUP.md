@@ -2556,3 +2556,40 @@ Evidence: JOYSTICK_STARTUP_NATIVE_2026-10-18.json. Reproduce with
 This routine is verified separately; the contiguous startup harness still
 stops at08FF. Next: connect this call, reconstruct0902..0953 and its memory
 failure branch, then connect the actual MAIN caller. No complete boot claim.
+
+
+### Connected joystick and final startup checks (2026-10-18)
+
+The contiguous configuration harness now accepts `--joystick` (through0901)
+and `--startup-checks` (through0952, stopping before RET0953 or at0A6F).
+Both imply the earlier stages and require explicit `--blancpc BLANCPC.IO`.
+The original executes every intervening call, including the three delivered
+IRQ8 handlers. Joystick replies are201 zero samples in this connected fixture;
+axis-present branches have the separate80-case verification above.
+
+`original-dos-startup-checks.ts` implements0902..0952. C9F<=150 sets2892,
+otherwise clears it. Graphics mode2898!=0 with adapterC69<16 positions the
+BIOS text cursor at0/0 and emits '*' for adapter0, '.' otherwise. The free
+paragraph count is unsigned16-bit B96-B92. **Ishar1 requires strictly more
+than67C0h; Ishar2 strictly more than6F80h.** Equality enters the low-memory
+handler too. The handler receives the wrapped difference from that minimum.
+It is an original interactive branch (continue/abort), not yet reconstructed.
+
+Independent native comparison passes320 cases per game, covering150/151,
+15/16, both memory minima and wrapping subtraction. Full memory (except
+FEF8..FEFF stack residue), AX/BX/DX/SP and text events match. Connected
+comparison passes32 cases per game (including menu/error cases), full memory
+except FEBC..FEFF, exact event trace, SP and final AX/BX/CX/DX. Four normal
+configuration paths per game reach the checks: all fourIshar1 paths stop at
+RET0953; twoIshar2 paths reachRET0953 and two reach0A6F because the deliberately
+absent EMS signature leaves only28529 paragraphs,15 below its28544 minimum.
+No failure was bypassed, no hardware callback or resource was invented.
+
+Evidence: STARTUP_CHECKS_NATIVE_2026-10-18.json and
+CONFIGURATION_STARTUP_CHECKS_NATIVE_2026-10-18.json. Reproduce with
+`check-native-dos-startup-checks.py CAPTURE` and
+`check-native-dos-configuration-entry.py CAPTURE START.STP --blancpc BLANCPC.IO --startup-checks`.
+Next: connect successful RET to its actual startup caller and MAIN dispatcher;
+reconstruct the interactive0A6F failure path separately. The earlier072D
+command-line prefix, configuration menu, active sound/graphics callbacks,
+and full boot/visible original frame remain open.
