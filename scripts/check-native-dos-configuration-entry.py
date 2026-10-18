@@ -3,14 +3,14 @@ import argparse,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('settings',type=Path);p.add_argument('--caller-select',action='store_true');p.add_argument('--early-services',action='store_true');p.add_argument('--blancpc',type=Path);p.add_argument('--ems',action='store_true');p.add_argument('--audio',action='store_true');p.add_argument('--keyboard',action='store_true');p.add_argument('--graphics',action='store_true');p.add_argument('--mouse',action='store_true');p.add_argument('--timer-prefix',action='store_true');a=p.parse_args();a.mouse=a.mouse or a.timer_prefix;a.graphics=a.graphics or a.mouse;a.keyboard=a.keyboard or a.graphics;a.audio=a.audio or a.keyboard;a.ems=a.ems or a.audio;assert not a.ems or a.blancpc, '--ems requires --blancpc';a.early_services=a.early_services or bool(a.blancpc);a.caller_select=a.caller_select or a.early_services;original=a.capture.read_bytes();settings=a.settings.read_bytes();digest=hashlib.sha256(original).hexdigest()
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('settings',type=Path);p.add_argument('--caller-select',action='store_true');p.add_argument('--early-services',action='store_true');p.add_argument('--blancpc',type=Path);p.add_argument('--ems',action='store_true');p.add_argument('--audio',action='store_true');p.add_argument('--keyboard',action='store_true');p.add_argument('--graphics',action='store_true');p.add_argument('--mouse',action='store_true');p.add_argument('--timer-prefix',action='store_true');p.add_argument('--timer-complete',action='store_true');a=p.parse_args();a.timer_prefix=a.timer_prefix or a.timer_complete;a.mouse=a.mouse or a.timer_prefix;a.graphics=a.graphics or a.mouse;a.keyboard=a.keyboard or a.graphics;a.audio=a.audio or a.keyboard;a.ems=a.ems or a.audio;assert not a.ems or a.blancpc, '--ems requires --blancpc';a.early_services=a.early_services or bool(a.blancpc);a.caller_select=a.caller_select or a.early_services;original=a.capture.read_bytes();settings=a.settings.read_bytes();digest=hashlib.sha256(original).hexdigest()
 profiles={'5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7':('ishar1',0x1afa,0xe3e,0xe96,0x18cc,0x1b4b),'f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04':('ishar2',0x1bce,0xea4,0xefc,0x19a0,0x1c22)}
-assert digest in profiles and len(settings)==14;profile,entry,detect,load,prompt,final=profiles[digest];repo=Path(__file__).resolve().parent.parent;cases=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-configuration-entry-vectors.mjs'),str(a.capture.resolve()),str(a.settings.resolve())]+(['--caller-select'] if a.caller_select else [])+(['--early-services'] if a.early_services else [])+(['--blancpc',str(a.blancpc.resolve())] if a.blancpc else [])+(['--ems'] if a.ems else [])+(['--audio'] if a.audio else [])+(['--keyboard'] if a.keyboard else [])+(['--graphics'] if a.graphics else [])+(['--mouse'] if a.mouse else [])+(['--timer-prefix'] if a.timer_prefix else []),cwd=repo,text=True))
+assert digest in profiles and len(settings)==14;profile,entry,detect,load,prompt,final=profiles[digest];repo=Path(__file__).resolve().parent.parent;cases=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-configuration-entry-vectors.mjs'),str(a.capture.resolve()),str(a.settings.resolve())]+(['--caller-select'] if a.caller_select else [])+(['--early-services'] if a.early_services else [])+(['--blancpc',str(a.blancpc.resolve())] if a.blancpc else [])+(['--ems'] if a.ems else [])+(['--audio'] if a.audio else [])+(['--keyboard'] if a.keyboard else [])+(['--graphics'] if a.graphics else [])+(['--mouse'] if a.mouse else [])+(['--timer-prefix'] if a.timer_prefix else [])+(['--timer-complete'] if a.timer_complete else []),cwd=repo,text=True))
 for case in cases:
  cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,original)
  if a.ems:
   signature=bytearray(original[0x10b10:0x10b18]);signature[0]^=255 if case['mouseAX']==0 else 0;cpu.mem_write(0x4000a,bytes(signature))
- events=[];done=[];stage=[''];times=[0];keys=[0];adlib_reads=[0];timer_retrace=[0];timer_pit=[0];base=0x23d70
+ events=[];done=[];stage=[''];times=[0];keys=[0];adlib_reads=[0];timer_retrace=[0];timer_pit=[0];irq_index=[0];irq_read=[0];base=0x23d70
  for reg,value in [(UC_X86_REG_CS,0x23d7),(UC_X86_REG_DS,0x4000),(UC_X86_REG_SS,0x1c0b),(UC_X86_REG_SP,0xff00),(UC_X86_REG_EFLAGS,0x202)]:cpu.reg_write(reg,value)
  def event(value):events.append({'stage':stage[0],'event':value})
  def interrupt(uc,number,_):
@@ -65,7 +65,9 @@ for case in cases:
   uc.reg_write(UC_X86_REG_AX,value);f=uc.reg_read(UC_X86_REG_EFLAGS);uc.reg_write(UC_X86_REG_EFLAGS,(f|1) if error else (f&~1))
  def read(uc,port,size,_):
   assert size==1
-  if stage[0]=='timer':
+  if stage[0]=='timer-irq':
+   assert port==0x3da;value=[[0,8],[8],[0,0,8]][irq_index[0]][irq_read[0]];irq_read[0]+=1;item={'kind':'in','port':port,'value':value,'repeat':1}
+  elif stage[0]=='timer':
    if port==0x3da:value=[0,8,0,8][timer_retrace[0]];timer_retrace[0]+=1
    else:assert port==0x40;value=[0,128][timer_pit[0]];timer_pit[0]+=1
    item={'kind':'in','port':port,'value':value,'repeat':1}
@@ -83,13 +85,39 @@ for case in cases:
   stage[0]='timer' if address==0x108fc else 'mouse' if address==0x108f9 else 'graphics' if address==0x108f6 else 'keyboard' if address==0x108f0 else 'audio' if address==0x108eb else 'ems' if address==0x10853 else 'blancpc' if address==0x10833 else 'engine-services' if address==0x1078f else {0x1c33:'drives',detect:'devices',load:'file',prompt:'prompt',final:'final'}[offset]
  for address in set([base+v for v in [0x1c33,detect,load,prompt,final]]+[case['boundarySegment']*16+case['boundary']]+([0x1078f] if a.early_services else [])+([0x10833] if a.blancpc else [])+([0x10853] if a.ems else [])+([0x108eb] if a.audio else [])+([0x108f0] if a.keyboard else [])+([0x108f6] if a.graphics else [])+([0x108f9] if a.mouse else [])+([0x108fc] if a.timer_prefix else [])):cpu.hook_add(UC_HOOK_CODE,boundary,None,address,address)
  if a.caller_select:cpu.reg_write(UC_X86_REG_CS,0x1000)
+ paused=[];pause_handle=None
+ if a.timer_complete and case['reason']!='menu':
+  def pause(uc,address,size,_):paused.append(True);uc.emu_stop()
+  pause_handle=cpu.hook_add(UC_HOOK_CODE,pause,None,0x10cfe,0x10cfe)
  cpu.hook_add(UC_HOOK_INTR,interrupt);cpu.hook_add(UC_HOOK_INSN,read,None,1,0,UC_X86_INS_IN);cpu.hook_add(UC_HOOK_INSN,write,None,1,0,UC_X86_INS_OUT);cpu.emu_start(0x10787 if a.caller_select else base+entry,0xfffff,count=6000000 if a.graphics else 100000)
+ if a.timer_complete and case['reason']!='menu':
+  assert paused==[True] and not done;cpu.hook_del(pause_handle);stage[0]='timer-irq';g=0x1c0b0;visits=[0]
+  def deliver(index,loop):
+   event({'kind':'irq','vector':8,'loop':loop});irq_index[0]=index;irq_read[0]=0
+   regs=[UC_X86_REG_AX,UC_X86_REG_BX,UC_X86_REG_CX,UC_X86_REG_DX,UC_X86_REG_DI,UC_X86_REG_SI,UC_X86_REG_DS,UC_X86_REG_ES,UC_X86_REG_BP,UC_X86_REG_SP,UC_X86_REG_CS,UC_X86_REG_IP,UC_X86_REG_EFLAGS];saved={reg:cpu.reg_read(reg) for reg in regs};assert saved[UC_X86_REG_EFLAGS]&0x200
+   sp=saved[UC_X86_REG_SP]
+   for value in [saved[UC_X86_REG_EFLAGS]&65535,saved[UC_X86_REG_CS],saved[UC_X86_REG_IP]]:sp=(sp-2)&65535;cpu.mem_write(g+sp,value.to_bytes(2,'little'))
+   vector=bytes(cpu.mem_read(32,4));off=int.from_bytes(vector[:2],'little');seg=int.from_bytes(vector[2:],'little');assert seg==0x1000 and off in [0xd6d,0xd98]
+   cpu.reg_write(UC_X86_REG_SP,sp);cpu.reg_write(UC_X86_REG_EFLAGS,saved[UC_X86_REG_EFLAGS]&~0x300);cpu.reg_write(UC_X86_REG_CS,seg);cpu.reg_write(UC_X86_REG_IP,off);returned=[]
+   def back(uc,address,size,_):returned.append(True);uc.emu_stop()
+   resume=saved[UC_X86_REG_CS]*16+saved[UC_X86_REG_IP];h=cpu.hook_add(UC_HOOK_CODE,back,None,resume,resume);cpu.emu_start(seg*16+off,0xfffff,count=1000);cpu.hook_del(h);assert returned==[True]
+   for reg,value in saved.items():assert cpu.reg_read(reg)==value
+  deliver(0,-1)
+  third=79 if case['countryAL']==0x21 else 40000
+  for index,target in [(1,0),(2,third)]:
+   stopped=[]
+   def measure(uc,address,size,_):
+    if visits[0]==target:stopped.append(True);uc.emu_stop()
+    else:visits[0]+=1
+   h=cpu.hook_add(UC_HOOK_CODE,measure,None,0x10d0c,0x10d0c);cpu.emu_start(cpu.reg_read(UC_X86_REG_CS)*16+cpu.reg_read(UC_X86_REG_IP),0xfffff,count=500000);cpu.hook_del(h);assert stopped==[True];deliver(index,target)
+  cpu.emu_start(0x10d0c,0xfffff,count=1000)
+  for reg,key in [(UC_X86_REG_AX,'ax'),(UC_X86_REG_BX,'bx'),(UC_X86_REG_DX,'dx')]:assert cpu.reg_read(reg)==case['timerMeasurement'][key]
  expected=[{'stage':s['stage'],'event':e} for s in case['stages'] for e in s['events']]
  assert done==[True] and events==expected,(done,len(events),len(expected),next((i for i,(x,y) in enumerate(zip(events,expected)) if x!=y),None))
  assert cpu.reg_read(UC_X86_REG_SP)==((0xfefa if a.caller_select else 0xfefe) if case['reason']=='menu' else 0xfefe if case['reason']=='wait-timer' else 0xff00)
  actual=bytearray(cpu.mem_read(0,0x100000));mask=0xfebc if a.graphics and case['reason']!='menu' else 0xfec0;actual[0x1c0b0+mask:0x1c0b0+0xff00]=bytes(0xff00-mask);assert hashlib.sha256(actual).hexdigest()==case['hash']
- if a.graphics and case['reason']=='return':assert not(cpu.reg_read(UC_X86_REG_EFLAGS)&0x200)
- if case['reason']=='wait-timer':assert cpu.reg_read(UC_X86_REG_EFLAGS)&0x200
+ if a.graphics and not a.timer_prefix and case['reason']=='return':assert not(cpu.reg_read(UC_X86_REG_EFLAGS)&0x200)
+ if case['reason']=='wait-timer' or a.timer_complete and case['reason']=='return':assert cpu.reg_read(UC_X86_REG_EFLAGS)&0x200
  case['traceSha256']=hashlib.sha256(json.dumps(case.pop('stages'),separators=(',',':')).encode()).hexdigest()
 assert a.capture.read_bytes()==original and a.settings.read_bytes()==settings
-print(json.dumps({'profile':profile,'captureSha256':digest,'settingsSha256':hashlib.sha256(settings).hexdigest(),'stackMask':'FEBC..FEFF after graphics; FEC0..FEFF on menu paths','timerPrefix':a.timer_prefix,'mouse':a.mouse,'graphics':a.graphics,'keyboard':a.keyboard,'audio':a.audio,'ems':a.ems,'blancpcSha256':hashlib.sha256(a.blancpc.read_bytes()).hexdigest() if a.blancpc else None,'earlyServices':a.early_services,'callerSelect':a.caller_select,'caseCount':len(cases),'cases':cases,'limits':'Contiguous outer entry, or engine0787 through0832 with --early-services or0852 with --blancpc or08EA with --ems or08EF with --audio,08F5 with --keyboard,08F8 with --graphics,08FB with --mouse or0CFE wait with --timer-prefix (explicit absent SB/no delivered IRQs/callbacks), stopping at original menu entry on menu paths; no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except documented CPU stack mask and SP/events checked; menu body, non-VGA and joystick-axis branches excluded; original text only as trace hashes'}))
+print(json.dumps({'profile':profile,'captureSha256':digest,'settingsSha256':hashlib.sha256(settings).hexdigest(),'stackMask':'FEBC..FEFF after graphics; FEC0..FEFF on menu paths','timerComplete':a.timer_complete,'timerPrefix':a.timer_prefix,'mouse':a.mouse,'graphics':a.graphics,'keyboard':a.keyboard,'audio':a.audio,'ems':a.ems,'blancpcSha256':hashlib.sha256(a.blancpc.read_bytes()).hexdigest() if a.blancpc else None,'earlyServices':a.early_services,'callerSelect':a.caller_select,'caseCount':len(cases),'cases':cases,'limits':'Contiguous outer entry, or engine0787 through0832 with --early-services or0852 with --blancpc or08EA with --ems or08EF with --audio,08F5 with --keyboard,08F8 with --graphics,08FB with --mouse or0CFE wait with --timer-prefix or08FE with --timer-complete (explicit absent SB/idle callbacks; --timer-complete delivers three original IRQs), stopping at original menu entry on menu paths; no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except documented CPU stack mask and SP/events checked; menu body, non-VGA and joystick-axis branches excluded; original text only as trace hashes'}))

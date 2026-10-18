@@ -77,13 +77,13 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Grafikformatwahl und erster Typ1-RAM-Pixellauf sind inzwischen ebenfalls
    nativ verglichen. Der kontrollierte Start hat aber Ziel0:0 und Pitch0:
    noch kein gueltiger Frame in diesem kontrollierten MAIN-Test.
-   Der Originalpfad0787..0CFE (Timer-Wartegrenze) ist inzwischen durchgehend nativ verglichen:
-   Konfiguration, Ressource, BIOS/EMS, Audio-Fallback, Tastatur, VGA, Maus und Timer-Kalibrierung.
+   Der Originalpfad0787..08FE (nach Timer-Rueckkehr) ist inzwischen durchgehend nativ verglichen:
+   Konfiguration, Ressource, BIOS/EMS, Audio-Fallback, Tastatur, VGA, Maus und Timer mit drei originalen IRQ-/IRET-Ausfuehrungen.
    Dieser Pfad erzeugt Pitch320 und VGA-ZielA000:0 selbst (64 kombinierte
-   Faelle;32 separate Timer-Prefixfaelle). Externe Dienste sind explizite Antworten;
+   Faelle;32 separate IRQ-/Timer-Abschlussfaelle). Externe Dienste sind explizite Antworten;
    aktive Audiotreiber und IRQ0A sind darin nicht vollstaendig rekonstruiert.
-   Naechster Schritt: originale IRQ-Ausfuehrung/IRET fuer die Timer-Wartephase,
-   danach weitere Startdienste und MAIN-Anschluss.
+   Naechster Schritt: Joystickinitialisierung08FF, weitere Startpruefungen
+   und MAIN-Anschluss. Aktive IRQ-Callbacks/BIOS-Ketten bleiben offen.
    Ein sichtbarer Gesamtframe bleibt unbewiesen.
    FE-Sonderpfad, weitere Operandformen
    und sichtbare Ausgabe bleiben offen. Verwandte Wortänderungen192/193/194 haben separate

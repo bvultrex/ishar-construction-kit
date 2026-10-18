@@ -2501,3 +2501,39 @@ Evidence: TIMER_STARTUP_PREFIX_NATIVE_2026-10-18.json. Original files unchanged.
 Next is actual original IRQ execution/IRET to advance C9A and finish the
 measurement loop0CFE..0D35, then later startup and MAIN. No simulated live
 wait or full boot claim is made by stopping at this boundary.
+
+## Original IRQ execution completes timer startup (2026-10-18)
+
+`stepOriginalDosStartupTimerIrq` reconstructs installed0D6D/0D98 with shared
+vector/code state.0D6D waits for explicit retrace replies and reprograms PIT
+before the common idle IRQ body. The previously verified idle IRQ helper is
+reused; active callbacks, nested delivery and saved BIOS chaining remain
+explicit unsupported boundaries. Literal handler DS1C0B is profile-bound.
+
+`completeOriginalDosTimerStartup` follows0CFE..0D35 from the verified wait
+with AX0. Three controlled IRQ deliveries advance C9A via the original handler;
+the original mainline clears C9A at0D06. The caller supplies loop indices for
+the second/third delivery; no wall-clock frequency is inferred. The measured
+count saturates at7FFF and divides by40. A host guard limits a fixture to
+one million loop indices; this is not an original resource limit.
+
+16 cases per profile cover both handlers, delivery indices0/39/79/40000 and
+coincident/separated second and third delivery. Native execution manually
+pushes hardware FLAGS/CS/IP frames, executes the actual handler instructions
+and IRET, verifies all preserved registers/flags, then continues the original
+measurement loop to08FF. C9A is never injected/patched by the native harness.
+Full1MiB except28-byte CPU stack FEE4..FEFF, all port/delivery events, final
+AX/BX/DX and SP match. BIOS chaining and active callbacks are not covered.
+
+Another32 cases per game run from0787 contiguously through all earlier
+startup components and this timer completion (menu cases stop earlier).
+Normal paths use the real installed vector and three original IRQ executions,
+then RET to08FF, with hardware frames supplied only at controlled delivery
+points. The combined mask stays FEBC..FEFF due to earlier graphics nesting.
+IF is set on timer return; no wall-clock speed or hardware emulation is claimed.
+
+Reproduce: check-native-dos-startup-timer-irq.py CAPTURE;
+check-native-dos-configuration-entry.py CAPTURE START.STP --blancpc BLANCPC.IO --timer-complete.
+Evidence: STARTUP_TIMER_IRQ_NATIVE_2026-10-18.json. Original files unchanged.
+Next08FF calls joystick initialization10CC, followed by remaining startup
+checks and MAIN connection. Full boot/visible game frame remain incomplete.
