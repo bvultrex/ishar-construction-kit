@@ -1,12 +1,13 @@
 """Actual MAIN open, header reads and table layout; DOS is mocked.
 Only the two identified read-only MAIN files and corresponding captures are accepted.
 Optional --decode includes actual A1 decode and close; no complete startup claim.
+--root also executes registry/notifications/context and the original loader RET.
 """
 import argparse,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');a=p.parse_args();a.decode=a.decode or a.root
 memory=a.capture.read_bytes();data=a.main.read_bytes()
 digest=hashlib.sha256(memory).hexdigest();file_digest=hashlib.sha256(data).hexdigest()
 profiles={
@@ -22,7 +23,8 @@ for case in vectors['cases']:
  for at,value in [(0xbbe,0),(0xb90,case['offset']),(0xb92,case['segment']),(0xb94,0x1234),(0xb96,case['frontier'])]:cpu.mem_write(0x1c0b0+at,value.to_bytes(2,'little'))
  cpu.mem_write(0x1c0b0+0x289b,b'\0');cpu.mem_write(0x20100,b'MAIN.IO\0')
  if a.decode:cpu.mem_write(0x1c0b0+0xb5c,b'\0\x90')
- reads=[];read_events=[];read_boundaries=[];opens=[];open_boundaries=[];done=[];position=[0];saved_init={};init_counts=[0,0];init_end={};init_hash=[];packed_reads=[];closed=[];decode_entry=[];write_bounds=[0x100000,0]
+ if a.root:cpu.mem_write(0x1c0b0+0xff00,b'\0\xe0') # Controlled caller for the final loader RET.
+ reads=[];read_events=[];read_boundaries=[];opens=[];open_boundaries=[];done=[];position=[0];saved_init={};init_counts=[0,0];init_end={};init_hash=[];packed_reads=[];closed=[];decode_entry=[];write_bounds=[0x100000,0];close_state={};notifications=[];registry_checked=[];notification_active=[False];registry_writes=[0]
  destination=case['preparedDecode']['registers']['ds']*16+case['preparedDecode']['registers']['dx']
  def interrupt(uc,n,_):
   assert n==0x21
@@ -57,33 +59,60 @@ for case in vectors['cases']:
    decode_entry.append(address)
    for name,r in [('ax',UC_X86_REG_AX),('cx',UC_X86_REG_CX),('dx',UC_X86_REG_DX),('ds',UC_X86_REG_DS)]:assert uc.reg_read(r)==case['preparedDecode']['registers'][name]
    assert uc.mem_read(0x1c0b0+0xb57,1)[0]==case['preparedDecode']['pack']
-  if address==0x17839:done.append(address);uc.emu_stop()
+  if address==0x17839:
+   close_state['registers']={name:uc.reg_read(r) for name,r in [('ax',UC_X86_REG_AX),('bx',UC_X86_REG_BX),('cx',UC_X86_REG_CX),('dx',UC_X86_REG_DX),('ds',UC_X86_REG_DS)]};close_state['carry']=bool(uc.reg_read(UC_X86_REG_EFLAGS)&1);close_state['decodedHash']=hashlib.sha256(bytes(uc.mem_read(destination,vectors['decodedBytes']))).hexdigest();close_state['endSegment']=int.from_bytes(uc.mem_read(0x1c0b0+0xb14,2),'little')
+   if not a.root:done.append(address);uc.emu_stop()
+  if a.root and address==0x18205:
+   ptr=case['root']['registry'];assert bytes(uc.mem_read(case['segment']*16+ptr['offset'],4))==ptr['moduleOffset'].to_bytes(2,'little')+ptr['moduleSegment'].to_bytes(2,'little');registry_checked.append(True)
+   for at in [0xbca,0xbd0,0xbce]:assert int.from_bytes(uc.mem_read(0x1c0b0+at,2),'little')==case['root']['globals'][str(at)]
+  if a.root and address in [0x1185e,0x116ce]:notifications.append(address);notification_active[0]=True
+  if a.root and address in [0x11b9d,0x1184f]:notification_active[0]=False
+  if address==0x18468 or a.root and address==0x1e000:done.append(address);uc.emu_stop()
   if address==0x176d8:
    read_boundaries.append(address)
    for name,r in [('ax',UC_X86_REG_AX),('bx',UC_X86_REG_BX),('cx',UC_X86_REG_CX),('dx',UC_X86_REG_DX),('ds',UC_X86_REG_DS)]:assert uc.reg_read(r)==case['reads']['registers'][name]
    assert hashlib.sha256(bytes(uc.mem_read(0x1c0b0,0x28c0))).hexdigest()==case['reads']['globalsHash']
  def write(uc,access,address,size,value,_):
-  if decode_entry and case['segment']*16<=address<0x90000:write_bounds[0]=min(write_bounds[0],address);write_bounds[1]=max(write_bounds[1],address+size)
+  if decode_entry and not close_state and case['segment']*16<=address<0x90000:write_bounds[0]=min(write_bounds[0],address);write_bounds[1]=max(write_bounds[1],address+size)
+  if a.root and notification_active[0] and not case['root']['error']:
+   ptr=case['segment']*16+case['root']['registry']['offset']
+   if address<ptr+4 and address+size>ptr:registry_writes[0]+=1
  cpu.hook_add(UC_HOOK_INTR,interrupt);cpu.hook_add(UC_HOOK_CODE,code);cpu.hook_add(UC_HOOK_MEM_WRITE,write)
- cpu.emu_start(0x176bc,0xfffff,count=10000000 if a.decode else 100000)
- assert done==[0x17839 if a.decode else 0x177f6] and opens==case['opened']['events'] and open_boundaries==[0x176c2] and reads==[(0x2480,6),(0x2486,16)]
+ cpu.emu_start(0x176bc,0xfffff,count=50000000 if a.root else 10000000 if a.decode else 100000)
+ endpoint=(0x18468 if case['root']['error'] else 0x1e000) if a.root else 0x17839 if a.decode else 0x177f6
+ assert done==[endpoint] and opens==case['opened']['events'] and open_boundaries==[0x176c2] and reads==[(0x2480,6),(0x2486,16)],(case,done)
  if not a.decode:assert position[0]==22
  assert read_boundaries==[0x176d8] and read_events==case['reads']['events']
  assert bytes(cpu.mem_read(0x1e530,22))==data[:22]
- for at,value in case['expected']['words'].items():assert int.from_bytes(cpu.mem_read(0x1c0b0+int(at),2),'little')==value,(case,at)
- assert cpu.reg_read(UC_X86_REG_SP)==0xff00
+ if not a.root:
+  for at,value in case['expected']['words'].items():assert int.from_bytes(cpu.mem_read(0x1c0b0+int(at),2),'little')==value,(case,at)
+ assert cpu.reg_read(UC_X86_REG_SP)==0xff00+(case['root']['stackDelta'] if a.root else 0)
  assert init_end[UC_X86_REG_AX]==case['expected']['bounds']['candidate']
  assert init_end[UC_X86_REG_DS]==case['expected']['bounds']['floor']
  assert init_hash==[case['initialized']['hash']],case
  assert init_counts==[case['initialized']['tableRecords'],case['initialized']['links']]
  if a.decode:
   assert decode_entry==[0x179e9] and closed==case['closed']['events'] and packed_reads
-  for name,r in [('ax',UC_X86_REG_AX),('bx',UC_X86_REG_BX),('cx',UC_X86_REG_CX),('dx',UC_X86_REG_DX),('ds',UC_X86_REG_DS)]:assert cpu.reg_read(r)==case['closed']['registers'][name]
-  assert bool(cpu.reg_read(UC_X86_REG_EFLAGS)&1)==case['closed']['carry']
-  assert hashlib.sha256(bytes(cpu.mem_read(destination,vectors['decodedBytes']))).hexdigest()==vectors['decodedSha256']
+  assert close_state['registers']==case['closed']['registers'] and close_state['carry']==case['closed']['carry']
+  assert close_state['decodedHash']==vectors['decodedSha256']
   assert write_bounds[0]==destination;extra=write_bounds[1]-destination-vectors['decodedBytes'];assert 0<=extra<=255
-  assert int.from_bytes(cpu.mem_read(0x1c0b0+0xb14,2),'little')==(destination+vectors['decodedBytes'])>>4
-  assert cpu.reg_read(UC_X86_REG_CX)==(destination+vectors['decodedBytes'])&15
-  results.append({'destination':destination,'packedReads':packed_reads,'writesPastDeclaredSize':extra,'decodedSha256':vectors['decodedSha256']})
+  assert close_state['endSegment']==(destination+vectors['decodedBytes'])>>4
+  assert close_state['registers']['cx']==(destination+vectors['decodedBytes'])&15
+  row={'tableBaseSegment':case['segment'],'tableBaseOffset':case['offset'],'upperFrontier':case['frontier'],'destination':destination,'packedReads':packed_reads,'writesPastDeclaredSize':extra,'decodedSha256':vectors['decodedSha256']}
+  if a.root:
+   root=case['root']
+   for at,value in root['globals'].items():assert int.from_bytes(cpu.mem_read(0x1c0b0+int(at),2),'little')==value,(case,at)
+   if root['error']:
+    assert cpu.reg_read(UC_X86_REG_AX)==root['error'] and notifications==[];row['rootError']=root['error']
+   else:
+    assert notifications==[0x1185e,0x116ce] and registry_checked==[True]
+    assert cpu.reg_read(UC_X86_REG_ES)==case['segment'] and cpu.reg_read(UC_X86_REG_BX)==root['context']
+    assert hashlib.sha256(bytes(cpu.mem_read(case['segment']*16+root['rangeStart'],root['rangeLength']))).hexdigest()==root['rangeHash']
+    assert int.from_bytes(cpu.mem_read(case['segment']*16+root['tableOffset'],2),'little')==root['context']
+    ptr=root['registry'];retained=bytes(cpu.mem_read(case['segment']*16+ptr['offset'],4))==ptr['moduleOffset'].to_bytes(2,'little')+ptr['moduleSegment'].to_bytes(2,'little')
+    if not retained:assert ptr['overlapsModule'] and registry_writes[0]>0,'Unexpected registry corruption outside observed notification alias'
+    assert hashlib.sha256(bytes(cpu.mem_read(destination,24))).hexdigest()==root['headerSha256']
+    row.update(rootError=None,rootContext=root['context'],rootEntry=root['entry'],notificationCalls=notifications,registryOverlapsModule=ptr['overlapsModule'],registryPointerRetainedAfterNotifications=retained,notificationWritesOverRegistry=registry_writes[0],convertedModuleSha256=hashlib.sha256(bytes(cpu.mem_read(destination,vectors['decodedBytes']))).hexdigest())
+  results.append(row)
 assert a.capture.read_bytes()==memory and a.main.read_bytes()==data
-print(json.dumps({'profile':profiles[digest][0],'captureSha256':digest,'mainSha256':file_digest,'cases':len(vectors['cases']),'decodedBytes':vectors['decodedBytes'],'decodeAndClose':a.decode,'decodeResults':results,'result':'MAIN chain through requested initialization/decode boundary matches','limits':'controlled DOS replies; stack residue masked at initialization; module registry/root context and notification bodies excluded'}))
+print(json.dumps({'profile':profiles[digest][0],'captureSha256':digest,'mainSha256':file_digest,'cases':len(vectors['cases']),'decodedBytes':vectors['decodedBytes'],'decodeAndClose':a.decode,'rootCreation':a.root,'decodeResults':results,'result':'MAIN chain through requested initialization/decode/root boundary matches','limits':('controlled DOS replies; full-memory compare at initialization; root context/registry checked, notification output hashes observational, not reconstructed graphics proof' if a.root else 'controlled DOS replies; initialization memory checked; registry/root and notification bodies excluded')}))

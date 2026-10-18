@@ -6,6 +6,8 @@ import {openOriginalDosFile} from '../src/lib/ishar/original-dos-file-open.ts';
 import {runOriginalDosFileIo} from '../src/lib/ishar/original-dos-file-io.ts';
 import {initializeOriginalDosResourceRuntime} from '../src/lib/ishar/original-dos-resource-initialize.ts';
 import {prepareOriginalDosMainDecode} from '../src/lib/ishar/original-dos-main-decode.ts';
+import {registerOriginalDosModule} from '../src/lib/ishar/original-dos-module-registry.ts';
+import {createOriginalDosScriptContext} from '../src/lib/ishar/original-dos-script-context.ts';
 const bytes=new Uint8Array(readFileSync(process.argv[2]));
 const module=readAlisModule(bytes);
 if(!module.isMain||module.envelopeBytes!==22)throw Error('Expected MAIN module with VM specification');
@@ -26,6 +28,14 @@ for(const segment of [0x3000,0x5000])for(const offset of [0,0xfff0])for(const fr
  const initialized=initializeOriginalDosResourceRuntime(memory,0x1c0b,segment);initialized.memory.fill(0,0x1c0b0+0xfec0,0x1c0b0+0xff10);
  const preparedDecode=prepareOriginalDosMainDecode(initialized.memory.slice(0x1c0b0,0x2c0b0));
  const end=preparedDecode.registers.ds*16+preparedDecode.registers.dx+module.image.length,closed=runOriginalDosFileIo(preparedDecode.memory,new Uint8Array(65536),{ax:preparedDecode.registers.ax,bx:0,cx:end&15,dx:preparedDecode.registers.dx,ds:preparedDecode.registers.ds},'close',()=>({ax:0,carry:false}));
- cases.push({segment,offset,frontier,opened:{registers:opened.registers,events:opened.events,words},reads:{registers,events:readEvents,globalsHash:createHash('sha256').update(globals.subarray(0,0x28c0)).digest('hex')},expected,initialized:{hash:createHash('sha256').update(initialized.memory).digest('hex'),tableRecords:initialized.tableRecords,links:initialized.links},preparedDecode:{entry:preparedDecode.entry,registers:preparedDecode.registers,pack:preparedDecode.memory[0xb57]},closed:{registers:closed.registers,events:closed.events,carry:closed.carry}});
+ const registry=registerOriginalDosModule([],{offset:preparedDecode.registers.dx,segment:preparedDecode.registers.ds,id:module.header.id},expected.words[0xbc2],end>>>4,end&15,expected.words[0xb96],0,expected.words[0xbcc]);let root;
+ if(registry.error){root={error:registry.error,stackDelta:-12,globals:{0xbca:registry.lower,0xbd0:registry.nextPointer,0xbce:registry.count}};}else{
+ const table=initialized.memory.slice(segment*16,segment*16+65536),tv=new DataView(table.buffer);tv.setUint16(expected.words[0xbc2],preparedDecode.registers.dx,true);tv.setUint16(expected.words[0xbc2]+2,preparedDecode.registers.ds,true);
+ const context=createOriginalDosScriptContext(table,module.image,preparedDecode.registers.dx,preparedDecode.registers.ds,expected.words[0xbd2],0,expected.words[0xbd8],segment,expected.words[0xbe2]);if(context.error)throw Error('Controlled MAIN root creation failed');
+ const start=context.context-52,length=context.globals[0xbd8]-start;if(start<0||length<1)throw Error('Controlled root range wraps');
+ const registryAddress=segment*16+expected.words[0xbc2],moduleAddress=preparedDecode.registers.ds*16+preparedDecode.registers.dx;
+ root={error:null,stackDelta:2,context:context.context,entry:context.entry,rangeStart:start,rangeLength:length,rangeHash:createHash('sha256').update(context.memory.subarray(start,start+length)).digest('hex'),headerSha256:createHash('sha256').update(module.image.subarray(0,24)).digest('hex'),globals:{...context.globals,0xbca:registry.lower,0xbd0:registry.nextPointer,0xbce:registry.count,0xb06:0,0xbf6:context.context,0xbf8:segment},registry:{offset:expected.words[0xbc2],moduleOffset:preparedDecode.registers.dx,moduleSegment:preparedDecode.registers.ds,overlapsModule:registryAddress<moduleAddress+module.image.length&&registryAddress+4>moduleAddress},tableOffset:expected.words[0xbd2]};
+ }
+ cases.push({segment,offset,frontier,opened:{registers:opened.registers,events:opened.events,words},reads:{registers,events:readEvents,globalsHash:createHash('sha256').update(globals.subarray(0,0x28c0)).digest('hex')},expected,initialized:{hash:createHash('sha256').update(initialized.memory).digest('hex'),tableRecords:initialized.tableRecords,links:initialized.links},preparedDecode:{entry:preparedDecode.entry,registers:preparedDecode.registers,pack:preparedDecode.memory[0xb57]},closed:{registers:closed.registers,events:closed.events,carry:closed.carry},root});
 }
 console.log(JSON.stringify({envelopeBytes:module.envelopeBytes,decodedBytes:module.image.length,decodedSha256:createHash('sha256').update(module.image).digest('hex'),cases}));
