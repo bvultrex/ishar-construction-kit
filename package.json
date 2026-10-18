@@ -4,6 +4,7 @@
   "version": "0.1.0-recovery",
   "type": "module",
   "scripts": {
+    "test:original-combat-expressions-local": "node scripts/check-original-combat-expressions-local.mjs",
     "test:dos-physical-frame": "node scripts/check-dos-physical-frame.mjs",
     "test:native-script-diagnostic": "node scripts/check-native-script-diagnostic.mjs",
     "test:startup-settings": "node scripts/check-startup-settings.mjs",

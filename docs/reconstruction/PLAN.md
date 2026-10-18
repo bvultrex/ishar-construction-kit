@@ -34,6 +34,16 @@ Ein bestandener synthetischer Test beweist keine Original-Verhaltensgleichheit.
 
 ## Nächster konkreter Schritt
 
+Aktueller Nachtrag 2026-10-18 (Grok-Integration): Beide Kampfverträge sind
+übernommen. Die lokale Prüfung der originalen FRISE-Treffer-/Schadensausdrücke
+besteht mit je 108 Fällen; native RNG-Aufrufe mit Grenze null sind für beide
+Profile geprüft und der Interpreter ist korrigiert. Siehe
+COMBAT_EXPRESSION_VERIFICATION.md und COMBAT_ZERO_BOUND_RANDOM.md.
+Offen sind vollständige Bytecode-/Routinevergleiche, Zielwahl, HP-/XP-Schreibpfad
+und Timeranbindung. Der physische A1-Modullader ist weiterhin ein ungeprüfter
+Entwurf; ein vollständiger Originalstart und vollständige Kämpfe werden nicht
+behauptet. Frühere nächste Schritte unten sind historische Zwischenstände.
+
 Aktualisierung 2026-10-18: Die native MAIN-Ladekette ist inzwischen bis zur
 Kontextanlage und Rückkehr geprüft. Nächste technische Lücke ist die hostseitige
 Grafiknotification und die Verbindung dieses Kontexts mit der Skriptausführung.
