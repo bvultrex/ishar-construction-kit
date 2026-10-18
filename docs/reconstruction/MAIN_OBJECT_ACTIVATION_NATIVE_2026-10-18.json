@@ -1,0 +1,78 @@
+{
+  "profile": "ishar2",
+  "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+  "mainSha256": "bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95",
+  "shiftFlags": 0,
+  "layouts": [
+    {
+      "segment": 12288,
+      "frontier": 24576,
+      "cycles": 29,
+      "main": {
+        "steps": 3,
+        "nextOpcode": 71,
+        "reason": "Error: Original opcode71 is not connected to physical script execution",
+        "last": {
+          "registers": {
+            "ds": 15421,
+            "es": 12288,
+            "si": 15012,
+            "bp": 672,
+            "dx": 65535,
+            "cx": 0
+          },
+          "status": "ready",
+          "opcode": 78,
+          "hash": "19da4bbf2adc8b48bec2d14348a4e64dd22bc6c80822a748d776682af477ad42"
+        }
+      }
+    },
+    {
+      "segment": 12288,
+      "frontier": 36864,
+      "cycles": 29,
+      "main": {
+        "steps": 3,
+        "nextOpcode": 71,
+        "reason": "Error: Original opcode71 is not connected to physical script execution",
+        "last": {
+          "registers": {
+            "ds": 15421,
+            "es": 12288,
+            "si": 15012,
+            "bp": 672,
+            "dx": 65535,
+            "cx": 0
+          },
+          "status": "ready",
+          "opcode": 78,
+          "hash": "48e485e23a1f3b54db9400dd65b21343ba7304e9413fccf98f5b5d019e5e161b"
+        }
+      }
+    },
+    {
+      "segment": 20480,
+      "frontier": 36864,
+      "cycles": 29,
+      "main": {
+        "steps": 3,
+        "nextOpcode": 71,
+        "reason": "Error: Original opcode71 is not connected to physical script execution",
+        "last": {
+          "registers": {
+            "ds": 23613,
+            "es": 20480,
+            "si": 15012,
+            "bp": 672,
+            "dx": 65535,
+            "cx": 0
+          },
+          "status": "ready",
+          "opcode": 78,
+          "hash": "523ff458470d3103f1419dfce5f66b499560c48f0f7c1cee28c0020fccbc096e"
+        }
+      }
+    }
+  ],
+  "limits": "Same controlled startup and explicit BIOS reply as wait-loop test; real opcode78 compared in persistent native MAIN; no frame rendered after activation"
+}

@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {runOriginalDosPhysicalFrame as frame} from '../src/lib/ishar/original-dos-physical-frame.ts';
+import {prepareOriginalDosPhysicalContext as prepare} from '../src/lib/ishar/original-dos-physical-context.ts';
+const memory=new Uint8Array(0x100000),v=new DataView(memory.buffer),g=0x1c0b0,c=0x50000,input={ds:0x4000,es:0x5000,si:0x100,bp:0x200,dx:0x3456,cx:0x789a};
+const word=(at,value)=>v.setUint16(at,value,true);
+word(g+0xbf6,0x200);word(g+0xc16,14);memory[c+0x20e]=0x40;word(c+0x212,52);memory[c+0x234]=0x40;
+const before=memory.slice(),result=frame(memory,0x1c0b,input);assert.equal(result.phase,'return');assert.equal(result.visited,2);assert.equal(result.hidden,2);assert.deepEqual(result.registers,input);assert.deepEqual(memory,before);
+word(c+0x238,14);const cycle=memory.slice();assert.throws(()=>frame(memory,0x1c0b,input),/cycle/);assert.deepEqual(memory,cycle);
+memory[g+0xc99]=2;memory[g+0xc9a]=1;assert.equal(frame(memory,0x1c0b,input).phase,'wait');memory[g+0xc99]=0;
+memory[c+0x20e]=0;const paused=frame(memory,0x1c0b,input);assert.equal(paused.phase,'object');assert.equal(paused.entry,0x3de4);assert.equal(paused.stackDelta,-20);
+word(g+0xbd2,0x100);word(g+0xb02,0);word(c+0x100,0x200);memory[c+0x200-36]=2;memory[c+0x200-4]=1;memory[c+0x200-1]=1;word(c+0x200-8,0x1234);word(c+0x200-6,0x4000);
+const prepared=prepare(memory,0x1c0b,input);assert.equal(prepared.phase,'main');assert.equal(prepared.registers.si,0x1234);assert.equal(prepared.stackDelta,-2);assert.equal(prepared.memory[c+0x200-1],0);
+word(c+0x100,0);assert.equal(prepare(memory,0x1c0b,input).registers.bp,0);
+{const aliasBefore=memory.slice(),aliased=prepare(memory,0x5000,input);assert.equal(aliased.phase,'skip');assert.equal(aliased.entry,0x2632);assert.deepEqual(memory,aliasBefore);}
+assert.throws(()=>frame(new Uint8Array(1),0x1c0b,input),/1MiB/);
+console.log('Physical frame traversal/hidden flags, waits, draw boundary, cycles and stored-root scheduler continuation passed');

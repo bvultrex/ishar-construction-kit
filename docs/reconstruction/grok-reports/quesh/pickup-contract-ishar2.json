@@ -1,0 +1,242 @@
+{
+ "base_commit": "bb42748",
+ "code": "319819c",
+ "sha256": {
+  "AFFOBJ.IO": "40b882fbadff3ea452c76a2af3fdbba9d2b3e4c62d0f19dd838c41f0d5ebdf1e",
+  "OBJET.IO": "51ec1fdf24bea52fd07cfc5bf01fa46c6ae7b75bbccb93433d6d0c66b0d99e08",
+  "SOURIS.IO": "78df7c73f880466303867b63dd5e20897777802b0595c64935b9f4462354f9d3",
+  "FRISE.IO": "27117c124caf904a31568f5c58f615946083dd3429c02ade1dc1e17552cc2b64",
+  "START.SAV": "e685cd6902575392a9fe445e649863885f75832ed28657a5f6faf612c6305555"
+ },
+ "routines": [
+  {
+   "id": "R1",
+   "script": "AFFOBJ.IO",
+   "range": [
+    "0x0003b",
+    "0x004f6"
+   ],
+   "evidence": "proven",
+   "writes_main": [],
+   "spawns": "OBJET(type4) +0=x,+2=d*99-10,+4=y,+0x0c=id"
+  },
+  {
+   "id": "R2",
+   "script": "OBJET.IO",
+   "range": [
+    "0x003ad",
+    "0x00405"
+   ],
+   "evidence": "proven",
+   "forms": {
+    "9": {
+     "form": 40,
+     "material": 521,
+     "origin": [
+      -12,
+      0,
+      -4
+     ],
+     "extent": [
+      25,
+      1,
+      19
+     ]
+    },
+    "10": {
+     "form": 16,
+     "material": 522,
+     "origin": [
+      -6,
+      0,
+      0
+     ],
+     "extent": [
+      13,
+      1,
+      18
+     ]
+    }
+   },
+   "sprite": {
+    "9": "115+depthIdx",
+    "10": "90+depthIdx"
+   },
+   "pickable": "depthIdx==0"
+  },
+  {
+   "id": "R3",
+   "script": "SOURIS.IO",
+   "range": [
+    "0x00409",
+    "0x0066b"
+   ],
+   "evidence": "proven",
+   "gates": "0x7a==1, x<256, y_up>72, 0x2ab7==0, 0x4fcf==0, 0x2d16==0, 0x49d3==0, 0x4b34==0",
+   "cursor_form": {
+    "origin": [
+     -128,
+     0,
+     -122
+    ],
+    "extent": [
+     0,
+     499,
+     0
+    ]
+   },
+   "writes_main": [
+    "0x2c4e+id=0",
+    "0x2aba+id=0",
+    "0x2b84+id=0",
+    "0x2fc0=handle",
+    "0x2d16=id"
+   ],
+   "hit_rect_game": {
+    "9": [
+     116,
+     141,
+     104,
+     123
+    ],
+    "10": [
+     122,
+     135,
+     101,
+     119
+    ],
+    "rating": "hypothesis"
+   }
+  },
+  {
+   "id": "R4",
+   "script": "OBJET.IO",
+   "range": [
+    "0x00a16",
+    "0x00a72"
+   ],
+   "evidence": "proven",
+   "state": {
+    "0x2d16": "held code",
+    "0x2fc0": "cursor entity"
+   },
+   "saved": false
+  },
+  {
+   "id": "R5",
+   "script": "SOURIS.IO",
+   "range": [
+    "0x007b0",
+    "0x00a1b"
+   ],
+   "evidence": "proven"
+  },
+  {
+   "id": "R6",
+   "script": "FRISE.IO",
+   "range": [
+    "0x007b1",
+    "0x03cce"
+   ],
+   "evidence": "proven",
+   "gate": "y_up<62, c=x/64, T4f0a[c]!=1",
+   "writes": "T2d8e[c*15+firstFree0..8]=0x2d16"
+  },
+  {
+   "id": "R7",
+   "script": "FRISE.IO",
+   "range": [
+    "0x0080c",
+    "0x0401b"
+   ],
+   "evidence": "proven",
+   "gate": "T4f0a[c]==1, 17<y_up<45, slot9 x in (14+64c,39+64c), slot10 x in (38+64c,63+64c)",
+   "armour": "T2f0e[c] += armour(code) on hand drop, -= on hand pickup",
+   "armour_table": {
+    "-85": 2,
+    "-83": 1,
+    "-79": 1,
+    "-77": 6,
+    "-75": 2,
+    "-71": 12,
+    "-69": 9,
+    "-67": 7,
+    "-65": 5,
+    "-63": 3,
+    "-61": 2,
+    "-29": 6,
+    "-28": 3,
+    "-27": 2,
+    "-26": 1,
+    "-25": 4,
+    "default": 0
+   },
+   "confirmed_by": "charsaves CH1N->CH2N 0x2f0e"
+  }
+ ],
+ "reference": {
+  "save": "START.SAV patched: 0x2ac3=12,0x2b8d=12,0x2c57=1,0x50d1=2",
+  "click_pick": [
+   128,
+   113
+  ],
+  "drop_portrait": [
+   32,
+   170
+  ],
+  "drop_hand10": [
+   50,
+   168
+  ],
+  "expected_diff": {
+   "345": "12->0",
+   "545": "12->0",
+   "745": "1->0",
+   "1036-1037": "0000->0009 (variant A)",
+   "1056-1057": "0000->0009 (variant B)"
+  }
+ },
+ "addendum_2026_10_18_armour": {
+  "status": "contract confirmed; L_03f22 complete; save offset 1336+c (byte table)",
+  "armour_table": {
+   "-89": 4,
+   "-87": 3,
+   "-85": 2,
+   "-83": 1,
+   "-79": 1,
+   "-77": 6,
+   "-75": 2,
+   "-71": 12,
+   "-69": 9,
+   "-67": 7,
+   "-65": 5,
+   "-63": 3,
+   "-61": 2,
+   "-29": 6,
+   "-28": 3,
+   "-27": 2,
+   "-26": 1,
+   "-25": 4,
+   "default": 0
+  },
+  "guard": "(code<=-26 or code>=-29) [always true] and slot in {9,10}; drop 0x02f68 (+=, 0x02f92), hand pickup 0x02c71 (-=, 0x02c9b); slots 9/10 identical; no class restriction",
+  "obj9_obj10": 0,
+  "variantC": {
+   "save": "codex-support/quesh/private/PICK25.SAV",
+   "sha256": "78d3fbdb51aaf7ac053e2804bd9d4e5957302b763391012ef695a0224f2309ca",
+   "patch_of": "PICK9.SAV c306cfc7",
+   "bytes": {
+    "1056": "0xFF",
+    "1057": "0xE7",
+    "1336": 4
+   },
+   "clicks": [
+    "load pick25",
+    "(40,131) hands c0",
+    "(50,168) pick -> save pick25a: 1336 4->0, 1056/57 00 00",
+    "(50,168) drop -> save pick25b: 1336 0->4, 1056/57 FF E7"
+   ],
+   "alt": "CH1N.SAV: c1 slot10 -25 -> c0 slot9; 1337 16->12, 1336 0->4 (=CH2N); needs c1/slot9 coordinates"
+  }
+ }
+}

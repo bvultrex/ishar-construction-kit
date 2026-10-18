@@ -1,0 +1,4768 @@
+{
+  "date": "2026-10-18",
+  "scope": "238 A1 modules from two local DOS installations; controlled decoder execution only",
+  "originalBytesIncluded": false,
+  "reports": [
+    {
+      "native": {
+        "profile": "ishar1",
+        "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+        "cases": [
+          {
+            "variant": "AFFOBJ.IO",
+            "offset": 7,
+            "decodedBytes": 1432,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              724
+            ],
+            "matches": true,
+            "nativeSha256": "6a71689f509e7b40df43166a044465f8de265133f7d7789a3a684e232231e347",
+            "decodedSha256": "6a71689f509e7b40df43166a044465f8de265133f7d7789a3a684e232231e347",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "abe105fad328b76d813dfb496f9d37ea691a7a7e38ed84917be2f7d780e38ec6"
+          },
+          {
+            "variant": "ARBRE.IO",
+            "offset": 7,
+            "decodedBytes": 25976,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              470
+            ],
+            "matches": true,
+            "nativeSha256": "e13c1733f9c52fbefd0cb86ca12c0ccc876db7a30274b7332149a3f437d0df45",
+            "decodedSha256": "e13c1733f9c52fbefd0cb86ca12c0ccc876db7a30274b7332149a3f437d0df45",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "496b8c4b434cd4ac048756075a8b88b68ae0dcc33b4c372efbc390010b19d07f"
+          },
+          {
+            "variant": "AUTEUR.IO",
+            "offset": 7,
+            "decodedBytes": 65984,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              1938
+            ],
+            "matches": true,
+            "nativeSha256": "2dbaf8a4e75cda60b3323119cc6d22e5e4020992cd26eb190a282706b457a9ec",
+            "decodedSha256": "2dbaf8a4e75cda60b3323119cc6d22e5e4020992cd26eb190a282706b457a9ec",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "efbe9fb3560a9dd9ed501c30ca4f4d9dc9ac09890dbcb971edba85cb79ebd976"
+          },
+          {
+            "variant": "AZAL.IO",
+            "offset": 7,
+            "decodedBytes": 18368,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              6218
+            ],
+            "matches": false,
+            "nativeSha256": "edb9609d8cd62b57019a808272e964ec3e3c3d17585631546e650552f6291296",
+            "decodedSha256": "1b5971a4945f0dd6c34aa9a9ffcbd76b0bece6e564c51e15ea942e9e70ffe0d0",
+            "differenceCount": 1,
+            "firstDifference": 18367,
+            "lastDifference": 18367,
+            "sourceSha256": "963bd4ef1ff062080775b73fe3d09221c10556a840cec93da2f25f537133838f"
+          },
+          {
+            "variant": "BARBARE.IO",
+            "offset": 7,
+            "decodedBytes": 17792,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              3050
+            ],
+            "matches": true,
+            "nativeSha256": "199c7acc620efac8f54bdf10e08b289a20027a45a89263223bae4602e2918cf8",
+            "decodedSha256": "199c7acc620efac8f54bdf10e08b289a20027a45a89263223bae4602e2918cf8",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "0e447f56821fa4a3fdaef586ca99493bb3324397e2f7c53f17256950d10bad12"
+          },
+          {
+            "variant": "BORMIN.IO",
+            "offset": 7,
+            "decodedBytes": 7296,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              4364
+            ],
+            "matches": true,
+            "nativeSha256": "d5a13112369d75d4fa4d11c461fb30bb8ef6603938d975918ff2d536c20fffa1",
+            "decodedSha256": "d5a13112369d75d4fa4d11c461fb30bb8ef6603938d975918ff2d536c20fffa1",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a0b02a4e7018f67a54cc39dcca15fb222e409fe08649c8c1d341f5b621ca949b"
+          },
+          {
+            "variant": "BUSTE.IO",
+            "offset": 7,
+            "decodedBytes": 46064,
+            "writesPastDeclaredSize": 6,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              1880
+            ],
+            "matches": false,
+            "nativeSha256": "4ebd6aefac203019c16aa75a8d19dafb38aae1a3c50750edeca4de5fc2a0e23c",
+            "decodedSha256": "d8c04ee445d74405f56f10724c558e6f499a48e43cadd31a145ef2011233ac1a",
+            "differenceCount": 1,
+            "firstDifference": 46063,
+            "lastDifference": 46063,
+            "sourceSha256": "883f807a2b3bc791ff45c4b34c54a0a4fda40012e8eb0dbd1892b97cbb8924a1"
+          },
+          {
+            "variant": "COLCAVE.IO",
+            "offset": 7,
+            "decodedBytes": 28200,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              3892
+            ],
+            "matches": true,
+            "nativeSha256": "c7a9ab7127dbf316f6d8704816d9d347c1504ad3e946c230e38628ebcc228dd4",
+            "decodedSha256": "c7a9ab7127dbf316f6d8704816d9d347c1504ad3e946c230e38628ebcc228dd4",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "6791cc0a094a6dbdc631ec5777db5b0debef3a7c0f09788e193cf049dd13c551"
+          },
+          {
+            "variant": "DARKM.IO",
+            "offset": 7,
+            "decodedBytes": 10544,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              5616
+            ],
+            "matches": true,
+            "nativeSha256": "dd9435ed64eda0a283c0d2ee97f1eb3485fc318566d1757c5af0a58c548c8de5",
+            "decodedSha256": "dd9435ed64eda0a283c0d2ee97f1eb3485fc318566d1757c5af0a58c548c8de5",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "4c238f54ba954df6509ce8a8832689be32b5ac0247b3d093509ce5b12b1a2c49"
+          },
+          {
+            "variant": "DARKWIZ.IO",
+            "offset": 7,
+            "decodedBytes": 9240,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              4056
+            ],
+            "matches": true,
+            "nativeSha256": "4b6acde7f77e4f690066a123b34505cdf3217d53891b701ddf2c83a384802537",
+            "decodedSha256": "4b6acde7f77e4f690066a123b34505cdf3217d53891b701ddf2c83a384802537",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "de712249c041b8174dfda922cbc21ae5e2ea10cb8be5ce6dc557f9b97e398fd9"
+          },
+          {
+            "variant": "DEAD.IO",
+            "offset": 7,
+            "decodedBytes": 65984,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              4880
+            ],
+            "matches": true,
+            "nativeSha256": "b142d76c7ede2c758cdcd57f3a06c1f710204cbdc01c2a297776c87076342142",
+            "decodedSha256": "b142d76c7ede2c758cdcd57f3a06c1f710204cbdc01c2a297776c87076342142",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "2f87c8f124cdff047e2cea700c11fc1921569e078d460ddf49ea0e7f2bb4a38d"
+          },
+          {
+            "variant": "DEALER.IO",
+            "offset": 7,
+            "decodedBytes": 12352,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              718
+            ],
+            "matches": true,
+            "nativeSha256": "c8634b8a6da9c5e4ff7197ec07e6d4cc09d158f2f169ee7766fe3740019af129",
+            "decodedSha256": "c8634b8a6da9c5e4ff7197ec07e6d4cc09d158f2f169ee7766fe3740019af129",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a35a764da4fc664e84bb3a2f559dc44e900b86ba10471ce15c88303f2782ab9e"
+          },
+          {
+            "variant": "DPLT.IO",
+            "offset": 7,
+            "decodedBytes": 3376,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              1666
+            ],
+            "matches": true,
+            "nativeSha256": "71f0af8bacd7fe9f736ec3d3c66358f9b1e9bb1950330876f14e826879a3ee0a",
+            "decodedSha256": "71f0af8bacd7fe9f736ec3d3c66358f9b1e9bb1950330876f14e826879a3ee0a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "75182e25511b662fae245c9ef5f29ffe0fac2a4e60ce819d50338330923bdff1"
+          },
+          {
+            "variant": "DRAGON.IO",
+            "offset": 7,
+            "decodedBytes": 16296,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              1642
+            ],
+            "matches": false,
+            "nativeSha256": "48791721b9d974e6200a521fe856dd39d5387cdc5005066066bf7a451472e809",
+            "decodedSha256": "cf19eee55d6db8ce9e0fa31310059140c37a824127128b00fb1364c7a4c71245",
+            "differenceCount": 1,
+            "firstDifference": 16295,
+            "lastDifference": 16295,
+            "sourceSha256": "84f33983d0f4ee7ef0c681b6efbd2ead138d723ce4c0741bf9f2943f9ba409dc"
+          },
+          {
+            "variant": "DWARRIOR.IO",
+            "offset": 7,
+            "decodedBytes": 13448,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              7976
+            ],
+            "matches": true,
+            "nativeSha256": "21530e3bd537f502410a818f7d17a453bf9ff33e0b1e0cc21d85ff1926adc2a2",
+            "decodedSha256": "21530e3bd537f502410a818f7d17a453bf9ff33e0b1e0cc21d85ff1926adc2a2",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "76ccf9ff1d0dc7409ae5b52fcc94ecaebf0f4514638156ed38846aa779ea01db"
+          },
+          {
+            "variant": "EN1.IO",
+            "offset": 7,
+            "decodedBytes": 5496,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              3120
+            ],
+            "matches": true,
+            "nativeSha256": "f02ccb4382c79f5726efcd9762bd63abb35e75396a876ef8da20e48afaf4da26",
+            "decodedSha256": "f02ccb4382c79f5726efcd9762bd63abb35e75396a876ef8da20e48afaf4da26",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "7fbea916bcf6040e13a7f7d1153e9ce1a920fa8b59547ab274fc4a72453b751e"
+          },
+          {
+            "variant": "ENCONT.IO",
+            "offset": 7,
+            "decodedBytes": 2008,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              1046
+            ],
+            "matches": true,
+            "nativeSha256": "83dba5819b2f8190867febff73d11657d2efdb8cc596cab27016d5273d78b790",
+            "decodedSha256": "83dba5819b2f8190867febff73d11657d2efdb8cc596cab27016d5273d78b790",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "5746e6a7169a315a894145397a3f81fac13adbabc9a239101d8b0088a7d59a82"
+          },
+          {
+            "variant": "FBUIS.IO",
+            "offset": 7,
+            "decodedBytes": 12864,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              7440
+            ],
+            "matches": true,
+            "nativeSha256": "97a41d1db217df8fdd63d11542e63b02c9938fc4d7f94766988af2b2525da828",
+            "decodedSha256": "97a41d1db217df8fdd63d11542e63b02c9938fc4d7f94766988af2b2525da828",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "0c2574902e216eab2b65876ec63edb41aeca755c1970f24d13ff737799362962"
+          },
+          {
+            "variant": "FCAVE.IO",
+            "offset": 7,
+            "decodedBytes": 5216,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              3012
+            ],
+            "matches": true,
+            "nativeSha256": "7937f4fdb326bda494aabd074801de479a0704582c66b2e56192e33fbbf11599",
+            "decodedSha256": "7937f4fdb326bda494aabd074801de479a0704582c66b2e56192e33fbbf11599",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "66728bfebd47d3b7184fe92386898d65a7667f7e03016316bea6dd49ebb6cbce"
+          },
+          {
+            "variant": "FCAVE2.IO",
+            "offset": 7,
+            "decodedBytes": 15344,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              768
+            ],
+            "matches": true,
+            "nativeSha256": "1f342eaf09ce7054c16b0623e14d4db2c4810cc48329229c6f7bf9286f8d69f5",
+            "decodedSha256": "1f342eaf09ce7054c16b0623e14d4db2c4810cc48329229c6f7bf9286f8d69f5",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "d65fab75ccb963c1e8a107e6cadbffdc6d0eeb9991dafb18e47f451250124f65"
+          },
+          {
+            "variant": "FOND.IO",
+            "offset": 7,
+            "decodedBytes": 12928,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              7442
+            ],
+            "matches": true,
+            "nativeSha256": "6e0d3d88bba38f9065e4a6101ccd7af50acc72bc4e7ca8712a71d830efacba92",
+            "decodedSha256": "6e0d3d88bba38f9065e4a6101ccd7af50acc72bc4e7ca8712a71d830efacba92",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "ef57c2dd3bf261b41e0ba6dd1c2a4b32c2c6e63e23bce6b6c4eeb9e4cba39650"
+          },
+          {
+            "variant": "FONTAINE.IO",
+            "offset": 7,
+            "decodedBytes": 6128,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              3106
+            ],
+            "matches": true,
+            "nativeSha256": "feb720e30382efa1d9120dce3ed90f2009a9e4432579efafdf3aa7461cb33832",
+            "decodedSha256": "feb720e30382efa1d9120dce3ed90f2009a9e4432579efafdf3aa7461cb33832",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "74466d42289648d4777cf30831706fc212b908dc26f6d7fc1b0398319ee1ecb8"
+          },
+          {
+            "variant": "FORET.IO",
+            "offset": 7,
+            "decodedBytes": 57728,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              1506
+            ],
+            "matches": true,
+            "nativeSha256": "831e84a25c05ee6c5347546215d4495125170ae287e48cd930944096e2bb51c7",
+            "decodedSha256": "831e84a25c05ee6c5347546215d4495125170ae287e48cd930944096e2bb51c7",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "b3c8ded7cba3228c384dc6b90a66af253d9b2366361c29aee9289f0488e9656e"
+          },
+          {
+            "variant": "FRAGORN.IO",
+            "offset": 7,
+            "decodedBytes": 7576,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              4368
+            ],
+            "matches": true,
+            "nativeSha256": "82e82dabe855767d987e250b3f85d62e1784c9eb8a301c2b2dbae88c54e88f6a",
+            "decodedSha256": "82e82dabe855767d987e250b3f85d62e1784c9eb8a301c2b2dbae88c54e88f6a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a886e96b96464b332232d621ba6436ce7cf5c4e2a634566202d9158d074d7047"
+          },
+          {
+            "variant": "FRISE.IO",
+            "offset": 7,
+            "decodedBytes": 53808,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              2988
+            ],
+            "matches": true,
+            "nativeSha256": "aabf4e1555b12a9efb4f2df7ce8986486b9212bf822cc8bd6528a33ff40fe7c1",
+            "decodedSha256": "aabf4e1555b12a9efb4f2df7ce8986486b9212bf822cc8bd6528a33ff40fe7c1",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "3bd158963fdaf0f88517b03509002100159a7587c8e2486389314b8abc707e15"
+          },
+          {
+            "variant": "FTEMPLE.IO",
+            "offset": 7,
+            "decodedBytes": 17056,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              3406
+            ],
+            "matches": true,
+            "nativeSha256": "64c86b44952ac3b270d65c2294783c9135eabd4dae07129f6a66c37b8a902ecb",
+            "decodedSha256": "64c86b44952ac3b270d65c2294783c9135eabd4dae07129f6a66c37b8a902ecb",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "f20f06b57206f1dfadbc66b61dfc4bf96665b138c9a60931e1f9910bbdb9bc21"
+          },
+          {
+            "variant": "FVILLE.IO",
+            "offset": 7,
+            "decodedBytes": 4800,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              2982
+            ],
+            "matches": true,
+            "nativeSha256": "83b948c8a770680b45504fc2e32ebaa6eb77815f7c854a985fa7daf97db2ec90",
+            "decodedSha256": "83b948c8a770680b45504fc2e32ebaa6eb77815f7c854a985fa7daf97db2ec90",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "1c3043cdcfc11c7d36734f1f4d670fe3b50efc1591c11ba5014683632bf30744"
+          },
+          {
+            "variant": "GAZ.IO",
+            "offset": 7,
+            "decodedBytes": 3192,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              1052
+            ],
+            "matches": true,
+            "nativeSha256": "e7d74d6439fef22e622d9d9ac27cbc2189f3f53e32154b11087e27d71b091dde",
+            "decodedSha256": "e7d74d6439fef22e622d9d9ac27cbc2189f3f53e32154b11087e27d71b091dde",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "76b4bbe43a61422db3f2be4e06aeb1b18f353b6b0e4dfa72637394c1ffd677ee"
+          },
+          {
+            "variant": "GEANT.IO",
+            "offset": 7,
+            "decodedBytes": 16856,
+            "writesPastDeclaredSize": 5,
+            "reads": [
+              8000,
+              962
+            ],
+            "matches": false,
+            "nativeSha256": "2e80a79d58bd9b892791e27846c1ece9189f810654ecf35b1b9061245ad7bb0b",
+            "decodedSha256": "dda9590347ce239744ef6c88814b1b6546fbd9573c2328c4cd311bbe6f11c422",
+            "differenceCount": 1,
+            "firstDifference": 16855,
+            "lastDifference": 16855,
+            "sourceSha256": "2653f4f1c862a74c961f9a7c66f77a15b2b60c1736fc94f6f59f58befa59417c"
+          },
+          {
+            "variant": "GERDEP.IO",
+            "offset": 7,
+            "decodedBytes": 14472,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              6616
+            ],
+            "matches": true,
+            "nativeSha256": "82e6c4836a43f8dde42d08fca916456d58d6f0f1894310c776c74da95f8c0501",
+            "decodedSha256": "82e6c4836a43f8dde42d08fca916456d58d6f0f1894310c776c74da95f8c0501",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "8b3f93c1acf8f2c8b07570db77ff78a25723161befd98982ee719a7b27c411f3"
+          },
+          {
+            "variant": "GEREN.IO",
+            "offset": 7,
+            "decodedBytes": 13088,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              6272
+            ],
+            "matches": true,
+            "nativeSha256": "f53764c7d1c824e7bb993a24b3209a4407226bcfc2f431df2c151cdab6f21f77",
+            "decodedSha256": "f53764c7d1c824e7bb993a24b3209a4407226bcfc2f431df2c151cdab6f21f77",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "60405e4537abff12c5756a79506eb555c616a91b64069451fcc11419bcb8a405"
+          },
+          {
+            "variant": "GOUL.IO",
+            "offset": 7,
+            "decodedBytes": 9688,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              6362
+            ],
+            "matches": true,
+            "nativeSha256": "3c00886001b69b07cf1790f70401218c18200e81ac48b1d6cb5c8bed9a28421f",
+            "decodedSha256": "3c00886001b69b07cf1790f70401218c18200e81ac48b1d6cb5c8bed9a28421f",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "13755e150319ef82d573dcb10c447b9ac320c57f0674bca649974e539a8de8ed"
+          },
+          {
+            "variant": "IBOISHAR.IO",
+            "offset": 7,
+            "decodedBytes": 132728,
+            "writesPastDeclaredSize": 6,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              4178
+            ],
+            "matches": true,
+            "nativeSha256": "e6cea36d0f3b60122407744260b2f873af0a3d25f972305ab688b87fb446603a",
+            "decodedSha256": "e6cea36d0f3b60122407744260b2f873af0a3d25f972305ab688b87fb446603a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "4ab64da47f98ad720a42206395cb55862aa6ba8edfe434012a251a12902e68f7"
+          },
+          {
+            "variant": "INCAVE.IO",
+            "offset": 7,
+            "decodedBytes": 15752,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              1984
+            ],
+            "matches": true,
+            "nativeSha256": "86258c7f44a00ec7a4f8b7aa49911d4c38fcba057f9bb6c57444958ff3590418",
+            "decodedSha256": "86258c7f44a00ec7a4f8b7aa49911d4c38fcba057f9bb6c57444958ff3590418",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "37b385e73f745d3c9c53223ec716fed604240fc0fc9d991b7bd1a57351af90a1"
+          },
+          {
+            "variant": "INTMAIS.IO",
+            "offset": 7,
+            "decodedBytes": 79656,
+            "writesPastDeclaredSize": 6,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              1396
+            ],
+            "matches": false,
+            "nativeSha256": "ca9ca5e24829281e64a62ed286dc85450eaf404cab8932ffa8455afd58558b17",
+            "decodedSha256": "2191438b62dcd36aa010cea0948b52b7a74c347a60e901b3d187bee19f78c465",
+            "differenceCount": 1,
+            "firstDifference": 79655,
+            "lastDifference": 79655,
+            "sourceSha256": "0bf4b5872c98b54fbfb80491cafe2fa7107b18bc5fc3cb86bb0699a45920d48c"
+          },
+          {
+            "variant": "INVILLE.IO",
+            "offset": 7,
+            "decodedBytes": 6576,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              2874
+            ],
+            "matches": true,
+            "nativeSha256": "93c0eab4cb23c506da4ac07f56d548fae9014974b687f2da12191bb64fddce83",
+            "decodedSha256": "93c0eab4cb23c506da4ac07f56d548fae9014974b687f2da12191bb64fddce83",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "274666ed86ba5db15dae5ae5e3f59bc606b7f14984edbfff579e30a0a87e8e68"
+          },
+          {
+            "variant": "ITAVERNE.IO",
+            "offset": 7,
+            "decodedBytes": 44160,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              1782
+            ],
+            "matches": true,
+            "nativeSha256": "a7b0e23298bc4aedc81a4046f4da8e90a1a6f11a3e23fa747210506630356b25",
+            "decodedSha256": "a7b0e23298bc4aedc81a4046f4da8e90a1a6f11a3e23fa747210506630356b25",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "f3bed78c5fb97360e1ac2dd46dc4f50052762ebbf2251af5049d02608086e808"
+          },
+          {
+            "variant": "KIRIELA.IO",
+            "offset": 7,
+            "decodedBytes": 7296,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              4022
+            ],
+            "matches": true,
+            "nativeSha256": "96c66e3fc8f156d1c966d80080e744689b80cb68426f3be6ff10af45cbcf305a",
+            "decodedSha256": "96c66e3fc8f156d1c966d80080e744689b80cb68426f3be6ff10af45cbcf305a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "9de1db456f910d911449c0cb19cddb5d46a34eb3976a6cf9b4a1f2555e7c7c44"
+          },
+          {
+            "variant": "KNIGHT.IO",
+            "offset": 7,
+            "decodedBytes": 17456,
+            "writesPastDeclaredSize": 10,
+            "reads": [
+              8000,
+              3078
+            ],
+            "matches": false,
+            "nativeSha256": "12f2fa3ec07ae26f89c3f3e34de5a4b4d083da66ae714b56f2f02ee9c13f2462",
+            "decodedSha256": "9b8bc7e7701faaa28506e94acef4391b2f6d56c244407beb431ebaaa0534a0b1",
+            "differenceCount": 1,
+            "firstDifference": 17455,
+            "lastDifference": 17455,
+            "sourceSha256": "759edcd9b169cd452fe8279097eba20634ee1769b7c000a5e43082e377705bc5"
+          },
+          {
+            "variant": "KROG.IO",
+            "offset": 7,
+            "decodedBytes": 32584,
+            "writesPastDeclaredSize": 13,
+            "reads": [
+              8000,
+              8000,
+              4414
+            ],
+            "matches": false,
+            "nativeSha256": "88e9ef10179aa49c638326d363b643a83ed8a933c7bda4562c79085736351f77",
+            "decodedSha256": "f4c939339b7ada9339e12f588a94de3eaa7ea5e155360545ff54ed0094a15a79",
+            "differenceCount": 1,
+            "firstDifference": 32583,
+            "lastDifference": 32583,
+            "sourceSha256": "d9a9d2996def71cfa34923da169bb2518a863c184d07afd1e9b73ebfc84ae95a"
+          },
+          {
+            "variant": "LACUSTRE.IO",
+            "offset": 7,
+            "decodedBytes": 24088,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              6264
+            ],
+            "matches": true,
+            "nativeSha256": "137019478e8df6ea5c35fba3bfbd53ab8786fd04f270fbd6d950975631a5b040",
+            "decodedSha256": "137019478e8df6ea5c35fba3bfbd53ab8786fd04f270fbd6d950975631a5b040",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "0bba49676d6394b15ba18a7be25e39c758b77a41b518da0092345fbb3459a937"
+          },
+          {
+            "variant": "LOGO.IO",
+            "offset": 7,
+            "decodedBytes": 40632,
+            "writesPastDeclaredSize": 6,
+            "reads": [
+              8000,
+              6414
+            ],
+            "matches": false,
+            "nativeSha256": "6c9ed13fc180231542ba5d38a7c92399c1b9cbc8c48258085c68fad8351bdc79",
+            "decodedSha256": "40c19ecf9a42c5f536bcef1df9c6b7df808f940bcde52a76cd61e65ec56f1062",
+            "differenceCount": 1,
+            "firstDifference": 40631,
+            "lastDifference": 40631,
+            "sourceSha256": "8d1dad784ed7e8733d6f80ccade4ad2cafee5bc5c4df1e9af5fb078db10e4969"
+          },
+          {
+            "variant": "LOUP.IO",
+            "offset": 7,
+            "decodedBytes": 17040,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              3370
+            ],
+            "matches": true,
+            "nativeSha256": "58778b0fb4b28d5dbb13351109c9996e81a3fe9d6d214ca9be5444299ad327c6",
+            "decodedSha256": "58778b0fb4b28d5dbb13351109c9996e81a3fe9d6d214ca9be5444299ad327c6",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "024d1a9fdc0b1d1bf061ee7bc1c6be8607152198c937fa55fa17ff5b3d134581"
+          },
+          {
+            "variant": "MAIN.IO",
+            "offset": 7,
+            "decodedBytes": 26384,
+            "writesPastDeclaredSize": 2,
+            "reads": [
+              8000,
+              3218
+            ],
+            "matches": true,
+            "nativeSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+            "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b"
+          },
+          {
+            "variant": "MAP.IO",
+            "offset": 7,
+            "decodedBytes": 21368,
+            "writesPastDeclaredSize": 14,
+            "reads": [
+              8000,
+              5008
+            ],
+            "matches": false,
+            "nativeSha256": "2ac484de1a7f76ce489e5f8f00211f564eec168a6db954ff5f8fb161871cb561",
+            "decodedSha256": "0cb0781908935fe4cf047c998915c7eec3e4d67fbc8facd84a556964d14ef872",
+            "differenceCount": 1,
+            "firstDifference": 21367,
+            "lastDifference": 21367,
+            "sourceSha256": "2f9b09c73a392d23f403ece4332b6b886b153f5a11f996218e95f829835ab6fc"
+          },
+          {
+            "variant": "MARCHAND.IO",
+            "offset": 7,
+            "decodedBytes": 40888,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              3578
+            ],
+            "matches": true,
+            "nativeSha256": "693c60aa91a49629b54ce6a0f3b2a5db6febddd002fcec189a04ea03b04f507e",
+            "decodedSha256": "693c60aa91a49629b54ce6a0f3b2a5db6febddd002fcec189a04ea03b04f507e",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "77db63b52c23075261e7a5776545cc9435dc38f679b29823468eb43872c1c706"
+          },
+          {
+            "variant": "MCAVE.IO",
+            "offset": 7,
+            "decodedBytes": 86544,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              2308
+            ],
+            "matches": true,
+            "nativeSha256": "2bb238b7e5fd796f7bb5e3e7ab832421d52ae849d5c8f14504729ac06c63868a",
+            "decodedSha256": "2bb238b7e5fd796f7bb5e3e7ab832421d52ae849d5c8f14504729ac06c63868a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "900c2c9d8d9a338dd84b77053840e852c30173db1a4f55eacff2ba2d25cf991b"
+          },
+          {
+            "variant": "MEDUS.IO",
+            "offset": 7,
+            "decodedBytes": 15536,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              3292
+            ],
+            "matches": true,
+            "nativeSha256": "c9ca9e96cd02ad8f695bee4de4ece5fb3a21aefe8e20ca1924b421cdc29f53e2",
+            "decodedSha256": "c9ca9e96cd02ad8f695bee4de4ece5fb3a21aefe8e20ca1924b421cdc29f53e2",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "ccae028e279924cfcd29fd95c56ccf9e7f03b5452d2657a3496e9c9fbf77dd7e"
+          },
+          {
+            "variant": "MESSAGE.IO",
+            "offset": 7,
+            "decodedBytes": 8712,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              4820
+            ],
+            "matches": true,
+            "nativeSha256": "248df52a4a22570acc2c97aae3635edd78c162dd1024ce51c758fcdfd69fde6d",
+            "decodedSha256": "248df52a4a22570acc2c97aae3635edd78c162dd1024ce51c758fcdfd69fde6d",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "38c1082c5901e748541b1c46f23db19ab12eb76e4c22a0be59858ebe3efd7717"
+          },
+          {
+            "variant": "MESSAGED.IO",
+            "offset": 7,
+            "decodedBytes": 8600,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              4832
+            ],
+            "matches": true,
+            "nativeSha256": "1c6a10154ed72b8b9142be51a0e57ae50a32abc46802581550a5b1fbe036733d",
+            "decodedSha256": "1c6a10154ed72b8b9142be51a0e57ae50a32abc46802581550a5b1fbe036733d",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "e2eeeca923fd5a2a4e5431766b92a34c610d67be695f5e1762f9b0e07e818d90"
+          },
+          {
+            "variant": "MESSAGEE.IO",
+            "offset": 7,
+            "decodedBytes": 8416,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              4788
+            ],
+            "matches": true,
+            "nativeSha256": "47dc864e494d1971307273d2bda3bfb1d5a4fd0a8ac9ece73ea55c7aad699573",
+            "decodedSha256": "47dc864e494d1971307273d2bda3bfb1d5a4fd0a8ac9ece73ea55c7aad699573",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "1b6a76f2c931e4ddb2b143a794c178d5f4c5c9e39912784ba1077ae89599d8e7"
+          },
+          {
+            "variant": "MESSAGEI.IO",
+            "offset": 7,
+            "decodedBytes": 8600,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              4786
+            ],
+            "matches": true,
+            "nativeSha256": "d1b7d41abb43932527907305a2eec7ddccc13563c48e64f9e2f73998fe15b6e1",
+            "decodedSha256": "d1b7d41abb43932527907305a2eec7ddccc13563c48e64f9e2f73998fe15b6e1",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "94cbdf5d1543ce0f38545d053d6108fa075c448c5fe5eea13a2527f23cd247c2"
+          },
+          {
+            "variant": "MINOTOR.IO",
+            "offset": 7,
+            "decodedBytes": 20864,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              5632
+            ],
+            "matches": true,
+            "nativeSha256": "92328f45bfe9b623d3b7329477ecd03126190f6e323290aea0f26d17859f88ee",
+            "decodedSha256": "92328f45bfe9b623d3b7329477ecd03126190f6e323290aea0f26d17859f88ee",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "e9d954f0b4eece12f32ab04033ebe2beb4fc1d12385beef58bbb41197039a272"
+          },
+          {
+            "variant": "MOMO.IO",
+            "offset": 7,
+            "decodedBytes": 23128,
+            "writesPastDeclaredSize": 6,
+            "reads": [
+              8000,
+              6112
+            ],
+            "matches": false,
+            "nativeSha256": "6465c634119e68c5765146501ee48bb7c0eed8a5f00ba5a521657c259ac50aca",
+            "decodedSha256": "39a6a6ef66467ebd1a5b1bd41ea99f7af8945024983d1383bcd9010cb8097161",
+            "differenceCount": 1,
+            "firstDifference": 23127,
+            "lastDifference": 23127,
+            "sourceSha256": "c7b43a30e76f48ccb73a0ed4975395da99d6cdff090bb69438500490c40075f4"
+          },
+          {
+            "variant": "MONSTRE.IO",
+            "offset": 7,
+            "decodedBytes": 2016,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              964
+            ],
+            "matches": true,
+            "nativeSha256": "b4e0b43da8870ce50e2bb874ec670e89e444435c854c861fa862c1a54e89ac45",
+            "decodedSha256": "b4e0b43da8870ce50e2bb874ec670e89e444435c854c861fa862c1a54e89ac45",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "504436efd5207dd65a71d8b78bcbe8c76da80000ae8a626132491be88a167e11"
+          },
+          {
+            "variant": "MORGU.IO",
+            "offset": 7,
+            "decodedBytes": 7520,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              4386
+            ],
+            "matches": true,
+            "nativeSha256": "807e7b969b991158a1ce84523b38541fa36e762aba56baea70384695085338b3",
+            "decodedSha256": "807e7b969b991158a1ce84523b38541fa36e762aba56baea70384695085338b3",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "aca38f9816d70ebe8bb0bc9f121e205a7db305ab463c19417fa8ed511f9da050"
+          },
+          {
+            "variant": "NAIM.IO",
+            "offset": 7,
+            "decodedBytes": 16344,
+            "writesPastDeclaredSize": 8,
+            "reads": [
+              8000,
+              1354
+            ],
+            "matches": false,
+            "nativeSha256": "b4e0b810dafc962623c97af9daef81ff13eadf634298b5f8aab90ed3c8da9d4e",
+            "decodedSha256": "4ae8ac7807574034c686048d2b49eb5ec7a77898df1f4fee1abfe25e9b5fc63d",
+            "differenceCount": 1,
+            "firstDifference": 16343,
+            "lastDifference": 16343,
+            "sourceSha256": "a2a9eec93cb5bfe02a9ee4a4e5acef9754f2a3c6591754f086f3c7f7a051b81f"
+          },
+          {
+            "variant": "OBJET.IO",
+            "offset": 7,
+            "decodedBytes": 35536,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              2138
+            ],
+            "matches": true,
+            "nativeSha256": "17a7563a684fb087c680fc40f7c073a4a9623c7c7a900b52db554be285d4be55",
+            "decodedSha256": "17a7563a684fb087c680fc40f7c073a4a9623c7c7a900b52db554be285d4be55",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "03bd357d89c0bb58295ebf79cc6864896b08e837bde63840a45b76787524565f"
+          },
+          {
+            "variant": "OBJINT.IO",
+            "offset": 7,
+            "decodedBytes": 4720,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              2748
+            ],
+            "matches": true,
+            "nativeSha256": "7bf572842b090f20c3c1ddc5888b4c5caceea3e1196a128ac4c46d3450488885",
+            "decodedSha256": "7bf572842b090f20c3c1ddc5888b4c5caceea3e1196a128ac4c46d3450488885",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "7a4f2275bb38490d1a7a34f0a3fc89565f3b3458fe98d15a08ead79e0ae441a0"
+          },
+          {
+            "variant": "ORC.IO",
+            "offset": 7,
+            "decodedBytes": 15328,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              1628
+            ],
+            "matches": true,
+            "nativeSha256": "3c816f48b768ce760c5af63bf02453bdcef0ddac9f72665e34742e9a53a7ea11",
+            "decodedSha256": "3c816f48b768ce760c5af63bf02453bdcef0ddac9f72665e34742e9a53a7ea11",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a6d889b6587584f05858c29a65c503df3bec73664f2ff3756e59648365cd39a5"
+          },
+          {
+            "variant": "PABO.IO",
+            "offset": 7,
+            "decodedBytes": 9752,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              4568
+            ],
+            "matches": true,
+            "nativeSha256": "17d18c303cf72e593cadcd253dbdb6b393453c0be729fa97252b33fb6090af14",
+            "decodedSha256": "17d18c303cf72e593cadcd253dbdb6b393453c0be729fa97252b33fb6090af14",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "7cbe9ab6fd0ebe303f9169b04658f7f9cac7b100636dc1c6eb214ba281f913cd"
+          },
+          {
+            "variant": "PARAM.IO",
+            "offset": 7,
+            "decodedBytes": 15680,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              4390
+            ],
+            "matches": true,
+            "nativeSha256": "0d0d6b1f4e572095536d1064406f4ae86249b095aaa0986b1ad81c705bd45093",
+            "decodedSha256": "0d0d6b1f4e572095536d1064406f4ae86249b095aaa0986b1ad81c705bd45093",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "f42ea12ceffa6b879aeb88f074a81f8e9fed39f92a11f625d7c815b9b7594afd"
+          },
+          {
+            "variant": "PCAVE.IO",
+            "offset": 7,
+            "decodedBytes": 5384,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              3256
+            ],
+            "matches": true,
+            "nativeSha256": "62e4f849ee7eb4cc89e9c416006af08a6d6cd16c0b20f693aca06e1673f31d99",
+            "decodedSha256": "62e4f849ee7eb4cc89e9c416006af08a6d6cd16c0b20f693aca06e1673f31d99",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "b190ee04ebc6740f38b6890116588608958c0c28bc51b74e8fb6b27ed687e5b3"
+          },
+          {
+            "variant": "PLAINE.IO",
+            "offset": 7,
+            "decodedBytes": 32488,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              2858
+            ],
+            "matches": true,
+            "nativeSha256": "8174c7cba5026404e4b2cff85cc27784de170e43de35a50395ce2acd31fb2102",
+            "decodedSha256": "8174c7cba5026404e4b2cff85cc27784de170e43de35a50395ce2acd31fb2102",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "b8b80d71f9e2bc66a03abe31e6e47677463283847d0563197acea58f3c5867a9"
+          },
+          {
+            "variant": "PREDATOR.IO",
+            "offset": 7,
+            "decodedBytes": 14352,
+            "writesPastDeclaredSize": 7,
+            "reads": [
+              8000,
+              866
+            ],
+            "matches": false,
+            "nativeSha256": "f45b4062f4eb446e0f24cc5ee1ecc8eb62c51111e5f40a0656a616d785ffa45c",
+            "decodedSha256": "2f155a13589023c9c3c123bf56c0464ae83bdff26a5473c5a8a731622d3b63dc",
+            "differenceCount": 1,
+            "firstDifference": 14351,
+            "lastDifference": 14351,
+            "sourceSha256": "fac816f6944e2cc0cb7dd832cfe2954b6e22f6e0bd4a205fdc39a94813e7cc6f"
+          },
+          {
+            "variant": "PRESEN.IO",
+            "offset": 7,
+            "decodedBytes": 143608,
+            "writesPastDeclaredSize": 9,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              4584
+            ],
+            "matches": false,
+            "nativeSha256": "26f49e10a652cb0ddfaf8e99f9539ce141056511977b627a9e014c29dad6d5c9",
+            "decodedSha256": "79e460835576edc4542422c9986cc9fd4a513ca01c1bf07ae9d9343fbf5917aa",
+            "differenceCount": 1,
+            "firstDifference": 143607,
+            "lastDifference": 143607,
+            "sourceSha256": "2fab70c6228a6e59f51322b2b4fafa8048f2e72d9ab39839e5b5925f6c697c3a"
+          },
+          {
+            "variant": "PRESON.IO",
+            "offset": 7,
+            "decodedBytes": 51424,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              1166
+            ],
+            "matches": true,
+            "nativeSha256": "201dbc9edd0a067539510150ca52e29bb3c92d7487ed0b4d764d420fb708f80a",
+            "decodedSha256": "201dbc9edd0a067539510150ca52e29bb3c92d7487ed0b4d764d420fb708f80a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "5ac53129397b01f8c71cba3c3cb67fb1d3b7656e9f98a7ff4ad83b332533effa"
+          },
+          {
+            "variant": "PRESTI.IO",
+            "offset": 7,
+            "decodedBytes": 22184,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              6228
+            ],
+            "matches": true,
+            "nativeSha256": "a2d04bedf88eacd402d784e93667302834d39df74bad556d91e675e556e2794c",
+            "decodedSha256": "a2d04bedf88eacd402d784e93667302834d39df74bad556d91e675e556e2794c",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "c594b1e367990ed5ca6b1d56d68a0ff2b3d7748aa5a6256c79f8c8894132d456"
+          },
+          {
+            "variant": "RAMPART.IO",
+            "offset": 7,
+            "decodedBytes": 28008,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              4334
+            ],
+            "matches": true,
+            "nativeSha256": "1ce8dee28efd8adc3bdff771f542003d8d50b00e42851b49f2ba9ecd4972a7e8",
+            "decodedSha256": "1ce8dee28efd8adc3bdff771f542003d8d50b00e42851b49f2ba9ecd4972a7e8",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "042441081890a3be8c2ef6c5566afcbd1d1cb69a186680378b7de22700830698"
+          },
+          {
+            "variant": "RPLAINE.IO",
+            "offset": 7,
+            "decodedBytes": 30048,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              7386
+            ],
+            "matches": true,
+            "nativeSha256": "02edc0555fe629dcb9af6c8fcb823e0753ee3a4fa3d2ffd7727a86c055aa38a9",
+            "decodedSha256": "02edc0555fe629dcb9af6c8fcb823e0753ee3a4fa3d2ffd7727a86c055aa38a9",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "cd2d066dfca2469f5d8b446a91a0fe9599edd961f61dde7539cdccc5e804795e"
+          },
+          {
+            "variant": "SAMB.IO",
+            "offset": 7,
+            "decodedBytes": 32880,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              5676
+            ],
+            "matches": true,
+            "nativeSha256": "c937c50946b14084e76656b6fa027546ace781610e54d6bb7de7798c7b20e5ab",
+            "decodedSha256": "c937c50946b14084e76656b6fa027546ace781610e54d6bb7de7798c7b20e5ab",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "f685b529056ab00b356839f14d82cbcf6a01aeba74711b9049c35606427ad119"
+          },
+          {
+            "variant": "SAUB.IO",
+            "offset": 7,
+            "decodedBytes": 46024,
+            "writesPastDeclaredSize": 7,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              3542
+            ],
+            "matches": false,
+            "nativeSha256": "431e1cf442d74b5799dc87197f3150a378d74a5d2a9b01459912f9939aa0bdee",
+            "decodedSha256": "bca3fcd8169a1da77157e5995f286b53ff0e884f5df69dd97172f9d0ba16c5bc",
+            "differenceCount": 1,
+            "firstDifference": 46023,
+            "lastDifference": 46023,
+            "sourceSha256": "d5b51c2bb13ca6cac96301bb5e5f5aaecd24b3d9e9210e296826d9ed95cc0077"
+          },
+          {
+            "variant": "SCAVE.IO",
+            "offset": 7,
+            "decodedBytes": 26664,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              7940
+            ],
+            "matches": true,
+            "nativeSha256": "4162ec2d2942267e870693a2484f7e18168fff508f1d89186c654321f39de9b8",
+            "decodedSha256": "4162ec2d2942267e870693a2484f7e18168fff508f1d89186c654321f39de9b8",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "67b753f3073f0e38e1565c469c6ead22a6d4511c1a91de04bb9e439e7231ff63"
+          },
+          {
+            "variant": "SCOMB.IO",
+            "offset": 7,
+            "decodedBytes": 10472,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              1862
+            ],
+            "matches": true,
+            "nativeSha256": "f0e32314eed5ad2c835bc24bb93952fe3221789e82f3300545eed6709376f4e6",
+            "decodedSha256": "f0e32314eed5ad2c835bc24bb93952fe3221789e82f3300545eed6709376f4e6",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "3e0e358e12f4a76104f415ca4ab0bdd70b62d9dd36284218955c9cdb01dfb551"
+          },
+          {
+            "variant": "SKELET.IO",
+            "offset": 7,
+            "decodedBytes": 8424,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              4822
+            ],
+            "matches": true,
+            "nativeSha256": "421aff8bb3bca0eb1a1adabbb13ebc1211b9328d388e5979257ccb3dc8171fc8",
+            "decodedSha256": "421aff8bb3bca0eb1a1adabbb13ebc1211b9328d388e5979257ccb3dc8171fc8",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "c58969cf2ec64702fc7df83ae3c35aac41dab90cf58a6baa4dec21fecaa6d994"
+          },
+          {
+            "variant": "SORCIER.IO",
+            "offset": 7,
+            "decodedBytes": 9024,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              4674
+            ],
+            "matches": true,
+            "nativeSha256": "594905e23f86de43a763e0a054a3ca1e82aae7592cdf783ec320bb33186dbabb",
+            "decodedSha256": "594905e23f86de43a763e0a054a3ca1e82aae7592cdf783ec320bb33186dbabb",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "61cbe4cb46777e0742376a51854fc209a51270a602a25f286be71f34de7751d7"
+          },
+          {
+            "variant": "SOS.IO",
+            "offset": 7,
+            "decodedBytes": 4064,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              1998
+            ],
+            "matches": true,
+            "nativeSha256": "0906c1ac3a39e527ab153def1b309a58a90542851b6d74b5c56f7f7d05bbb7c8",
+            "decodedSha256": "0906c1ac3a39e527ab153def1b309a58a90542851b6d74b5c56f7f7d05bbb7c8",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "53ec26c819d057c4ad78c16636b6c00ae2f9a99810da81e0b9b6c0345e6aba58"
+          },
+          {
+            "variant": "SOSD.IO",
+            "offset": 7,
+            "decodedBytes": 3976,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              1982
+            ],
+            "matches": true,
+            "nativeSha256": "6f69c32ef89a482b07cc97df9c9d5598115ccdc8de47c42ec5efa0a347ddaca3",
+            "decodedSha256": "6f69c32ef89a482b07cc97df9c9d5598115ccdc8de47c42ec5efa0a347ddaca3",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "c3aa7a31d4d87a015e36c897aa5567f31a83a9b6264314548eb3223183f26a04"
+          },
+          {
+            "variant": "SOSE.IO",
+            "offset": 7,
+            "decodedBytes": 3888,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              1956
+            ],
+            "matches": true,
+            "nativeSha256": "fcec20229774f603e6ba6141841bb3a8c5b2d5b87c1b57c2ea063fb8ea0ba50e",
+            "decodedSha256": "fcec20229774f603e6ba6141841bb3a8c5b2d5b87c1b57c2ea063fb8ea0ba50e",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "24c76aa0f07077677f9a697d021f54e4e81504703911d177cc6abb0d9e2844d2"
+          },
+          {
+            "variant": "SOSI.IO",
+            "offset": 7,
+            "decodedBytes": 3976,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              1966
+            ],
+            "matches": true,
+            "nativeSha256": "84eafd8b4718e992cb07ff12638ae3b20bee486e1d04728f252b8dc2ef073535",
+            "decodedSha256": "84eafd8b4718e992cb07ff12638ae3b20bee486e1d04728f252b8dc2ef073535",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a5aa37822fd039195c542dd668535630a79848b3dbdbf5786559e7b40beed5dd"
+          },
+          {
+            "variant": "SOURIS.IO",
+            "offset": 7,
+            "decodedBytes": 3856,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              2338
+            ],
+            "matches": true,
+            "nativeSha256": "2cfe7d57cb08e7316ce2a05124281a31c5f447e4fa02a32b887e61fe54935ef1",
+            "decodedSha256": "2cfe7d57cb08e7316ce2a05124281a31c5f447e4fa02a32b887e61fe54935ef1",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "2bbc1362e2f84c51d107bfccdf58441a8db08ed8c551129a66aee2a32ed4f7d8"
+          },
+          {
+            "variant": "SPECTRE.IO",
+            "offset": 7,
+            "decodedBytes": 9968,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              5004
+            ],
+            "matches": true,
+            "nativeSha256": "29a4ad03f3b695c6f416c2c77e2fa5d7a13db0dc9725f216fb6b746031e73347",
+            "decodedSha256": "29a4ad03f3b695c6f416c2c77e2fa5d7a13db0dc9725f216fb6b746031e73347",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a7923e21778309f2a7b70e594d78b200932225669fd77b360809288628bc47fb"
+          },
+          {
+            "variant": "SPIDER.IO",
+            "offset": 7,
+            "decodedBytes": 4712,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              2224
+            ],
+            "matches": true,
+            "nativeSha256": "4f5cd4c095bd65dfefc3562adfff5145f88f3aa3becfac4b3882c0ddd5df1199",
+            "decodedSha256": "4f5cd4c095bd65dfefc3562adfff5145f88f3aa3becfac4b3882c0ddd5df1199",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "cd0693d4469c065018c5bce79e5573949fbe67451ed8a3cead4947cde98087a7"
+          },
+          {
+            "variant": "STAGE.IO",
+            "offset": 7,
+            "decodedBytes": 72968,
+            "writesPastDeclaredSize": 32,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              7384
+            ],
+            "matches": true,
+            "nativeSha256": "cd1e380954b549503e299740062d3fb52bf2b109f163045396a6d57d7f98597e",
+            "decodedSha256": "cd1e380954b549503e299740062d3fb52bf2b109f163045396a6d57d7f98597e",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "1b5f4b5ce7222aa73225be75b5c6995f20301ffd948e904796a69824d33cab2e"
+          },
+          {
+            "variant": "STEL.IO",
+            "offset": 7,
+            "decodedBytes": 7128,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              3908
+            ],
+            "matches": true,
+            "nativeSha256": "e7c07470a68e26b9c092438f9912e47fa935099013c219bbbe558acc42537738",
+            "decodedSha256": "e7c07470a68e26b9c092438f9912e47fa935099013c219bbbe558acc42537738",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "98463af181e725850a658cdfcb16c865f45ddc07e3b89b8d77353d3fa5468e77"
+          },
+          {
+            "variant": "TELEP.IO",
+            "offset": 7,
+            "decodedBytes": 2016,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              1004
+            ],
+            "matches": true,
+            "nativeSha256": "887437bfb56bb43c6072971cb4cbd9f1cd82c262e41fdf98194affeaf28cb571",
+            "decodedSha256": "887437bfb56bb43c6072971cb4cbd9f1cd82c262e41fdf98194affeaf28cb571",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "c4f6ea8f4519a7115536c5064fe640ce72181c5c2b7e710bb678ec41df0e92d3"
+          },
+          {
+            "variant": "TEMPLE.IO",
+            "offset": 7,
+            "decodedBytes": 49872,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              6086
+            ],
+            "matches": true,
+            "nativeSha256": "71fc7d14982b0103b72d233c10be482db0f70d8c8c738e84ffb5ca3d9be39487",
+            "decodedSha256": "71fc7d14982b0103b72d233c10be482db0f70d8c8c738e84ffb5ca3d9be39487",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "2090634633446b0dd415c0dd388b3cf3309568e12afb0e1a72247c667a7d58cb"
+          },
+          {
+            "variant": "TEXTIN.IO",
+            "offset": 7,
+            "decodedBytes": 11896,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              6318
+            ],
+            "matches": true,
+            "nativeSha256": "12568a11b5d3fc3ef3f5344d99fc998e4271d49c30779d17d1888625e43b6593",
+            "decodedSha256": "12568a11b5d3fc3ef3f5344d99fc998e4271d49c30779d17d1888625e43b6593",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "d1f987bc6e74b7ec14b16335c9e96710d4c8733436576f96c998c71a6e60b2ac"
+          },
+          {
+            "variant": "TEXTIND.IO",
+            "offset": 7,
+            "decodedBytes": 11568,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              6204
+            ],
+            "matches": true,
+            "nativeSha256": "9127afff334f7bf846beb12dbbabc3c3b36c893f650e70ce2699384168ba9573",
+            "decodedSha256": "9127afff334f7bf846beb12dbbabc3c3b36c893f650e70ce2699384168ba9573",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "5120c8885e52dfe6e614004cca06ace037d91fedea9091ba1ffc49250cff99f9"
+          },
+          {
+            "variant": "TEXTINE.IO",
+            "offset": 7,
+            "decodedBytes": 11480,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              6334
+            ],
+            "matches": true,
+            "nativeSha256": "0379459acd38032cf5795da39661b3d3a1feccfd48002e191c72e5e5cbe8aeab",
+            "decodedSha256": "0379459acd38032cf5795da39661b3d3a1feccfd48002e191c72e5e5cbe8aeab",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a1c22e5de16e01a009aac8ca58aeb6db47f5a0258afa0cc13862f9a429f48cc2"
+          },
+          {
+            "variant": "TEXTINI.IO",
+            "offset": 7,
+            "decodedBytes": 11472,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              6168
+            ],
+            "matches": true,
+            "nativeSha256": "e5a5e9d39b80d88a2d047ea917e75dcfeab4b51edace32a26a55677838ec3aec",
+            "decodedSha256": "e5a5e9d39b80d88a2d047ea917e75dcfeab4b51edace32a26a55677838ec3aec",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "fc00ad2340d2bdea4d1414f753c1d3fcce2a3d4d28d2dafd38733b047bbe4f9d"
+          },
+          {
+            "variant": "THEEND.IO",
+            "offset": 7,
+            "decodedBytes": 142888,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              148
+            ],
+            "matches": true,
+            "nativeSha256": "9b9b6ddd11f73444a68947523c934c037c86eb233ede3d1a5f439e908db52929",
+            "decodedSha256": "9b9b6ddd11f73444a68947523c934c037c86eb233ede3d1a5f439e908db52929",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a22f5538342a089b6f69a41d145f0fd53f6ec4dfec89f736c3cbc19cc46f0dcc"
+          },
+          {
+            "variant": "VILLAGE.IO",
+            "offset": 7,
+            "decodedBytes": 24584,
+            "writesPastDeclaredSize": 7,
+            "reads": [
+              8000,
+              7270
+            ],
+            "matches": false,
+            "nativeSha256": "21ecff551c201592ea7c1dd4e8216bbf6eb8ef832884940324f138d3766d46e5",
+            "decodedSha256": "2b80dbc5cf4e944828629f048ed641ad8a700bfe95cf8aef42f3f1434810b3e0",
+            "differenceCount": 1,
+            "firstDifference": 24583,
+            "lastDifference": 24583,
+            "sourceSha256": "a4cab91a32ddd08dfa234a8c60e3e61366ce5c102cbb6d664bdca2ccacf5efa3"
+          },
+          {
+            "variant": "VILLE.IO",
+            "offset": 7,
+            "decodedBytes": 100712,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              2320
+            ],
+            "matches": true,
+            "nativeSha256": "42cad4c8afd72d6c74fb2925057703d8917f2e0160e08f3c8eb2cc3ad8fadb3a",
+            "decodedSha256": "42cad4c8afd72d6c74fb2925057703d8917f2e0160e08f3c8eb2cc3ad8fadb3a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a8aa5ed4a360a061e8140172e0d0707fadc546cea493979e522d8c314e740f2b"
+          },
+          {
+            "variant": "WARDOG.IO",
+            "offset": 7,
+            "decodedBytes": 10384,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              7460
+            ],
+            "matches": true,
+            "nativeSha256": "de639d16c6d81f4c131888b292afcadcf637734a94f90ebc62f148e25b800e0b",
+            "decodedSha256": "de639d16c6d81f4c131888b292afcadcf637734a94f90ebc62f148e25b800e0b",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a3753af8150ab5ba2cf2c8df8b73cc20bafcdc09c19d48de9cf6209668aa14a7"
+          },
+          {
+            "variant": "WIZ1.IO",
+            "offset": 7,
+            "decodedBytes": 9816,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              5744
+            ],
+            "matches": true,
+            "nativeSha256": "e9d1e849f468d1c61a5ff50e2999bdc6fee4407e050f9bff16e8b108271f8f16",
+            "decodedSha256": "e9d1e849f468d1c61a5ff50e2999bdc6fee4407e050f9bff16e8b108271f8f16",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "9f16ec9a31aebcec9ca669f07363ea64f57ae7694a61e9307aadcc76b5d7d727"
+          },
+          {
+            "variant": "ZOMBI.IO",
+            "offset": 7,
+            "decodedBytes": 11272,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              7862
+            ],
+            "matches": true,
+            "nativeSha256": "df5119ad2a67fa3fcad9f7211ec9f068018bde7b40f41b1b69a16f58ade90d04",
+            "decodedSha256": "df5119ad2a67fa3fcad9f7211ec9f068018bde7b40f41b1b69a16f58ade90d04",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "33efe12a16f38f8bb8b4dfb5c66009e0cd40fc80dce5bf9c2ddda96a23f5fb01"
+          }
+        ],
+        "matchingCases": 82,
+        "mismatchingCases": 15,
+        "result": "native/toolkit output differences require investigation",
+        "limits": "controlled memory and DOS replies; no complete startup, semantic gameplay edit or corrupt-stream proof; observed excess bound is not a general bound",
+        "inputTailPolicy": "native-short-read-preserves-tail"
+      },
+      "zeroTailControl": {
+        "profile": "ishar1",
+        "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+        "inputTailPolicy": "diagnostic-zero-fill",
+        "cases": [
+          {
+            "variant": "AZAL.IO",
+            "offset": 7,
+            "decodedBytes": 18368,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              6218
+            ],
+            "matches": true,
+            "nativeSha256": "1b5971a4945f0dd6c34aa9a9ffcbd76b0bece6e564c51e15ea942e9e70ffe0d0",
+            "decodedSha256": "1b5971a4945f0dd6c34aa9a9ffcbd76b0bece6e564c51e15ea942e9e70ffe0d0",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "963bd4ef1ff062080775b73fe3d09221c10556a840cec93da2f25f537133838f"
+          },
+          {
+            "variant": "BUSTE.IO",
+            "offset": 7,
+            "decodedBytes": 46064,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              1880
+            ],
+            "matches": true,
+            "nativeSha256": "d8c04ee445d74405f56f10724c558e6f499a48e43cadd31a145ef2011233ac1a",
+            "decodedSha256": "d8c04ee445d74405f56f10724c558e6f499a48e43cadd31a145ef2011233ac1a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "883f807a2b3bc791ff45c4b34c54a0a4fda40012e8eb0dbd1892b97cbb8924a1"
+          },
+          {
+            "variant": "DRAGON.IO",
+            "offset": 7,
+            "decodedBytes": 16296,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              1642
+            ],
+            "matches": true,
+            "nativeSha256": "cf19eee55d6db8ce9e0fa31310059140c37a824127128b00fb1364c7a4c71245",
+            "decodedSha256": "cf19eee55d6db8ce9e0fa31310059140c37a824127128b00fb1364c7a4c71245",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "84f33983d0f4ee7ef0c681b6efbd2ead138d723ce4c0741bf9f2943f9ba409dc"
+          },
+          {
+            "variant": "GEANT.IO",
+            "offset": 7,
+            "decodedBytes": 16856,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              962
+            ],
+            "matches": true,
+            "nativeSha256": "dda9590347ce239744ef6c88814b1b6546fbd9573c2328c4cd311bbe6f11c422",
+            "decodedSha256": "dda9590347ce239744ef6c88814b1b6546fbd9573c2328c4cd311bbe6f11c422",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "2653f4f1c862a74c961f9a7c66f77a15b2b60c1736fc94f6f59f58befa59417c"
+          },
+          {
+            "variant": "INTMAIS.IO",
+            "offset": 7,
+            "decodedBytes": 79656,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              1396
+            ],
+            "matches": true,
+            "nativeSha256": "2191438b62dcd36aa010cea0948b52b7a74c347a60e901b3d187bee19f78c465",
+            "decodedSha256": "2191438b62dcd36aa010cea0948b52b7a74c347a60e901b3d187bee19f78c465",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "0bf4b5872c98b54fbfb80491cafe2fa7107b18bc5fc3cb86bb0699a45920d48c"
+          },
+          {
+            "variant": "KNIGHT.IO",
+            "offset": 7,
+            "decodedBytes": 17456,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              3078
+            ],
+            "matches": true,
+            "nativeSha256": "9b8bc7e7701faaa28506e94acef4391b2f6d56c244407beb431ebaaa0534a0b1",
+            "decodedSha256": "9b8bc7e7701faaa28506e94acef4391b2f6d56c244407beb431ebaaa0534a0b1",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "759edcd9b169cd452fe8279097eba20634ee1769b7c000a5e43082e377705bc5"
+          },
+          {
+            "variant": "KROG.IO",
+            "offset": 7,
+            "decodedBytes": 32584,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              8000,
+              4414
+            ],
+            "matches": true,
+            "nativeSha256": "f4c939339b7ada9339e12f588a94de3eaa7ea5e155360545ff54ed0094a15a79",
+            "decodedSha256": "f4c939339b7ada9339e12f588a94de3eaa7ea5e155360545ff54ed0094a15a79",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "d9a9d2996def71cfa34923da169bb2518a863c184d07afd1e9b73ebfc84ae95a"
+          },
+          {
+            "variant": "LOGO.IO",
+            "offset": 7,
+            "decodedBytes": 40632,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              6414
+            ],
+            "matches": true,
+            "nativeSha256": "40c19ecf9a42c5f536bcef1df9c6b7df808f940bcde52a76cd61e65ec56f1062",
+            "decodedSha256": "40c19ecf9a42c5f536bcef1df9c6b7df808f940bcde52a76cd61e65ec56f1062",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "8d1dad784ed7e8733d6f80ccade4ad2cafee5bc5c4df1e9af5fb078db10e4969"
+          },
+          {
+            "variant": "MAP.IO",
+            "offset": 7,
+            "decodedBytes": 21368,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              5008
+            ],
+            "matches": true,
+            "nativeSha256": "0cb0781908935fe4cf047c998915c7eec3e4d67fbc8facd84a556964d14ef872",
+            "decodedSha256": "0cb0781908935fe4cf047c998915c7eec3e4d67fbc8facd84a556964d14ef872",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "2f9b09c73a392d23f403ece4332b6b886b153f5a11f996218e95f829835ab6fc"
+          },
+          {
+            "variant": "MOMO.IO",
+            "offset": 7,
+            "decodedBytes": 23128,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              6112
+            ],
+            "matches": true,
+            "nativeSha256": "39a6a6ef66467ebd1a5b1bd41ea99f7af8945024983d1383bcd9010cb8097161",
+            "decodedSha256": "39a6a6ef66467ebd1a5b1bd41ea99f7af8945024983d1383bcd9010cb8097161",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "c7b43a30e76f48ccb73a0ed4975395da99d6cdff090bb69438500490c40075f4"
+          },
+          {
+            "variant": "NAIM.IO",
+            "offset": 7,
+            "decodedBytes": 16344,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              1354
+            ],
+            "matches": true,
+            "nativeSha256": "4ae8ac7807574034c686048d2b49eb5ec7a77898df1f4fee1abfe25e9b5fc63d",
+            "decodedSha256": "4ae8ac7807574034c686048d2b49eb5ec7a77898df1f4fee1abfe25e9b5fc63d",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a2a9eec93cb5bfe02a9ee4a4e5acef9754f2a3c6591754f086f3c7f7a051b81f"
+          },
+          {
+            "variant": "PREDATOR.IO",
+            "offset": 7,
+            "decodedBytes": 14352,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              866
+            ],
+            "matches": true,
+            "nativeSha256": "2f155a13589023c9c3c123bf56c0464ae83bdff26a5473c5a8a731622d3b63dc",
+            "decodedSha256": "2f155a13589023c9c3c123bf56c0464ae83bdff26a5473c5a8a731622d3b63dc",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "fac816f6944e2cc0cb7dd832cfe2954b6e22f6e0bd4a205fdc39a94813e7cc6f"
+          },
+          {
+            "variant": "PRESEN.IO",
+            "offset": 7,
+            "decodedBytes": 143608,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              4584
+            ],
+            "matches": true,
+            "nativeSha256": "79e460835576edc4542422c9986cc9fd4a513ca01c1bf07ae9d9343fbf5917aa",
+            "decodedSha256": "79e460835576edc4542422c9986cc9fd4a513ca01c1bf07ae9d9343fbf5917aa",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "2fab70c6228a6e59f51322b2b4fafa8048f2e72d9ab39839e5b5925f6c697c3a"
+          },
+          {
+            "variant": "SAUB.IO",
+            "offset": 7,
+            "decodedBytes": 46024,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              3542
+            ],
+            "matches": true,
+            "nativeSha256": "bca3fcd8169a1da77157e5995f286b53ff0e884f5df69dd97172f9d0ba16c5bc",
+            "decodedSha256": "bca3fcd8169a1da77157e5995f286b53ff0e884f5df69dd97172f9d0ba16c5bc",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "d5b51c2bb13ca6cac96301bb5e5f5aaecd24b3d9e9210e296826d9ed95cc0077"
+          },
+          {
+            "variant": "VILLAGE.IO",
+            "offset": 7,
+            "decodedBytes": 24584,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              7270
+            ],
+            "matches": true,
+            "nativeSha256": "2b80dbc5cf4e944828629f048ed641ad8a700bfe95cf8aef42f3f1434810b3e0",
+            "decodedSha256": "2b80dbc5cf4e944828629f048ed641ad8a700bfe95cf8aef42f3f1434810b3e0",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a4cab91a32ddd08dfa234a8c60e3e61366ce5c102cbb6d664bdca2ccacf5efa3"
+          }
+        ],
+        "matchingCases": 15,
+        "mismatchingCases": 0,
+        "result": "all compared outputs match",
+        "limits": "controlled memory and DOS replies; no complete startup, semantic gameplay edit or corrupt-stream proof; observed excess bound is not a general bound"
+      }
+    },
+    {
+      "native": {
+        "profile": "ishar2",
+        "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+        "cases": [
+          {
+            "variant": "AFFOBJ.IO",
+            "offset": 7,
+            "decodedBytes": 1592,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              848
+            ],
+            "matches": true,
+            "nativeSha256": "1c22a8ebc0bd4fcd8f5a559fc4184725a2e40bd3502d014bbdf9b22f08101bbb",
+            "decodedSha256": "1c22a8ebc0bd4fcd8f5a559fc4184725a2e40bd3502d014bbdf9b22f08101bbb",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "40b882fbadff3ea452c76a2af3fdbba9d2b3e4c62d0f19dd838c41f0d5ebdf1e"
+          },
+          {
+            "variant": "AIGLE.IO",
+            "offset": 7,
+            "decodedBytes": 9968,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              5054
+            ],
+            "matches": true,
+            "nativeSha256": "51bebcd38024a039280e21a2e74365dd16e47b645beddd7238d14c0e7dd1ca26",
+            "decodedSha256": "51bebcd38024a039280e21a2e74365dd16e47b645beddd7238d14c0e7dd1ca26",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "23003e5427afb742d428e58a0dc2170f6984f15a8a3f937db2ea58f091dade74"
+          },
+          {
+            "variant": "ANIMALS.IO",
+            "offset": 7,
+            "decodedBytes": 11024,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              6190
+            ],
+            "matches": true,
+            "nativeSha256": "b46a883856d12003e84be7fa32df91f0e9a754a14bbeb22dafd4a00646327353",
+            "decodedSha256": "b46a883856d12003e84be7fa32df91f0e9a754a14bbeb22dafd4a00646327353",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "61be39a4651d721afbf1a56e02e2ab5df316e1ffbb98da56203db976e6518d5a"
+          },
+          {
+            "variant": "ARBO.IO",
+            "offset": 7,
+            "decodedBytes": 118000,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              7272
+            ],
+            "matches": true,
+            "nativeSha256": "6a5175557e1dcc2b3036eb5c327f2a833131edf4e855baff21ee9854b1e970d6",
+            "decodedSha256": "6a5175557e1dcc2b3036eb5c327f2a833131edf4e855baff21ee9854b1e970d6",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a798fc9cf112b641e47f2c852c58c56f5342aaef1a2a77e48ccb4cd558a5c8bc"
+          },
+          {
+            "variant": "AVEUGLE5.IO",
+            "offset": 7,
+            "decodedBytes": 4672,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              2540
+            ],
+            "matches": true,
+            "nativeSha256": "cb2a1c94c405d9a592730c6e9479ffee1f8ecc5a6977a8a340335f0892afb32a",
+            "decodedSha256": "cb2a1c94c405d9a592730c6e9479ffee1f8ecc5a6977a8a340335f0892afb32a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "cdfe1189a9c928eef6b7b5a4016b27b0ee2e6a3ea35873e341fcac18eaa1b7a3"
+          },
+          {
+            "variant": "BOAT.IO",
+            "offset": 7,
+            "decodedBytes": 42232,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              6536
+            ],
+            "matches": true,
+            "nativeSha256": "f0e7d5dfba5d60ec9124711449888430b7232edecd03e6b31e3174b584c3528f",
+            "decodedSha256": "f0e7d5dfba5d60ec9124711449888430b7232edecd03e6b31e3174b584c3528f",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "547308986f59f3a361d3ffc441173b7e88b99134ec42a397476858db5ec55655"
+          },
+          {
+            "variant": "BOB4.IO",
+            "offset": 7,
+            "decodedBytes": 6112,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              3864
+            ],
+            "matches": true,
+            "nativeSha256": "e16fe6458230a3880711d877bb10bb8867f35fdde2347bf7722b13b15aac5c13",
+            "decodedSha256": "e16fe6458230a3880711d877bb10bb8867f35fdde2347bf7722b13b15aac5c13",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "d1b80d9aaebb32ac01c97225c26d3139315e2dc86eb1914e8a4e2b8838ee397b"
+          },
+          {
+            "variant": "BUSTE.IO",
+            "offset": 7,
+            "decodedBytes": 92184,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              6274
+            ],
+            "matches": true,
+            "nativeSha256": "80dcf53910035607abaf043cf2cc5820bf81f45fd3c39b1b269d15a3bf6ce29e",
+            "decodedSha256": "80dcf53910035607abaf043cf2cc5820bf81f45fd3c39b1b269d15a3bf6ce29e",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "8e6ff516cf14c472de7d104777a58de1d0e1fd63ffe12d7e25049aebb6bd9037"
+          },
+          {
+            "variant": "BUSTE2.IO",
+            "offset": 7,
+            "decodedBytes": 58464,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              7928
+            ],
+            "matches": true,
+            "nativeSha256": "04e2217c0ed03eec099a6b1c67700f6039f08fc3f776d44481796e4625066b76",
+            "decodedSha256": "04e2217c0ed03eec099a6b1c67700f6039f08fc3f776d44481796e4625066b76",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "cd55b3da03f66e127f7043743474f80a9ca6e328e178a7a55ac662b7f55b97b6"
+          },
+          {
+            "variant": "CHAOSGU5.IO",
+            "offset": 7,
+            "decodedBytes": 41064,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              7536
+            ],
+            "matches": true,
+            "nativeSha256": "cec2c17c9e4e2c3f6fd3eced4d536989aa6f0103240385d07a26a5529b814a42",
+            "decodedSha256": "cec2c17c9e4e2c3f6fd3eced4d536989aa6f0103240385d07a26a5529b814a42",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "27260aa4d9f9e324e90b52406fd7a46f02bee036020548ebba55786f8a51034e"
+          },
+          {
+            "variant": "DJ1.IO",
+            "offset": 7,
+            "decodedBytes": 82744,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              3014
+            ],
+            "matches": true,
+            "nativeSha256": "64318a146a241c1a4bc336d7cb4eda5efe3373f125dbace8baab0d61400105a4",
+            "decodedSha256": "64318a146a241c1a4bc336d7cb4eda5efe3373f125dbace8baab0d61400105a4",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "83a0eea987d6e10cbca8ac499ef366c972488fca6bd7d0ce5fc0c7cd10d90013"
+          },
+          {
+            "variant": "DJ2.IO",
+            "offset": 7,
+            "decodedBytes": 87120,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              7616
+            ],
+            "matches": true,
+            "nativeSha256": "80d3db6953bfb9c4dae6b63068d23d28e5102ca57e02308de4e16ec5e79cd84d",
+            "decodedSha256": "80d3db6953bfb9c4dae6b63068d23d28e5102ca57e02308de4e16ec5e79cd84d",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "ecf84d375c9d75e8d3e4c6e7f094da65f3ccfd9df862e4159f1544408bcc0015"
+          },
+          {
+            "variant": "DJCAT.IO",
+            "offset": 7,
+            "decodedBytes": 71768,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              1408
+            ],
+            "matches": true,
+            "nativeSha256": "f84cf045ad412709d2697904ccb27e58fdf8e5ae452e4945415d039a860548d6",
+            "decodedSha256": "f84cf045ad412709d2697904ccb27e58fdf8e5ae452e4945415d039a860548d6",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "20b73dde9b624c1854672d7b38b1e3f54888f289471c977c2cdb2badd2625181"
+          },
+          {
+            "variant": "DJCOL.IO",
+            "offset": 7,
+            "decodedBytes": 8744,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              4772
+            ],
+            "matches": true,
+            "nativeSha256": "457807caaec707067e1866ec4b4f7a5fc8ecfc66639eafea199d45228e2ec180",
+            "decodedSha256": "457807caaec707067e1866ec4b4f7a5fc8ecfc66639eafea199d45228e2ec180",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "968f00b47b2ad78364a0048c9669aa45399f9cbf67f67889cab7c2d428d3ee9c"
+          },
+          {
+            "variant": "DJDEC.IO",
+            "offset": 7,
+            "decodedBytes": 11624,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              4614
+            ],
+            "matches": true,
+            "nativeSha256": "fa3589e369d921b30faffecb5469f06fbb0fecb3a2f7132116fffec28d8103d9",
+            "decodedSha256": "fa3589e369d921b30faffecb5469f06fbb0fecb3a2f7132116fffec28d8103d9",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "8923133eb0a6fa8b92c5300f52e27a9eb5290f334849627da9043853e95f5203"
+          },
+          {
+            "variant": "DJFONT.IO",
+            "offset": 7,
+            "decodedBytes": 22768,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              1442
+            ],
+            "matches": true,
+            "nativeSha256": "f9539330b30fc2d9401f511809a62d3fa0b4fe5060fe1769736e309ebd6be60e",
+            "decodedSha256": "f9539330b30fc2d9401f511809a62d3fa0b4fe5060fe1769736e309ebd6be60e",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "e6c4cbd38e0c86cb839b9ac1ad47647ffa7f0fdc8a1130cd1596b8c5dd49b3e6"
+          },
+          {
+            "variant": "DJTRAP.IO",
+            "offset": 7,
+            "decodedBytes": 11248,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              7140
+            ],
+            "matches": true,
+            "nativeSha256": "3c8e0db926566d10acc77cb0e793f7f1405c8bdfee5b0742cad8b276c5a78d63",
+            "decodedSha256": "3c8e0db926566d10acc77cb0e793f7f1405c8bdfee5b0742cad8b276c5a78d63",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a7f23943b3cfc5f517fc87a9d99a186b5d66f59a0e550468cbf2230ee1315516"
+          },
+          {
+            "variant": "DRAGON5.IO",
+            "offset": 7,
+            "decodedBytes": 44728,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              6856
+            ],
+            "matches": true,
+            "nativeSha256": "ed05867e69230bc79783cb2ae91b466dd37cec49486c23c794a79c6ad57e489e",
+            "decodedSha256": "ed05867e69230bc79783cb2ae91b466dd37cec49486c23c794a79c6ad57e489e",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "21ac717763e83e5e80cc165cb3988fac8401f152e26b68f9956ed1e9de5f184c"
+          },
+          {
+            "variant": "DRUIDE2.IO",
+            "offset": 7,
+            "decodedBytes": 25016,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              5438
+            ],
+            "matches": true,
+            "nativeSha256": "4fc7f68238b08b0a5e5cea0b5277506cb2ccb1df962418f61a750f98d9b5dfb0",
+            "decodedSha256": "4fc7f68238b08b0a5e5cea0b5277506cb2ccb1df962418f61a750f98d9b5dfb0",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "3bf74074cf6a2bec170b03ba40152502f45396e4b06014ad5df715071c0c9a01"
+          },
+          {
+            "variant": "DRUIDE4.IO",
+            "offset": 7,
+            "decodedBytes": 22960,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              5190
+            ],
+            "matches": true,
+            "nativeSha256": "59fa2462d0d0a90f99883a511f6aefe351da31f0914cbf1af3a2c495c651f690",
+            "decodedSha256": "59fa2462d0d0a90f99883a511f6aefe351da31f0914cbf1af3a2c495c651f690",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "6b66d1ed23c301e602c2de40084020f7a7741e635d189b16aafb9e9a4edfdaab"
+          },
+          {
+            "variant": "DWIZARD5.IO",
+            "offset": 7,
+            "decodedBytes": 17016,
+            "writesPastDeclaredSize": 8,
+            "reads": [
+              8000,
+              2962
+            ],
+            "matches": false,
+            "nativeSha256": "9df851fa8a5414a1de8b14594f6533bedc1744a6f483555c1a0567b6ca280edd",
+            "decodedSha256": "d93e1f066cca7f0f40477bb16ec65c1565baa2365a0066cdf66f098e50de5116",
+            "differenceCount": 1,
+            "firstDifference": 17015,
+            "lastDifference": 17015,
+            "sourceSha256": "f7e5a4266d78275bdfa010d5966f92fc1ae9820d1b3c410cd8d630186353ec4a"
+          },
+          {
+            "variant": "DWOMAN2.IO",
+            "offset": 7,
+            "decodedBytes": 11976,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              54
+            ],
+            "matches": true,
+            "nativeSha256": "0845b39a951df049f1b39d6b1dfd32f5a8bffc530cba8ca4a408aa7a9ea3e6d0",
+            "decodedSha256": "0845b39a951df049f1b39d6b1dfd32f5a8bffc530cba8ca4a408aa7a9ea3e6d0",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "43ee3893b82554a9c6aacaba95b73285ec1df89669f7d06df5eea70272a76d72"
+          },
+          {
+            "variant": "EAFF.IO",
+            "offset": 7,
+            "decodedBytes": 3304,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              1654
+            ],
+            "matches": true,
+            "nativeSha256": "ec632042b18509daa8645778250b37cfe914446e0018c5b6da7b7c8a92296d54",
+            "decodedSha256": "ec632042b18509daa8645778250b37cfe914446e0018c5b6da7b7c8a92296d54",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "6ab9102e2566617a9e7511ae1503f3302db1e81ea006081f3bb76d08835957ab"
+          },
+          {
+            "variant": "EATT.IO",
+            "offset": 7,
+            "decodedBytes": 9960,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              4874
+            ],
+            "matches": true,
+            "nativeSha256": "f9fdd985e9da20e5e751cbcb327de5e37b645efaa9563ac58d5ebffddbe08f3a",
+            "decodedSha256": "f9fdd985e9da20e5e751cbcb327de5e37b645efaa9563ac58d5ebffddbe08f3a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "d5ef72a5b25eabb50e89a9142ef8acf176f9023c82e694bfe8a06290ba7b14ec"
+          },
+          {
+            "variant": "EDPLT.IO",
+            "offset": 7,
+            "decodedBytes": 4696,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              2184
+            ],
+            "matches": true,
+            "nativeSha256": "0c28e6f2997d099bb94648616bd89deb005ed76a5d30954fe5a8174aae55c496",
+            "decodedSha256": "0c28e6f2997d099bb94648616bd89deb005ed76a5d30954fe5a8174aae55c496",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "2f6156c6a2ae2087296a82b62886fe2088dd490571b7419b6ca8bdb214f39ecb"
+          },
+          {
+            "variant": "ELMTAIR5.IO",
+            "offset": 7,
+            "decodedBytes": 22696,
+            "writesPastDeclaredSize": 5,
+            "reads": [
+              8000,
+              3416
+            ],
+            "matches": true,
+            "nativeSha256": "29ffe50b30723683893ed175130dde86bef2522ac6f9e41c140d1a1575584763",
+            "decodedSha256": "29ffe50b30723683893ed175130dde86bef2522ac6f9e41c140d1a1575584763",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "32014a484b807214b495d48d3f5c0e84c7420af51ae580b3b633f026ea98ef82"
+          },
+          {
+            "variant": "ELMTFEU5.IO",
+            "offset": 7,
+            "decodedBytes": 25328,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              6538
+            ],
+            "matches": true,
+            "nativeSha256": "64b22e8dbeb3c9f082eedfd45d574767773a5a427d9509844e065185456bcb60",
+            "decodedSha256": "64b22e8dbeb3c9f082eedfd45d574767773a5a427d9509844e065185456bcb60",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "2330bf5aff6239c6708c9a6f2063a4088f777e94621a8b52db9f2c1da3520f31"
+          },
+          {
+            "variant": "ENT2.IO",
+            "offset": 7,
+            "decodedBytes": 34024,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              2136
+            ],
+            "matches": true,
+            "nativeSha256": "7b7fb905c0e0d7a105baad391f79caed38ff8fcae23466e8d3edc000fb7ae779",
+            "decodedSha256": "7b7fb905c0e0d7a105baad391f79caed38ff8fcae23466e8d3edc000fb7ae779",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "678e61c657a2f112c5e0b23f64e7c4a9dbbf2391fb9c2fc1ba8bb41da0a08ac9"
+          },
+          {
+            "variant": "EWOK2.IO",
+            "offset": 7,
+            "decodedBytes": 8920,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              6662
+            ],
+            "matches": true,
+            "nativeSha256": "c1bd04cc09fdc82b8f6dce95a8052dd3f61b605e4c67d5c05e84017a5efb70a7",
+            "decodedSha256": "c1bd04cc09fdc82b8f6dce95a8052dd3f61b605e4c67d5c05e84017a5efb70a7",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "8bb7a9f4db5d05248e8756a2e953031eca546e0050d15c9d172748c67467dbb2"
+          },
+          {
+            "variant": "FARBO.IO",
+            "offset": 7,
+            "decodedBytes": 11144,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              5950
+            ],
+            "matches": true,
+            "nativeSha256": "0a57cd5c9511d5f9e292eb7519e9847571c3397919efbfed4098530ec29d9a1b",
+            "decodedSha256": "0a57cd5c9511d5f9e292eb7519e9847571c3397919efbfed4098530ec29d9a1b",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "27ae71de3900f11b40a7cc3f5901d6f5fa8142362f02a99e36d6b955d018c372"
+          },
+          {
+            "variant": "FDJ1.IO",
+            "offset": 7,
+            "decodedBytes": 7560,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              4206
+            ],
+            "matches": true,
+            "nativeSha256": "c6aa7754cab7ed203e7a6bdf55b4dbbacf246698e46ff6a0d6a10a890a0de309",
+            "decodedSha256": "c6aa7754cab7ed203e7a6bdf55b4dbbacf246698e46ff6a0d6a10a890a0de309",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "4316064fdc5c0a214de74c1c606c687316c8e4735825364b680f69a6abb82395"
+          },
+          {
+            "variant": "FDJ2.IO",
+            "offset": 7,
+            "decodedBytes": 6536,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              2920
+            ],
+            "matches": true,
+            "nativeSha256": "257f0c340ad2fba8249d4b94a00d92c8743357eac02922aff3eb1e8765f2b2c7",
+            "decodedSha256": "257f0c340ad2fba8249d4b94a00d92c8743357eac02922aff3eb1e8765f2b2c7",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "32fb0eb7696c22f478f353789e07df8910958c2c7734042f63d0144b684c72a1"
+          },
+          {
+            "variant": "FDJCAT.IO",
+            "offset": 7,
+            "decodedBytes": 17936,
+            "writesPastDeclaredSize": 8,
+            "reads": [
+              8000,
+              3518
+            ],
+            "matches": false,
+            "nativeSha256": "680a96b9f0a7bed9dc748837fac01787e13abf56fdadbaf8b9445b0eeecf2abe",
+            "decodedSha256": "9dc4e91ffcad0f644ae7dde0e93ad0bc2b5fcb8301fc370ef0b4520aabdbbf74",
+            "differenceCount": 1,
+            "firstDifference": 17935,
+            "lastDifference": 17935,
+            "sourceSha256": "ffd2e46e19bc2b9b6707359b079dcf218c3b7d9e8f7f5f8e7272b03389772049"
+          },
+          {
+            "variant": "FLY1.IO",
+            "offset": 7,
+            "decodedBytes": 12720,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              6302
+            ],
+            "matches": true,
+            "nativeSha256": "fe160cd57ea99fc72ea7ce24725d10e55baab1c6b0340ce9ccc13cfd05bef3b1",
+            "decodedSha256": "fe160cd57ea99fc72ea7ce24725d10e55baab1c6b0340ce9ccc13cfd05bef3b1",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "721b33777b319fe01c01af15dced5468846ad2e21209e46963af056f4ed2fd53"
+          },
+          {
+            "variant": "FMONT.IO",
+            "offset": 7,
+            "decodedBytes": 14192,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              7548
+            ],
+            "matches": true,
+            "nativeSha256": "badca71cf39704c57032e68a9925617dc57cbedb45a18e0eb4295de23681ecdb",
+            "decodedSha256": "badca71cf39704c57032e68a9925617dc57cbedb45a18e0eb4295de23681ecdb",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "256b957bb434c028fd235617bc898b1ef211c5d60be284079c0cbc0b34d317f7"
+          },
+          {
+            "variant": "FOND1.IO",
+            "offset": 7,
+            "decodedBytes": 9968,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              4684
+            ],
+            "matches": true,
+            "nativeSha256": "f495c01cbb41044772520f08183dd49751e21ed5263c010ad9bd07cb7ddc39b3",
+            "decodedSha256": "f495c01cbb41044772520f08183dd49751e21ed5263c010ad9bd07cb7ddc39b3",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "89d63ab71e86060617d115891567f140af9f9452adb13018343a3d6055e3de35"
+          },
+          {
+            "variant": "FORET1.IO",
+            "offset": 7,
+            "decodedBytes": 51176,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              532
+            ],
+            "matches": true,
+            "nativeSha256": "e776fd514bb4e52183b9bb6811d23d0ab04c78f34291d18d7c2b22ebfb0666ea",
+            "decodedSha256": "e776fd514bb4e52183b9bb6811d23d0ab04c78f34291d18d7c2b22ebfb0666ea",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "8196ba03962c91a864236c1124fa596038b068ef6b1a3b460e87af4f9064b038"
+          },
+          {
+            "variant": "FRISE.IO",
+            "offset": 7,
+            "decodedBytes": 57848,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              5064
+            ],
+            "matches": true,
+            "nativeSha256": "1cb805e4f4440915ded88c4f19f8b00c11a2eb7a810124ac44c8815d24d41d5e",
+            "decodedSha256": "1cb805e4f4440915ded88c4f19f8b00c11a2eb7a810124ac44c8815d24d41d5e",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "27117c124caf904a31568f5c58f615946083dd3429c02ade1dc1e17552cc2b64"
+          },
+          {
+            "variant": "FVILLE.IO",
+            "offset": 7,
+            "decodedBytes": 10440,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              7086
+            ],
+            "matches": true,
+            "nativeSha256": "96c912688ee4d9726f81076dfbf92a977e26081ea21d79b0789a3252319c04e1",
+            "decodedSha256": "96c912688ee4d9726f81076dfbf92a977e26081ea21d79b0789a3252319c04e1",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "50c3025015900d16271c1a66badd894b32344b93f8bfd57ac693349aa3cce895"
+          },
+          {
+            "variant": "GEANT.IO",
+            "offset": 7,
+            "decodedBytes": 26088,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              8000,
+              2244
+            ],
+            "matches": false,
+            "nativeSha256": "5bfa4c4ba8d26449457d4899d5f4abc42f9bab47ed64c5123c3ecdcbf1b1085d",
+            "decodedSha256": "5798506878bde6f196b404558ab8d838cf89894cc8d29db37f135aa6b889fe97",
+            "differenceCount": 1,
+            "firstDifference": 26087,
+            "lastDifference": 26087,
+            "sourceSha256": "0ecaa30a33751deb66c25137f9e3c537d68196b1c7ea35c7efacc1e27a0f9fa9"
+          },
+          {
+            "variant": "GERDEP.IO",
+            "offset": 7,
+            "decodedBytes": 8736,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              4032
+            ],
+            "matches": true,
+            "nativeSha256": "d77daae00d6f56daed0011ef5da9c1fb3f63380d45c12a35153bbdcc32079bad",
+            "decodedSha256": "d77daae00d6f56daed0011ef5da9c1fb3f63380d45c12a35153bbdcc32079bad",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "58d2c57ff3eb8318ac73512d5a89292477fbcc892a4ceb6d75bf7de58b88da4b"
+          },
+          {
+            "variant": "GESORT.IO",
+            "offset": 7,
+            "decodedBytes": 12624,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              6332
+            ],
+            "matches": true,
+            "nativeSha256": "5d3c89b9acb9721370f80c5130e83fcdc7a02ce37eb07c327b7adcd60940e46e",
+            "decodedSha256": "5d3c89b9acb9721370f80c5130e83fcdc7a02ce37eb07c327b7adcd60940e46e",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "71f842f2a804d80ae885e5391568123687167bf1f7b803b6257a65f5344f5a3c"
+          },
+          {
+            "variant": "GOLEM1.IO",
+            "offset": 7,
+            "decodedBytes": 42192,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              960
+            ],
+            "matches": true,
+            "nativeSha256": "7de98e6b5b7c727d86c50b4d179cafabc84b7f15f3a3d6697c3f85700ae9a24a",
+            "decodedSha256": "7de98e6b5b7c727d86c50b4d179cafabc84b7f15f3a3d6697c3f85700ae9a24a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "4de989b09bf063a6b72e79ed104b2b01786fe5a2f9efea579d163e6a3440da64"
+          },
+          {
+            "variant": "GUARD3.IO",
+            "offset": 7,
+            "decodedBytes": 17608,
+            "writesPastDeclaredSize": 2,
+            "reads": [
+              8000,
+              2698
+            ],
+            "matches": false,
+            "nativeSha256": "08b261257d16cb56d86d29658113a1900e0b2c71e20541547734f38842bad88e",
+            "decodedSha256": "1233a58a9a23f7c0d62c025ee6dbc8750ef38765aa5ca52d8cf88732a1b5cab6",
+            "differenceCount": 1,
+            "firstDifference": 17607,
+            "lastDifference": 17607,
+            "sourceSha256": "267b32ea639130a6e24e00f6a9a8bfeda048aea2e42ef1174909c47300189c4b"
+          },
+          {
+            "variant": "GUARD3HI.IO",
+            "offset": 7,
+            "decodedBytes": 30152,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              3496
+            ],
+            "matches": true,
+            "nativeSha256": "3c8211efda1be65d76f0d76ad2cd9b4f78dfa453f9637615772177812c9ee820",
+            "decodedSha256": "3c8211efda1be65d76f0d76ad2cd9b4f78dfa453f9637615772177812c9ee820",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "c0ae88a45836f4accd215fcb29e785afb156a2703539a456af69322e7f9b005c"
+          },
+          {
+            "variant": "GUARD4.IO",
+            "offset": 7,
+            "decodedBytes": 14704,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              138
+            ],
+            "matches": true,
+            "nativeSha256": "a6c4dcfe46d18fa27e4f19bf272738ad64966e6da472b53dcedaeb273bb15c1e",
+            "decodedSha256": "a6c4dcfe46d18fa27e4f19bf272738ad64966e6da472b53dcedaeb273bb15c1e",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "d6d60b0ae8e8b407b90be95ff76e80b6fb1739e15350acc759028e3a2d25d872"
+          },
+          {
+            "variant": "HOMOIS2.IO",
+            "offset": 7,
+            "decodedBytes": 16816,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              2162
+            ],
+            "matches": false,
+            "nativeSha256": "f3f6239b6d4be9fabb3273a95650c0a2f119ace3681e0979d36ce38ec3f68163",
+            "decodedSha256": "3446ec2aa2670a154ffb2f3363be9a9c633de00c832783dc07160eddeccda1e9",
+            "differenceCount": 1,
+            "firstDifference": 16815,
+            "lastDifference": 16815,
+            "sourceSha256": "66c395fa73b24ed369a11cf819a61e82b1b48fa6ec8d61d31bc0c737c9e3cbf9"
+          },
+          {
+            "variant": "HORNY4.IO",
+            "offset": 7,
+            "decodedBytes": 21616,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              7776
+            ],
+            "matches": true,
+            "nativeSha256": "da7b2203fa5212e31fe7a065e6f8fe72d07962e7c65c6e26debe5d0a166597de",
+            "decodedSha256": "da7b2203fa5212e31fe7a065e6f8fe72d07962e7c65c6e26debe5d0a166597de",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "8ddeab62560cffa3f9f2f1dee87f95eaca81bef73564fff40e00be6aa7ad02ff"
+          },
+          {
+            "variant": "IBOISHAR.IO",
+            "offset": 7,
+            "decodedBytes": 228160,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              5840
+            ],
+            "matches": true,
+            "nativeSha256": "5877d3fafc06cd7ceeea7f8f9d43ba4bca2b9b62e3b00cdef22b26d7a2af20cf",
+            "decodedSha256": "5877d3fafc06cd7ceeea7f8f9d43ba4bca2b9b62e3b00cdef22b26d7a2af20cf",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "04dcbbb48a5336ae701877fd8c3025686c60d55fcf60d33685b22ce155c66a72"
+          },
+          {
+            "variant": "IO.IO",
+            "offset": 7,
+            "decodedBytes": 4512,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              2268
+            ],
+            "matches": true,
+            "nativeSha256": "6624be093f576f6b1d9c87f90c823d4bba4639ade2996572684dd3d3aef6728c",
+            "decodedSha256": "6624be093f576f6b1d9c87f90c823d4bba4639ade2996572684dd3d3aef6728c",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "0df1f34cf2519341ef20825d49c7f1e7ff204878814db744f7e5cb58ce6b5918"
+          },
+          {
+            "variant": "KROG.IO",
+            "offset": 7,
+            "decodedBytes": 22984,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              3538
+            ],
+            "matches": true,
+            "nativeSha256": "06e41eaa201e4be72ce249ad31733d4b3075e2a5b6f5262552b89a2fdfa9c996",
+            "decodedSha256": "06e41eaa201e4be72ce249ad31733d4b3075e2a5b6f5262552b89a2fdfa9c996",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "cfe231b8659332d7126b6f8c51115325aa4ca377f3705b6a78b356582bbff00b"
+          },
+          {
+            "variant": "LEZARD1.IO",
+            "offset": 7,
+            "decodedBytes": 26600,
+            "writesPastDeclaredSize": 5,
+            "reads": [
+              8000,
+              8000,
+              516
+            ],
+            "matches": false,
+            "nativeSha256": "8424ba07394d123af0127e5f08ec9e318672b9cce3ebaf1d2ec60e18ee2ff69a",
+            "decodedSha256": "5797849b4536d939b716c7de08acc32a982a086ea60c9c8c4f630cb8971711e8",
+            "differenceCount": 1,
+            "firstDifference": 26599,
+            "lastDifference": 26599,
+            "sourceSha256": "ad9c483dd908e14bab488065c05551ae12206d8ef46e9f726e542de277603275"
+          },
+          {
+            "variant": "LIONMAN5.IO",
+            "offset": 7,
+            "decodedBytes": 18288,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              5112
+            ],
+            "matches": true,
+            "nativeSha256": "5c09e06715b006957ea7569b8422a8f7646bb902feae8dc9f58c6bd2667cef96",
+            "decodedSha256": "5c09e06715b006957ea7569b8422a8f7646bb902feae8dc9f58c6bd2667cef96",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a6934ec936dcbca02a40726a9f31ab4b343309566774c39199d2342b5977c695"
+          },
+          {
+            "variant": "LOGO.IO",
+            "offset": 7,
+            "decodedBytes": 40632,
+            "writesPastDeclaredSize": 6,
+            "reads": [
+              8000,
+              6414
+            ],
+            "matches": false,
+            "nativeSha256": "bbbace0f443fd88d7abaf89c294dab468887b1e0fd4b1a8f23cd7e993342b8af",
+            "decodedSha256": "3da01235d0f79a61a4eefd594b27fa79a879eecddb08151a30e1b6d89e9e1a67",
+            "differenceCount": 1,
+            "firstDifference": 40631,
+            "lastDifference": 40631,
+            "sourceSha256": "5b8d56fed3d7ae7769cca0d873dd86adf820ce5abf7dec80fd6f6ee5539f83d3"
+          },
+          {
+            "variant": "LOSTGAME.IO",
+            "offset": 7,
+            "decodedBytes": 100920,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              1258
+            ],
+            "matches": true,
+            "nativeSha256": "ba23176242be0d0db72716ffce0f52ad7837f09c7a059616712277a1687afec6",
+            "decodedSha256": "ba23176242be0d0db72716ffce0f52ad7837f09c7a059616712277a1687afec6",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "5220278727d4afc084a53b7d7b6f60fbb0ab9415565f0d1ab7ad8d138ae52feb"
+          },
+          {
+            "variant": "LUTIN3.IO",
+            "offset": 7,
+            "decodedBytes": 7544,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              4514
+            ],
+            "matches": true,
+            "nativeSha256": "96cd5edbf671a262edebdf68df3371799d5a27d9511a3770ba2041673e923a7e",
+            "decodedSha256": "96cd5edbf671a262edebdf68df3371799d5a27d9511a3770ba2041673e923a7e",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "db6773838bae10f6d116e70ba228793832b0a67c95ac99694309fa5dccfc5956"
+          },
+          {
+            "variant": "MAIN.IO",
+            "offset": 7,
+            "decodedBytes": 27752,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              3960
+            ],
+            "matches": true,
+            "nativeSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+            "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95"
+          },
+          {
+            "variant": "MAP.IO",
+            "offset": 7,
+            "decodedBytes": 130280,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              6224
+            ],
+            "matches": true,
+            "nativeSha256": "e79c3217f3181b2a70acfb435b92c369fdbba60d5821b0d21055d3dc74e1191e",
+            "decodedSha256": "e79c3217f3181b2a70acfb435b92c369fdbba60d5821b0d21055d3dc74e1191e",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "1815a8b78823de27c96731732b3b5ce8ccba5eaf89313d379276e73d15b66076"
+          },
+          {
+            "variant": "MARCHAND.IO",
+            "offset": 7,
+            "decodedBytes": 105024,
+            "writesPastDeclaredSize": 29,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              6302
+            ],
+            "matches": false,
+            "nativeSha256": "7971a7910c9bae86487298adbd6d90dddbd7107303c78b026554bac3f4b90214",
+            "decodedSha256": "e55bcadd7910b21f499eb137e5773db2b46f7dcebf01db822ed903fc25b6d650",
+            "differenceCount": 1,
+            "firstDifference": 105023,
+            "lastDifference": 105023,
+            "sourceSha256": "a5b84f95b8b50f1c68fc8e6c368a67742f9f96a67ca033d6e72ee4d7c4673529"
+          },
+          {
+            "variant": "MARIN.IO",
+            "offset": 7,
+            "decodedBytes": 5392,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              2612
+            ],
+            "matches": true,
+            "nativeSha256": "0b443dcb522f2529da93cd7aaaa64aa16f1de7f840721d9f43ef2d00725e9084",
+            "decodedSha256": "0b443dcb522f2529da93cd7aaaa64aa16f1de7f840721d9f43ef2d00725e9084",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "1e5adb9e21a32281c823269ef7a39e26b5cac6872363b2e7b466436d2ff3dda1"
+          },
+          {
+            "variant": "MEDUSA5.IO",
+            "offset": 7,
+            "decodedBytes": 7568,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              3358
+            ],
+            "matches": true,
+            "nativeSha256": "65a79ca9fbba804ca7e695e4e08049c62ee41f50a08a1eb96e68fb632c44e529",
+            "decodedSha256": "65a79ca9fbba804ca7e695e4e08049c62ee41f50a08a1eb96e68fb632c44e529",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "150cfa1d742bad516a230ebaccfd65094568b3afac12eb35c0807055586c976a"
+          },
+          {
+            "variant": "MESSAGE.IO",
+            "offset": 7,
+            "decodedBytes": 12952,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              6432
+            ],
+            "matches": true,
+            "nativeSha256": "9c59edaf94017323f3fd701e0120876aa8685af41d9e8db789cd5a2b2cf9b963",
+            "decodedSha256": "9c59edaf94017323f3fd701e0120876aa8685af41d9e8db789cd5a2b2cf9b963",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "d180a5d858c7d188bc1ccf4546c3561bfed1779b8389ad10e7c74599a73e2742"
+          },
+          {
+            "variant": "MESSAGED.IO",
+            "offset": 7,
+            "decodedBytes": 13056,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              6480
+            ],
+            "matches": true,
+            "nativeSha256": "bc2c034f9ae71f94fd86e9e904cd1c0199da3864a91827246f1d1f0b964e376c",
+            "decodedSha256": "bc2c034f9ae71f94fd86e9e904cd1c0199da3864a91827246f1d1f0b964e376c",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "94f80de429cc62844da5f46aae1fc746f5c6ace5d20208d1173462a10dfb06ce"
+          },
+          {
+            "variant": "MESSAGEE.IO",
+            "offset": 7,
+            "decodedBytes": 12592,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              6308
+            ],
+            "matches": true,
+            "nativeSha256": "53483e77e10e26b42f43849bac401576457a535667b1f05f2adddb8dc619a127",
+            "decodedSha256": "53483e77e10e26b42f43849bac401576457a535667b1f05f2adddb8dc619a127",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "7ef08cd36e37d6a519a66e8288859488fd6782a4770dd50da60f65e131455313"
+          },
+          {
+            "variant": "MOMY5.IO",
+            "offset": 7,
+            "decodedBytes": 7184,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              4618
+            ],
+            "matches": true,
+            "nativeSha256": "89008a79e6668fd1a1eab1deac7a80b6e556f44e970520afaa4c38dc89e79e71",
+            "decodedSha256": "89008a79e6668fd1a1eab1deac7a80b6e556f44e970520afaa4c38dc89e79e71",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "0f37eed837241029ad76c76860fb955eb4e432dfd83d4420d24f0484b81f2c92"
+          },
+          {
+            "variant": "MONSTER5.IO",
+            "offset": 7,
+            "decodedBytes": 17592,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              2836
+            ],
+            "matches": true,
+            "nativeSha256": "3daf7746e4b668143aa7c17648d90bfea0501b3539c1e82c7358b4d753b840c5",
+            "decodedSha256": "3daf7746e4b668143aa7c17648d90bfea0501b3539c1e82c7358b4d753b840c5",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "87da95e5fbb3aeff53fdc69ae59dd61df955f072b4acfe9c5dfef3a80b7aa236"
+          },
+          {
+            "variant": "MONTAGNE.IO",
+            "offset": 7,
+            "decodedBytes": 117952,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              2666
+            ],
+            "matches": true,
+            "nativeSha256": "1b1986d27c3b44ee0c2b220b9e0075c6fffcd04cfdcf3a106447981db141333f",
+            "decodedSha256": "1b1986d27c3b44ee0c2b220b9e0075c6fffcd04cfdcf3a106447981db141333f",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "73be5f215448b625dc39fabdb6a470a9e75e06d900749c7725a5763941fe81c8"
+          },
+          {
+            "variant": "NAIN4.IO",
+            "offset": 7,
+            "decodedBytes": 14320,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              1956
+            ],
+            "matches": true,
+            "nativeSha256": "dbb18c2f9496893c5a28c43ec39649571edc8e619d7ddf6d53ec8f268580e4d7",
+            "decodedSha256": "dbb18c2f9496893c5a28c43ec39649571edc8e619d7ddf6d53ec8f268580e4d7",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "25e8a8a8e27fa284d6003f2e6a3408875db229b737617c5617ec2822908b1e5d"
+          },
+          {
+            "variant": "OBJET.IO",
+            "offset": 7,
+            "decodedBytes": 67064,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              4902
+            ],
+            "matches": true,
+            "nativeSha256": "94f2607631d38d09acd393abab515b1bf0d0dddf22556a0f6e1e628b074f420c",
+            "decodedSha256": "94f2607631d38d09acd393abab515b1bf0d0dddf22556a0f6e1e628b074f420c",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "51ec1fdf24bea52fd07cfc5bf01fa46c6ae7b75bbccb93433d6d0c66b0d99e08"
+          },
+          {
+            "variant": "ODWOMAN5.IO",
+            "offset": 7,
+            "decodedBytes": 6472,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              3156
+            ],
+            "matches": true,
+            "nativeSha256": "65b5601e5a66a4828dc44eff023400e82f1ad7e2e8fb5a06b43fb4eb3ecf4521",
+            "decodedSha256": "65b5601e5a66a4828dc44eff023400e82f1ad7e2e8fb5a06b43fb4eb3ecf4521",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "132590ebbb7d8b29e4c19e58155274091b9731c365f3209184c711ea23b8d7d3"
+          },
+          {
+            "variant": "OLBAR.IO",
+            "offset": 7,
+            "decodedBytes": 2376,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              882
+            ],
+            "matches": true,
+            "nativeSha256": "fa86d42f62bc51cb77b61e993e99350f06d0de81369ca72f1988beedfb384098",
+            "decodedSha256": "fa86d42f62bc51cb77b61e993e99350f06d0de81369ca72f1988beedfb384098",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "559601c6395f10d5b3537423a0b5f6da4d2edeb3a144ded301bf4e11578179cd"
+          },
+          {
+            "variant": "ORK5.IO",
+            "offset": 7,
+            "decodedBytes": 13416,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              3742
+            ],
+            "matches": true,
+            "nativeSha256": "3451fd6ab8f021e794ef7efc1c9ac20efc02c6443d31bf6d2b40e2ab68de125b",
+            "decodedSha256": "3451fd6ab8f021e794ef7efc1c9ac20efc02c6443d31bf6d2b40e2ab68de125b",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "11fefadc143aa348341d8a2764465736bdb97f11c79e44930c7aa421e077ca59"
+          },
+          {
+            "variant": "PARAM.IO",
+            "offset": 7,
+            "decodedBytes": 15288,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              4332
+            ],
+            "matches": true,
+            "nativeSha256": "a2291079a6f353b0eac1ff69a6db550024ffdba3eb13407bcf9ba028cdf263fc",
+            "decodedSha256": "a2291079a6f353b0eac1ff69a6db550024ffdba3eb13407bcf9ba028cdf263fc",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "d06a65de1362847058a823445a4639e00c5e6366ac6057ef02a47b4bee10c114"
+          },
+          {
+            "variant": "PCAVE.IO",
+            "offset": 7,
+            "decodedBytes": 25416,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              4664
+            ],
+            "matches": true,
+            "nativeSha256": "6515237ffefefd0748aa4b6f8e91185784d5a89bc33d0402448829f50e324198",
+            "decodedSha256": "6515237ffefefd0748aa4b6f8e91185784d5a89bc33d0402448829f50e324198",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "c6effa5f75d7d96dc55b84c8787ed94de58896aaaa90dd150c1bc16da7598c46"
+          },
+          {
+            "variant": "PCMUSIC1.IO",
+            "offset": 7,
+            "decodedBytes": 12184,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              2908
+            ],
+            "matches": true,
+            "nativeSha256": "786dc87423ee8d3612c2037d49273a864478e151e772690af3cd4dffbec23f77",
+            "decodedSha256": "786dc87423ee8d3612c2037d49273a864478e151e772690af3cd4dffbec23f77",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "fa7156180437d2161d154f61587bdf276b6892b68d38789e5a31e98e88feef32"
+          },
+          {
+            "variant": "PCMUSIC2.IO",
+            "offset": 7,
+            "decodedBytes": 13208,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              2614
+            ],
+            "matches": true,
+            "nativeSha256": "f3bd05090c7d07d04ec2544e60bf254501098b07ee1966ab8ef9407b690e4c88",
+            "decodedSha256": "f3bd05090c7d07d04ec2544e60bf254501098b07ee1966ab8ef9407b690e4c88",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "0d12d162b878bdbc05fac234fe6eeb2019cf2560e8bfa67869277f76d6906b91"
+          },
+          {
+            "variant": "PCMUSIC3.IO",
+            "offset": 7,
+            "decodedBytes": 9112,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              1648
+            ],
+            "matches": true,
+            "nativeSha256": "5d622b053505519046ccdfb27c2e9b6396f3db3700e73a7be507f6b2b8ec043c",
+            "decodedSha256": "5d622b053505519046ccdfb27c2e9b6396f3db3700e73a7be507f6b2b8ec043c",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "b38d5529940f1c8eed5cb377f47de3959fc1734e57a198937cbbc9aa8a52189b"
+          },
+          {
+            "variant": "PEOPLE1.IO",
+            "offset": 7,
+            "decodedBytes": 6128,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              3558
+            ],
+            "matches": true,
+            "nativeSha256": "2965a5eaed25a7d08dbc2e805568da202044bbb7ad5678b85f4270fe079c0b16",
+            "decodedSha256": "2965a5eaed25a7d08dbc2e805568da202044bbb7ad5678b85f4270fe079c0b16",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a4f420887be182fded07205edc25bbad4a52a6939a41fe25c51bb0d37489ea3d"
+          },
+          {
+            "variant": "PEOPLE2.IO",
+            "offset": 7,
+            "decodedBytes": 9888,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              5264
+            ],
+            "matches": true,
+            "nativeSha256": "2d52f1cb4d5ae6f69ccc0656581ab86ed63da9770c549e03c146f7ab77c595c4",
+            "decodedSha256": "2d52f1cb4d5ae6f69ccc0656581ab86ed63da9770c549e03c146f7ab77c595c4",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "e0382ef451963c77e1a2393535058a58b727f948a48c4e1a8a1b6e603c135336"
+          },
+          {
+            "variant": "PIAF4.IO",
+            "offset": 7,
+            "decodedBytes": 12568,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              636
+            ],
+            "matches": true,
+            "nativeSha256": "96dac02886c07964d1d47dc097adce0e2503886429364f79dd61b9a04a16e4a1",
+            "decodedSha256": "96dac02886c07964d1d47dc097adce0e2503886429364f79dd61b9a04a16e4a1",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "10a105395142f3d06cef0ab39484f99a29c3c3a7b135cfdf109b4f7b20f341a4"
+          },
+          {
+            "variant": "PLAINE1.IO",
+            "offset": 7,
+            "decodedBytes": 56400,
+            "writesPastDeclaredSize": 5,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              7692
+            ],
+            "matches": false,
+            "nativeSha256": "a7f83117cccf046fd4d6e5ff8dbfc43d8e61f37ae79346636a580f910edd7bbb",
+            "decodedSha256": "7bc2da370b8865bde07819e29550e00730fd2287f70e6f163d55b4cf81e9a30f",
+            "differenceCount": 1,
+            "firstDifference": 56399,
+            "lastDifference": 56399,
+            "sourceSha256": "8f430c175c1bf21ae6da2760121d5f020a938d968284541b6e4f641ecb12ff1f"
+          },
+          {
+            "variant": "POURS1.IO",
+            "offset": 7,
+            "decodedBytes": 33832,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              7546
+            ],
+            "matches": true,
+            "nativeSha256": "46d39e0672f1550f903c89484ba559e2503df3f3f42979f0102ff02b1d0f5e5a",
+            "decodedSha256": "46d39e0672f1550f903c89484ba559e2503df3f3f42979f0102ff02b1d0f5e5a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "5902ebf454a3149c1cdbb435dae0b41b8f7bc2759dce07f716ebdb193a55a5aa"
+          },
+          {
+            "variant": "PP11.IO",
+            "offset": 7,
+            "decodedBytes": 69112,
+            "writesPastDeclaredSize": 14,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              4470
+            ],
+            "matches": true,
+            "nativeSha256": "876dab6442114dfb270dc9e6c7f829cd1a02d90bfcb817ed0ea003034b08ae9b",
+            "decodedSha256": "876dab6442114dfb270dc9e6c7f829cd1a02d90bfcb817ed0ea003034b08ae9b",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "5e7672ecc83dd8712ebc9718d66c4f5a4825d1d2e3f1f1d02ca74ce5e3c09423"
+          },
+          {
+            "variant": "PP12.IO",
+            "offset": 7,
+            "decodedBytes": 39264,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              2604
+            ],
+            "matches": true,
+            "nativeSha256": "e2b3351b2c15541aa5b6766878e51a82544708018eef29772dc1f7fa29059246",
+            "decodedSha256": "e2b3351b2c15541aa5b6766878e51a82544708018eef29772dc1f7fa29059246",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "9020e835be883eae367b6f0333ececdce26b5ab54bb887e5c3c5eb1c45f52ff1"
+          },
+          {
+            "variant": "PP2I.IO",
+            "offset": 7,
+            "decodedBytes": 105856,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              264
+            ],
+            "matches": true,
+            "nativeSha256": "d3294e691876c2243e487381381a49bbb6de2b0426c49305519692ab1324b278",
+            "decodedSha256": "d3294e691876c2243e487381381a49bbb6de2b0426c49305519692ab1324b278",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "721c43f0554223e28d309e1d8db671250c043fd90a0812651b51ddddb4896e37"
+          },
+          {
+            "variant": "PP3BAN.IO",
+            "offset": 7,
+            "decodedBytes": 91704,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              4598
+            ],
+            "matches": true,
+            "nativeSha256": "9500fe5d74c2eb80fbdba086b2f3718a00c6944e0ee6150ecdce9abaa3d687ac",
+            "decodedSha256": "9500fe5d74c2eb80fbdba086b2f3718a00c6944e0ee6150ecdce9abaa3d687ac",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "77346579e5ae9837a8ed1f31ba29111745cde6a267ada912ebd3c06774cfb24f"
+          },
+          {
+            "variant": "PP3MN.IO",
+            "offset": 7,
+            "decodedBytes": 123344,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              1572
+            ],
+            "matches": true,
+            "nativeSha256": "833a9e78b5ffdc85e51cb827bb4a5990c65c849d90611b9621c0c945aabd45aa",
+            "decodedSha256": "833a9e78b5ffdc85e51cb827bb4a5990c65c849d90611b9621c0c945aabd45aa",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "942c7e11c9241e54e551e62fdd7b65d97f5423ba838e0c46810a2c5bc821df26"
+          },
+          {
+            "variant": "PP3TB.IO",
+            "offset": 7,
+            "decodedBytes": 90408,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              3694
+            ],
+            "matches": true,
+            "nativeSha256": "829b28091b631f9152e6f43493dc704a9cf16321b5057925a3d1c58d26e9f135",
+            "decodedSha256": "829b28091b631f9152e6f43493dc704a9cf16321b5057925a3d1c58d26e9f135",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "00d7f195bf940b124c374fd9482ab6cb0a78997b5eed98b8f8ce43543374e9f7"
+          },
+          {
+            "variant": "PPECHAP.IO",
+            "offset": 7,
+            "decodedBytes": 31096,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              4764
+            ],
+            "matches": true,
+            "nativeSha256": "c1506a14fb36320cd2e4c051a309df3f1ec98a94b89d49084dd6bb6a306122a8",
+            "decodedSha256": "c1506a14fb36320cd2e4c051a309df3f1ec98a94b89d49084dd6bb6a306122a8",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "8d1c67dcccb139e3938a8fdcf6bbb9e836af273a95b46b4a10b9ec67f39120d2"
+          },
+          {
+            "variant": "PPSAC.IO",
+            "offset": 7,
+            "decodedBytes": 57400,
+            "writesPastDeclaredSize": 5,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              4940
+            ],
+            "matches": false,
+            "nativeSha256": "27a1a8078a6b08d4ac2a10baa522924782416eb5e6e2d980cbed866bc0f6eb7a",
+            "decodedSha256": "90b34fa5f71b7f0b3dc8ef2784538561d60de83bc7318421501b3854ec964ac2",
+            "differenceCount": 1,
+            "firstDifference": 57399,
+            "lastDifference": 57399,
+            "sourceSha256": "dc7893d3298a6ab3c4a90f07bd756ecf8fd3c5310c0fb0ed4119c2edcc438a6d"
+          },
+          {
+            "variant": "PPTRAVEL.IO",
+            "offset": 7,
+            "decodedBytes": 30912,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              6912
+            ],
+            "matches": true,
+            "nativeSha256": "f441b5fe1d7ccf0d5f1765cb8ecbcadf4b12fe12addaafa6df6d75b967346f76",
+            "decodedSha256": "f441b5fe1d7ccf0d5f1765cb8ecbcadf4b12fe12addaafa6df6d75b967346f76",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "456d92cb9e08beb7175821759bf47a6845d6b12d104d811c844c180b7d0cf1bd"
+          },
+          {
+            "variant": "PRESENT.IO",
+            "offset": 7,
+            "decodedBytes": 153608,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              5854
+            ],
+            "matches": true,
+            "nativeSha256": "b641b65922d2f7683ddd529c8c9788d37858774d7e1df32c9d2fec6f19ff7c50",
+            "decodedSha256": "b641b65922d2f7683ddd529c8c9788d37858774d7e1df32c9d2fec6f19ff7c50",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "700f1f8d116feb25d9aa9155dd432d7b0c56f5a45bf9c23a8633a82780e22bab"
+          },
+          {
+            "variant": "PRESENT1.IO",
+            "offset": 7,
+            "decodedBytes": 84520,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              1624
+            ],
+            "matches": true,
+            "nativeSha256": "210b70e18f118a9c6fb053bbef17db2c09603b35c610610a7f36f0135c7ad945",
+            "decodedSha256": "210b70e18f118a9c6fb053bbef17db2c09603b35c610610a7f36f0135c7ad945",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "c35387bb824a00b113c2ec539ce6b96b77e7d82cab7ed1a971daabb0ad8d933d"
+          },
+          {
+            "variant": "PRESENT2.IO",
+            "offset": 7,
+            "decodedBytes": 130880,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              3876
+            ],
+            "matches": true,
+            "nativeSha256": "0d9c3820fae52932d91f1601590434d3f3078d0682abb4e121e63f5f6f1f05f0",
+            "decodedSha256": "0d9c3820fae52932d91f1601590434d3f3078d0682abb4e121e63f5f6f1f05f0",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "0928faa7db402342b91231d31264ee37d422b98f6a3f788f26a9b5234e58aa56"
+          },
+          {
+            "variant": "PRESOUND.IO",
+            "offset": 7,
+            "decodedBytes": 45856,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              6642
+            ],
+            "matches": true,
+            "nativeSha256": "b9e38b00126608023c28d5b00202518cf810f4f85bdc687a93b8f0886d5346d5",
+            "decodedSha256": "b9e38b00126608023c28d5b00202518cf810f4f85bdc687a93b8f0886d5346d5",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "3d13e143dd5128ded15804f3b44f9313039e4d25afc529a6b4b18e2e0c737ba1"
+          },
+          {
+            "variant": "PUIT.IO",
+            "offset": 7,
+            "decodedBytes": 12664,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              7320
+            ],
+            "matches": true,
+            "nativeSha256": "e4f20d494c572776721f60b5a964be4491ba9eedc2116d259e42dc096de4b187",
+            "decodedSha256": "e4f20d494c572776721f60b5a964be4491ba9eedc2116d259e42dc096de4b187",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "37b48dd67ffc30d225ef9fddf5552e9bad2eaf241c4e290cfe11e7c1865cfefe"
+          },
+          {
+            "variant": "RELICMAN.IO",
+            "offset": 7,
+            "decodedBytes": 5048,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              2454
+            ],
+            "matches": true,
+            "nativeSha256": "80a4d5ac3adc2c954f9d82d41f9377333235205ec6713bb77ae80f4d1a178095",
+            "decodedSha256": "80a4d5ac3adc2c954f9d82d41f9377333235205ec6713bb77ae80f4d1a178095",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "95dc527a02ad961ed56c6af3de51f753e5b926feea1d84b71bc009afc4228914"
+          },
+          {
+            "variant": "RHINO4.IO",
+            "offset": 7,
+            "decodedBytes": 19832,
+            "writesPastDeclaredSize": 17,
+            "reads": [
+              8000,
+              5954
+            ],
+            "matches": false,
+            "nativeSha256": "be40e6d71355f456b0bde2ac97a80dc207d8e73f318a7ac1b6bc9ee2b06a171a",
+            "decodedSha256": "2f10db64d01f65f4e07e1b84ef9a9224763bb3e0a654889e5edfaf466d356e4e",
+            "differenceCount": 1,
+            "firstDifference": 19831,
+            "lastDifference": 19831,
+            "sourceSha256": "eecc6abf2f912053ab1002039af40fcdcb4cb2fdee7251ece763e4b74fb75f2b"
+          },
+          {
+            "variant": "SAUB.IO",
+            "offset": 7,
+            "decodedBytes": 59176,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              1032
+            ],
+            "matches": false,
+            "nativeSha256": "2509ffd3f91cec6db3fff341010873bc4007f963a75550c1baf70642e1e1cbd0",
+            "decodedSha256": "0109a63de811a34023ffceb04b1cc91d563e2597eb21f08366998a35566f9f93",
+            "differenceCount": 1,
+            "firstDifference": 59175,
+            "lastDifference": 59175,
+            "sourceSha256": "0de1131adecc0ebab1b61c7ab4bdf32cfb87e626b4517f00bb8459b0035b8af5"
+          },
+          {
+            "variant": "SCITE.IO",
+            "offset": 7,
+            "decodedBytes": 20552,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              5144
+            ],
+            "matches": true,
+            "nativeSha256": "5bbccfd26f629fc05a9ce23fbe2025c45f5f07a8fa17fa2f0c7b19939e09a2dc",
+            "decodedSha256": "5bbccfd26f629fc05a9ce23fbe2025c45f5f07a8fa17fa2f0c7b19939e09a2dc",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "f9cc8f3494a7ed6b6c88e1babe015f66ef508af13ed6adc4b3b3ad49ec48ada1"
+          },
+          {
+            "variant": "SCOMB.IO",
+            "offset": 7,
+            "decodedBytes": 11864,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              3414
+            ],
+            "matches": true,
+            "nativeSha256": "7e2975a141236932fcee7cd5fadceb834e7d9c6511bd7796ff21c16e17b32aa9",
+            "decodedSha256": "7e2975a141236932fcee7cd5fadceb834e7d9c6511bd7796ff21c16e17b32aa9",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "68ffeb0e49290ed050c1f7be9e36952852852aef3f165332d1c035d709bb1302"
+          },
+          {
+            "variant": "SDONJONS.IO",
+            "offset": 7,
+            "decodedBytes": 25792,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              3716
+            ],
+            "matches": true,
+            "nativeSha256": "f059a1aadbf0517da459de38317c569837a0ee9320c6449c26575bc4a3a2e52a",
+            "decodedSha256": "f059a1aadbf0517da459de38317c569837a0ee9320c6449c26575bc4a3a2e52a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "369fbfab8d7f0cb6fe621c944a5bacb005779660492ba74915eda54cb3ffc08e"
+          },
+          {
+            "variant": "SHANDAR.IO",
+            "offset": 7,
+            "decodedBytes": 1800,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              786
+            ],
+            "matches": true,
+            "nativeSha256": "4c21fe421aee0fd0658965450c1a62d379a321a9fd0729c7731746abe3cef6b2",
+            "decodedSha256": "4c21fe421aee0fd0658965450c1a62d379a321a9fd0729c7731746abe3cef6b2",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "30974344e6a6363b74d312de665125737ee0b421922687fe9166540206b1a289"
+          },
+          {
+            "variant": "SILE1.IO",
+            "offset": 7,
+            "decodedBytes": 33520,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              2902
+            ],
+            "matches": true,
+            "nativeSha256": "edc25ed17c5090963308e7b0ac671e25a5baad020e8f430d7c4bfed0b6b61b3a",
+            "decodedSha256": "edc25ed17c5090963308e7b0ac671e25a5baad020e8f430d7c4bfed0b6b61b3a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "aafdcd870c31439e8e2fe05238427d9bfe62ae99e0f21fb375c4634f0e01cb4c"
+          },
+          {
+            "variant": "SKELETT5.IO",
+            "offset": 7,
+            "decodedBytes": 9032,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              4994
+            ],
+            "matches": true,
+            "nativeSha256": "f5e9ff8d3be851600be4840e7fda627ed7a676f96e21c5e0853d79398a40d6c1",
+            "decodedSha256": "f5e9ff8d3be851600be4840e7fda627ed7a676f96e21c5e0853d79398a40d6c1",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "15efeee09a12fdc41a0d48bd644db11fe0fd85a39dd6babcf2346e896b3324d7"
+          },
+          {
+            "variant": "SMER.IO",
+            "offset": 7,
+            "decodedBytes": 30000,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              3760
+            ],
+            "matches": true,
+            "nativeSha256": "bcd578ee0201d3618cf0b6a407e8ffc9dd416a5526ae95cb72a6843314c2eb0d",
+            "decodedSha256": "bcd578ee0201d3618cf0b6a407e8ffc9dd416a5526ae95cb72a6843314c2eb0d",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "d38a64cc037d89f6941a620751b9bc2431bc63967d18f1d0755ab3413016b0f9"
+          },
+          {
+            "variant": "SMONTAGN.IO",
+            "offset": 7,
+            "decodedBytes": 34792,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              4742
+            ],
+            "matches": true,
+            "nativeSha256": "e0e27098dcb730e8046a8f44948fa3db6e2cf74a832040c4f77bade33525484c",
+            "decodedSha256": "e0e27098dcb730e8046a8f44948fa3db6e2cf74a832040c4f77bade33525484c",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "08ed1bfaff4aead7b61a43d0f5e3664ce2053ab86d9447c20def38b74f5334b0"
+          },
+          {
+            "variant": "SORCIER5.IO",
+            "offset": 7,
+            "decodedBytes": 26768,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              412
+            ],
+            "matches": true,
+            "nativeSha256": "343f8b2e47ed75e6542daea939e3ad231012141636e1bf7fb387be15458c1a25",
+            "decodedSha256": "343f8b2e47ed75e6542daea939e3ad231012141636e1bf7fb387be15458c1a25",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "3725eea1a8fc66d6a95d5cfaf6f4a8d0ec4a110a27469d8d7ace2ac46485957d"
+          },
+          {
+            "variant": "SORTMOR5.IO",
+            "offset": 7,
+            "decodedBytes": 20568,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              4810
+            ],
+            "matches": true,
+            "nativeSha256": "e71ddebeb3c0684eb7bcf040494605828bfd68ec0cc4a13d6417657d753434e8",
+            "decodedSha256": "e71ddebeb3c0684eb7bcf040494605828bfd68ec0cc4a13d6417657d753434e8",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "9996bddd88ef851d80958eec126c764d3b68bcdf85eee0c0de2b3d97a490972d"
+          },
+          {
+            "variant": "SOURIS.IO",
+            "offset": 7,
+            "decodedBytes": 5008,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              2746
+            ],
+            "matches": true,
+            "nativeSha256": "7f5e928d07330ccf8cf0a4fa3cfc1af05f40a0672d60fd01e0b12a5a6fb7d6a2",
+            "decodedSha256": "7f5e928d07330ccf8cf0a4fa3cfc1af05f40a0672d60fd01e0b12a5a6fb7d6a2",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "78df7c73f880466303867b63dd5e20897777802b0595c64935b9f4462354f9d3"
+          },
+          {
+            "variant": "SPAROLES.IO",
+            "offset": 7,
+            "decodedBytes": 21952,
+            "writesPastDeclaredSize": 5,
+            "reads": [
+              8000,
+              1236
+            ],
+            "matches": false,
+            "nativeSha256": "f7c1b4fd6ce1228391abaf6ecda9ddeb1d4eb8e978f345fc4a3fab063959822a",
+            "decodedSha256": "196ab859e6fcd6c259470394b701c1051d8af4296aec126908c635d3088ea22e",
+            "differenceCount": 1,
+            "firstDifference": 21951,
+            "lastDifference": 21951,
+            "sourceSha256": "e48bd569216ae6dec23a731c0f7d87f8e2e9f36a4fd1e8bb7b90d2062505c9e0"
+          },
+          {
+            "variant": "SVILLE.IO",
+            "offset": 7,
+            "decodedBytes": 17864,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              372
+            ],
+            "matches": true,
+            "nativeSha256": "94a1567af2046ce5256ff1e3f029c92df47aad039db3228dc7119132c48d983c",
+            "decodedSha256": "94a1567af2046ce5256ff1e3f029c92df47aad039db3228dc7119132c48d983c",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "772881fc790069594b7a6312cb235748885157f927484076cbdb750f1884a9c4"
+          },
+          {
+            "variant": "TABLEAU.IO",
+            "offset": 7,
+            "decodedBytes": 8672,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              4130
+            ],
+            "matches": true,
+            "nativeSha256": "849b6e1874047cc2c148441ac596fe1d74232fc0e8d8f54e935523137206cae6",
+            "decodedSha256": "849b6e1874047cc2c148441ac596fe1d74232fc0e8d8f54e935523137206cae6",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "c25bfe28d79869f2b2a347b92d4a307786cf9d521c6b5d8292e924a20ddd85fa"
+          },
+          {
+            "variant": "TAVERNE.IO",
+            "offset": 7,
+            "decodedBytes": 55552,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              7760
+            ],
+            "matches": true,
+            "nativeSha256": "a406b4eda1acd7b4f19f65e67f92066b1d33f0ffad40f8e596ede98476004f8d",
+            "decodedSha256": "a406b4eda1acd7b4f19f65e67f92066b1d33f0ffad40f8e596ede98476004f8d",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "ea315973f2187950f7ac72a6c6db4565dd0fd67ede241d56e8a73175fa8bf804"
+          },
+          {
+            "variant": "TEXTIN.IO",
+            "offset": 7,
+            "decodedBytes": 17944,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              1184
+            ],
+            "matches": true,
+            "nativeSha256": "94deff32c6ba0383a77c0d4ef20788a732bd1ce04c2b4e8b5a46bfc5281eefca",
+            "decodedSha256": "94deff32c6ba0383a77c0d4ef20788a732bd1ce04c2b4e8b5a46bfc5281eefca",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "e0c8293e19017f3e90f4c0b2d812b5a9a85052673be9acc18df3f686c1a65a6c"
+          },
+          {
+            "variant": "TEXTIND.IO",
+            "offset": 7,
+            "decodedBytes": 17600,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              828
+            ],
+            "matches": true,
+            "nativeSha256": "6c9f99d6c01551ff60e128b2a1b892868faec9a309cd75871241a535c19e6c50",
+            "decodedSha256": "6c9f99d6c01551ff60e128b2a1b892868faec9a309cd75871241a535c19e6c50",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "b36ded430e7d183ad29be627679aaf8823aeae5cb056394253dec118f048465d"
+          },
+          {
+            "variant": "TEXTINE.IO",
+            "offset": 7,
+            "decodedBytes": 17360,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              852
+            ],
+            "matches": true,
+            "nativeSha256": "5b8e1a1152276e0deed587ca0f63d34a23af2537177031f19ae8d53f1cbd27f6",
+            "decodedSha256": "5b8e1a1152276e0deed587ca0f63d34a23af2537177031f19ae8d53f1cbd27f6",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a8f9dc4b7be0c4b5034e284f8af2699693dcd16bcda5704f89dc42f411a2e1c6"
+          },
+          {
+            "variant": "THEEND1.IO",
+            "offset": 7,
+            "decodedBytes": 169824,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              5394
+            ],
+            "matches": true,
+            "nativeSha256": "9b91a42381e3e65c0b81c9ccc2f2708cc0c5b8f38e677e3b01ef44f49f4493cf",
+            "decodedSha256": "9b91a42381e3e65c0b81c9ccc2f2708cc0c5b8f38e677e3b01ef44f49f4493cf",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "4addfc59504c5db1da842506f25e5a134185f7bee37564d768175da5cfdf83c3"
+          },
+          {
+            "variant": "TROUBA3.IO",
+            "offset": 7,
+            "decodedBytes": 15544,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              4758
+            ],
+            "matches": true,
+            "nativeSha256": "1e8a8847411ec1eb33a88c4de8949620ee6ae9ce86aaa30d293461a41d0e5c89",
+            "decodedSha256": "1e8a8847411ec1eb33a88c4de8949620ee6ae9ce86aaa30d293461a41d0e5c89",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "f45739b7313bb5e22988dbc8d97463035e991abe669b94b381badfda76c0b0ce"
+          },
+          {
+            "variant": "VARCADE.IO",
+            "offset": 7,
+            "decodedBytes": 39656,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              432
+            ],
+            "matches": true,
+            "nativeSha256": "9b6d3b15558d3a1270aaf874e3ae03af2d2910fd5f2b238285912af875cf62c2",
+            "decodedSha256": "9b6d3b15558d3a1270aaf874e3ae03af2d2910fd5f2b238285912af875cf62c2",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "f00dca3b16310cb05d45666cefd085f5d016517deb19df3b8aa7e9ef584484f8"
+          },
+          {
+            "variant": "VARCHE.IO",
+            "offset": 7,
+            "decodedBytes": 31864,
+            "writesPastDeclaredSize": 2,
+            "reads": [
+              8000,
+              8000,
+              4802
+            ],
+            "matches": true,
+            "nativeSha256": "cc20ea54634f9a84836bc0da40b4f500aecde93174a6d6bd8a3d4cbd3f13dd13",
+            "decodedSha256": "cc20ea54634f9a84836bc0da40b4f500aecde93174a6d6bd8a3d4cbd3f13dd13",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "be0c5776fb756e95fce4011e58c0301da5d157ed8c08dd95b253489d9d76cfe4"
+          },
+          {
+            "variant": "VBIBLI.IO",
+            "offset": 7,
+            "decodedBytes": 34160,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              5746
+            ],
+            "matches": true,
+            "nativeSha256": "1eb9dd05a4f04c6ed27d29de5ac8ea0e3e8bd5d456fc02540c2f18a2cf442712",
+            "decodedSha256": "1eb9dd05a4f04c6ed27d29de5ac8ea0e3e8bd5d456fc02540c2f18a2cf442712",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "36907bded1fa5f33834498a8aa770311f9668020466dde1e3b415870833f610b"
+          },
+          {
+            "variant": "VDEC1.IO",
+            "offset": 7,
+            "decodedBytes": 18272,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              744
+            ],
+            "matches": true,
+            "nativeSha256": "d63a5ce064ba4dec1f25d848113e1b1435f765f3c1adbfb049e5e977de3a0a5f",
+            "decodedSha256": "d63a5ce064ba4dec1f25d848113e1b1435f765f3c1adbfb049e5e977de3a0a5f",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "85f864be4b90a6fe73e98c48bd25a7e34ce60056d7e0932ab9297f18db536c66"
+          },
+          {
+            "variant": "VDEC2.IO",
+            "offset": 7,
+            "decodedBytes": 14632,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              7572
+            ],
+            "matches": true,
+            "nativeSha256": "052b2814fe0ba8f277fb5d777ff1e1721b5d900e6a6ccd22df93436c86001fb1",
+            "decodedSha256": "052b2814fe0ba8f277fb5d777ff1e1721b5d900e6a6ccd22df93436c86001fb1",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "fc0073b496b32aa3917b4cb3c325aae10e99ac0f62bc26f2de9d9ab362097b49"
+          },
+          {
+            "variant": "VDEC3.IO",
+            "offset": 7,
+            "decodedBytes": 19184,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              1840
+            ],
+            "matches": true,
+            "nativeSha256": "8413292c3a63e3dd16c3f3836a446d12505ae9655acd110c709c6e95f160cada",
+            "decodedSha256": "8413292c3a63e3dd16c3f3836a446d12505ae9655acd110c709c6e95f160cada",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "70646c235abc858a795acfca4bf190064efdecef9d76e7be87883572713e60a9"
+          },
+          {
+            "variant": "VHOUSE1.IO",
+            "offset": 7,
+            "decodedBytes": 37960,
+            "writesPastDeclaredSize": 8,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              2574
+            ],
+            "matches": true,
+            "nativeSha256": "9e763b1dabd2344d1188773358d35cdda2920f5264e83b71806bef78c1ad47a4",
+            "decodedSha256": "9e763b1dabd2344d1188773358d35cdda2920f5264e83b71806bef78c1ad47a4",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "b1a5c7657f0c7c05fef18f97dc4a8a192d7ddf2b5ab19fe533556185d4bc2cd8"
+          },
+          {
+            "variant": "VHOUSE2.IO",
+            "offset": 7,
+            "decodedBytes": 41032,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              3540
+            ],
+            "matches": true,
+            "nativeSha256": "9e7e1c50a3d8a752585d68ad33d87da354759766e866477eef667b1edc76b478",
+            "decodedSha256": "9e7e1c50a3d8a752585d68ad33d87da354759766e866477eef667b1edc76b478",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "6a3f0d7d5bf8c89d7efe05373d16e01745eb1a17f4fa3f4294cc2287899b659a"
+          },
+          {
+            "variant": "VILLAGE1.IO",
+            "offset": 7,
+            "decodedBytes": 63968,
+            "writesPastDeclaredSize": 10,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              4936
+            ],
+            "matches": true,
+            "nativeSha256": "19dd676b38061c3e7d5d04a22881b8776bac60f73eb0512629ffcb999629c089",
+            "decodedSha256": "19dd676b38061c3e7d5d04a22881b8776bac60f73eb0512629ffcb999629c089",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "3074b71d9d4d3cea4c64e27c624b37f4f04ebf15baf47df273a0ffe0b0d0f8ea"
+          },
+          {
+            "variant": "VILLE.IO",
+            "offset": 7,
+            "decodedBytes": 40280,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              3378
+            ],
+            "matches": true,
+            "nativeSha256": "ffcda7ab53cb91be1d1851f52f72a599c09a26378c3990e1641eccbd6133236e",
+            "decodedSha256": "ffcda7ab53cb91be1d1851f52f72a599c09a26378c3990e1641eccbd6133236e",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "f1d39c2f6b5d2f213471e22588f76a5ff317cf93a508bf3e4af484ec7da6f79f"
+          },
+          {
+            "variant": "VJAIL.IO",
+            "offset": 7,
+            "decodedBytes": 20032,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              6970
+            ],
+            "matches": true,
+            "nativeSha256": "ca8484539dcc7ce1580130e21504ce2be2666e7fef0b83bb7b3791c2462604f6",
+            "decodedSha256": "ca8484539dcc7ce1580130e21504ce2be2666e7fef0b83bb7b3791c2462604f6",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "718b0bf2e06daa15a5ca23630a2944dcd82f16f0b44324fcb7ef925ab801bb33"
+          },
+          {
+            "variant": "VLINGE.IO",
+            "offset": 7,
+            "decodedBytes": 6040,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              1632
+            ],
+            "matches": true,
+            "nativeSha256": "302c56c7af033c5b4073bfe95024862cf474b37138d086f62744133f8dbe2e90",
+            "decodedSha256": "302c56c7af033c5b4073bfe95024862cf474b37138d086f62744133f8dbe2e90",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "03c471024aaf6d11960569ab52097b986f7d971034f5995d1acd79c29060aec6"
+          },
+          {
+            "variant": "VMAIRIE.IO",
+            "offset": 7,
+            "decodedBytes": 19328,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              3896
+            ],
+            "matches": true,
+            "nativeSha256": "d9bebe09d9a3ba9125e8d12825206a7ae8bce16054d25a691d36b16e49f644e9",
+            "decodedSha256": "d9bebe09d9a3ba9125e8d12825206a7ae8bce16054d25a691d36b16e49f644e9",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "b2a3ba223dca66a9180b22708bc781edb6771db672cb2291c761069f6e7fba2d"
+          },
+          {
+            "variant": "VNIGHT.IO",
+            "offset": 7,
+            "decodedBytes": 29584,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              5340
+            ],
+            "matches": true,
+            "nativeSha256": "f18e6f9b9cbde55e65cf5c0d1f81ece51d151effdb90b787342f1c84ea736b46",
+            "decodedSha256": "f18e6f9b9cbde55e65cf5c0d1f81ece51d151effdb90b787342f1c84ea736b46",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "b8b1b99e56e759d24dd7df6668427b9d3d3d19af84c6c9dfa0eac9c35eda0e55"
+          },
+          {
+            "variant": "VOLEUR3.IO",
+            "offset": 7,
+            "decodedBytes": 14200,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              8000,
+              540
+            ],
+            "matches": false,
+            "nativeSha256": "bc370a3638c72fbc3345ad9f9cfd66f683354b6590f66264ddfc546f098dea1e",
+            "decodedSha256": "9701fa049accedd8b304832a7856d58bb40c5a6ece822d3ba7d3cf797fe4997f",
+            "differenceCount": 1,
+            "firstDifference": 14199,
+            "lastDifference": 14199,
+            "sourceSha256": "4b2bd44648af242a6e60c7c518f1f9663bc5e8a501d2a0c32399c3c96362c5e1"
+          },
+          {
+            "variant": "VPASSAGE.IO",
+            "offset": 7,
+            "decodedBytes": 10840,
+            "writesPastDeclaredSize": 3,
+            "reads": [
+              6548
+            ],
+            "matches": true,
+            "nativeSha256": "c9aa499a5a18be593de4a2593abb984f79835a4a197b7c97bba30f0cc28b66b7",
+            "decodedSha256": "c9aa499a5a18be593de4a2593abb984f79835a4a197b7c97bba30f0cc28b66b7",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "18c9200c6b7063b860c8789fc1ed5c3dc2aa3fcddc161d986bd999c40c8159ec"
+          },
+          {
+            "variant": "VPONT.IO",
+            "offset": 7,
+            "decodedBytes": 20008,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              8000,
+              4468
+            ],
+            "matches": true,
+            "nativeSha256": "4da9a75eb3ccc59cfab880eae58296d6665d2df3c8a956ce613d31b3ad67b34c",
+            "decodedSha256": "4da9a75eb3ccc59cfab880eae58296d6665d2df3c8a956ce613d31b3ad67b34c",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "49e000d529070d8f9896f14508db3310e7bb13f04dd9f23d49151e01ad30d496"
+          },
+          {
+            "variant": "VPORT.IO",
+            "offset": 7,
+            "decodedBytes": 50560,
+            "writesPastDeclaredSize": 2,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              612
+            ],
+            "matches": true,
+            "nativeSha256": "fbfaa69ac482693dd788943a7d7aff5a065aec5c5101cf346f96005f5a488f73",
+            "decodedSha256": "fbfaa69ac482693dd788943a7d7aff5a065aec5c5101cf346f96005f5a488f73",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "66b45f642d6edc2508fa0b675f85cb2d16024532f246d59575b1b882b838dec1"
+          },
+          {
+            "variant": "VTEMPLE.IO",
+            "offset": 7,
+            "decodedBytes": 26664,
+            "writesPastDeclaredSize": 1,
+            "reads": [
+              8000,
+              8000,
+              3646
+            ],
+            "matches": true,
+            "nativeSha256": "9c35369eb3f8b8b5490ab0394e83b0b2812503769fcdb37837c7b115670c94e5",
+            "decodedSha256": "9c35369eb3f8b8b5490ab0394e83b0b2812503769fcdb37837c7b115670c94e5",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "dd2f1d2e7e10d621213d81ccae8d7c8ca97549876ee998d4fe976e0fa9c04b2e"
+          },
+          {
+            "variant": "WITCH5.IO",
+            "offset": 7,
+            "decodedBytes": 12648,
+            "writesPastDeclaredSize": 9,
+            "reads": [
+              8000,
+              730
+            ],
+            "matches": false,
+            "nativeSha256": "d458ebd23a60f294c5cda3ea932182d0a911ca7573a28a483cb3fbdd250fd7b2",
+            "decodedSha256": "556cf3b04eb066a4f61abf067daafbf4bad33443444c0c20d381cd58843067e7",
+            "differenceCount": 1,
+            "firstDifference": 12647,
+            "lastDifference": 12647,
+            "sourceSha256": "93c6dfb3169eab66d37dbf9167d0a9c8ac6c15d6c8c198b7797239ab2a421e2d"
+          },
+          {
+            "variant": "WIZARD1.IO",
+            "offset": 7,
+            "decodedBytes": 12616,
+            "writesPastDeclaredSize": 0,
+            "reads": [
+              7056
+            ],
+            "matches": true,
+            "nativeSha256": "9bbfdc60828216a35a386f82d6093b8cb99ebfc42fb9f5502f1eac49b3a68b3a",
+            "decodedSha256": "9bbfdc60828216a35a386f82d6093b8cb99ebfc42fb9f5502f1eac49b3a68b3a",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "8da209a3de1eb0b4c72e8912f6b1c03de7d87805e9833e859bf64c2e2edcb63a"
+          },
+          {
+            "variant": "WIZARD5.IO",
+            "offset": 7,
+            "decodedBytes": 23752,
+            "writesPastDeclaredSize": 2,
+            "reads": [
+              8000,
+              7388
+            ],
+            "matches": true,
+            "nativeSha256": "df109ad30d90c6c9b00c5b8ff6a6a01e9c2418b377e0c5d379485d637134f306",
+            "decodedSha256": "df109ad30d90c6c9b00c5b8ff6a6a01e9c2418b377e0c5d379485d637134f306",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "3796573047f5aeb7580bdda3593733bc6f8ed0caef05ed8802978758d031a9c4"
+          }
+        ],
+        "matchingCases": 126,
+        "mismatchingCases": 15,
+        "result": "native/toolkit output differences require investigation",
+        "limits": "controlled memory and DOS replies; no complete startup, semantic gameplay edit or corrupt-stream proof; observed excess bound is not a general bound",
+        "inputTailPolicy": "native-short-read-preserves-tail"
+      },
+      "zeroTailControl": {
+        "profile": "ishar2",
+        "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+        "inputTailPolicy": "diagnostic-zero-fill",
+        "cases": [
+          {
+            "variant": "DWIZARD5.IO",
+            "offset": 7,
+            "decodedBytes": 17016,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              2962
+            ],
+            "matches": true,
+            "nativeSha256": "d93e1f066cca7f0f40477bb16ec65c1565baa2365a0066cdf66f098e50de5116",
+            "decodedSha256": "d93e1f066cca7f0f40477bb16ec65c1565baa2365a0066cdf66f098e50de5116",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "f7e5a4266d78275bdfa010d5966f92fc1ae9820d1b3c410cd8d630186353ec4a"
+          },
+          {
+            "variant": "FDJCAT.IO",
+            "offset": 7,
+            "decodedBytes": 17936,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              3518
+            ],
+            "matches": true,
+            "nativeSha256": "9dc4e91ffcad0f644ae7dde0e93ad0bc2b5fcb8301fc370ef0b4520aabdbbf74",
+            "decodedSha256": "9dc4e91ffcad0f644ae7dde0e93ad0bc2b5fcb8301fc370ef0b4520aabdbbf74",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "ffd2e46e19bc2b9b6707359b079dcf218c3b7d9e8f7f5f8e7272b03389772049"
+          },
+          {
+            "variant": "GEANT.IO",
+            "offset": 7,
+            "decodedBytes": 26088,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              8000,
+              2244
+            ],
+            "matches": true,
+            "nativeSha256": "5798506878bde6f196b404558ab8d838cf89894cc8d29db37f135aa6b889fe97",
+            "decodedSha256": "5798506878bde6f196b404558ab8d838cf89894cc8d29db37f135aa6b889fe97",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "0ecaa30a33751deb66c25137f9e3c537d68196b1c7ea35c7efacc1e27a0f9fa9"
+          },
+          {
+            "variant": "GUARD3.IO",
+            "offset": 7,
+            "decodedBytes": 17608,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              2698
+            ],
+            "matches": true,
+            "nativeSha256": "1233a58a9a23f7c0d62c025ee6dbc8750ef38765aa5ca52d8cf88732a1b5cab6",
+            "decodedSha256": "1233a58a9a23f7c0d62c025ee6dbc8750ef38765aa5ca52d8cf88732a1b5cab6",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "267b32ea639130a6e24e00f6a9a8bfeda048aea2e42ef1174909c47300189c4b"
+          },
+          {
+            "variant": "HOMOIS2.IO",
+            "offset": 7,
+            "decodedBytes": 16816,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              2162
+            ],
+            "matches": true,
+            "nativeSha256": "3446ec2aa2670a154ffb2f3363be9a9c633de00c832783dc07160eddeccda1e9",
+            "decodedSha256": "3446ec2aa2670a154ffb2f3363be9a9c633de00c832783dc07160eddeccda1e9",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "66c395fa73b24ed369a11cf819a61e82b1b48fa6ec8d61d31bc0c737c9e3cbf9"
+          },
+          {
+            "variant": "LEZARD1.IO",
+            "offset": 7,
+            "decodedBytes": 26600,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              8000,
+              516
+            ],
+            "matches": true,
+            "nativeSha256": "5797849b4536d939b716c7de08acc32a982a086ea60c9c8c4f630cb8971711e8",
+            "decodedSha256": "5797849b4536d939b716c7de08acc32a982a086ea60c9c8c4f630cb8971711e8",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "ad9c483dd908e14bab488065c05551ae12206d8ef46e9f726e542de277603275"
+          },
+          {
+            "variant": "LOGO.IO",
+            "offset": 7,
+            "decodedBytes": 40632,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              6414
+            ],
+            "matches": true,
+            "nativeSha256": "3da01235d0f79a61a4eefd594b27fa79a879eecddb08151a30e1b6d89e9e1a67",
+            "decodedSha256": "3da01235d0f79a61a4eefd594b27fa79a879eecddb08151a30e1b6d89e9e1a67",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "5b8d56fed3d7ae7769cca0d873dd86adf820ce5abf7dec80fd6f6ee5539f83d3"
+          },
+          {
+            "variant": "MARCHAND.IO",
+            "offset": 7,
+            "decodedBytes": 105024,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              8000,
+              6302
+            ],
+            "matches": true,
+            "nativeSha256": "e55bcadd7910b21f499eb137e5773db2b46f7dcebf01db822ed903fc25b6d650",
+            "decodedSha256": "e55bcadd7910b21f499eb137e5773db2b46f7dcebf01db822ed903fc25b6d650",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "a5b84f95b8b50f1c68fc8e6c368a67742f9f96a67ca033d6e72ee4d7c4673529"
+          },
+          {
+            "variant": "PLAINE1.IO",
+            "offset": 7,
+            "decodedBytes": 56400,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              7692
+            ],
+            "matches": true,
+            "nativeSha256": "7bc2da370b8865bde07819e29550e00730fd2287f70e6f163d55b4cf81e9a30f",
+            "decodedSha256": "7bc2da370b8865bde07819e29550e00730fd2287f70e6f163d55b4cf81e9a30f",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "8f430c175c1bf21ae6da2760121d5f020a938d968284541b6e4f641ecb12ff1f"
+          },
+          {
+            "variant": "PPSAC.IO",
+            "offset": 7,
+            "decodedBytes": 57400,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              4940
+            ],
+            "matches": true,
+            "nativeSha256": "90b34fa5f71b7f0b3dc8ef2784538561d60de83bc7318421501b3854ec964ac2",
+            "decodedSha256": "90b34fa5f71b7f0b3dc8ef2784538561d60de83bc7318421501b3854ec964ac2",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "dc7893d3298a6ab3c4a90f07bd756ecf8fd3c5310c0fb0ed4119c2edcc438a6d"
+          },
+          {
+            "variant": "RHINO4.IO",
+            "offset": 7,
+            "decodedBytes": 19832,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              5954
+            ],
+            "matches": true,
+            "nativeSha256": "2f10db64d01f65f4e07e1b84ef9a9224763bb3e0a654889e5edfaf466d356e4e",
+            "decodedSha256": "2f10db64d01f65f4e07e1b84ef9a9224763bb3e0a654889e5edfaf466d356e4e",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "eecc6abf2f912053ab1002039af40fcdcb4cb2fdee7251ece763e4b74fb75f2b"
+          },
+          {
+            "variant": "SAUB.IO",
+            "offset": 7,
+            "decodedBytes": 59176,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              8000,
+              8000,
+              8000,
+              1032
+            ],
+            "matches": true,
+            "nativeSha256": "0109a63de811a34023ffceb04b1cc91d563e2597eb21f08366998a35566f9f93",
+            "decodedSha256": "0109a63de811a34023ffceb04b1cc91d563e2597eb21f08366998a35566f9f93",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "0de1131adecc0ebab1b61c7ab4bdf32cfb87e626b4517f00bb8459b0035b8af5"
+          },
+          {
+            "variant": "SPAROLES.IO",
+            "offset": 7,
+            "decodedBytes": 21952,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              1236
+            ],
+            "matches": true,
+            "nativeSha256": "196ab859e6fcd6c259470394b701c1051d8af4296aec126908c635d3088ea22e",
+            "decodedSha256": "196ab859e6fcd6c259470394b701c1051d8af4296aec126908c635d3088ea22e",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "e48bd569216ae6dec23a731c0f7d87f8e2e9f36a4fd1e8bb7b90d2062505c9e0"
+          },
+          {
+            "variant": "VOLEUR3.IO",
+            "offset": 7,
+            "decodedBytes": 14200,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              540
+            ],
+            "matches": true,
+            "nativeSha256": "9701fa049accedd8b304832a7856d58bb40c5a6ece822d3ba7d3cf797fe4997f",
+            "decodedSha256": "9701fa049accedd8b304832a7856d58bb40c5a6ece822d3ba7d3cf797fe4997f",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "4b2bd44648af242a6e60c7c518f1f9663bc5e8a501d2a0c32399c3c96362c5e1"
+          },
+          {
+            "variant": "WITCH5.IO",
+            "offset": 7,
+            "decodedBytes": 12648,
+            "writesPastDeclaredSize": 4,
+            "reads": [
+              8000,
+              730
+            ],
+            "matches": true,
+            "nativeSha256": "556cf3b04eb066a4f61abf067daafbf4bad33443444c0c20d381cd58843067e7",
+            "decodedSha256": "556cf3b04eb066a4f61abf067daafbf4bad33443444c0c20d381cd58843067e7",
+            "differenceCount": 0,
+            "firstDifference": null,
+            "lastDifference": null,
+            "sourceSha256": "93c6dfb3169eab66d37dbf9167d0a9c8ac6c15d6c8c198b7797239ab2a421e2d"
+          }
+        ],
+        "matchingCases": 15,
+        "mismatchingCases": 0,
+        "result": "all compared outputs match",
+        "limits": "controlled memory and DOS replies; no complete startup, semantic gameplay edit or corrupt-stream proof; observed excess bound is not a general bound"
+      }
+    }
+  ]
+}

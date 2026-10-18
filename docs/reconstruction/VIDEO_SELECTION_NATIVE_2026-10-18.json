@@ -1,0 +1,1237 @@
+{
+  "scope": "Original098F video module relocation, plus VGA selection/reservation/1EBA/empty frame composition with explicit transfers",
+  "reports": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 9,
+      "cases": [
+        {
+          "graphics": 0,
+          "inputMode": 0,
+          "mode": 2,
+          "sourceSegment": 8875,
+          "destinationSegment": 7831,
+          "copiedBytes": 4800,
+          "allocationStart": 8131,
+          "hash": "bd491274e1e39e6faa3eb04da2434cf5141959b25e57fe6c3371a5257ad210c1"
+        },
+        {
+          "graphics": 0,
+          "inputMode": 1,
+          "mode": 3,
+          "sourceSegment": 8102,
+          "destinationSegment": 7831,
+          "copiedBytes": 12368,
+          "allocationStart": 8604,
+          "hash": "e1b6c955344c67ae8cd1a22a78c8b0fda6f223d919561621ba320f9d8da5f557"
+        },
+        {
+          "graphics": 0,
+          "inputMode": 255,
+          "mode": 2,
+          "sourceSegment": 8875,
+          "destinationSegment": 7831,
+          "copiedBytes": 4800,
+          "allocationStart": 8131,
+          "hash": "94fa3476e8469933393b37c2d28f54b9bdf14c674684545989f01dde1c313e9c"
+        },
+        {
+          "graphics": 1,
+          "inputMode": 0,
+          "mode": 5,
+          "sourceSegment": 7831,
+          "destinationSegment": 7831,
+          "copiedBytes": 0,
+          "allocationStart": 8102,
+          "hash": "8e4d8918307e16a147399113410199b5e08584aa28279a9cd8b6e8382151c835"
+        },
+        {
+          "graphics": 1,
+          "inputMode": 1,
+          "mode": 5,
+          "sourceSegment": 7831,
+          "destinationSegment": 7831,
+          "copiedBytes": 0,
+          "allocationStart": 8102,
+          "hash": "9a1e314197259b23e70737018db5412fa71a3ef738b425c4512bdde4c57e18e1"
+        },
+        {
+          "graphics": 1,
+          "inputMode": 255,
+          "mode": 5,
+          "sourceSegment": 7831,
+          "destinationSegment": 7831,
+          "copiedBytes": 0,
+          "allocationStart": 8102,
+          "hash": "7fc7b5ff0516aa0e309e98e6eaefe6d4979ca08d100ce153d9f83f70cb8c9730"
+        },
+        {
+          "graphics": 255,
+          "inputMode": 0,
+          "mode": 2,
+          "sourceSegment": 8875,
+          "destinationSegment": 7831,
+          "copiedBytes": 4800,
+          "allocationStart": 8131,
+          "hash": "19ce72a25fdb3b6421dee452d86e445ddcc5796d6793c99c8e5f3dae9ddc792c"
+        },
+        {
+          "graphics": 255,
+          "inputMode": 1,
+          "mode": 3,
+          "sourceSegment": 8102,
+          "destinationSegment": 7831,
+          "copiedBytes": 12368,
+          "allocationStart": 8604,
+          "hash": "a8d572e2d6471c946645e63312cf5d031800c8299d1eae30c3acd5f0da9731d1"
+        },
+        {
+          "graphics": 255,
+          "inputMode": 255,
+          "mode": 2,
+          "sourceSegment": 8875,
+          "destinationSegment": 7831,
+          "copiedBytes": 4800,
+          "allocationStart": 8131,
+          "hash": "9ded697d8beb8c13f4a78952f599872be31623ffc343aa67ce7af28ce4a2ec35"
+        }
+      ],
+      "limits": "098F only; input adapter/mode bytes explicit; general registers restored, DF cleared, stack FF02; full shared memory compared except stack FEC0..FF0F; no later initialization claimed"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 9,
+      "cases": [
+        {
+          "graphics": 0,
+          "inputMode": 0,
+          "mode": 2,
+          "sourceSegment": 8875,
+          "destinationSegment": 7831,
+          "copiedBytes": 4800,
+          "allocationStart": 8131,
+          "hash": "394f8f7557ffbc74a9d3b2144afd8093c8fd9efbbafb9f89dd0bd4926c347b44"
+        },
+        {
+          "graphics": 0,
+          "inputMode": 1,
+          "mode": 3,
+          "sourceSegment": 8102,
+          "destinationSegment": 7831,
+          "copiedBytes": 12368,
+          "allocationStart": 8604,
+          "hash": "07a41ae178537e9de822b468868e896d8d4220ae7d990278500f972cf6a4614a"
+        },
+        {
+          "graphics": 0,
+          "inputMode": 255,
+          "mode": 2,
+          "sourceSegment": 8875,
+          "destinationSegment": 7831,
+          "copiedBytes": 4800,
+          "allocationStart": 8131,
+          "hash": "6cb2ae906326dfbd46b81713d2cba5a5105b2734b4be670b27b679ca7abe1031"
+        },
+        {
+          "graphics": 1,
+          "inputMode": 0,
+          "mode": 5,
+          "sourceSegment": 7831,
+          "destinationSegment": 7831,
+          "copiedBytes": 0,
+          "allocationStart": 8102,
+          "hash": "9ece1810b269cb9042a1b9a9faef5d21968233ca7262f7aa0927fb9000c9d1c3"
+        },
+        {
+          "graphics": 1,
+          "inputMode": 1,
+          "mode": 5,
+          "sourceSegment": 7831,
+          "destinationSegment": 7831,
+          "copiedBytes": 0,
+          "allocationStart": 8102,
+          "hash": "d944bd3002d7a2030f2040c3fc894421b64b58cd0be9ddecea6e862971757fdd"
+        },
+        {
+          "graphics": 1,
+          "inputMode": 255,
+          "mode": 5,
+          "sourceSegment": 7831,
+          "destinationSegment": 7831,
+          "copiedBytes": 0,
+          "allocationStart": 8102,
+          "hash": "f0ce371adcfcc585fd93ae05651bf92e87565323b0e74f4f35ec4ef6325747b0"
+        },
+        {
+          "graphics": 255,
+          "inputMode": 0,
+          "mode": 2,
+          "sourceSegment": 8875,
+          "destinationSegment": 7831,
+          "copiedBytes": 4800,
+          "allocationStart": 8131,
+          "hash": "84af0f532c4cb59d84fb5b2006d77d374cb7da21f19fb05fe85c316fdf431f4f"
+        },
+        {
+          "graphics": 255,
+          "inputMode": 1,
+          "mode": 3,
+          "sourceSegment": 8102,
+          "destinationSegment": 7831,
+          "copiedBytes": 12368,
+          "allocationStart": 8604,
+          "hash": "16d9fae5f682cb1acfa60c08303392adf56cf2eba5d9eb9cff9e008fdaf9d825"
+        },
+        {
+          "graphics": 255,
+          "inputMode": 255,
+          "mode": 2,
+          "sourceSegment": 8875,
+          "destinationSegment": 7831,
+          "copiedBytes": 4800,
+          "allocationStart": 8131,
+          "hash": "78d16a8425b75ca7ca79dc334db610aa7ffd9f6e6fd8d451584023d59e4b180b"
+        }
+      ],
+      "limits": "098F only; input adapter/mode bytes explicit; general registers restored, DF cleared, stack FF02; full shared memory compared except stack FEC0..FF0F; no later initialization claimed"
+    },
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "viewportCaller": true,
+      "stackMaskStart": "0xfebe",
+      "caseCount": 4,
+      "cases": [
+        {
+          "selectVideo": true,
+          "withFrame": true,
+          "reservation": {
+            "upper": 40959,
+            "segment": 36959,
+            "frontier": 36959,
+            "ax": 36959,
+            "bx": 4000
+          },
+          "frame": {
+            "phase": "return",
+            "entry": 9804
+          },
+          "crtPort": 980,
+          "retraceRead": 0,
+          "replyFields": {
+            "vectorOffset": 4660,
+            "vectorSegment": 28672,
+            "crtData": 255,
+            "picMask": 255,
+            "miscRead": 128,
+            "retraceRead": 0,
+            "irq0A": "none"
+          },
+          "events": [
+            {
+              "kind": "interrupt",
+              "number": 16,
+              "ax": 19
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 1,
+              "value": 17
+            },
+            {
+              "kind": "in",
+              "port": 981,
+              "width": 1,
+              "value": 255,
+              "repeat": 1
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 13578
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 7831,
+              "dx": 3645
+            },
+            {
+              "kind": "in",
+              "port": 33,
+              "width": 1,
+              "value": 255,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 33,
+              "width": 1,
+              "value": 251
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 53009
+            },
+            {
+              "kind": "in",
+              "port": 962,
+              "width": 1,
+              "value": 128,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 53009
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 57105
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 42257
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 28672,
+              "dx": 4660
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "width": 1,
+              "value": 0,
+              "repeat": 650000
+            }
+          ],
+          "timerPolls": 650000,
+          "retracePolls": 650000,
+          "retraceDetected": false,
+          "interruptsEnabled": false,
+          "pitch": 320,
+          "visible": {
+            "segment": 40960,
+            "offset": 0
+          },
+          "hash": "88c34e3d5ca7007cee0cbb41f662de85c11ad1e7853a57da677cd49231815a49",
+          "interruptFlagAfterReturn": false
+        },
+        {
+          "selectVideo": true,
+          "withFrame": true,
+          "reservation": {
+            "upper": 40959,
+            "segment": 36959,
+            "frontier": 36959,
+            "ax": 36959,
+            "bx": 4000
+          },
+          "frame": {
+            "phase": "return",
+            "entry": 9804
+          },
+          "crtPort": 980,
+          "retraceRead": 8,
+          "replyFields": {
+            "vectorOffset": 4660,
+            "vectorSegment": 28672,
+            "crtData": 255,
+            "picMask": 255,
+            "miscRead": 128,
+            "retraceRead": 8,
+            "irq0A": "none"
+          },
+          "events": [
+            {
+              "kind": "interrupt",
+              "number": 16,
+              "ax": 19
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 1,
+              "value": 17
+            },
+            {
+              "kind": "in",
+              "port": 981,
+              "width": 1,
+              "value": 255,
+              "repeat": 1
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 13578
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 7831,
+              "dx": 3645
+            },
+            {
+              "kind": "in",
+              "port": 33,
+              "width": 1,
+              "value": 255,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 33,
+              "width": 1,
+              "value": 251
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 53009
+            },
+            {
+              "kind": "in",
+              "port": 962,
+              "width": 1,
+              "value": 128,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 53009
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 57105
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 42257
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 28672,
+              "dx": 4660
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "width": 1,
+              "value": 8,
+              "repeat": 1
+            }
+          ],
+          "timerPolls": 650000,
+          "retracePolls": 1,
+          "retraceDetected": true,
+          "interruptsEnabled": false,
+          "pitch": 320,
+          "visible": {
+            "segment": 40960,
+            "offset": 0
+          },
+          "hash": "5c271898dbfa0fed0a46ab8528d96a8c99ff1b940bcadc35835683faa8ea49a9",
+          "interruptFlagAfterReturn": false
+        },
+        {
+          "selectVideo": true,
+          "withFrame": true,
+          "reservation": {
+            "upper": 40959,
+            "segment": 36959,
+            "frontier": 36959,
+            "ax": 36959,
+            "bx": 4000
+          },
+          "frame": {
+            "phase": "return",
+            "entry": 9804
+          },
+          "crtPort": 948,
+          "retraceRead": 0,
+          "replyFields": {
+            "vectorOffset": 4660,
+            "vectorSegment": 28672,
+            "crtData": 18,
+            "picMask": 0,
+            "miscRead": 0,
+            "retraceRead": 0,
+            "irq0A": "none"
+          },
+          "events": [
+            {
+              "kind": "interrupt",
+              "number": 16,
+              "ax": 19
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 1,
+              "value": 17
+            },
+            {
+              "kind": "in",
+              "port": 949,
+              "width": 1,
+              "value": 18,
+              "repeat": 1
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 13578
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 7831,
+              "dx": 3645
+            },
+            {
+              "kind": "in",
+              "port": 33,
+              "width": 1,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 33,
+              "width": 1,
+              "value": 0
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 529
+            },
+            {
+              "kind": "in",
+              "port": 962,
+              "width": 1,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 529
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 4625
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 42257
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 28672,
+              "dx": 4660
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "width": 1,
+              "value": 0,
+              "repeat": 650000
+            }
+          ],
+          "timerPolls": 650000,
+          "retracePolls": 650000,
+          "retraceDetected": false,
+          "interruptsEnabled": false,
+          "pitch": 320,
+          "visible": {
+            "segment": 40960,
+            "offset": 0
+          },
+          "hash": "26d09061b28721dcf5404fdd0ad7e559bd862f9dcea7b8669b1276ab8b72e996",
+          "interruptFlagAfterReturn": false
+        },
+        {
+          "selectVideo": true,
+          "withFrame": true,
+          "reservation": {
+            "upper": 40959,
+            "segment": 36959,
+            "frontier": 36959,
+            "ax": 36959,
+            "bx": 4000
+          },
+          "frame": {
+            "phase": "return",
+            "entry": 9804
+          },
+          "crtPort": 948,
+          "retraceRead": 8,
+          "replyFields": {
+            "vectorOffset": 4660,
+            "vectorSegment": 28672,
+            "crtData": 18,
+            "picMask": 0,
+            "miscRead": 0,
+            "retraceRead": 8,
+            "irq0A": "none"
+          },
+          "events": [
+            {
+              "kind": "interrupt",
+              "number": 16,
+              "ax": 19
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 1,
+              "value": 17
+            },
+            {
+              "kind": "in",
+              "port": 949,
+              "width": 1,
+              "value": 18,
+              "repeat": 1
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 13578
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 7831,
+              "dx": 3645
+            },
+            {
+              "kind": "in",
+              "port": 33,
+              "width": 1,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 33,
+              "width": 1,
+              "value": 0
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 529
+            },
+            {
+              "kind": "in",
+              "port": 962,
+              "width": 1,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 529
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 4625
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 42257
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 28672,
+              "dx": 4660
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "width": 1,
+              "value": 8,
+              "repeat": 1
+            }
+          ],
+          "timerPolls": 650000,
+          "retracePolls": 1,
+          "retraceDetected": true,
+          "interruptsEnabled": false,
+          "pitch": 320,
+          "visible": {
+            "segment": 40960,
+            "offset": 0
+          },
+          "hash": "6da02ac34843457a4e9561a14eda97692902ecdb94680bee3e2228f3a9225c7a",
+          "interruptFlagAfterReturn": false
+        }
+      ],
+      "limits": "No IRQ0A delivered; explicit controlled BIOS memory writes, DOS vector service and port replies; all general registers/SP and full memory except CPU stack saves; not a real BIOS or display"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "viewportCaller": true,
+      "stackMaskStart": "0xfebe",
+      "caseCount": 4,
+      "cases": [
+        {
+          "selectVideo": true,
+          "withFrame": true,
+          "reservation": {
+            "upper": 40959,
+            "segment": 36959,
+            "frontier": 36959,
+            "ax": 36959,
+            "bx": 4000
+          },
+          "frame": {
+            "phase": "return",
+            "entry": 9804
+          },
+          "crtPort": 980,
+          "retraceRead": 0,
+          "replyFields": {
+            "vectorOffset": 4660,
+            "vectorSegment": 28672,
+            "crtData": 255,
+            "picMask": 255,
+            "miscRead": 128,
+            "retraceRead": 0,
+            "irq0A": "none"
+          },
+          "events": [
+            {
+              "kind": "interrupt",
+              "number": 16,
+              "ax": 19
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 1,
+              "value": 17
+            },
+            {
+              "kind": "in",
+              "port": 981,
+              "width": 1,
+              "value": 255,
+              "repeat": 1
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 13578
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 7831,
+              "dx": 3645
+            },
+            {
+              "kind": "in",
+              "port": 33,
+              "width": 1,
+              "value": 255,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 33,
+              "width": 1,
+              "value": 251
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 53009
+            },
+            {
+              "kind": "in",
+              "port": 962,
+              "width": 1,
+              "value": 128,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 53009
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 57105
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 42257
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 28672,
+              "dx": 4660
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "width": 1,
+              "value": 0,
+              "repeat": 650000
+            }
+          ],
+          "timerPolls": 650000,
+          "retracePolls": 650000,
+          "retraceDetected": false,
+          "interruptsEnabled": false,
+          "pitch": 320,
+          "visible": {
+            "segment": 40960,
+            "offset": 0
+          },
+          "hash": "4570c9189b891d041519735160c4eac25b74efdb720aa31c4d4e1240aa83333e",
+          "interruptFlagAfterReturn": false
+        },
+        {
+          "selectVideo": true,
+          "withFrame": true,
+          "reservation": {
+            "upper": 40959,
+            "segment": 36959,
+            "frontier": 36959,
+            "ax": 36959,
+            "bx": 4000
+          },
+          "frame": {
+            "phase": "return",
+            "entry": 9804
+          },
+          "crtPort": 980,
+          "retraceRead": 8,
+          "replyFields": {
+            "vectorOffset": 4660,
+            "vectorSegment": 28672,
+            "crtData": 255,
+            "picMask": 255,
+            "miscRead": 128,
+            "retraceRead": 8,
+            "irq0A": "none"
+          },
+          "events": [
+            {
+              "kind": "interrupt",
+              "number": 16,
+              "ax": 19
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 1,
+              "value": 17
+            },
+            {
+              "kind": "in",
+              "port": 981,
+              "width": 1,
+              "value": 255,
+              "repeat": 1
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 13578
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 7831,
+              "dx": 3645
+            },
+            {
+              "kind": "in",
+              "port": 33,
+              "width": 1,
+              "value": 255,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 33,
+              "width": 1,
+              "value": 251
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 53009
+            },
+            {
+              "kind": "in",
+              "port": 962,
+              "width": 1,
+              "value": 128,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 53009
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 57105
+            },
+            {
+              "kind": "out",
+              "port": 980,
+              "width": 2,
+              "value": 42257
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 28672,
+              "dx": 4660
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "width": 1,
+              "value": 8,
+              "repeat": 1
+            }
+          ],
+          "timerPolls": 650000,
+          "retracePolls": 1,
+          "retraceDetected": true,
+          "interruptsEnabled": false,
+          "pitch": 320,
+          "visible": {
+            "segment": 40960,
+            "offset": 0
+          },
+          "hash": "c2860dbac8207f4409c2621e30175a1e227a7458c7992a9edffa543094b3794e",
+          "interruptFlagAfterReturn": false
+        },
+        {
+          "selectVideo": true,
+          "withFrame": true,
+          "reservation": {
+            "upper": 40959,
+            "segment": 36959,
+            "frontier": 36959,
+            "ax": 36959,
+            "bx": 4000
+          },
+          "frame": {
+            "phase": "return",
+            "entry": 9804
+          },
+          "crtPort": 948,
+          "retraceRead": 0,
+          "replyFields": {
+            "vectorOffset": 4660,
+            "vectorSegment": 28672,
+            "crtData": 18,
+            "picMask": 0,
+            "miscRead": 0,
+            "retraceRead": 0,
+            "irq0A": "none"
+          },
+          "events": [
+            {
+              "kind": "interrupt",
+              "number": 16,
+              "ax": 19
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 1,
+              "value": 17
+            },
+            {
+              "kind": "in",
+              "port": 949,
+              "width": 1,
+              "value": 18,
+              "repeat": 1
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 13578
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 7831,
+              "dx": 3645
+            },
+            {
+              "kind": "in",
+              "port": 33,
+              "width": 1,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 33,
+              "width": 1,
+              "value": 0
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 529
+            },
+            {
+              "kind": "in",
+              "port": 962,
+              "width": 1,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 529
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 4625
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 42257
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 28672,
+              "dx": 4660
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "width": 1,
+              "value": 0,
+              "repeat": 650000
+            }
+          ],
+          "timerPolls": 650000,
+          "retracePolls": 650000,
+          "retraceDetected": false,
+          "interruptsEnabled": false,
+          "pitch": 320,
+          "visible": {
+            "segment": 40960,
+            "offset": 0
+          },
+          "hash": "25c4e6d0026c8258f3bf7eab3c273b2eb2ccca24180e591fef1d55985d5683a9",
+          "interruptFlagAfterReturn": false
+        },
+        {
+          "selectVideo": true,
+          "withFrame": true,
+          "reservation": {
+            "upper": 40959,
+            "segment": 36959,
+            "frontier": 36959,
+            "ax": 36959,
+            "bx": 4000
+          },
+          "frame": {
+            "phase": "return",
+            "entry": 9804
+          },
+          "crtPort": 948,
+          "retraceRead": 8,
+          "replyFields": {
+            "vectorOffset": 4660,
+            "vectorSegment": 28672,
+            "crtData": 18,
+            "picMask": 0,
+            "miscRead": 0,
+            "retraceRead": 8,
+            "irq0A": "none"
+          },
+          "events": [
+            {
+              "kind": "interrupt",
+              "number": 16,
+              "ax": 19
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 1,
+              "value": 17
+            },
+            {
+              "kind": "in",
+              "port": 949,
+              "width": 1,
+              "value": 18,
+              "repeat": 1
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 13578
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 7831,
+              "dx": 3645
+            },
+            {
+              "kind": "in",
+              "port": 33,
+              "width": 1,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 33,
+              "width": 1,
+              "value": 0
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 529
+            },
+            {
+              "kind": "in",
+              "port": 962,
+              "width": 1,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 529
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 4625
+            },
+            {
+              "kind": "out",
+              "port": 948,
+              "width": 2,
+              "value": 42257
+            },
+            {
+              "kind": "interrupt",
+              "number": 33,
+              "ax": 9482,
+              "ds": 28672,
+              "dx": 4660
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "width": 1,
+              "value": 8,
+              "repeat": 1
+            }
+          ],
+          "timerPolls": 650000,
+          "retracePolls": 1,
+          "retraceDetected": true,
+          "interruptsEnabled": false,
+          "pitch": 320,
+          "visible": {
+            "segment": 40960,
+            "offset": 0
+          },
+          "hash": "a6b4fb363ed4ade66673e10f51f85bc31d159664dd2e06df34fc89ef8f1fb5b6",
+          "interruptFlagAfterReturn": false
+        }
+      ],
+      "limits": "No IRQ0A delivered; explicit controlled BIOS memory writes, DOS vector service and port replies; all general registers/SP and full memory except CPU stack saves; not a real BIOS or display"
+    }
+  ]
+}

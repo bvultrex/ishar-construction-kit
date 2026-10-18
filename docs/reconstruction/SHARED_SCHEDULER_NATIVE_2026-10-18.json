@@ -1,0 +1,12 @@
+[
+  {
+    "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+    "caseCount": 576,
+    "verified": "Original264C/264F..26AF and3C76; identical/offset-overlapping/disjoint segment windows, flags aliasing C19 clear and snapshot aliases; all scheduler registers/SP, full1MiB except FEC0..FEFF and immutable source. Scan/main/skip boundaries; no callback body execution."
+  },
+  {
+    "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+    "caseCount": 576,
+    "verified": "Original264C/264F..26AF and3C76; identical/offset-overlapping/disjoint segment windows, flags aliasing C19 clear and snapshot aliases; all scheduler registers/SP, full1MiB except FEC0..FEFF and immutable source. Scan/main/skip boundaries; no callback body execution."
+  }
+]

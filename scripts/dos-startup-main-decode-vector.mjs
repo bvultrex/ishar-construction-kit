@@ -1,0 +1,15 @@
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {readAlisModule} from '../src/lib/ishar/alis-module.ts';
+import {prepareOriginalDosMainDecode} from '../src/lib/ishar/original-dos-main-decode.ts';
+import {registerOriginalDosModule} from '../src/lib/ishar/original-dos-module-registry.ts';
+import {createOriginalDosScriptContext} from '../src/lib/ishar/original-dos-script-context.ts';
+const source=new Uint8Array(readFileSync(process.argv[2])),file=new Uint8Array(readFileSync(process.argv[3])),module=readAlisModule(file),g=0x1c0b0;
+if(!module.isMain||module.encoding!=='dos-a1')throw Error('Expected identified packed MAIN');
+const prepared=prepareOriginalDosMainDecode(source.slice(g,g+65536)),v=new DataView(source.buffer),destination=prepared.registers.ds*16+prepared.registers.dx,end=destination+module.image.length;
+const word=at=>v.getUint16(g+at,true),base=word(0xbd6),registry=registerOriginalDosModule([],{offset:prepared.registers.dx,segment:prepared.registers.ds,id:module.header.id},word(0xbc2),end>>>4,end&15,word(0xb96),word(0xbce),word(0xbcc));
+if(registry.error)throw Error('Unexpected original startup registry error');
+const context=createOriginalDosScriptContext(source.slice(base*16,base*16+65536),module.image,prepared.registers.dx,prepared.registers.ds,word(0xbd2),0,word(0xbd8),base,word(0xbe2));if(context.error)throw Error('Unexpected root creation error');
+new DataView(context.memory.buffer).setUint16(context.context-22,0,true);
+const start=context.context-52,length=context.globals[0xbd8]-start,root={context:context.context,entry:context.entry,es:base,rangeStart:start,rangeLength:length,rangeSha256:createHash('sha256').update(context.memory.slice(start,start+length)).digest('hex'),globals:{...context.globals,0xbca:registry.lower,0xbd0:registry.nextPointer,0xbce:registry.count,0xb06:0,0xbf6:context.context,0xbf8:base},boundary:0x2607};
+console.log(JSON.stringify({root,fileSha256:createHash('sha256').update(file).digest('hex'),decodedSha256:createHash('sha256').update(module.image).digest('hex'),decodedBytes:module.image.length,destination,bufferSegment:v.getUint16(g+0xb5c,true),prepared:{entry:prepared.entry,registers:prepared.registers,pack:prepared.memory[0xb57]},closed:{registers:{ax:0,bx:v.getUint16(g+0xbbe,true),cx:end&15,dx:prepared.registers.dx,ds:prepared.registers.ds},carry:source[g+0x289b]<1,endSegment:end>>>4},boundary:0x7839}));

@@ -1,0 +1,63 @@
+{
+  "description": "Native object activation and hiding; no original resource bytes",
+  "matrix": {
+    "opcodes": [
+      78,
+      79
+    ],
+    "es": [
+      20480,
+      7179
+    ],
+    "bases": [
+      512,
+      65280
+    ],
+    "lists": [
+      [],
+      [
+        256
+      ],
+      [
+        512
+      ],
+      [
+        256,
+        512,
+        768
+      ],
+      [
+        512,
+        256,
+        768
+      ],
+      [
+        512,
+        768,
+        256
+      ]
+    ],
+    "flags": [
+      0,
+      64,
+      65535,
+      4660
+    ]
+  },
+  "profiles": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 192,
+      "resultsSha256": "2a5d418ed33fb3f7ec01000b3c365c6ec0c9e2af14a774ff362583dfaa4fe3d9",
+      "limits": "six script registers/SP and full physical memory except CPU stack saves; no drawing or device calls"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 192,
+      "resultsSha256": "fbcda65a0e5e15648bd857d7fd890b41e01d798fdf53e4f4f0c33ade0ad023fc",
+      "limits": "six script registers/SP and full physical memory except CPU stack saves; no drawing or device calls"
+    }
+  ]
+}

@@ -1,0 +1,270 @@
+[
+  {
+    "caseCount": 4,
+    "cases": [
+      {
+        "checkpoint": "country33-mouse0.bin",
+        "checkpointSha256": "a0f77df73af054e974fdcd6a1237fedc132bbbf9265d0fbe6e49e3fbc290d5c6",
+        "profile": "ishar1",
+        "scheduler": {
+          "bp": 672,
+          "si": 24,
+          "bx": 0,
+          "ds": 11126,
+          "es": 8430,
+          "phase": "main",
+          "entry": 9963,
+          "stackDelta": -2,
+          "hash": "070154878c097f8b327edc3592a7e6a7a7a588c0968e76ab4404282d29c5fd69"
+        },
+        "steps": 145,
+        "opcodes": {
+          "70": 2,
+          "41": 117,
+          "30": 11,
+          "7": 1,
+          "31": 7,
+          "20": 7
+        },
+        "reason": "Error: Expression156 requires an explicit DOS FindFirst service",
+        "nextOpcode": 31,
+        "last": {
+          "registers": {
+            "ds": 11126,
+            "es": 8430,
+            "si": 1218,
+            "bp": 672,
+            "dx": 1,
+            "cx": 65535
+          },
+          "status": "ready",
+          "opcode": 30,
+          "hash": "37f4b22c5735652c363426f8308ce740d47e23697e028ced29b826b3e69489c8"
+        },
+        "boundary": 9975,
+        "sp": 2028
+      },
+      {
+        "checkpoint": "country33-mouse65535.bin",
+        "checkpointSha256": "db830bd6f3b11cbe476b3ba6f8c37fdec6f8497f655553f82685c96b77cb6969",
+        "profile": "ishar1",
+        "scheduler": {
+          "bp": 672,
+          "si": 24,
+          "bx": 0,
+          "ds": 11126,
+          "es": 8430,
+          "phase": "main",
+          "entry": 9963,
+          "stackDelta": -2,
+          "hash": "0d457b0657351f81c04b2e826f5183c7821de1c4837ecc77eb4cb7ebc8e1136c"
+        },
+        "steps": 145,
+        "opcodes": {
+          "70": 2,
+          "41": 117,
+          "30": 11,
+          "7": 1,
+          "31": 7,
+          "20": 7
+        },
+        "reason": "Error: Expression156 requires an explicit DOS FindFirst service",
+        "nextOpcode": 31,
+        "last": {
+          "registers": {
+            "ds": 11126,
+            "es": 8430,
+            "si": 1218,
+            "bp": 672,
+            "dx": 1,
+            "cx": 65535
+          },
+          "status": "ready",
+          "opcode": 30,
+          "hash": "a4a7b4d7ab50753a29ff18f88db423ae8c5e86f20ab86b8a36e750333f83ccfb"
+        },
+        "boundary": 9975,
+        "sp": 2028
+      },
+      {
+        "checkpoint": "country49-mouse0.bin",
+        "checkpointSha256": "54687f9d9c78c771f81a699b8dfad29e48e43209e8973b1f7976773b49a63a7f",
+        "profile": "ishar1",
+        "scheduler": {
+          "bp": 672,
+          "si": 24,
+          "bx": 0,
+          "ds": 11126,
+          "es": 8430,
+          "phase": "main",
+          "entry": 9963,
+          "stackDelta": -2,
+          "hash": "e9eed5286ef95137e1f6c4d9447466aeb7bb9358ba2e2e8f39ac4ef3149f902a"
+        },
+        "steps": 145,
+        "opcodes": {
+          "70": 2,
+          "41": 117,
+          "30": 11,
+          "7": 1,
+          "31": 7,
+          "20": 7
+        },
+        "reason": "Error: Expression156 requires an explicit DOS FindFirst service",
+        "nextOpcode": 31,
+        "last": {
+          "registers": {
+            "ds": 11126,
+            "es": 8430,
+            "si": 1218,
+            "bp": 672,
+            "dx": 1,
+            "cx": 65535
+          },
+          "status": "ready",
+          "opcode": 30,
+          "hash": "8a07464d9caf955f9d70a81bc62e8062818d43c4536a08eb03f0a79c2e085846"
+        },
+        "boundary": 9975,
+        "sp": 2028
+      },
+      {
+        "checkpoint": "country49-mouse65535.bin",
+        "checkpointSha256": "b35e12e20753cb0928db9f7cfe118b740861c58c53f7950f50b53296d262eeff",
+        "profile": "ishar1",
+        "scheduler": {
+          "bp": 672,
+          "si": 24,
+          "bx": 0,
+          "ds": 11126,
+          "es": 8430,
+          "phase": "main",
+          "entry": 9963,
+          "stackDelta": -2,
+          "hash": "1576a33cdec6965c4c560685a66b34bfce4733ddd540135cf3bd5531cc875fdb"
+        },
+        "steps": 145,
+        "opcodes": {
+          "70": 2,
+          "41": 117,
+          "30": 11,
+          "7": 1,
+          "31": 7,
+          "20": 7
+        },
+        "reason": "Error: Expression156 requires an explicit DOS FindFirst service",
+        "nextOpcode": 31,
+        "last": {
+          "registers": {
+            "ds": 11126,
+            "es": 8430,
+            "si": 1218,
+            "bp": 672,
+            "dx": 1,
+            "cx": 65535
+          },
+          "status": "ready",
+          "opcode": 30,
+          "hash": "f5de12b7c85ccac5d6a1da5bb2058025241eab73acdacd16fbe7d85f3db1aa2a"
+        },
+        "boundary": 9975,
+        "sp": 2028
+      }
+    ],
+    "stackMask": "07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared",
+    "limits": "Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. No IRQs or external services injected; stops at yield or first unsupported opcode, not complete game/frame."
+  },
+  {
+    "caseCount": 2,
+    "cases": [
+      {
+        "checkpoint": "country33-mouse65535.bin",
+        "checkpointSha256": "23026d1953740080326d58161bea22be2595e8a666525c1b0175b0262c23baa5",
+        "profile": "ishar2",
+        "scheduler": {
+          "bp": 672,
+          "si": 24,
+          "bx": 0,
+          "ds": 11563,
+          "es": 8430,
+          "phase": "main",
+          "entry": 9963,
+          "stackDelta": -2,
+          "hash": "ea96819c030eedf93067b61df035bf18595d5909179d7f16f552a05a4af640be"
+        },
+        "steps": 134,
+        "opcodes": {
+          "70": 2,
+          "41": 114,
+          "30": 9,
+          "31": 3,
+          "20": 3,
+          "7": 2,
+          "215": 1
+        },
+        "reason": "Error: Original palette control reaches fade boundary at5cf4",
+        "nextOpcode": 188,
+        "last": {
+          "registers": {
+            "ds": 11563,
+            "es": 8430,
+            "si": 16087,
+            "bp": 672,
+            "dx": 0,
+            "cx": 65535
+          },
+          "status": "ready",
+          "opcode": 215,
+          "hash": "dfbeab329d656048a74e62a8b8d63b57306cb21db4c805bf622607c7e68e2c00"
+        },
+        "boundary": 9975,
+        "sp": 2028
+      },
+      {
+        "checkpoint": "country49-mouse65535.bin",
+        "checkpointSha256": "18bba52e5b525e808a6ed97997f2d7ca2044c2282ab95492a3d83eb5c8231fba",
+        "profile": "ishar2",
+        "scheduler": {
+          "bp": 672,
+          "si": 24,
+          "bx": 0,
+          "ds": 11563,
+          "es": 8430,
+          "phase": "main",
+          "entry": 9963,
+          "stackDelta": -2,
+          "hash": "b4af132fef0cd7b06b4f4aa08e716021d015cdd41a224eafd67931701aae007f"
+        },
+        "steps": 134,
+        "opcodes": {
+          "70": 2,
+          "41": 114,
+          "30": 9,
+          "31": 3,
+          "20": 3,
+          "7": 2,
+          "215": 1
+        },
+        "reason": "Error: Original palette control reaches fade boundary at5cf4",
+        "nextOpcode": 188,
+        "last": {
+          "registers": {
+            "ds": 11563,
+            "es": 8430,
+            "si": 16087,
+            "bp": 672,
+            "dx": 0,
+            "cx": 65535
+          },
+          "status": "ready",
+          "opcode": 215,
+          "hash": "c984179197131e35043ba90f3b39c2672f9e4023564376ea008e2a345683cbed"
+        },
+        "boundary": 9975,
+        "sp": 2028
+      }
+    ],
+    "stackMask": "07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared",
+    "limits": "Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. No IRQs or external services injected; stops at yield or first unsupported opcode, not complete game/frame."
+  }
+]
