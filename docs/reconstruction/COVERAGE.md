@@ -53,8 +53,8 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Zustand nativ verglichen. Auch die ersten7/8 numerischen Zuweisungen samt
    Original-Indexstack laufen durch. Das gemeinsame physische Schritt-API folgt
    jetzt auch Aufrufen, Ausdrücken und Bedingungen. Tatsächliche nächste Grenzen
-   sind die DOS-Dateisuche156 (Ishar1) und die Fortsetzung40DC nach der
-   ersten Objektprojektion36E1 im aktiven Zeichenpfad nach
+   sind die DOS-Dateisuche156 (Ishar1) und43FB nach der ersten vollständig
+   vorbereiteten Objektgruppe im aktiven Zeichenpfad nach
    MAIN-Ausgabe/Callback/Frame (Ishar2, explizite BIOS-Antwort0).
    Callback, Rückkehr, Frame mit zwei verdeckten Einträgen und Wiedereinstieg
    in MAIN sind nativ geprüft. Auch die folgenden43→66 (Dekrement/Sprung→Yield)
@@ -72,7 +72,9 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Der anschließende Callback/Frame erreicht nativ identisch das erste sichtbare
    Objekt. Dessen Einstieg3E55, Statusverarbeitung und erste Projektion36E1
    sind inzwischen ebenfalls nativ verglichen, bis zur Rückkehr nach40DC.
-   Listenumsortierung und Pixelschreiben bleiben offen. FE-Sonderpfad, weitere Operandformen
+   Listenumsortierung und alle31 Einträge dieser Gruppe sind inzwischen bis
+   vor dem43FB-Aufruf bei4168 nativ verglichen. Pixelschreiben bleibt offen.
+   FE-Sonderpfad, weitere Operandformen
    und sichtbare Ausgabe bleiben offen. Verwandte Wortänderungen192/193/194 haben separate
    native Befehlsnachweise, noch keinen vollständigen Inhaltsablauf.
    Ohne BIOS-Antwort bleibt der Callback an116 stehen. Aktive Objektliste und

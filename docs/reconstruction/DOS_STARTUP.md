@@ -1919,3 +1919,67 @@ und BIOS-Antwort bleiben explizite Bedingungen; Ishar1 hat weiterhin seinen
 separaten offenen MAIN-Dateisuchpfad. Hosttests für Delta-/Statusverarbeitung,
 Zyklen, Koordinaten/Abmessungen und atomare Divisionfehler, Frame-/String-
 Regressionen, Typecheck und Diffprüfung bestanden.
+
+### Zeichenlistensortierung und vollständige erste Objektgruppe (18.10.2026)
+
+`original-dos-projected-record.ts` rekonstruiert40DC..4114 nach der Projektion,
+die Bildgrenzenroutine4197, Sortierung4278 und Freigabe4115..412C.40DC entfernt
+den Eintrag aus seiner bisherigen+6-Verknüpfung, übernimmt C5E/C60/C62/C64/C66
+nach+8/+10/+12/+14/+16 und das Byte C68 nach+34.4197 überspringt negative Tiefe;
+sonst löst es die Grafikreferenz auf und erweitert C2C/C2E/C30/C32 mit signed
+Wortvergleichen. Auch Koordinatenaddition und16-Bit-Überlauf bleiben erhalten.
+
+4278 fügt in die über CX+6 beginnende Kette ein. Negative Eintragszustände
+werden zunächst übersprungen. Reihenfolge: signed Tiefe, signed Bytepriorität+32,
+signed Bytegruppe+1. Bei gleichen Schlüsseln bleibt ein neuer StatusFF vor
+dem vorhandenen Eintrag; andere Zustände werden dahinter eingefügt. Danach
+wird der Status0. BX wird vom originalen PUSH/POP wiederhergestellt; die
+abschließende40DC-Routine setzt DI auf diesen ursprünglichen Vorgänger.
+Eine gewöhnliche stabile Standardsortierung wäre hier kein gleiches Verhalten.
+
+4115 aktualisiert zunächst die alten Bildgrenzen, nimmt den Eintrag aus+6,
+verkettet ihn über+4 mit der Freiliste BEC und setzt DI auf den Vorgänger.
+Dies ist ein anderer Freigabepfad als die kontextbezogene3AFA-Verarbeitung.
+Die API nimmt keine zusätzliche Änderung an deren Kontextliste vor.
+Zyklische Sortierketten werden atomar als explizite Hostgrenze abgewiesen.
+
+`check-native-dos-projected-record.py <memory.bin>` vergleicht je256 Fälle
+beider Originalprofile: Übernahme/Freigabe, DS getrennt oder SS-aliasierend,
+Entnahme am Kopf/in der Mitte, FF/2, Sentinel-/bestehende Bildgrenzen sowie
+acht gezielte Vorzeichen-/Gleichstands-/Koordinatenüberlaufsituationen.
+Sechs Skriptregister, BX/DI, SP und ganzer Speicher außer den CPU-Stack-
+Sicherungen stimmen nativ überein. Metadaten:
+`PROJECTED_RECORD_NATIVE_2026-10-18.json`.
+
+`original-dos-object-batch.ts` komponiert den normalen erstenFF-Pfad bis
+unmittelbar vor43FB. Nach dem ersten Eintrag werden über4132 weitere Einträge
+derselben B22-Gruppe verarbeitet: negative Zustände projizieren/übernehmen,
+Status2 aktualisiert vorher auch die alten Bildgrenzen, andere positive
+Zustände werden freigegeben, Status0 oder fremde Gruppen übersprungen.
+Negative B22 endet nach dem ersten Eintrag vor40D1; sonst endet die Gruppe
+vor4168. Beide Grenzen setzen C18=1 und haben Stackdelta-20 relativ zu3DE4.
+Ein anderer erster Zustand oder der Clipzweig bleibt als vorherige offene
+Grenze erhalten; kein fehlender Pfad wird als fertig übersprungen.
+
+`check-native-dos-object-batch.py <memory.bin>` prüft je96 weitere Fälle:
+ES getrennt oder SS-aliasierend, Dirty-Zustand, negative/nichtnegative Gruppe,
+gleiche/fremde Folgegruppe sowie leere, FF-,2-,1-,0- und gemischte Folgen.
+Der native Vergleich umfasst sechs Skriptregister, BX/DI, SP und vollständigen
+Speicher außer CPU-Stack-Sicherungen. Metadaten: `OBJECT_BATCH_NATIVE_2026-10-18.json`.
+
+Der CLI-Nachweis `check-native-dos-main-draw.py <privates Verzeichnis> --batch --shift-flags 0`
+führt den fortlaufenden MAIN-/Text-/Callback-/Framezustand einschließlich
+Projektion und erster Übernahme weiter. Die gesamte Gruppe mit31 projizierten
+Einträgen und0 Freigaben stimmt in allen drei gültigen Ishar2-Layouts mit dem
+Original überein. Die zusammengesetzte Hostberechnung startet aus dem zuvor
+gesicherten Framezustand; die native CPU läuft ohne Rücksetzen weiter.
+Endpunkt4168 liegt vor dem CALL43FB, mit wiederhergestelltem BX154 und DI1332
+im ersten Layout. Die tiefere Stackmaske aus dem Projektionsnachweis bleibt
+explizit ausgewiesen. Metadaten: `MAIN_OBJECT_BATCH_NATIVE_2026-10-18.json`.
+
+Noch keine Pixel wurden geschrieben oder im Browser angezeigt.43FB mit
+Sichtbarkeits-/Clipprüfung und die Grafikbibliotheksaufrufe bleiben offen,
+ebenso weitere Objektzweige. Ishar1 hat die synthetischen Befehlsnachweise,
+keinen entsprechenden vollständigen MAIN-Start. Hosttest für signierte
+Gleichstände, Grenzen, Freiliste, Zyklen und gemischte Gruppen, bestehende
+Objekt-/Projektionsregressionen, Typecheck und Diffprüfung bestanden.

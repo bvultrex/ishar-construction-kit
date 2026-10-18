@@ -5,7 +5,7 @@ import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('checkpoints',type=Path);p.add_argument('--complete',action='store_true');p.add_argument('--follow',action='store_true');p.add_argument('--finish-yield',action='store_true');p.add_argument('--object-prefix',action='store_true');p.add_argument('--projection',action='store_true');p.add_argument('--shift-flags',type=int);a=p.parse_args();a.object_prefix=a.object_prefix or a.projection;a.finish_yield=a.finish_yield or a.object_prefix;a.follow=a.follow or a.finish_yield;a.complete=a.complete or a.finish_yield;assert a.shift_flags is None or 0<=a.shift_flags<=255;assert not a.follow or a.complete;repo=Path(__file__).resolve().parent.parent
+p=argparse.ArgumentParser();p.add_argument('checkpoints',type=Path);p.add_argument('--complete',action='store_true');p.add_argument('--follow',action='store_true');p.add_argument('--finish-yield',action='store_true');p.add_argument('--object-prefix',action='store_true');p.add_argument('--projection',action='store_true');p.add_argument('--projected-record',action='store_true');p.add_argument('--batch',action='store_true');p.add_argument('--shift-flags',type=int);a=p.parse_args();a.projected_record=a.projected_record or a.batch;a.projection=a.projection or a.projected_record;a.object_prefix=a.object_prefix or a.projection;a.finish_yield=a.finish_yield or a.object_prefix;a.follow=a.follow or a.finish_yield;a.complete=a.complete or a.finish_yield;assert a.shift_flags is None or 0<=a.shift_flags<=255;assert not a.follow or a.complete;repo=Path(__file__).resolve().parent.parent
 evidence=json.loads((repo/'docs/reconstruction/MAIN_OBJECT_SELECTION_NATIVE_2026-10-18.json').read_text(encoding='utf-8-sig'));results=[]
 names={'ds':UC_X86_REG_DS,'es':UC_X86_REG_ES,'si':UC_X86_REG_SI,'bp':UC_X86_REG_BP,'dx':UC_X86_REG_DX,'cx':UC_X86_REG_CX}
 for row in evidence['layouts']:
@@ -49,6 +49,8 @@ for row in evidence['layouts']:
    endpoint[0]=target;done.clear();previous_sp=cpu.reg_read(UC_X86_REG_SP);cpu.emu_start(start,0xfffff,count=100000)
    assert done==[target] and cpu.reg_read(UC_X86_REG_SP)==(previous_sp+delta)&65535
    for name,r in names.items():assert cpu.reg_read(r)==expected['registers'][name],('after string',start,name)
+   for key,r in [('bx',UC_X86_REG_BX),('di',UC_X86_REG_DI)]:
+    if key in expected:assert cpu.reg_read(r)==expected[key],('boundary register',start,key)
    actual=bytearray(cpu.mem_read(0,0x100000));bottom=expected.get('stackMaskStart',0xfec0);actual[g+bottom:g+0xff10]=bytes(0xff10-bottom);assert hashlib.sha256(actual).hexdigest()==expected['hash'],('after string memory',start)
   finish=model('dos-physical-yield-vector.mjs');compare(0x126b2,finish,0x10000+finish['entry'],finish['stackDelta']);result['yieldFinish']=finish
   if finish['phase']=='callback':
@@ -61,9 +63,14 @@ for row in evidence['layouts']:
     if returned['phase']=='frame':
      frame=model('dos-physical-frame-vector.mjs');compare(0x12649,frame,0x10000+frame['entry'],frame['stackDelta']);result['frame']=frame
      if a.object_prefix and frame['phase']=='object':
+      frame_request={'memory':base64.b64encode(bytes(cpu.mem_read(0,0x100000))).decode(),'ss':state['ss'],'registers':{name:cpu.reg_read(r) for name,r in names.items()},'object':frame['bx']}
       prepared=model('dos-visible-object-vector.mjs',{'object':frame['bx']});compare(0x13de4,prepared,0x10000+prepared['entry'],prepared['stackDelta']);result['objectPrefix']=prepared
       if a.projection and prepared['phase']=='new-record':
        endpoint[0]=0x136e1;done.clear();previous_sp=cpu.reg_read(UC_X86_REG_SP);cpu.emu_start(0x1408a,0xfffff,count=20);assert done==[0x136e1] and cpu.reg_read(UC_X86_REG_SP)==previous_sp-4
        projected=model('dos-record-projection-vector.mjs',{'di':prepared['di'],'stackMaskStart':min(0xfec0,cpu.reg_read(UC_X86_REG_SP)-18)});compare(0x136e1,projected,0x140dc,2);result['projection']=projected
+       if a.projected_record:
+        committed=model('dos-projected-record-vector.mjs',{'di':prepared['di'],'bx':prepared['bx'],'stackMaskStart':min(0xfec0,cpu.reg_read(UC_X86_REG_SP)-12)});compare(0x140dc,committed,0x1408d,2);result['projectedRecord']=committed
+        if a.batch:
+         frame_request['stackMaskStart']=projected['stackMaskStart'];batch=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-object-batch-vector.mjs')],input=json.dumps(frame_request),cwd=repo,text=True));compare(0x1408d,batch,0x10000+batch['entry'],6);result['batch']=batch
  assert path.read_bytes()==source;results.append(result)
 print(json.dumps({'profile':evidence['profile'],'captureSha256':evidence['captureSha256'],'mainSha256':evidence['mainSha256'],'layouts':results,'controlledBiosShiftFlags':a.shift_flags,'limits':('Complete normal/compound73 and supported following MAIN steps; optional yield/callback/frame boundary checked; FE and unconnected operations excluded; no pixels rendered' if a.complete else 'Original73 preparation and first-child descent only'),'sourceUnchanged':True}))

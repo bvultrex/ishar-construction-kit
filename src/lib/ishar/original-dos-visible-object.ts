@@ -20,7 +20,7 @@ export function prepareOriginalDosVisibleObject(source:Uint8Array,ss:number,inpu
   b(input.es,object,b(input.es,object)&127);
  }
  b(ss,0x1da6,0);if(b(input.es,u(object+1))&4)b(ss,0x1da6,1);
- const result=(phase:string,entry:number,stackDelta:number,extra:Record<string,number>={})=>({memory,registers:phase==='return'?{...input}:{...input,ds:pool},phase,entry,stackDelta,marked,visited,...extra});
+ const result=(phase:string,entry:number,stackDelta:number,extra:{di?:number;bx?:number;status?:number}={})=>({memory,registers:phase==='return'?{...input}:{...input,ds:pool},phase,entry,stackDelta,marked,visited,...extra});
  if(b(input.es,u(object+1))&16)return result('clip',0x3eea,-20,{bx:object});
  let di=input.cx,bx=object;const seen=new Set<number>();
  while(true){
