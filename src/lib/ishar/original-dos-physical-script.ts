@@ -53,7 +53,7 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
  else if(opcode>=43&&opcode<=45){const next=decrementOriginalDosScript(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===78||opcode===79){const next=setOriginalDosObjectVisibility(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if([71,192,193,194].includes(opcode)){const next=updateOriginalDosSelectedObject(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
- else if(opcode===72||opcode===73){const next=executeOriginalDosResourceDraw(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
+ else if(opcode===72||opcode===73||opcode===167){const next=executeOriginalDosResourceDraw(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===186||opcode===191){const next=writeOriginalDosPhysicalGlobalOperands(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===185){const next=outputOriginalDosString(memory,ss,{...input,si:after});memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode>=98&&opcode<=103){const next=controlOriginalDosContext(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}

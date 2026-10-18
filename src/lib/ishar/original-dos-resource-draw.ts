@@ -1,10 +1,10 @@
 import type {OriginalDosPhysicalScriptRegisters} from './original-dos-physical-script.ts';
-/** 72/73 preamble and39F5 resource lookup, through the native type branch.
+/** 72/73/167 preamble and39F5 resource lookup, through the native type branch.
  * Follows first-child compound recursion; stops before record allocation or FE.
  * Input SI is after the opcode. Five pushed CPU words remain at this boundary.
  */
 export function prepareOriginalDosResourceDraw(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters,opcode:number,complete=false){
- if(source.length!==0x100000||![ss,...Object.values(input)].every(v=>Number.isInteger(v)&&v>=0&&v<=65535)||![-1,72,73].includes(opcode))throw Error('Invalid resource draw inputs');
+ if(source.length!==0x100000||![ss,...Object.values(input)].every(v=>Number.isInteger(v)&&v>=0&&v<=65535)||![-1,72,73,167].includes(opcode))throw Error('Invalid resource draw inputs');
  const memory=source.slice(),u=(v:number)=>v&65535;
  const address=(s:number,o:number,wide=false)=>{o=u(o);const at=s*16+o;if(wide&&o===65535||at+(wide?2:1)>memory.length)throw Error('Resource draw access outside bounded real-mode window');return at;};
  const b=(s:number,o:number,value?:number)=>{const at=address(s,o);if(value!==undefined)memory[at]=value&255;return memory[at];};
@@ -19,8 +19,8 @@ export function prepareOriginalDosResourceDraw(source:Uint8Array,ss:number,input
   else{const at=u((tag>=30?w(ss,0xbf6):bp)+raw);if(tag===8||tag===32)dx=w(es,at);else{value=b(es,at);dx=value&128?value+65280:value;}}
   return dx;
  };
- if(opcode!==-1){b(ss,0xc15,0);b(ss,0xc12,b(es,u(bp-3)));}
- if(opcode===73){for(const at of [0xc02,0xc04,0xc06])w(ss,at,operand());operand();const resource=dx;operand();cx=dx;dx=resource;w(ss,0xc0e,cx);}
+ if(opcode!==-1){b(ss,0xc15,0);b(ss,0xc12,b(es,u(bp-3))^(opcode===167?1:0));}
+ if(opcode===73||opcode===167){for(const at of [0xc02,0xc04,0xc06])w(ss,at,operand());operand();const resource=dx;operand();cx=dx;dx=resource;w(ss,0xc0e,cx);}
  else if(opcode===72){operand();for(const at of [0xc02,0xc04,0xc06,0xc0e])w(ss,at,0);}
  b(ss,0xc13,0);
  const entryPointer=()=>{

@@ -1,3 +1,7 @@
+## Update: original mirrored command 167
+
+Reconstructed engine 1000:33B7: context flip XOR 1 followed by the shared five-operand resource draw. Native full record construction passed 216 fixtures per game (432 total); typecheck and resource regression checks passed. See `MIRRORED_RESOURCE_COMMAND.md`. Mirrored type-20 pixel output and actual LOGO:008D replay are still pending; no browser feature or complete boot is claimed.
+
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
 **An Grok, vorhandene Sprites aktualisieren:** CHANGED_RECORD_ANIMATION.md

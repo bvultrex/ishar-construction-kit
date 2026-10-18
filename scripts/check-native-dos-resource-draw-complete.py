@@ -24,9 +24,9 @@ for case in cases:
  m[0x70000:0x80000]=bytes(0x10000);word(0x1c0b,0xbea,0x7000);word(0x1c0b,0xbec,0x1000);m[g+0xbf3]=case['freeMode'];word(case['es'],0x800-22,0x100);word(case['es'],0x302,0x200)
  for i in range(8):word(0x7000,0x1000+i*38+4,0 if i==7 else 0x1000+(i+1)*38)
  if case['existing']:
-  word(case['es'],0x800-24,0x800);word(0x7000,0x206,0x800);m[0x70800]=255 if case['existing']==1 else 0;word(0x7000,0x802,0x100);m[0x70801]=0x45 if case['opcode']==73 else 0
+  word(case['es'],0x800-24,0x800);word(0x7000,0x206,0x800);m[0x70800]=255 if case['existing']==1 else 0;word(0x7000,0x802,0x100);m[0x70801]=0x45 if case['opcode']!=72 else 0
   if case['existing']==2:
-   word(0x7000,0x804,0x826);word(0x7000,0x806,0x826);word(0x7000,0x828,0x100);m[0x70827]=0x45 if case['opcode']==73 else 0
+   word(0x7000,0x804,0x826);word(0x7000,0x806,0x826);word(0x7000,0x828,0x100);m[0x70827]=0x45 if case['opcode']!=72 else 0
  m[0x40100:0x40100+len(case['code'])]=bytes(case['code'])
  cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,bytes(m));names={'ds':UC_X86_REG_DS,'es':UC_X86_REG_ES,'si':UC_X86_REG_SI,'bp':UC_X86_REG_BP,'dx':UC_X86_REG_DX,'cx':UC_X86_REG_CX}
  for r,value in [(UC_X86_REG_CS,0x1000),(UC_X86_REG_SS,0x1c0b),(UC_X86_REG_SP,0xff00),(UC_X86_REG_DS,0x4000),(UC_X86_REG_ES,case['es']),(UC_X86_REG_SI,0x100),(UC_X86_REG_BP,0x800),(UC_X86_REG_DX,0x1234),(UC_X86_REG_CX,0x5678),(UC_X86_REG_EFLAGS,0x202)]:cpu.reg_write(r,value)
