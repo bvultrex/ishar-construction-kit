@@ -1,3 +1,4 @@
+import type {OriginalDosFileSearch} from './original-dos-file-probe.ts';
 import {branchOriginalDosScript} from './original-dos-script-branch.ts';
 import {branchOriginalDosScriptConditional} from './original-dos-script-conditional.ts';
 import {returnOriginalDosScript} from './original-dos-script-return.ts';
@@ -6,7 +7,7 @@ import {createOriginalDosScriptObject} from './original-dos-script-object.ts';
 import {writeOriginalDosPhysicalScriptBlock} from './original-dos-script-block.ts';
 import {assignOriginalDosIndexedValue} from './original-dos-indexed-assignment.ts';
 import {readOriginalDosNumericOperand} from './original-dos-numeric-operand.ts';
-import {prepareOriginalDosPaletteControl} from './original-dos-palette-control.ts';
+import {executeOriginalDosPaletteControl} from './original-dos-palette-control.ts';
 import {decrementOriginalDosScript} from './original-dos-script-decrement.ts';
 import {setOriginalDosObjectVisibility} from './original-dos-object-visibility.ts';
 import {updateOriginalDosSelectedObject} from './original-dos-object-selection.ts';
@@ -19,7 +20,7 @@ export interface OriginalDosPhysicalScriptRegisters {ds:number;es:number;si:numb
  * registers are a contract; CPU scratch AX/BX/DI, flags and stack save bytes are
  * not modeled. No skipped opcodes, scheduler or invented external services.
  */
-export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters,engineSegment=0x1000,bios?:{shiftFlags:number}){
+export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters,engineSegment=0x1000,bios?:{shiftFlags?:number;fileSearch?:OriginalDosFileSearch}){
  if(source.length!==0x100000||![ss,...Object.values(input)].every(v=>Number.isInteger(v)&&v>=0&&v<=65535))throw Error('Expected1MiB memory and word registers');
  const window=(segment:number)=>{const at=segment*16;if(at+65536>source.length)throw Error('Script segment exceeds bounded physical window');return at;};
  const scriptAt=window(input.ds),contextAt=window(input.es),globalAt=window(ss);
@@ -40,7 +41,7 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
  else if(opcode===186||opcode===191){const next=writeOriginalDosPhysicalGlobalOperands(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===185){const next=outputOriginalDosString(memory,ss,{...input,si:after});memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===188){
-  const next=prepareOriginalDosPaletteControl(memory,ss,{...input,si:after});
+  const next=executeOriginalDosPaletteControl(memory,ss,{...input,si:after});
   if(next.phase!=='return')throw Error(`Original palette control reaches ${next.phase} boundary at${next.entry.toString(16)}`);
   memory=next.memory;Object.assign(registers,next.registers);
  }
@@ -56,7 +57,7 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
   memory=next.memory;registers.si=next.registers.si;registers.dx=next.registers.dx;registers.cx=next.registers.cx;
  }else if(opcode===30){const next=assignOriginalDosIndexedValue(memory,ss,{ds:input.ds,es:input.es,si:after,bp:input.bp,dx:input.dx});memory=next.memory;Object.assign(registers,{si:next.registers.si,dx:next.registers.dx,cx:next.registers.cx});}
  else if(opcode===31){
-  const next=evaluateOriginalDosPhysicalExpression(memory,ss,{...input,si:after},{keyByte,shiftFlags:bios?.shiftFlags});
+  const next=evaluateOriginalDosPhysicalExpression(memory,ss,{...input,si:after},{keyByte,shiftFlags:bios?.shiftFlags},bios?.fileSearch);
   memory=next.memory;registers.si=next.si;registers.dx=next.dx;registers.cx=next.cx;
  }else throw Error(`Original opcode${opcode} is not connected to physical script execution`);
  return {memory,registers,status,opcode};

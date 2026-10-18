@@ -1,0 +1,12 @@
+[
+  {
+    "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+    "caseCount": 70,
+    "verified": "Native VGA1E97:0EC9..0F29 single768-byte pass; all byte values with signed boundary/reverse/wrapping target patterns, step0/1/2/63/127/128/255, CB8; whole1MiB except FEE0..FF03 CPU stack, nine saved registers/SP/DF and source immutability. No IRQ, DAC upload or complete timed fade claim."
+  },
+  {
+    "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+    "caseCount": 70,
+    "verified": "Native VGA1E97:0EC9..0F29 single768-byte pass; all byte values with signed boundary/reverse/wrapping target patterns, step0/1/2/63/127/128/255, CB8; whole1MiB except FEE0..FF03 CPU stack, nine saved registers/SP/DF and source immutability. No IRQ, DAC upload or complete timed fade claim."
+  }
+]

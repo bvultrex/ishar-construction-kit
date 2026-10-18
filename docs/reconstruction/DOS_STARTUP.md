@@ -2755,3 +2755,49 @@ external service is injected during this prefix. Next: implement/verify that
 original palette-fade continuation and the explicit FindFirst interaction,
 then follow callback/frame execution with the true VGA target and pitch.
 Full game startup and visible frame remain unproven.
+
+
+### Actual-startup FindFirst, VGA fade and first frame return (2026-10-18)
+
+The physical expression API now accepts the existing explicit read-only
+`OriginalDosFileSearch` boundary. It is passed through opcode31 instead of
+replacing expression156 with a host-file existence guess. The connected
+checker accepts `--find-first-carry 0|1`, compares filename hashes, attributes,
+logical drive/fallback choices and carry replies; no filename bytes, DTA
+writes or filesystem access are emitted. On fourIshar1 startup-root states,
+all-success replies match149 opcodes per case and all-error replies148,
+including alternate-drive retries. Both then stop before unreconstructed
+expression tag118. The earlier independent native FindFirst regression also
+passes. Evidence: STARTUP_MAIN_FIND_FIRST_NATIVE_2026-10-18.json.
+
+`stepOriginalDosPaletteFade` reconstructs VGA1E97:0EC9..0F29: a single768-byte
+pass from E43 toward1443 using byteCBE, signed comparisons, wrapped addition/
+subtraction and clipping to each target. CB8 records any differing byte,
+including step0. Nine CPU registers are restored and DF is cleared. The
+opcode188 wrapper now executes5CF4's real pass and5CF9..5D0B's unconditional
+CB8=1/CB9=0/BF4=0 before returning. This is not a fabricated timed fade or
+DAC upload; later IRQ-driven palette processing remains separate.
+
+Native comparison passes70 cases per original capture (140 total), covering
+all byte values across identity/offset/reverse patterns and step0/1/2/63/127/
+128/255, including signed boundaries and wrap. Full1MiB except FEE0..FF03
+CPU scratch, saved registers/SP/DF and source immutability match. Evidence:
+PALETTE_FADE_NATIVE_2026-10-18.json; reproduce with
+`check-native-dos-palette-fade.py CAPTURE`.
+
+With that branch connected, bothIshar2 actual-startup states execute139 MAIN
+opcodes to the first yield. `--first-frame --shift-flags 0` then compares the
+original yield transition, seven callback opcodes with explicit BIOS shift
+reply0, callback return and first frame CALL2649..264C against the existing
+physical models. Full memory except07A8..07ED and script registers/SP match.
+This frame traverses two hidden objects and returns; no visible sprite or
+image is claimed. The original VGA state is explicitly checked as pitch320,
+destination A000:0000, rather than the old null-pitch/null-target fixture.
+Evidence: STARTUP_MAIN_FIRST_FRAME_NATIVE_2026-10-18.json. Reproduce:
+`check-native-dos-startup-main-script.py PRIVATE_ROOT_DIRECTORY --first-frame --shift-flags 0`.
+ForIshar1 use `--find-first-carry 0` or1 to reproduce the specified DOS branch.
+
+Next: reconstruct expression118 forIshar1; continueIshar2 context reload and
+MAIN cycles from the actual first-frame return, toward visible-object/pixel
+work and original IRQ palette processing. External replies remain explicit,
+no IRQ is delivered during these prefixes and full game startup remains open.

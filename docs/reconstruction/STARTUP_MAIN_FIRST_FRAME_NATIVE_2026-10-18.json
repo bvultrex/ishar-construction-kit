@@ -1,0 +1,238 @@
+{
+  "firstFrame": true,
+  "shiftFlags": 0,
+  "findFirstCarry": null,
+  "caseCount": 2,
+  "cases": [
+    {
+      "checkpoint": "country33-mouse65535.bin",
+      "checkpointSha256": "23026d1953740080326d58161bea22be2595e8a666525c1b0175b0262c23baa5",
+      "profile": "ishar2",
+      "scheduler": {
+        "bp": 672,
+        "si": 24,
+        "bx": 0,
+        "ds": 11563,
+        "es": 8430,
+        "phase": "main",
+        "entry": 9963,
+        "stackDelta": -2,
+        "hash": "ea96819c030eedf93067b61df035bf18595d5909179d7f16f552a05a4af640be"
+      },
+      "videoState": {
+        "pitch": 320,
+        "destinationSegment": 40960,
+        "destinationOffset": 0
+      },
+      "continuation": {
+        "yield": {
+          "registers": {
+            "ds": 11563,
+            "es": 8430,
+            "si": 16277,
+            "bp": 672,
+            "dx": 30,
+            "cx": 16
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "ae007637ea8345128458eed550990be5255efb943e10a60196e72ace4d347ad5"
+        },
+        "callback": {
+          "steps": 7,
+          "reason": null,
+          "nextOpcode": 68
+        },
+        "callbackReturn": {
+          "registers": {
+            "ds": 11563,
+            "es": 8430,
+            "si": 256,
+            "bp": 672,
+            "dx": 0,
+            "cx": 0
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "8866a7ef0e7282e7efafc942e49eb909bd4e923a9f965815759d94de660780d1"
+        },
+        "frame": {
+          "registers": {
+            "ds": 11563,
+            "es": 8430,
+            "si": 256,
+            "bp": 672,
+            "dx": 0,
+            "cx": 0
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 2,
+          "hidden": 2,
+          "hash": "92af692678efa645f9ba2b05a538b1a695ab0c481fdf021688c0417ad831e083"
+        }
+      },
+      "fileEvents": [],
+      "steps": 139,
+      "opcodes": {
+        "70": 2,
+        "41": 114,
+        "30": 10,
+        "31": 3,
+        "20": 3,
+        "7": 2,
+        "215": 2,
+        "188": 2,
+        "66": 1
+      },
+      "reason": null,
+      "nextOpcode": 43,
+      "last": {
+        "registers": {
+          "ds": 11563,
+          "es": 8430,
+          "si": 16103,
+          "bp": 672,
+          "dx": 30,
+          "cx": 16
+        },
+        "status": "yield",
+        "opcode": 66,
+        "hash": "8f883b69dab6a5d5807cccd00d8636a22675daef1d696ad3382d3d83285500c5"
+      },
+      "boundary": 9804,
+      "sp": 2030
+    },
+    {
+      "checkpoint": "country49-mouse65535.bin",
+      "checkpointSha256": "18bba52e5b525e808a6ed97997f2d7ca2044c2282ab95492a3d83eb5c8231fba",
+      "profile": "ishar2",
+      "scheduler": {
+        "bp": 672,
+        "si": 24,
+        "bx": 0,
+        "ds": 11563,
+        "es": 8430,
+        "phase": "main",
+        "entry": 9963,
+        "stackDelta": -2,
+        "hash": "b4af132fef0cd7b06b4f4aa08e716021d015cdd41a224eafd67931701aae007f"
+      },
+      "videoState": {
+        "pitch": 320,
+        "destinationSegment": 40960,
+        "destinationOffset": 0
+      },
+      "continuation": {
+        "yield": {
+          "registers": {
+            "ds": 11563,
+            "es": 8430,
+            "si": 16277,
+            "bp": 672,
+            "dx": 30,
+            "cx": 16
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "c267c22a3cd5c66f4340fce35a41cd7c5bf35df5c6bf161e38d78bd5b975d7ce"
+        },
+        "callback": {
+          "steps": 7,
+          "reason": null,
+          "nextOpcode": 68
+        },
+        "callbackReturn": {
+          "registers": {
+            "ds": 11563,
+            "es": 8430,
+            "si": 256,
+            "bp": 672,
+            "dx": 0,
+            "cx": 0
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "90022be02ad9472013ec4e3a3d716ec639d178ef86cd2cabaa4b3a7e6863c15f"
+        },
+        "frame": {
+          "registers": {
+            "ds": 11563,
+            "es": 8430,
+            "si": 256,
+            "bp": 672,
+            "dx": 0,
+            "cx": 0
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 2,
+          "hidden": 2,
+          "hash": "96ff0efd7ec6cfd14e48e74e838722a87289f2793da502a7238b8a0ee83e8fa0"
+        }
+      },
+      "fileEvents": [],
+      "steps": 139,
+      "opcodes": {
+        "70": 2,
+        "41": 114,
+        "30": 10,
+        "31": 3,
+        "20": 3,
+        "7": 2,
+        "215": 2,
+        "188": 2,
+        "66": 1
+      },
+      "reason": null,
+      "nextOpcode": 43,
+      "last": {
+        "registers": {
+          "ds": 11563,
+          "es": 8430,
+          "si": 16103,
+          "bp": 672,
+          "dx": 30,
+          "cx": 16
+        },
+        "status": "yield",
+        "opcode": 66,
+        "hash": "63068c4344dd6d68e8a097dff0a4061785c2608c9dc754b93a9e8296d039da8d"
+      },
+      "boundary": 9804,
+      "sp": 2030
+    }
+  ],
+  "stackMask": "07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared",
+  "limits": "Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. No IRQs delivered; optional explicit DOS FindFirst carry and drive-selection replies, no DTA writes or filesystem access; stops at yield or first unsupported opcode, not complete game/frame."
+}

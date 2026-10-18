@@ -35,3 +35,28 @@ export function prepareOriginalDosPaletteControl(source:Uint8Array,ss:number,inp
  }
  memory[g+0xcb9]=1;return result('fade',0x5cf4);
 }
+
+/** VGA1E97:0EC9..0F29: one768-byte signed-color convergence pass.
+ * Uses the literal original DS/ES1C0B, not a fabricated timer progression.
+ */
+export function stepOriginalDosPaletteFade(source:Uint8Array){
+ if(source.length!==0x100000)throw Error('Invalid palette fade memory');
+ const memory=source.slice(),g=0x1c0b0,step=memory[g+0xcbe],signed=(x:number)=>x&128?x-256:x;
+ memory[g+0xcb8]=0;
+ for(let n=0;n<768;n++){
+  const target=memory[g+0x1443+n],current=memory[g+0xe43+n];if(target===current)continue;
+  memory[g+0xcb8]=1;let value:number;
+  if(signed(target)>signed(current)){value=(current+step)&255;if(signed(value)>=signed(target))value=target;}
+  else{value=(current-step)&255;if(signed(value)<=signed(target))value=target;}
+  memory[g+0xe43+n]=value;
+ }
+ return {memory,directionFlag:false};
+}
+
+/** Complete188 fade branch5CF4..5D0B; upload/divide boundaries stay explicit. */
+export function executeOriginalDosPaletteControl(source:Uint8Array,ss:number,input:{ds:number;es:number;si:number;bp:number;dx:number;cx:number}){
+ const prepared=prepareOriginalDosPaletteControl(source,ss,input);if(prepared.phase!=='fade')return prepared;
+ if(ss!==0x1c0b)throw Error('Palette fade requires original literal global segment');
+ const {memory}=stepOriginalDosPaletteFade(prepared.memory),g=ss*16;memory[g+0xcb8]=1;memory[g+0xcb9]=0;memory[g+0xbf4]=0;
+ return {...prepared,memory,phase:'return' as const,entry:0x5d0b,directionFlag:false};
+}
