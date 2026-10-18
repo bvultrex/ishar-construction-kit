@@ -3,11 +3,12 @@ import argparse,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('--with-frame',action='store_true');p.add_argument('--viewport',action='store_true');a=p.parse_args();original=a.capture.read_bytes();digest=hashlib.sha256(original).hexdigest()
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('--with-frame',action='store_true');p.add_argument('--viewport',action='store_true');p.add_argument('--select-video',action='store_true');a=p.parse_args();original=a.capture.read_bytes();digest=hashlib.sha256(original).hexdigest()
 profiles={'5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7':'ishar1','f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04':'ishar2'}
-assert digest in profiles;repo=Path(__file__).resolve().parent.parent;cases=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-vga-startup-vectors.mjs'),str(a.capture.resolve())]+(['--with-frame'] if a.with_frame else [])+(['--viewport'] if a.viewport else []),cwd=repo,text=True))
+assert digest in profiles;repo=Path(__file__).resolve().parent.parent;cases=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-vga-startup-vectors.mjs'),str(a.capture.resolve())]+(['--with-frame'] if a.with_frame else [])+(['--viewport'] if a.viewport else [])+(['--select-video'] if a.select_video else []),cwd=repo,text=True))
 for case in cases:
  m=bytearray(original);g=0x1c0b0;m[g:g+0x28c0]=bytes(0x28c0);r=case['replyFields']
+ if a.select_video:m[g+0x2898]=1
  def word(at,value):m[at:at+2]=value.to_bytes(2,'little')
  for at,value in [(0x1e970+0x3a,0xa511),(0x1e970+0x3c,0x2211),(0x28,0x1234),(0x2a,0x7000),(g+0xff00,0xe000),(g+0xff02,0x1000)]:word(at,value)
  cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,bytes(m));events=[];done=[];polls=[0]
@@ -29,6 +30,10 @@ for case in cases:
  def finish(uc,address,size,_):done.append(True);uc.emu_stop()
  def timer_poll(uc,address,size,_):polls[0]+=1
  cpu.hook_add(UC_HOOK_INTR,interrupt);cpu.hook_add(UC_HOOK_INSN,read,None,1,0,UC_X86_INS_IN);cpu.hook_add(UC_HOOK_INSN,write,None,1,0,UC_X86_INS_OUT);cpu.hook_add(UC_HOOK_CODE,finish,None,0x1e000,0x1e000);cpu.hook_add(UC_HOOK_CODE,timer_poll,None,0x1e970+0xdc9,0x1e970+0xdc9)
+ if a.select_video:
+  selected=[]
+  def selected_end(uc,address,size,_):selected.append(True);uc.emu_stop()
+  handle=cpu.hook_add(UC_HOOK_CODE,selected_end,None,0x10a13,0x10a13);cpu.reg_write(UC_X86_REG_CS,0x1000);cpu.emu_start(0x1098f,0xfffff,count=30000);cpu.hook_del(handle);assert selected==[True];cpu.reg_write(UC_X86_REG_CS,0x1e97)
  if a.with_frame:
   boundary=[]
   def reserve_end(uc,address,size,_):boundary.append(True);uc.emu_stop()

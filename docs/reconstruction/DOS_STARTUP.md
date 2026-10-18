@@ -2109,3 +2109,22 @@ stack word: mask FEBE..FF0F, versus FEC0..FF0F for direct graphics entry.
 Reservation-to-caller and caller-to-frame transfers remain explicit; full
 072D startup, hardware IRQ delivery and loaded MAIN integration remain open.
 Evidence: VGA_VIEWPORT_NATIVE_2026-10-18.json.
+
+## Embedded video module selection098F (2026-10-18)
+
+`selectOriginalDosVideoModule` reconstructs098F..0A13 on shared physical
+memory. Graphics byte2898 exactly1 selects mode5 without copying; otherwise
+input byte2896 exactly1 selects mode3 and copies1FA6..22AB to1E97; all
+other values select mode2 and copy22AB..23D7. The copy size is the segment
+difference times16. Word28A2 becomes1E97 plus that paragraph count.
+General registers are restored, DF is cleared. These segment constants belong
+to the two hash-bound captured DOS profiles, not arbitrary executable layouts.
+
+Nine cases per game compare full1MiB (except CPU stack saves), all general
+registers, SP and DF against the original routine, including noncanonical
+flag255. `check-native-dos-video-selection.py CAPTURE` reproduces them.
+`check-native-dos-vga-startup.py CAPTURE --select-video --viewport --with-frame`
+also verifies eight VGA composition cases in original component order.
+Transitions between components remain explicit; intervening startup services
+are not skipped silently or claimed implemented. Evidence:
+VIDEO_SELECTION_NATIVE_2026-10-18.json. Original resources remain local.

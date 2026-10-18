@@ -78,7 +78,8 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    nativ verglichen. Der kontrollierte Start hat aber Ziel0:0 und Pitch0:
    noch kein gültiger Frame. Video-/Pufferinitialisierung ist inzwischen separat
    und in kontrollierter Übergabe an den leeren Frame nativ geprüft (432
-   Reservierungsfälle, acht VGA/Frame-Fälle; kein IRQ0A). Die originale Aufrufkette
+   Reservierungsfälle, acht VGA/Frame-Fälle; kein IRQ0A). Die vorgelagerte Grafikmodulauswahl098F ist ebenfalls mit18 F�llen
+   und acht anschlie�enden VGA-Kompositionen gepr�ft. Die originale Aufrufkette
    einschließlich MAIN muss diese Zustände noch selbst herstellen. Das hat Vorrang
    vor einer sichtbaren Ausgabe oder weiteren Aussagen zur Bildgleichheit.
    FE-Sonderpfad, weitere Operandformen
