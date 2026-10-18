@@ -53,8 +53,9 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Zustand nativ verglichen. Auch die ersten7/8 numerischen Zuweisungen samt
    Original-Indexstack laufen durch. Das gemeinsame physische Schritt-API folgt
    jetzt auch Aufrufen, Ausdrücken und Bedingungen. Tatsächliche nächste Grenzen
-   sind nach Ergänzung von168/215 die DOS-Dateisuche156 (Ishar1) und Opcode188
-   (Ishar2); deren Zustandswirkungen und Dienste als Nächstes verbinden.
+   sind die DOS-Dateisuche156 (Ishar1) und nach dem188-Rückkehrpfad der erste
+   MAIN-Yield (Ishar2). Dort Yield-Abschluss mit tatsächlicher Objektkette und
+   Scheduler verbinden; offene188-Grafikzweige bleiben separate Abnahmen.
    Abnahme:
    Register, Speicher, Zeiger und Stopgrenzen pro Profil stimmen überein.
 2. **Erster vollständiger Original-Modnachweis je Spiel.** Bestehenden sicheren

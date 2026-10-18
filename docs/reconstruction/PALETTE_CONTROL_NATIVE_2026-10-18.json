@@ -1,0 +1,4665 @@
+{
+  "schema": "ishar-palette-control-native-v1",
+  "main": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "mainSha256": "27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b",
+      "cases": 8,
+      "decodedBytes": 26384,
+      "decodeAndClose": true,
+      "rootCreation": true,
+      "decodeResults": [
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "64594a9950e34ddadfabc11cae02acf37b86823f62ac4ed75b9eb52ad28d62b2"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 14984,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "cb091561fb263113453a22556bccc672076658e2265ff645d53bd9bd8d5c6a40",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "652a0e4b3b8096b3454d5d7e2090245429217fde173178187ecbcb34e2c4002f"
+            },
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "61d23f685f61902fb4c560325d40f05910d6f725eb87a0027ab16e441df1ec82"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "c84419486dad96caacad5593c2b3a5c56fe2b65853763415e83d980c4ebaaefb"
+          },
+          "assignments": {
+            "steps": 7,
+            "nextOpcode": 7,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 793,
+                "bp": 672,
+                "dx": 11,
+                "cx": 15,
+                "bx": 10108,
+                "di": 15591,
+                "ax": 15591
+              },
+              "tag": 14,
+              "hash": "218e9345502ff51cdbba07cda99b5738bc0c0d1766c83d788a3d48cda9f6230c"
+            }
+          },
+          "execution": {
+            "steps": 17,
+            "opcodes": [
+              7,
+              10,
+              20,
+              30,
+              31
+            ],
+            "nextOpcode": 31,
+            "reason": "Error: Expression156 requires an explicit DOS FindFirst service",
+            "last": {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 1218,
+                "bp": 672,
+                "dx": 1,
+                "cx": 65535
+              },
+              "status": "ready",
+              "opcode": 30,
+              "hash": "01cbcf279df12ff66e026e6fffedde0530cb3f3d1b8c7669611edc5d008aa8b2"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "81206ca3101b79787804635bcab77c1467063a546ce3768917bc1166f71fd119"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 14984,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "8a10ff0dcc362abab52798504d1049867cb5584f673aa994e8505474a1f8aeb9",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "a39bffebd07795062e971177e4ec2384b5000f94c231c3958475312560924306"
+            },
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "5ef2b41c738c58b091bcd8c3afcbd8849841803998134885ef6fb9fa0bcb0b35"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "75c5d39a2d4945113d9310a0852bca1f98b75c24e439e49707b4dbd48dc310bd"
+          },
+          "assignments": {
+            "steps": 7,
+            "nextOpcode": 7,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 793,
+                "bp": 672,
+                "dx": 11,
+                "cx": 15,
+                "bx": 10108,
+                "di": 15591,
+                "ax": 15591
+              },
+              "tag": 14,
+              "hash": "4d42bae1dceeb8e24e6b0bc69fb6f390af4106a58fea34b7b5123fce2f0b3383"
+            }
+          },
+          "execution": {
+            "steps": 17,
+            "opcodes": [
+              7,
+              10,
+              20,
+              30,
+              31
+            ],
+            "nextOpcode": 31,
+            "reason": "Error: Expression156 requires an explicit DOS FindFirst service",
+            "last": {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 1218,
+                "bp": 672,
+                "dx": 1,
+                "cx": 65535
+              },
+              "status": "ready",
+              "opcode": 30,
+              "hash": "6a4d3f1494478d3e95c4c2b3c50c1586c9b2dfbac3974ada8dc04f720e4749d0"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "4ede92d4e56ee2d047bb02b464bf9795b14d1baba3167ede1b9cd5eaae5c40c6"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "11839fb453d698870f44a73c287a21e49ecaae4a16f19d5b68e19fd6761885d0"
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "d694480a5d6b63d2038e2d82268975166d0236aead29e596e0a817b8cc72fa62"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "11839fb453d698870f44a73c287a21e49ecaae4a16f19d5b68e19fd6761885d0"
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "42fd1046c8d71563fed9e8d200c700e53e61d203799d58cd0708abc71d678869"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 23176,
+            "es": 20480,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "fcb5b68834d5e24321cd96ba7b21d44a7e6f6d967ac863522de16ab4c3f223f7",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "8abc943a024722d5f1177a5c7e8e327e1f4e695776952f1ff231ce22c9d2be12"
+            },
+            {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "22bb9f111c887678fbb214c906bedff433deb3dfd796d011a07cb19b19dce2ae"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "6dc3a9a7347c919d3a8928956ad0b2adadb427d80dee9278491322df39e66704"
+          },
+          "assignments": {
+            "steps": 7,
+            "nextOpcode": 7,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 793,
+                "bp": 672,
+                "dx": 11,
+                "cx": 15,
+                "bx": 10108,
+                "di": 15591,
+                "ax": 15591
+              },
+              "tag": 14,
+              "hash": "a54a1df4d35cda405d23b135f7f4cfcc26363c4800fe7bc36fb394f119003829"
+            }
+          },
+          "execution": {
+            "steps": 17,
+            "opcodes": [
+              7,
+              10,
+              20,
+              30,
+              31
+            ],
+            "nextOpcode": 31,
+            "reason": "Error: Expression156 requires an explicit DOS FindFirst service",
+            "last": {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 1218,
+                "bp": 672,
+                "dx": 1,
+                "cx": 65535
+              },
+              "status": "ready",
+              "opcode": 30,
+              "hash": "fd164371693ad05f731242971962725e235319dbf873f9f1dec07f2fefde59d1"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "b140a9bbdfd55ca041bef2fc857268427243af71ac1f0f70412cf1caeececd6b"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "f0618743c98547bae75d16b6b7532ded9be2acc5505b575ddca764bca69cb274"
+        }
+      ],
+      "result": "MAIN chain through requested initialization/decode/root boundary matches",
+      "limits": "controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "mainSha256": "bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95",
+      "cases": 8,
+      "decodedBytes": 27752,
+      "decodeAndClose": true,
+      "rootCreation": true,
+      "decodeResults": [
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "22bab1ca1e85e9a28d40afdc5b5de42edf11d0f24c44b5198004ec377f2a3aed"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 15421,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "081786906b10e2b667fdd276d2202659b1cdee32ffc2dedef6d79b86bf157624",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "d029137af92865b1ea622b59fcba964b003b53e31474fe7b285ca9719639d4b5"
+            },
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "090a13c4d65953fdedf28989e7cc62f127174719e7422a084897716ef2301f55"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "e9797851adf999c96626f2c0d7918be8907ace185b84e99672b9852e2e50b643"
+          },
+          "assignments": {
+            "steps": 8,
+            "nextOpcode": 31,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 778,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 11,
+                "bx": 10108,
+                "di": 20929,
+                "ax": 20929
+              },
+              "tag": 6,
+              "hash": "ddba5b5b3695f0933a40c266c2c1929d6d04937e2991f9cc64ca9309aaa70e7f"
+            }
+          },
+          "execution": {
+            "steps": 15,
+            "opcodes": [
+              7,
+              20,
+              30,
+              31,
+              66,
+              188,
+              215
+            ],
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 30,
+                "cx": 2
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "762804c331f821435af7f3d057f8997dbc31edb96e5505d3f5b338ba15ace375"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "cad63e06b4e9ab4616305dffa8a3604f0a33c70cb859db6a193150f41949a787"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 15421,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "7f5b16bacda449a84641c3bc7cf3d6774a01f3566059ff432ce8e45a47e761d2",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "755cae8c9eeeaac65f05597248f0f757f065094cb4dbeb56ab4f09a1492062a8"
+            },
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "71619062b92e0abe93e8164e95e18ba772294c963d51ae2b26cbb379c0607ae0"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "2ccad2889327135a5e87482497cc06bfe754270cd83b9a7e3325e2904dfae540"
+          },
+          "assignments": {
+            "steps": 8,
+            "nextOpcode": 31,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 778,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 11,
+                "bx": 10108,
+                "di": 20929,
+                "ax": 20929
+              },
+              "tag": 6,
+              "hash": "0892edaafd025d4764873777b1237be6a0453837267f25726b77b5fd2242504c"
+            }
+          },
+          "execution": {
+            "steps": 15,
+            "opcodes": [
+              7,
+              20,
+              30,
+              31,
+              66,
+              188,
+              215
+            ],
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 30,
+                "cx": 2
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "614340c969bde2275ecf4467f1189cc624af00d6a0d4bd4a5a0361c664677900"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "aa6867a7f268d06e9ff6361e9bde8509f33dc6c44b41f32c331bcdd0a9b549da"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "47f4d32ff7c439330c646ee60de01a82a269c05f44d8af0db8a9dea0471cfe7e"
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "25cc8ff1ea80b989f56d8dc33e4a1a8d46dc055491d1fe4be7ae5f2ccf5386a8"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "47f4d32ff7c439330c646ee60de01a82a269c05f44d8af0db8a9dea0471cfe7e"
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "565a3208f77005b70f07cf183653760df066a8c855a5b06f3956a3940919c8b5"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 23613,
+            "es": 20480,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "3c2484a285da115fa50b4b254f03be29fdaa7ae8c232edaf11653b6504fa82d6",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "e960992c67890c6793cbce28833a5b83e545bf671719f18af83d9e16e27cff9a"
+            },
+            {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "55549455d1ae2533b00d896e10333df499c19ca6d560912e102b2e0d507e6814"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "2e92949de837fc6eaa5c35cb11d2500d17d527325d819c539264eeceb6a15279"
+          },
+          "assignments": {
+            "steps": 8,
+            "nextOpcode": 31,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 778,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 11,
+                "bx": 10108,
+                "di": 20929,
+                "ax": 20929
+              },
+              "tag": 6,
+              "hash": "82bd3306cc164e57956af75ef4b37d7b8b7a4b29aa63f08dd121804731615ae3"
+            }
+          },
+          "execution": {
+            "steps": 15,
+            "opcodes": [
+              7,
+              20,
+              30,
+              31,
+              66,
+              188,
+              215
+            ],
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 30,
+                "cx": 2
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "bd1d006ccbfd2185dabb154712598917e1855795fa8cc1b1c54c59bce3f6b7d6"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "c922ab1129f69dd31f0d318c40b3163dc519a0242a4d8b6876a20d3dd801bfec"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "d6a12dc7bdcb278e79e69827816266190aa55c572f4e75872ff9ae06bc4cc5bf"
+        }
+      ],
+      "result": "MAIN chain through requested initialization/decode/root boundary matches",
+      "limits": "controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed"
+    }
+  ],
+  "control": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "cases": [
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 0,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 0
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 1,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 1
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 62,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 62
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 63,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 63
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 64,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 64
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 16128,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 32768,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 65535,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 65535
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 0,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 0
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 1,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 1
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 62,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 62
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 63,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 63
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 64,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 64
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 16128,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 32768,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 65535,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 65535
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 0,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 0
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 1,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 1
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 62,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 62
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 63,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 63
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 64,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 64
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 16128,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 32768,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 65535,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 65535
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 0,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 0
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 1,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 1
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 62,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 62
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 63,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 63
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 64,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 64
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 16128,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 32768,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 65535,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 65535
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 0,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "5c66c247e5c4770984b01bd681f84fd88464380a1c2ca4fed7e5d72ac31e5328"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 0,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "82546ccd1bc7e97f98dc22ab73e81acb7f8b41cb46bc2657ebc6441dd89e2638"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 0,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "906f99026b69d185330bfd06d06c7114df4b4f229353aa14cd0901174ad78120"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 0,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "62c0ced24e8f4a2cf9664662755b03bcece0cac6c8e2c2a43f69aaba7d7a0709"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 1,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "5db5292dc0715c2b42f297089ce4aa5d029c9600aa559f4c83ee0ba0c96b8855"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 1,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "49695b953f2341a8f6d2a2d21e8acc133ec91709251e3734c652283be78e4a30"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 1,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "75ac23cc7e0064c8b18238a57b569eb30b9b4ad2f7133223a9bddad9e688b17a"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 1,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "aae6c75dd645a5b0a3f673830fc838e29de1177be1ba09dc69bcab7422b8ac71"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 62,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "98dbf5f407ada0f32c955258aa3c0820f8badd87945db95821301240a20067c0"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 62,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "a609aa1925e16bef7ca2dc5af676d075aa5dc38b4bba9254139183366fe24bbc"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 62,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "f9533445bce2efaaaaf048d34ce987b4962f765a3cd79aac672bc11b74b45309"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 62,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "cdbe5f0578aea8cdf57623fb70ace430276bfb134dcfd48539d3aebd546f9644"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 63,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "5c66c247e5c4770984b01bd681f84fd88464380a1c2ca4fed7e5d72ac31e5328"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 63,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "ee9b7639e47927a91e4e9387ed187dcfed94a976e935f1089548b52cb8ca58ac"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 63,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "65bc099780ba3777122ab91a54df11ded355db0b353a883b096a0cecf0ff50ab"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 63,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "62c0ced24e8f4a2cf9664662755b03bcece0cac6c8e2c2a43f69aaba7d7a0709"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 64,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "5c66c247e5c4770984b01bd681f84fd88464380a1c2ca4fed7e5d72ac31e5328"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 64,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "ee9b7639e47927a91e4e9387ed187dcfed94a976e935f1089548b52cb8ca58ac"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 64,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "65bc099780ba3777122ab91a54df11ded355db0b353a883b096a0cecf0ff50ab"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 64,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "62c0ced24e8f4a2cf9664662755b03bcece0cac6c8e2c2a43f69aaba7d7a0709"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 16128,
+          "mode": 0,
+          "time": 0,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "85f042f89069d5f982aad94fe9c99c97b664dfb8540974bc6beb758678a5c8bc"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 16128,
+          "mode": 2,
+          "time": 201,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "906bb53c89b7138780ed9f7dd9a776d8413ce55c748adeb727f9dc950bc6c405"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 16128,
+          "mode": 3,
+          "time": 65535,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "be9c9922db4d17d1cb0b1580d2a00b7ef31b4dc923e4f8c4be6ea0b42be940e7"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 16128,
+          "mode": 0,
+          "time": 32768,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "07ff2213efdb9af09fd9a538a5147e1bd21978b6a4f93a49e1b6cae0128fd972"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 32768,
+          "mode": 0,
+          "time": 0,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "e8ecc8662249b3157978fb50f926619cb31366a29959471dae78a898897e24d1"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 32768,
+          "mode": 2,
+          "time": 201,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "7c907139bcd095bfc95e5e079aaa503dbbdb718a85a7ff0323db85847e57f240"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 32768,
+          "mode": 3,
+          "time": 65535,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "cf0971482320d57679ef64efb99d3ca45a5322b138b6f9e1fa87d3177bca3100"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 32768,
+          "mode": 0,
+          "time": 32768,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "e9cf5f291a5e0c0b1186d46a4a59023ab61b0236372f2d4dbff3c278663e46fc"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 65535,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "5c66c247e5c4770984b01bd681f84fd88464380a1c2ca4fed7e5d72ac31e5328"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 65535,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "dbe16c40f442a620d65b37c78ce1073c48cd52dff268eda947c61aa55463a60e"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 65535,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "16dfaf50fcdd07567bfddae1623c61deaaef93f7b8668e14420b04b5b0ef1122"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 65535,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "62c0ced24e8f4a2cf9664662755b03bcece0cac6c8e2c2a43f69aaba7d7a0709"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 0,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "130936359899f0dc4cf9698c6ff25ed804d6dbee8160058e741e2e0f415416b3"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 0,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "b7ee13c612aa33fb29f4afd5c262ffda5048ac7a16884600062fb719da04115e"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 0,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "65182952e6e396526b831acab9af1fcf1bb696527e944dd4629f44760aa358ed"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 0,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "2278db61bdb142dd4f1cb937c5987608b2dffab663eed1878cdb5d251cb4a180"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 1,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "d79dac066da837a984091088511f677011a0a72cfb07d7b9346117348c374539"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 1,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "0a6330a167f6f74df4151916aee22be1a01cb3998b3cdaafe2b84adee55d5865"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 1,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "91ff314426ee42047ebfee9327ec540904856a8128d429b728c8829cd6478a3a"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 1,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "9e25113bf7521463e7d5cf2a87cc89805d6f5e2cb74eea680d6d9c5503caa346"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 62,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "b8e6235bdc58bcd1651ce295a268e468ecfbe97db7f0e99142ee5ea3c04bb3de"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 62,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "f409cfe235378b427b7d43d41fd6f7e75015c0229d9dedd21ed49591c321c49a"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 62,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "6608ff13bd57413f66b3a35e9477131489ffffa49fd3adf6ef25b37fca8f820d"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 62,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "e6b6afeb6c212cfd6e2c10bd39712804576fe02425943e2fbf05bf20938487e2"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 63,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "130936359899f0dc4cf9698c6ff25ed804d6dbee8160058e741e2e0f415416b3"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 63,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "c100d93df7375cbef0f49d5b7baae8d766cf2fd4e03f9af93822a2b4ea152a96"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 63,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "60182e0fbe41d96c814d90777e84adf8cf9feddbcf2db6bd1b5ef1ffd0beba69"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 63,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "2278db61bdb142dd4f1cb937c5987608b2dffab663eed1878cdb5d251cb4a180"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 64,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "130936359899f0dc4cf9698c6ff25ed804d6dbee8160058e741e2e0f415416b3"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 64,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "c100d93df7375cbef0f49d5b7baae8d766cf2fd4e03f9af93822a2b4ea152a96"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 64,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "60182e0fbe41d96c814d90777e84adf8cf9feddbcf2db6bd1b5ef1ffd0beba69"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 64,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "2278db61bdb142dd4f1cb937c5987608b2dffab663eed1878cdb5d251cb4a180"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 16128,
+          "mode": 0,
+          "time": 0,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "0d04d2d87d398b415abb078af0441b4e284300a84affccfbc3f1bfc208ca5bfd"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 16128,
+          "mode": 2,
+          "time": 201,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "bf20a758881fde6602895e8bb89e5e38c320b25ff79f98c6ed6a108675f97428"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 16128,
+          "mode": 3,
+          "time": 65535,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "5f15277fe96aa2efe765ced16fa7d315e98b0c957ee099994f71e04de1139012"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 16128,
+          "mode": 0,
+          "time": 32768,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "c9ac2aedd603b8c64e9b26b412487af1dc76214894e22ca1d5b13a42789cab8f"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 32768,
+          "mode": 0,
+          "time": 0,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "004d5339c4dbbe76a4a20702011aa4ac725898550441aa3b964d227cc75c127c"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 32768,
+          "mode": 2,
+          "time": 201,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "e94f45301ef762bab5669721338e8cbbee8ad63b1c0fc4c85ce5bb7bc74e3bb0"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 32768,
+          "mode": 3,
+          "time": 65535,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "a406b48568de01ed310c1ca38699203be2661883b65db6d8a223eb89eacf37a6"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 32768,
+          "mode": 0,
+          "time": 32768,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "c88d00384170cff7db163114384aadc046d72c66637cf993a9863f1d1ec960c7"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 65535,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "130936359899f0dc4cf9698c6ff25ed804d6dbee8160058e741e2e0f415416b3"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 65535,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "bebac21b043aa75a10a7e27f20bb5e2f24c83de730804845de1cb021870f3177"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 65535,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "d8789c18d5a7e3b9f4fcdc2b7813107a5c0db4196e98873b1663e8ca2dbe6f4d"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 65535,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "2278db61bdb142dd4f1cb937c5987608b2dffab663eed1878cdb5d251cb4a180"
+        }
+      ],
+      "limits": "DF0; graphics calls and interrupt body not executed; six script registers and globals compared"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "cases": [
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 0,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 0
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 1,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 1
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 62,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 62
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 63,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 63
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 64,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 64
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 16128,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 32768,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 0,
+          "control": 0,
+          "value": 65535,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 65535
+          },
+          "hash": "7ad3fedb30ef87a506915f191a4fda363519df5c43c5561c09ee958d68f3e002"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 0,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 0
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 1,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 1
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 62,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 62
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 63,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 63
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 64,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 64
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 16128,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 32768,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 0,
+          "value": 65535,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 65535
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 0,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 0
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 1,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 1
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 62,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 62
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 63,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 63
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 64,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 64
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 16128,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 32768,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 1,
+          "control": 1,
+          "value": 65535,
+          "mode": 0,
+          "time": 0,
+          "phase": "return",
+          "entry": 23637,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 65535
+          },
+          "hash": "b2232e369b7f7fdabfde48d11888ae32e25e98969651f54e15b1a5c639c2e021"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 0,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 0
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 1,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 1
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 62,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 62
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 63,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 63
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 64,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 64
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 16128,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 32768,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 0,
+          "other": 2,
+          "control": 0,
+          "value": 65535,
+          "mode": 0,
+          "time": 0,
+          "phase": "upload",
+          "entry": 23628,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 65535
+          },
+          "hash": "18cb80ea24ad28d640d4d7506d62e816a248865e86f65ccb97689319c94c54c8"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 0,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "5c66c247e5c4770984b01bd681f84fd88464380a1c2ca4fed7e5d72ac31e5328"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 0,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "82546ccd1bc7e97f98dc22ab73e81acb7f8b41cb46bc2657ebc6441dd89e2638"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 0,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "906f99026b69d185330bfd06d06c7114df4b4f229353aa14cd0901174ad78120"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 0,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "62c0ced24e8f4a2cf9664662755b03bcece0cac6c8e2c2a43f69aaba7d7a0709"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 1,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "5db5292dc0715c2b42f297089ce4aa5d029c9600aa559f4c83ee0ba0c96b8855"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 1,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "49695b953f2341a8f6d2a2d21e8acc133ec91709251e3734c652283be78e4a30"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 1,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "75ac23cc7e0064c8b18238a57b569eb30b9b4ad2f7133223a9bddad9e688b17a"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 1,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "aae6c75dd645a5b0a3f673830fc838e29de1177be1ba09dc69bcab7422b8ac71"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 62,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "98dbf5f407ada0f32c955258aa3c0820f8badd87945db95821301240a20067c0"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 62,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "a609aa1925e16bef7ca2dc5af676d075aa5dc38b4bba9254139183366fe24bbc"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 62,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "f9533445bce2efaaaaf048d34ce987b4962f765a3cd79aac672bc11b74b45309"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 62,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "cdbe5f0578aea8cdf57623fb70ace430276bfb134dcfd48539d3aebd546f9644"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 63,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "5c66c247e5c4770984b01bd681f84fd88464380a1c2ca4fed7e5d72ac31e5328"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 63,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "ee9b7639e47927a91e4e9387ed187dcfed94a976e935f1089548b52cb8ca58ac"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 63,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "65bc099780ba3777122ab91a54df11ded355db0b353a883b096a0cecf0ff50ab"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 63,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "62c0ced24e8f4a2cf9664662755b03bcece0cac6c8e2c2a43f69aaba7d7a0709"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 64,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "5c66c247e5c4770984b01bd681f84fd88464380a1c2ca4fed7e5d72ac31e5328"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 64,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "ee9b7639e47927a91e4e9387ed187dcfed94a976e935f1089548b52cb8ca58ac"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 64,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "65bc099780ba3777122ab91a54df11ded355db0b353a883b096a0cecf0ff50ab"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 64,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "62c0ced24e8f4a2cf9664662755b03bcece0cac6c8e2c2a43f69aaba7d7a0709"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 16128,
+          "mode": 0,
+          "time": 0,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "85f042f89069d5f982aad94fe9c99c97b664dfb8540974bc6beb758678a5c8bc"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 16128,
+          "mode": 2,
+          "time": 201,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "906bb53c89b7138780ed9f7dd9a776d8413ce55c748adeb727f9dc950bc6c405"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 16128,
+          "mode": 3,
+          "time": 65535,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "be9c9922db4d17d1cb0b1580d2a00b7ef31b4dc923e4f8c4be6ea0b42be940e7"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 16128,
+          "mode": 0,
+          "time": 32768,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "07ff2213efdb9af09fd9a538a5147e1bd21978b6a4f93a49e1b6cae0128fd972"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 32768,
+          "mode": 0,
+          "time": 0,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "e8ecc8662249b3157978fb50f926619cb31366a29959471dae78a898897e24d1"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 32768,
+          "mode": 2,
+          "time": 201,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "7c907139bcd095bfc95e5e079aaa503dbbdb718a85a7ff0323db85847e57f240"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 32768,
+          "mode": 3,
+          "time": 65535,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "cf0971482320d57679ef64efb99d3ca45a5322b138b6f9e1fa87d3177bca3100"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 32768,
+          "mode": 0,
+          "time": 32768,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "e9cf5f291a5e0c0b1186d46a4a59023ab61b0236372f2d4dbff3c278663e46fc"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 65535,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "5c66c247e5c4770984b01bd681f84fd88464380a1c2ca4fed7e5d72ac31e5328"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 65535,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "dbe16c40f442a620d65b37c78ce1073c48cd52dff268eda947c61aa55463a60e"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 65535,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "16dfaf50fcdd07567bfddae1623c61deaaef93f7b8668e14420b04b5b0ef1122"
+        },
+        {
+          "flag": 1,
+          "other": 0,
+          "control": 0,
+          "value": 65535,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "62c0ced24e8f4a2cf9664662755b03bcece0cac6c8e2c2a43f69aaba7d7a0709"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 0,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "130936359899f0dc4cf9698c6ff25ed804d6dbee8160058e741e2e0f415416b3"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 0,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "b7ee13c612aa33fb29f4afd5c262ffda5048ac7a16884600062fb719da04115e"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 0,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "65182952e6e396526b831acab9af1fcf1bb696527e944dd4629f44760aa358ed"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 0,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 0,
+            "cx": 0
+          },
+          "hash": "2278db61bdb142dd4f1cb937c5987608b2dffab663eed1878cdb5d251cb4a180"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 1,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "d79dac066da837a984091088511f677011a0a72cfb07d7b9346117348c374539"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 1,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "0a6330a167f6f74df4151916aee22be1a01cb3998b3cdaafe2b84adee55d5865"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 1,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "91ff314426ee42047ebfee9327ec540904856a8128d429b728c8829cd6478a3a"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 1,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 1,
+            "cx": 1
+          },
+          "hash": "9e25113bf7521463e7d5cf2a87cc89805d6f5e2cb74eea680d6d9c5503caa346"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 62,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "b8e6235bdc58bcd1651ce295a268e468ecfbe97db7f0e99142ee5ea3c04bb3de"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 62,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "f409cfe235378b427b7d43d41fd6f7e75015c0229d9dedd21ed49591c321c49a"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 62,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "6608ff13bd57413f66b3a35e9477131489ffffa49fd3adf6ef25b37fca8f820d"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 62,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 62,
+            "cx": 62
+          },
+          "hash": "e6b6afeb6c212cfd6e2c10bd39712804576fe02425943e2fbf05bf20938487e2"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 63,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "130936359899f0dc4cf9698c6ff25ed804d6dbee8160058e741e2e0f415416b3"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 63,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "c100d93df7375cbef0f49d5b7baae8d766cf2fd4e03f9af93822a2b4ea152a96"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 63,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "60182e0fbe41d96c814d90777e84adf8cf9feddbcf2db6bd1b5ef1ffd0beba69"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 63,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 63,
+            "cx": 63
+          },
+          "hash": "2278db61bdb142dd4f1cb937c5987608b2dffab663eed1878cdb5d251cb4a180"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 64,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "130936359899f0dc4cf9698c6ff25ed804d6dbee8160058e741e2e0f415416b3"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 64,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "c100d93df7375cbef0f49d5b7baae8d766cf2fd4e03f9af93822a2b4ea152a96"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 64,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "60182e0fbe41d96c814d90777e84adf8cf9feddbcf2db6bd1b5ef1ffd0beba69"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 64,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 64,
+            "cx": 64
+          },
+          "hash": "2278db61bdb142dd4f1cb937c5987608b2dffab663eed1878cdb5d251cb4a180"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 16128,
+          "mode": 0,
+          "time": 0,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "0d04d2d87d398b415abb078af0441b4e284300a84affccfbc3f1bfc208ca5bfd"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 16128,
+          "mode": 2,
+          "time": 201,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "bf20a758881fde6602895e8bb89e5e38c320b25ff79f98c6ed6a108675f97428"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 16128,
+          "mode": 3,
+          "time": 65535,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "5f15277fe96aa2efe765ced16fa7d315e98b0c957ee099994f71e04de1139012"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 16128,
+          "mode": 0,
+          "time": 32768,
+          "phase": "divide-error",
+          "entry": 23693,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 16128
+          },
+          "hash": "c9ac2aedd603b8c64e9b26b412487af1dc76214894e22ca1d5b13a42789cab8f"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 32768,
+          "mode": 0,
+          "time": 0,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "004d5339c4dbbe76a4a20702011aa4ac725898550441aa3b964d227cc75c127c"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 32768,
+          "mode": 2,
+          "time": 201,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "e94f45301ef762bab5669721338e8cbbee8ad63b1c0fc4c85ce5bb7bc74e3bb0"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 32768,
+          "mode": 3,
+          "time": 65535,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "a406b48568de01ed310c1ca38699203be2661883b65db6d8a223eb89eacf37a6"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 32768,
+          "mode": 0,
+          "time": 32768,
+          "phase": "divide-error",
+          "entry": 23657,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32768
+          },
+          "hash": "c88d00384170cff7db163114384aadc046d72c66637cf993a9863f1d1ec960c7"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 65535,
+          "mode": 0,
+          "time": 0,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "130936359899f0dc4cf9698c6ff25ed804d6dbee8160058e741e2e0f415416b3"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 65535,
+          "mode": 2,
+          "time": 201,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "bebac21b043aa75a10a7e27f20bb5e2f24c83de730804845de1cb021870f3177"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 65535,
+          "mode": 3,
+          "time": 65535,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "d8789c18d5a7e3b9f4fcdc2b7813107a5c0db4196e98873b1663e8ca2dbe6f4d"
+        },
+        {
+          "flag": 2,
+          "other": 0,
+          "control": 255,
+          "value": 65535,
+          "mode": 0,
+          "time": 32768,
+          "phase": "fade",
+          "entry": 23796,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 3,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 65535
+          },
+          "hash": "2278db61bdb142dd4f1cb937c5987608b2dffab663eed1878cdb5d251cb4a180"
+        }
+      ],
+      "limits": "DF0; graphics calls and interrupt body not executed; six script registers and globals compared"
+    }
+  ]
+}

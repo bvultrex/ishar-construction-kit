@@ -1268,3 +1268,57 @@ und Spieldateien bleiben unverändert. Metadaten ohne Originaldaten:
 GLOBAL_CONTROL_NATIVE_2026-10-18.json. Nächste Arbeit: die explizite Dateisuche
 mit nachgewiesenen DOS-Zustandswirkungen verbinden und den tatsächlich
 erreichten188-Pfad rekonstruieren. Browseranbindung und voller Start bleiben offen.
+
+## Opcode188 bis zu Original-Grafikgrenzen; MAIN erreicht ersten Yield
+
+`original-dos-palette-control.ts` rekonstruiert188 ab5C08 bis zur Rückkehr5C55,
+zum Aufruf5B4A bei5C4C, zum Grafik-Far-Call1E97:0EC9 bei5CF4 oder einer
+DIV-Fehlergrenze. Der699E-Aufrufer liest den Zahlenoperanden nach CX und erhält
+das eingehende DX. Unterstützt sind die belegten numerischen Formen0/2/6/8/30/32.
+Die Funktion liefert den tatsächlichen Grenzzustand mit neuen Speicherbytes;
+sie behauptet nicht, die noch offenen Grafikaufrufe ausgeführt zu haben.
+
+Bei SS:2898=0 wird abhängig von2897 und0BF4 entweder0BF4 gelöscht und
+zurückgekehrt oder die16 Originalworte von1743h nach0E43h kopiert und vor
+5B4A angehalten. Bei2898!=0 werden die ursprünglichen Byteparameter0CBB..0CBE
+aus CX gebildet. Der signed Vergleich mit63 und die nachfolgende8-Bit-Division
+bleiben erhalten: unter anderem erreichen CX8000h und16128 tatsächlich INT0.
+Es wird kein pauschales Clamping eingeführt. Die nativen Fehlerproben bestätigen
+den Interrupt; dessen Körper bleibt außerhalb dieses Teilmodells.
+
+Der weitere Grafikzweig löscht genau300h Bytes ab1443h.0F1E liest0C9F;
+bei Modi2/7 bleibt der Wert unverändert, sonst wird zuerst das niedrige Wort
+der Verdopplung gebildet und dieses durch3 geteilt. Ein Ergebnis<=200 oder
+CX0 löscht0CBB/0CBC/0CBD und300h Bytes ab0E43h. Nach Wiederherstellung der
+gesicherten Register steht0CB9 auf1; dort endet das Modell vor dem echten
+Grafikaufruf. Die nach diesem Aufruf folgenden Stores werden nicht vorgezogen.
+
+`check-native-dos-palette-control.py <capture>` besteht je96 Fälle pro Profil:
+16 Rückkehr-,16 Upload-,48 Fade- und16 Divisionsfehlergrenzen. Verschiedene
+Byteflags, acht CX-Werte und vier Modus-/Skalierungszustände sind enthalten.
+SI/DX/CX/BP/DS/ES, Stacklage und sämtliche Globals bis28BFh stimmen mit dem
+Original überein. Anfangsmuster machen erhaltene und gelöschte Bereiche
+unterscheidbar. Keine Grafikfunktion wird gestubbt oder übersprungen. Nach
+Anhalten vor einer fehlerhaften DIV bestätigt eine separate Instruktionsausführung
+INT0. Hostprüfung `node scripts/check-dos-palette-control.mjs` bestätigt unter
+anderem Quellschutz, Kopierbereich und die ausdrückliche Ablehnung eines offenen
+Grafikaufrufs im physischen Schritt-API. Typecheck und Schrittregressionen bestehen.
+
+Das physische188-API setzt nur den belegten Rückkehrpfad automatisch fort.
+In der bisherigen kontrollierten MAIN-Umgebung verwendet Ishar2 genau diesen
+Pfad. Der zusammenhängende `--execute`-Test erreicht dadurch in allen drei
+gültigen Layouts den ersten Opcode66/Yield: insgesamt139 Skriptbefehle ab
+MAIN-Einstieg24 (2 Objekt-,114 Block-,8 Initialzuweisungen und15 gemischte
+Schritte). SI ist16103, DX30, CX2; der originale Return erreicht26B2 mit SP+2.
+Speicher und vertragliche Register wurden nach jedem Skriptbefehl verglichen.
+Das nächste Byte43 ist noch kein ausgeführter Befehl: Zuerst muss der originale
+Yield-Abschluss einschließlich der inzwischen vorhandenen Objektkette laufen.
+
+Dies ist der erste zusammenhängend geprüfte MAIN-Yield dieses kontrollierten
+Lade-/Rootpfads, kein Start ab EXE-Entry und kein Nachweis aller realen
+Grafikkonfigurationen. Die zuvor ausdrücklich auf0 gesetzten Startglobals werden
+nicht nachträglich als Original-Startzustand bezeichnet. Ishar1 bleibt im selben
+Lauf vor der expliziten DOS-Dateisuche156; kein Erfolg wird simuliert.
+Metadaten: PALETTE_CONTROL_NATIVE_2026-10-18.json. Originaldateien und Captures
+bleiben unverändert. Nächste Arbeit: echter MAIN-Yield-Abschluss/Scheduler und
+DOS-Dienstbindung; die Gerätepfade bleiben gesonderte offene Abnahmen.
