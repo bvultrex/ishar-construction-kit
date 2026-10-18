@@ -162,5 +162,90 @@
   ],
   "monster_dmg": "dmax=STR_m+2-CON_p/2 (0x00b49); -=ARM_p (0x00b88); clamp>=0 (0x00b8f); dmg=rnd(dmax)+1 (0x00ba2) => min 1 for all EATT melee actors; /2 if 0x2e56 -> 0 skipped",
   "food_rule": "0x04fbb/0x05357 after L_05552 on both outcomes"
+ },
+ "addendum_2026_10_18_2012": {
+  "cooldown_player": {
+   "var": "FRISE loc 0x0150[c] (not saved)",
+   "set": "(0x4fcc/120)*(loc163*25/d64+2) [/2 alt hand] or 0x4fcc/30",
+   "countdown": "FRISE 0x0717f-0x07337 interrupt block (header ret_offset), -1 per pass, icon redraw at 0",
+   "per_frame": "hypothesis",
+   "gate": "food>0 && 0x2e26==0 && loc150<=0",
+   "encb_f6_no_swing": "cooldown active or no front target (hypothesis)"
+  },
+  "cooldown_monster": {
+   "var": "EATT dirti 0x20[id] (not saved)",
+   "countdown": "EATT 0x00238 per actor-loop pass",
+   "set": [
+    "0x00b69 (0x4fcc/480)*(40/(AGI+1))",
+    "0x00e37 50/(AGI+1)",
+    "0x01216 0x4fcc/4/(l105+1)"
+   ],
+   "rating": "proven"
+  },
+  "status_party": {
+   "0x2e26": [
+    1186,
+    "paralysed? blocks attack, EATT hit 95",
+    26
+   ],
+   "0x2e4a": [
+    1206,
+    "flag no timer",
+    "-"
+   ],
+   "0x2e56": [
+    1216,
+    "protection halves monster dmg",
+    2
+   ],
+   "0x2e62": [
+    1226,
+    "monster never hits",
+    98
+   ],
+   "0x2e7a": [
+    1246,
+    "spell buff open",
+    3
+   ],
+   "0x2e86": [
+    1256,
+    "blind: player hit 20, monster 70",
+    23
+   ],
+   "0x2faa": [
+    1481,
+    "spell buff open",
+    8
+   ],
+   "0x2fb6": [
+    1491,
+    "flag no timer",
+    "-"
+   ],
+   "countdown": "FRISE 0x07195-0x072c1 every 10 interrupt passes"
+  },
+  "status_actor": {
+   "0x3946": [
+    3921,
+    "held (hypothesis)"
+   ],
+   "0x3a24": [
+    4141,
+    "sleep, cleared on hit"
+   ],
+   "0x3be0": [
+    4581,
+    "monster hit forced 15"
+   ],
+   "countdown": "EATT 0x0024f: first nonzero only, -1 per pass",
+   "player_autohit": "any nonzero"
+  },
+  "eatt_target": {
+   "grid": "0x49e6 save 7111, 5x5, value slot+1",
+   "rule": "first nonzero cell in scan order from monster side, front row first",
+   "rng": "rnd(2) only at site 0x0081b",
+   "dead": "FRISE zeroes grid cell on death"
+  }
  }
 }
