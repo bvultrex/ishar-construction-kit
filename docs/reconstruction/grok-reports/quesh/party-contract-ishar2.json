@@ -1,0 +1,831 @@
+{
+ "base_commit": "bb42748",
+ "game": "ishar2-dos",
+ "date": "2026-10-18T21:20+02:00",
+ "question": "party admission/dismissal vote, consequences, formation grid 0x49e6, save diffs, reference input",
+ "commands": [
+  "rg over decompile/alis/listings/ishar2/*.asm",
+  "python3 private/party-decode.py <SAV>",
+  "python3 private/rel-check.py",
+  "python3 private/savediff.py A.SAV B.SAV",
+  "sha256sum"
+ ],
+ "sha256": {
+  "FRISE.IO": "27117c124caf904a",
+  "PARAM.IO": "d06a65de13628470",
+  "TAVERNE.IO": "ea315973f2187950",
+  "MESSAGEE.IO": "7ef08cd36e37d6a5",
+  "SOURIS.IO": "78df7c73f8804663",
+  "MAIN.IO": "bfab5e9175931dbb",
+  "IO.IO": "0df1f34cf2519341",
+  "EAFF.IO": "6ab9102e2566617a",
+  "DRUIDE4.IO": "6b66d1ed23c301e6",
+  "START.SAV": "e685cd6902575392a9fe445e649863885f75832ed28657a5f6faf612c6305555",
+  "GRIMZEL.SAV": "4b42d32b6a682bb71cd112d7a30d172114bf13117c63ad5d5fee76e57884d3bf",
+  "GRIMZ.SAV": "f901acf37abc91b34191c591f0f0a77e097d2801ed58e2b6c29cc8535b3b2630",
+  "SASCHA2.SAV": "35205bbf8271c90e50a0baa315893b9708bf7c62a2efadaad6675e98a2a8e624"
+ },
+ "semantics": {
+  "opile": "popped operand",
+  "array_stride": {
+   "0x49e6": 5,
+   "0x4a86": 5,
+   "0x4b1a": 5,
+   "0x4b88": 10,
+   "0x4c42": 7,
+   "0x4ca0": 8
+  },
+  "rnd": "(r*n)>>16, start.exe 1000:6d7b, not saved",
+  "screen_y": "199 - y_up (hypothesis, pickup-contract convention)"
+ },
+ "affinity_A": {
+  "addr": "0x4c42",
+  "set_by": "PARAM 0x01f6b every boot",
+  "in_save": false,
+  "races": {
+   "1": "human",
+   "2": "elf",
+   "3": "dwarf",
+   "4": "orc",
+   "5": "fifth race"
+  },
+  "rows": [
+   [
+    50,
+    30,
+    20,
+    10,
+    15
+   ],
+   [
+    30,
+    50,
+    10,
+    5,
+    10
+   ],
+   [
+    20,
+    10,
+    50,
+    5,
+    10
+   ],
+   [
+    10,
+    5,
+    5,
+    50,
+    30
+   ],
+   [
+    15,
+    10,
+    10,
+    30,
+    50
+   ]
+  ],
+  "evidence": "proven"
+ },
+ "routines": [
+  {
+   "id": "R1",
+   "script": "FRISE.IO",
+   "range": [
+    "0x0037e",
+    "0x011e1"
+   ],
+   "evidence": "proven",
+   "menu_icon": "y_up 62..73, x=64*slot+16*icon, icon0 -> L_00f74",
+   "buttons": "y_up 37..60, idx=x/32, option=dirtc8e[idx]",
+   "menu_x": {
+    "0": 0,
+    "1": 0,
+    "2": 63,
+    "3": 127,
+    "4": 159
+   },
+   "options": {
+    "1": "recruit L_01213",
+    "2": "expel L_01a94",
+    "3": "murder L_01b88",
+    "4": "cure L_01dd1",
+    "5": "csend 25 to MAIN (open)"
+   }
+  },
+  {
+   "id": "R2",
+   "script": "FRISE.IO",
+   "range": [
+    "0x01fa1",
+    "0x02035"
+   ],
+   "evidence": "proven",
+   "portrait": "left click y_up<71 -> slot=x/64",
+   "viewport": "SOURIS ctstform -> 0x4a00 entity, 0x4a02 cmatent",
+   "abort": "right click",
+   "npc_material_1": "hypothesis"
+  },
+  {
+   "id": "R3",
+   "script": "FRISE.IO",
+   "range": [
+    "0x01213",
+    "0x0128e"
+   ],
+   "evidence": "proven",
+   "world_gate": "cmatent==1 && 0x4f4c[id]!=0",
+   "tavern": "TAVERNE csend 24 id=0x4ca0[t][k] -> FRISE msg24 -> L_01240, dirb69=1",
+   "npc_visible": "id>=50 && 0x449a[id]==0x4ef2 && 0x36ac[id]>0 (EAFF 0x00079)",
+   "grimz_52": "needs living slot with 0x2fa2==51 else msg 13",
+   "team_complete": ">=5 alive members -> msg -10",
+   "cost": "none",
+   "sheet_ok": "x 116..139, y_up 56..70",
+   "sheet_cancel": "x 187..210 or right click"
+  },
+  {
+   "id": "R4",
+   "script": "FRISE.IO",
+   "range": [
+    "0x01446",
+    "0x014e5"
+   ],
+   "evidence": "proven",
+   "formula": "v[b]=A[race_b-1][race_cand-1]-3*|align_b-align_cand| for b alive && class!=-1; id 51/52 -> 10",
+   "fields": {
+    "race_b": "0x2ea6",
+    "align_b": "0x2f06",
+    "race_cand": "0x3d2e",
+    "align_cand": "0x3fce"
+   }
+  },
+  {
+   "id": "R5",
+   "script": "FRISE.IO",
+   "range": [
+    "0x019ec",
+    "0x01a93"
+   ],
+   "evidence": "proven",
+   "tally": "v>0 yes, v==0 neutral, v<0 no; voters alive, class!=-1, !=dirb15",
+   "threshold": "yes>=no",
+   "rng": "none",
+   "messages": {
+    "header": -16,
+    "for": -15,
+    "neutral": -14,
+    "against": -13,
+    "admitted": -12,
+    "rejected": -11,
+    "team_complete": -10,
+    "expel_granted": -9,
+    "expel_refused": -8
+   },
+   "confirm": "L_018b3 OK x116..139/y_up56..70, cancel x187..210 or right"
+  },
+  {
+   "id": "R6",
+   "script": "FRISE.IO",
+   "range": [
+    "0x0194b",
+    "0x019eb"
+   ],
+   "evidence": "proven",
+   "rule": "after accepted+confirmed vote: for a with v<0, b with v>0: rel[a][b]-=10, rel[b][a]-=10, clamp>=0",
+   "stale_votes": "dirtc4a not reset; unpolled slots keep previous value (initial 0 = hypothesis)",
+   "on_refusal": "no penalty"
+  },
+  {
+   "id": "R7",
+   "script": "FRISE.IO",
+   "range": [
+    "0x01a94",
+    "0x01b84"
+   ],
+   "evidence": "proven",
+   "gate": "target present, alive, != proposer",
+   "formula": "v[a]=10-rel[a][target]",
+   "granted": "L_0194b then L_00c12(target)"
+  },
+  {
+   "id": "R8",
+   "script": "FRISE.IO",
+   "range": [
+    "0x01596",
+    "0x0169e"
+   ],
+   "evidence": "proven",
+   "rule": "rel[a][n]=rel[n][a]=A[race_a-1][race_n-1]-3*|align_a-align_n| for alive a incl. n, unclamped",
+   "param_start_diag": 100,
+   "save_check": "20 saves symmetric, formula or -10k or 0 or murder/cure deltas"
+  },
+  {
+   "id": "R9",
+   "script": "FRISE.IO",
+   "range": [
+    "0x01530",
+    "0x0259b"
+   ],
+   "evidence": "proven",
+   "slot": "first slot with HP==0",
+   "copy": {
+    "0x2d1c": "0x2fc4[id]",
+    "0x2ea6": "0x3d2e",
+    "0x2e9e": "0x3cbe",
+    "0x2eb6": "0x3d9e",
+    "0x2d5c": "0x36ac",
+    "0x2d74": "0x36ac",
+    "0x2ebe": "0x3e0e",
+    "0x2ec6": "0x3e7e",
+    "0x2ece": "0x3eee",
+    "0x2ed6": "0x3f5e",
+    "0x2ede": "0x41fc",
+    "0x2f06": "0x3fce",
+    "0x2d68": "0x378a",
+    "0x2d80": "0x3868",
+    "0x2f0e": "0x418c",
+    "0x4fd4": "0x4f4c[id]==2"
+   },
+   "constants": {
+    "0x2ef6": 100,
+    "0x2eee": 100,
+    "0x2d8e[n][0..14]": 0,
+    "0x2f18[n][0..26]": 0,
+    "0x4fde[n][0..26]": 0,
+    "dirti_f6[n]": -1
+   },
+   "xp": "not written",
+   "skills": {
+    "targets": {
+     "a": "0x4b58 (+AGI)",
+     "b": "0x4c76 (+INT)",
+     "c": "0x4b68 cure (+INT)",
+     "d": "0x4b38 (+AGI)",
+     "e": "0x4b40 (+AGI)",
+     "f": "0x4b48 (+AGI)",
+     "g": "0x4b50 (+AGI)"
+    },
+    "table": {
+     "0,1,3,10,17": [
+      20,
+      30,
+      30,
+      77,
+      78,
+      70,
+      68
+     ],
+     "2": [
+      30,
+      70,
+      40,
+      65,
+      63,
+      62,
+      58
+     ],
+     "4,8,12": [
+      70,
+      50,
+      35,
+      67,
+      70,
+      65,
+      69
+     ],
+     "5,6,9,16,18,19": [
+      20,
+      40,
+      70,
+      18,
+      14,
+      15,
+      13
+     ],
+     "7": [
+      30,
+      50,
+      45,
+      60,
+      63,
+      62,
+      80
+     ],
+     "11": [
+      20,
+      15,
+      50,
+      40,
+      12,
+      12,
+      15
+     ],
+     "15": [
+      2,
+      20,
+      80,
+      13,
+      12,
+      12,
+      15
+     ]
+    },
+    "other_classes": "stale dirb6c..72 (quirk)",
+    "save_check": "GRIMZ (class5) and SASCHA2 (class19) exact"
+   },
+   "after": [
+    "0x2fa2[n]=id",
+    "world: ckill entity",
+    "0x36ac[id]=0",
+    "L_0194b",
+    "R8",
+    "grid R-D recruit scan",
+    "world: csend 23 to 0; tavern: 0x4c3d=1, wake 0x2f, csend 22 to 0x13/0x90"
+   ]
+  },
+  {
+   "id": "R10",
+   "script": "FRISE.IO",
+   "range": [
+    "0x00c12",
+    "0x00c78",
+    "0x05f26",
+    "0x060d3"
+   ],
+   "evidence": "proven",
+   "writes": [
+    "0x2d5c=0",
+    "0x2fa2=-1",
+    "0x2e9e=-1",
+    "0x2d68=0",
+    "0x2d80=0",
+    "0x4f0a=0",
+    "0x5068=0",
+    "0x4c7e=0",
+    "0x2d50=0",
+    "0x2e4a=0",
+    "0x2e92=0",
+    "0x2e26=0",
+    "0x2e86=0",
+    "0x2fb6=0",
+    "first grid cell==n+1 -> 0",
+    "0x2d16==-(n+1) -> 0",
+    "0x4b88[n][0..9]=0"
+   ],
+   "not_cleared": [
+    "name",
+    "stats",
+    "inventory 0x2d8e",
+    "relations"
+   ],
+   "returns": "never (0x36ac[id] stays 0, tavern lists only written by PARAM)",
+   "corpse": "L_00ae1 on party move: HP<=0 && class!=-1 -> L_00c12"
+  },
+  {
+   "id": "R11",
+   "script": "TAVERNE.IO",
+   "range": [
+    "0x00818",
+    "0x008f0"
+   ],
+   "evidence": "proven (static)",
+   "trigger": "after room rest, dirb12!=2",
+   "thief": "rnd(3)==0 -> first member with id in {21,28,15,10}",
+   "leaver": "first member with rel<=-2 to every other present member",
+   "effects": "other members lose first backpack item 0..8 with code -56..-20; leaver class=1, HP=0, 0x2fa2=-1; csend 22; message 0x35 +0x0c=-29 +0x0d=id",
+   "rng": "one rnd(3) per rest"
+  },
+  {
+   "id": "R12",
+   "script": "FRISE.IO",
+   "range": [
+    "0x01b88",
+    "0x01d4c"
+   ],
+   "evidence": "proven (static)",
+   "vote": "none",
+   "table": {
+    "K>50,V<=50": 30,
+    "K>50,V>50": -20,
+    "K<=50,V<=50": 10,
+    "K<=50,V>50": -40
+   },
+   "revenge": "after -40, rel[a][killer]<30 -> a murders killer, loop restarts",
+   "grimzel_51": "killer HP=0 after 3 frames",
+   "clamp": "0..100",
+   "rng": "none"
+  },
+  {
+   "id": "R13",
+   "script": "FRISE.IO",
+   "range": [
+    "0x01dd1",
+    "0x01fa0"
+   ],
+   "evidence": "proven (static)",
+   "refuse": "rel[helper][t]<10 -> msg -3",
+   "roll": "rnd(100) < 0x4b68[helper] && 0x4b1a[t][helper]==0 -> 0x4b1a[t][t]=1, HP+=rnd(5)+1 capped",
+   "fail": "0x4b1a[t][helper]=1",
+   "side": "others: rel[a][t]<20 -> rel[a][helper]-20; >80 -> +20; clamp",
+   "reset": "0x4b1a[slot][*]=0 when hit (EATT, FRISE 0x054aa)",
+   "confused_hit": "FRISE 0x05460: rel -10 both, dmg rnd(10)+1, distance bug dirb11*dirb5b"
+  },
+  {
+   "id": "R14",
+   "script": "FRISE.IO",
+   "range": [
+    "0x00e31"
+   ],
+   "evidence": "proven",
+   "cohesion": "mean rel over living pairs incl. diagonal, display only"
+  }
+ ],
+ "grid": {
+  "addr": "0x49e6",
+  "layout": "[col][row], flat=5*col+row, save 7111+flat, value=slot+1, 0 empty",
+  "front_row": "highest row index occupied (L_05be5), dirtc9a[slot]=col+1",
+  "new_game": "[0][4]=1",
+  "recruit_scan": "row 4..0 outer, col 0..4 inner",
+  "remove_scan": "col outer, row inner, first ==slot+1",
+  "revive_scan": "msg32 L_00d89 col outer, row inner, row 0 first",
+  "editor": "L_0595d, F-key code 1 or 0x4f10==12, cell x=263+12col, y_up=129+11row",
+  "duplicates": "possible in originals",
+  "evidence": "proven"
+ },
+ "save_offsets": {
+  "name": "936+10n",
+  "xp": "986+2n",
+  "hp": "996+2n",
+  "gold": [
+   "1006+2n",
+   "1026+2n"
+  ],
+  "maxhp": "1016+2n",
+  "inventory": "1036+30n",
+  "class": "1276+n",
+  "race": "1281+n",
+  "level": "1291+n",
+  "str_con_2ece_int_agi": [
+   "1296+n",
+   "1301+n",
+   "1306+n",
+   "1311+n",
+   "1316+n"
+  ],
+  "0x2eee": "1321+n",
+  "food": "1326+n",
+  "align": "1331+n",
+  "armour": "1336+n",
+  "0x2f18": "1341+27n",
+  "actor_id": "1476+n",
+  "0x4fd4": "111+n",
+  "actor_hp": "3261+2id",
+  "actor_zone": "6781+id",
+  "recruitable": "7789+id",
+  "tavern": "8239+8t+k",
+  "grid": "7111+5col+row",
+  "rel": "7356+5a+b",
+  "cure_flags": "7521+5t+h",
+  "skills": {
+   "0x4b38": "7546+n",
+   "0x4b40": "7551+n",
+   "0x4b48": "7556+n",
+   "0x4b50": "7561+n",
+   "0x4b58": "7566+n",
+   "0x4b68": "7571+n",
+   "0x4c76": "7729+n"
+  },
+  "0x4b88": "7579+10n",
+  "0x4c7e": "7734+n",
+  "0x4fde": "7899+27n",
+  "0x5068": "8034+n",
+  "not_saved": [
+   "0x4c42",
+   "0x4f0a",
+   "FRISE dirtc 0x4a",
+   "dirti 0xf6",
+   "dirb86",
+   "0x2d16"
+  ]
+ },
+ "reference": {
+  "E2": {
+   "save": "GRIMZEL.SAV",
+   "start": "map5 zone36 row53 col16 facing3; Grimzel id51 at row53 col17 (one ahead)",
+   "steps": [
+    [
+     "load GRIMZEL",
+     "Grimzel sprite ahead"
+    ],
+    [
+     "click (72,131)",
+     "menu of slot 1"
+    ],
+    [
+     "click (48,150)",
+     "expel target pick"
+    ],
+    [
+     "click (32,170)",
+     "vote: Bragl for, Noegh against(-4), Brom for, Molgo for -> granted"
+    ],
+    [
+     "click (127,136)",
+     "slot 0 empty"
+    ],
+    [
+     "click (72,131) then (16,150)",
+     "recruit target pick"
+    ],
+    [
+     "click Grimzel sprite (~128,90, screenshot first)",
+     "sheet: lvl4 STR3 CON5 AGI2 INT15"
+    ],
+    [
+     "click (127,136)",
+     "vote 4x for -> admitted"
+    ],
+    [
+     "click (127,136)",
+     "Grimzel in slot 0, NPC gone"
+    ],
+    [
+     "save PARTY1",
+     ""
+    ]
+   ],
+   "expected_diff": [
+    [
+     936,
+     945,
+     "name -> Grimzel"
+    ],
+    [
+     986,
+     987,
+     "539->0"
+    ],
+    [
+     996,
+     997,
+     "87->14"
+    ],
+    [
+     1016,
+     1017,
+     "87->14"
+    ],
+    [
+     1036,
+     1065,
+     "->0"
+    ],
+    [
+     1291,
+     1291,
+     "13->4"
+    ],
+    [
+     1296,
+     1296,
+     "6->3"
+    ],
+    [
+     1301,
+     1301,
+     "6->5"
+    ],
+    [
+     1306,
+     1306,
+     "17->16"
+    ],
+    [
+     1311,
+     1311,
+     "16->15"
+    ],
+    [
+     1316,
+     1316,
+     "11->2"
+    ],
+    [
+     1321,
+     1321,
+     "0->100"
+    ],
+    [
+     1326,
+     1326,
+     "70->100"
+    ],
+    [
+     1341,
+     1367,
+     "->0"
+    ],
+    [
+     7899,
+     7925,
+     "->0"
+    ],
+    [
+     1476,
+     1476,
+     "39->51"
+    ],
+    [
+     3363,
+     3364,
+     "14->0"
+    ],
+    [
+     7114,
+     7114,
+     "1->0"
+    ],
+    [
+     7125,
+     7125,
+     "0->1"
+    ],
+    [
+     7363,
+     7363,
+     "-28->0"
+    ],
+    [
+     7367,
+     7367,
+     "-28->0"
+    ],
+    [
+     7369,
+     7369,
+     "5->0"
+    ],
+    [
+     7373,
+     7373,
+     "5->0"
+    ],
+    [
+     7370,
+     7370,
+     "38->28"
+    ],
+    [
+     7378,
+     7378,
+     "38->28"
+    ],
+    [
+     7357,
+     7357,
+     "0->-4"
+    ],
+    [
+     7361,
+     7361,
+     "0->-4"
+    ],
+    [
+     7359,
+     7359,
+     "0->29"
+    ],
+    [
+     7371,
+     7371,
+     "0->29"
+    ],
+    [
+     7360,
+     7360,
+     "0->14"
+    ],
+    [
+     7376,
+     7376,
+     "0->14"
+    ],
+    [
+     7546,
+     7546,
+     "29->20"
+    ],
+    [
+     7551,
+     7551,
+     "25->16"
+    ],
+    [
+     7556,
+     7556,
+     "26->17"
+    ],
+    [
+     7561,
+     7561,
+     "24->15"
+    ],
+    [
+     7566,
+     7566,
+     "31->22"
+    ],
+    [
+     7571,
+     7571,
+     "86->85"
+    ],
+    [
+     7729,
+     7729,
+     "56->55"
+    ]
+   ],
+   "unchanged": "class 1276, race 1281, align 1331, armour 1336, 0x4fd4 111, gold, 0x4b88/0x4c7e/0x5068 slot0 (already 0), other slots",
+   "varies": "clock 44..49",
+   "cross_check": "12 rel bytes and 7 skill bytes identical in GRIMZ.SAV (user continuation); GRIMZ grid differs (later manual edit, hypothesis)"
+  },
+  "E3_refused": {
+   "save": "START.SAV",
+   "steps": [
+    "(8,131)",
+    "(48,150)",
+    "(288,170)"
+   ],
+   "votes": {
+    "0": -31,
+    "1": -8,
+    "2": 24,
+    "3": -10
+   },
+   "result": "refused 1:3, no save change"
+  },
+  "E3_granted": {
+   "save": "START.SAV",
+   "steps": [
+    "(8,131)",
+    "(48,150)",
+    "(160,170)",
+    "(127,136)"
+   ],
+   "votes": {
+    "0": 10,
+    "1": 10,
+    "3": 10,
+    "4": 24
+   },
+   "result": "granted 4:0, no penalty",
+   "expected_diff": [
+    [
+     1000,
+     1001,
+     "60->0"
+    ],
+    [
+     1278,
+     1278,
+     "3->-1"
+    ],
+    [
+     1478,
+     1478,
+     "41->-1"
+    ],
+    [
+     7125,
+     7125,
+     "3->0"
+    ],
+    [
+     8036,
+     8036,
+     "-1->0"
+    ]
+   ]
+  }
+ },
+ "hypotheses": [
+  "0x4fd4 = female flag",
+  "screen_y = 199 - y_up",
+  "NPC sprite click gives cmatent 1",
+  "stale vote entries 0 after fresh load",
+  "GRIMZ grid = manual edit after recruit"
+ ],
+ "open": [
+  "Grimzel->Grimz in-place swap trigger (DRUIDE4 0x50b4 / msg +0x0d=23)",
+  "menu option 5",
+  "meaning of skills 0x4b38/40/48/50/58, 0x4c76",
+  "class 13/14 stale skills at runtime",
+  "map-1 tavern location for a tavern-recruit sequence",
+  "START.SAV party history",
+  "leaver cleanup order (R11)"
+ ],
+ "contradicted": [],
+ "limits": "static + save consistency, no DOSBox run"
+}

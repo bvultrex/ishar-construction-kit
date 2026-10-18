@@ -75,3 +75,30 @@ No contradiction with the real diff. To see XP, use a party below 31000: expect 
 
 ## 8. Open
 L_072f2 gains per level; the exact meaning of status words 0x15ec/0x15f8/0x1604/0x1610/0x1628/0x164c and actor 0x1c3e/0x1de8; whether the interrupt runs exactly once per frame.
+
+## Addendum 2026-10-18 21:2x CEST: level-up gains L_072f2 (closes the R6 / §8 open point)
+Base: bb42748, static. FRISE.IO 3bd15896…, MAIN.IO 27c5834d…, MESSAGEE.IO 1b6a76f2….
+
+**What L_072f2 (FRISE 0x072f2–0x07348) does, per level step of slot c** (`dirb22 = c`):
+```
+bonus = max(0, CON[c] − 15)                       CON = 0x168c (save 748+c)
+gain  = rnd(T3ce0[race[c]]) + bonus + 3           race = 0x166c (save 733+c)
+HP[c]    += gain                                  0x1542 (save 468+2c, BE)
+maxHP[c] += gain                                  0x155a (save 488+2c, BE)
+```
+| Item | Finding | Rating |
+|---|---|---|
+| HP / max HP | both increase by the same `gain`. Current HP rises too. No cap, no clamp | **proven** |
+| Hit die T3ce0 | MAIN 0x002d3–0x0030f (local table, set at boot, **not saved**): race 1 human 12, 2 elf 8, 3 dwarf 12, 4 orc 14, 5 lizard 10, 6 → 15, 7 → 11; index 0 never written (0 → rnd(0) = 0) | **proven** (values); race names from MESSAGEE 0x01b74 **proven** |
+| CON bonus | `CON − 15`, floored at 0 (byte compare `oinf 0`). CON identity: FRISE sheet prints 0x168c on the CONSTITUTION line (y 160) and the damage formula uses it (R3) | **proven** |
+| Attributes (STR 0x1684, CON, WIS 0x1694, INT 0x169c, AGI 0x16a4), skills, spells, food, gold | **not touched** by L_072f2 or by the caller | **proven** (only two stores in the routine) |
+| Level | the caller (0x06f23) writes `0x167c[c] = L` (save 738+c) before calling. Absolute value, not +1 | **proven** |
+| RNG | exactly **one** `rnd(n)` per level step, n = T3ce0[race]; `rnd(n) = (r·n)>>16` → 0..n−1. So gain ∈ [3 + bonus, n + 2 + bonus] | **proven** |
+| Conditions | runs only if `XP ≠ dirti 0xf8[c]` (never on load). The thresholds are an **else-if chain** starting from the lowest: the first T with `prev < T ≤ XP` wins. Then `0xf8 = XP`. If one award crosses two thresholds, only the lower level is set and the higher one is skipped until the next threshold is crossed (e.g. prev 600 → XP 1800: level 2, one gain; level 3 is never granted, the next level set is 4 at 3000). There is no alive/class check in the loop, but dead members get no XP (R5), so they never level | **proven** (static); the skip quirk has no save evidence |
+| Cap | XP > 31000 → 31000 after the level check (unchanged, R6) | proven |
+
+Save plausibility (no before/after pair exists): IMP1 slot 0 XP 5300 ↔ level 5 (5000 ≤ XP < 8000) ✓. All level-10 parties have max HP inside the range allowed by 9 gains on top of their start HP. Not a proof. Note: S1.SAV slot 2 holds XP 39530 > 31000. The cap only runs after an XP change, so a loaded value above the cap persists until the next award (origin of that value **open**, possibly edited).
+
+Expected diff for one level step (e.g. a human with CON 18 crossing 700 XP): 738+c → 2; 468+2c and 488+2c each + (rnd(12) + 3 + 3) = +6..+17; XP 458+2c as awarded; nothing else.
+
+Open: none for the gains. Still open from §8: status words 0x15ec…0x164c, actor 0x1c3e/0x1de8, interrupt cadence.

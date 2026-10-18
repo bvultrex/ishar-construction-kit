@@ -97,5 +97,70 @@
   "food": -8,
   "monster_hp": 0,
   "contradictions": []
+ },
+ "addendum_2026_10_18_levelup": {
+  "date": "2026-10-18T21:20+02:00",
+  "base": "bb42748",
+  "routine": {
+   "script": "FRISE.IO",
+   "range": [
+    "0x072f2",
+    "0x07348"
+   ],
+   "caller": "0x06f23-0x07147 (one call per threshold step)"
+  },
+  "formula": "gain = rnd(T3ce0[race]) + max(0, CON-15) + 3; HP 0x1542 += gain; maxHP 0x155a += gain",
+  "fields": {
+   "race": {
+    "addr": "0x166c",
+    "save": "733+c"
+   },
+   "con": {
+    "addr": "0x168c",
+    "save": "748+c"
+   },
+   "level": {
+    "addr": "0x167c",
+    "save": "738+c",
+    "set_by_caller": "absolute L"
+   },
+   "hp": {
+    "addr": "0x1542",
+    "save": "468+2c BE"
+   },
+   "maxhp": {
+    "addr": "0x155a",
+    "save": "488+2c BE"
+   }
+  },
+  "T3ce0": {
+   "set_by": "MAIN 0x002d3-0x0030f",
+   "in_save": false,
+   "by_race": {
+    "1 human": 12,
+    "2 elf": 8,
+    "3 dwarf": 12,
+    "4 orc": 14,
+    "5 lizard": 10,
+    "6": 15,
+    "7": 11,
+    "0": "unset -> 0"
+   }
+  },
+  "rng": "one rnd(T3ce0[race]) per step, (r*n)>>16",
+  "unchanged": [
+   "STR 0x1684",
+   "WIS 0x1694",
+   "INT 0x169c",
+   "AGI 0x16a4",
+   "skills",
+   "spells",
+   "food",
+   "gold"
+  ],
+  "hp_cap": "none; current HP rises with max HP",
+  "conditions": "XP != dirti f8; else-if chain from lowest threshold, first prev<T<=XP wins, then f8=XP -> crossing two thresholds at once skips the higher level",
+  "evidence": "proven (static); skip quirk no save evidence",
+  "save_notes": "IMP1 c0 XP5300 level5 consistent; S1 c2 XP 39530 > cap (cap only after XP change; origin open)"
  }
 }
