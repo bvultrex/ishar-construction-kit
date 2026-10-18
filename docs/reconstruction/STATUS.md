@@ -1,5 +1,13 @@
 # Technischer Iststand
 
+Ishar 1: Die [getaktete Framefortsetzung](WAIT_FRAME_RESUME.md) erreicht den
+ersten nativen 320×200-Pixelfülllauf (64.000 Adressen). Der nächste Record
+stoppt bei Grafiktyp 0, 1E97:0531. Noch kein kompletter Ishar-1-Frame.
+
+[Framefortsetzung](WAIT_FRAME_RESUME.md): Ishar 1 erreicht nach 30 zusätzlichen
+Schedulerzyklen und 30 originalen IRQ-Ausführungen die erste nichtleere
+Zeichengruppe BX=738. Vier Startzustände verglichen, BIOS-Service explizit gewählt.
+
 [BIOS-Plattformadapter](BIOS_TIMER_ADAPTER.md): Mit ausdrücklich gewähltem
 DOSBox-EGA/unhooked-Profil verlässt Ishar 1 die Timerwarteschleife nativ bis
 3D6B. Kein ausgeführter Firmwarecode und keine automatische BIOS-Ersatzannahme.

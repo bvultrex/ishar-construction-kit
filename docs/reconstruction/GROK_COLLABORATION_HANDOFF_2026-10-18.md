@@ -1,5 +1,15 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**Ishar-1-Pixelnachweis:** Nach der getakteten Fortsetzung ist die erste
+320×200-Typ-1-Füllung in 905F:0000 verglichen. Codex übernimmt als Nächstes
+Typ-0-Byteblitting ab 1E97:0531. Kein kompletter Frame und keine Browseränderung;
+siehe WAIT_FRAME_RESUME.md für die getrennten vier VM-/ein Grafikzustand-Nachweise.
+
+**Framefortsetzung:** WAIT_FRAME_RESUME.md weist in vier Ishar-1-Startzuständen
+30 weitere Schedulerzyklen mit echten Ishar-IRQs und explizitem BIOS-Adapter
+nach. Danach steht die nichtleere Zeichengruppe BX=738/CX=154 bei 3DE4 bereit.
+Codex übernimmt deren Record-/Pixelpipeline. Noch kein gerendertes Ishar-1-Bild.
+
 **Plattformanbindung:** BIOS_TIMER_ADAPTER.md dokumentiert den expliziten
 DOSBox-EGA/unhooked-Timeradapter. Damit verlässt der native Ishar-1-Code die
 Wartebedingung bis 3D6B. Plattformantwort ist ausdrücklich kein Firmware-

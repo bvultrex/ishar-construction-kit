@@ -3,7 +3,8 @@ import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('checkpoints',type=Path);p.add_argument('--traverse-empty',action='store_true');p.add_argument('--equipment-word',type=int,choices=range(65536));p.add_argument('--current-drive',type=int,choices=range(26));p.add_argument('--find-first-carry',type=int,choices=[0,1]);p.add_argument('--first-frame',action='store_true');p.add_argument('--shift-flags',type=int);p.add_argument('--cycles',type=int,default=0);p.add_argument('--checkpoint-end',type=Path);p.add_argument('--resume-context',action='store_true');p.add_argument('--palette-retrace',type=int);a=p.parse_args();assert a.palette_retrace is None or 0<=a.palette_retrace<=255;assert 0<=a.cycles<=1000;a.first_frame=a.first_frame or a.cycles>0;assert a.shift_flags is None or 0<=a.shift_flags<=255;repo=Path(__file__).resolve().parent.parent;rows=[]
+from dos_platform_bios_timer import apply_controlled_bios_timer
+p=argparse.ArgumentParser();p.add_argument('checkpoints',type=Path);p.add_argument('--checkpoint-name');p.add_argument('--timer-platform',action='store_true');p.add_argument('--traverse-empty',action='store_true');p.add_argument('--equipment-word',type=int,choices=range(65536));p.add_argument('--current-drive',type=int,choices=range(26));p.add_argument('--find-first-carry',type=int,choices=[0,1]);p.add_argument('--first-frame',action='store_true');p.add_argument('--shift-flags',type=int);p.add_argument('--cycles',type=int,default=0);p.add_argument('--checkpoint-end',type=Path);p.add_argument('--resume-context',action='store_true');p.add_argument('--palette-retrace',type=int);a=p.parse_args();assert a.palette_retrace is None or 0<=a.palette_retrace<=255;assert not a.timer_platform or a.palette_retrace is not None;assert 0<=a.cycles<=1000;a.first_frame=a.first_frame or a.cycles>0;assert a.shift_flags is None or 0<=a.shift_flags<=255;repo=Path(__file__).resolve().parent.parent;rows=[]
 profiles={'ishar1':'5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7','ishar2':'f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04'}
 regs={'ax':UC_X86_REG_AX,'bx':UC_X86_REG_BX,'cx':UC_X86_REG_CX,'dx':UC_X86_REG_DX,'di':UC_X86_REG_DI,'si':UC_X86_REG_SI,'bp':UC_X86_REG_BP,'ds':UC_X86_REG_DS,'es':UC_X86_REG_ES,'ss':UC_X86_REG_SS,'sp':UC_X86_REG_SP,'cs':UC_X86_REG_CS,'ip':UC_X86_REG_IP,'flags':UC_X86_REG_EFLAGS}
 if a.checkpoint_end:
@@ -12,7 +13,7 @@ if a.checkpoint_end:
 def reported(step):
  if step is None:return None
  return {**{key:value for key,value in step.items() if key!='events'},'eventCount':len(step.get('events',[])),'eventSha256':hashlib.sha256(json.dumps(step.get('events',[]),separators=(',',':')).encode()).hexdigest()}
-paths=sorted(a.checkpoints.glob('*.bin'));assert paths
+paths=sorted(a.checkpoints.glob('*.bin'));paths=[p for p in paths if a.checkpoint_name is None or p.name==a.checkpoint_name];assert paths
 for path in paths:
  original=path.read_bytes();meta=json.loads(path.with_suffix('.json').read_text());assert len(original)==0x100000 and hashlib.sha256(original).hexdigest()==meta['memorySha256'];assert meta['captureSha256']==profiles[meta['profile']] and meta['boundary']==(0x264c if a.resume_context else 0x2607) and meta['registers']['ip']==meta['boundary']
  cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,original)
@@ -23,10 +24,11 @@ for path in paths:
  def compare_hash(expected):
   actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0x7a8:0x1c0b0+0x7ee]=bytes(0x46);assert hashlib.sha256(actual).hexdigest()==expected,'Physical MAIN memory mismatch'
  def run(start,target,limit=100000,skip_hits=0):
+  if start==target==0x13d64:skip_hits=max(skip_hits,1)
   done=[];entered=[False];hits=[0]
   def hook(uc,address,size,_):
    if address==0x126eb:entered[0]=True
-   if address==target and (start!=target or entered[0]):
+   if address==target and (start!=target or entered[0] or start==0x13d64):
     hits[0]+=1
     if hits[0]>skip_hits:done.append(True);uc.emu_stop()
   h=cpu.hook_add(UC_HOOK_CODE,hook);cpu.emu_start(start,0xfffff,count=limit);cpu.hook_del(h);assert done==[True],(hex(start),hex(target))
@@ -53,7 +55,7 @@ for path in paths:
  io_events=[]
  def read(uc,port,size,_):
   assert a.palette_retrace is not None and port==0x3da and size==1;io_events.append({'kind':'in','port':port,'value':a.palette_retrace});return a.palette_retrace
- def write(uc,port,size,value,_):assert a.palette_retrace is not None and size==1 and port in [0x3c8,0x3c9];io_events.append({'kind':'out','port':port,'value':value})
+ def write(uc,port,size,value,_):assert a.palette_retrace is not None and size==1 and port in ([0x3c8,0x3c9,0x20,0x40,0x43] if a.timer_platform else [0x3c8,0x3c9]);io_events.append({'kind':'out','port':port,'value':value})
  cpu.hook_add(UC_HOOK_INSN,read,None,1,0,UC_X86_INS_IN);cpu.hook_add(UC_HOOK_INSN,write,None,1,0,UC_X86_INS_OUT)
  cpu.hook_add(UC_HOOK_INTR,interrupt)
  if a.resume_context:
@@ -82,13 +84,35 @@ for path in paths:
     io_events.clear();sp=cpu.reg_read(regs['sp']);target=yield_target if step['status']=='yield' else 0x126f7;run(start,target);start=target
     for key,value in step['registers'].items():assert cpu.reg_read(regs[key])==value,('continued script',index,key)
     assert cpu.reg_read(regs['sp'])==sp+(2 if step['status']=='yield' else 0);compare_hash(step['hash']);assert io_events==step.get('events',[])
+  def timer_tick():
+   saved={key:cpu.reg_read(regs[key]) for key in regs};assert saved['flags']&512
+   expected=model('dos-runtime-timer-irq-vector.mjs',{'registers':{key:saved[key] for key in ['ax','bx','cx','dx','di','si','bp','ds','es','sp','cs','ip','flags']},'ss':0x1c0b,'retraceReads':[a.palette_retrace]*2,'stackMaskStart':0x798,'stackMaskEnd':0x7ee,'biosProfile':{'kind':'dosbox-ega-unhooked','handlerSegment':0x7000,'handlerOffset':0x1234}})
+   assert expected['phase']=='iret','Runtime IRQ reached an unsupported body'
+   sp=saved['sp']
+   for value in [saved['flags'],saved['cs'],saved['ip']]:sp=(sp-2)&65535;cpu.mem_write(0x1c0b0+sp,value.to_bytes(2,'little'))
+   cpu.reg_write(regs['sp'],sp);cpu.reg_write(regs['flags'],saved['flags']&~0x300);cpu.reg_write(regs['cs'],0x1000);cpu.reg_write(regs['ip'],expected['installedOffset']);io_events.clear()
+   if 'platformService' in expected:
+    target=expected['platformService']['savedHandler'];run(0x10000+expected['installedOffset'],target['segment']*16+target['entry']);io_events.append(apply_controlled_bios_timer(cpu,0x1c0b))
+   else:run(0x10000+expected['installedOffset'],saved['cs']*16+saved['ip'])
+   for key,value in expected['registers'].items():assert cpu.reg_read(regs[key])==value,('timer IRQ',key)
+   assert cpu.reg_read(regs['flags'])==expected['flags'] and io_events==expected['events']
+   actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0x798:0x1c0b0+0x7ee]=bytes(86);assert hashlib.sha256(actual).hexdigest()==expected['hash']
+   return {key:value for key,value in expected.items() if key!='events'}|{'eventCount':len(io_events),'eventSha256':hashlib.sha256(json.dumps(io_events,separators=(',',':')).encode()).hexdigest()}
   def finish_cycle():
    finished=transition('dos-physical-yield-vector.mjs',0x126b2);result={'yield':finished}
    if finished['phase']=='callback':
     callback=model('dos-physical-script-prefix-vector.mjs',{'registers':state(),**({'shiftFlags':a.shift_flags} if a.shift_flags is not None else {})});execute_steps(callback,0x126d5)
     result['callback']={'steps':len(callback['steps']),'reason':callback['reason'],'nextOpcode':callback['nextOpcode']}
     if callback['steps'] and callback['steps'][-1]['status']=='yield':finished=transition('dos-physical-yield-vector.mjs',0x126d5,{'entry':'callback-return'});result['callbackReturn']=finished
-   if finished['phase']=='frame':result['frame']=transition('dos-physical-frame-vector.mjs',0x12649,{'traverseEmpty':a.traverse_empty})
+   if finished['phase']=='frame':
+    frame=transition('dos-physical-frame-vector.mjs',0x12649,{'traverseEmpty':a.traverse_empty});result['frame']=frame
+    if frame['phase']=='wait' and a.timer_platform:
+     result['timerTicks']=[]
+     for tick_index in range(256):
+      tick=timer_tick();result['timerTicks'].append(tick)
+      frame=transition('dos-physical-frame-vector.mjs',0x13d64,{'traverseEmpty':a.traverse_empty,'resumeWait':{'ax':cpu.reg_read(regs['ax']),'sp':cpu.reg_read(regs['sp'])}});result['frame']=frame
+      if frame['phase']!='wait':break
+     else:raise AssertionError('Explicit wait tick bound exhausted')
    return result
   continuation=finish_cycle();previous=continuation
   for cycle_index in range(a.cycles):
@@ -109,4 +133,4 @@ for path in paths:
   with (a.checkpoint_end/path.with_suffix('.json').name).open('x',encoding='utf-8') as f:json.dump({'profile':meta['profile'],'captureSha256':meta['captureSha256'],'memorySha256':hashlib.sha256(raw).hexdigest(),'sourceCheckpointSha256':meta['memorySha256'],'boundary':state['ip'],'registers':state},f,indent=2)
  assert path.read_bytes()==original
  rows.append({'checkpoint':path.name,'checkpointSha256':meta['memorySha256'],'profile':meta['profile'],'scheduler':scheduler,'cycles':cycles,'videoState':video,'continuation':continuation,'portEvidence':port_evidence,'fileEvents':file_events,'steps':len(prefix['steps']),'opcodes':counts,'reason':prefix['reason'],'nextOpcode':prefix['nextOpcode'],'last':reported(prefix['steps'][-1]) if prefix['steps'] else None,'boundary':cpu.reg_read(regs['ip']),'sp':cpu.reg_read(regs['sp'])})
-print(json.dumps({'equipmentWord':a.equipment_word,'currentDrive':a.current_drive,'paletteRetrace':a.palette_retrace,'resumeContext':a.resume_context,'requestedCycles':a.cycles,'firstFrame':a.first_frame,'shiftFlags':a.shift_flags,'findFirstCarry':a.find_first_carry,'caseCount':len(rows),'cases':rows,'stackMask':'07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared','limits':'Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. No IRQs delivered; optional explicit DOS FindFirst carry and drive-selection replies, no DTA writes or filesystem access; stops at yield or first unsupported opcode, not complete game/frame.'}))
+print(json.dumps({'timerPlatform':a.timer_platform,'equipmentWord':a.equipment_word,'currentDrive':a.current_drive,'paletteRetrace':a.palette_retrace,'resumeContext':a.resume_context,'requestedCycles':a.cycles,'firstFrame':a.first_frame,'shiftFlags':a.shift_flags,'findFirstCarry':a.find_first_carry,'caseCount':len(rows),'cases':rows,'stackMask':'07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared','limits':'Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. Explicit IRQ8 delivery only with --timer-platform; DOSBox EGA/unhooked BIOS response is a controlled platform adapter, not firmware execution; optional explicit DOS FindFirst carry and drive-selection replies, no DTA writes or filesystem access; stops at yield or first unsupported opcode, not complete game/frame.'}))

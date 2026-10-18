@@ -25,3 +25,7 @@ Thumbs.db
 # Local DOSBox diagnostics (never project source)
 /stdout.txt
 /stderr.txt
+
+# Python analysis-tool caches
+__pycache__/
+*.pyc
