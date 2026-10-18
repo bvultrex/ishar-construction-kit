@@ -2286,3 +2286,32 @@ still require connection before MAIN can run from a genuine full start.
 Reproduce: check-native-dos-configuration-drives.py ISHAR2_CAPTURE;
 check-native-dos-configuration-entry.py CAPTURE START.STP [--caller-select].
 Evidence: CONFIGURATION_ENTRY_NATIVE_2026-10-18.json. Original files unchanged.
+
+## Early engine DOS/BIOS services078F (2026-10-18)
+
+`prepareOriginalDosStartupServices` follows078F..0832, including the complete
+215D runtime drive probe. It saves DOS vectors24/0, installs engine handlers
+1000:E9D/E47 via explicit modeled DOS IVT writes, obtains current drive and
+directory, runs the candidate-drive/create/close/delete probe and restores the
+selected drive. BIOS disk resets AX0/1 have explicit memory patch replies.
+ROM F000:FFFE values FE/FF set2892=1; other values preserve the prior byte.
+All host files and original captures remain unchanged; guest operations are
+recorded/simulated, not executed on the host.
+
+64 cases per profile pass exact memory outside20-byte CPU save area FEEC..FEFF,
+service events and DS/SP/IF. Cases cover drives0/2, drive counts2/5, four ROM
+IDs and four directory/create outcomes. Other scratch registers/flags are not
+claimed. Vectors and BIOS memory effects are controlled inputs, not real BIOS.
+
+`check-native-dos-configuration-entry.py CAPTURE START.STP --early-services`
+now starts at1000:0787 and executes contiguously through the original config
+far call, RETF,098F selection and these services to1000:0833; menu cases stop
+at the genuine menu entry.32 such cases per profile pass without internal
+component jumps/stubs. Host comparison composes the verified helpers. The
+combined stack mask remains FEC0..FEFF; original text appears only as hashes.
+
+Evidence: STARTUP_SERVICES_NATIVE_2026-10-18.json. Standalone reproduction:
+check-native-dos-startup-services.py CAPTURE. Next boundary0833 initializes
+resource memory and calls the BLANCPC loader06B2 before BIOS/EMS allocation.
+Earlier072D argument handling and later platform/timer services remain open.
+This is not a complete boot, MAIN integration or visible frame claim.

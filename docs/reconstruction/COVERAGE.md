@@ -85,7 +85,9 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Fällen separat geprüft. Die Bestätigungsabfrage ist mit72 Fällen belegt. Achsenmessung und
    das eigentliche Menü bleiben offen. Die äußere Konfigurationsroutine
    und ihre Rückkehr zur Grafikmodulauswahl sind inzwischen durchgehend
-   nativ geprüft (128 Fälle beider Profile, explizite externe Antworten). Die originale Aufrufkette
+   nativ geprüft (128 Fälle beider Profile, explizite externe Antworten). Der durchgehende Pfad0787..0832 umfasst nun zusätzlich die frühen
+   DOS/BIOS-Dienste (64 Fälle; separat128). Die nächste Grenze ist0833/
+   BLANCPC-Laden vor BIOS/EMS. Die originale Aufrufkette
    einschlieÃŸlich MAIN muss diese ZustÃ¤nde noch selbst herstellen. Das hat Vorrang
    vor einer sichtbaren Ausgabe oder weiteren Aussagen zur Bildgleichheit.
    FE-Sonderpfad, weitere Operandformen
