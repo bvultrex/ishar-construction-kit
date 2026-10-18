@@ -11,12 +11,13 @@ the earlier platform services and loader caller are outside this test.
 --finish-main-yield compares actual26B2 completion/selection when MAIN yields.
 --callback follows the actual callback; --shift-flags is an explicit INT16 AL reply.
 --callback-return includes26D5 stack restoration/selection after callback yield.
+--frame runs to a verified frame return/wait/device boundary; --next-main resumes264C.
 """
 import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');p.add_argument('--objects',action='store_true');p.add_argument('--blocks',action='store_true');p.add_argument('--assignments',action='store_true');p.add_argument('--execute',action='store_true');p.add_argument('--finish-main-yield',action='store_true');p.add_argument('--callback',action='store_true');p.add_argument('--callback-return',action='store_true');p.add_argument('--shift-flags',type=int);a=p.parse_args();assert a.shift_flags is None or 0<=a.shift_flags<=255;a.callback=a.callback or a.callback_return;a.finish_main_yield=a.finish_main_yield or a.callback;a.execute=a.execute or a.finish_main_yield;a.assignments=a.assignments or a.execute;a.blocks=a.blocks or a.assignments;a.objects=a.objects or a.blocks;a.schedule=a.schedule or a.objects;a.root=a.root or a.schedule;a.decode=a.decode or a.root
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');p.add_argument('--objects',action='store_true');p.add_argument('--blocks',action='store_true');p.add_argument('--assignments',action='store_true');p.add_argument('--execute',action='store_true');p.add_argument('--finish-main-yield',action='store_true');p.add_argument('--callback',action='store_true');p.add_argument('--callback-return',action='store_true');p.add_argument('--frame',action='store_true');p.add_argument('--next-main',action='store_true');p.add_argument('--shift-flags',type=int);a=p.parse_args();assert a.shift_flags is None or 0<=a.shift_flags<=255;a.frame=a.frame or a.next_main;a.callback_return=a.callback_return or a.frame;a.callback=a.callback or a.callback_return;a.finish_main_yield=a.finish_main_yield or a.callback;a.execute=a.execute or a.finish_main_yield;a.assignments=a.assignments or a.execute;a.blocks=a.blocks or a.assignments;a.objects=a.objects or a.blocks;a.schedule=a.schedule or a.objects;a.root=a.root or a.schedule;a.decode=a.decode or a.root
 memory=a.capture.read_bytes();data=a.main.read_bytes()
 digest=hashlib.sha256(memory).hexdigest();file_digest=hashlib.sha256(data).hexdigest()
 profiles={
@@ -34,7 +35,7 @@ for case in vectors['cases']:
  if a.decode:cpu.mem_write(0x1c0b0+0xb5c,b'\0\x90')
  if a.root:cpu.mem_write(0x1c0b0+0xff00,b'\0\xe0') # Controlled caller for the final loader RET.
  reads=[];read_events=[];read_boundaries=[];opens=[];open_boundaries=[];done=[];position=[0];saved_init={};init_counts=[0,0];init_end={};init_hash=[];packed_reads=[];closed=[];decode_entry=[];write_bounds=[0x100000,0];close_state={};notifications=[];registry_checked=[];notification_active=[False];registry_writes=[0]
- bios_calls=[];graphics_expected=[];graphics_checked=[];scheduler_expected=[];scheduler_done=[];object_phase=[False];object_done=[];yield_phase=[False];yield_done=[]
+ bios_calls=[];graphics_expected=[];graphics_checked=[];scheduler_expected=[];scheduler_done=[];object_phase=[False];object_done=[];yield_phase=[False];yield_done=[];frame_boundary=[None];frame_done=[];frame_visits=[0,0]
  destination=case['preparedDecode']['registers']['ds']*16+case['preparedDecode']['registers']['dx']
  def interrupt(uc,n,_):
   if n==0x16 and a.shift_flags is not None:
@@ -56,6 +57,10 @@ for case in vectors['cases']:
   reads.append((dx,cx));chunk=data[position[0]:position[0]+cx];position[0]+=len(chunk)
   uc.mem_write(ds*16+dx,chunk);uc.reg_write(UC_X86_REG_AX,len(chunk));uc.reg_write(UC_X86_REG_EFLAGS,uc.reg_read(UC_X86_REG_EFLAGS)&~1)
  def code(uc,address,size,_):
+  if frame_boundary[0] is not None:
+   if address==0x13dc3:frame_visits[0]+=1
+   if address==0x13dbb:frame_visits[1]+=1
+   if address==frame_boundary[0]:frame_done.append(address);uc.emu_stop()
   if yield_phase[0] and address in [0x126eb,0x12649,0x1264f]:yield_done.append(address);uc.emu_stop()
   if object_phase[0] and address in [0x126f7,0x18468,0x126b2,0x126d5]:object_done.append(address);uc.emu_stop()
   if scheduler_expected and not object_phase[0] and not yield_phase[0] and address in [0x126eb,0x12632]:scheduler_done.append(address);uc.emu_stop()
@@ -233,6 +238,25 @@ for case in vectors['cases']:
    actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
    assert hashlib.sha256(actual).hexdigest()==expected['hash'],'callback finish memory mismatch'
    row['callbackReturn']=expected
+  if a.frame and 'callbackReturn' in row and row['callbackReturn']['phase']=='frame':
+   registers={name:cpu.reg_read(r) for name,r in names.items()}
+   expected=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-physical-frame-vector.mjs')],input=json.dumps({'memory':base64.b64encode(bytes(cpu.mem_read(0,0x100000))).decode(),'ss':0x1c0b,'registers':registers}),text=True,cwd=repo))
+   frame_boundary[0]=0x10000+expected['entry'];yield_phase[0]=False;previous_sp=cpu.reg_read(UC_X86_REG_SP);cpu.emu_start(0x12649,0xfffff,count=100000)
+   assert frame_done==[frame_boundary[0]] and cpu.reg_read(UC_X86_REG_SP)==previous_sp+expected['stackDelta']
+   for name,value in expected['registers'].items():assert cpu.reg_read(names[name])==value,('frame',name,cpu.reg_read(names[name]),value)
+   actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
+   assert hashlib.sha256(actual).hexdigest()==expected['hash'],'physical frame memory mismatch'
+   assert frame_visits==[expected['visited'],expected['hidden']]
+   row['frame']=expected
+  if a.next_main and 'frame' in row and row['frame']['phase']=='return':
+   registers={name:cpu.reg_read(r) for name,r in names.items()}
+   expected=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-physical-context-vector.mjs')],input=json.dumps({'memory':base64.b64encode(bytes(cpu.mem_read(0,0x100000))).decode(),'ss':0x1c0b,'registers':registers}),text=True,cwd=repo))
+   frame_boundary[0]=0x10000+expected['entry'];frame_done.clear();previous_sp=cpu.reg_read(UC_X86_REG_SP);object_phase[0]=True;cpu.emu_start(0x1264c,0xfffff,count=100000)
+   assert frame_done==[frame_boundary[0]] and cpu.reg_read(UC_X86_REG_SP)==previous_sp+expected['stackDelta']
+   for name,value in expected['registers'].items():assert cpu.reg_read(names[name])==value,('next main',name)
+   actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
+   assert hashlib.sha256(actual).hexdigest()==expected['hash'],'next main memory mismatch'
+   row['nextMain']={**expected,'opcode':cpu.mem_read(cpu.reg_read(UC_X86_REG_DS)*16+cpu.reg_read(UC_X86_REG_SI),1)[0]}
   results.append(row)
 assert a.capture.read_bytes()==memory and a.main.read_bytes()==data
 print(json.dumps({'profile':profiles[digest][0],'captureSha256':digest,'mainSha256':file_digest,'cases':len(vectors['cases']),'decodedBytes':vectors['decodedBytes'],'decodeAndClose':a.decode,'rootCreation':a.root,'decodeResults':results,'result':'MAIN chain through requested initialization/decode/root boundary matches','limits':('controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed' if a.root else 'controlled DOS replies; initialization memory checked; registry/root and notification bodies excluded')}))

@@ -1432,3 +1432,65 @@ Eingaben, vollständige Plattforminitialisierung, Frame-/Grafikgeräteausführun
 oder Browserintegration. Ishar1 bleibt vor der DOS-Dateisuche. Nächster Schritt:
 Frameausführung mit dem nun tatsächlich aufgebauten Objekt-/Globalzustand,
 statt einen leeren Diagnoseframe als Spiel-Frame auszugeben.
+
+## Tatsächlicher erster Frame und Wiederaufnahme von MAIN
+
+`original-dos-physical-frame.ts` rekonstruiert den Frame-CALL2649 und den
+Körper3D3C..3E54 bis zur Rückkehr oder einer ausdrücklichen offenen Grenze.
+Die Funktion verwendet gemeinsamen physischen Speicher und die tatsächlich
+vorhandene aktive Liste. Sie verwirft die Liste nicht und ersetzt sie nicht
+durch einen leeren Diagnosezustand.
+
+Die Reihenfolge bleibt original: optionale Grafikbenachrichtigung, unsigned
+Timervergleich, normale Tastaturprüfung, Rücksetzen des Timerbytes0C9A,
+Kopieren der sieben Snapshotworte, Traversierung der0C16-Liste,0C49 und
+gegebenenfalls der ursprüngliche Recordpfad. Ein Eintrag mit Bit40h wird
+übersprungen, ein anderer setzt0B32/0B34/0B18 und endet vor3E55. Dadurch
+können vorhandene, aber noch nicht zeichnungsaktive Objekte korrekt durchlaufen
+werden, ohne ihre spätere Sichtbarkeit zu behaupten.
+
+Offene Grenzen: Grafiknotification bei3D55, Timerwait bei3D64, spezielles
+Tastaturbyte73h vor3D6B, Objektzeichnen vor3DE4 und Recordtypen1/2/FFh vor3E24.
+Bei Wait wird keine Zeit oder IRQ-Ausführung erfunden. Recordtypen0/FEh und
+unbehandelte andere Typen folgen der nativen Rückkehr. Kein Grafik-/Gerätecall
+wird als erfolgreich gestubbt. Unterbrochene Framepfade haben den originalen
+noch aktiven Sicherungsrahmen (SP−20 einschließlich Frame-CALL); vollständige
+Rückkehr stellt die sechs Skriptregister und die vorherige Stacklage wieder her.
+
+`check-native-dos-physical-frame.py <capture>` besteht je20 Fälle beider
+Profile: leere/verdeckte/sichtbare/gemischte Listen, Globals-/Kontextaliasse,
+Benachrichtigung, Wait und Tastaturpriorität, Timer-Gleichheit, Recordtypen und
+Offsetüberlauf. Native Eintrittsstellen3DC3 und3DBB zählen zusätzlich die
+besuchten beziehungsweise über Bit40h übersprungenen Einträge. Diese Zähler,
+die sechs Skriptregister, SP und sämtliche physischen Speicherbytes außer dem
+Sicherungsstackfenster stimmen mit dem Modell überein. Zyklen bleiben ein
+ausdrücklich abgewiesener Hostfall. Quellschutz wird geprüft.
+
+`original-dos-physical-context.ts` verbindet nach der Frame-Rückkehr264C die
+bestehende Root-/Scheduler-Vorbereitung mit dem erhaltenen physischen Zustand.
+Es liest den tatsächlichen Slot/Root und den gespeicherten Modul-/Skriptpointer.
+Die Initialwerte aus2607 werden nicht erneut gesetzt. Nullpointer bleiben roh;
+Globals-/Kontext-/Modulaliasse, die der komponierte Helfer nicht unterstützt,
+werden ausdrücklich angehalten. Scan-Callbacks sind eine eigene Grenze.
+
+`check-native-dos-resource-file.py <capture> <MAIN.IO> --next-main --shift-flags 0`
+prüft die gesamte bisherige Lade-/Skript-/Callbackfolge plus Frame und264C-
+Fortsetzung. In allen drei gültigen Ishar2-Layouts besucht der Frame tatsächlich
+zwei Einträge und überspringt beide wegen Bit40h. Er kehrt nach264C zurück.
+Anschließend erreicht die CPU26EB mit MAIN-SI16103,BP672,DX0,CX0 und dem
+gespeicherten Modulsegment. Der nächste Originalbefehl ist43, noch nicht
+ausgeführt. Keine Wurzelverknüpfung, Kontextinitialisierung oder Skriptposition
+wird für diesen Wiedereinstieg manuell korrigiert.
+
+Damit ist ein zusammenhängender MAIN→Callback→Frame→MAIN-Zyklus in der
+kontrollierten Startumgebung nativ verglichen. Er zeigt noch keine Pixel:
+Beide Einträge sind hier zeichnungsinaktiv. Die gewählte BIOS-Antwort0 und
+die zuvor kontrollierten Startglobals bleiben ausdrücklich Testbedingungen;
+keine vollständige Plattform-/Geräteinitialisierung wird behauptet. Ishar1
+bleibt an seiner expliziten DOS-Dateisuche156 stehen.
+
+Hosttests: `node scripts/check-dos-physical-frame.mjs`, Schritt-/Yieldregressionen
+und Typecheck bestanden. Metadaten ohne Originalbytes:
+PHYSICAL_FRAME_NATIVE_2026-10-18.json. Nächste konkrete Fortsetzung ist Opcode43
+am wiederaufgenommenen MAIN; aktive Zeichen-/Record-/Gerätepfade und die
+Browseranbindung bleiben offene Abnahmen.

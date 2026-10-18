@@ -55,7 +55,8 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    jetzt auch Aufrufen, Ausdrücken und Bedingungen. Tatsächliche nächste Grenzen
    sind die DOS-Dateisuche156 (Ishar1) und nach dem188-Rückkehrpfad der erste
    erste Framegrenze nach MAIN-Rückkehr-Callback (Ishar2, explizite BIOS-Antwort0).
-   Callback und Rückkehr sind nativ geprüft; jetzt den Framekörper anbinden.
+   Callback, Rückkehr, Frame mit zwei verdeckten Einträgen und Wiedereinstieg
+   in MAIN sind nativ geprüft. Nächster Skriptbefehl ist43.
    Ohne BIOS-Antwort bleibt der Callback an116 stehen. Aktive Objektliste und
    leere Kontextobjektkette bleiben getrennt;188-Grafikzweige sind separat offen.
    Abnahme:
