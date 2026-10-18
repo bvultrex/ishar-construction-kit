@@ -88,8 +88,10 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    nativ geprüft (128 Fälle beider Profile, explizite externe Antworten). Der durchgehende Pfad0787..0832 umfasst nun zusätzlich die frühen
    DOS/BIOS-Dienste (64 Fälle; separat128). BLANCPC-Laden ist nun ebenfalls durchgehend bis0853 geprüft
    (64 komponierte und72 separate Fälle). BIOS/EMS und Pufferreservierung sind jetzt ebenfalls angebunden
-   (512 separate Fälle;64 durchgehend bis08EB). Nächste Grenze:08EB
-   Plattform-/Audioinitialisierung. Die originale Aufrufkette
+   (512 separate Fälle;64 durchgehend bis08EB). Audio-Rückfallpfade reichen nun durchgehend bis08F0 (64
+   kombinierte Fälle;48 separate Audiofälle einschließlich echter
+   Treibergrenzen). Aktive AdLib-/SB-Treiber bleiben offen. Nächste Grenze:
+   Tastaturinitialisierung0FDD. Die originale Aufrufkette
    einschlieÃŸlich MAIN muss diese ZustÃ¤nde noch selbst herstellen. Das hat Vorrang
    vor einer sichtbaren Ausgabe oder weiteren Aussagen zur Bildgleichheit.
    FE-Sonderpfad, weitere Operandformen

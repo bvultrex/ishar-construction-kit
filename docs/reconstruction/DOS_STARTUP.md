@@ -2376,3 +2376,35 @@ Evidence: PHYSICAL_EMS_STARTUP_NATIVE_2026-10-18.json. Original files unchanged.
 Next:08EB platform/audio initialization and subsequent graphics/input/timer
 startup before MAIN. Earlier072D handling and actual settings-menu paths remain
 open. No valid visible game frame or full boot is claimed.
+
+## Audio startup outer routine and real driver boundaries (2026-10-18)
+
+`initializeOriginalDosAudioStartup` follows08EB ->8CB0 for both captures.
+Mode0 returns without touching channels/vector state. Other modes install
+IRQ0F through explicit DOS vector replies, reset six selected bytes in each
+of the four16-byte records1DFD..1E2D (unknown bytes preserved), and initialize
+the original callback/list pointers. Mode1 returns; unsupported modes fall
+back to1. Mode3 scans Sound Blaster reset ports21A..26A with explicit constant
+reply. With no AA, it clears original driver fields and falls back to1.
+With AA it stops at1941:196E before IRQ probing, preserving that prefix state.
+
+Mode2 ORs20 into CS:CD4D then calls1941:1C31. The intervening OR makes ZF0,
+so the JE following the earlier comparison cannot skip the AdLib call. This
+is instruction semantics, not an inferred cleanup of the original branch.
+AdLib body and successful Sound Blaster IRQ initialization remain open.
+
+24 cases per profile compare full shared memory outside stack FEC0..FEFF
+and all DOS/port events; completed return paths additionally preserve all
+general registers/SP. Cases cover modes0/1/2/3/4/FF, missing/present AA and
+old flags0/FFFF. Boundary cases prove prefixes only, not completed devices.
+
+32 composed cases per profile also execute contiguously from0787 to08F0 on
+normal return (menu cases stop earlier), using the supplied configuration and
+explicit absent Sound Blaster port replies. No hardware success is invented,
+no IRQ is delivered and no audible output is claimed. Reproduce:
+check-native-dos-audio-startup.py CAPTURE; check-native-dos-configuration-entry.py
+CAPTURE START.STP --blancpc BLANCPC.IO --audio. Evidence:
+AUDIO_STARTUP_NATIVE_2026-10-18.json. Original files remain unchanged.
+Next startup call08F0 is the keyboard mapping initializer0FDD; later graphics,
+mouse and timer initialization still need connection, alongside active audio
+driver bodies. Full startup/MAIN/visible frame remain incomplete.
