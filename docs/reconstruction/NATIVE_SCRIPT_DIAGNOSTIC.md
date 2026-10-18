@@ -84,3 +84,9 @@ Je148 native Vergleichsfälle pro Spiel bestanden;192 bestehende Ergebnisfälle 
 Die Ausdrucksauswertung unterstützt jetzt4 (Literalstring) und34 (Kontextstring relativ zu SS:0BF6). Beide kopieren rohe nullterminierte Bytes in den Originalpuffer SS:[0C58]. Der Auswerter liefert die veränderten Globals zurück; die Diagnose übernimmt sie atomar bei Erfolg. Auch Zuweisung30 verwendet diesen gemeinsamen Ablauf.
 
 Je144 neue native Stringausdrucksfälle pro Spiel bestanden, ebenso die bisherigen Ausdrucks-/Zahlen-/Zuweisungsvergleiche. Fehlende Pufferdaten oder überschrittene Segmentfenster halten unverändert an. IO.IO:00D3h bleibt vorerst offen, weil nach dem Kontextstring der noch nicht rekonstruierte Ausdruckstag156 folgt; dieser ist nicht der bereits unterstützte Skriptopcode156.
+
+## Ausdruck156: explizite DOS-Dateisuchgrenze
+
+Der Ausdrucksauswerter kann nun einen ausdrücklich übergebenen `OriginalDosFileSearch` verwenden.156 fragt DOS FindFirst mit dem Dateinamen aus SS:[0C58] und Attribut0 ab; Fallback und Laufwerksrückwechsel entsprechen den geprüften Originalpfaden. Treffer ergibtFFFFh, Fehler0; CX wird im kontrollierten DOS-Antwortvertrag0.
+
+Je432 native Vergleichsfälle pro Spiel bestehen mit kontrollierten INT21-Antworten, einschließlich Kontextstring vor der Suche. DTA, echtes DOS-Dateisystem und dauerhafter Laufwerkszustand sind noch nicht angebunden. Die Oberfläche hat keinen solchen Dienst und hält156 deshalb weiterhin atomar an. Es wird keine Dateisuchantwort vorgetäuscht.

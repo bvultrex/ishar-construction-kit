@@ -1,9 +1,10 @@
 import {readOriginalDosNumericOperand} from './original-dos-numeric-operand.ts';
+import {probeOriginalDosFile,type OriginalDosFileSearch} from './original-dos-file-probe.ts';
 /** Opcode31 ->2937/69A9; numeric0/2/6/8/30/32, strings4/34, loop56/end58, comparisons74..84.
  * Shared DX/CX follow native calls, including nested operands; no JavaScript coercion.
  * DF0, bounded source, disjoint context. Limits are host safeguards, not native checks.
  */
-export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Uint8Array,si:number,bp:number,initialDx:number,sourceLength=65536,globals?:Uint8Array){
+export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Uint8Array,si:number,bp:number,initialDx:number,sourceLength=65536,globals?:Uint8Array,fileSearch?:OriginalDosFileSearch){
  if(script.length!==65536||context.length!==65536||![si,bp,initialDx].every(v=>Number.isInteger(v)&&v>=0&&v<=65535))throw Error('Invalid native expression inputs');
  if(globals!==undefined&&globals.length!==65536)throw Error('Expected original global segment');
  let dx=initialDx,cx=initialDx,tokens=0;const nextGlobals=globals?.slice();
@@ -14,6 +15,10 @@ export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Ui
   if(si>=sourceLength)throw Error('Expression operand is truncated');
   if(call)cx=dx;
   const tag=script[si];
+  if(tag===156){
+   if(!fileSearch||!nextGlobals)throw Error('Expression156 requires an explicit DOS FindFirst service');
+   si++;const result=probeOriginalDosFile(nextGlobals,fileSearch);dx=result.dx;cx=result.cx;return;
+  }
   if([0,2,6,8,30,32].includes(tag)){if(si+(tag===0?2:3)>sourceLength)throw Error('Expression operand is truncated');const next=readOriginalDosNumericOperand(script,context,si,bp,nextGlobals);si=next.si;dx=next.value;return;}
   if(tag===4||tag===34){
    if(nextGlobals?.length!==65536)throw Error('String expression requires the original global segment');
