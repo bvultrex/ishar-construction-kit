@@ -1,6 +1,6 @@
 # Alderaan: reproducible original references (manifest, preparation stage)
 
-Status: 2026-10-18 19:55, Europe/Berlin. **Ishar 2 has complete references for all four cases:** floor pickup (§8), NPC via tavern listen (§9), shop buy SHOPB (§10; SHOPA kept as a noted double buy), tavern meal MEALB (§11) and enemy encounter ENCB (§12; blow-by-blow replay check of the combat contract in §12.8). **Ishar 1 has references for all four cases (run 19:31–19:38 CEST in `private/work/ishar1`):** NPC = trainer interaction NPCA (§13), item transfer ITEMA (§14), shop buy SHOPA (§15) and encounter ENCA (§16, unpatched). Selling does not exist in either original (known, §10 / §15). Open gaps: Ishar 1 tavern NPC (not reachable from S1), Ishar 1 floor pickup/drop (unknown), Ishar 2 item transfer/drop (row 2). Images and saves live only under `private/`, and nothing here is in git.
+Status: 2026-10-18 20:50, Europe/Berlin. **Ishar 2 has complete references for all four cases:** floor pickup (§8), NPC via tavern listen (§9), shop buy SHOPB (§10; SHOPA kept as a noted double buy), tavern meal MEALB (§11), enemy encounter ENCB (§12; blow-by-blow replay check of the combat contract in §12.8) and **item transfer between characters XFERA/XFERB (§18, run 20:31–20:34 CEST)**. **Ishar 1 has references for all four cases (run 19:31–19:38 CEST in `private/work/ishar1`):** NPC = trainer interaction NPCA (§13), item transfer ITEMA (§14), shop buy SHOPA (§15) and encounter ENCA (§16, unpatched), **plus floor drop/pickup FLRA/FLRB (§17, run 20:28–20:29 CEST)**. Selling does not exist in either original (known, §10 / §15). Open gaps: Ishar 1 tavern NPC (not reachable from S1); Ishar 2 row 1b MARIN (the 20:34 attempt did not reach him; the plan's position reading was wrong; corrected sequence in §19, not yet run); Ishar 2 floor drop of negative items is impossible by code (§18.6). Images and saves live only under `private/`, and nothing here is in git.
 
 ## 1. Base commit and game profile
 - Handoff: `docs/reconstruction/GROK_COLLABORATION_HANDOFF_2026-10-18.md`, blob in commit `bb427487ecce407124b5d98df50a8ca9627cbd60`, verified code state `319819c83d8dfe30675bba3ad8a51b43c3afc871`. Read through the GitHub connector; the local repo does not have this commit and was not changed.
@@ -87,18 +87,18 @@ Original references for: (1) reach an NPC and interact, (2) pick up/drop an item
 |---|---|---|---|---|---|---|---|---|
 | 1 | Ishar 2 | NPC | S.SAV (`49c2bb82ca246cee`) | Map 3 Zach, scene 10, r17 c56, facing 3 (S) | Red messenger PEOPLE1 (actor 94, type 64) at r18 c56, facing 2. Same figure as K3N000–003 (K86) | Load S → turn left (266,30) once → facing O → figure 1 cell ahead → click the figure (≈128,80) → then try the action icons (F1–F5) for talk | Figure visible (sprite #8+d per EAFF). Interaction response **open**: PEOPLE1 0x00038 reacts to message 40 only in scene 3 | **messenger: not possible** (actor 94 has 0x4f4c = 0, known). **Replaced by the tavern reference, done 18:21 CEST, see §9** |
 | 1m | Ishar 2 | Tavern meal (NPC service) | S.SAV (`49c2bb82ca246cee`) | as row 1 | Tavern t = 2 at (17,55), button 2 "Essen" | turn left 2× → forward → Essen → ok → close message → exit | −580 gold, food 100 | **done: MEALB (18:44–18:45 CEST), §11.** MEALA (no ok) kept as the negative case |
-| 1b | Ishar 2 | NPC (alternative) | LP3.SAV (`e82bcf3e283020af`) | Map 3, scene 23, r3 c55, facing 4 (W) | Sailor MARIN (type 12) at r6 c55, facing 2 | Turn left twice (W→S→O) → forward 2× → click the figure | Dialogue/boat offer (suspected) | pending |
+| 1b | Ishar 2 | NPC (alternative) | LP3.SAV (`e82bcf3e283020af`) | Map 3, scene 23 (harbour: vport/varche/marin), r3 c55 (r = 0x2ab4, file 2; c = 0x2ab5, file 4), facing 4 = r−1 = **compass E** (corrected; the plan said W) | Sailor MARIN (actor 55, type 12, HP 6) at r6 c55. The tavern building (CONT3 A = 12) at r4 c55 sits between the party and MARIN | Plan run 20:34: turn left 2× → compass W, tavern door ahead; forward entered the tavern; MARIN not seen. **Corrected route (§19, not run):** left → forward → left → forward 2× → r5 c54 facing 2 (W), MARIN front-left | **Known (script):** MARIN.IO has no click or message-40 handler, so no dialogue; clicking him should do nothing. Presence has no time/flag gate (EAFF draws him if HP > 0, scene 23 and he is in the view cone). **Location: unverified** | **attempted 20:34–20:36 CEST: not reached** (wrong start-facing reading; tavern blocks the view). Boat: no trigger cell exists (the plan's "B = −125 → message 25 → boat map" was wrong: message 25 is the map icon, FRISE 0x01158), §19 |
 | 1 | Ishar 1 | NPC (trainer "stage"; tavern as fallback) | S1.SAV (`92023f2b51e34f74`) | Zone 1 (CONT1), x30 y17, facing 4 (x−1) | Training entrance A = −43 at (31,18) (table 0x4178 entry (31,18,zone 1,#10)) | Turn right 2× (4→1→2) → forward → x31 y17 (A = 57) → turn right 1× (2→3) → forward → message 17 parameter 3 → stage.IO → select a character / training dialogue | Training screen (MAIN 0x038c6) | **done: NPCA (19:32–19:33 CEST), §13.** Trainer dialogue up to the price, EXIT without paying. The tavern fallback is not reachable from S1 (§6) |
 | **2a (FIRST)** | Ishar 2 | Floor pickup → backpack / hand (Quesh contract `quesh/pickup-contract-ishar2.md`) | **PICK9.SAV**, a labelled toolkit patch of START.SAV (`c306cfc7c77d7aa0`; source START `e685cd6902575392`; 4 bytes: file 345/545/745/8048 = 12/12/1/2) | Map 1, r11 c12, facing 2 (E); object 9 on r12 c12 | Object 9 one cell ahead (sprite OBJET res 115) | Load PICK9 → click (128,113) → A: portrait 1 (32,170), or B: hands icon of char 0 then slot 10 (50,168) → save as a NEW name PICK9A/PICK9B | Pickup clears 345/545/745 (8048 stays 2); A: c0 slot 0 = 9 (file 1037); B: c0 slot 10 = 9 (file 1057); armour 0x2f0e unchanged (armour(9)=0); hit box x 116..141 / y 104..123 (hypothesis, to be bisected). Check: `private/pickup_diff.py`, plan `private/pickup_plan.md` | **done (A 16:50, B 17:06, edges 17:50, armour C2 R/T/U 18:05–18:08 CEST): all checklist bytes confirmed, armour rule confirmed, edges measured (y 1 px higher); open: slot-9 swap, pointer hotspot (§8)** |
-| 2 | Ishar 2 | Item: transfer / drop / pick up | S.SAV | as row 1 | Character 4 (slot 3) carries items (inventory word values −51/−57/−59, slot layout suspected) | Click name 4 (≈224,193) → sheet → pick up an item → click portrait 1 (≈32,160) → transfer; then pick up the item again and click into the viewport floor (≈128,110) → lies on the floor → click it → back in the cursor → click a portrait | Item in the other inventory; floor drop writes 0x2c4e/0x2aba/0x2b84 (SOURIS 0x009ce) | pending |
-| 2 | Ishar 1 | Item | S1.SAV | as above | Inventory of the active character (manual p. 6/11: "click on item"; "drop" on the sheet destroys the item) | Sheet via the name → move an item to another face (transfer). To place it on the floor: click into the 3D view with the item (suspected) → pick it up again | Transfer known from the manual; floor drop in Ishar 1 **not confirmed in code** | **done (transfer only): ITEMA (19:33–19:34 CEST), §14.** Key c0 slot 7 → c3 slot 0. Floor drop/pickup: **unknown, not run** |
+| 2 | Ishar 2 | Item: transfer / drop / pick up | S.SAV | as row 1 | Character 4 (slot 3) carries items (inventory word values −51/−57/−59, slot layout suspected) | Click name 4 (≈224,193) → sheet → pick up an item → click portrait 1 (≈32,160) → transfer; then pick up the item again and click into the viewport floor (≈128,110) → lies on the floor → click it → back in the cursor → click a portrait | Item in the other inventory; floor drop writes 0x2c4e/0x2aba/0x2b84 (SOURIS 0x009ce) | **done (transfer): XFERA hand→hand and XFERB hand→backpack (20:31–20:34 CEST, base LEVELING), §18.** Floor drop: negative item codes cannot be dropped on the floor (known); positive-object floor pickup is §8 |
+| 2 | Ishar 1 | Item | S1.SAV | as above | Inventory of the active character (manual p. 6/11: "click on item"; "drop" on the sheet destroys the item) | Sheet via the name → move an item to another face (transfer). To place it on the floor: click into the 3D view with the item (suspected) → pick it up again | Transfer known from the manual; floor drop in Ishar 1 **not confirmed in code** | **done (transfer only): ITEMA (19:33–19:34 CEST), §14.** Key c0 slot 7 → c3 slot 0. **Floor drop/pickup: done, FLRA/FLRB (20:28–20:29 CEST), §17** (SOURIS L_0076a / 0x00451, floor tables 0x1382/0x1404/0x1486) |
 | 3 | Ishar 2 | Shop | S.SAV | Map 3, r17 c56, facing 3 | Cell (17,57): A = −5, B = −18 → shop 1 (marchand.IO) | Load S → forward (287,26) → shop screen → "Buy", choose item, click character → "Sell" | marchand.IO with shop number 1 (MAIN 0x0326a) | **done: SHOPB (18:43–18:44 CEST) = one rope, −700, c0 slot 0 = −41, §10.** SHOPA (2 ropes) kept as a noted double buy. **Sell: does not exist in the original (known, MARCHAND has no gold-increase or slot-clear path, §10)** |
 | 3 | Ishar 1 | Shop | S1.SAV | Zone 1, x30 y17, facing 4 | Shop #1 at (31,16), table 0x3fd6 | Turn right 2× (4→1→2) → forward → x31 y17 (A = 57) → turn left 1× (2→1) → forward → message 17 parameter 2 → marchand.IO, shop #1 → buy/sell | Shop (MAIN 0x0381c, PARAM 0x02456 table) | **done: SHOPA (19:34–19:36 CEST), §15.** „WURFDOLCH (+1)“ 1 100 GS to c2 slot 3. **Sell: does not exist (known, §15)** |
 | 4 | Ishar 2 | Enemy encounter | LEVELING.SAV (`dac7e0a405fa442a`) | Map 3, scene 21, r65 c12, facing 1 (N) | 5× GUARD3 (actors 90–94, HP 72–80) at r65 c11/c10, facing 1 = directly ahead | Load → screenshot (guards visible at distance 1) → attack icon F6 (character 1) or click a guard | Guards visible (GUARD3 #13+d). Whether they are hostile is **suspected** (GUARD3 handler 21 = attack) | **done: ENCB (18:45–18:48 CEST), §12.** One forward step onto the guards' cell, 8 rounds F6/F7: actor 91 killed (HP 72→0, removed), XP +3/+4/+3/+3/+3, HP c0 −51, c1 −35. Actual layout: 12 guards (actors 90–101), 3 per cell; attacks need the same cell. ENCA (no approach) kept as the negative case |
 | 4 | Ishar 1 | Enemy encounter | LP1.SAV (`76cf91a104ec8675`) or IMP1.SAV (`cc4405e2ff12a3b6`) | LP1: zone 15 (CONT5 cave), x20 y53, facing 3. IMP1: zone 14 (CONT4), x27 y72, facing 2 | LP1: 6 actors (63–68, type −4, HP 6–15) at (25,54). IMP1: 3 actors at (35,72) | Wait in place for up to 60 s, screenshot every 10 s; then move toward the group | Encounter **not guaranteed** statically: no direct path (CONT5 x22/23 y54 = −99) | **done: ENCA (19:36–19:38 CEST), §16, unpatched.** The group came to (22,52); 8 rounds ATTACK c0/c1 killed all 6 (HP→0); party HP −11/−14. XP is capped, so the proof is monster HP + party HP. Seen twice (probe + run) |
 
 ## 6. Limits and next step
-- Rows marked done were run in the original; the remaining rows (Ishar 2 row 1b, row 2) are still static plans.
+- Rows marked done were run in the original. Ishar 2 row 1b (MARIN) is still open: one attempt failed on a wrong position reading (§19).
 - Facing and turn directions in Ishar 1 are known from GERDEP. From code reading, the edge codes in the S1 street (x28..33, y17: 54/57 alternating) leave only x30↔x31 reachable: 54 = wall on the x−1 side (blocks leaving toward x−1 and entering while moving x+1), 57 = wall on the y+1 side. The taverns at (29,16) and (33,18) are therefore not reachable from S1 by walking. Trainer and shop both work from x31. If the operator *can* walk further, the edge-group reading is wrong: report it (relevant for U20).
 - Next step: an operator runs the table rows, saves shots and the final states under `private/`, and fills in the Result column with: success / different / not reproducible.
 
@@ -556,7 +556,7 @@ Move an item from one character's inventory to another's. Floor pickup/drop is i
 - `case_diff_i1.py S1.SAV ITEMA.SAV ITEM --mode transfer --pos 30,17,4` → exit 0 (item count 39 → 39, multiset unchanged, CONT identical).
 
 ### 14.6 Limits
-- **Transfer only.** Floor drop and pickup in Ishar 1 are **unknown**: no code path was confirmed and none was run. Destroying an item via the sheet bin (237,90) is from the manual (suspected), not run.
+- **Transfer only.** Floor drop and pickup are covered separately in §17 (FLRA/FLRB, done 20:28–20:29 CEST). Destroying an item via the sheet bin (237,90) is from the manual (suspected), not run.
 
 ### 14.7 Code proposals
 None.
@@ -656,3 +656,111 @@ Original behaviour of a melee encounter in Ishar 1: approach, attack, damage tak
 
 ### 16.7 Code proposals
 None. P1 stays a proposal only (§7).
+
+## 17. Ishar 1 floor record: drop and pick up again (references FLRA/FLRB; handoff 7-section format)
+
+### 17.1 Base commit and game profile
+- As §13.1, plus SOURIS.IO `2bbc1362e2f84c51d107bfccdf58441a8db08ed8c551129a66aee2a32ed4f7d8`, AFFOBJ.IO `abe105fad328b76d813dfb496f9d37ea691a7a7e38ed84917be2f7d780e38ec6`, FRISE.IO `3bd158963fdaf0f88517b03509002100159a7587c8e2486389314b8abc707e15`. Working copy `private/work/ishar1`. Run 20:26:27–20:29:45 CEST, log `private/run_cases_open.md`, captures `private/shots/ishar1/floor/`. The same sequence was rehearsed headless at 20:14–20:21 CEST in a separate scratch copy, with byte-identical results.
+
+### 17.2 Question
+Put an item from an inventory onto the floor, then pick it up again into an inventory.
+
+### 17.3 Reproducible input
+| item | value |
+|---|---|
+| Start save | S1.SAV `92023f2b51e34f74f191068d07922a4b1afa28cff1bd04423d98e4505a463f7f` |
+| Map / position | zone 1, x30 y17, facing 4 → turned to facing 2 (x+1); floor cell = (31,17) |
+| Inputs, drop | load `s1` → turn right 2× (310,101) → c0 name (32,195) → key, backpack slot 7 (196,42) → name (32,195) again (the sheet closes, the key stays on the cursor) → viewport floor (128,100) → the key is drawn one cell ahead at x 121–134, y 119–122 → save `flra` (disk (309,56) → (160,146) → OK (272,157) → name → Return) |
+| Inputs, pickup | click the floor key (127,120) → key on the cursor, sprite gone → portrait c0 (32,160) → save `flrb` |
+| After | FLRA.SAV `b7ec6de7534b9998363cca6ab9493301bd839d3cd940152e3141f30468073625`; FLRB.SAV `14955ef5465cc477f429ef7da23d907b4f9fd063960ea06fd8e119f03257ecc2` |
+
+### 17.4 Data contract
+- Known (SOURIS L_0076a → 0x00841–0x008e4): a drop needs a held positive item (0x1506 > 0), the sheet closed (0x137f = 0), 0x399e = 0, a click in the viewport (x < 256, screen y < 127), and no floor object or form under the cursor. The item goes to the cell in front by facing (1: y−1, 2: x+1, 3: y+1, 4: x−1) with zone 0x1508. Item code 31 has a special branch.
+- Known: floor object tables are bytes indexed by item code N: x 0x1382 = file 34+N, y 0x1404 = file 162+N, zone 0x1486 = file 290+N. 0 = not on the floor.
+- Known (SOURIS 0x00451–0x00650): a pickup with an empty cursor hits the floor object (ctstform 128), clears its three table bytes and puts it on the cursor. A portrait drop goes to the first free backpack slot (§14.4).
+- Known: AFFOBJ draws floor objects in the zone 1–6 cells ahead with |lateral| ≤ distance.
+
+### 17.5 Result
+**Exact diff S1 → FLRA (6 bytes, complete):**
+| file offset | before → after | meaning | class |
+|---|---|---|---|
+| 7 | 04 → 02 | facing 4 → 2 (two right turns) | known |
+| 46 / 174 / 302 | 00 → 1F / 11 / 01 | floor table [12] = (31, 17, zone 1) | known |
+| 513 | 0C → 00 | c0 slot 7: key removed | known |
+| 483 | 13 → 12 | c2 gold thousands 19 → 18 (save cost) | known |
+
+**Exact diff FLRA → FLRB (5 bytes, complete):** 46/174/302 → 00 (floor entry cleared); 499 00 → 0C (c0 slot 0 = key, first free slot); 483 12 → 11 (save cost).
+- `case_diff_i1.py S1.SAV FLRA.SAV FLOOR --mode drop --item 12 --cell 31,17,1 --pos 30,17,2` → exit 0.
+- `case_diff_i1.py FLRA.SAV FLRB.SAV FLOOR --mode pick --item 12` → exit 0. The base hash shows "unknown" because FLRA is new. CONT files are identical to the originals.
+- The operator run and the scratch rehearsal produced the same two hashes.
+
+### 17.6 Limits
+- One item (key, code 12), one cell, facing 2. Other facings and codes (including the code 31 branch and the code 50–93 cursor type) were not run. The pickup hit box was not bisected; only the click at (127,120) was tested.
+- Closing the sheet by clicking the name again while holding an item is observed behaviour (the path has no held-item check, suspected from code); EXIT (246,110) was not needed.
+
+### 17.7 Code proposals
+None.
+
+## 18. Ishar 2 item record: transfer between characters (references XFERA/XFERB; handoff 7-section format)
+
+### 18.1 Base commit and game profile
+- As §8.1 (FRISE.IO `27117c124caf904a31568f5c58f615946083dd3429c02ade1dc1e17552cc2b64`, SOURIS.IO `78df7c73f880466303867b63dd5e20897777802b0595c64935b9f4462354f9d3`). Working copy `private/work/ishar2`. Run 20:30:04–20:34:05 CEST, log `private/run_cases_open.md`, captures `private/shots/ishar2/xfer/`.
+
+### 18.2 Question
+Move an item from one character to another, from an unpatched base. The PICKQ/PICKR/PICKT moves in §8.5c came from toolkit-patched bases.
+
+### 18.3 Reproducible input
+| item | value |
+|---|---|
+| Start save | LEVELING.SAV `dac7e0a405fa442aae6ec4fb01a3b1aec35a1b1777857c51f183f29def215c57` |
+| Map / position | map 3, scene 21, r65 c12, facing 1 (no movement) |
+| Inputs, V1 hand → hand | load `leveling` → c3 hands icon (232,131) → c3 slot 10 (242,168) → c4 hands icon (296,131) → c4 slot 9 (282,168) → disk (266,12) → SAVE (240,58) → `xfera` → Return |
+| Inputs, V2 hand → backpack | load `leveling` → c3 hands icon (232,131) → slot 10 (242,168) → portrait c4 (288,170) → save `xferb` |
+| After | XFERA.SAV `3e37fdf0a085a4a88618df478946a53288a984b5e7eb7770b326ec60febdc90d`; XFERB.SAV `46bfac7ad6d00346946ecde0e1bbe2fd60e29a66e411f1e6b49929430f829292` |
+| Click points | c3/c4 points were derived from the FRISE R7 formula (icon 40+64c,131; slot 9 x 14..39+64c, slot 10 x 38..63+64c, y 168; portrait 32+64c,170); all worked first time |
+
+### 18.4 Data contract
+- Known: inventory word file 1036 + 2·(15c + s), BE; slots 9/10 = hands; armour byte 1336 + c. Taking an item out of a hand subtracts armour(code), putting it into a hand adds it, the backpack adds nothing (§8.5c). armour(−25) = 4.
+- Known: the disk menu is blocked while an item is held, so only before/after states can be saved.
+
+### 18.5 Result
+| save | case bytes vs LEVELING | other changes | case_diff |
+|---|---|---|---|
+| XFERA | 1146/1147 FF E7 → 00 00 (c3 slot 10); 1174/1175 00 00 → FF E7 (c4 slot 9); 1339 17 → 13; 1340 17 → 21 | 5 clock bytes, 66 actor re-roll/AI bytes (tolerated noise, 77 bytes in total) | `XFER --src 3,10 --dst 4,9 --code -25 --armour 4` → exit 0 |
+| XFERB | 1146/1147 FF E7 → 00 00; 1158/1159 00 00 → FF E7 (c4 backpack slot 1); 1339 17 → 13 | 3 clock bytes, no re-roll bytes (8 bytes in total) | `XFER --src 3,10 --dst 4,1 --code -25 --armour 4` → exit 0 |
+- CONT files are identical to the originals; no non-SAV file changed.
+
+### 18.6 Limits
+- One item (−25). Slot-9 swap onto an occupied hand was not run.
+- A floor drop of a negative item code is not possible in Ishar 2 (known); the floor case is only the positive-object pickup of §8.
+- The actor re-roll noise in XFERA but not XFERB is seen, not explained.
+
+### 18.7 Code proposals
+None.
+
+## 19. Ishar 2 row 1b MARIN: attempt and corrected plan (not a reference yet)
+
+### 19.1 What happened (20:34–20:36 CEST, no saves)
+- After loading LP3 the compass shows **E**. Left turns go E → N → W → S → E (captures `private/shots/ishar2/marin/m1_loaded`, `m2a`, `m2_turned`, `x_tl3`, `x_tl4`). After two left turns (compass W) a stone wall with an arched door was ahead; forward entered the tavern (left via (288,62)). N and S views showed fields. No sailor was seen and no figure was clicked.
+- From a fresh load, forward once and twice (facing E) moved the party twice (the view changed each time); no boat or map screen appeared.
+
+### 19.2 Corrected reading (code)
+- **Party:** file 2 = 0x2ab4 = r 3, file 4 = 0x2ab5 = c 55, file 6 = 0x2ab6 = facing 4, file 8 = map 3, file 18 = scene 23. Movement and drawing (SOURIS 0x008f0, EAFF 0x00060) use facing 1: c−1, 2: r+1, 3: c+1, 4: r−1. **Compass mapping (from the captures): 1 = N, 2 = W, 3 = S, 4 = E; turning left adds 1 (4 → 1 → 2 → 3).** The plan's labels "facing 4 = W" and "left = 4 → 3 → 2" were wrong. Two turns still reach facing 2, so the labels were not the real cause.
+- **Real cause:** CONT3 (offset r·60 + c) has A = 12 at r4 c55, which is the tavern building between the party (r3) and MARIN (r6). Forward with facing 2 enters the tavern, and the building hides anything behind it.
+- **MARIN:** actor 55, x/r 6, y/c 55 (file 2601+2i / 2821+2i), HP 6 (3261+2i), type 12 (4911+i) → marin.IO, scene 23 (6781+i). MAIN loads marin.IO for scene 23 together with vport.IO and varche.IO (L_01c0e).
+- **Visibility (EAFF, known):** drawn if HP > 0, actor scene = 0x4ef2, 0 ≤ dist < 6 and |lat| ≤ dist. L_00ba5 first sets the actor's facing to the direction from the party to the actor (diagonals take the party facing), and maps 2/3/5/6/7 then require it to equal the party facing. So this is a view-cone test, not "MARIN faces the party". There is no line-of-sight test in EAFF; buildings hide sprites only through drawing order (suspected).
+- **No time or flag gate:** EAFF type 12 → clive 0x26 unconditionally; MARIN.IO only switches palette by time of day (0x519f) and handles message 35 (known).
+- **Interaction:** MARIN.IO has no click or message-40 handler (known). Message 40 comes only from FRISE's hit reaction, so attacking him is the only reaction path; do not do it.
+- **Boat:** the plan's "B = −125 ahead → message 25 → boat map" was wrong. Message 25 is sent by FRISE 0x01158, the top-icon bar's map button, and MAIN L_0360e then loads map.IO (map view). boat.IO is loaded only for scene 3 (L_0197b). No boat-trigger cell in scene 23 was found.
+- Side finding (known, SOURIS 0x00bc5): using item −20 on the B = 89 cell (r6 c55) with facing 2 starts ANIMALS.IO with parameter 2; B = 71 with facing 4 and item −19 gives parameter 1. Not needed for this case.
+
+### 19.3 Corrected sequence (suspected route: open cells A = −1 at c54 are assumed walkable, as the r2 cell (A = −1) was during the boat attempt)
+1. Load `lp3` → compass E, fields and towers (as `m1_loaded`).
+2. Turn left once (266,30) → compass N (facing 1).
+3. Forward (287,26) → r3 c54.
+4. Turn left once → compass W (facing 2). The tavern (r4 c55) should be front-left.
+5. Forward → r4 c54. Capture: MARIN at dist 2, lat +1 (one cell to the left of centre, suspected side), drawn small.
+6. Forward → r5 c54. Capture: MARIN front-left at the diagonal (dist 1, lat 1).
+7. Click the figure → expect no reaction (no text, no screen change). Capture. Do not attack and do not save.
+- If step 3 or 5 is blocked, use the c56 side instead: turn right from the start (compass S, facing 3) → forward → r3 c56 → turn right (compass W) → forward 2× → r5 c56; MARIN is front-right at the diagonal.
+- Do not step onto r6 c52–54 (B = −50 / −63 / 92: scene-change codes, pp11.IO for −50).
