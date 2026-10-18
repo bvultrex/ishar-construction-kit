@@ -11,6 +11,6 @@ memory[c+0x20e]=0;const paused=frame(memory,0x1c0b,input);assert.equal(paused.ph
 word(g+0xbd2,0x100);word(g+0xb02,0);word(c+0x100,0x200);memory[c+0x200-36]=2;memory[c+0x200-4]=1;memory[c+0x200-1]=1;word(c+0x200-8,0x1234);word(c+0x200-6,0x4000);
 const prepared=prepare(memory,0x1c0b,input);assert.equal(prepared.phase,'main');assert.equal(prepared.registers.si,0x1234);assert.equal(prepared.stackDelta,-2);assert.equal(prepared.memory[c+0x200-1],0);
 word(c+0x100,0);assert.equal(prepare(memory,0x1c0b,input).registers.bp,0);
-assert.throws(()=>prepare(memory,0x5000,input),/alias/);
+{const aliasBefore=memory.slice(),aliased=prepare(memory,0x5000,input);assert.equal(aliased.phase,'skip');assert.equal(aliased.entry,0x2632);assert.deepEqual(memory,aliasBefore);}
 assert.throws(()=>frame(new Uint8Array(1),0x1c0b,input),/1MiB/);
 console.log('Physical frame traversal/hidden flags, waits, draw boundary, cycles and stored-root scheduler continuation passed');

@@ -1,5 +1,12 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**Grok-Nachtrag übernommen:** Die 21 Berichte von `be14a6b` sind unverändert
+integriert, einschließlich beider Kampfverträge. Erste geprüfte Umsetzung:
+zwei veraltete Diagnose-Erwartungen korrigiert und als npm-Prüfer registriert;
+beide Prüfer und Typecheck sind grün. Beleggrenzen und nächste Schritte stehen
+in `grok-reports/CODEX_INTEGRATION.md`. Kampfregeln sind damit noch nicht in
+die Laufzeit eingebaut. Der physische A1-Decoder bleibt ein ungeprüfter Entwurf.
+
 **Modulanschluss:** MODULE_LOAD_STARTUP.md weist nach erfolgreicher MAIN.IO-
 Suchantwort Opcode69/Modul64/logo.IO nach. Cachepfad (beide Spiele) und echter
 Ishar-1-Open-/Headerpfad bis vor CALL79E9 sind verglichen. Codex übernimmt
