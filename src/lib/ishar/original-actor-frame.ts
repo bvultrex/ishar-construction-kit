@@ -191,7 +191,8 @@ export function firstActorFrame(listing:string,main:Map<number,number>,initial:R
 export function originalActorRandom(seed:number) {
   let state=seed&65535;
   return (bound:number)=>{
-    if(!Number.isInteger(bound)||bound<=0||bound>32767)throw Error('Invalid random bound');
+    // Native 1000:6D7B advances C4E before MUL DX, including DX=0.
+    if(!Number.isInteger(bound)||bound<0||bound>32767)throw Error('Invalid random bound');
     state=(Math.imul(state,0x7ab7)-0x77f)&65535;
     return Math.floor(bound*state/65536);
   };

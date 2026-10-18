@@ -40,7 +40,7 @@ export function evaluateOriginalAlisInteger(text:string,context:AlisIntegerConte
    if(name==='ornd'){
     if(!context.random)throw Error('Original random source required');
     const bound=d7,value=context.random(bound);
-    if(!Number.isInteger(bound)||bound<=0||!Number.isInteger(value)||value<0||value>=bound)throw Error('Invalid original random result');
+    if(!Number.isInteger(bound)||bound<0||!Number.isInteger(value)||value<0||(bound===0?value!==0:value>=bound))throw Error('Invalid original random result');
     d7=signed(value);continue;
    }
    if(['odirb','odirw','olocb','olocw','omainb','omainw','omaintc','omainti'].includes(name)){

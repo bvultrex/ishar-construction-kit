@@ -41,3 +41,15 @@ for(const [op,expected] of [['osub',3],['odiv',1],['omod',3]]){regs.d6=91;regs.d
 regs.d6=91;regs.d7=7;evaluate('(oadd(oimmb(4)))',context,[],regs);assert.deepEqual(regs,{d6:7,d7:11},'addition retains saved left operand in D6');
 assert.throws(()=>evaluate('(oimmb(1))',context,[],{d6:65535,d7:0}),/registers/);
 console.log('Persistent D6/D7: literals, saved-left arithmetic and both-register sub/div/mod side effects passed.');
+// EATT 00BA2: zero damage bound still consumes RNG, then adds one.
+const {originalActorRandom}=await import('../src/lib/ishar/original-actor-frame.ts');
+for(const seed of [0,1,32767,32768,65535]){
+ const random=originalActorRandom(seed);let reference=BigInt(seed);
+ for(const bound of [0,100,0,20,0,32767]){
+  reference=BigInt.asUintN(16,reference*0x7ab7n+0xf881n);
+  const expected=Number(reference*BigInt(bound)>>16n);
+  assert.equal(evaluate(`(oimmw(${bound}) ornd oadd(oimmb(1)))`,{...context,random}),expected+1);
+ }
+}
+assert.throws(()=>evaluate('(oimmb(0) ornd)',{...context,random:()=>1}),/random result/);
+console.log('Combat zero-bound RNG: minimum-one expression and subsequent RNG sequence passed.');

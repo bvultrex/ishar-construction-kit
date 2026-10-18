@@ -100,7 +100,8 @@ for(let step=0;step<100;step++){
   seed=(seed*0x7ab7n-0x77fn+0x10000n)&0xffffn;
   assert.equal(reference(32767),Number((32767n*seed)>>16n));
 }
-assert.throws(()=>dosRandom(0),/Invalid random bound/);
+assert.equal(dosRandom(0),0);
+assert.throws(()=>dosRandom(-1),/Invalid random bound/);
 console.log('DOS random recurrence and 100-step original actor session checks passed.');
 
 const eventScript=`
