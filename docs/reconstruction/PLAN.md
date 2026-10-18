@@ -34,6 +34,11 @@ Ein bestandener synthetischer Test beweist keine Original-Verhaltensgleichheit.
 
 ## Nächster konkreter Schritt
 
+Neuester Anschluss: MODULE_CLOSE_REGISTRATION.md weist den echten Ishar-1-
+LOGO-Pfad jetzt bis8205 nach, einschließlich Dateiabschluss, Laufwerksrückwahl
+und physischer Registry-Einfügung. Offen sind die folgenden Gerätebenachrichtigungen,
+Stackrückkehr und Opcode69-Anbindung; der folgende Stand bis795C ist historisch.
+
 Neuester Laufzeitnachtrag: PHYSICAL_A1_LOGO.md dokumentiert den jetzt bestandenen
 nativen Vergleich des physischen A1-Decoders am echten Ishar-1-LOGO-Startzustand.
 Der frühere Entwurfsstatus unten ist damit für diesen einzelnen Fall überholt.

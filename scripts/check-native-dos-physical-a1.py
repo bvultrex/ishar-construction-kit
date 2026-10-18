@@ -15,20 +15,34 @@ regs={'ax':UC_X86_REG_AX,'bx':UC_X86_REG_BX,'cx':UC_X86_REG_CX,'dx':UC_X86_REG_D
 state=meta['registers']; keys=['ax','bx','cx','dx','di','si','bp','ds','es','sp']
 repo=Path(__file__).resolve().parent.parent
 q={'memory':base64.b64encode(source).decode(),'packed':base64.b64encode(packed).decode(),'ss':state['ss'],'registers':{k:state[k] for k in keys}}
+register_phase='--register-phase' in sys.argv[3:]
+close_phase='--close-phase' in sys.argv[3:] or register_phase
+q['closePhase']=close_phase
+q['registerPhase']=register_phase
 expected=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-physical-a1-vector.mjs')],input=json.dumps(q),text=True,cwd=repo))
 cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,source)
 for k,v in state.items():cpu.reg_write(regs[k],v)
 events=[];position=6;done=[]
 def interrupt(uc,number,_):
  global position
- assert number==0x21 and uc.reg_read(UC_X86_REG_AH)==0x3f
+ assert number==0x21
  r={k:uc.reg_read(regs[k]) for k in ['ax','bx','cx','dx','ds']}
+ if uc.reg_read(UC_X86_REG_AH)==14:
+  assert close_phase
+  events.append({'operation':'select-drive','drive':uc.reg_read(UC_X86_REG_DL)})
+  uc.reg_write(UC_X86_REG_AL,3);return
+ if uc.reg_read(UC_X86_REG_AH)==0x3e:
+  assert close_phase
+  events.append({**r,'operation':'close'});uc.reg_write(UC_X86_REG_AX,0)
+  uc.reg_write(UC_X86_REG_EFLAGS,uc.reg_read(UC_X86_REG_EFLAGS)&~1);return
+ assert uc.reg_read(UC_X86_REG_AH)==0x3f
  events.append({**r,'operation':'read'})
  data=packed[position:position+r['cx']];position+=len(data)
  if data:uc.mem_write(r['ds']*16+r['dx'],data)
  uc.reg_write(UC_X86_REG_AX,len(data));uc.reg_write(UC_X86_REG_EFLAGS,uc.reg_read(UC_X86_REG_EFLAGS)&~1)
 def stop(uc,address,size,_):done.append(True);uc.emu_stop()
-cpu.hook_add(UC_HOOK_INTR,interrupt);cpu.hook_add(UC_HOOK_CODE,stop,None,0x1795c,0x1795c)
+boundary=0x18205 if register_phase else 0x179a0 if close_phase else 0x1795c
+cpu.hook_add(UC_HOOK_INTR,interrupt);cpu.hook_add(UC_HOOK_CODE,stop,None,boundary,boundary)
 cpu.emu_start(0x17959,0xfffff,count=5000000)
 assert done==[True]
 assert events==expected['events'],(events,expected['events'])
@@ -38,4 +52,4 @@ assert actual[g+0x7e6:g+0x800]==source[g+0x7e6:g+0x800],'Caller/startup frames'
 actual[g+0x780:g+0x7e6]=bytes(0x66)
 assert hashlib.sha256(actual).hexdigest()==expected['hash'],'Physical memory mismatch'
 assert checkpoint.read_bytes()==source and resource.read_bytes()==packed
-print(json.dumps({'profile':'ishar1','checkpointSha256':meta['memorySha256'],'resourceSha256':hashlib.sha256(packed).hexdigest(),'result':expected,'verified':'7959 CALL79E9 to795C; exact DOS read requests, saved CPU registers/SP and full memory except0780..07E5 stack scratch; retained caller/startup frames'}))
+print(json.dumps({'profile':'ishar1','closePhase':close_phase,'registerPhase':register_phase,'boundary':boundary-0x10000,'checkpointSha256':meta['memorySha256'],'resourceSha256':hashlib.sha256(packed).hexdigest(),'result':expected,'verified':'7959 decode, optional matching-ID close and registry prefix before8205 notifications; exact DOS requests, CPU registers/SP and full memory except0780..07E5 stack scratch; retained caller/startup frames'}))
