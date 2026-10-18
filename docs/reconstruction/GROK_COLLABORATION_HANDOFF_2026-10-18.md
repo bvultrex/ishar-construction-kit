@@ -1,3 +1,7 @@
+## Update: skipped context continuation corrected
+
+The prior operand22/opcode188 report came from the replay runner dispatching script bytes after a scheduler `skip` boundary. It was not a demonstrated engine opcode failure. Added instruction-order shared-memory next-slot selection at 2632 and verified its actual full-memory/register transition. The runner now follows skip -> next slot -> frame, including one explicit original IRQ with the controlled DOSBox BIOS adapter, instead of dispatching a skipped context. After the next MAIN polling/callback pass, actual LOGO:0081 executes commands73/66 and reaches record processing3DE4; its saved next opcode is167 at008D. Typecheck passed. Pixel processing of this resource11 frame and the following mirrored frame remain pending. Private actual checkpoint: `startup-logo-resource11-actual-object-ishar1-2026-10-18`; use its authenticated JSON metadata.
+
 ## Update: mirrored type20 graphics
 
 Original 1E97:04BF/02DD mirrored byte rendering is reconstructed; 864 native fixture comparisons across both games and typecheck passed. See `MIRRORED_BYTE_RENDER.md`. Actual LOGO continuation exposed a separate scheduler boundary: after MAIN polling/callback, the selected context is skipped and the runner encounters operand22/opcode188. Actual mirrored LOGO pixels are therefore still unverified; investigate selection/timing before continuing, without forcing state.

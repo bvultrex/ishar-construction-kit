@@ -16,7 +16,7 @@ def reported(step):
 paths=sorted(a.checkpoints.glob('*.bin'));paths=[p for p in paths if a.checkpoint_name is None or p.name==a.checkpoint_name];assert paths
 for path in paths:
  original=path.read_bytes();meta=json.loads(path.with_suffix('.json').read_text());assert len(original)==0x100000 and hashlib.sha256(original).hexdigest()==meta['memorySha256'];assert meta['captureSha256']==profiles[meta['profile']] and meta['boundary']==(0x26f7 if a.resume_script else meta['boundary'] if a.resume_context else 0x2607) and meta['registers']['ip']==meta['boundary']
- if a.resume_context:assert meta['boundary'] in (0x264c,0x264f)
+ if a.resume_context:assert meta['boundary'] in (0x2632,0x264c,0x264f)
  cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,original)
  for key,value in meta['registers'].items():cpu.reg_write(regs[key],value)
  def model(script,extra):
@@ -68,21 +68,30 @@ for path in paths:
  if a.resume_script:
   scheduler={'phase':'already-at-script','entry':0x26f7,'stackDelta':0};sp=cpu.reg_read(regs['sp'])
  elif a.resume_context:
-  scheduler=model('dos-physical-context-vector.mjs',{'entry':'context' if meta['boundary']==0x264f else 'frame-return','registers':{key:cpu.reg_read(regs[key]) for key in ['ds','es','si','bp','dx','cx']}});sp=cpu.reg_read(regs['sp']);run(0x10000+meta['boundary'],0x10000+scheduler['entry'])
+  scheduler=model('dos-physical-context-vector.mjs',{'entry':'next' if meta['boundary']==0x2632 else 'context' if meta['boundary']==0x264f else 'frame-return','registers':{key:cpu.reg_read(regs[key]) for key in ['ds','es','si','bp','dx','cx']}});sp=cpu.reg_read(regs['sp']);run(0x10000+meta['boundary'],0x10000+scheduler['entry'])
   for key,value in scheduler['registers'].items():assert cpu.reg_read(regs[key])==value,key
  else:
   scheduler=model('dos-main-scheduler-vector.mjs',{'es':cpu.reg_read(regs['es']),'ds':cpu.reg_read(regs['ds'])});sp=cpu.reg_read(regs['sp']);run(0x12607,0x10000+scheduler['entry'])
   for key in ['bp','si','ds','es','bx']:assert cpu.reg_read(regs[key])==scheduler[key],key
  assert cpu.reg_read(regs['sp'])==sp+scheduler['stackDelta']
  if not a.resume_script:compare_hash(scheduler['hash'])
- state={key:cpu.reg_read(regs[key]) for key in ['ds','es','si','bp','dx','cx']};prefix=model('dos-physical-script-prefix-vector.mjs',{'registers':state,**({'shiftFlags':a.shift_flags} if a.shift_flags is not None else {}),**({'findFirstReplies':[bool(a.find_first_carry)]*64} if a.find_first_carry is not None else {})});counts={};port_evidence=[];start=0x126eb
+ selection=[]
+ for selection_index in range(256):
+  if scheduler['phase'] not in ['skip','context']:break
+  mode='next' if scheduler['phase']=='skip' else 'context'
+  next_selection=model('dos-physical-context-vector.mjs',{'entry':mode,'registers':{key:cpu.reg_read(regs[key]) for key in ['ds','es','si','bp','dx','cx']}})
+  sp=cpu.reg_read(regs['sp']);run(0x10000+cpu.reg_read(regs['ip']),0x10000+next_selection['entry'])
+  for key,value in next_selection['registers'].items():assert cpu.reg_read(regs[key])==value,('selection',key)
+  assert cpu.reg_read(regs['sp'])==sp+next_selection['stackDelta'];compare_hash(next_selection['hash']);selection.append(next_selection);scheduler=next_selection
+ else:raise AssertionError('Context selection host bound exhausted')
+ state={key:cpu.reg_read(regs[key]) for key in ['ds','es','si','bp','dx','cx']};prefix={'steps':[],'reason':None,'nextOpcode':None,'fileEvents':[]} if scheduler['phase']=='frame' else model('dos-physical-script-prefix-vector.mjs',{'registers':state,**({'shiftFlags':a.shift_flags} if a.shift_flags is not None else {}),**({'findFirstReplies':[bool(a.find_first_carry)]*64} if a.find_first_carry is not None else {})});counts={};port_evidence=[];start=0x126eb
  for index,step in enumerate(prefix['steps']):
   io_events.clear();sp=cpu.reg_read(regs['sp']);assert cpu.mem_read(cpu.reg_read(regs['ds'])*16+cpu.reg_read(regs['si']),1)[0]==step['opcode'];target=0x126b2 if step['status']=='yield' else 0x126f7;run(start,target);start=target
   for key,value in step['registers'].items():assert cpu.reg_read(regs[key])==value,(index,step['opcode'],key,cpu.reg_read(regs[key]),value)
   assert cpu.reg_read(regs['sp'])==sp+(2 if step['status']=='yield' else 0);compare_hash(step['hash']);assert io_events==step.get('events',[]);counts[str(step['opcode'])]=counts.get(str(step['opcode']),0)+1
   if io_events:port_evidence.append({'step':index,'opcode':step['opcode'],'eventCount':len(io_events),'eventSha256':hashlib.sha256(json.dumps(io_events,separators=(',',':')).encode()).hexdigest()})
  continuation=None;cycles=[]
- if a.first_frame and prefix['steps'] and prefix['steps'][-1]['status']=='yield':
+ if a.first_frame and (scheduler['phase']=='frame' or prefix['steps'] and prefix['steps'][-1]['status']=='yield'):
   def state():return {key:cpu.reg_read(regs[key]) for key in ['ds','es','si','bp','dx','cx']}
   def transition(script,start,extra=None):
    expected=model(script,{'registers':state(),**(extra or {})});sp=cpu.reg_read(regs['sp']);run(start,0x10000+expected['entry'],skip_hits=len(expected.get('emptyOwners',[])) if expected['entry']==0x3de4 else 0)
@@ -108,8 +117,8 @@ for path in paths:
    assert cpu.reg_read(regs['flags'])==expected['flags'] and io_events==expected['events']
    actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0x798:0x1c0b0+0x7ee]=bytes(86);assert hashlib.sha256(actual).hexdigest()==expected['hash']
    return {key:value for key,value in expected.items() if key!='events'}|{'eventCount':len(io_events),'eventSha256':hashlib.sha256(json.dumps(io_events,separators=(',',':')).encode()).hexdigest()}
-  def finish_cycle():
-   finished=transition('dos-physical-yield-vector.mjs',0x126b2);result={'yield':finished}
+  def finish_cycle(frame_only=False):
+   finished={'phase':'frame'} if frame_only else transition('dos-physical-yield-vector.mjs',0x126b2);result={'yield':finished}
    if finished['phase']=='callback':
     callback=model('dos-physical-script-prefix-vector.mjs',{'registers':state(),**({'shiftFlags':a.shift_flags} if a.shift_flags is not None else {})});execute_steps(callback,0x126d5)
     result['callback']={'steps':len(callback['steps']),'reason':callback['reason'],'nextOpcode':callback['nextOpcode']}
@@ -124,7 +133,7 @@ for path in paths:
       if frame['phase']!='wait':break
      else:raise AssertionError('Explicit wait tick bound exhausted')
    return result
-  continuation=finish_cycle();previous=continuation
+  continuation=finish_cycle(scheduler['phase']=='frame');previous=continuation
   for cycle_index in range(a.cycles):
    if previous.get('frame',{}).get('phase')!='return':break
    context=transition('dos-physical-context-vector.mjs',0x1264c);item={'context':context};cycles.append(item)
@@ -142,5 +151,5 @@ for path in paths:
   with (a.checkpoint_end/path.name).open('xb') as f:f.write(raw)
   with (a.checkpoint_end/path.with_suffix('.json').name).open('x',encoding='utf-8') as f:json.dump({'profile':meta['profile'],'captureSha256':meta['captureSha256'],'memorySha256':hashlib.sha256(raw).hexdigest(),'sourceCheckpointSha256':meta['memorySha256'],'boundary':state['ip'],'registers':state},f,indent=2)
  assert path.read_bytes()==original
- rows.append({'checkpoint':path.name,'checkpointSha256':meta['memorySha256'],'profile':meta['profile'],'scheduler':scheduler,'cycles':cycles,'videoState':video,'continuation':continuation,'portEvidence':port_evidence,'fileEvents':file_events,'steps':len(prefix['steps']),'opcodes':counts,'reason':prefix['reason'],'nextOpcode':prefix['nextOpcode'],'last':reported(prefix['steps'][-1]) if prefix['steps'] else None,'boundary':cpu.reg_read(regs['ip']),'sp':cpu.reg_read(regs['sp'])})
+ rows.append({'checkpoint':path.name,'checkpointSha256':meta['memorySha256'],'profile':meta['profile'],'scheduler':scheduler,'selection':selection,'cycles':cycles,'videoState':video,'continuation':continuation,'portEvidence':port_evidence,'fileEvents':file_events,'steps':len(prefix['steps']),'opcodes':counts,'reason':prefix['reason'],'nextOpcode':prefix['nextOpcode'],'last':reported(prefix['steps'][-1]) if prefix['steps'] else None,'boundary':cpu.reg_read(regs['ip']),'sp':cpu.reg_read(regs['sp'])})
 print(json.dumps({'timerPlatform':a.timer_platform,'equipmentWord':a.equipment_word,'currentDrive':a.current_drive,'paletteRetrace':a.palette_retrace,'resumeScript':a.resume_script,'resumeContext':a.resume_context,'requestedCycles':a.cycles,'firstFrame':a.first_frame,'shiftFlags':a.shift_flags,'findFirstCarry':a.find_first_carry,'caseCount':len(rows),'cases':rows,'stackMask':'07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared','limits':'Authenticated startup checkpoints resumed at2607/264C/264F/26F7 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. Explicit IRQ8 delivery only with --timer-platform; DOSBox EGA/unhooked BIOS response is a controlled platform adapter, not firmware execution; optional explicit DOS FindFirst carry and drive-selection replies, no DTA writes or filesystem access; stops at yield or first unsupported opcode, not complete game/frame.'}))
