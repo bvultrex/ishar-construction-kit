@@ -1,6 +1,6 @@
 # Alderaan: reproducible original references (manifest, preparation stage)
 
-Status: 2026-10-18 20:50, Europe/Berlin. **Ishar 2 has complete references for all four cases:** floor pickup (§8), NPC via tavern listen (§9), shop buy SHOPB (§10; SHOPA kept as a noted double buy), tavern meal MEALB (§11), enemy encounter ENCB (§12; blow-by-blow replay check of the combat contract in §12.8) and **item transfer between characters XFERA/XFERB (§18, run 20:31–20:34 CEST)**. **Ishar 1 has references for all four cases (run 19:31–19:38 CEST in `private/work/ishar1`):** NPC = trainer interaction NPCA (§13), item transfer ITEMA (§14), shop buy SHOPA (§15) and encounter ENCA (§16, unpatched), **plus floor drop/pickup FLRA/FLRB (§17, run 20:28–20:29 CEST)**. Selling does not exist in either original (known, §10 / §15). Open gaps: Ishar 1 tavern NPC (not reachable from S1); Ishar 2 row 1b MARIN (the 20:34 attempt did not reach him; the plan's position reading was wrong; corrected sequence in §19, not yet run); Ishar 2 floor drop of negative items is impossible by code (§18.6). Images and saves live only under `private/`, and nothing here is in git.
+Status: 2026-10-18 21:15, Europe/Berlin. **Ishar 2 hit-chance sample (§20, 240 swings, run 20:37–20:58 CEST): consistent with the contract formula for c0 and c1 overall; one sub-group flag (c1 vs guard 92).** **Ishar 2 has complete references for all four cases:** floor pickup (§8), NPC via tavern listen (§9), shop buy SHOPB (§10; SHOPA kept as a noted double buy), tavern meal MEALB (§11), enemy encounter ENCB (§12; blow-by-blow replay check of the combat contract in §12.8) and **item transfer between characters XFERA/XFERB (§18, run 20:31–20:34 CEST)**. **Ishar 1 has references for all four cases (run 19:31–19:38 CEST in `private/work/ishar1`):** NPC = trainer interaction NPCA (§13), item transfer ITEMA (§14), shop buy SHOPA (§15) and encounter ENCA (§16, unpatched), **plus floor drop/pickup FLRA/FLRB (§17, run 20:28–20:29 CEST)**. Selling does not exist in either original (known, §10 / §15). Open gaps: Ishar 1 tavern NPC (not reachable from S1); Ishar 2 row 1b MARIN: not reachable from LP3 (verified, §19.5); the interaction is known only from the script (no handler); Ishar 2 floor drop of negative items is impossible by code (§18.6). Images and saves live only under `private/`, and nothing here is in git.
 
 ## 1. Base commit and game profile
 - Handoff: `docs/reconstruction/GROK_COLLABORATION_HANDOFF_2026-10-18.md`, blob in commit `bb427487ecce407124b5d98df50a8ca9627cbd60`, verified code state `319819c83d8dfe30675bba3ad8a51b43c3afc871`. Read through the GitHub connector; the local repo does not have this commit and was not changed.
@@ -87,7 +87,7 @@ Original references for: (1) reach an NPC and interact, (2) pick up/drop an item
 |---|---|---|---|---|---|---|---|---|
 | 1 | Ishar 2 | NPC | S.SAV (`49c2bb82ca246cee`) | Map 3 Zach, scene 10, r17 c56, facing 3 (S) | Red messenger PEOPLE1 (actor 94, type 64) at r18 c56, facing 2. Same figure as K3N000–003 (K86) | Load S → turn left (266,30) once → facing O → figure 1 cell ahead → click the figure (≈128,80) → then try the action icons (F1–F5) for talk | Figure visible (sprite #8+d per EAFF). Interaction response **open**: PEOPLE1 0x00038 reacts to message 40 only in scene 3 | **messenger: not possible** (actor 94 has 0x4f4c = 0, known). **Replaced by the tavern reference, done 18:21 CEST, see §9** |
 | 1m | Ishar 2 | Tavern meal (NPC service) | S.SAV (`49c2bb82ca246cee`) | as row 1 | Tavern t = 2 at (17,55), button 2 "Essen" | turn left 2× → forward → Essen → ok → close message → exit | −580 gold, food 100 | **done: MEALB (18:44–18:45 CEST), §11.** MEALA (no ok) kept as the negative case |
-| 1b | Ishar 2 | NPC (alternative) | LP3.SAV (`e82bcf3e283020af`) | Map 3, scene 23 (harbour: vport/varche/marin), r3 c55 (r = 0x2ab4, file 2; c = 0x2ab5, file 4), facing 4 = r−1 = **compass E** (corrected; the plan said W) | Sailor MARIN (actor 55, type 12, HP 6) at r6 c55. The tavern building (CONT3 A = 12) at r4 c55 sits between the party and MARIN | Plan run 20:34: turn left 2× → compass W, tavern door ahead; forward entered the tavern; MARIN not seen. **Corrected route (§19, not run):** left → forward → left → forward 2× → r5 c54 facing 2 (W), MARIN front-left | **Known (script):** MARIN.IO has no click or message-40 handler, so no dialogue; clicking him should do nothing. Presence has no time/flag gate (EAFF draws him if HP > 0, scene 23 and he is in the view cone). **Location: unverified** | **attempted 20:34–20:36 CEST: not reached** (wrong start-facing reading; tavern blocks the view). Boat: no trigger cell exists (the plan's "B = −125 → message 25 → boat map" was wrong: message 25 is the map icon, FRISE 0x01158), §19 |
+| 1b | Ishar 2 | NPC (alternative) | LP3.SAV (`e82bcf3e283020af`) | Map 3, scene 23, r3 c55, facing 4 (compass E). Verified: the views match CONT3 around this cell exactly | Sailor MARIN (actor 55, type 12, HP 6, scene 23) at r6 c55, 3 cells toward compass W, behind the tavern cell r4 c55 | All four directions tried (20:34, 21:01, 21:10): N and S blocked (A = −1), W = tavern menu (no step), E = map exit (B = −125 → map 1 r12 c12, MARA) | **Known (script):** MARIN.IO has no click or message-40 handler, so no dialogue. **Verified:** he cannot be reached or seen from LP3 (the start cell is a closed pocket). **Unknown:** his in-game appearance; no known save is on his pier | **not reachable from LP3, closed as "script-only" (§19.5).** No boat-trigger cell in scene 23 |
 | 1 | Ishar 1 | NPC (trainer "stage"; tavern as fallback) | S1.SAV (`92023f2b51e34f74`) | Zone 1 (CONT1), x30 y17, facing 4 (x−1) | Training entrance A = −43 at (31,18) (table 0x4178 entry (31,18,zone 1,#10)) | Turn right 2× (4→1→2) → forward → x31 y17 (A = 57) → turn right 1× (2→3) → forward → message 17 parameter 3 → stage.IO → select a character / training dialogue | Training screen (MAIN 0x038c6) | **done: NPCA (19:32–19:33 CEST), §13.** Trainer dialogue up to the price, EXIT without paying. The tavern fallback is not reachable from S1 (§6) |
 | **2a (FIRST)** | Ishar 2 | Floor pickup → backpack / hand (Quesh contract `quesh/pickup-contract-ishar2.md`) | **PICK9.SAV**, a labelled toolkit patch of START.SAV (`c306cfc7c77d7aa0`; source START `e685cd6902575392`; 4 bytes: file 345/545/745/8048 = 12/12/1/2) | Map 1, r11 c12, facing 2 (E); object 9 on r12 c12 | Object 9 one cell ahead (sprite OBJET res 115) | Load PICK9 → click (128,113) → A: portrait 1 (32,170), or B: hands icon of char 0 then slot 10 (50,168) → save as a NEW name PICK9A/PICK9B | Pickup clears 345/545/745 (8048 stays 2); A: c0 slot 0 = 9 (file 1037); B: c0 slot 10 = 9 (file 1057); armour 0x2f0e unchanged (armour(9)=0); hit box x 116..141 / y 104..123 (hypothesis, to be bisected). Check: `private/pickup_diff.py`, plan `private/pickup_plan.md` | **done (A 16:50, B 17:06, edges 17:50, armour C2 R/T/U 18:05–18:08 CEST): all checklist bytes confirmed, armour rule confirmed, edges measured (y 1 px higher); open: slot-9 swap, pointer hotspot (§8)** |
 | 2 | Ishar 2 | Item: transfer / drop / pick up | S.SAV | as row 1 | Character 4 (slot 3) carries items (inventory word values −51/−57/−59, slot layout suspected) | Click name 4 (≈224,193) → sheet → pick up an item → click portrait 1 (≈32,160) → transfer; then pick up the item again and click into the viewport floor (≈128,110) → lies on the floor → click it → back in the cursor → click a portrait | Item in the other inventory; floor drop writes 0x2c4e/0x2aba/0x2b84 (SOURIS 0x009ce) | **done (transfer): XFERA hand→hand and XFERB hand→backpack (20:31–20:34 CEST, base LEVELING), §18.** Floor drop: negative item codes cannot be dropped on the floor (known); positive-object floor pickup is §8 |
@@ -754,7 +754,7 @@ None.
 - **Boat:** the plan's "B = −125 ahead → message 25 → boat map" was wrong. Message 25 is sent by FRISE 0x01158, the top-icon bar's map button, and MAIN L_0360e then loads map.IO (map view). boat.IO is loaded only for scene 3 (L_0197b). No boat-trigger cell in scene 23 was found.
 - Side finding (known, SOURIS 0x00bc5): using item −20 on the B = 89 cell (r6 c55) with facing 2 starts ANIMALS.IO with parameter 2; B = 71 with facing 4 and item −19 gives parameter 1. Not needed for this case.
 
-### 19.3 Corrected sequence (suspected route: open cells A = −1 at c54 are assumed walkable, as the r2 cell (A = −1) was during the boat attempt)
+### 19.3 ~~Corrected sequence~~ CONTRADICTED by the 21:01 run (§19.4) (suspected route: open cells A = −1 at c54 are assumed walkable, as the r2 cell (A = −1) seemed to be during the boat attempt; §19.5 shows that was a map exit, not a step)
 1. Load `lp3` → compass E, fields and towers (as `m1_loaded`).
 2. Turn left once (266,30) → compass N (facing 1).
 3. Forward (287,26) → r3 c54.
@@ -764,3 +764,94 @@ None.
 7. Click the figure → expect no reaction (no text, no screen change). Capture. Do not attack and do not save.
 - If step 3 or 5 is blocked, use the c56 side instead: turn right from the start (compass S, facing 3) → forward → r3 c56 → turn right (compass W) → forward 2× → r5 c56; MARIN is front-right at the diagonal.
 - Do not step onto r6 c52–54 (B = −50 / −63 / 92: scene-change codes, pp11.IO for −50).
+
+### 19.4 Second attempt (21:01–21:02 CEST, log `private/run_marin.md`, captures `private/shots/ishar2/marin2/`, no saves) and re-check
+- Observed: LP3 compass E; turn left → compass N, corn field ahead, forward **blocked** (pixel-identical view). Fresh load, turn right → compass S, corn field, forward **blocked**. So the §19.3 route (step to r3 c54) is **contradicted**, and so is the c56 fallback.
+- **Mapping re-check (all captures agree):** SOURIS 0x008f0 / EAFF 0x00060: facing 1 = c−1, 2 = r+1, 3 = c+1, 4 = r−1 (known). Compass: 1 = N, 2 = W, 3 = S, 4 = E (seen); left = +1. Check against CONT3 around the party cell r3 c55 (A = 97):
+  | compass | facing | cell ahead | A / B | observed | fits |
+  |---|---|---|---|---|---|
+  | W | 2 | r4 c55 | 12 / 0 | stone wall with arched door; forward opens the tavern (20:35) | yes |
+  | N | 1 | r3 c54 | −1 / 0 | corn, blocked (21:01) | yes |
+  | S | 3 | r3 c56 | −1 / 0 | corn, blocked (21:02) | yes |
+  | E | 4 | r2 c55 | −1 / **−125** | the view changed after each of two forwards (20:36) | only if B = −125 makes the cell passable or triggers a transition (suspected) |
+- A = −1 blocks movement, which matches Hoth's proven run C4 (A = 0xFF solid). Movement itself is native: no script writes 0x2ab4/0x2ab5 except load and teleports, so the full collision rule cannot be read from the scripts.
+- "Tavern on the left when facing E" does not fit: by this mapping the tavern (r4 c55) is behind the party when facing E. The stone edge at the left of the E view is unexplained (suspected: wall rendering of the −1 cell r2/r3 c54).
+- **Why MARIN is not seen from LP3:** the party cell faces him in the view cone (facing 2, dist 3, lat 0, so EAFF would draw him), but the tavern cell r4 c55 is in between and hides him (suspected: drawing order).
+- **View-cone cells (EAFF rules, A > 0):** r3 c55 / r4 c55 / r5 c55 facing W (behind or inside the tavern); r6 c52–54 facing S (excluded); r7 c52, r8 c51–53, r9 c51/53, r10 c51/53, r11 c51/53 facing S or E. The r7–r11 cells all have A = −1 cells between them and r6 c55, so they are probably hidden as well. r10 c51 (B = −50) and r11 c51 (B = −52) are scene-change cells.
+- **Result:** no reachable view cell with a clear line to MARIN was found outside r6 c52–54. The pier r6 c52–55 is enclosed by A = −1; its links are the tavern door and r6 c52 ↔ r7 c52. Row 1b stays: interaction **known from script (none)**, location **unverified**, in-game route **unknown**.
+- Diagnostic step E + save `MARA`: done, §19.5.
+
+### 19.5 MARA probe (21:10–21:11 CEST, log `private/run_mara.md`, captures `private/shots/ishar2/mara/`) and conclusion
+- MARA.SAV `4f85769387a0cb823ff11f32349f76b6fb25646076a31ba1aacb3b4bb518d034` (verified). Inputs: load `lp3` (compass E) → forward (287,26) → save `mara`.
+- Decoded (BE16 words, file 2/4/6/8/18): **LP3 r3 c55 facing 4, map 3, scene 23 → MARA r12 c12 facing 2, map 1, scene 1.** 977 bytes differ (map change). Actor 55 is unchanged in MARA (r6 c55, HP 6, type 12, scene 23; its facing word 3041+110 reads 0 instead of 2).
+- **So E (facing 4 = r−1) onto r2 c55 (A −1, B −125) is a map exit, not a walkable step.** The party leaves map 3 for map 1 (the start island; LP.SAV is r11 c12 on map 1). The −1 cell itself is not entered. This explains the "moved" views of 20:36 and the fields/towers: they are map 1 (towers seen N and W in MARA's cell; CONT1 r12 c11 A = −12, r10 c12 A = −20).
+- **The LP3 coordinates are not misread:** map 3 / scene 23 / r3 c55 fits all four views (corn = A −1 at c54/c56, tavern door = A 12 at r4 c55, map exit = B −125 at r2 c55). Scene 23 is the scene that loads vport/varche/marin (MAIN L_01c0e). The harbour itself (pier codes 31/33/34 at r6 c52–55) lies behind the tavern and is not visible from this cell.
+- Compass note: map 3 shows facing 4 as E, while map 1 shows facing 2 as E (§8, MARA). The compass orientation therefore differs between maps; only the facing → cell delta (1 c−1, 2 r+1, 3 c+1, 4 r−1) is code-known.
+- **Conclusion (verified):** from LP3 MARIN can be neither reached nor seen. The start cell is a closed pocket: N/S solid, W = tavern menu without a step, E = map exit. The view cone toward him (W, dist 3) is blocked by the tavern. No reasonable route exists from this save.
+- What remains: **known (script)** = MARIN has no click/message-40 handler, so clicking him would do nothing; presence has no time/flag gate. **Unknown** = his on-screen appearance and an in-game route onto the pier network (r6–r12 c51–57). None of the known saves has the party in scene 23 on that network.
+
+## 20. Ishar 2 hit-chance sample: player melee vs the contract formula (handoff 7-section format)
+
+### 20.1 Base commit and game profile
+- As §12.1. Contract checked: `codex-support/quesh/combat-contract-ishar2.md` `a3310c98e8b5eb50b1958d3ef1cbc7b007e36bf8a625b0b26a90af4a4008d389` (updated since §12.8; the hit formula R2.3 is unchanged). Tools `private/tools/enc_count.py`, `private/tools/hit_eval.py` (kill-blow handling extended in this run).
+- Run 20:37:38–20:58:47 CEST, log `private/run_hit_sample.md`, videos `private/shots/ishar2/hit/batch_a..l.mkv`, per-batch outputs `hit/count_x/`, per-swing table `hit/hit_swings.csv`.
+
+### 20.2 Question
+Is the player hit chance `hit% = 50 + 2·LVL + 3·(AGI·FOOD//80 − AGI_t) + skill//5` (FRISE 0x05651, roll `rnd(100) < hit`) right, with FOOD the attacker's food before the swing?
+
+### 20.3 Reproducible input
+| item | value |
+|---|---|
+| Base | LEVELING.SAV `dac7e0a405fa442aae6ec4fb01a3b1aec35a1b1777857c51f183f29def215c57` |
+| Per batch x = a..l | load `leveling` → save `HZx` → forward (287,26) → save `HAx` → 10 × (F6, 1.68 s, F7, 1.68 s) → save `HYx`; ffmpeg per batch (start time = video t0). Batch a also pressed F8/F9/F10 once each |
+| Saves | 36 files `work/ishar2/H{Z,A,Y}{A..L}.SAV`; all 36 SHA-256 in `private/run_hit_sample.md` re-verified (36/36 OK) |
+
+### 20.4 Data contract
+- Attacker: LVL 1291+c (22/21), AGI 1316+c (16/4), food 1326+c (68/70 at HA, 58/60 at HY in every batch), skill 0x4b38 = 7546+c (93/81), status arrays 0 (known).
+- Target: front slots 7576–7578 = actors 91/90/92 in every HA; AGI_t 6121+i, CON_t 5241+i, ARM_t 6011+i, HP 3261+2i (BE16). Batch a (first load after boot) had AGI 19/18/19 (91/90/92); batches b–l had 18/19/20 (= LEVELING values).
+- Target order: first live slot (0 → 1 → 2). All 175 visible splashes (including 1-frame kill splashes) fell on the predicted slot.
+- **Kill blows:** 19 kills (slots that became 0, killer from XP: killer +L//3+1, others +L//5+1). 16 kill blows showed a **1-frame splash**, 3 showed **no splash** (batches a/c/d) (the replay round 7 was one of these). In batches c, e and l the XP vector fits two killer assignments; the 1-frame splashes decide.
+- Only c0 and c1 swing: F8–F10 in batch a changed no food for c2–c4 (0 swings).
+
+### 20.5 Result
+**Video check:** 12 × 20 swings detected, all 240 matched to their F6/F7 key (−0.25 … +1.5 s), no orphan splashes. Food A→Y = 10/10 per batch = swings counted.
+
+**Damage cross-check (per guard, HA→HY):** with dmg = (STR+2−CON_t)//2 − ARM_t + 1..20 (contract R2.4; STR 20/18), all 36 guard rows are consistent. For killed guards, the hits before the kill stay below HP and the total can reach HP. For surviving guards, the HP loss lies in [Σmin, Σmax]: total 374 HP over 10 guard rows vs 466 expected mean.
+
+**Hit rate:**
+| char | n | hits | observed | Wilson 95 % | Clopper-Pearson 95 % | expected mean (E[hits]) | Poisson-binomial p (two-sided) |
+|---|---|---|---|---|---|---|---|
+| c0 | 120 | 111 | 0.925 | 0.864–0.960 | 0.862–0.965 | 0.932 (111.8 ± 2.7) | 0.71 |
+| c1 | 120 | 67 | 0.558 | 0.469–0.644 | 0.465–0.649 | 0.609 (73.1 ± 5.3) | 0.26 |
+
+**By expected-p band:** c0 85–89 %: 16/17 (exp 0.87); 90–94 %: 54/60 (0.92); 95–99 %: 41/43 (0.97). c1 55–59 %: 3/12 (0.57); 60–64 %: 64/108 (0.61).
+
+**By target:**
+| char | target | n | hits | expected | P(≤ hits) |
+|---|---|---|---|---|---|
+| c0 | 91 | 62 | 57 | 59.5 | 0.10 |
+| c0 | 90 | 49 | 46 | 44.5 | 0.84 |
+| c0 | 92 | 9 | 8 | 7.8 | 0.72 |
+| c1 | 91 | 51 | 30 | 32.0 | 0.33 |
+| c1 | 90 | 55 | 34 | 33.1 | 0.65 |
+| c1 | 92 | 14 | 3 | 8.0 | **0.007** (≈ 0.04 after Bonferroni over 6 cells) |
+
+**Per batch:** c0 hits 9,10,10,10,10,9,6,9,10,10,9,9. Batch g has 6/10 (P = 0.0015; dispersion χ² 27.5 on 12 batches). The misses in g have no splash pixels at all, and the guard HP fits. c1: dispersion χ² 7.0 (no overdispersion).
+
+**Identical saves (HZB = HZD = HZJ, HZC = HZE = HZG, HZH = HZI, HAD = HAE, HAH = HAJ):**
+- Every HZx except HZA differs from LEVELING only in bytes 48/49 = 0x4fca, the in-game tick counter inside the hour (MAIN 0x03faa). It shows 117–121 depending on the load→save time, so equal timing gives equal files. HZA (first load after boot) also had 72 more changed bytes, including the guards' level, AGI, CON and HP: the re-roll.
+- Re-roll source: EDPLT 0x0039a calls L_006ce when the party scene 0x4ef2 ≠ 0x4f06 (last scene seen). 0x4f06 is not in the save, so the re-roll runs once per session on the first entry into scene 21, not on every load (known from code, seen: HZA/XFERA re-rolled, HZB–L/XFERB did not). This corrects the earlier note "re-roll on every load".
+- **Independence:** the hit/miss sequences differ inside every identical-start group (b/d/j, c/e/g, h/i, d/e, h/j), and HY differs (e.g. guard 92 80 HP in HYD vs 64 in HYE). The roll RNG state is not in the save. Grouping the 12 batches into the 10 distinct HA states (cluster bootstrap over groups, 4000 draws): observed − expected c0 −0.007 (95 % −0.088 … +0.045), c1 −0.051 (−0.110 … +0.004). Same verdict.
+
+**Verdict:**
+- c0: **confirmed** (observed 92.5 % vs 93.2 %, p = 0.71; CI ±5 points).
+- c1: **confirmed overall** (55.8 % vs 60.9 %, p = 0.26). The sub-group c1 vs guard 92 (AGI_t 20 / 19) is **flagged, unknown**: 3/14, p = 0.007 uncorrected. No missed-splash evidence was found (guard 92 HP matches). Either chance, or a target/form effect for c1 on slot 2. Needs a dedicated sample.
+- FOOD-before-swing and the per-swing decrement: consistent (food A−Y = swings; the c0 bands track food).
+
+### 20.6 Limits
+- AGI_t varied only 18–20, LVL/AGI/skill were fixed, food 59–70. The formula's other terms (LVL, skill/5, the blind = 20 rule, ranged loc172) are not tested beyond these fixed values.
+- Kill-blow detection relies on 1-frame or missing splashes plus XP. The 3 no-splash kills are inferred.
+- Batch g's game-time palette change (from frame 692) did not affect splash detection (a hit at f744 was detected), but this was checked only in batch g.
+
+### 20.7 Code proposals
+None. Suggested follow-up: 100 c1 swings against slot 2 only (kill slots 0/1 first in a session, then save and reload with the same timing).
