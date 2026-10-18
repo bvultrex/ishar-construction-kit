@@ -54,3 +54,9 @@ Die Frame-Rückkehr endet als `frame-return` vor264C. Timerzähler und Anzahl ko
 Native Prüfung: `python scripts/check-native-script-diagnostic-file.py <capture> <lokales-Modul.IO> --frame-cycle`. Diese Option enthält Yield-Abschluss und Kontextauswahl. Ishar2 IO.IO besteht22 Schritte mit anschließendem wartendem Frame, echtem kontrolliertem Timer-IRQ, IRET und Frame-Rückkehr; Ishar1 PRESTI.IO besteht mit direkter Frame-Rückkehr ohne IRQ. Globale Vergleichsgrenze ist nun28BFh, vor dem folgenden Grafikcode im Realmode-Speicher.
 
 Browserprüfung am18.10.2026 bestanden: IO.IO erreicht nach22 Opcode-Schritten und den Fortsetzungsbuttons zunächst `frame-wait`. Ein kontrollierter IRQ erhöht den Timerzähler auf1. Erneute Frameprüfung erreicht `frame-return` vor264C und setzt den Zähler zurück auf0; die Diagnose zählt genau einen kontrollierten IRQ.
+
+## Kontextvorbereitung nach dem Frame (API/CLI)
+
+`prepareNativeScriptDiagnosticContext` setzt die Diagnose ab `frame-return` oder `context` fort. Nach dem Frame liest sie den originalen Wurzelpointer bei ES:[BX+SI], anschließend Aktivität/Countdown und Scan-Vorrang. Main führt zu `ready`, Skip zu `next-context`. Ein Null-Wurzelpointer bleibt0; fehlende Segmente und Scan-Callbacks werden unverändert angehalten. Der Oberflächenbutton dafür ist noch nicht angeschlossen.
+
+Prüfung: `python scripts/check-native-script-diagnostic-file.py <capture> <lokales-Modul.IO> --prepare-context`. Diese Option enthält den bisherigen Framezyklus. Ishar2 IO.IO und Ishar1 PRESTI.IO stimmen bis zum nächsten `next-context` nativ überein. Zusätzlich je216 isolierte native Schedulerfälle pro Spiel, darunter40 Main- und36 Scanpfade; Details und Grenzen in DOS_STARTUP.md. Kein vollständiger Scheduler oder Spielstart.

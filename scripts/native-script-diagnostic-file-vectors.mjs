@@ -1,6 +1,7 @@
 // Local original data is passed to the native checker only; never write this output into the repo.
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {prepareNativeScriptDiagnosticContext} from '../src/lib/ishar/native-script-diagnostic.ts';
 import {openNativeScriptDiagnostic,stepNativeScriptDiagnostic,finishNativeScriptDiagnosticYield,selectNextNativeScriptDiagnosticContext,runNativeScriptDiagnosticFrame,tickNativeScriptDiagnosticFrame} from '../src/lib/ishar/native-script-diagnostic.ts';
 const hash=v=>createHash('sha256').update(v).digest('hex'),bytes=new Uint8Array(readFileSync(process.argv[2]));
 let state=openNativeScriptDiagnostic(bytes);if(state.module.image.length>65536)throw Error('Native diagnostic file checker requires a single source segment');
@@ -12,7 +13,7 @@ for(let i=0;i<1000;i++){
  if(next.status==='yield'){boundary='yield';break;}
 }
 if(steps.length===1000)throw Error('Native file comparison exceeds host step bound');
-let continuation=null,selection=null,frameCycle=null;if(process.argv.includes('--finish-yield')){
+let continuation=null,selection=null,frameCycle=null,preparation=null;if(process.argv.includes('--finish-yield')){
  if(state.status!=='yield')throw Error('Yield continuation comparison requires an actual yield');
  const next=finishNativeScriptDiagnosticYield(state);if(!['callback','next-context'].includes(next.status))throw Error(next.message);
  continuation={status:next.status,si:next.si,dx:next.dx,cx:next.cx,contextHash:hash(next.memory),globalsHash:hash(next.globals.subarray(0,0x28c0))};
@@ -24,7 +25,11 @@ let continuation=null,selection=null,frameCycle=null;if(process.argv.includes('-
    const pack=s=>({status:s.status,globalsHash:hash(s.globals.subarray(0,0x28c0))});let frame=runNativeScriptDiagnosticFrame(selected);frameCycle={attempt:pack(frame),irq:null,returned:null};
    if(frame.status==='frame-wait'){const tick=tickNativeScriptDiagnosticFrame(frame);if(tick.status!=='frame-wait')throw Error(tick.message);frameCycle.irq=pack(tick);frame=runNativeScriptDiagnosticFrame(tick);}
    if(frame.status!=='frame-return')throw Error('Controlled comparison requires at most one timer IRQ');frameCycle.returned=pack(frame);
+   if(process.argv.includes('--prepare-context')){
+    const prepared=prepareNativeScriptDiagnosticContext(frame);if(!['ready','next-context'].includes(prepared.status))throw Error(prepared.message);
+    preparation={status:prepared.status,bp:prepared.bp,si:prepared.si,contextHash:hash(prepared.memory),globalsHash:hash(prepared.globals.subarray(0,0x28c0))};
+   }
   }
  }
 }
-console.log(JSON.stringify({sourceSha256:hash(bytes),initial,steps,boundary,nextOpcode:state.module.image[state.si],continuation,selection,frameCycle}));
+console.log(JSON.stringify({sourceSha256:hash(bytes),initial,steps,boundary,nextOpcode:state.module.image[state.si],continuation,selection,frameCycle,preparation}));

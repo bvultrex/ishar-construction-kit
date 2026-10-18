@@ -16,6 +16,7 @@ import {resumeOriginalDosScript} from './original-dos-script-resume.ts';
 import {selectOriginalDosNextContext} from './original-dos-next-context.ts';
 import {runOriginalDosIdleFrame} from './original-dos-frame-idle.ts';
 import {stepOriginalDosIdleTimerIrq} from './original-dos-idle-timer-irq.ts';
+import {prepareOriginalDosSchedulerBoundary} from './original-dos-scheduler-boundary.ts';
 export interface NativeScriptDiagnostic {module:AlisModule;memory:Uint8Array;globals:Uint8Array;bp:number;si:number;dx:number;cx:number;steps:number;timerIrqs:number;status:'ready'|'yield'|'callback'|'next-context'|'context'|'frame'|'frame-wait'|'frame-return'|'stopped';message:string}
 /** Editor-only controlled context. Does not alter the playtest or source file. */
 export function openNativeScriptDiagnostic(bytes:Uint8Array):NativeScriptDiagnostic{
@@ -60,6 +61,32 @@ export function tickNativeScriptDiagnosticFrame(state:NativeScriptDiagnostic):Na
  if(state.status!=='frame-wait')return state;
  try{const next=stepOriginalDosIdleTimerIrq(state.globals,0);return {...state,globals:next.memory,timerIrqs:state.timerIrqs+1,message:'Ein kontrollierter Timer-IRQ mit inaktiven Callbacks geprüft. Frame-Service erneut prüfen; keine automatische Fortsetzung.'};}
  catch(e){return {...state,status:'stopped',message:`Timer-IRQ unverändert angehalten: ${String(e)}`};}
+}
+/** Explicit264C/264F continuation. The diagnostic has only module4000 loaded.
+ * Stop before foreign segment reads or scan bodies; preserve the incoming state
+ * on unsupported addresses. A raw null root is passed through unchanged.
+ */
+export function prepareNativeScriptDiagnosticContext(state:NativeScriptDiagnostic):NativeScriptDiagnostic{
+ if(state.status!=='context'&&state.status!=='frame-return')return state;
+ const stop=(message:string):NativeScriptDiagnostic=>({...state,status:'stopped',message});
+ const word=(buf:Uint8Array,at:number)=>buf[at&65535]|(buf[(at+1)&65535]<<8);
+ const slot=word(state.globals,0xb02),at=(slot+state.si)&65535;
+ if(state.status==='frame-return'&&at===65535)return stop('Wurzelpointer überschreitet die unterstützte Segmentgrenze.');
+ const bp=state.status==='frame-return'?word(state.memory,at):state.bp;
+ if(state.module.image.length>65536)return stop('Kontextvorbereitung für Mehrsegmentmodule ist noch nicht angebunden.');
+ const flag=state.memory[(bp-36)&65535];
+ if((flag&128)!==0&&(flag&2)===0){
+  if(word(state.memory,bp-18)!==0x4000)return stop('Scanheader liegt in einem nicht geladenen Modulsegment.');
+  if(word(state.memory,bp-20)+12>state.module.image.length)return stop('Scanheader liegt außerhalb des geladenen Moduls.');
+ }
+ const module=new Uint8Array(65536);module.set(state.module.image);
+ try{
+  const next=prepareOriginalDosSchedulerBoundary(state.memory,module,state.globals,{bp:state.bp,si:state.si,bx:slot,ds:0x4000},state.status);
+  if(next.phase==='scan')return stop('Scan-Callback erreicht; seine Ausführung und Rückkehr sind noch nicht angebunden.');
+  if(next.ds!==0x4000)return stop('Fortsetzung benötigt ein nicht geladenes Modulsegment.');
+  if(next.phase==='main'&&next.si>=state.module.image.length)return stop('Fortsetzung liegt außerhalb des geladenen Moduls.');
+  return {...state,memory:next.context,globals:next.globals,bp:next.bp,si:next.si,status:next.phase==='skip'?'next-context':'ready',message:next.phase==='skip'?'Kontextvorbereitung beendet: Kontext übersprungen; nächste Grenze 0x2632.':'Hauptskript vorbereitet; nächster Einzelschritt am gespeicherten Skriptzeiger.'};
+ }catch(e){return stop(`Kontextvorbereitung unverändert angehalten: ${String(e)}`);}
 }
 export function stepNativeScriptDiagnostic(state:NativeScriptDiagnostic):NativeScriptDiagnostic{
  if(state.status!=='ready')return state;
