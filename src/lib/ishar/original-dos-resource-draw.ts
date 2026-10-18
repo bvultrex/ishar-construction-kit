@@ -13,10 +13,10 @@ export function prepareOriginalDosResourceDraw(source:Uint8Array,ss:number,input
  const operand=()=>{
   cx=dx;const tag=b(ds,si);si=u(si+1);let value:number;
   if(tag===0){value=b(ds,si);si=u(si+1);dx=value&128?value+65280:value;return dx;}
-  if(![2,6,8,30,32].includes(tag))throw Error(`Resource draw numeric tag${tag} is not reconstructed`);
-  const raw=w(ds,si);si=u(si+2);
+  if(![2,6,8,18,20,30,32].includes(tag))throw Error(`Resource draw numeric tag${tag} is not reconstructed`);
+  const short=tag===18||tag===20,raw=short?b(ds,si):w(ds,si);si=u(si+(short?1:2));
   if(tag===2)dx=raw;
-  else{const at=u((tag>=30?w(ss,0xbf6):bp)+raw);if(tag===8||tag===32)dx=w(es,at);else{value=b(es,at);dx=value&128?value+65280:value;}}
+  else{const at=u((tag>=30?w(ss,0xbf6):bp)+raw);if(tag===8||tag===20||tag===32)dx=w(es,at);else{value=b(es,at);dx=value&128?value+65280:value;}}
   return dx;
  };
  if(opcode!==-1){b(ss,0xc15,0);b(ss,0xc12,b(es,u(bp-3))^(opcode===167?1:0));}

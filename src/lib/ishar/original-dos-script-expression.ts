@@ -26,6 +26,10 @@ function evaluateExpressionCore(script:Uint8Array,context:Uint8Array,si:number,b
   if(si>=sourceLength)throw Error('Expression operand is truncated');
   if(call)cx=dx;
   const tag=script[si];
+  if(tag===100){
+   if(!nextGlobals)throw Error('Expression100 requires original RNG state');
+   si++;const seed=((nextGlobals[0xc4e]|nextGlobals[0xc4f]<<8)*0x7ab7+0xf881)&65535;nextGlobals[0xc4e]=seed&255;nextGlobals[0xc4f]=seed>>>8;dx=Math.floor(seed*dx/65536);return;
+  }
   if(tag===110){if(!input?.joystickQuery)throw Error('Expression110 requires original joystick query');si++;dx=input.joystickQuery(dx);return;}
   if(tag===160){if(!input?.driveQuery)throw Error('Expression160 requires explicit physical drive services');si++;dx=input.driveQuery(dx);return;}
   if(tag===118){if(!nextGlobals)throw Error('Expression118 requires original globals');si++;dx=input?.memoryQuery?input.memoryQuery(dx):queryOriginalDosMemoryValue(nextGlobals,dx);return;}

@@ -36,6 +36,7 @@ export function assignOriginalDosIndexedValue(source:Uint8Array,ss:number,regist
   else if([6,8,30,32].includes(tag)){const offset=nextWord(),base=tag>=30?w(ss,0xbf6):bp;dx=tag===6||tag===30?b(es,base+offset):w(es,base+offset);if((tag===6||tag===30)&&(dx&128))dx|=0xff00;}
   else if(tag===64){bx=u(bx-2);w(ss,bx,dx);}
   else if(tag===54){dx=cx;cx=w(ss,bx);bx=u(bx+2);}
+  else if(tag===100){const seed=u(w(ss,0xc4e)*0x7ab7+0xf881);w(ss,0xc4e,seed);dx=Math.floor(seed*dx/65536);}
   else if(tag===120)dx=queryOriginalDosModeValue(w(ss,0x2894));
   else if(tag===168)dx=w(ss,0xc9d);
   else if(tag===56){while(b(ds,si)!==58)operand(depth+1);si=u(si+1);}

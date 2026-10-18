@@ -1,3 +1,9 @@
+## Update: original RNG connected to physical expressions
+
+Operand100/ornd at1000:6D7B now updates the actual shared SS:C4E seed in physical cstore/evaluate execution, using the original unsigned multiply-high result. Zero bounds still advance the seed. New `check-native-dos-random-expression.py`:60 complete dispatch cases per game,120 total, passed including unsigned bounds32768/65535, seed edge cases, six script registers/SP and full memory except CPU stack scratch. Typecheck passed.
+
+Actual LOGO0099 completed its full graphics/VGA/frame-return chain. LOGO00A5 onward now executes73, three stores including the rnd4 expression, evaluate and branch against native memory/registers. A subsequent resource draw using short operand20 was reconstructed and passed the actual dispatch comparison. The next draw stops explicitly at expression operand56; no value is invented. Private continuation input `startup-logo-random-animation-object-ishar1-2026-10-18` is actually script-return26F7 (read metadata, not directory name). Next: connect expression operands in resource draw, then the audio boundary. No complete boot/browser claim.
+
 ## Milestone: actual mirrored LOGO frame completed
 
 Reconstructed original mirrored packed-pixel type0/type16 handlers0541/05AA and clipping helper038B. All2880 native fixture comparisons across Ishar1/2 passed; typecheck passed. Actual Ishar1 LOGO:0081 and008D/167 now run through full record processing, VGA presentation and saved frame return, without forced context state. Original indexed output/DAC preview visually checked. See `MIRRORED_NIBBLE_RENDER.md` for hashes, evidence boundaries and private continuation checkpoint. Next: LOGO0099 onward, random assignment and audio; full boot/browser integration remain open.
