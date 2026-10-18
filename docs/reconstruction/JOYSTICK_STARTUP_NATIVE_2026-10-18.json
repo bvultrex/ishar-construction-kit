@@ -1,0 +1,12 @@
+[
+  {
+    "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+    "caseCount": 40,
+    "verified": "Original 10CC..1136 plus 13F1..1423; full memory except stack FEF4..FEFF, AX/BX/CX/DX/SP and exact port trace; stable/change detection, four axes, both timeout phases. Controlled port replies, no concurrent interrupts."
+  },
+  {
+    "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+    "caseCount": 40,
+    "verified": "Original 10CC..1136 plus 13F1..1423; full memory except stack FEF4..FEFF, AX/BX/CX/DX/SP and exact port trace; stable/change detection, four axes, both timeout phases. Controlled port replies, no concurrent interrupts."
+  }
+]

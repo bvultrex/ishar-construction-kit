@@ -116,3 +116,5 @@ beides ist noch nicht vorhanden. Bis dahin offene/bestandene Abnahmen berichten.
 
 Diese Bestandsaufnahme ist ein Dokumentationsschritt, keine neue Runtimefunktion.
 Sie behauptet insbesondere keine aktuell neu getesteten Browser- oder Originalspielabläufe.
+
+2026-10-18: Joystick10CC..1136/13F1..1423 independently verified against both originals (80 cases); includes both timeout phases and partial failures. Contiguous prefix remains08FF until integration. Next0902..0953 and MAIN caller; full boot remains open.

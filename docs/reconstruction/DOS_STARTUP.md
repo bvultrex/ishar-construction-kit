@@ -2537,3 +2537,22 @@ check-native-dos-configuration-entry.py CAPTURE START.STP --blancpc BLANCPC.IO -
 Evidence: STARTUP_TIMER_IRQ_NATIVE_2026-10-18.json. Original files unchanged.
 Next08FF calls joystick initialization10CC, followed by remaining startup
 checks and MAIN connection. Full boot/visible game frame remain incomplete.
+
+
+### Joystick startup measurement (2026-10-18)
+
+`original-dos-joystick-startup.ts` reconstructs 1000:10CC..1136 and
+13F1..1423 with explicit finite port201 replies. The initial 201 samples
+check stable upper bits and button bits30. Each enabled axis has two
+65536-iteration timeout loops separated by an OUT201 charge operation.
+Successful axis1/2 measurements populate SS2886/2888; failures clear the
+corresponding enable byte288A/288B. Successful pairs OR C9D bits1/2.
+Partial measurements remain written when the following axis fails.
+
+Both original captures pass40 cases each, comparing full physical memory
+except FEF4..FEFF call-stack residue, AX/BX/CX/DX/SP and exact port traces.
+Evidence: JOYSTICK_STARTUP_NATIVE_2026-10-18.json. Reproduce with
+`check-native-dos-joystick-startup.py CAPTURE` and the existing Unicorn runtime.
+This routine is verified separately; the contiguous startup harness still
+stops at08FF. Next: connect this call, reconstruct0902..0953 and its memory
+failure branch, then connect the actual MAIN caller. No complete boot claim.
