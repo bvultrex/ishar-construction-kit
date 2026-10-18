@@ -2849,3 +2849,40 @@ only hashes and numeric evidence are committed. Next: continue3DE4's object,
 projection, record and pixel path on these correctly initialized states;
 reconstruct opcode106 forIshar1. IRQ delivery/palette progression, disk-space
 selectors and complete visible startup remain open.
+
+
+### Actual-startup object/projection and first64000-byte fill (2026-10-18)
+
+`check-native-dos-startup-pixels.py` resumes the two verified actual-startup
+3DE4 checkpoints without replacing pointers/registers. It compares visible
+owner738 preparation, record1332 projection36E1,40DC commit, the31-record
+object batch, pixel clipping/active traversal, graphics far dispatch and
+type1 fill06C2/02DD through return430A. Existing physical reconstruction
+helpers are reused; their vector runners now accept an optional stack-mask
+end, preserving old default behavior. All script registers, boundary BX/DI,
+SP and whole1MiB memory match at each stage except079E..07ED active CPU stack.
+The earlier07A0 limit missed the final deepest PUSH word079E; this is now
+explicitly masked. Entry register saves07EE..07FF remain compared.
+
+The actual graphics pipeline redirects this drawing to the original-selected
+EMS/render buffer E000:0000, while retaining pitch320. It does not draw this
+first rectangle directly to A000. Both states produce320x200 pixels,color1:
+64000 native writes to64000 distinct target addresses, independently matching
+the host fill and the same render-buffer hash. The former synthetic zero-pitch
+fixture repeatedly touched only320 addresses; that limitation is absent here.
+The A000 hash is also recorded, without claiming display/presentation.
+
+Evidence: STARTUP_FIRST_PIXELS_NATIVE_2026-10-18.json. Reproduce:
+`check-native-dos-startup-pixels.py PRIVATE_FIRST_VISIBLE_DIRECTORY`.
+Optional `--checkpoint-end PRIVATE_OUTPUT_DIRECTORY` exclusively exports the
+checked430A memory/CPU state outside the repository/input directory. Original
+pixels/code stay in private analysis outputs, never in committed artifacts.
+The existing native solid-fill regression and Typecheck pass.
+
+A separate native-only continuation probe (not yet a host-memory comparison)
+observes subsequent type1 records230/268 and then type16 at record306 with
+VGA format entry0553. Next: reconstruct/compare the post430A record traversal,
+these further solid records and the type16 pixel decoder, then presentation
+from the original render buffer to VGA. Only the first uniform rectangle is
+verified here; no complete displayed startup image is claimed. IRQ-driven
+palette processing and remaining Ishar1 opcode106 are still open.
