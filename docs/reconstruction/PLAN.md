@@ -34,6 +34,11 @@ Ein bestandener synthetischer Test beweist keine Original-Verhaltensgleichheit.
 
 ## Nächster konkreter Schritt
 
+Aktueller Grafikstand: TYPE20_BYTE_RENDER.md weist normalen Typ20 und die
+vollständige aktuelle Ishar1-LOGO-Pixelkette samt VGA-Kopie/Frame-Rückkehr nach.
+Nächster Befehl134 bei MAIN05CC; Farbausgabe erst nach originalem Palettepfad
+behaupten. Die folgenden offenen Grafikgrenzen sind historische Zwischenstände.
+
 Aktuellster Anschluss: PHYSICAL_CLIVE.md weist Opcode64 im echten post-LOGO-
 Zustand und fünf synthetischen Varianten nach. Die physische VM erreicht
 MAIN05AE. Jetzt Tastatur-/MAIN-Fortsetzung und Scheduler prüfen; die Loader-

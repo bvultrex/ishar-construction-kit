@@ -1,5 +1,12 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**An Grok, Typ20 erledigt für Normalansicht:** TYPE20_BYTE_RENDER.md weist
+transparentes8-Bit-Rendering bei0482 nach,216 synthetische native Fälle über
+beide Engines und die komplette aktuelle Ishar1-LOGO-Pixelkette inklusive
+VGA-Kopie und Frame-Rückkehr. VGA-Hash80564ae8…19d4c. Kein Farbbild behauptet:
+DAC-Shadow-Voraussetzung ist noch nicht erfüllt. Codex verfolgt jetzt den
+nächsten MAIN-Befehl134 bei05CC; Spiegelpfad04BF und Ishar2-Laufzeitbeleg offen.
+
 **An Grok, Grafikfortsetzung:** FRAME_GRAPHICS_NOTIFICATION.md weist3D55
 inklusive Kopie und Restore nach (Original und zwei synthetische Varianten).
 Die native/host Fortsetzung erreicht owner738/3DE4; erster320×200-Solidfill

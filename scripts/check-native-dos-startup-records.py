@@ -1,4 +1,4 @@
-"""Continue original-startup430A checkpoints through following solid/type16 records."""
+"""Continue original-startup430A through solid and normal type0/16/20 records."""
 import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
@@ -29,10 +29,10 @@ for path in paths:
   advanced=model('dos-pixel-record-next-vector.mjs',{'bx':cpu.reg_read(regs['bx']),'di':cpu.reg_read(regs['di']),'sp':cpu.reg_read(regs['sp'])});compare(0x1430a,advanced,0x10000+advanced['entry']);
   if advanced['phase']!='record':steps.append({'advance':advanced});break
   sprite=model('dos-sprite-blit-vector.mjs',{'di':advanced['di']});compare(0x10000+advanced['entry'],sprite,sprite['graphicsSegment']*16+sprite['entry'])
-  if sprite['phase']!='format' or sprite['type'] not in [0,1,16]:
+  if sprite['phase']!='format' or sprite['type'] not in [0,1,16,20] or sprite.get('mirror',0)!=0:
    assert a.stop_unsupported,('unsupported sprite boundary',sprite.get('phase'),sprite.get('type'),sprite.get('entry'))
    unsupported_type=sprite.get('type');steps.append({'advance':advanced,'sprite':sprite,'unsupportedFormat':unsupported_type});break
-  drawn=model('dos-solid-blit-vector.mjs' if sprite['type']==1 else 'dos-nibble-blit-vector.mjs',{'di':sprite['di']});writes=[0];target_base=drawn['destination']['segment']*16
+  drawn=model('dos-solid-blit-vector.mjs' if sprite['type']==1 else 'dos-byte-blit-vector.mjs' if sprite['type']==20 else 'dos-nibble-blit-vector.mjs',{'di':sprite['di']});writes=[0];target_base=drawn['destination']['segment']*16
   def write(uc,access,address,size,value,_):
    if target_base<=address<target_base+65536:writes[0]+=size
   h=cpu.hook_add(UC_HOOK_MEM_WRITE,write);compare(sprite['graphicsSegment']*16+sprite['entry'],drawn,0x10000+drawn['entry']);cpu.hook_del(h);assert writes[0]==drawn['pixelWrites'];steps.append({'advance':advanced,'sprite':sprite,'draw':drawn,'nativePixelWrites':writes[0]})
