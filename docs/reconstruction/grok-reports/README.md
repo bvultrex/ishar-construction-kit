@@ -13,10 +13,12 @@ Basis: `workbench/playable-slice` @ `bb42748` (Code-Stand `319819c`). Belegstatu
 | Quesh | [dataflow-ishar2.md](quesh/dataflow-ishar2.md) | Datenfluss-Matrix Ishar 2 | siehe Bericht |
 | Quesh | [pickup-contract-ishar2.md](quesh/pickup-contract-ishar2.md) / [.json](quesh/pickup-contract-ishar2.json) | Routinenvertrag Bodenaufnahme → Cursor → Slot | „confirmed“ (Contract status) |
 | Quesh | [combat-contract-ishar2.md](quesh/combat-contract-ishar2.md) / [.json](quesh/combat-contract-ishar2.json) | Kampfroutine (ENCB, ein Kill) | siehe Bericht |
-| Quesh | [combat-contract-ishar1.md](quesh/combat-contract-ishar1.md) / [.json](quesh/combat-contract-ishar1.json) | Kampfroutine Ishar 1 (Nachtrag) | siehe Bericht |
+| Quesh | [combat-contract-ishar1.md](quesh/combat-contract-ishar1.md) / [.json](quesh/combat-contract-ishar1.json) | Kampfroutine Ishar 1, mit Level-up (Nachtrag 4) | siehe Bericht |
 | Quesh | [hebel-tuer-trigger-ishar2.md](quesh/hebel-tuer-trigger-ishar2.md) | Hebel-/Tür-Triggerpfad | siehe Bericht |
 | Quesh | [tableau-editor.md](quesh/tableau-editor.md) | TABLEAU.IO Entwickler-Karteneditor | „Static only, no emulator runs“ |
 | Quesh | [zeit-ishar2.md](quesh/zeit-ishar2.md) | Zeit, Actor-Blickrichtung, Speichersperre Ishar 2 (Nachtrag) | siehe Bericht |
+| Quesh | [magic-contract-ishar2.md](quesh/magic-contract-ishar2.md) / [.json](quesh/magic-contract-ishar2.json) | Magiesystem Ishar 2 (Nachtrag 4) | siehe Bericht |
+| Quesh | [party-contract-ishar2.md](quesh/party-contract-ishar2.md) / [.json](quesh/party-contract-ishar2.json) | Party-Vertrag Ishar 2 (Nachtrag 4) | siehe Bericht |
 | Alderaan | [REFERENCES.md](alderaan/REFERENCES.md) | Reproduzierbare Originalreferenzen (Pickup, NPC, Shop, Mahlzeit) | siehe Bericht |
 | Hoth | [HOTH_ABNAHME_2026-10-18.md](hoth/HOTH_ABNAHME_2026-10-18.md) | Unabhängige Test- und Exportabnahme | siehe Bericht |
 | Hoth | [HOTH_DIAGNOSE_2026-10-18_ROTE_PRUEFER.md](hoth/HOTH_DIAGNOSE_2026-10-18_ROTE_PRUEFER.md) | Diagnose zweier roter Prüfer | siehe Bericht |

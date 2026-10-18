@@ -1,0 +1,631 @@
+{
+ "base": "bb42748",
+ "game": "ishar2-dos",
+ "files": {
+  "GESORT.IO": "71f842f2a804d80a",
+  "FRISE.IO": "27117c124caf904a",
+  "PARAM.IO": "d06a65de13628470",
+  "EATT.IO": "d5ef72a5b25eabb5",
+  "MAIN.IO": "bfab5e9175931dbb",
+  "SOURIS.IO": "78df7c73f8804663",
+  "PPECHAP.IO": "8d1c67dcccb139e3",
+  "TAVERNE.IO": "ea315973f2187950",
+  "MARCHAND.IO": "a5b84f95b8b50f1c",
+  "MESSAGEE.IO": "7ef08cd36e37d6a5",
+  "MESSAGED.IO": "94f80de429cc6284",
+  "BUSTE.IO": "8e6ff516cf14c472",
+  "START.SAV": "e685cd6902575392",
+  "LEVELING.SAV": "dac7e0a405fa442a"
+ },
+ "semantics": "op(opile)=popped OP acc; ornd n=(n*r)>>16; rng start.exe 1000:6d7b, always advances",
+ "mp": {
+  "var": "0x2eee[c] byte",
+  "save": "1321+c",
+  "range": "0..100",
+  "max_var": null,
+  "writers": {
+   "GESORT 0x00f3b": "cast cost",
+   "GESORT L_00d4e": "teleport ->1",
+   "TAVERNE 0x006d8-0x0070e": ">50 ->100 else +50",
+   "PPECHAP 0x00026-0x000b4": "+1 per 10 frames",
+   "FRISE 0x0227c": "recruit 100",
+   "FRISE 0x03e1d": "potion 1101/0 ->100",
+   "PARAM 0x0025e/0x0075d/0x00c68": "init 100"
+  },
+  "passive_regen": false,
+  "rating": "proven"
+ },
+ "stats": {
+  "WIS": "0x2ece save 1306+c",
+  "INT": "0x2ed6 save 1311+c",
+  "level": "0x2eb6 1291+c",
+  "class": "0x2e9e 1276+c",
+  "hp": "0x2d5c 996+2c",
+  "hpmax": "0x2d74 1016+2c",
+  "physical": "0x2ef6 1326+c",
+  "caster_flag": "0x5068 8034+c (-1 non-caster, FRISE 0x00b94)",
+  "rating": "proven"
+ },
+ "classes": {
+  "0": "Knight-errant",
+  "1": "Warrior",
+  "2": "Ranger",
+  "3": "Barbarian",
+  "4": "Thief",
+  "5": "Scholar",
+  "6": "Magician",
+  "7": "Archer",
+  "8": "Spy",
+  "9": "Priest",
+  "10": "Mercenary",
+  "11": "Beggar",
+  "12": "Murderer",
+  "13": "Priestess",
+  "15": "Hypnotist",
+  "16": "Witch",
+  "17": "Dark knight",
+  "18": "Occult monk",
+  "19": "Druid"
+ },
+ "access": {
+  "pc": "FRISE 0x061a4",
+  "rules": {
+   "6": {
+    "mask": 1,
+    "cap": "level",
+    "stat": "INT"
+   },
+   "5": {
+    "mask": 2,
+    "cap": "level",
+    "stat": "WIS"
+   },
+   "19": {
+    "mask": 4,
+    "cap": "level",
+    "stat": "WIS"
+   },
+   "0": {
+    "cond": "level>8",
+    "mask": 2,
+    "cap": 5,
+    "stat": "WIS"
+   },
+   "9": {
+    "cond": "level>2",
+    "mask": 2,
+    "cap": 5,
+    "stat": "WIS"
+   },
+   "13": {
+    "cond": "level>2",
+    "mask": 2,
+    "cap": 5,
+    "stat": "WIS"
+   },
+   "16": {
+    "cond": "level>0",
+    "mask": 1,
+    "cap": 5,
+    "stat": "INT"
+   },
+   "18": {
+    "cond": "level>2",
+    "mask": 1,
+    "cap": 5,
+    "stat": "INT"
+   },
+   "other": null
+  },
+  "rating": "proven"
+ },
+ "spell_table": {
+  "var": "0x4d20[k][minlvl,mask]",
+  "init": "PARAM 0x02406-0x0277c",
+  "k30_40": "uninitialised=0, never learnt",
+  "spells": {
+   "1": {
+    "name": "Healing",
+    "name_rating": "hypothesis",
+    "minlvl": 1,
+    "mask": 6,
+    "effect": "level x (hp+=rnd(2p+2)+1, cap 0x2d74)"
+   },
+   "2": {
+    "name": "Physical protection",
+    "name_rating": "hypothesis",
+    "minlvl": 3,
+    "mask": 3,
+    "effect": "0x2e56[t]=25+5p icon2"
+   },
+   "3": {
+    "name": "Psychic protection",
+    "name_rating": "hypothesis",
+    "minlvl": 4,
+    "mask": 1,
+    "effect": "0x2e7a[t]=25+5p icon3"
+   },
+   "4": {
+    "name": "Resurrection",
+    "name_rating": "hypothesis",
+    "minlvl": 15,
+    "mask": 2,
+    "effect": "HP=1, XP 0x2d50=0, csend FRISE 32"
+   },
+   "5": {
+    "name": "Global psychic protection",
+    "name_rating": "hypothesis",
+    "minlvl": 8,
+    "mask": 1,
+    "effect": "all alive 0x2e7a=12+5p"
+   },
+   "6": {
+    "name": "Global physical protection",
+    "name_rating": "hypothesis",
+    "minlvl": 6,
+    "mask": 3,
+    "effect": "all alive 0x2e56=12+5p"
+   },
+   "7": {
+    "name": "Metamorphosis",
+    "name_rating": "hypothesis",
+    "minlvl": 12,
+    "mask": 1,
+    "effect": "csend BUSTE -101"
+   },
+   "8": {
+    "name": "Fire protection",
+    "name_rating": "hypothesis",
+    "minlvl": 7,
+    "mask": 4,
+    "effect": "all 0x2faa=25+5p icon8"
+   },
+   "9": {
+    "name": "Specific care: blindness",
+    "name_rating": "hypothesis",
+    "minlvl": 7,
+    "mask": 6,
+    "effect": "0x2e86=0"
+   },
+   "10": {
+    "name": "Specific care: poison",
+    "name_rating": "hypothesis",
+    "minlvl": 9,
+    "mask": 6,
+    "effect": "0x2e92=0"
+   },
+   "11": {
+    "name": "Turn undead",
+    "name_rating": "hypothesis",
+    "minlvl": 12,
+    "mask": 1,
+    "effect": "if 0x45e8!=0: 0x3946=100p/3"
+   },
+   "12": {
+    "name": "Paranormal detection",
+    "name_rating": "hypothesis",
+    "minlvl": 10,
+    "mask": 2,
+    "effect": "msg 53/55/54"
+   },
+   "13": {
+    "name": "Exorcism",
+    "name_rating": "hypothesis",
+    "minlvl": 11,
+    "mask": 2,
+    "effect": "zone curse flag=1, 0x2fb6=0, msg 56"
+   },
+   "14": {
+    "name": "Memo-telep",
+    "name_rating": "hypothesis",
+    "minlvl": 12,
+    "mask": 1,
+    "effect": "anchor 4fd1/5074/5075/5076, p=2"
+   },
+   "15": {
+    "name": "Teleportation",
+    "name_rating": "hypothesis",
+    "minlvl": 14,
+    "mask": 1,
+    "effect": "jump to anchor; caster MP/phys/HP=1"
+   },
+   "16": {
+    "name": "Change of timescale",
+    "name_rating": "hypothesis",
+    "minlvl": 13,
+    "mask": 1,
+    "effect": "0x2e6e[0]=200p -> PPECHAP"
+   },
+   "17": {
+    "name": "Telepathic reconnaissance",
+    "name_rating": "hypothesis",
+    "minlvl": 12,
+    "mask": 2,
+    "effect": "show HP/AGI/STR/CON"
+   },
+   "18": {
+    "name": "Magic key",
+    "name_rating": "hypothesis",
+    "minlvl": 11,
+    "mask": 1,
+    "effect": "material 66 -> 0x4aa4[8]=1; 67 -> PCAVE 19, 0x4aa4[29]=1"
+   },
+   "19": {
+    "name": "Sleep",
+    "name_rating": "hypothesis",
+    "minlvl": 5,
+    "mask": 1,
+    "effect": "if 0x45e8==0: 0x3a24=83p/3"
+   },
+   "20": {
+    "name": "Inversion",
+    "name_rating": "hypothesis",
+    "minlvl": 14,
+    "mask": 3,
+    "effect": "toggle 0x3b02[id] / 0x2e4a[t]"
+   },
+   "21": {
+    "name": "Spiritual hammer",
+    "name_rating": "hypothesis",
+    "minlvl": 6,
+    "mask": 2,
+    "effect": "dmg k=2"
+   },
+   "22": {
+    "name": "Flaming hand",
+    "name_rating": "hypothesis",
+    "minlvl": 6,
+    "mask": 1,
+    "effect": "dmg k=2"
+   },
+   "23": {
+    "name": "Blinding",
+    "name_rating": "hypothesis",
+    "minlvl": 7,
+    "mask": 6,
+    "effect": "if 0x45e8==0: 0x3be0=100p/3"
+   },
+   "24": {
+    "name": "Fireball",
+    "name_rating": "hypothesis",
+    "minlvl": 1,
+    "mask": 1,
+    "effect": "dmg k=1"
+   },
+   "25": {
+    "name": "Lightning",
+    "name_rating": "hypothesis",
+    "minlvl": 8,
+    "mask": 1,
+    "effect": "area k=2"
+   },
+   "26": {
+    "name": "Paralysis",
+    "name_rating": "hypothesis",
+    "minlvl": 10,
+    "mask": 3,
+    "effect": "if 0x45e8==0: 0x3946=100p/3"
+   },
+   "27": {
+    "name": "Spirit of flame",
+    "name_rating": "hypothesis",
+    "minlvl": 16,
+    "mask": 1,
+    "effect": "dmg k=4"
+   },
+   "28": {
+    "name": "Fire-storm",
+    "name_rating": "hypothesis",
+    "minlvl": 15,
+    "mask": 1,
+    "effect": "area k=4"
+   },
+   "29": {
+    "name": "Ice-cloud",
+    "name_rating": "hypothesis",
+    "minlvl": 8,
+    "mask": 1,
+    "effect": "dmg k=4 marker -2"
+   }
+  },
+  "manual_contradiction": "12 is mask 2 (scholar), manual says magician",
+  "rating": "proven"
+ },
+ "learning": {
+  "pc": "FRISE L_060d4 (trigger 0x2d50!=dirti 0xf6)",
+  "rule": "clear 0x2f18[c][0..26]; for k 0..40 if mask&cm && minlvl<=level && minlvl<=cap -> next slot: 0x2f18=k, 0x4fde=(level-minlvl)/3+1",
+  "buying": "none (MARCHAND/TAVERNE never write)",
+  "debug": "PARAM 0x005e1 0x4ef3==1 -> char2 spells 1..27",
+  "validation": "4740 records / 257 saves MATCH",
+  "save": {
+   "spells": "1341+27c+s",
+   "power": "7899+27c+s"
+  },
+  "rating": "proven"
+ },
+ "input": {
+  "mouse": "main 0x76 x,0x78 y(script),0x7a button 1=L 2=R",
+  "screen_y": "199-script_y (hypothesis-strong)",
+  "open_panel": "script y 62..73, ix=x/16, c=ix/4, ix%4==3 toggles 0x4f0a[c] 3/0 if 0x5068!=-1",
+  "grid": "script y 17..61; col=(x-64c)/16; row=2-(y-17)/15; slot=3row+col; spell=0x2f18[c][9page+slot]; col3 row0 page-1, row1 page+1",
+  "screen": {
+   "dot": "(64c+56,131)",
+   "slot": "(64c+16k+8, 145|160|175)",
+   "prev": "(64c+56,145)",
+   "next": "(64c+56,160)",
+   "party_target": "(64t+32,160)"
+  },
+  "keyboard": "none (hypothesis)",
+  "rating": "proven (script coords)"
+ },
+ "cast": {
+  "pc": "GESORT L_0060f",
+  "gate": "MP>0 only, no MP>=cost check",
+  "power": "0x4fde[c][slot]",
+  "stat": "INT cls 6/16/18 else WIS",
+  "cost": "L_00f3b MP=max(0,MP0-3p)",
+  "target": "L_01026: cursor -6; L click script y<71 -> party x/64; R cancel; else ctstform -> 0x4a00 entity, 0x4a02 material(1=actor), id=entity+0x0d; no range check",
+  "cost_cases": {
+   "success_only": [
+    1,
+    2,
+    3,
+    4,
+    9,
+    10
+   ],
+   "even_if_immune": [
+    11,
+    19,
+    23,
+    26
+   ],
+   "even_if_cancelled": [
+    20
+   ],
+   "before_effect": [
+    16,
+    18
+   ],
+   "teleport": "only if anchor reachable",
+   "memo": "p forced 2 -> 6"
+  },
+  "rating": "proven"
+ },
+ "damage": {
+  "pc": "GESORT L_00f11",
+  "formula": "((k+p)*(rnd(MP/10)+rnd(stat*5/10)))/4",
+  "k": {
+   "21": 2,
+   "22": 2,
+   "24": 1,
+   "27": 4,
+   "29": 4,
+   "25": 2,
+   "28": 4
+  },
+  "rng_order": [
+   "rnd(MP/10)",
+   "rnd(stat*5/10)"
+  ],
+  "rng_before_target": true,
+  "single": "L_00fc5 material==1 && 0x418c!=marker(-1;-2 for 29): HP 0x36ac-=dmg, no armour",
+  "area": "L_010c3 ids 50..109, 0x418c!=-1, HP>0, 0x449a==0x4ef2, |dr|<3,|dc|<3, 0x43ba<0; dmg-=0x418c cumulative; then 0x3a24=0",
+  "kill": "ckill + csend FRISE 29 -> L_057ef; killer xp slot = FRISE dirb13 (open)",
+  "rating": "proven"
+ },
+ "timers": {
+  "party": {
+   "decrement": "FRISE 0x0717f-0x072c1, -1 per 10 interrupt passes",
+   "vars": {
+    "0x2e56": [
+     1216,
+     2
+    ],
+    "0x2e26": [
+     1186,
+     26
+    ],
+    "0x2e86": [
+     1256,
+     23
+    ],
+    "0x2e62": [
+     1226,
+     98
+    ],
+    "0x2e7a": [
+     1246,
+     3
+    ],
+    "0x2faa": [
+     1481,
+     8
+    ]
+   },
+   "untimed": {
+    "0x2e4a": 1206,
+    "0x2fb6": 1491,
+    "0x2e92": 1266
+   },
+   "poison": "every 251 FRISE main passes HP-=0x2e92 (0x00a02-0x00a70)"
+  },
+  "actor": {
+   "decrement": "EATT 0x0024f-0x002a2 first nonzero of 3946->3a24->3be0, window 10 actors/pass (DOS), 1 per 6 passes",
+   "save": {
+    "0x3946": 3921,
+    "0x3a24": 4141,
+    "0x3b02": 4361,
+    "0x3be0": 4581
+   }
+  },
+  "fps": "~23.3 (hypothesis per-frame pass)",
+  "example": "spell2 p1: 300 frames ~12.9s",
+  "rating": "proven (counts), hypothesis (seconds)"
+ },
+ "monster_cast": {
+  "pc": "EATT L_00e6d/L_00f25/L_01024/L_01149",
+  "who": "hostile cls 0x3cbe in {5,6,9,16,18}, cooldown<=0, range<3 (<4 CONT5/6/7), same row/col",
+  "hit": "rnd(80)<10L (95 vs 0x2e26)",
+  "choice": "0x426e[id][rnd(3)] save 6231+3id, reroll 21/22",
+  "effects": {
+   "20": "0x2e4a=1",
+   "23": "0x2e86=3L",
+   "26": "0x2e26=3L",
+   "24": "rnd(L)+10",
+   "27": "rnd(3L)+10",
+   "25": "all rnd(4L)+10"
+  },
+  "mods": "0x2e7a blocks 20/23/26; 0x2e62 blocks dmg; 0x2faa /5; -ARM/2 (not 25); /2 0x2e56",
+  "cooldown": "(1000/4)/(L+1)",
+  "rating": "proven"
+ },
+ "save": {
+  "anchor": {
+   "0x4fd1": 58,
+   "0x5074": 60,
+   "0x5075": 62,
+   "0x5076": 64
+  },
+  "curse": {
+   "0x50a6": 72,
+   "0x50a7": 74,
+   "0x50b5": 84
+  },
+  "icons": "0x4b88 7579+10c+k",
+  "timescale": "0x2e6e[0] 1236",
+  "actor": {
+   "hp": "3261+2id",
+   "undead_45e8": "6891+2id",
+   "arm_418c": "6011+id",
+   "rel_43ba": "6561+id",
+   "zone_449a": "6781+id"
+  },
+  "not_saved": [
+   "0x4f0a",
+   "GESORT dirtc 0x22 page",
+   "FRISE dirti 0xf6",
+   "rng"
+  ],
+  "runtime_pairs": "none found"
+ },
+ "tests": {
+  "T1": {
+   "save": "START.SAV",
+   "clicks": [
+    [
+     248,
+     131
+    ],
+    [
+     200,
+     145
+    ],
+    [
+     32,
+     160
+    ]
+   ],
+   "expect": {
+    "1324": "100->97",
+    "1216-1217": "1..30 if saved <10s, 0 after >20s",
+    "7579-7588": "one byte=2 while active",
+    "icon_life": "~300 frames"
+   },
+   "followup": {
+    "clicks": [
+     [
+      216,
+      145
+     ],
+     [
+      96,
+      160
+     ]
+    ],
+    "expect": {
+     "1248-1249": 30,
+     "1324": 94
+    }
+   },
+   "rng": 0,
+   "rating": "hypothesis (prediction)"
+  },
+  "T2": {
+   "save": "LEVELING.SAV",
+   "clicks": [
+    [
+     312,
+     131
+    ],
+    [
+     264,
+     145
+    ],
+    [
+     32,
+     160
+    ]
+   ],
+   "expect": {
+    "996-997": "235->240",
+    "1325": "100->94"
+   },
+   "rng": 6,
+   "rating": "hypothesis (prediction, deterministic)"
+  },
+  "T3": {
+   "save": "LEVELING.SAV",
+   "clicks": [
+    [
+     184,
+     131
+    ],
+    [
+     184,
+     160
+    ],
+    [
+     168,
+     160
+    ]
+   ],
+   "expect": {
+    "1323": "100->88",
+    "actors_90_95": "same HP loss D=floor(6s/4), s 0..16",
+    "actors_96_101": "unchanged"
+   },
+   "variant_fireball": {
+    "clicks": [
+     [
+      184,
+      131
+     ],
+     [
+      184,
+      160
+     ],
+     [
+      152,
+      160
+     ],
+     "guard sprite"
+    ],
+    "expect": "one guard -2s (0..32 even), MP 79"
+   },
+   "procedure": "load, save A, clicks, save B, diff A->B",
+   "rating": "hypothesis (prediction)"
+  }
+ },
+ "open": [
+  "FRISE/EATT pass rate per frame",
+  "screen y flip 1px",
+  "killer xp slot for spell kills",
+  "0x418c marker / 0x45e8 undead meaning",
+  "materials 66/67 doors",
+  "0x2e62 writer",
+  "BUSTE -101 visual",
+  "MP 54->67 unexplained",
+  "no runtime cast diff"
+ ]
+}
