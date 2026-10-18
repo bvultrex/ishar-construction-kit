@@ -13,7 +13,8 @@ import {branchOriginalDosScriptConditional} from './original-dos-script-conditio
 import {findOriginalDosContextsByModule} from './original-dos-context-query.ts';
 import {activateOriginalDosScriptContext} from './original-dos-context-active.ts';
 import {resumeOriginalDosScript} from './original-dos-script-resume.ts';
-export interface NativeScriptDiagnostic {module:AlisModule;memory:Uint8Array;globals:Uint8Array;bp:number;si:number;dx:number;cx:number;steps:number;status:'ready'|'yield'|'callback'|'next-context'|'stopped';message:string}
+import {selectOriginalDosNextContext} from './original-dos-next-context.ts';
+export interface NativeScriptDiagnostic {module:AlisModule;memory:Uint8Array;globals:Uint8Array;bp:number;si:number;dx:number;cx:number;steps:number;status:'ready'|'yield'|'callback'|'next-context'|'context'|'frame'|'stopped';message:string}
 /** Editor-only controlled context. Does not alter the playtest or source file. */
 export function openNativeScriptDiagnostic(bytes:Uint8Array):NativeScriptDiagnostic{
  const module=readAlisModule(bytes),context=createOriginalDosScriptContext(new Uint8Array(65536),module.image,0,0x4000,0x100,6,0x200,0x5000,65535);
@@ -35,6 +36,14 @@ export function finishNativeScriptDiagnosticYield(state:NativeScriptDiagnostic):
  const next=resumeOriginalDosScript(state.memory,module,new Uint8Array(65536),state.bp,state.si,snapshot,objectSegment),globals=state.globals.slice();
  for(const [address,value] of Object.entries(next.globals)){const at=Number(address);globals[at]=value&255;if(at!==0xc19)globals[at+1]=value>>>8;}
  return {...state,memory:next.memory,globals,si:next.si,status:next.phase==='callback'?'callback':'next-context',message:next.phase==='callback'?'Skriptzeiger gespeichert. Rückkehr-Callback erreicht; dessen Ausführung ist hier noch nicht angebunden.':'Skriptzeiger gespeichert und Countdown neu geladen. Nächste Originalgrenze: Kontextauswahl 0x2632; diese wird hier noch nicht ausgeführt.'};
+}
+/** Native2632 selection only, ending before264F preparation or2649 frame CALL. */
+export function selectNextNativeScriptDiagnosticContext(state:NativeScriptDiagnostic):NativeScriptDiagnostic{
+ if(state.status!=='next-context')return state;
+ const word=(at:number)=>state.globals[at]|(state.globals[at+1]<<8);
+ const next=selectOriginalDosNextContext(state.memory,word(0xbd2),word(0xb02),state.bp),globals=state.globals.slice();
+ globals[0xb02]=next.slot&255;globals[0xb03]=next.slot>>>8;
+ return {...state,globals,bp:next.bp,si:next.si,status:next.phase,message:next.phase==='frame'?'Kein weiterer Kontext verknüpft. Originalgrenze vor Frame-Service (0x2649); der Frame wird hier noch nicht ausgeführt.':'Nächster Kontext ausgewählt. Originalgrenze vor Scan-/Main-Vorbereitung (0x264F); noch keine Skriptausführung.'};
 }
 export function stepNativeScriptDiagnostic(state:NativeScriptDiagnostic):NativeScriptDiagnostic{
  if(state.status!=='ready')return state;
