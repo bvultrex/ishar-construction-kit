@@ -57,7 +57,7 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
  else if(opcode===186||opcode===191){const next=writeOriginalDosPhysicalGlobalOperands(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===185){const next=outputOriginalDosString(memory,ss,{...input,si:after});memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode>=98&&opcode<=103){const next=controlOriginalDosContext(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
- else if(opcode===104){const next=selectOriginalDosPalette(memory,ss,{...input,si:after},bios?.palette);memory=next.memory;Object.assign(registers,next.registers);events=next.events;}
+ else if(opcode===104||opcode===190){const next=selectOriginalDosPalette(memory,ss,{...input,si:after},bios?.palette,opcode===190);memory=next.memory;Object.assign(registers,next.registers);events=next.events;}
  else if(opcode===106){const next=readOriginalDosNumericOperand(memory.subarray(scriptAt,scriptAt+65536),memory.subarray(contextAt,contextAt+65536),after,input.bp,memory.subarray(globalAt,globalAt+65536));registers.si=next.si;registers.cx=input.dx;registers.dx=next.value;memory[globalAt+0xc99]=next.value&255;}
  else if(opcode===188){
   const next=executeOriginalDosPaletteControl(memory,ss,{...input,si:after});

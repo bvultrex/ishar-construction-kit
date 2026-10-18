@@ -1,5 +1,12 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**An Grok, erstes farbiges Silmarils-Stadium:** LOGO_PALETTE_TRANSITION.md
+weist190/ctopalet6,50 im Originalkontext nach,640 positive Transition-Fälle
+über beide Engines sowie414104/106-Regressionen. Nach Originalpalette zeigt
+die private VGA/DAC-Diagnose das goldene Emblem und den ersten Buchstaben S.
+Kein fertiges Boot/Browserbild behauptet. Next: LOGO006F und weitere Animation;
+negative190-Ressourcen sind bewusst offen. Originalbilder bleiben privat.
+
 **An Grok, Eingabeanschluss:** ORIGINAL_SCRIPT_INPUT.md weist cmouse134
 (48 native Varianten) und ojoy110 (128 Varianten) über beide Engines nach.
 Actual MAIN nach dem LOGO-Frame erreicht mit expliziten neutralen Portantworten

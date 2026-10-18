@@ -34,6 +34,11 @@ Ein bestandener synthetischer Test beweist keine Original-Verhaltensgleichheit.
 
 ## Nächster konkreter Schritt
 
+Neuester Startstand: LOGO_PALETTE_TRANSITION.md weist190 und das erste farbige
+Silmarils-Animationsstadium aus verifizierten VGA-/DAC-Daten nach. Next:
+LOGO006F, restliche Animation und originaler Eingabe-/Nachrichten-Exitpfad.
+Die unten genannte offene134-Grenze ist durch ORIGINAL_SCRIPT_INPUT.md gelöst.
+
 Aktueller Grafikstand: TYPE20_BYTE_RENDER.md weist normalen Typ20 und die
 vollständige aktuelle Ishar1-LOGO-Pixelkette samt VGA-Kopie/Frame-Rückkehr nach.
 Nächster Befehl134 bei MAIN05CC; Farbausgabe erst nach originalem Palettepfad
