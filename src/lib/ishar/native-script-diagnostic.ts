@@ -18,6 +18,7 @@ import {runOriginalDosIdleFrame} from './original-dos-frame-idle.ts';
 import {stepOriginalDosIdleTimerIrq} from './original-dos-idle-timer-irq.ts';
 import {prepareOriginalDosSchedulerBoundary} from './original-dos-scheduler-boundary.ts';
 import {writeOriginalDosOpcode186} from './original-dos-script-opcode186.ts';
+import {assignOriginalDosScriptValue} from './original-dos-script-assignment.ts';
 export interface NativeScriptDiagnostic {module:AlisModule;memory:Uint8Array;globals:Uint8Array;bp:number;si:number;dx:number;cx:number;steps:number;timerIrqs:number;status:'ready'|'yield'|'callback'|'next-context'|'context'|'frame'|'frame-wait'|'frame-return'|'stopped';message:string}
 /** Editor-only controlled context. Does not alter the playtest or source file. */
 export function openNativeScriptDiagnostic(bytes:Uint8Array):NativeScriptDiagnostic{
@@ -128,6 +129,10 @@ export function stepNativeScriptDiagnostic(state:NativeScriptDiagnostic):NativeS
   if(!length)return stop(`Aktivierungsoperand-Tag ${tag} ist noch nicht angebunden. Befehl unverändert angehalten.`);
   if(state.si+1+length>state.module.image.length)return stop('Aktivierungsoperand ist im Modul abgeschnitten.');
   const script=new Uint8Array(65536);script.set(state.module.image);const next=activateOriginalDosScriptContext(script,memory,globals,after,state.bp);memory=next.memory;si=next.si;cx=dx;dx=next.dx;
+ }else if(opcode===30){
+  const script=new Uint8Array(65536);script.set(state.module.image);
+  try{const next=assignOriginalDosScriptValue(script,memory,globals,after,state.bp,dx,state.module.image.length);memory=next.memory;globals=next.globals;si=next.si;dx=next.dx;cx=next.cx;}
+  catch(e){return stop(`Zuweisung unverändert angehalten: ${String(e)}`);}
  }else if(opcode===31){
   const script=new Uint8Array(65536);script.set(state.module.image);
   try{const next=evaluateOriginalDosScriptExpression(script,memory,after,state.bp,dx,state.module.image.length,globals);si=next.si;dx=next.dx;cx=next.cx;}

@@ -72,3 +72,9 @@ Prüfung: `python scripts/check-native-script-diagnostic-file.py <capture> <loka
 Opcode31 unterstützt nun zusätzlich30 (signiertes Kontextbyte) und32 (Kontextwort) relativ zur tatsächlichen Basis aus SS:0BF6, jeweils plus16-Bit-Literaloffset. Diese Formen benötigen ausdrücklich das Globalsegment; BP oder0 werden nicht als Ersatz verwendet. Je4752 native Fälle pro Spiel bestanden. Die anderen Zahlenoperanden verwendenden Diagnose-Opcodes behalten vorerst ihre bisherigen Tagfreigaben.
 
 Der kontrollierte Ishar2-`--resume-main`-Test erreicht jetzt186,31 und20 nach dem Frame, anschließend Opcode30 bei SI00C5h. Ishar1 PRESTI.IO erreicht weiterhin den zweiten Yield. Die echte Initialisierung der globalen Kontextbasis ist damit noch nicht rekonstruiert.
+
+## Opcode30: Zuweisung und Literalstring
+
+30 unterstützt die bereits erschlossene numerische Ausdrucksteilmenge mit direkten Byte-/Wortzielen sowie Literalstrings4 und Stringziel34 relativ zu SS:0BF6. Die Originalfolge Literalpuffer schreiben,0C58/0C5C tauschen und in das Kontextsegment kopieren bleibt erhalten. Fehlende Terminatoren und überschrittene Hostfenster halten unverändert an. Weitere Stringformen und Segmentüberlappungen bleiben offen.
+
+Je148 native Vergleichsfälle pro Spiel bestanden;192 bestehende Ergebnisfälle pro Spiel bestehen erneut. Der kontrollierte Ishar2-Main-Test erreicht nach dem Frame nun186,31,20,30 und hält bei SI00D3h vor einem weiteren Ausdruck in31. Ishar1 erreicht unverändert seinen zweiten Yield. Noch keine vollständige String- oder Skript-VM.
