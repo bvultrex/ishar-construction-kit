@@ -44,3 +44,9 @@ Der nächste Schritt soll wieder an Ishars konkreten Dateiaufrufen ansetzen: der
 `original-dos-file-open.ts` rekonstruiert inzwischen1F97 samt Such-/Anlege-/Öffnungs-/Seekzweigen und Laufwerksfallback mit ausdrücklich gelieferten DOS-Antworten. Je280 native Fälle beider Spiele vergleichen Requests, Register, Globalfelder und Fehlerstack. Die kontrollierte DOS-Grenze führt keinerlei echte Dateioperationen aus. Auch der MAIN-Headernachweis enthält jetzt den Original-Öffnungsaufruf und vergleicht anschließend beide Reads sowie alle Tabellenfelder im selben CPU-Zustand (je8 Fälle).
 
 Dies schließt eine konkrete Engine-Lücke, ohne den noch offenen DTA-/Dateisystemzustand durch einen vermeintlich originalen Hostdienst zu ersetzen. Details und verbleibende Grenzen stehen in DOS_STARTUP.md.
+
+## Transfer- und Schließhelfer
+
+`original-dos-file-io.ts` ergänzt die rekonstruierten Enginehelfer für Lesen, Schreiben und Schließen. Je2160 native Fälle pro Spiel prüfen kurze Transfers ohne Nachlesen/Auffüllen, ausdrückliche Speicherwirkungen, Segmentalias, Fehlercodes13/7/14, Stack und Rückkehr-Carry. Ein erfolgreicher Close kann wegen des abschließenden Flagvergleichs CF1 liefern; das Modell trennt Carry vom tatsächlichen Fehlerpfad.
+
+Die MAIN-Prüfung komponiert jetzt die Host-Lesehelfer mit dem Öffnungshelfer und vergleicht vor der Tabellenberechnung das gesamte kontrollierte Globalsfenster. Originaldateien bleiben schreibgeschützt. Externe Dateiinhalte, DTA, Laufwerkszustand und tatsächliche DOS-Schreibwirkungen sind weiterhin Sache eines noch anzubindenden Plattformdienstes.
