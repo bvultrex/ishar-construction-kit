@@ -1,9 +1,9 @@
 import {readOriginalDosNumericOperand} from './original-dos-numeric-operand.ts';
-/** Opcode31 ->2937/69A9; numeric forms0/2/6/8, loop56/end58, comparisons74..84.
+/** Opcode31 ->2937/69A9; numeric forms0/2/6/8/30/32, loop56/end58, comparisons74..84.
  * Shared DX/CX follow native calls, including nested operands; no JavaScript coercion.
  * DF0, bounded source, disjoint context. Limits are host safeguards, not native checks.
  */
-export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Uint8Array,si:number,bp:number,initialDx:number,sourceLength=65536){
+export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Uint8Array,si:number,bp:number,initialDx:number,sourceLength=65536,globals?:Uint8Array){
  if(script.length!==65536||context.length!==65536||![si,bp,initialDx].every(v=>Number.isInteger(v)&&v>=0&&v<=65535))throw Error('Invalid native expression inputs');
  let dx=initialDx,cx=initialDx,tokens=0;
  if(!Number.isInteger(sourceLength)||sourceLength<1||sourceLength>65536)throw Error('Invalid native expression source length');
@@ -13,7 +13,7 @@ export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Ui
   if(si>=sourceLength)throw Error('Expression operand is truncated');
   if(call)cx=dx;
   const tag=script[si];
-  if([0,2,6,8].includes(tag)){if(si+(tag===0?2:3)>sourceLength)throw Error('Expression operand is truncated');const next=readOriginalDosNumericOperand(script,context,si,bp);si=next.si;dx=next.value;return;}
+  if([0,2,6,8,30,32].includes(tag)){if(si+(tag===0?2:3)>sourceLength)throw Error('Expression operand is truncated');const next=readOriginalDosNumericOperand(script,context,si,bp,globals);si=next.si;dx=next.value;return;}
   if(tag===56){
    si++;if(si>=65536)throw Error('Expression crosses host source window');
    while(true){

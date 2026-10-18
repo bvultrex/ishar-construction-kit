@@ -66,3 +66,9 @@ Prüfung: `python scripts/check-native-script-diagnostic-file.py <capture> <loka
 186 liest fünf Zahlenoperanden (Formen0/2/6/8) und schreibt fünf globale Rohfelder mit den originalen Wort-/Bytebreiten. Die Feldzwecke bleiben unbenannt. Je4096 native Vergleiche pro Spiel bestanden; unbekannte oder abgeschnittene Operanden halten unverändert an.
 
 `python scripts/check-native-script-diagnostic-file.py <capture> <module> --resume-main` prüft zusätzlich die Mainfortsetzung mit erhaltenem CPU-Zustand. Dieser Test verknüpft den vorhandenen Kontext ausdrücklich als Wurzel nach dem Frame; die Laufzeit tut das nicht automatisch. Ishar2 IO.IO erreicht nach22 ersten Schritten und dem Frame einen weiteren Schritt186, anschließend einen offenen Ausdruck in31. Ishar1 PRESTI.IO erreicht nach dem Frame einen weiteren Yield. Es handelt sich weiterhin um kontrollierte Anfangszustände.
+
+## Ausdruckstags30/32
+
+Opcode31 unterstützt nun zusätzlich30 (signiertes Kontextbyte) und32 (Kontextwort) relativ zur tatsächlichen Basis aus SS:0BF6, jeweils plus16-Bit-Literaloffset. Diese Formen benötigen ausdrücklich das Globalsegment; BP oder0 werden nicht als Ersatz verwendet. Je4752 native Fälle pro Spiel bestanden. Die anderen Zahlenoperanden verwendenden Diagnose-Opcodes behalten vorerst ihre bisherigen Tagfreigaben.
+
+Der kontrollierte Ishar2-`--resume-main`-Test erreicht jetzt186,31 und20 nach dem Frame, anschließend Opcode30 bei SI00C5h. Ishar1 PRESTI.IO erreicht weiterhin den zweiten Yield. Die echte Initialisierung der globalen Kontextbasis ist damit noch nicht rekonstruiert.

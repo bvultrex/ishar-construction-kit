@@ -130,7 +130,7 @@ export function stepNativeScriptDiagnostic(state:NativeScriptDiagnostic):NativeS
   const script=new Uint8Array(65536);script.set(state.module.image);const next=activateOriginalDosScriptContext(script,memory,globals,after,state.bp);memory=next.memory;si=next.si;cx=dx;dx=next.dx;
  }else if(opcode===31){
   const script=new Uint8Array(65536);script.set(state.module.image);
-  try{const next=evaluateOriginalDosScriptExpression(script,memory,after,state.bp,dx,state.module.image.length);si=next.si;dx=next.dx;cx=next.cx;}
+  try{const next=evaluateOriginalDosScriptExpression(script,memory,after,state.bp,dx,state.module.image.length,globals);si=next.si;dx=next.dx;cx=next.cx;}
   catch(e){return stop(`Ausdruck unverändert angehalten: ${String(e)}`);}
  }else if(opcode===156||opcode===148){
   const resultAt=state.si+(opcode===148?3:1);
