@@ -1,5 +1,9 @@
 # Technischer Iststand
 
+[Modul-Ladepfad](MODULE_LOAD_STARTUP.md): MAIN.IO ist lokal vorhanden; mit
+expliziter Sucherfolgsantwort erreicht Ishar 1 Modul 64/logo.IO. Cachepfad,
+Öffnen und echter Header sind bis vor CALL79E9 verglichen. Noch kein Logo-Decode.
+
 [Typ 0](TYPE0_NIBBLE_RENDER.md) ist als 4-Bit-Pfad rekonstruiert. Die erste
 Ishar-1-Recordkette, VGA-Kopie und Frame-Rückkehr bestehen; eine farbige private
 DISK-A-Diagnose ist nach kontrollierten IRQs möglich. Noch kein kompletter Start.

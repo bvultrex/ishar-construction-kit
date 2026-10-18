@@ -1,5 +1,11 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**Modulanschluss:** MODULE_LOAD_STARTUP.md weist nach erfolgreicher MAIN.IO-
+Suchantwort Opcode69/Modul64/logo.IO nach. Cachepfad (beide Spiele) und echter
+Ishar-1-Open-/Headerpfad bis vor CALL79E9 sind verglichen. Codex übernimmt
+Speicherverwaltung/Read/A1-Anschluss. DISK A gehörte zum kontrollierten Such-
+fehlerprofil; die lokale MAIN.IO fehlt nicht. DTA/kompletter DOS-Adapter bleiben offen.
+
 **Typ-0-Fortsetzung:** TYPE0_NIBBLE_RENDER.md korrigiert die frühere Byte-
 Einordnung: Typ 0 ist ein 4-Bit-Pfad mit 6-Byte-Header. Erste Ishar-1-Kette,
 VGA-Kopie, Frame-Rückkehr und kontrollierte Palette sind verglichen; private

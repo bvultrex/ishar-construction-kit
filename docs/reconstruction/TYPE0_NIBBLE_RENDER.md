@@ -1,5 +1,9 @@
 # Typ 0 und erster farbiger Ishar-1-Diagnoseframe
 
+Fortsetzung: MODULE_LOAD_STARTUP.md bestätigt MAIN.IO lokal und untersucht
+den Original-Sucherfolgszweig zum LOGO-Modul. Die DISK-A-Diagnose unten bleibt
+ein Nachweis des ausdrücklich kontrollierten Suchfehlerprofils.
+
 Stand 2026-10-18. Die vorherige Bezeichnung „Typ-0-Byteblitting“ war eine
 vorläufige, falsche Einordnung. Originalentry 1E97:0531 ruft denselben
 038B-Clippingkern und dieselbe 0568-Pixelschleife wie Typ 16 auf.

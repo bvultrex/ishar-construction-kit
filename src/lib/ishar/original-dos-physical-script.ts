@@ -1,4 +1,5 @@
 import type {OriginalDosDriveServices} from './original-dos-drive-query.ts';
+import {prepareOriginalDosModuleLoad} from './original-dos-module-load-prefix.ts';
 import {setOriginalDosSeedWord} from './original-dos-seed-word.ts';
 import {controlOriginalDosContext} from './original-dos-context-control.ts';
 import {selectOriginalDosPalette} from './original-dos-palette-select.ts';
@@ -40,6 +41,11 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
  else if(opcode===66)status='yield';
  else if(opcode===42){const next=setOriginalDosSeedWord(memory,ss,{...input,si:after});memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===59){/* Original2E93 is RET; only opcode fetch advances SI. */}
+ else if(opcode===69){
+  const next=prepareOriginalDosModuleLoad(memory,ss,{...input,si:after},engineSegment);
+  if(next.phase!=='return')throw Error(`Original module69 reaches ${next.phase} at${next.entry.toString(16)}`);
+  memory=next.memory;Object.assign(registers,next.registers);
+ }
  else if(opcode>=43&&opcode<=45){const next=decrementOriginalDosScript(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===78||opcode===79){const next=setOriginalDosObjectVisibility(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if([71,192,193,194].includes(opcode)){const next=updateOriginalDosSelectedObject(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
