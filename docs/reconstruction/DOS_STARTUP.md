@@ -2131,6 +2131,11 @@ VIDEO_SELECTION_NATIVE_2026-10-18.json. Original resources remain local.
 
 ## Ishar2 START.STP configuration decoding (2026-10-18)
 
+The resource now has a lossless parser/writer and inspect/patch CLI. See
+[STARTUP_SETTINGS.md](STARTUP_SETTINGS.md) for byte layout, scope and commands.
+Both supplied files round-trip exactly; an exported edit was reopened and fed
+to the native Ishar2 decoder. This does not close the full startup chain.
+
 Following072D reaches configuration module23D7:1BCE before098F. Its DOS
 setup probes drives, requests country information and opens START.STP with
 AX=3D82, reads14 bytes to0386 and closes the handle. The seven alternating
