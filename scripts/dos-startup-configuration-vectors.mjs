@@ -1,0 +1,15 @@
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {decodeOriginalDosStartupConfiguration as decode} from '../src/lib/ishar/original-dos-startup-configuration.ts';
+const source=new Uint8Array(readFileSync(process.argv[2])),cases=[],base=0x23d70;
+for(let n=0;n<263;n++){
+ const memory=source.slice(),data=[82,0,86,n&255,83,n&255,80,n&255,74,n&255,77,n&255,75,n&255];
+ if(n>=256)data[(n-256)*2]=0;
+ memory.set(data,base+0x386);
+ for(const at of [0x3a6,0x5fc,0x66a,0x48a,0x402,0x574])memory[base+at]=255;
+ const before=memory.slice(),result=decode(memory,0x23d7);
+ if(!memory.every((v,i)=>v===before[i]))throw Error('Configuration mutated input');
+ const {memory:output,...state}=result;
+ cases.push({n,...state,hash:createHash('sha256').update(output).digest('hex')});
+}
+console.log(JSON.stringify(cases));

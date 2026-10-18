@@ -2128,3 +2128,25 @@ also verifies eight VGA composition cases in original component order.
 Transitions between components remain explicit; intervening startup services
 are not skipped silently or claimed implemented. Evidence:
 VIDEO_SELECTION_NATIVE_2026-10-18.json. Original resources remain local.
+
+## Ishar2 START.STP configuration decoding (2026-10-18)
+
+Following072D reaches configuration module23D7:1BCE before098F. Its DOS
+setup probes drives, requests country information and opens START.STP with
+AX=3D82, reads14 bytes to0386 and closes the handle. The seven alternating
+tag/value pairs require tag bytes R,V,S,P,J,M,K. Only the configuration decode
+F43..10C4 is implemented here; file services and device discovery remain open.
+
+`decodeOriginalDosStartupConfiguration` preserves native fallback behavior:
+unknown video values choose3, unknown sound values choose0, sound C also
+setsB8E=8, numeric values subtract ASCII31/30 with byte wrap, keyboard Z/Q
+choose2/1 and other values0. Invalid tags setB90=1, preserve existing selection
+bytes and still apply six range/default checks. The first pair value is not
+consumed by this bounded section. No semantic name is guessed for opaque fields.
+
+263 native comparisons (all256 value bytes plus each invalid tag position)
+pass with exact1MiB memory and no masks. Inputs/original files remain unchanged.
+Reproduce: check-native-dos-startup-configuration.py ISHAR2_CAPTURE. Evidence:
+STARTUP_CONFIGURATION_NATIVE_2026-10-18.json. Ishar1 calls23D7:1AFA instead
+of1BCE and does not share this code layout; its decode remains unimplemented.
+The checker rejects the Ishar1 capture rather than claiming shared support.
