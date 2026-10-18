@@ -1,0 +1,1903 @@
+{
+  "scope": "Keyboard startup and contiguous original configuration-to-VGA initialization for both profiles",
+  "reports": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 20,
+      "cases": [
+        {
+          "selection": 0,
+          "directionFlag": false,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "82804c122db60d13e394324aa230540806eb5dd9175aa9af82d28a46b5a71486"
+        },
+        {
+          "selection": 0,
+          "directionFlag": false,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "40900a823160f70fc840e54f646afd010fa13bf066b21b21f5c307e042572460"
+        },
+        {
+          "selection": 0,
+          "directionFlag": true,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "82804c122db60d13e394324aa230540806eb5dd9175aa9af82d28a46b5a71486"
+        },
+        {
+          "selection": 0,
+          "directionFlag": true,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "40900a823160f70fc840e54f646afd010fa13bf066b21b21f5c307e042572460"
+        },
+        {
+          "selection": 65,
+          "directionFlag": false,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "7ad94be1ed42ea511fc67bb43dde3e83c37789e877081f5d833268d121866a4f"
+        },
+        {
+          "selection": 65,
+          "directionFlag": false,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "7ad94be1ed42ea511fc67bb43dde3e83c37789e877081f5d833268d121866a4f"
+        },
+        {
+          "selection": 65,
+          "directionFlag": true,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "ae59ee37f3ce070d6f72fb6d378cf4dfff5f89b15e28f25529d1006f7cae9dba"
+        },
+        {
+          "selection": 65,
+          "directionFlag": true,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "ae59ee37f3ce070d6f72fb6d378cf4dfff5f89b15e28f25529d1006f7cae9dba"
+        },
+        {
+          "selection": 81,
+          "directionFlag": false,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "d6756dde0df89a6936c07e30fcab08385837e6ce88adc26bfd9949ea7db6e03b"
+        },
+        {
+          "selection": 81,
+          "directionFlag": false,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "bf81a505cb8ff6a9f94b988ecf24ce228cdfe700f0ea3961f82a046780ccbc1d"
+        },
+        {
+          "selection": 81,
+          "directionFlag": true,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "d6756dde0df89a6936c07e30fcab08385837e6ce88adc26bfd9949ea7db6e03b"
+        },
+        {
+          "selection": 81,
+          "directionFlag": true,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "bf81a505cb8ff6a9f94b988ecf24ce228cdfe700f0ea3961f82a046780ccbc1d"
+        },
+        {
+          "selection": 90,
+          "directionFlag": false,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "f74437eb1c1b1f9c718944d10dd1f129db31c6281488791d1aee4a22adf6c539"
+        },
+        {
+          "selection": 90,
+          "directionFlag": false,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "5d75d0fbc04f896e96e3d055120d1d0a5b21609982ab9f33e6265795ef5e142c"
+        },
+        {
+          "selection": 90,
+          "directionFlag": true,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "46bcce3677f40f6c795e71395028fdb225b1f3342771dcce7c2223e262d5885a"
+        },
+        {
+          "selection": 90,
+          "directionFlag": true,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "f5527b25d95337d06f178910f03a74ac745e502dca7e8ef8fcd792f7cd039aa1"
+        },
+        {
+          "selection": 255,
+          "directionFlag": false,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "eb9cc852d9d9203f802884aab21e42d2b39beecdc9066cd8565e3c7d46b6cae2"
+        },
+        {
+          "selection": 255,
+          "directionFlag": false,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "184893e7acf4a1d4ea39f431c739d705ee86268af6b1bb37bb31c34a905d29d2"
+        },
+        {
+          "selection": 255,
+          "directionFlag": true,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "eb9cc852d9d9203f802884aab21e42d2b39beecdc9066cd8565e3c7d46b6cae2"
+        },
+        {
+          "selection": 255,
+          "directionFlag": true,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "184893e7acf4a1d4ea39f431c739d705ee86268af6b1bb37bb31c34a905d29d2"
+        }
+      ],
+      "limits": "08F0 through08F2/08F5, full memory except six CPU save bytes FEFA..FEFF; explicit DOS vector replies, events/DS/ES/SP/DF checked; no keyboard IRQ execution or other scratch register claim; table bytes not exported"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 20,
+      "cases": [
+        {
+          "selection": 0,
+          "directionFlag": false,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "684c196321b8d2d09c1a1bbdbe64ea9336049c97b9663969072bbd0302203819"
+        },
+        {
+          "selection": 0,
+          "directionFlag": false,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "515554f92008599dea46deb9bbdd0f291a9d5ac2727251b6e9de4bfcd3f9bd0f"
+        },
+        {
+          "selection": 0,
+          "directionFlag": true,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "684c196321b8d2d09c1a1bbdbe64ea9336049c97b9663969072bbd0302203819"
+        },
+        {
+          "selection": 0,
+          "directionFlag": true,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "515554f92008599dea46deb9bbdd0f291a9d5ac2727251b6e9de4bfcd3f9bd0f"
+        },
+        {
+          "selection": 65,
+          "directionFlag": false,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "9fb68ca29318a7a3a65ed89606db680dd944a634c8a1512813e282309f0fdc42"
+        },
+        {
+          "selection": 65,
+          "directionFlag": false,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "9fb68ca29318a7a3a65ed89606db680dd944a634c8a1512813e282309f0fdc42"
+        },
+        {
+          "selection": 65,
+          "directionFlag": true,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "b8275f09a739c7ce6821f224521a9ff91d8dc3a772c209272f7370c5f6ff2d76"
+        },
+        {
+          "selection": 65,
+          "directionFlag": true,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "b8275f09a739c7ce6821f224521a9ff91d8dc3a772c209272f7370c5f6ff2d76"
+        },
+        {
+          "selection": 81,
+          "directionFlag": false,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "819d6ac8d56537cc960d0ea2fb94e62365f1cf77350f0463f3057f3b1fe9a3ee"
+        },
+        {
+          "selection": 81,
+          "directionFlag": false,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "5d55e23037f5e35159dbdfe150c1d4a4245b76752cdaf48962cb2af16f11cb13"
+        },
+        {
+          "selection": 81,
+          "directionFlag": true,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "819d6ac8d56537cc960d0ea2fb94e62365f1cf77350f0463f3057f3b1fe9a3ee"
+        },
+        {
+          "selection": 81,
+          "directionFlag": true,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "5d55e23037f5e35159dbdfe150c1d4a4245b76752cdaf48962cb2af16f11cb13"
+        },
+        {
+          "selection": 90,
+          "directionFlag": false,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "868386d83de45f7c219de93cc3fac9fbfbf49101d365fd090738dd885bf25bd6"
+        },
+        {
+          "selection": 90,
+          "directionFlag": false,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "a4f813f1088304a0ba982d254cc2b4cab9888e841bf5e6b46e2f8f5dcdf9430b"
+        },
+        {
+          "selection": 90,
+          "directionFlag": true,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "423b8e538c2972ce132d8088450dea967184e93d86536322ce719907768b2108"
+        },
+        {
+          "selection": 90,
+          "directionFlag": true,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "01e862c0e7cfc27fe57894056a29d3ab575efa76478c1a924eb9e8b872201912"
+        },
+        {
+          "selection": 255,
+          "directionFlag": false,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "a47b99efc2a36f9e83266221f6dce313262fa6e636549430fc511646539895c8"
+        },
+        {
+          "selection": 255,
+          "directionFlag": false,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "2ddec69947e1a9cef1fec27d32710bbc96e65d760c3c0b1b08b3ba7b368e252b"
+        },
+        {
+          "selection": 255,
+          "directionFlag": true,
+          "includeCheck": false,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2291,
+          "hash": "a47b99efc2a36f9e83266221f6dce313262fa6e636549430fc511646539895c8"
+        },
+        {
+          "selection": 255,
+          "directionFlag": true,
+          "includeCheck": true,
+          "events": [
+            {
+              "service": "get-vector",
+              "number": 9
+            },
+            {
+              "service": "set-vector",
+              "number": 9,
+              "segment": 4096,
+              "offset": 4210
+            }
+          ],
+          "boundary": 2294,
+          "hash": "2ddec69947e1a9cef1fec27d32710bbc96e65d760c3c0b1b08b3ba7b368e252b"
+        }
+      ],
+      "limits": "08F0 through08F2/08F5, full memory except six CPU save bytes FEFA..FEFF; explicit DOS vector replies, events/DS/ES/SP/DF checked; no keyboard IRQ execution or other scratch register claim; table bytes not exported"
+    },
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "settingsSha256": "d4eb29e43511a5af7e9dea13dcd64aba2679e995afffeefe560c89c90a332a9e",
+      "stackMask": "FEBC..FEFF for graphics returns; FEC0..FEFF otherwise",
+      "graphics": true,
+      "keyboard": true,
+      "audio": true,
+      "ems": true,
+      "blancpcSha256": "fa35da163339385cc8fb95b5469bc5fb52e8d31a803f84854da5c89d7196c229",
+      "earlyServices": true,
+      "callerSelect": true,
+      "caseCount": 32,
+      "cases": [
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2297,
+          "hash": "e9bc4cfa227fb34f99c19e98a9e2e88a5ffca0c034fcc1afe68ed89c3d15d75c",
+          "traceSha256": "3831e04a6f289b7f57c9898286d5b9d9d0ae7ad3001c7b19bb351220f6dec46c"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "9faf6fa749ef6c9b9737285f8433996924839d8cc43970fb1fb5a1c2e2e49fa1",
+          "traceSha256": "c26227f571bc4d8b64836091d913e4d0ae0c783506b73e5992b96c5b1bf55065"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5c88ad1f1237e19c093ed5b6739ed56afcf196549f40ab353307c279d037f73a",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5c88ad1f1237e19c093ed5b6739ed56afcf196549f40ab353307c279d037f73a",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "b506cc207b07e0848177dc69ad8a519ebf3909daf382669558f213fc4232c181",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "b506cc207b07e0848177dc69ad8a519ebf3909daf382669558f213fc4232c181",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "320b9ab382ef852a881891c5c2e0df2be7505f0108d0b348fd67436fe4859118",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "320b9ab382ef852a881891c5c2e0df2be7505f0108d0b348fd67436fe4859118",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2297,
+          "hash": "80dc20cf00e55b8b069dd4e4a157910e8b5393d2c7ca65c78a7eecb48625599a",
+          "traceSha256": "97d3e80d05b692a17395330741fc6fc19759ac21769272b22b3c279ed593002e"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "ca2373264ea582e67099bd83c1ced868bbda29a3dcc01298764fa261cbc0f680",
+          "traceSha256": "c26227f571bc4d8b64836091d913e4d0ae0c783506b73e5992b96c5b1bf55065"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f4c8379d01e4f7f5692005745e9e20b5277fb384196da3b64a06464796d468aa",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f4c8379d01e4f7f5692005745e9e20b5277fb384196da3b64a06464796d468aa",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "2566237f412e8acde813ad37c3357223fcc15f7713f5f79d2213994a911cf4f8",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "2566237f412e8acde813ad37c3357223fcc15f7713f5f79d2213994a911cf4f8",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "595b3f1266d34226c7f0157bc91b01191ea552f0cfc64d2d19a8f2acebdff066",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "595b3f1266d34226c7f0157bc91b01191ea552f0cfc64d2d19a8f2acebdff066",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2297,
+          "hash": "c5bb7cd46a13711bdcaaa3df9423a86632c997413574ecc457322d821b2cc7bc",
+          "traceSha256": "ed14bae6de1b97eea70d4856c324910b4fd30b087df31405b72d6ef888906c4a"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "9007def20abe3575676cd46e33e694be9d3c9f0b095765222a721a4ed4c12920",
+          "traceSha256": "5ed46aed1f4c293cd975c50080f7cee5238e7223c4c058b7065e17936e0f3e41"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "703dbc62fa97bd22cb0805a1a1602f870b71a933be1c9cb55f3fa0fc442099fa",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "703dbc62fa97bd22cb0805a1a1602f870b71a933be1c9cb55f3fa0fc442099fa",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "4081ee181c15cc9510a33c80c8a15fad35cccff0bc43e4b4b2320cd84bf12e1c",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "4081ee181c15cc9510a33c80c8a15fad35cccff0bc43e4b4b2320cd84bf12e1c",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "eea91efe32d690499ac3d0ec3d81ed697637bae0b5f626518e5c2bb517177a3f",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "eea91efe32d690499ac3d0ec3d81ed697637bae0b5f626518e5c2bb517177a3f",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2297,
+          "hash": "61570a43112ec84ed05f0d373de053c6665bc17b321157f88d1db2ecbadaecd6",
+          "traceSha256": "4cef24569ac948db1ded04ca3d462b690d90bd6a196018a5b122ac8ed8755eb1"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "3a981f3315afcc0953256b2758942a96bde7b48da583a3158efbb5cab2a9aaea",
+          "traceSha256": "5ed46aed1f4c293cd975c50080f7cee5238e7223c4c058b7065e17936e0f3e41"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5f7052f37a3b720df59f20adc755df5fc37f17233a132df09c8206a49f94b110",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5f7052f37a3b720df59f20adc755df5fc37f17233a132df09c8206a49f94b110",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "320edbcd1b9bd42d692a65aa9a7a909d53505982076d5c524ef8d84484e03284",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "320edbcd1b9bd42d692a65aa9a7a909d53505982076d5c524ef8d84484e03284",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "979d93bd4dc3fd1d9c2b95650910cb68bc9fdecc8ae3368a32ffe64a6c90e9dd",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "979d93bd4dc3fd1d9c2b95650910cb68bc9fdecc8ae3368a32ffe64a6c90e9dd",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        }
+      ],
+      "limits": "Contiguous outer entry, or engine0787 through0832 with --early-services or0852 with --blancpc or08EA with --ems or08EF with --audio,08F5 with --keyboard,08F8 with --graphics (explicit absent SB/no IRQ0A), stopping at original menu entry on menu paths; no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except documented CPU stack mask and SP/events checked; menu body, non-VGA and joystick-axis branches excluded; original text only as trace hashes"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "settingsSha256": "d4eb29e43511a5af7e9dea13dcd64aba2679e995afffeefe560c89c90a332a9e",
+      "stackMask": "FEBC..FEFF for graphics returns; FEC0..FEFF otherwise",
+      "graphics": true,
+      "keyboard": true,
+      "audio": true,
+      "ems": true,
+      "blancpcSha256": "fa35da163339385cc8fb95b5469bc5fb52e8d31a803f84854da5c89d7196c229",
+      "earlyServices": true,
+      "callerSelect": true,
+      "caseCount": 32,
+      "cases": [
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2297,
+          "hash": "025375b54cc6e95e214621d6a8700b54a82372b7d37cb97c6b12df60281269a3",
+          "traceSha256": "52e0176064975224c681647b69a63b712e76deaef4e1d45a0925bdd4dbfcd04e"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "972366206a48077d9e93f46687f06b1de6b0c5c9306598c16fe11481ea565923",
+          "traceSha256": "f1c2c73b8f53878fa42168cc5bed9675b69348c42e6b777ba0c916f36d624318"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "725bf801d622c8393211b1038fd8f2c5e608c914c95b7f98bb0afc1b09013290",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "725bf801d622c8393211b1038fd8f2c5e608c914c95b7f98bb0afc1b09013290",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "ced49e659543e526f23aad574d20f28f9f15023212a68440722232eeb89f1807",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "ced49e659543e526f23aad574d20f28f9f15023212a68440722232eeb89f1807",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "1089d2d402cbc44ca80fae3527c26abff4a39f236beac28841b2ce0a0b444025",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "1089d2d402cbc44ca80fae3527c26abff4a39f236beac28841b2ce0a0b444025",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2297,
+          "hash": "243bd7fc4e6ddcf2667d8833765f935acaee028ecd3eb73838d8beef015bc176",
+          "traceSha256": "6e9896cd48a95fe9683184e41ad1885e1fdf3911bc956bb7d1b82b9ba80a5230"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "92e8de0c4a782528d19f103c0f3ddad5d8345f260b950bf070cc0d17e6f442e5",
+          "traceSha256": "c8d3cfdeea07c7651eec73663e329c487a257bc2c5f06c4cb9cd22e741fcdd61"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "f7d96dc320f8b3e9e958368bd8d87e3dceaccce7d83546be2dc9a445f1da2baa",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "f7d96dc320f8b3e9e958368bd8d87e3dceaccce7d83546be2dc9a445f1da2baa",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "c1f88a86e98f0aa1cdc08b4ccb89895c49f343beba83a3e40958bbc878850ebc",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "c1f88a86e98f0aa1cdc08b4ccb89895c49f343beba83a3e40958bbc878850ebc",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "415d3578683b20dda831d28c1d79db09ff993855dd6766e8578cbcf7ae72861d",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "415d3578683b20dda831d28c1d79db09ff993855dd6766e8578cbcf7ae72861d",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2297,
+          "hash": "48da9dd2a18ca8a9d88a8ac4320aaecfc2c850c47154cbb8b673af31e8be5bf6",
+          "traceSha256": "93ac02432f8a1b7e32dcae73400dbdcc0e3099fc2c9fd960c22455c8fe5b36a9"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "f20d39b282edf46829baeaa23de17f00434c6e40d97095dd0e5fe7b7a9ca5ea5",
+          "traceSha256": "07b7024b5f4b44e0e4588de7d083d56f7134c091a75597caff273ea208a0df8d"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "bdd8b00f0fa4dace881d86a701fe13f7e9e61bbf7505806891187d52301a3ef6",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "bdd8b00f0fa4dace881d86a701fe13f7e9e61bbf7505806891187d52301a3ef6",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "0852ef30f61d56d573b5962f35c2a8ba8f26aacbcc8ff2ed91b9d11b5b69aae3",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "0852ef30f61d56d573b5962f35c2a8ba8f26aacbcc8ff2ed91b9d11b5b69aae3",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "13fe63dfab6bd4f964993d6e3c865943b0347fe77a40f7c94259f85f410658b7",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "13fe63dfab6bd4f964993d6e3c865943b0347fe77a40f7c94259f85f410658b7",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2297,
+          "hash": "385aff7c5879d9f05c1c813c5e8a5228ce898b1ada2f7a058ac7331b337bf9de",
+          "traceSha256": "31525b0801e6c431ffe88286e28b8c46901540c03c0c57e6da2ae48ea81b7188"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "7ebd819cb95f2535ce3a59fe93aa420aa5589ea278063ccf797f58d803b6c30a",
+          "traceSha256": "cd26a4ae968f8edf7a444779762707086d55a747f5e918e91b5aaca72aac349c"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "6f026bbe9281b4ed0bae3f7b81ed5563e977a10548564ed474af7e7003265fee",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "6f026bbe9281b4ed0bae3f7b81ed5563e977a10548564ed474af7e7003265fee",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "03205b5139b4c84cd934c007ec177e3cd21253bd5aceae78e6e1a7259090208c",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "03205b5139b4c84cd934c007ec177e3cd21253bd5aceae78e6e1a7259090208c",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "3bde863abfd655c10d5c95aaa3a5abfc104ba0c1c509d14bc94765657c187dd6",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "3bde863abfd655c10d5c95aaa3a5abfc104ba0c1c509d14bc94765657c187dd6",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        }
+      ],
+      "limits": "Contiguous outer entry, or engine0787 through0832 with --early-services or0852 with --blancpc or08EA with --ems or08EF with --audio,08F5 with --keyboard,08F8 with --graphics (explicit absent SB/no IRQ0A), stopping at original menu entry on menu paths; no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except documented CPU stack mask and SP/events checked; menu body, non-VGA and joystick-axis branches excluded; original text only as trace hashes"
+    }
+  ]
+}

@@ -76,24 +76,14 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    vor dem43FB-Aufruf bei4168 nativ verglichen. Dessen Sichtbarkeits-/ClipprÃ¼fung,
    Grafikformatwahl und erster Typ1-RAM-Pixellauf sind inzwischen ebenfalls
    nativ verglichen. Der kontrollierte Start hat aber Ziel0:0 und Pitch0:
-   noch kein gÃ¼ltiger Frame. Video-/Pufferinitialisierung ist inzwischen separat
-   und in kontrollierter Ãœbergabe an den leeren Frame nativ geprÃ¼ft (432
-   ReservierungsfÃ¤lle, acht VGA/Frame-FÃ¤lle; kein IRQ0A). Die vorgelagerte Grafikmodulauswahl098F ist ebenfalls mit18 Fällen
-   und acht anschließenden VGA-Kompositionen geprüft. Dateiladen, Konfigurationsauswertung, Übergabe in Engine-Variablen und
-   Modulauswahl sind nun für beide Profile komponiert geprüft (je60 Fälle).
-   Die Geräteerkennung ist für den VGA-/Joystick-Frühabbruchpfad mit64
-   Fällen separat geprüft. Die Bestätigungsabfrage ist mit72 Fällen belegt. Achsenmessung und
-   das eigentliche Menü bleiben offen. Die äußere Konfigurationsroutine
-   und ihre Rückkehr zur Grafikmodulauswahl sind inzwischen durchgehend
-   nativ geprüft (128 Fälle beider Profile, explizite externe Antworten). Der durchgehende Pfad0787..0832 umfasst nun zusätzlich die frühen
-   DOS/BIOS-Dienste (64 Fälle; separat128). BLANCPC-Laden ist nun ebenfalls durchgehend bis0853 geprüft
-   (64 komponierte und72 separate Fälle). BIOS/EMS und Pufferreservierung sind jetzt ebenfalls angebunden
-   (512 separate Fälle;64 durchgehend bis08EB). Audio-Rückfallpfade reichen nun durchgehend bis08F0 (64
-   kombinierte Fälle;48 separate Audiofälle einschließlich echter
-   Treibergrenzen). Aktive AdLib-/SB-Treiber bleiben offen. Nächste Grenze:
-   Tastaturinitialisierung0FDD. Die originale Aufrufkette
-   einschlieÃŸlich MAIN muss diese ZustÃ¤nde noch selbst herstellen. Das hat Vorrang
-   vor einer sichtbaren Ausgabe oder weiteren Aussagen zur Bildgleichheit.
+   noch kein gueltiger Frame in diesem kontrollierten MAIN-Test.
+   Der Originalpfad0787..08F8 ist inzwischen durchgehend nativ verglichen:
+   Konfiguration, Ressource, BIOS/EMS, Audio-Fallback, Tastatur und VGA.
+   Dieser Pfad erzeugt Pitch320 und VGA-ZielA000:0 selbst (64 kombinierte
+   Faelle;40 separate Tastaturfaelle). Externe Dienste sind explizite Antworten;
+   aktive Audiotreiber und IRQ0A sind darin nicht vollstaendig rekonstruiert.
+   Naechste Grenze: Mausinitialisierung08F9, danach Timer und MAIN-Anschluss.
+   Ein sichtbarer Gesamtframe bleibt unbewiesen.
    FE-Sonderpfad, weitere Operandformen
    und sichtbare Ausgabe bleiben offen. Verwandte WortÃ¤nderungen192/193/194 haben separate
    native Befehlsnachweise, noch keinen vollstÃ¤ndigen Inhaltsablauf.

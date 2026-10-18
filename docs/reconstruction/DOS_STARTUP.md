@@ -2408,3 +2408,36 @@ AUDIO_STARTUP_NATIVE_2026-10-18.json. Original files remain unchanged.
 Next startup call08F0 is the keyboard mapping initializer0FDD; later graphics,
 mouse and timer initialization still need connection, alongside active audio
 driver bodies. Full startup/MAIN/visible frame remain incomplete.
+
+## Contiguous keyboard and VGA startup (2026-10-18)
+
+`initializeOriginalDosKeyboardStartup` follows08F0 ->0FDD: A/Z selection
+copies two41-byte tables from original CS data; Q and unknown selections
+preserve the current tables. DF is inherited and explicitly supplied: both
+forward and backward MOVSB behavior are reconstructed. IRQ9 is saved at
+CS0314/0316 and installed at1000:1072 through explicit DOS vector replies.
+Optional following0BE0 writes CC6=1 and returns in this no-IRQ contract.
+No semantic name is inferred for that overwritten byte.
+
+20 cases per profile cover selections00/A/Q/Z/FF, DF0/1 and with/without
+0BE0. Full memory except six CPU save bytes FEFA..FEFF, service events,
+DS/ES/SP/DF match. Table bytes remain original local data, not repository assets.
+
+The existing VGA viewport helper is now composed in the actual call order
+after keyboard/check.32 cases per game execute original instructions from
+0787 through configuration, memory/resource setup, audio fallback, keyboard
+and graphics1EBA to08F9 (menu cases stop earlier). No internal component
+jumps/stubs or global resets occur. VGA BIOS writes/port replies are explicit,
+IRQ0A is not delivered. The CPU-save mask is FEBC..FEFF for graphics returns
+(the nested engine/viewport/graphics calls), FEC0..FEFF for earlier menu stops.
+Full shared-memory comparison, event order, SP and cleared IF on graphics
+return match. Screen pitch320 and A000:0000 are now established by the
+contiguous original prefix; this does not retroactively fix the separate
+controlled MAIN tests that started with null pointers.
+
+Reproduce: check-native-dos-keyboard-startup.py CAPTURE;
+check-native-dos-configuration-entry.py CAPTURE START.STP --blancpc BLANCPC.IO --graphics.
+Evidence: KEYBOARD_GRAPHICS_STARTUP_NATIVE_2026-10-18.json. Original files
+unchanged. Next08F9 initializes mouse input, followed by the original timer
+startup. Active audio drivers, earlier072D and MAIN connection remain open.
+No visible full game frame is claimed.
