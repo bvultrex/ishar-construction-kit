@@ -3,7 +3,7 @@ Only the two identified read-only MAIN files and corresponding captures are acce
 Optional --decode includes actual A1 decode and close; no complete startup claim.
 --root also executes registry/notifications/context and the original loader RET.
 """
-import argparse,hashlib,json,subprocess
+import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
@@ -25,6 +25,7 @@ for case in vectors['cases']:
  if a.decode:cpu.mem_write(0x1c0b0+0xb5c,b'\0\x90')
  if a.root:cpu.mem_write(0x1c0b0+0xff00,b'\0\xe0') # Controlled caller for the final loader RET.
  reads=[];read_events=[];read_boundaries=[];opens=[];open_boundaries=[];done=[];position=[0];saved_init={};init_counts=[0,0];init_end={};init_hash=[];packed_reads=[];closed=[];decode_entry=[];write_bounds=[0x100000,0];close_state={};notifications=[];registry_checked=[];notification_active=[False];registry_writes=[0]
+ graphics_expected=[];graphics_checked=[]
  destination=case['preparedDecode']['registers']['ds']*16+case['preparedDecode']['registers']['dx']
  def interrupt(uc,n,_):
   assert n==0x21
@@ -43,6 +44,13 @@ for case in vectors['cases']:
   reads.append((dx,cx));chunk=data[position[0]:position[0]+cx];position[0]+=len(chunk)
   uc.mem_write(ds*16+dx,chunk);uc.reg_write(UC_X86_REG_AX,len(chunk));uc.reg_write(UC_X86_REG_EFLAGS,uc.reg_read(UC_X86_REG_EFLAGS)&~1)
  def code(uc,address,size,_):
+  if a.root and address==0x1185e:
+   request={'memory':base64.b64encode(bytes(uc.mem_read(0,0x100000))).decode(),'ss':uc.reg_read(UC_X86_REG_SS),'cs':uc.reg_read(UC_X86_REG_CS),'ds':uc.reg_read(UC_X86_REG_DS),'dx':uc.reg_read(UC_X86_REG_DX)}
+   graphics_expected.append(json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-resource-graphics-vector.mjs')],input=json.dumps(request),text=True,cwd=repo)))
+  if a.root and address==0x11b9d:
+   actual=bytearray(uc.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
+   assert hashlib.sha256(actual).hexdigest()==graphics_expected[-1]['hash'],('graphics mismatch',case['segment'],case['offset'],case['frontier'])
+   graphics_checked.append(graphics_expected[-1])
   if address==0x176c2:
    open_boundaries.append(address)
    for name,r in [('ax',UC_X86_REG_AX),('bx',UC_X86_REG_BX),('cx',UC_X86_REG_CX),('dx',UC_X86_REG_DX),('ds',UC_X86_REG_DS)]:assert uc.reg_read(r)==case['opened']['registers'][name]
@@ -105,14 +113,14 @@ for case in vectors['cases']:
    if root['error']:
     assert cpu.reg_read(UC_X86_REG_AX)==root['error'] and notifications==[];row['rootError']=root['error']
    else:
-    assert notifications==[0x1185e,0x116ce] and registry_checked==[True]
+    assert notifications==[0x1185e,0x116ce] and registry_checked==[True] and len(graphics_checked)==1
     assert cpu.reg_read(UC_X86_REG_ES)==case['segment'] and cpu.reg_read(UC_X86_REG_BX)==root['context']
     assert hashlib.sha256(bytes(cpu.mem_read(case['segment']*16+root['rangeStart'],root['rangeLength']))).hexdigest()==root['rangeHash']
     assert int.from_bytes(cpu.mem_read(case['segment']*16+root['tableOffset'],2),'little')==root['context']
     ptr=root['registry'];retained=bytes(cpu.mem_read(case['segment']*16+ptr['offset'],4))==ptr['moduleOffset'].to_bytes(2,'little')+ptr['moduleSegment'].to_bytes(2,'little')
     if not retained:assert ptr['overlapsModule'] and registry_writes[0]>0,'Unexpected registry corruption outside observed notification alias'
     assert hashlib.sha256(bytes(cpu.mem_read(destination,24))).hexdigest()==root['headerSha256']
-    row.update(rootError=None,rootContext=root['context'],rootEntry=root['entry'],notificationCalls=notifications,registryOverlapsModule=ptr['overlapsModule'],registryPointerRetainedAfterNotifications=retained,notificationWritesOverRegistry=registry_writes[0],convertedModuleSha256=hashlib.sha256(bytes(cpu.mem_read(destination,vectors['decodedBytes']))).hexdigest())
+    row.update(rootError=None,rootContext=root['context'],rootEntry=root['entry'],notificationCalls=notifications,graphicsModel=graphics_checked[0],registryOverlapsModule=ptr['overlapsModule'],registryPointerRetainedAfterNotifications=retained,notificationWritesOverRegistry=registry_writes[0],convertedModuleSha256=hashlib.sha256(bytes(cpu.mem_read(destination,vectors['decodedBytes']))).hexdigest())
   results.append(row)
 assert a.capture.read_bytes()==memory and a.main.read_bytes()==data
-print(json.dumps({'profile':profiles[digest][0],'captureSha256':digest,'mainSha256':file_digest,'cases':len(vectors['cases']),'decodedBytes':vectors['decodedBytes'],'decodeAndClose':a.decode,'rootCreation':a.root,'decodeResults':results,'result':'MAIN chain through requested initialization/decode/root boundary matches','limits':('controlled DOS replies; full-memory compare at initialization; root context/registry checked, notification output hashes observational, not reconstructed graphics proof' if a.root else 'controlled DOS replies; initialization memory checked; registry/root and notification bodies excluded')}))
+print(json.dumps({'profile':profiles[digest][0],'captureSha256':digest,'mainSha256':file_digest,'cases':len(vectors['cases']),'decodedBytes':vectors['decodedBytes'],'decodeAndClose':a.decode,'rootCreation':a.root,'decodeResults':results,'result':'MAIN chain through requested initialization/decode/root boundary matches','limits':('controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed' if a.root else 'controlled DOS replies; initialization memory checked; registry/root and notification bodies excluded')}))

@@ -912,3 +912,47 @@ Drei der sechs zurückkehrenden Fälle pro Profil sind außerdem absichtliche Al
 Metadaten: MAIN_ROOT_NATIVE_2026-10-18.json. Es enthält nur Version-/Dateihashes, Testparameter, Pointer, Readlängen und Beobachtungsprüfsummen, keine Originalgrafiken oder Skriptbytes. Host- und Native-Ausgabe vergleichen weiterhin die vollständige deklarierte Dekompression vor der Ressourcenkonvertierung. Der Speichervergleich der Initialisierungsphase bleibt getrennt erhalten. Der bisherige Modus ohne Decoder besteht für beide Spiele weiterhin.
 
 Dies ist ein zusammenhängender Nachweis des MAIN-Laderabschnitts ab76BC mit kontrollierter DOS-/Speicherumgebung, kein Start ab Programm-Entry und keine vollständige Spielausführung. Besonders die Ressourcenaufbereitung185E/16CE, tatsächliche Speicherkonfiguration und der anschließende Skriptstart sind noch weiter zu rekonstruieren und anzubinden. Nächster Schritt: die im Originallauf beobachtete Grafikaufbereitung strukturiert nachbilden und gegen die unverändert erfassten Eingabe-/Ausgabebereiche vergleichen; dabei die Alias-Grenzfälle erhalten.
+
+## Ressourcenaufbereitung185E: normales Grafikformat rekonstruiert
+
+`original-dos-resource-graphics.ts` rekonstruiert jetzt185E..1B9D für den
+normalen Modus SS:2896=0 mit vorwärts laufenden Stringzugriffen (DF=0).
+Eingabe ist eine unveränderte1MiB-Speicherkopie plus SS, CS und Modul-DS:DX;
+Ausgabe ist eine neue physische Speicherkopie. Relative Far-Pointer werden mit
+den originalen16-Bit-Überträgen und Normalisierung ausgewertet. Ressourcenliste,
+Palettenmaskierung, Typ1-Farbzuordnung und die Pixel-/Maskenaufbereitung für
+Typ0/2/10h/12h/14h/16h einschließlich12h-Höhenbyte74h sind enthalten.
+Unbekannte Typen werden wie im Original übersprungen. Zähler behalten ihre
+vorzeichenbehafteten Abbruchbedingungen und die mindestens einmal ausgeführten
+Zeilen-/Gruppenschleifen. Globals0B16/0B20/0B1E/0B42 und CS-Scratch1850..1858
+werden in derselben physischen Kopie beschrieben; Segmentaliasse bleiben wirksam.
+
+Die Root-Prüfung `check-native-dos-resource-file.py ... --root` vergleicht nun
+bei jedem erreichten185E-Aufruf das Hostmodell mit dem vollständigen nativen
+Speicher am RET1B9D. Ausgenommen ist ausschließlich das Stackfenster
+SS:FEC0..FF0F mit Sicherungsbytes, die das API nicht nachbildet. Je sechs
+erreichte Aufrufe beider MAIN-Profile bestehen:76 Ressourcen/1092 Pixelgruppen
+für Ishar1 und113/3824 für Ishar2. Die drei absichtlich ungültigen Aliaslayouts
+je Profil bleiben enthalten; insbesondere die Ishar1-Registryüberschreibung
+wird nun auch durch die rekonstruierte Konvertierung reproduziert.
+
+Zusätzlich prüft `check-native-dos-resource-graphics.py <capture>` je acht
+synthetische Ressourcenpakete pro Profil: alle genannten Typen, beide Typ1-
+Indexpfade, unbekannter Typ,12h-Sonderfall, Breiten0/3/7/15 sowie Moduloffsets
+0/FFF0 mit Pointerübertrag. Je Paket zehn Einträge. Der vollständige Speicher
+außer den genannten Stackbytes und alle neun gesicherten Register stimmen
+mit der nativen Routine überein. Die Hostprüfung
+`node scripts/check-dos-resource-graphics.mjs` prüft leere/negative Zähler,
+abgewiesenen alternativen Modus, Speichergrenzen und unveränderte Eingaben.
+Typecheck bestanden. Keine Originaldatei oder Capture verändert.
+
+Hashgebundene Ergebnis-Metadaten ohne Originalbytes:
+[RESOURCE_GRAPHICS_NATIVE_2026-10-18.json](RESOURCE_GRAPHICS_NATIVE_2026-10-18.json).
+
+Grenzen: Der alternative Modus mit1B9E wird ausdrücklich abgewiesen, ebenso
+A20-Überläufe, segmentübergreifende Wortzugriffe und überschrittene Host-
+Schrittgrenzen. Flags/Stackbytes sind kein Ausgabevertrag.16CE ist weiterhin
+nur im nativen MAIN-Pfad ausgeführt, nicht allgemein hostseitig rekonstruiert.
+Keine Hardware-/Framebuffer-, Bildgleichheits- oder vollständige Spielstart-
+Behauptung. Nächster Schritt ist die Verbindung der geprüften Lade-/Rootwerte
+mit der Skriptausführung samt tatsächlichem Original-Anfangszustand.

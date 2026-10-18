@@ -42,10 +42,10 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
 ## Nächste überprüfbare Lieferstrecke
 
 1. **Geladener MAIN-Kontext → rekonstruierte Ausführung.** Aktuelle native
-   MAIN-Kette als Referenz behalten; Grafiknotification `1000:185E` zunächst für
-   den tatsächlich beobachteten normalen Modus rekonstruieren. Originaltypen,
-   Palettenmutationen und physische Segmentaliasse vergleichen. Alternative
-   Konvertierung ausdrücklich offen lassen. Dann den erzeugten Kontext statt
+   MAIN-Kette als Referenz behalten; Grafiknotification `1000:185E` ist inzwischen
+   im normalen Modus gegen beide MAIN-Dateien und synthetische Typfälle geprüft
+   (Details: DOS_STARTUP.md). Alternative Konvertierung bleibt offen.
+   Jetzt den erzeugten Kontext statt
    einer manuell verknüpften Testwurzel an die Diagnose anbinden. Abnahme:
    Register, Speicher, Zeiger und Stopgrenzen pro Profil stimmen überein.
 2. **Erster vollständiger Original-Modnachweis je Spiel.** Bestehenden sicheren
