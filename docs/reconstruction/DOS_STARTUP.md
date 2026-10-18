@@ -2665,3 +2665,46 @@ Next: execute77F6 destination/decode setup and A1 decode using the actual
 startup buffer, then close/register/create the root and return to2607.
 The existing standalone MAIN tests used controlled globals/layouts and do
 not by themselves prove this new connected startup path past77F5.
+
+
+### Actual-startup MAIN decode, registry and root return (2026-10-18)
+
+`check-native-dos-startup-main-decode.py` resumes the previously verified
+private77F6 checkpoints, checking their hashes, profile and original MAIN
+hash first. CPU registers and the1MiB image are restored unchanged; no buffer,
+base pointer, frontier, globals or stack is injected. It executes original
+77F6 destination setup, A1 decoder79E9/7B85, DOS close and reaches7839.
+The existing bounded ALIS parser supplies the independent expected decoded
+image/hash; `prepareOriginalDosMainDecode` supplies AX/CX/DX/DS and B57.
+The original decoded bytes, end segmentB14, final AX/BX/CX/DX/DS/CF/SP and
+DOS8000-byte read requests are compared. Native writes past the declared
+output size are recorded (the known A1 lookahead), not silently discarded.
+
+All fourIshar1 and twoIshar2 actual-startup checkpoints pass. Original-selected
+decoder buffers are905Fh for the absent-EMS Ishar1 cases and E000h for the
+successful EMS cases; neither is replaced by the former synthetic9000h buffer.
+Images match the identified26384-byte Ishar1 and27752-byte Ishar2 MAINs.
+
+With `--root`, the same CPU continues from7839 through registry8182,
+notifications, context8268, loader RET7856, POP DS765A and RET765B to2607.
+The existing registry/context models independently predict root range bytes,
+entry, globals and ES/BX. These and final SP07EE match in all six cases.
+The observed VGA state2898!=0 correctly skips185E at8205..820D and calls
+16CE at8210. The former standalone zero-global tests took the other branch;
+that behavior must not be copied into the actual VGA startup path.
+
+Evidence: STARTUP_MAIN_DECODE_ROOT_NATIVE_2026-10-18.json. Reproduce after
+creating the prior private prefix checkpoints:
+`check-native-dos-startup-main-decode.py PRIVATE_PREFIX_DIRECTORY MAIN.IO --root`.
+Optional `--checkpoint-root PRIVATE_OUTPUT_DIRECTORY` exports exclusive new
+memory/CPU checkpoints after all comparisons pass. Outputs must be outside
+the repository, originals and input checkpoint directory, and stay private.
+No original memory images, decoded script bytes or graphics are committed.
+
+Scope: output and transition verification on real startup states, not a full
+physical-memory model of decoder scratch/notification internals. OS replies
+are explicit successful reads/close; IRQs are not delivered during this slice.
+This establishes the native startup-to-root return on the controlled device
+profile, not a fully reconstructed boot or visible game frame. Next: resume
+2607 scheduler and supported MAIN execution on these states, then follow
+frames with the already initialized VGA target/pitch instead of null targets.
