@@ -3,7 +3,7 @@ import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('checkpoints',type=Path);p.add_argument('--find-first-carry',type=int,choices=[0,1]);p.add_argument('--first-frame',action='store_true');p.add_argument('--shift-flags',type=int);p.add_argument('--cycles',type=int,default=0);p.add_argument('--checkpoint-end',type=Path);a=p.parse_args();assert 0<=a.cycles<=1000;a.first_frame=a.first_frame or a.cycles>0;assert a.shift_flags is None or 0<=a.shift_flags<=255;repo=Path(__file__).resolve().parent.parent;rows=[]
+p=argparse.ArgumentParser();p.add_argument('checkpoints',type=Path);p.add_argument('--find-first-carry',type=int,choices=[0,1]);p.add_argument('--first-frame',action='store_true');p.add_argument('--shift-flags',type=int);p.add_argument('--cycles',type=int,default=0);p.add_argument('--checkpoint-end',type=Path);p.add_argument('--resume-context',action='store_true');a=p.parse_args();assert 0<=a.cycles<=1000;a.first_frame=a.first_frame or a.cycles>0;assert a.shift_flags is None or 0<=a.shift_flags<=255;repo=Path(__file__).resolve().parent.parent;rows=[]
 profiles={'ishar1':'5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7','ishar2':'f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04'}
 regs={'ax':UC_X86_REG_AX,'bx':UC_X86_REG_BX,'cx':UC_X86_REG_CX,'dx':UC_X86_REG_DX,'di':UC_X86_REG_DI,'si':UC_X86_REG_SI,'bp':UC_X86_REG_BP,'ds':UC_X86_REG_DS,'es':UC_X86_REG_ES,'ss':UC_X86_REG_SS,'sp':UC_X86_REG_SP,'cs':UC_X86_REG_CS,'ip':UC_X86_REG_IP,'flags':UC_X86_REG_EFLAGS}
 if a.checkpoint_end:
@@ -11,7 +11,7 @@ if a.checkpoint_end:
  a.checkpoint_end.mkdir(parents=True,exist_ok=True)
 paths=sorted(a.checkpoints.glob('*.bin'));assert paths
 for path in paths:
- original=path.read_bytes();meta=json.loads(path.with_suffix('.json').read_text());assert len(original)==0x100000 and hashlib.sha256(original).hexdigest()==meta['memorySha256'];assert meta['captureSha256']==profiles[meta['profile']] and meta['boundary']==0x2607 and meta['registers']['ip']==0x2607
+ original=path.read_bytes();meta=json.loads(path.with_suffix('.json').read_text());assert len(original)==0x100000 and hashlib.sha256(original).hexdigest()==meta['memorySha256'];assert meta['captureSha256']==profiles[meta['profile']] and meta['boundary']==(0x264c if a.resume_context else 0x2607) and meta['registers']['ip']==meta['boundary']
  cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,original)
  for key,value in meta['registers'].items():cpu.reg_write(regs[key],value)
  def model(script,extra):
@@ -42,8 +42,12 @@ for path in paths:
    pattern.append(value);assert len(pattern)<65536
   carry=bool(a.find_first_carry);file_events.append({'patternSha256':hashlib.sha256(pattern).hexdigest(),'attributes':uc.reg_read(UC_X86_REG_CX),'drive':drive[0],'carry':carry});uc.reg_write(UC_X86_REG_AX,2 if carry else 0);flags=uc.reg_read(UC_X86_REG_EFLAGS);uc.reg_write(UC_X86_REG_EFLAGS,flags|1 if carry else flags&~1)
  cpu.hook_add(UC_HOOK_INTR,interrupt)
- scheduler=model('dos-main-scheduler-vector.mjs',{'es':cpu.reg_read(regs['es']),'ds':cpu.reg_read(regs['ds'])});sp=cpu.reg_read(regs['sp']);run(0x12607,0x10000+scheduler['entry'])
- for key in ['bp','si','ds','es','bx']:assert cpu.reg_read(regs[key])==scheduler[key],key
+ if a.resume_context:
+  scheduler=model('dos-physical-context-vector.mjs',{'registers':{key:cpu.reg_read(regs[key]) for key in ['ds','es','si','bp','dx','cx']}});sp=cpu.reg_read(regs['sp']);run(0x1264c,0x10000+scheduler['entry'])
+  for key,value in scheduler['registers'].items():assert cpu.reg_read(regs[key])==value,key
+ else:
+  scheduler=model('dos-main-scheduler-vector.mjs',{'es':cpu.reg_read(regs['es']),'ds':cpu.reg_read(regs['ds'])});sp=cpu.reg_read(regs['sp']);run(0x12607,0x10000+scheduler['entry'])
+  for key in ['bp','si','ds','es','bx']:assert cpu.reg_read(regs[key])==scheduler[key],key
  assert cpu.reg_read(regs['sp'])==sp+scheduler['stackDelta'];compare_hash(scheduler['hash'])
  state={key:cpu.reg_read(regs[key]) for key in ['ds','es','si','bp','dx','cx']};prefix=model('dos-physical-script-prefix-vector.mjs',{'registers':state,**({'shiftFlags':a.shift_flags} if a.shift_flags is not None else {}),**({'findFirstReplies':[bool(a.find_first_carry)]*64} if a.find_first_carry is not None else {})});counts={};start=0x126eb
  for index,step in enumerate(prefix['steps']):
@@ -90,4 +94,4 @@ for path in paths:
   with (a.checkpoint_end/path.with_suffix('.json').name).open('x',encoding='utf-8') as f:json.dump({'profile':meta['profile'],'captureSha256':meta['captureSha256'],'memorySha256':hashlib.sha256(raw).hexdigest(),'sourceCheckpointSha256':meta['memorySha256'],'boundary':state['ip'],'registers':state},f,indent=2)
  assert path.read_bytes()==original
  rows.append({'checkpoint':path.name,'checkpointSha256':meta['memorySha256'],'profile':meta['profile'],'scheduler':scheduler,'cycles':cycles,'videoState':video,'continuation':continuation,'fileEvents':file_events,'steps':len(prefix['steps']),'opcodes':counts,'reason':prefix['reason'],'nextOpcode':prefix['nextOpcode'],'last':prefix['steps'][-1] if prefix['steps'] else None,'boundary':cpu.reg_read(regs['ip']),'sp':cpu.reg_read(regs['sp'])})
-print(json.dumps({'requestedCycles':a.cycles,'firstFrame':a.first_frame,'shiftFlags':a.shift_flags,'findFirstCarry':a.find_first_carry,'caseCount':len(rows),'cases':rows,'stackMask':'07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared','limits':'Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. No IRQs delivered; optional explicit DOS FindFirst carry and drive-selection replies, no DTA writes or filesystem access; stops at yield or first unsupported opcode, not complete game/frame.'}))
+print(json.dumps({'resumeContext':a.resume_context,'requestedCycles':a.cycles,'firstFrame':a.first_frame,'shiftFlags':a.shift_flags,'findFirstCarry':a.find_first_carry,'caseCount':len(rows),'cases':rows,'stackMask':'07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared','limits':'Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. No IRQs delivered; optional explicit DOS FindFirst carry and drive-selection replies, no DTA writes or filesystem access; stops at yield or first unsupported opcode, not complete game/frame.'}))

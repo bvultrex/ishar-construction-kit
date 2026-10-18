@@ -3031,3 +3031,45 @@ stay private. Typecheck passes. Next: resume actual MAIN from264C, complete
 the real IRQ tail including its BIOS-chain boundary, and connect palette/DAC
 state to visible-color verification. Ishar1 opcode106 and broader engine/editor
 coverage remain open; no complete colored/timed startup screen is claimed.
+
+
+### Post-palette IRQ tail and resumed rendered MAIN (2026-10-18)
+
+`original-dos-post-palette-irq.ts` reconstructs0DC9..0E46. Active audio,
+timer-record bodies and cursor processing stop at their actual call boundary.
+The inactive path performs signed timer-record selection, decrements C97 with
+byte wrap, reloads C98 and follows the original inhibit/mode decision. Nine
+registers are read from the existing IRQ stack. IRET consumes the hardware
+IP/CS/FLAGS frame; the saved-handler path instead jumps to CS:BF2/BF4 and
+leaves that frame pending. No BIOS handler is replaced by a successful stub.
+A scratch detail from222A is retained: selection of record2 changes CD7 but
+does not load its value into AH; AH contains the best of the first two values.
+
+Native comparison passes37 cases per capture (74 total): counter0/1/2/255,
+reload0/3, inhibit0/1, mode0/2 and explicit audio/three-record/cursor boundaries.
+Full memory except FEC0..FEFF and all returned registers/SP match. The saved
+register and hardware frames FF00..FF17 are compared, not masked. Real IRET
+restores flags including the original DF bit. Far-target tests stop before the
+saved handler body. Evidence: POST_PALETTE_IRQ_NATIVE_2026-10-18.json.
+Reproduce: `check-native-dos-post-palette-irq.py CAPTURE`.
+
+The connected startup checker now continues from the palette return0DC9 to
+the actual tail outcome. Both rendered-startup states restore all interrupted
+registers and reach7000:1234, the vector saved from the earlier explicit DOS
+get-vector response. SP retains the six hardware-frame bytes; their IP/CS/FLAGS
+are separately checked even though they lie within the connected stack mask.
+The stored handler's bytes are not executed. This verifies the original engine
+handoff to its OS dependency, not the BIOS implementation or a completed IRQ.
+Evidence: STARTUP_IRQ_TAIL_NATIVE_2026-10-18.json; reproduce the existing
+startup-frame-return checker with `--palette`.
+
+The script checker adds `--resume-context` for already verified264C states.
+It reloads the shared physical scheduler without rerunning2607 initialization.
+Both pre-IRQ rendered-frame checkpoints compare the original context reload
+and one opcode215, then stop before the unconnected opcode104. Private terminal
+checkpoints retain this exact native position. Evidence:
+STARTUP_AFTER_RENDER_MAIN_NATIVE_2026-10-18.json. Reproduce:
+`check-native-dos-startup-main-script.py PRIVATE_RENDERED_FRAME_DIRECTORY --resume-context`.
+Typecheck passes. Next: reconstruct opcode104's actual resource/service path;
+Ishar1 opcode106 and external BIOS handler behavior remain open, as do broader
+engine/editor and complete visible/timed startup coverage.

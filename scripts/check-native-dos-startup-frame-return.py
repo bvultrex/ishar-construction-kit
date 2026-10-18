@@ -40,6 +40,14 @@ for path in paths:
   callback=model('dos-vga-palette-irq-vector.mjs',{'replies':{'ax':callback_state['ax'],'interruptFlag':bool(callback_state['flags']&0x200),'retraceReads':[8]}});run(0x1e970+0xea8,0x10dc9)
   for key in ['bx','cx','dx','di','si','bp','ds','es']:assert cpu.reg_read(regs[key])==callback_state[key]
   assert cpu.reg_read(regs['ax'])==callback['ax'] and cpu.reg_read(regs['sp'])==callback_state['sp']+4;assert bool(cpu.reg_read(regs['flags'])&0x200)==callback['interruptFlag'];assert events==callback['events'];compare_hash(callback['hash'])
-  palette={key:value for key,value in callback.items() if key!='events'};palette.update(eventSha256=hashlib.sha256(json.dumps(events,separators=(',',':')).encode()).hexdigest(),eventCount=len(events),irqPrefixEventSha256=prefix_hash,boundary=0xdc9,outerIrqPending=True)
+  tail=model('dos-post-palette-irq-vector.mjs',{'registers':{key:cpu.reg_read(regs[key]) for key in ['ax','bx','cx','dx','di','si','bp','ds','es','sp']}});run(0x10dc9,tail['segment']*16+tail['entry'])
+  for key,value in tail['registers'].items():assert cpu.reg_read(regs[key])==value,('IRQ tail',key)
+  compare_hash(tail['hash'])
+  if tail['phase']=='iret':assert cpu.reg_read(regs['flags'])==tail['flags']
+  if tail['phase'] in ['iret','saved-handler']:
+   for key in ['ax','bx','cx','dx','di','si','bp','ds','es']:assert cpu.reg_read(regs[key])==saved[key]
+   assert cpu.reg_read(regs['sp'])==saved['sp']-(6 if tail['phase']=='saved-handler' else 0)
+   if tail['phase']=='saved-handler':assert bytes(cpu.mem_read(g+saved['sp']-6,6))==b''.join(value.to_bytes(2,'little') for value in [saved['ip'],saved['cs'],saved['flags']&65535])
+  palette={key:value for key,value in callback.items() if key!='events'};palette.update(tail=tail,eventSha256=hashlib.sha256(json.dumps(events,separators=(',',':')).encode()).hexdigest(),eventCount=len(events),irqPrefixEventSha256=prefix_hash,boundary=0xdc9,outerIrqPending=tail['phase']!='iret')
  assert path.read_bytes()==source;rows.append({'checkpoint':path.name,'checkpointSha256':meta['memorySha256'],'frameReturn':expected,'palette':palette})
-print(json.dumps({'caseCount':len(rows),'cases':rows,'stackMask':'0798..07ED CPU scratch; original entry saves compared','limits':'Actual43D0 pixel/object/frame return to264C compared with existing saved CPU frames, full memory/registers; optional real installed IRQ entry and VGA palette callback compared through0DC9, outer IRQ tail/IRET not completed. Explicit retrace8, no BIOS-chain stub or colored-screen claim.'}))
+print(json.dumps({'caseCount':len(rows),'cases':rows,'stackMask':'0798..07ED CPU scratch; original entry saves compared','limits':'Actual43D0 pixel/object/frame return to264C compared with existing saved CPU frames, full memory/registers; optional real installed IRQ entry and VGA palette callback compared through0DC9, post-palette selection/countdown and actual saved-register IRET/BIOS far-target boundary checked; saved BIOS handler body not executed. Explicit retrace8, no BIOS-chain stub or colored-screen claim.'}))
