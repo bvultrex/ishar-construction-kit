@@ -13,6 +13,7 @@ Basis: `workbench/playable-slice` @ `bb42748` (Code-Stand `319819c`). Belegstatu
 | Quesh | [dataflow-ishar2.md](quesh/dataflow-ishar2.md) | Datenfluss-Matrix Ishar 2 | siehe Bericht |
 | Quesh | [pickup-contract-ishar2.md](quesh/pickup-contract-ishar2.md) / [.json](quesh/pickup-contract-ishar2.json) | Routinenvertrag Bodenaufnahme → Cursor → Slot | „confirmed“ (Contract status) |
 | Quesh | [combat-contract-ishar2.md](quesh/combat-contract-ishar2.md) / [.json](quesh/combat-contract-ishar2.json) | Kampfroutine (ENCB, ein Kill) | siehe Bericht |
+| Quesh | [combat-contract-ishar1.md](quesh/combat-contract-ishar1.md) / [.json](quesh/combat-contract-ishar1.json) | Kampfroutine Ishar 1 (Nachtrag) | siehe Bericht |
 | Quesh | [hebel-tuer-trigger-ishar2.md](quesh/hebel-tuer-trigger-ishar2.md) | Hebel-/Tür-Triggerpfad | siehe Bericht |
 | Quesh | [tableau-editor.md](quesh/tableau-editor.md) | TABLEAU.IO Entwickler-Karteneditor | „Static only, no emulator runs“ |
 | Alderaan | [REFERENCES.md](alderaan/REFERENCES.md) | Reproduzierbare Originalreferenzen (Pickup, NPC, Shop, Mahlzeit) | Ishar 2: „complete references for all four cases“ (Stand 19:55) |

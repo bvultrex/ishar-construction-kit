@@ -186,3 +186,41 @@ Unchanged: 0x4b80 7576–7578 (0,0,0 before and after), levels 1291–1295, grou
 
 ### Other notes
 - 0x4b80 and 7409: see hebel-tuer-trigger-ishar2.md (addendum 19:5x). 0x4b80 = the three front-cell contact slots; Alderaan and I describe the same thing.
+
+---
+## Addendum 2026-10-18 20:12 CEST: open points closed (static)
+SHA-256: FRISE.IO 27117c12…2b64, EATT.IO d5ef72a5…14ec, GESORT.IO 71f842f2…5a3c, start.exe 5e35e58d…adf9.
+
+### A1. Attack cooldowns
+- **Player:** per-character word `loc 0x0150[c]` (FRISE process local, **not in the save**). Set on the swing: `(0x4fcc/120)·(loc163·25/d64 + 2)`, halved on the hand-alternation paths, or `0x4fcc/30` on the alternate path (writer lines at FRISE 0x0150 stores). **proven** (writers)
+- Countdown: FRISE 0x0717f–0x07337, the block behind the script-header `ret_offset` (0x7179 → entry 0x717b, `cjmp`, then the block). This is FRISE's interrupt routine, run once per ALIS frame. Each pass: `loc150[c] −= 1` for c = 0..4 when it is non-zero. At ≤ 0 it is set to 0 and the attack icon redraws (`ctrasen 78+c`). **proven** (code); **hypothesis** that it runs once per frame (interrupt semantics). The same pattern is in Ishar 1 (FRISE ret_offset 0x7e3c → 0x07e42).
+- The same routine counts `dirb 0x8b` and every 10th pass decrements the party status timers (A2). **proven**
+- Attack gate (FRISE 0x0150 entry ceval): `food 0x2ef6[c] > 0 && 0x2e26[c] == 0 && loc150[c] ≤ 0`. **proven**
+- **Why ENCB had an F6 without a swing:** the press came while `loc150[c] > 0`, or the cell in front had no live target / the character was not in the front row. The press is dropped with no RNG and no food. **hypothesis** (cooldown is the likely cause; nothing in the save can tell)
+- **Monster:** `dirti 0x20[id]` (EATT process, not saved). EATT 0x00238 decrements it once per actor-loop pass (loop 0x00074…0x002ba over ids loc114..loc115). Set after each attempt: `(0x4fcc/480)·(40/(AGI_m+1))` (0x00b69), `50/(AGI+1)` (0x00e37), `0x4fcc/4/(l105+1)` (0x01216). −1 means "attack now". **proven**
+
+### A2. Status bytes
+Party: 5 words per field. Countdown: FRISE 0x07195–0x072c1, −1 every 10 interrupt passes. At 0, `L_06f4d` removes effect icon N from `0x4b88[c][0..9]`.
+| addr | save | icon at 0 | writers | readers / effect | meaning |
+|---|---|---|---|---|---|
+| 0x2e26 | 1186+2c | 26 | EATT 0x010b4 (`L·0x4fcc/300`) | FRISE attack gate (blocks), EATT hit = 95 | paralysed (**hypothesis** name; effect **proven**) |
+| 0x2e4a | 1206+2c | (no timer) | EATT 0x0105d = 1, GESORT =0/1 | FRISE, GESORT | flag, permanent until cured (poison/curse, **open**) |
+| 0x2e56 | 1216+2c | 2 | GESORT `25+5·power` (self) / `12+5·power` | EATT halves damage | protection **proven** |
+| 0x2e62 | 1226+2c | 98 | FRISE, PARAM | EATT hit = −1 (never hits) | invisibility/ward (**hypothesis**) |
+| 0x2e7a | 1246+2c | 3 | GESORT `25+5p` / `12+5p` | EATT, FRISE | spell buff (**open**) |
+| 0x2e86 | 1256+2c | 23 | EATT 0x01082 (`L·0x4fcc/300`), GESORT 0 / 10000 | player hit = 20, EATT hit = 70 | blind (**hypothesis** name; effects **proven**) |
+| 0x2faa | 1481+2c | 8 | GESORT `25+5p` | EATT | spell buff (**open**) |
+| 0x2fb6 | 1491+2c | (no timer) | GERDEP = 1, GESORT = 0 | FRISE, GESORT | flag (**open**) |
+Actors (word per id). EATT 0x0024f–0x002a2 decrements **only the first non-zero one** of 3946 → 3a24 → 3be0 per pass. Any non-zero value makes the player hit automatically (FRISE).
+| addr | save | writer | effect |
+|---|---|---|---|
+| 0x3946 | 3921+2i | GESORT `0x4fcc/10·p/3` | actor held (EATT skips attack) **hypothesis** paralysis |
+| 0x3a24 | 4141+2i | GESORT `0x4fcc/12·p/3`, cleared on hit (FRISE, GESORT 0x011b0) | sleep **proven**-ish (clear on hit) |
+| 0x3be0 | 4581+2i | GESORT `0x4fcc/10·p/3` | EATT hit forced 15 → weakened/slow (**hypothesis**) |
+EDPLT reads 3946/3a24 (actor idle). All 11 arrays are in the save (IO.IO cfread/cfwrite), so timers survive a load. **proven**
+
+### A3. EATT target selection
+- The formation grid `0x49e6[5][5]` (save 7111, 25 bytes, value = slot+1, 0 = empty) is written by FRISE (party order, 0 on death: FRISE `cstore 0 → 0x49e6`) and PARAM init (row 4: 1,2,3,4). **proven**
+- EATT has 8 scan sites. Each scans the grid from the side the monster attacks from, front row first (e.g. 0x009af: rows 0.., column 4 → 0), and takes **the first non-zero cell** (→ `L_009f1`, target = value−1). One site (0x0081b) calls `rnd(2)` to pick the scan direction (left→right vs right→left). That is 1 extra RNG call before the hit roll. The others are deterministic. **proven**
+- Dead members are skipped because FRISE zeroes their grid cell on death, not because of an HP test in EATT. **proven** (writer); not run.
+- RNG order for one monster attempt: [rnd(2) at site 0x0081b only] → rnd(100) hit → if hit, rnd(dmax) → no RNG for the cooldown in EATT 0x00b69. **proven**
