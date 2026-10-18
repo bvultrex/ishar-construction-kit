@@ -4,7 +4,7 @@ from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
 from dos_platform_bios_timer import apply_controlled_bios_timer
-p=argparse.ArgumentParser();p.add_argument('checkpoints',type=Path);p.add_argument('--checkpoint-name');p.add_argument('--timer-platform',action='store_true');p.add_argument('--traverse-empty',action='store_true');p.add_argument('--equipment-word',type=int,choices=range(65536));p.add_argument('--current-drive',type=int,choices=range(26));p.add_argument('--find-first-carry',type=int,choices=[0,1]);p.add_argument('--first-frame',action='store_true');p.add_argument('--shift-flags',type=int);p.add_argument('--cycles',type=int,default=0);p.add_argument('--checkpoint-end',type=Path);p.add_argument('--resume-context',action='store_true');p.add_argument('--palette-retrace',type=int);p.add_argument('--resume-script',action='store_true');a=p.parse_args();assert not (a.resume_script and a.resume_context);assert a.palette_retrace is None or 0<=a.palette_retrace<=255;assert not a.timer_platform or a.palette_retrace is not None;assert 0<=a.cycles<=1000;a.first_frame=a.first_frame or a.cycles>0;assert a.shift_flags is None or 0<=a.shift_flags<=255;repo=Path(__file__).resolve().parent.parent;rows=[]
+p=argparse.ArgumentParser();p.add_argument('checkpoints',type=Path);p.add_argument('--checkpoint-name');p.add_argument('--timer-platform',action='store_true');p.add_argument('--traverse-empty',action='store_true');p.add_argument('--equipment-word',type=int,choices=range(65536));p.add_argument('--current-drive',type=int,choices=range(26));p.add_argument('--find-first-carry',type=int,choices=[0,1]);p.add_argument('--first-frame',action='store_true');p.add_argument('--shift-flags',type=int);p.add_argument('--cycles',type=int,default=0);p.add_argument('--checkpoint-end',type=Path);p.add_argument('--resume-context',action='store_true');p.add_argument('--palette-retrace',type=int);p.add_argument('--resume-script',action='store_true');p.add_argument('--joystick-replies');a=p.parse_args();a.joystick_replies=None if a.joystick_replies is None else [int(v) for v in a.joystick_replies.split(',')];assert a.joystick_replies is None or all(0<=v<=255 for v in a.joystick_replies);assert not (a.resume_script and a.resume_context);assert a.palette_retrace is None or 0<=a.palette_retrace<=255;assert not a.timer_platform or a.palette_retrace is not None;assert 0<=a.cycles<=1000;a.first_frame=a.first_frame or a.cycles>0;assert a.shift_flags is None or 0<=a.shift_flags<=255;repo=Path(__file__).resolve().parent.parent;rows=[]
 profiles={'ishar1':'5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7','ishar2':'f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04'}
 regs={'ax':UC_X86_REG_AX,'bx':UC_X86_REG_BX,'cx':UC_X86_REG_CX,'dx':UC_X86_REG_DX,'di':UC_X86_REG_DI,'si':UC_X86_REG_SI,'bp':UC_X86_REG_BP,'ds':UC_X86_REG_DS,'es':UC_X86_REG_ES,'ss':UC_X86_REG_SS,'sp':UC_X86_REG_SP,'cs':UC_X86_REG_CS,'ip':UC_X86_REG_IP,'flags':UC_X86_REG_EFLAGS}
 if a.checkpoint_end:
@@ -20,7 +20,7 @@ for path in paths:
  cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,original)
  for key,value in meta['registers'].items():cpu.reg_write(regs[key],value)
  def model(script,extra):
-  request={**({'equipmentWord':a.equipment_word} if a.equipment_word is not None else {}),**({'equipmentWord':a.equipment_word,'currentDrive':a.current_drive} if a.current_drive is not None else {}),'memory':base64.b64encode(bytes(cpu.mem_read(0,0x100000))).decode(),'ss':0x1c0b,'stackMask':[0x7a8,0x7ee],**({'palette':{'retraceReads':[a.palette_retrace],'interruptFlag':True}} if a.palette_retrace is not None else {}),**extra}
+  request={**({'joystickReplies':a.joystick_replies} if a.joystick_replies is not None else {}),**({'equipmentWord':a.equipment_word} if a.equipment_word is not None else {}),**({'equipmentWord':a.equipment_word,'currentDrive':a.current_drive} if a.current_drive is not None else {}),'memory':base64.b64encode(bytes(cpu.mem_read(0,0x100000))).decode(),'ss':0x1c0b,'stackMask':[0x7a8,0x7ee],**({'palette':{'retraceReads':[a.palette_retrace],'interruptFlag':True}} if a.palette_retrace is not None else {}),**extra}
   return json.loads(subprocess.check_output(['node',str(repo/'scripts'/script)],input=json.dumps(request),text=True,cwd=repo))
  def compare_hash(expected):
   actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0x7a8:0x1c0b0+0x7ee]=bytes(0x46);assert hashlib.sha256(actual).hexdigest()==expected,'Physical MAIN memory mismatch'
@@ -53,10 +53,16 @@ for path in paths:
    if value==0:break
    pattern.append(value);assert len(pattern)<65536
   carry=bool(a.find_first_carry);file_events.append({'patternSha256':hashlib.sha256(pattern).hexdigest(),'attributes':uc.reg_read(UC_X86_REG_CX),'drive':drive[0],'carry':carry});uc.reg_write(UC_X86_REG_AX,2 if carry else 0);flags=uc.reg_read(UC_X86_REG_EFLAGS);uc.reg_write(UC_X86_REG_EFLAGS,flags|1 if carry else flags&~1)
- io_events=[]
+ io_events=[];joystick_index=[0]
  def read(uc,port,size,_):
+  if port==0x201:
+   assert size==1 and a.joystick_replies is not None and joystick_index[0]<len(a.joystick_replies)
+   value=a.joystick_replies[joystick_index[0]];joystick_index[0]+=1;io_events.append({'kind':'in','port':port,'value':value});return value
   assert a.palette_retrace is not None and port==0x3da and size==1;io_events.append({'kind':'in','port':port,'value':a.palette_retrace});return a.palette_retrace
- def write(uc,port,size,value,_):assert a.palette_retrace is not None and size==1 and port in ([0x3c8,0x3c9,0x20,0x40,0x43] if a.timer_platform else [0x3c8,0x3c9]);io_events.append({'kind':'out','port':port,'value':value})
+ def write(uc,port,size,value,_):
+  if port==0x201:
+   assert size==1 and a.joystick_replies is not None;io_events.append({'kind':'out','port':port,'value':value});return
+  assert a.palette_retrace is not None and size==1 and port in ([0x3c8,0x3c9,0x20,0x40,0x43] if a.timer_platform else [0x3c8,0x3c9]);io_events.append({'kind':'out','port':port,'value':value})
  cpu.hook_add(UC_HOOK_INSN,read,None,1,0,UC_X86_INS_IN);cpu.hook_add(UC_HOOK_INSN,write,None,1,0,UC_X86_INS_OUT)
  cpu.hook_add(UC_HOOK_INTR,interrupt)
  if a.resume_script:

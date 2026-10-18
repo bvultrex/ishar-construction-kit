@@ -1,6 +1,7 @@
 import type {OriginalDosDriveServices} from './original-dos-drive-query.ts';
 import {prepareOriginalDosModuleLoad} from './original-dos-module-load-prefix.ts';
 import {executeOriginalDosPhysicalClive} from './original-dos-physical-clive.ts';
+import {readOriginalDosScriptMouse} from './original-dos-script-mouse.ts';
 import {setOriginalDosSeedWord} from './original-dos-seed-word.ts';
 import {controlOriginalDosContext} from './original-dos-context-control.ts';
 import {selectOriginalDosPalette} from './original-dos-palette-select.ts';
@@ -26,7 +27,7 @@ export interface OriginalDosPhysicalScriptRegisters {ds:number;es:number;si:numb
  * registers are a contract; CPU scratch AX/BX/DI, flags and stack save bytes are
  * not modeled. No skipped opcodes, scheduler or invented external services.
  */
-export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters,engineSegment=0x1000,bios?:{driveServices?:OriginalDosDriveServices;shiftFlags?:number;fileSearch?:OriginalDosFileSearch;palette?:{retraceReads:readonly number[];interruptFlag:boolean}}){
+export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters,engineSegment=0x1000,bios?:{driveServices?:OriginalDosDriveServices;joystickReplies?:readonly number[];shiftFlags?:number;fileSearch?:OriginalDosFileSearch;palette?:{retraceReads:readonly number[];interruptFlag:boolean}}){
  if(source.length!==0x100000||![ss,...Object.values(input)].every(v=>Number.isInteger(v)&&v>=0&&v<=65535))throw Error('Expected1MiB memory and word registers');
  const window=(segment:number)=>{const at=segment*16;if(at+65536>source.length)throw Error('Script segment exceeds bounded physical window');return at;};
  const scriptAt=window(input.ds),contextAt=window(input.es),globalAt=window(ss);
@@ -42,6 +43,7 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
  else if(opcode===66)status='yield';
  else if(opcode===42){const next=setOriginalDosSeedWord(memory,ss,{...input,si:after});memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===59){/* Original2E93 is RET; only opcode fetch advances SI. */}
+ else if(opcode===134){const next=readOriginalDosScriptMouse(memory,ss,{...input,si:after},engineSegment);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===64){const next=executeOriginalDosPhysicalClive(memory,ss,{...input,si:after});memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===69){
   const next=prepareOriginalDosModuleLoad(memory,ss,{...input,si:after},engineSegment);
@@ -74,7 +76,7 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
   memory=next.memory;registers.si=next.registers.si;registers.dx=next.registers.dx;registers.cx=next.registers.cx;
  }else if(opcode===30||opcode===32||opcode===33){const next=assignOriginalDosIndexedValue(memory,ss,{ds:input.ds,es:input.es,si:after,bp:input.bp,dx:input.dx},opcode===32?'add':opcode===33?'subtract':'store');memory=next.memory;Object.assign(registers,{si:next.registers.si,dx:next.registers.dx,cx:next.registers.cx});}
  else if(opcode===31){
-  const next=evaluateOriginalDosPhysicalExpression(memory,ss,{...input,si:after},{keyByte,shiftFlags:bios?.shiftFlags,driveServices:bios?.driveServices,engineSegment},bios?.fileSearch);
+  const next=evaluateOriginalDosPhysicalExpression(memory,ss,{...input,si:after},{keyByte,joystickReplies:bios?.joystickReplies,shiftFlags:bios?.shiftFlags,driveServices:bios?.driveServices,engineSegment},bios?.fileSearch);
   memory=next.memory;registers.si=next.si;registers.dx=next.dx;registers.cx=next.cx;events=next.events;
  }else throw Error(`Original opcode${opcode} is not connected to physical script execution`);
  return {memory,registers,status,opcode,events};

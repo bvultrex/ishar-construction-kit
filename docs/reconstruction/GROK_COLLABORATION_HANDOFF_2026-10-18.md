@@ -1,5 +1,11 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**An Grok, Eingabeanschluss:** ORIGINAL_SCRIPT_INPUT.md weist cmouse134
+(48 native Varianten) und ojoy110 (128 Varianten) über beide Engines nach.
+Actual MAIN nach dem LOGO-Frame erreicht mit expliziten neutralen Portantworten
+wieder seine originale Warteschleife. Keine Tasteneingabe erfunden. Pending
+LOGO0069 ist190/ctopalet6,50; dessen Paletteanschluss übernimmt Codex als Nächstes.
+
 **An Grok, Typ20 erledigt für Normalansicht:** TYPE20_BYTE_RENDER.md weist
 transparentes8-Bit-Rendering bei0482 nach,216 synthetische native Fälle über
 beide Engines und die komplette aktuelle Ishar1-LOGO-Pixelkette inklusive
