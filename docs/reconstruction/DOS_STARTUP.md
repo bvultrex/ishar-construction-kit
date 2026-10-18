@@ -793,3 +793,25 @@ Wichtige Grenze: Dies ist ein Nachweis des Engineablaufs bei kontrollierten DOS-
 Adaptertests prüfen den Dateinamensrequest nach einer Kontextstringkopie, das Erfolgsergebnis und atomaren Halt ohne Dienst.144 String- und912 bestehende Ausdrucksfälle von Ishar2 bestehen erneut; Typecheck und Produktionsbuild bestehen. Der reale IO.IO-Test bleibt ohne DOS-Dienst bei SI00D3h angehalten, statt eine Suchantwort zu erfinden.
 
 Nächster Schritt: DOS-Dateinamens-/DTA- und Suchverhalten weiter erschließen und den lesenden Dienst anhand tatsächlich importierter Ressourcen anbinden; erst dann die vollständige IO.IO-Fortsetzung nativ vergleichen. Die echte globale Basis-/Wurzelinitialisierung und Callbackausführung bleiben ebenfalls offen.
+
+## DOSBox-Referenz für FindFirst und verlustfreier DTA-Zugriff
+
+Am18.10.2026 wurde die externe DOS-Grenze mit einem eigenen COM-Testprogramm in der vorhandenen DOSBox-Installation geprüft, nicht nur mit kontrollierten Unicorn-Antworten. Ausführbare Referenz SHA256 e09f78e60b5be25a6af0381b71a90b8aa625f2ea42ecd427638edf2abb7130f0 (vorhandene Installation zuvor als DOSBox0.74 identifiziert). Der Lauf mountet ausschließlich einen neu erzeugten Testordner mit eigenen COMs und eigenen Beispieldateien. Originalinstallationen werden weder gemountet noch gelesen oder geschrieben. COM-Code, Fixture und Ergebnisprotokolle liegen außerhalb Git; im Repo stehen die eigenen Generator-/Prüfskripte und Metadaten.
+
+`scripts/run-dos-findfirst-oracle.ps1 -Output <neuer-Ordner> -Python <python.exe> [-DosBox <DOSBox.exe>]` erstellt acht Probes, führt sie ohne sichtbare Oberfläche mit SDL-Dummytreibern aus und prüft die102-Byte-Ergebnisdatensätze. Get-DTA INT21/AH2F liefert den Pointer; vor und nach FindFirst werden43 Bytes kopiert, dazu AX/Flags/CX/DX/DS/ES protokolliert. Ergebnisse werden erst nach bestandenen Prüfungen als Bericht ausgegeben. Die COMs sind ausschließlich eigens geschriebene Testprogramme ohne Originalspielcode.
+
+Für den reproduzierbaren Lauf muss der Batch in Autoexec mit `call probes.bat` aufgerufen werden, damit das folgende `exit` erreicht wird. Der erste manuelle Lauf lieferte alle acht Ergebnisse, blieb ohne `call` anschließend am Prompt; dieser ausschließlich eigene Prozess wurde nach Prüfung seiner Ergebnisse beendet. Der korrigierte automatische Lauf beendete DOSBox selbst erfolgreich (runtime.json:processExited=true). Ein laufender Prozess nach Beobachtungs-Timeout gilt im Runner ausdrücklich nicht als abgeschlossen und darf nicht blind neu gestartet werden.
+
+Beobachtungen der konkreten Referenz:
+
+- Default-DTA liegt bei PSP:0080h; DTA-Segment stimmt mit dem COM-Datensegment überein. Dies beweist noch nicht den aktiven DTA-Pointer einer vollständig initialisierten Ishar-Instanz.
+- EXIST.AO,exist.ao,*.AO und EXIST.* finden dieselbe eigene40-Byte-Datei; Name im DTA ist EXIST.AO, Attribut32. CX bleibt in diesen geprüften Fällen0.
+- Nicht vorhandene nichtleere Namen liefern Carry1/AX18 und ändern trotzdem die ersten21 DTA-Bytes. Eine reine Bool-Antwort bildet diesen Seiteneffekt nicht ab.
+- Ein leerer Name liefert Carry1/AX2; der DTA blieb in diesem Fall unverändert.
+- *.* liefert einen Treffer, dessen Identität von der Verzeichnisreihenfolge abhängt; im Test war es ein Logdatei-Kurzname. Keine feste Enumerationsreihenfolge wird daraus abgeleitet.
+
+`dos-findfirst-dta.ts` liest und schreibt43-Byte-Datensätze:0..20 bleiben undurchsichtiger Suchzustand;21 Attribut,22/24 rohe Zeit-/Datumsworte,26 Dateigröße als32-Bit-LE,30..42 Name mit Nullterminierung. No-op-Schreiben erhält alle Bytes einschließlich unbekannter Suchdaten und Restbytes hinter dem Dateinamen. Auch nichtterminierte Rohdatensätze lassen sich unverändert zurückschreiben; gezieltes Namensbearbeiten verlangt höchstens12 Nichtnullbytes plus Terminator. Ungültige Größen und abgeschnittene Datensätze werden abgewiesen. Prüfungen laufen auf allen acht echten DOSBox-Ergebnissen und zusätzlichen undurchsichtigen Rohdaten; Typecheck besteht.
+
+Metadaten des erfolgreichen automatischen Laufs: DOS_FINDFIRST_ORACLE_2026-10-18.json. DTA-Prüfsummen können sich durch Dateizeit und Suchzustand zwischen neuen Fixtureläufen ändern; semantische Assertions prüfen die beobachteten Eigenschaften, keine globale Byteidentität verschiedener Läufe.
+
+Noch offen: Suchzustand/FindNext, Attribute außerhalb der geprüften normalen Dateien, umfassende DOS-Pfad-/Wildcardregeln, echtes aktuelles Laufwerk und Ishars aktive DTA-Initialisierung. Der existierende Dateisuchdienst bleibt bewusst nicht automatisch an die Diagnose angebunden, bis dessen Zustandswirkungen korrekt erhalten werden können. Die DTA-Dateiwerkzeuge sind keine Behauptung eines kompletten DOS-Dateisystems.
