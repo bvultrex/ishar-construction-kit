@@ -2801,3 +2801,51 @@ Next: reconstruct expression118 forIshar1; continueIshar2 context reload and
 MAIN cycles from the actual first-frame return, toward visible-object/pixel
 work and original IRQ palette processing. External replies remain explicit,
 no IRQ is delivered during these prefixes and full game startup remains open.
+
+
+### Memory query118 and actual-startup cycles to first visible object (2026-10-18)
+
+Expression118 dispatches6DF4 ->1451. `original-dos-memory-query.ts`
+reconstructs selectors0..4 and the unknown-selector FFFF result. Selectors0/1
+use original unsigned16-bit paragraph arithmetic, multiply by16 and divide
+by1000 with truncation;2/3 subtract used module/context counts from limits.
+Selector4 follows the actual BEC free-object chain via BE8/BEA, reading each
+next word at base+link+4. Physical aliases remain visible; cyclic/straddling
+chains are explicit bounded-host errors, not invented native termination.
+A..D/a..d enter the separate DOS disk-space branch1579 and remain unsupported
+until explicit responses are implemented. The physical expression wrapper
+supplies a live memory query on its private transaction; no resource counts
+are fabricated or read from a JavaScript scene list.
+
+Native1451 comparison passes168 cases per game (336 total), including wrapped
+paragraph arithmetic, decimal truncation, remaining counts, unknown selectors
+and0/1/3/501-node actual physical chains. AX/BX/CX/DI/ES are preserved; DX/SP
+and full1MiB except FEC0..FF01 CPU scratch match. Both original inputs remain
+unchanged. Evidence: MEMORY_QUERY_NATIVE_2026-10-18.json. Reproduce:
+`check-native-dos-memory-query.py CAPTURE`.
+
+The fourIshar1 startup-root states now compare162 MAIN opcodes with successful
+FindFirst replies or161 with failed/retried replies, then stop before the
+unconnected opcode106 (not expression106). No unsupported opcode is skipped.
+Evidence: STARTUP_MAIN_MEMORY_QUERY_NATIVE_2026-10-18.json; reproduce the
+existing startup-script checker with `--find-first-carry 0` or1.
+
+The connected checker adds `--cycles N`, implying first-frame continuation,
+with an explicit host limit0..1000. After a returned frame it compares shared
+context reload, supported MAIN, yield, callback and next frame on the same
+CPU/image. With requested50 cycles and explicit BIOS shift reply0, bothIshar2
+states stop after30 additional cycles at the first visible-object boundary
+3DE4. OwnerBX738, recordCX154, one hidden object visited first; the final MAIN
+prefix includes the existing original text/resource draw paths. Memory/register
+comparisons pass at every step/transition. Pitch320 and targetA000:0000 remain
+verified; no visible pixels are claimed before the object body executes.
+Evidence: STARTUP_MAIN_CYCLES_NATIVE_2026-10-18.json. Reproduce:
+`check-native-dos-startup-main-script.py PRIVATE_ROOT_DIRECTORY --cycles 50 --shift-flags 0`.
+
+Optional `--checkpoint-end PRIVATE_OUTPUT_DIRECTORY` exclusively exports the
+checked terminal memory/CPU state outside the repository/input directory.
+The first-visible-object checkpoints remain private alongside prior outputs;
+only hashes and numeric evidence are committed. Next: continue3DE4's object,
+projection, record and pixel path on these correctly initialized states;
+reconstruct opcode106 forIshar1. IRQ delivery/palette progression, disk-space
+selectors and complete visible startup remain open.

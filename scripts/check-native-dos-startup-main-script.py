@@ -3,9 +3,12 @@ import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('checkpoints',type=Path);p.add_argument('--find-first-carry',type=int,choices=[0,1]);p.add_argument('--first-frame',action='store_true');p.add_argument('--shift-flags',type=int);a=p.parse_args();assert a.shift_flags is None or 0<=a.shift_flags<=255;repo=Path(__file__).resolve().parent.parent;rows=[]
+p=argparse.ArgumentParser();p.add_argument('checkpoints',type=Path);p.add_argument('--find-first-carry',type=int,choices=[0,1]);p.add_argument('--first-frame',action='store_true');p.add_argument('--shift-flags',type=int);p.add_argument('--cycles',type=int,default=0);p.add_argument('--checkpoint-end',type=Path);a=p.parse_args();assert 0<=a.cycles<=1000;a.first_frame=a.first_frame or a.cycles>0;assert a.shift_flags is None or 0<=a.shift_flags<=255;repo=Path(__file__).resolve().parent.parent;rows=[]
 profiles={'ishar1':'5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7','ishar2':'f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04'}
 regs={'ax':UC_X86_REG_AX,'bx':UC_X86_REG_BX,'cx':UC_X86_REG_CX,'dx':UC_X86_REG_DX,'di':UC_X86_REG_DI,'si':UC_X86_REG_SI,'bp':UC_X86_REG_BP,'ds':UC_X86_REG_DS,'es':UC_X86_REG_ES,'ss':UC_X86_REG_SS,'sp':UC_X86_REG_SP,'cs':UC_X86_REG_CS,'ip':UC_X86_REG_IP,'flags':UC_X86_REG_EFLAGS}
+if a.checkpoint_end:
+ assert not any(a.checkpoint_end.resolve().is_relative_to(root.resolve()) for root in [repo,a.checkpoints]),'Checkpoint output must stay outside repository/input directory'
+ a.checkpoint_end.mkdir(parents=True,exist_ok=True)
 paths=sorted(a.checkpoints.glob('*.bin'));assert paths
 for path in paths:
  original=path.read_bytes();meta=json.loads(path.with_suffix('.json').read_text());assert len(original)==0x100000 and hashlib.sha256(original).hexdigest()==meta['memorySha256'];assert meta['captureSha256']==profiles[meta['profile']] and meta['boundary']==0x2607 and meta['registers']['ip']==0x2607
@@ -47,27 +50,44 @@ for path in paths:
   sp=cpu.reg_read(regs['sp']);assert cpu.mem_read(cpu.reg_read(regs['ds'])*16+cpu.reg_read(regs['si']),1)[0]==step['opcode'];target=0x126b2 if step['status']=='yield' else 0x126f7;run(start,target);start=target
   for key,value in step['registers'].items():assert cpu.reg_read(regs[key])==value,(index,step['opcode'],key,cpu.reg_read(regs[key]),value)
   assert cpu.reg_read(regs['sp'])==sp+(2 if step['status']=='yield' else 0);compare_hash(step['hash']);counts[str(step['opcode'])]=counts.get(str(step['opcode']),0)+1
- continuation=None
+ continuation=None;cycles=[]
  if a.first_frame and prefix['steps'] and prefix['steps'][-1]['status']=='yield':
   def state():return {key:cpu.reg_read(regs[key]) for key in ['ds','es','si','bp','dx','cx']}
   def transition(script,start,extra=None):
    expected=model(script,{'registers':state(),**(extra or {})});sp=cpu.reg_read(regs['sp']);run(start,0x10000+expected['entry'])
    for key,value in expected['registers'].items():assert cpu.reg_read(regs[key])==value,('continuation',key)
    assert cpu.reg_read(regs['sp'])==sp+expected['stackDelta'];compare_hash(expected['hash']);return expected
-  finished=transition('dos-physical-yield-vector.mjs',0x126b2);continuation={'yield':finished}
-  if finished['phase']=='callback':
-   callback=model('dos-physical-script-prefix-vector.mjs',{'registers':state(),**({'shiftFlags':a.shift_flags} if a.shift_flags is not None else {})});start=0x126eb
-   for index,step in enumerate(callback['steps']):
-    sp=cpu.reg_read(regs['sp']);target=0x126d5 if step['status']=='yield' else 0x126f7;run(start,target);start=target
-    for key,value in step['registers'].items():assert cpu.reg_read(regs[key])==value,('callback',index,key)
+  def execute_steps(expected,yield_target):
+   start=0x126eb
+   for index,step in enumerate(expected['steps']):
+    sp=cpu.reg_read(regs['sp']);target=yield_target if step['status']=='yield' else 0x126f7;run(start,target);start=target
+    for key,value in step['registers'].items():assert cpu.reg_read(regs[key])==value,('continued script',index,key)
     assert cpu.reg_read(regs['sp'])==sp+(2 if step['status']=='yield' else 0);compare_hash(step['hash'])
-   continuation['callback']={'steps':len(callback['steps']),'reason':callback['reason'],'nextOpcode':callback['nextOpcode']}
-   if callback['steps'] and callback['steps'][-1]['status']=='yield':finished=transition('dos-physical-yield-vector.mjs',0x126d5,{'entry':'callback-return'});continuation['callbackReturn']=finished
-  if finished['phase']=='frame':continuation['frame']=transition('dos-physical-frame-vector.mjs',0x12649)
+  def finish_cycle():
+   finished=transition('dos-physical-yield-vector.mjs',0x126b2);result={'yield':finished}
+   if finished['phase']=='callback':
+    callback=model('dos-physical-script-prefix-vector.mjs',{'registers':state(),**({'shiftFlags':a.shift_flags} if a.shift_flags is not None else {})});execute_steps(callback,0x126d5)
+    result['callback']={'steps':len(callback['steps']),'reason':callback['reason'],'nextOpcode':callback['nextOpcode']}
+    if callback['steps'] and callback['steps'][-1]['status']=='yield':finished=transition('dos-physical-yield-vector.mjs',0x126d5,{'entry':'callback-return'});result['callbackReturn']=finished
+   if finished['phase']=='frame':result['frame']=transition('dos-physical-frame-vector.mjs',0x12649)
+   return result
+  continuation=finish_cycle();previous=continuation
+  for cycle_index in range(a.cycles):
+   if previous.get('frame',{}).get('phase')!='return':break
+   context=transition('dos-physical-context-vector.mjs',0x1264c);item={'context':context};cycles.append(item)
+   if context['phase']=='skip':break
+   next_prefix=model('dos-physical-script-prefix-vector.mjs',{'registers':state(),**({'shiftFlags':a.shift_flags} if a.shift_flags is not None else {})});execute_steps(next_prefix,0x126b2)
+   item['execution']={'steps':len(next_prefix['steps']),'reason':next_prefix['reason'],'nextOpcode':next_prefix['nextOpcode'],'last':next_prefix['steps'][-1] if next_prefix['steps'] else None}
+   if not next_prefix['steps'] or next_prefix['steps'][-1]['status']!='yield':break
+   item['continuation']=finish_cycle();previous=item['continuation']
  word=lambda at:int.from_bytes(cpu.mem_read(0x1c0b0+at,2),'little')
  video={'pitch':word(0x1dd5),'destinationSegment':word(0xb86),'destinationOffset':word(0xb84)}
  if continuation and 'frame' in continuation:assert video=={'pitch':320,'destinationSegment':0xa000,'destinationOffset':0}
  assert file_events==prefix['fileEvents']
+ if a.checkpoint_end:
+  raw=bytes(cpu.mem_read(0,0x100000));state={key:cpu.reg_read(reg) for key,reg in regs.items()}
+  with (a.checkpoint_end/path.name).open('xb') as f:f.write(raw)
+  with (a.checkpoint_end/path.with_suffix('.json').name).open('x',encoding='utf-8') as f:json.dump({'profile':meta['profile'],'captureSha256':meta['captureSha256'],'memorySha256':hashlib.sha256(raw).hexdigest(),'sourceCheckpointSha256':meta['memorySha256'],'boundary':state['ip'],'registers':state},f,indent=2)
  assert path.read_bytes()==original
- rows.append({'checkpoint':path.name,'checkpointSha256':meta['memorySha256'],'profile':meta['profile'],'scheduler':scheduler,'videoState':video,'continuation':continuation,'fileEvents':file_events,'steps':len(prefix['steps']),'opcodes':counts,'reason':prefix['reason'],'nextOpcode':prefix['nextOpcode'],'last':prefix['steps'][-1] if prefix['steps'] else None,'boundary':cpu.reg_read(regs['ip']),'sp':cpu.reg_read(regs['sp'])})
-print(json.dumps({'firstFrame':a.first_frame,'shiftFlags':a.shift_flags,'findFirstCarry':a.find_first_carry,'caseCount':len(rows),'cases':rows,'stackMask':'07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared','limits':'Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. No IRQs delivered; optional explicit DOS FindFirst carry and drive-selection replies, no DTA writes or filesystem access; stops at yield or first unsupported opcode, not complete game/frame.'}))
+ rows.append({'checkpoint':path.name,'checkpointSha256':meta['memorySha256'],'profile':meta['profile'],'scheduler':scheduler,'cycles':cycles,'videoState':video,'continuation':continuation,'fileEvents':file_events,'steps':len(prefix['steps']),'opcodes':counts,'reason':prefix['reason'],'nextOpcode':prefix['nextOpcode'],'last':prefix['steps'][-1] if prefix['steps'] else None,'boundary':cpu.reg_read(regs['ip']),'sp':cpu.reg_read(regs['sp'])})
+print(json.dumps({'requestedCycles':a.cycles,'firstFrame':a.first_frame,'shiftFlags':a.shift_flags,'findFirstCarry':a.find_first_carry,'caseCount':len(rows),'cases':rows,'stackMask':'07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared','limits':'Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. No IRQs delivered; optional explicit DOS FindFirst carry and drive-selection replies, no DTA writes or filesystem access; stops at yield or first unsupported opcode, not complete game/frame.'}))
