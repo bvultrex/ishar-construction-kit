@@ -2093,3 +2093,19 @@ This is not a full startup or visible frame proof: the harness explicitly transf
 between reservation, graphics initialization and frame entry. The intervening
 startup caller and resource/main initialization must still be connected in original
 order. Existing MAIN pixel tests with destination 0:0/pitch 0 retain that limitation.
+
+## Original viewport caller 1EBA (2026-10-18)
+
+`initializeOriginalDosVgaViewport` now follows engine1EBA..1F0A: screen
+bounds0,0..319,199 and initial pitch80, original VGA initialization, then
+secondary bounds0,0..319,199 with C22=80. Graphics000C calls RET at01A7
+in the selected VGA module. Screen pitch1DD5 ends at320; C22 remains80.
+These distinct values must not be normalized into a single pitch.
+
+The native test accepts `--viewport --with-frame` and executes the entire
+1EBA caller, including both graphics far calls, before the empty frame.
+Eight cases across both hash-bound captures pass. Caller nesting adds one
+stack word: mask FEBE..FF0F, versus FEC0..FF0F for direct graphics entry.
+Reservation-to-caller and caller-to-frame transfers remain explicit; full
+072D startup, hardware IRQ delivery and loaded MAIN integration remain open.
+Evidence: VGA_VIEWPORT_NATIVE_2026-10-18.json.

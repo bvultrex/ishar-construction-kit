@@ -3,6 +3,17 @@ export interface OriginalDosVgaReplies {
  vectorOffset:number;vectorSegment:number;crtData:number;picMask:number;miscRead:number;retraceRead:number;
  irq0A:'none';
 }
+/** Engine 1EBA..1F0A with the VGA graphics module selected.
+ * Graphics000C calls RET at01A7 in this module; other video modules are excluded.
+ */
+export function initializeOriginalDosVgaViewport(source:Uint8Array,ss:number,graphicsSegment:number,replies:OriginalDosVgaReplies){
+ if(source.length!==0x100000||!Number.isInteger(ss)||ss<0||ss>65535||ss*16+0x1dd7>source.length)throw Error('Invalid VGA viewport memory');
+ const staged=source.slice(),view=new DataView(staged.buffer),base=ss*16;
+ for(const [offset,value] of [[0x1dcd,0],[0x1dcf,0],[0x1dd1,319],[0x1dd3,199],[0x1dd5,80]])view.setUint16(base+offset,value,true);
+ const result=initializeOriginalDosVgaStartup(staged,ss,graphicsSegment,replies),output=new DataView(result.memory.buffer);
+ for(const [offset,value] of [[0xc1a,0],[0xc1c,0],[0xc1e,319],[0xc20,199],[0xc22,80]])output.setUint16(base+offset,value,true);
+ return result;
+}
 /** Graphics0000 ->0CC0 including0D51/0E0C, no delivered IRQ0A case.
  * BIOS memory patches and port/DOS replies are mandatory external inputs.
  * IN repetitions are recorded compactly; no real BIOS/device is invoked.

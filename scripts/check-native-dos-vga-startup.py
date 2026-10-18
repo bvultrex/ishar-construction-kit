@@ -3,9 +3,9 @@ import argparse,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('--with-frame',action='store_true');a=p.parse_args();original=a.capture.read_bytes();digest=hashlib.sha256(original).hexdigest()
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('--with-frame',action='store_true');p.add_argument('--viewport',action='store_true');a=p.parse_args();original=a.capture.read_bytes();digest=hashlib.sha256(original).hexdigest()
 profiles={'5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7':'ishar1','f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04':'ishar2'}
-assert digest in profiles;repo=Path(__file__).resolve().parent.parent;cases=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-vga-startup-vectors.mjs'),str(a.capture.resolve())]+(['--with-frame'] if a.with_frame else []),cwd=repo,text=True))
+assert digest in profiles;repo=Path(__file__).resolve().parent.parent;cases=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-vga-startup-vectors.mjs'),str(a.capture.resolve())]+(['--with-frame'] if a.with_frame else [])+(['--viewport'] if a.viewport else []),cwd=repo,text=True))
 for case in cases:
  m=bytearray(original);g=0x1c0b0;m[g:g+0x28c0]=bytes(0x28c0);r=case['replyFields']
  def word(at,value):m[at:at+2]=value.to_bytes(2,'little')
@@ -34,17 +34,19 @@ for case in cases:
   def reserve_end(uc,address,size,_):boundary.append(True);uc.emu_stop()
   handle=cpu.hook_add(UC_HOOK_CODE,reserve_end,None,0x108eb,0x108eb);cpu.reg_write(UC_X86_REG_CS,0x1000);cpu.reg_write(UC_X86_REG_AX,0x9fff);cpu.emu_start(0x1087d,0xfffff,count=100);cpu.hook_del(handle);assert boundary==[True]
   saved[UC_X86_REG_AX]=case['reservation']['ax'];saved[UC_X86_REG_BX]=case['reservation']['bx'];assert cpu.reg_read(UC_X86_REG_AX)==saved[UC_X86_REG_AX] and cpu.reg_read(UC_X86_REG_BX)==saved[UC_X86_REG_BX];cpu.reg_write(UC_X86_REG_CS,0x1e97)
- cpu.emu_start(0x1e970,0xfffff,count=6000000)
- assert done==[True] and cpu.reg_read(UC_X86_REG_SP)==0xff04 and polls[0]==case['timerPolls'],(done,polls)
+ if a.viewport:
+  cpu.reg_write(UC_X86_REG_CS,0x1000);cpu.mem_write(g+0xff00,(0xe000).to_bytes(2,'little'));cpu.reg_write(UC_X86_REG_SP,0xff00)
+ cpu.emu_start(0x11eba if a.viewport else 0x1e970,0xfffff,count=6000000)
+ assert done==[True] and cpu.reg_read(UC_X86_REG_SP)==(0xff02 if a.viewport else 0xff04) and polls[0]==case['timerPolls'],(done,polls)
  assert events==case['events'],(events,case['events'])
  for reg,value in saved.items():assert cpu.reg_read(reg)==value,reg
  assert not(cpu.reg_read(UC_X86_REG_EFLAGS)&0x200)
  if a.with_frame:
   boundary=[]
   def frame_end(uc,address,size,_):boundary.append(True);uc.emu_stop()
-  handle=cpu.hook_add(UC_HOOK_CODE,frame_end,None,0x1264c,0x1264c);cpu.emu_start(0x12649,0xfffff,count=1000);cpu.hook_del(handle);assert boundary==[True] and case['frame']['phase']=='return' and cpu.reg_read(UC_X86_REG_SP)==0xff04
+  handle=cpu.hook_add(UC_HOOK_CODE,frame_end,None,0x1264c,0x1264c);cpu.emu_start(0x12649,0xfffff,count=1000);cpu.hook_del(handle);assert boundary==[True] and case['frame']['phase']=='return' and cpu.reg_read(UC_X86_REG_SP)==(0xff02 if a.viewport else 0xff04)
   for reg,value in saved.items():assert cpu.reg_read(reg)==value
- actual=bytearray(cpu.mem_read(0,0x100000));actual[g+0xfec0:g+0xff10]=bytes(0x50);assert hashlib.sha256(actual).hexdigest()==case['hash']
+ actual=bytearray(cpu.mem_read(0,0x100000));mask=0xfebe if a.viewport else 0xfec0;actual[g+mask:g+0xff10]=bytes(0xff10-mask);assert hashlib.sha256(actual).hexdigest()==case['hash']
  case['interruptFlagAfterReturn']=bool(cpu.reg_read(UC_X86_REG_EFLAGS)&0x200)
 assert a.capture.read_bytes()==original
-print(json.dumps({'profile':profiles[digest],'captureSha256':digest,'caseCount':len(cases),'cases':cases,'limits':'No IRQ0A delivered; explicit controlled BIOS memory writes, DOS vector service and port replies; all general registers/SP and full memory except CPU stack saves; not a real BIOS or display'}))
+print(json.dumps({'profile':profiles[digest],'captureSha256':digest,'viewportCaller':a.viewport,'stackMaskStart':hex(0xfebe if a.viewport else 0xfec0),'caseCount':len(cases),'cases':cases,'limits':'No IRQ0A delivered; explicit controlled BIOS memory writes, DOS vector service and port replies; all general registers/SP and full memory except CPU stack saves; not a real BIOS or display'}))
