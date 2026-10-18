@@ -1783,3 +1783,64 @@ atomare Ablehnung eines nicht erschlossenen Operanden. Er sowie bestehende
 Diagnose-/Schrittregressionen, Typecheck und Diffprüfung bestehen. Die frühere
 kontrollierte Startumgebung und der getrennte Ishar1-MAIN-Start bleiben Grenzen;
 eine sichtbare Browser- oder Pixelausgabe ist weiterhin nicht nachgewiesen.
+
+### Stringausgabe185 bis zur sichtbaren Objektgrenze (18.10.2026)
+
+`original-dos-string-output.ts` rekonstruiert2A78,69B5,2ABE/2C77 und den
+Modus2 von2B14/2B93.185 setzt BAC=2 und tauscht C58/C5A. Unterstützte
+Stringformen sind4 (Literal),10 (BP-relativer Kontextstring) und34
+(BF6-relativer Kontextstring). Bytes werden einschließlich Null in den
+originalen SS-Puffer kopiert, ohne Unicode-Umwandlung oder neue Schriftlogik.
+Die Kopie arbeitet sequenziell im gemeinsamen Speicher. Ausgabe liest den
+Puffer ebenfalls live; es wird kein vorab losgelöstes Textarray verwendet.
+
+69B5 springt direkt nach69AB und überspringt das sonstige CX=DX von69A9.
+Die drei Stringformen erhalten deshalb DX und CX.2C77 sichert die Register
+um den gesamten Ausgabelauf; SI enthält anschließend nur den verbrauchten
+Stringoperanden. Alle Änderungen an Cursor-/Zeichenglobals bleiben bestehen.
+
+CR setzt C02 auf0. LF subtrahiert das Byte BA4 von C06. Leerzeichen addieren
+BA2 zu C02. Bei anderen Zeichen sperrt ein negatives BA0 jede Ausgabe und
+auch den Vorschub. Sonst wird Zeichen-BA8 als16-Bit-Wert gebildet; negatives
+Ergebnis oder unsigned Ergebnis>=BA6 unterdrücken nur die Glyphe, nicht den
+Vorschub. Gültige Glyphen verwenden BA0+Index als Ressource und setzen
+C15=1, C12=0, C14=1 vor dem direkten Aufruf3415.
+
+Die Ressourcenroutine hat dafür einen direkten Einstieg ohne Opcodeoperanden
+und ohne Überschreiben von C15/C12. Bei C15!=0 lesen39F5/3A4A den Modulzeiger
+relativ zu BF6; die eigentliche Datensatzliste bleibt kontextrelativ zu BP.
+Der vorhandene normale/Verbundpfad übernimmt Glyphen in die Originalzeichenliste.
+FE und andere nicht erschlossene Formen werden weiterhin atomar abgewiesen.
+Eine Traverse von maximal65536 Bytes ist eine explizite Hostgrenze gegen
+fehlende Terminatoren, keine behauptete originale Fehlerprüfung.
+
+`check-native-dos-string-output.py <memory.bin>` vergleicht je60 Fälle beider
+Originalcaptures: drei Stringformen, getrenntes/SS-aliasierendes ES, aktive/
+negative Fontbasis, leere Texte, CR/LF/Leerzeichen, gültige Glyphen sowie Bytes
+außerhalb des Glyphenbereichs. Register, SP und ganzer Speicher außer dem
+bekannten CPU-Stackbereich stimmen nativ überein. Eigene Eingaben bleiben
+unverändert; die Testtexte sind synthetisch. Metadaten:
+`STRING_OUTPUT_NATIVE_2026-10-18.json`. Die288 vorherigen vollständigen
+normalen/Verbund-Zeichenlistenfälle bestehen weiterhin.
+
+`check-native-dos-main-draw.py <privates Verzeichnis> --finish-yield --shift-flags 0`
+prüft anschließend die tatsächliche MAIN-Folge. Nach73 laufen elf weitere
+Befehle (186/191/185/66) bis zum Yield mit SI15129, DX10, CX80. Die native
+Ausgabe verarbeitet46 Zeichen und ruft28-mal die Glyphenroutine auf. Es werden
+keine Originaltexte oder Schriftgrafiken in die Metadaten übernommen.
+Der reale Callback läuft danach mit expliziter BIOS-Antwort0 in sieben Schritten
+bis zum Yield. Yield-Rückkehr und Frame stimmen ebenfalls nativ überein.
+
+Erstmals erreicht dieser MAIN-Test ein sichtbares Objekt: Frame besucht zwei
+aktive Einträge, überspringt einen verborgenen und stoppt bei3DE4 unmittelbar
+vor3E55. SP-Delta des offenen Frames ist-20. Alle drei gültigen Ishar2-Layouts
+stimmen bis zu dieser Grenze überein. Metadaten:
+`MAIN_STRING_OUTPUT_NATIVE_2026-10-18.json`. Die neue CLI-Option impliziert
+`--complete --follow`; externe BIOS-Antworten bleiben ausdrücklich vorzugeben.
+
+Damit sind die vorbereiteten Glyphen-/Grafikdatensätze und ihre Auswahl zum
+Zeichnen nachgewiesen, noch keine Pixel.3E55, die folgende Geräteausgabe und
+Browseranbindung bleiben offen. Ishar1 hat synthetische Befehlsnachweise,
+weiterhin keinen entsprechenden vollständigen MAIN-Start. Hosttest
+`node scripts/check-dos-string-output.mjs`, Zeichenlisten-/Schrittregressionen,
+Typecheck und Diffprüfung bestanden. Nächste Originalstelle ist3E55.

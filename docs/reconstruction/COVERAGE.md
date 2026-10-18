@@ -53,8 +53,8 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Zustand nativ verglichen. Auch die ersten7/8 numerischen Zuweisungen samt
    Original-Indexstack laufen durch. Das gemeinsame physische Schritt-API folgt
    jetzt auch Aufrufen, Ausdrücken und Bedingungen. Tatsächliche nächste Grenzen
-   sind die DOS-Dateisuche156 (Ishar1) und nach dem188-Rückkehrpfad der erste
-   erste Framegrenze nach MAIN-Rückkehr-Callback (Ishar2, explizite BIOS-Antwort0).
+   sind die DOS-Dateisuche156 (Ishar1) und der aktive Zeichenpfad3E55 nach
+   MAIN-Ausgabe/Callback/Frame (Ishar2, explizite BIOS-Antwort0).
    Callback, Rückkehr, Frame mit zwei verdeckten Einträgen und Wiedereinstieg
    in MAIN sind nativ geprüft. Auch die folgenden43→66 (Dekrement/Sprung→Yield)
    stimmen in drei gültigen Speicherlayouts mit dem Original überein. Der
@@ -67,11 +67,13 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Datensatzübernahme, alle drei Teilgrafiken und die Rückkehr sind inzwischen
    ebenfalls nativ verglichen; der normale/Verbundpfad72/73 ist angebunden.
    Die folgenden186/191 sind ebenfalls angebunden und nativ verglichen; MAIN
-   steht danach bei SI15046 auf185 (Stringausgabe). FE-Sonderpfad, weitere Operandformen
+   führt nun auch185 aus: Nach elf weiteren Schritten folgt Yield bei SI15129.
+   Der anschließende Callback/Frame erreicht nativ identisch das erste sichtbare
+   Objekt (Grenze3DE4 vor3E55). FE-Sonderpfad, weitere Operandformen
    und sichtbare Ausgabe bleiben offen. Verwandte Wortänderungen192/193/194 haben separate
    native Befehlsnachweise, noch keinen vollständigen Inhaltsablauf.
    Ohne BIOS-Antwort bleibt der Callback an116 stehen. Aktive Objektliste und
-   leere Kontextobjektkette bleiben getrennt;188-Grafikzweige sind separat offen.
+   kontextbezogene Zeichenliste bleiben getrennt;188-Grafikzweige sind separat offen.
    Abnahme:
    Register, Speicher, Zeiger und Stopgrenzen pro Profil stimmen überein.
 2. **Erster vollständiger Original-Modnachweis je Spiel.** Bestehenden sicheren

@@ -4,7 +4,7 @@ import type {OriginalDosPhysicalScriptRegisters} from './original-dos-physical-s
  * Input SI is after the opcode. Five pushed CPU words remain at this boundary.
  */
 export function prepareOriginalDosResourceDraw(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters,opcode:number,complete=false){
- if(source.length!==0x100000||![ss,...Object.values(input)].every(v=>Number.isInteger(v)&&v>=0&&v<=65535)||![72,73].includes(opcode))throw Error('Invalid resource draw inputs');
+ if(source.length!==0x100000||![ss,...Object.values(input)].every(v=>Number.isInteger(v)&&v>=0&&v<=65535)||![-1,72,73].includes(opcode))throw Error('Invalid resource draw inputs');
  const memory=source.slice(),u=(v:number)=>v&65535;
  const address=(s:number,o:number,wide=false)=>{o=u(o);const at=s*16+o;if(wide&&o===65535||at+(wide?2:1)>memory.length)throw Error('Resource draw access outside bounded real-mode window');return at;};
  const b=(s:number,o:number,value?:number)=>{const at=address(s,o);if(value!==undefined)memory[at]=value&255;return memory[at];};
@@ -19,12 +19,13 @@ export function prepareOriginalDosResourceDraw(source:Uint8Array,ss:number,input
   else{const at=u((tag>=30?w(ss,0xbf6):bp)+raw);if(tag===8||tag===32)dx=w(es,at);else{value=b(es,at);dx=value&128?value+65280:value;}}
   return dx;
  };
- b(ss,0xc15,0);b(ss,0xc12,b(es,u(bp-3)));
+ if(opcode!==-1){b(ss,0xc15,0);b(ss,0xc12,b(es,u(bp-3)));}
  if(opcode===73){for(const at of [0xc02,0xc04,0xc06])w(ss,at,operand());operand();const resource=dx;operand();cx=dx;dx=resource;w(ss,0xc0e,cx);}
- else{operand();for(const at of [0xc02,0xc04,0xc06,0xc0e])w(ss,at,0);}
+ else if(opcode===72){operand();for(const at of [0xc02,0xc04,0xc06,0xc0e])w(ss,at,0);}
  b(ss,0xc13,0);
  const entryPointer=()=>{
-  let offset=w(es,u(bp-20));const segment=w(es,u(bp-18));
+  const lookupBp=b(ss,0xc15)!==0?w(ss,0xbf6):bp;
+  let offset=w(es,u(lookupBp-20));const segment=w(es,u(lookupBp-18));
   offset=u(offset+w(segment,u(offset+14)));offset=u(offset+w(segment,offset));offset=u(offset+4*dx);
   return {segment,offset};
  };
@@ -136,4 +137,9 @@ export function prepareOriginalDosResourceDraw(source:Uint8Array,ss:number,input
 /** Complete normal/compound72/73 path; FE and unsupported operands fail atomically. */
 export function executeOriginalDosResourceDraw(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters,opcode:number){
  return prepareOriginalDosResourceDraw(source,ss,input,opcode,true);
+}
+
+/** Direct3415 caller (e.g. a glyph); keeps caller C15/C12 and reads no operands. */
+export function executeOriginalDosResourceDrawAtEntry(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters){
+ return prepareOriginalDosResourceDraw(source,ss,input,-1,true);
 }
