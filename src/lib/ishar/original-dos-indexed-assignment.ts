@@ -1,4 +1,5 @@
 import {queryOriginalDosModeValue} from './original-dos-script-expression.ts';
+import {applyOriginalDosNumericBinary} from './original-dos-numeric-binary.ts';
 /** Opcode30 numeric results6/8/18/20 and indexed14/16, including739A,
  * 7150 and6C2E/6C5B.
  * Explicit bounded operand subset; unsupported expressions throw without changing
@@ -16,7 +17,8 @@ export function assignOriginalDosIndexedValue(source:Uint8Array,ss:number,regist
  function operand(depth:number):void{
   if(++tokens>4096||depth>128)throw Error('Indexed expression exceeds host bound');
   const tag=nextByte();
-  if(tag===0){const value=nextByte();dx=value&128?value|0xff00:value;}
+  if([66,68,70,72,86,88,90,92,94].includes(tag)){cx=dx;operand(depth+1);const result=applyOriginalDosNumericBinary(tag,cx,dx);cx=result.cx;dx=result.dx;}
+  else if(tag===0){const value=nextByte();dx=value&128?value|0xff00:value;}
   else if(tag===2)dx=nextWord();
   else if([6,8,30,32].includes(tag)){const offset=nextWord(),base=tag>=30?w(ss,0xbf6):bp;dx=tag===6||tag===30?b(es,base+offset):w(es,base+offset);if((tag===6||tag===30)&&(dx&128))dx|=0xff00;}
   else if(tag===64){bx=u(bx-2);w(ss,bx,dx);}

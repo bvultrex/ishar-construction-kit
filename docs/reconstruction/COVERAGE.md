@@ -53,7 +53,8 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Zustand nativ verglichen. Auch die ersten7/8 numerischen Zuweisungen samt
    Original-Indexstack laufen durch. Das gemeinsame physische Schritt-API folgt
    jetzt auch Aufrufen, Ausdrücken und Bedingungen. Tatsächliche nächste Grenzen
-   sind Ausdrucksoperation90 (Ishar1) und66 (Ishar2); dort weiter rekonstruieren.
+   sind nach Ergänzung der Original-Rechenoperationen Ausdruck168 (Ishar1) und
+   Opcode215 (Ishar2); dort weiter rekonstruieren.
    Abnahme:
    Register, Speicher, Zeiger und Stopgrenzen pro Profil stimmen überein.
 2. **Erster vollständiger Original-Modnachweis je Spiel.** Bestehenden sicheren

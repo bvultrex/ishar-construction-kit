@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {applyOriginalDosNumericBinary as apply} from '../src/lib/ishar/original-dos-numeric-binary.ts';
+import {evaluateOriginalDosScriptExpression as evaluate} from '../src/lib/ishar/original-dos-script-expression.ts';
+assert.deepEqual(apply(90,65529,3),{dx:65535,cx:3});assert.deepEqual(apply(92,65529,3),{dx:65534,cx:3});
+assert.deepEqual(apply(92,7,0),{dx:7,cx:1});assert.deepEqual(apply(88,2,5),{dx:65533,cx:65533});
+for(const tag of [90,92])assert.throws(()=>apply(tag,32768,65535),/INT0/);
+assert.throws(()=>apply(1,0,0),/not reconstructed/);
+const script=new Uint8Array(65536);script.set([56,2,0,128,92,2,255,255,58]);const context=new Uint8Array(65536),globals=new Uint8Array(65536),before=globals.slice();
+assert.throws(()=>evaluate(script,context,0,0,0,9,globals),/INT0/);assert.deepEqual(globals,before);
+console.log('Numeric division signs, zero divisor, CX side effects, overflow boundary and source preservation passed');

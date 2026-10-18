@@ -1185,3 +1185,45 @@ Aufruf-/Return-/Yieldkette, Modusabfrage, Quellschutz und unbekannte Befehle.
 Bestehende Diagnose-/Zuweisungsregressionen und Typecheck bestanden.
 Keine neue Browserfunktion. Nächster Schritt: die beiden tatsächlich erreichten
 Ausdrucksoperationen erschließen und den durchgehenden Pfad weiterführen.
+
+## Native Rechenoperationen in beiden MAIN-Fortsetzungen
+
+`original-dos-numeric-binary.ts` rekonstruiert die nach dem rekursiven69A9-Aufruf
+ausgeführten Operationen66/68/70/72 (AND/OR/XOR/NOT-XOR) und86/88/90/92/94
+(Addition/Subtraktion/Rest/Quotient/Multiplikation). Der gemeinsame Baustein wird
+von Ausdruck31 und der numerischen Zuweisung benutzt. Eingaben sind die
+tatsächlich zurückgegebenen CX/DX-Worte. Ein vorher in JavaScript gesicherter
+linker Operand wäre bei verschachtelten Ausdrücken falsch, weil innere
+Operationen CX verändern können.
+
+Native Zuordnung:66..72 bei6CC5..6CDE;86..94 bei6D33..6D70. Subtraktion
+verändert CX und DX auf denselben16-Bit-Wert. Rest/Quotient übernehmen den
+rechten Operanden nach CX und ersetzen einen Nulldivisor durch1; der linke
+Operand wird vorzeichenbehaftet erweitert.90 liefert den Rest,92 den Quotienten.
+Der Rest hat wie IDIV das Vorzeichen des Dividenden. Die Multiplikation liefert
+das niedrige16-Bit-Wort. Der Überlauf−32768/−1 erreicht im Original INT0 und
+wird im Host ausdrücklich als noch nicht angebundene Interruptgrenze abgewiesen.
+Es wird weder ein JavaScript-Infinity noch ein stilles Wrap-Ergebnis erzeugt.
+
+`check-native-dos-expression-arithmetic.py <capture>` besteht je81 Fälle pro
+Profil: neun Operatoren mit acht Wortpaaren einschließlich Null, negativen
+Werten, Vorzeichenrändern und Nulldivisor, dazu je ein verschachtelter rechter
+Ausdruck mit CX-verändernder Subtraktion. SI/DX/CX, Stackrückkehr und unveränderte
+Globals stimmen mit der originalen rekursiven Ausführung überein. Je zwei
+weitere native Proben bestätigen INT0 für90/92 mit−32768 und−1. Interruptkörper,
+Flags und Scratchregister sind nicht Teil dieses Nachweises. Hostprüfung:
+`node scripts/check-dos-numeric-binary.mjs`; bestehende Diagnose-/Schritt-Tests
+und Typecheck bestehen ebenfalls.
+
+Der unveränderte `--execute`-Prüfpfad setzt beide MAIN-Module jetzt weiter fort:
+Ishar1 durchläuft14 gemischte Schritte nach dem Initial-Zuweisungspräfix und
+erreicht Ausdruck168; Ishar2 durchläuft neun und erreicht Opcode215. Je drei
+gültige Speicherlayouts beider Profile bestehen im vollständigen Speicher-
+und vertraglichen Registervergleich nach jedem Befehl. Die vorherigen
+Prüfungen von Lader/Grafik/Root, Objekt- und Blockbefehlen bleiben enthalten.
+Keine unerschlossene Operation wird ausgeführt oder übersprungen.
+
+Metadaten ohne Originaldaten: EXPRESSION_ARITHMETIC_NATIVE_2026-10-18.json.
+Die Modus-/Speicherinitialisierung bleibt kontrolliert; vollständiger Start,
+Hardwareanbindung und neue Browserbedienung sind weiterhin offen. Nächste
+konkrete Grenzen sind168 beziehungsweise215, nicht mehr die Rechenoperationen.

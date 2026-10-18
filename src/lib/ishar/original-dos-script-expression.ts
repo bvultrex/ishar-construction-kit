@@ -1,12 +1,14 @@
 import {readOriginalDosNumericOperand} from './original-dos-numeric-operand.ts';
 import {probeOriginalDosFile,type OriginalDosFileSearch} from './original-dos-file-probe.ts';
+import {applyOriginalDosNumericBinary} from './original-dos-numeric-binary.ts';
 /** Raw0F49 mapping; the semantic meaning of the2000-based value remains unnamed. */
 export function queryOriginalDosModeValue(mode:number){
  if(!Number.isInteger(mode)||mode<0||mode>65535)throw Error('Expected original mode word');
  return 2000+(mode===7?1:mode===3?2:mode===5?4:0);
 }
 /** Opcode31 ->2937/69A9; numeric0/2/6/8/30/32, indexed14/16,
- * stack54/64, mode120, strings4/34, loop56/end58, comparisons74..84.
+ * stack54/64, binary66..72/86..94, mode120, strings4/34,
+ * loop56/end58, comparisons74..84.
  * Shared DX/CX follow native calls, including nested operands; no JavaScript coercion.
  * DF0, bounded source, disjoint context. Limits are host safeguards, not native checks.
  */
@@ -21,6 +23,9 @@ export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Ui
   if(si>=sourceLength)throw Error('Expression operand is truncated');
   if(call)cx=dx;
   const tag=script[si];
+  if([66,68,70,72,86,88,90,92,94].includes(tag)){
+   si++;operand(true,depth+1);const result=applyOriginalDosNumericBinary(tag,cx,dx);cx=result.cx;dx=result.dx;return;
+  }
   if(tag===64||tag===54){
    if(!nextGlobals)throw Error('Operand stack requires the original global segment');
    si++;
