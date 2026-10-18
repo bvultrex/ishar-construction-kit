@@ -54,8 +54,9 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Original-Indexstack laufen durch. Das gemeinsame physische Schritt-API folgt
    jetzt auch Aufrufen, Ausdrücken und Bedingungen. Tatsächliche nächste Grenzen
    sind die DOS-Dateisuche156 (Ishar1) und nach dem188-Rückkehrpfad der erste
-   MAIN-Rückkehr-Callback (Ishar2). Der Yield-Abschluss erreicht ihn nativ;
-   seine Ausführung/Rückkehr ist als Nächstes anzubinden. Aktive Objektliste und
+   erste Framegrenze nach MAIN-Rückkehr-Callback (Ishar2, explizite BIOS-Antwort0).
+   Callback und Rückkehr sind nativ geprüft; jetzt den Framekörper anbinden.
+   Ohne BIOS-Antwort bleibt der Callback an116 stehen. Aktive Objektliste und
    leere Kontextobjektkette bleiben getrennt;188-Grafikzweige sind separat offen.
    Abnahme:
    Register, Speicher, Zeiger und Stopgrenzen pro Profil stimmen überein.

@@ -1374,3 +1374,61 @@ PHYSICAL_MAIN_YIELD_NATIVE_2026-10-18.json. Originaldateien und Captures bleiben
 unverändert. Nächster Schritt ist die Ausführung und Rückkehr des echten
 MAIN-Callbacks vor dem nächsten Frame; vollständiger Scheduler, Spielstart und
 Browserintegration bleiben offen.
+
+## Echter MAIN-Callback bis zur Rückkehr und erster Framegrenze
+
+Ausdruck106 ist anhand6DB4→1424 rekonstruiert: Ein Byte aus Engine-CS:0318
+wird nach AX/DX gelesen. Das physische Schritt-API erhält den Engine-CS
+explizit als Parameter (für die identifizierten Profile standardmäßig1000h)
+und liest die tatsächlich vorhandene Speicherkopie. Es wird weder die
+Hosttastatur abgefragt noch stillschweigend ein Tastencode0 gesetzt. Der
+separate Ausdruckshelfer verlangt dafür einen expliziten `keyByte`-Snapshot.
+
+Ausdruck116 führt6DC8→1431 aus: DX wird0, BIOS INT16h/AH02h liefert AL,
+anschließend werden nur die unteren fünf Bits übernommen. Hier ist ein
+expliziter BIOS-Antwortwert nötig. Ohne `shiftFlags` hält der Host vor der
+Zustandsänderung an. Die Antwort ist eine kontrollierte Dienstgrenze, keine
+behauptete vollständige BIOS-/Tastaturemulation. Im nativen Prüfer bleibt die
+vorhandene Engineausführung erhalten; nur der INT16-Aufruf erhält ausdrücklich
+den gewählten AL-Wert, andere Register und Speicher bleiben in diesem Vertrag
+unverändert. Der tatsächliche Request ist AX0274h und DX0.
+
+`check-native-dos-keyboard-expression.py <capture>` prüft je520 Fälle pro
+Profil: acht gespeicherte Tastaturbytefälle sowie512 BIOS-Antwortfälle mit
+allen256 möglichen AL-Bytes und je zwei eingehenden DX. SI/DX/CX, AX, Rückkehr-
+Stack und unveränderte Globals stimmen überein; bei116 wird zusätzlich der
+echte INT16-Request geprüft. Das bestätigt die Verarbeitung kontrollierter
+Antworten, nicht das Verhalten eines tatsächlichen BIOS-Treibers.
+
+`check-native-dos-resource-file.py <capture> <MAIN.IO> --callback` folgt dem
+erreichten Callback ab SI16277. Ohne BIOS-Antwort stimmen vier Befehle nativ
+überein; die nächste116-Abfrage hält unverändert an, ohne Interrupt zu simulieren.
+Mit `--callback-return --shift-flags 0` werden unter der ausdrücklich gewählten
+Antwort0 sieben Callbackbefehle ausgeführt. Der abschließende Opcode66 kehrt
+nach26D5 zurück; es wird nicht irrtümlich der Hauptskriptpfad26B2 verwendet.
+Der vorhandene CPU-Stack einschließlich des originalen26D2-CALLs bleibt über
+die komplette Folge erhalten. Alle drei gültigen Ishar2-Layouts bestehen.
+
+`finishOriginalDosPhysicalYield(..., 'callback-return')` rekonstruiert anschließend
+26D5..26E8 und die Kontextauswahl. Es stellt den Kontextstack aus SS:0C56
+wieder her, ohne den gespeicherten MAIN-Zeiger BP−8 mit dem Callback-SI zu
+überschreiben. Danach laufen Delta-/Countdownbehandlung und Slotwahl. Der
+durchgehende native Ishar2-Test erreicht jetzt vor dem Frame-CALL2649 die
+Werte BP672,SI256,DX0,CX0, mit dem tatsächlichen Modulsegment. Die Kontext-
+objektkette bleibt0, die aktive Liste hat weiterhin Kopf14. Der Framekörper
+selbst wird noch nicht ausgeführt.
+
+`check-native-dos-physical-yield.py <capture> --callback-return` prüft zusätzlich
+je24 Rückkehrfälle beider Profile mit Deltas, Objektketten, Segmentaliasen und
+Frame-/Kontextwahl. Vollständiger physischer Speicher außer Sicherungsstack,
+die sechs Skriptregister und SP-Wirkung stimmen überein. Hosttests sichern
+insbesondere den erhaltenen MAIN-Zeiger, die Stackwiederherstellung und den
+unveränderten Halt bei fehlender BIOS-Antwort. Diagnose-Regressionen und
+Typecheck bestehen. Belegmetadaten: MAIN_CALLBACK_RETURN_NATIVE_2026-10-18.json.
+
+Der erste komplette MAIN-/Callbackabschnitt bis zur Framegrenze ist damit in
+der kontrollierten Umgebung geprüft. Keine Aussage über unbeobachtete reale
+Eingaben, vollständige Plattforminitialisierung, Frame-/Grafikgeräteausführung
+oder Browserintegration. Ishar1 bleibt vor der DOS-Dateisuche. Nächster Schritt:
+Frameausführung mit dem nun tatsächlich aufgebauten Objekt-/Globalzustand,
+statt einen leeren Diagnoseframe als Spiel-Frame auszugeben.

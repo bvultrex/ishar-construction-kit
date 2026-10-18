@@ -7,12 +7,12 @@ export function queryOriginalDosModeValue(mode:number){
  return 2000+(mode===7?1:mode===3?2:mode===5?4:0);
 }
 /** Opcode31 ->2937/69A9; numeric0/2/6/8/30/32, indexed14/16,
- * stack54/64, binary66..72/86..94, mode120, raw168, strings4/34,
+ * stack54/64, binary66..72/86..94, explicit input106/116, mode120, raw168, strings4/34,
  * loop56/end58, comparisons74..84.
  * Shared DX/CX follow native calls, including nested operands; no JavaScript coercion.
  * DF0, bounded source, disjoint context. Limits are host safeguards, not native checks.
  */
-export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Uint8Array,si:number,bp:number,initialDx:number,sourceLength=65536,globals?:Uint8Array,fileSearch?:OriginalDosFileSearch){
+export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Uint8Array,si:number,bp:number,initialDx:number,sourceLength=65536,globals?:Uint8Array,fileSearch?:OriginalDosFileSearch,input?:{keyByte?:number;shiftFlags?:number}){
  if(script.length!==65536||context.length!==65536||![si,bp,initialDx].every(v=>Number.isInteger(v)&&v>=0&&v<=65535))throw Error('Invalid native expression inputs');
  if(globals!==undefined&&globals.length!==65536)throw Error('Expected original global segment');
  let dx=initialDx,cx=initialDx,tokens=0,bx=0x277c;const nextGlobals=globals?.slice();
@@ -23,6 +23,14 @@ export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Ui
   if(si>=sourceLength)throw Error('Expression operand is truncated');
   if(call)cx=dx;
   const tag=script[si];
+  if(tag===116){
+   if(input?.shiftFlags===undefined||!Number.isInteger(input.shiftFlags)||input.shiftFlags<0||input.shiftFlags>255)throw Error('Expression116 requires an explicit BIOS INT16 shift-flags reply');
+   si++;dx=input.shiftFlags&31;return;
+  }
+  if(tag===106){
+   if(input?.keyByte===undefined||!Number.isInteger(input.keyByte)||input.keyByte<0||input.keyByte>255)throw Error('Expression106 requires an explicit original key-byte snapshot');
+   si++;dx=input.keyByte;return;
+  }
   if(tag===168){
    if(!nextGlobals)throw Error('Expression168 requires the original global segment');
    // Native6FEC ->0F44: raw word read, no invented timer/device semantics.

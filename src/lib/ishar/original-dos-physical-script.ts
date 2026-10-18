@@ -13,10 +13,12 @@ export interface OriginalDosPhysicalScriptRegisters {ds:number;es:number;si:numb
  * registers are a contract; CPU scratch AX/BX/DI, flags and stack save bytes are
  * not modeled. No skipped opcodes, scheduler or invented external services.
  */
-export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters){
+export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters,engineSegment=0x1000,bios?:{shiftFlags:number}){
  if(source.length!==0x100000||![ss,...Object.values(input)].every(v=>Number.isInteger(v)&&v>=0&&v<=65535))throw Error('Expected1MiB memory and word registers');
  const window=(segment:number)=>{const at=segment*16;if(at+65536>source.length)throw Error('Script segment exceeds bounded physical window');return at;};
  const scriptAt=window(input.ds),contextAt=window(input.es),globalAt=window(ss);
+ if(!Number.isInteger(engineSegment)||engineSegment<0||engineSegment>65535)throw Error('Expected original engine segment');
+ const keyByte=source[window(engineSegment)+0x318];
  const opcode=source[scriptAt+input.si],after=(input.si+1)&65535;
  const registers={...input,si:after};let memory=source.slice(),status:'ready'|'yield'='ready';
  const context=()=>memory.slice(contextAt,contextAt+65536),script=()=>memory.slice(scriptAt,scriptAt+65536),globals=()=>memory.slice(globalAt,globalAt+65536);
@@ -43,7 +45,7 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
  }else if(opcode===30){const next=assignOriginalDosIndexedValue(memory,ss,{ds:input.ds,es:input.es,si:after,bp:input.bp,dx:input.dx});memory=next.memory;Object.assign(registers,{si:next.registers.si,dx:next.registers.dx,cx:next.registers.cx});}
  else if(opcode===31){
   if(globalAt<contextAt+65536&&contextAt<globalAt+65536||globalAt<scriptAt+65536&&scriptAt<globalAt+65536)throw Error('Expression globals alias needs shared operand reconstruction');
-  const next=evaluateOriginalDosScriptExpression(script(),context(),after,input.bp,input.dx,65536,globals());
+  const next=evaluateOriginalDosScriptExpression(script(),context(),after,input.bp,input.dx,65536,globals(),undefined,{keyByte,shiftFlags:bios?.shiftFlags});
   memory.set(next.globals!,globalAt);registers.si=next.si;registers.dx=next.dx;registers.cx=next.cx;
  }else throw Error(`Original opcode${opcode} is not connected to physical script execution`);
  return {memory,registers,status,opcode};

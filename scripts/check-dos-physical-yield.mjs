@@ -6,6 +6,8 @@ for(const [at,value] of [[g+0xbd2,0x100],[g+0xbea,0x6000],[c+bp-18,0x4000],[c+bp
 memory[c+bp-2]=7;let before=memory.slice(),result=finish(memory,0x1c0b,input);
 assert.equal(result.phase,'frame');assert.equal(result.visited,2);assert.equal(result.registers.ds,0x6000);assert.equal(result.memory[0x60300],2);assert.equal(result.memory[c+bp-1],7);assert.equal(new DataView(result.memory.buffer).getUint16(c+bp-8,true),input.si);assert.deepEqual(memory,before);
 w(0x40006,20);before=memory.slice();result=finish(memory,0x1c0b,input);assert.equal(result.phase,'callback');assert.equal(result.visited,0);assert.equal(result.memory[0x60300],0);assert.equal(result.memory[c+bp-1],0);assert.deepEqual(memory,before);
+w(g+0xc56,0x80);w(c+bp-8,0x7777);before=memory.slice();result=finish(memory,0x1c0b,input,'callback-return');
+assert.equal(result.phase,'frame');assert.equal(new DataView(result.memory.buffer).getUint16(c+bp-10,true),0x80);assert.equal(new DataView(result.memory.buffer).getUint16(c+bp-8,true),0x7777);assert.deepEqual(memory,before);
 w(0x40006,0);w(0x60344,0x300);const cycle=memory.slice();assert.throws(()=>finish(memory,0x1c0b,input),/cycle/);assert.deepEqual(memory,cycle);
 assert.throws(()=>finish(new Uint8Array(1),0x1c0b,input),/1MiB/);
 assert.throws(()=>finish(memory,0x1c0b,{...input,es:65535}),/outside/);

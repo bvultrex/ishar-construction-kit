@@ -9,6 +9,9 @@ const yielded=step(returned.memory,ss,returned.registers);assert.equal(yielded.s
 const unsupported=memory.slice();unsupported[0x40100]=255;const snapshot=unsupported.slice();assert.throws(()=>step(unsupported,ss,registers),/opcode255/);assert.deepEqual(unsupported,snapshot);
 const expression=memory.slice();expression.set([31,120],0x40100);new DataView(expression.buffer).setUint16(ss*16+0x2894,5,true);
 const queried=step(expression,ss,registers);assert.equal(queried.registers.dx,2004);assert.equal(queried.registers.cx,registers.dx);
+const keyboard=memory.slice();keyboard.set([31,106],0x40100);keyboard[0x10318]=27;const key=step(keyboard,ss,registers);assert.equal(key.registers.dx,27);
+keyboard.set([31,116],0x40100);const missingBios=keyboard.slice();assert.throws(()=>step(keyboard,ss,registers),/explicit BIOS/);assert.deepEqual(keyboard,missingBios);
+const modifiers=step(keyboard,ss,registers,0x1000,{shiftFlags:255});assert.equal(modifiers.registers.dx,31);assert.equal(modifiers.registers.cx,registers.dx);
 const raw=memory.slice();raw.set([31,168],0x40100);new DataView(raw.buffer).setUint16(ss*16+0xc9d,0x8000,true);
 const rawRead=step(raw,ss,registers);assert.equal(rawRead.registers.dx,0x8000);assert.equal(rawRead.registers.cx,registers.dx);
 const control=memory.slice();control.set([215,0,255],0x40100);const controlBefore=control.slice(),written=step(control,ss,registers);
