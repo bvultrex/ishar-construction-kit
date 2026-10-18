@@ -13,3 +13,15 @@ export function planOriginalDosBiosEmsMemory(biosKiB:number,emsAX:number,graphic
  const upper=((biosKiB*64)-1)&65535;
  return planOriginalDosStartupMemory(upper,emsAX,graphicsByte,performanceByte,inputMode,0);
 }
+
+/** Apply087D..08EA on shared memory, preserving every unrelated byte.
+ * upperSegment is the explicit result of the earlier BIOS/EMS path.
+ */
+export function reserveOriginalDosPhysicalFramebuffer(source:Uint8Array,ss:number,upperSegment:number){
+ if(source.length!==0x100000||![ss,upperSegment].every(v=>Number.isInteger(v)&&v>=0&&v<=65535)||ss*16+65536>source.length)throw Error('Invalid physical framebuffer reservation');
+ const memory=source.slice(),base=ss*16,view=new DataView(memory.buffer),word=(at:number,value?:number)=>{if(value!==undefined)view.setUint16(base+at,value,true);return view.getUint16(base+at,true);};
+ const existing=word(0xb8a),plan=planOriginalDosStartupMemory(upperSegment,existing,memory[base+0x2898],memory[base+0x2892],memory[base+0x2896],word(0xb88));
+ if(existing===0){word(0xb88,0);word(0xb8a,plan.screenSegment);}
+ word(0xb94,0);word(0xb96,plan.frontier);for(const [offset,segment] of [[0x1df9,0x1dfb],[0xc24,0xc26],[0xb5a,0xb5c]]){word(offset,0);word(segment,plan.screenSegment);}
+ return {memory,...plan,ax:plan.screenSegment,bx:existing===0?plan.screenBytes>>>4:plan.screenBytes};
+}

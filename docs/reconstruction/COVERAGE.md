@@ -76,7 +76,10 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    vor dem43FB-Aufruf bei4168 nativ verglichen. Dessen Sichtbarkeits-/Clipprüfung,
    Grafikformatwahl und erster Typ1-RAM-Pixellauf sind inzwischen ebenfalls
    nativ verglichen. Der kontrollierte Start hat aber Ziel0:0 und Pitch0:
-   noch kein gültiger Frame. Video-/Pufferinitialisierung hat deshalb Vorrang
+   noch kein gültiger Frame. Video-/Pufferinitialisierung ist inzwischen separat
+   und in kontrollierter Übergabe an den leeren Frame nativ geprüft (432
+   Reservierungsfälle, acht VGA/Frame-Fälle; kein IRQ0A). Die originale Aufrufkette
+   einschließlich MAIN muss diese Zustände noch selbst herstellen. Das hat Vorrang
    vor einer sichtbaren Ausgabe oder weiteren Aussagen zur Bildgleichheit.
    FE-Sonderpfad, weitere Operandformen
    und sichtbare Ausgabe bleiben offen. Verwandte Wortänderungen192/193/194 haben separate

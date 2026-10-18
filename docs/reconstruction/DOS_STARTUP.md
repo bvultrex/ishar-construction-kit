@@ -2066,3 +2066,30 @@ MAIN-Start. Andere Pixelverfahren, Hardware-/Präsentationspfade und die
 Browseranbindung bleiben offen. Hosttest für echte RAM-Pixel, Nullpitch ohne
 Erfindung eines Defaults, Clipausrichtung, Zeigerauflösung und atomare Grenzen,
 Gruppen-/Frameregressionen, Typecheck und Diffprüfung bestanden.
+# VGA startup and physical framebuffer reservation (2026-10-18)
+
+The physical implementation of `1000:087D..08EA` now preserves shared memory
+while reserving the framebuffer and writing the original pointer mirrors.
+216 cases per captured game compare every memory byte and the register results
+against native instructions, including pre-existing buffers and word wraparound.
+
+Graphics entry `1E97:0000 -> 0CC0`, including `0D51/0E0C`, is reconstructed for
+the explicit **no delivered IRQ0A** case. BIOS memory patches, DOS vector replies
+and port reads are controlled external inputs. Tests compare port widths/order,
+vector installation/restoration, timeout counts, general registers, SP and memory
+(excluding CPU stack saves). The native routine returns with IF clear.
+
+Four cases per game cover CRT ports 3D4/3B4 and retrace detected/timed out.
+They also compose reservation, VGA startup and the empty physical frame routine.
+The original 64000-byte reservation from upper segment 9FFF yields 905F:0000;
+VGA initialization supplies pitch 320 and visible target A000:0000.
+
+Reproduce with `node scripts/check-dos-vga-startup.mjs` and the hash-bound
+`scripts/check-native-dos-physical-framebuffer.py CAPTURE` /
+`scripts/check-native-dos-vga-startup.py CAPTURE --with-frame`.
+Evidence: `VGA_FRAMEBUFFER_NATIVE_2026-10-18.json`; original captures remain local.
+
+This is not a full startup or visible frame proof: the harness explicitly transfers
+between reservation, graphics initialization and frame entry. The intervening
+startup caller and resource/main initialization must still be connected in original
+order. Existing MAIN pixel tests with destination 0:0/pitch 0 retain that limitation.
