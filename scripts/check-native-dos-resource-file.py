@@ -14,14 +14,14 @@ profiles={
  'f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04':('ishar2','bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95')}
 assert digest in profiles and file_digest==profiles[digest][1], 'Unsupported/mismatched capture and MAIN'
 repo=Path(__file__).resolve().parent.parent
-vectors=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-resource-file-vectors.mjs'),str(a.main.resolve())],cwd=repo,text=True))
+vectors=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-resource-file-vectors.mjs'),str(a.main.resolve()),str(a.capture.resolve())],cwd=repo,text=True))
 for case in vectors['cases']:
  cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,memory)
  cpu.mem_write(0x1c0b0,bytes(0x28c0)) # Explicit controlled globals, before graphics code.
  for r,v in [(UC_X86_REG_CS,0x1000),(UC_X86_REG_SS,0x1c0b),(UC_X86_REG_SP,0xff00),(UC_X86_REG_DS,0x2000),(UC_X86_REG_BX,0),(UC_X86_REG_CX,0),(UC_X86_REG_DX,0x100)]:cpu.reg_write(r,v)
  for at,value in [(0xbbe,0),(0xb90,case['offset']),(0xb92,case['segment']),(0xb94,0x1234),(0xb96,case['frontier'])]:cpu.mem_write(0x1c0b0+at,value.to_bytes(2,'little'))
  cpu.mem_write(0x1c0b0+0x289b,b'\0');cpu.mem_write(0x20100,b'MAIN.IO\0')
- reads=[];read_events=[];read_boundaries=[];opens=[];open_boundaries=[];done=[];position=[0]
+ reads=[];read_events=[];read_boundaries=[];opens=[];open_boundaries=[];done=[];position=[0];saved_init={};init_counts=[0,0]
  def interrupt(uc,n,_):
   assert n==0x21
   if uc.reg_read(UC_X86_REG_AH)==0x3d:
@@ -38,19 +38,27 @@ for case in vectors['cases']:
    open_boundaries.append(address)
    for name,r in [('ax',UC_X86_REG_AX),('bx',UC_X86_REG_BX),('cx',UC_X86_REG_CX),('dx',UC_X86_REG_DX),('ds',UC_X86_REG_DS)]:assert uc.reg_read(r)==case['opened']['registers'][name]
    for at,value in case['opened']['words'].items():assert int.from_bytes(uc.mem_read(0x1c0b0+int(at),2),'little')==value
-  if address==0x177bc:done.append(address);uc.emu_stop()
+  if address==0x177bc:
+   for r in [UC_X86_REG_AX,UC_X86_REG_BX,UC_X86_REG_CX,UC_X86_REG_DX,UC_X86_REG_SI,UC_X86_REG_DI,UC_X86_REG_BP,UC_X86_REG_DS,UC_X86_REG_ES]:saved_init[r]=uc.reg_read(r)
+  if address==0x1814b:init_counts[0]+=1
+  if address==0x178cd:init_counts[1]+=1
+  if address==0x177f6:done.append(address);uc.emu_stop()
   if address==0x176d8:
    read_boundaries.append(address)
    for name,r in [('ax',UC_X86_REG_AX),('bx',UC_X86_REG_BX),('cx',UC_X86_REG_CX),('dx',UC_X86_REG_DX),('ds',UC_X86_REG_DS)]:assert uc.reg_read(r)==case['reads']['registers'][name]
    assert hashlib.sha256(bytes(uc.mem_read(0x1c0b0,0x28c0))).hexdigest()==case['reads']['globalsHash']
  cpu.hook_add(UC_HOOK_INTR,interrupt);cpu.hook_add(UC_HOOK_CODE,code)
- cpu.emu_start(0x176bc,0xfffff,count=300)
- assert done==[0x177bc] and opens==case['opened']['events'] and open_boundaries==[0x176c2] and reads==[(0x2480,6),(0x2486,16)] and position[0]==22
+ cpu.emu_start(0x176bc,0xfffff,count=100000)
+ assert done==[0x177f6] and opens==case['opened']['events'] and open_boundaries==[0x176c2] and reads==[(0x2480,6),(0x2486,16)] and position[0]==22
  assert read_boundaries==[0x176d8] and read_events==case['reads']['events']
  assert bytes(cpu.mem_read(0x1e530,22))==data[:22]
  for at,value in case['expected']['words'].items():assert int.from_bytes(cpu.mem_read(0x1c0b0+int(at),2),'little')==value,(case,at)
  assert cpu.reg_read(UC_X86_REG_SP)==0xff00
  assert cpu.reg_read(UC_X86_REG_AX)==case['expected']['bounds']['candidate']
  assert cpu.reg_read(UC_X86_REG_DS)==case['expected']['bounds']['floor']
+ for r,value in saved_init.items():assert cpu.reg_read(r)==value
+ actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
+ assert hashlib.sha256(actual).hexdigest()==case['initialized']['hash'],case
+ assert init_counts==[case['initialized']['tableRecords'],case['initialized']['links']]
 assert a.capture.read_bytes()==memory and a.main.read_bytes()==data
-print(json.dumps({'profile':profiles[digest][0],'captureSha256':digest,'mainSha256':file_digest,'cases':len(vectors['cases']),'decodedBytes':vectors['decodedBytes'],'result':'original open wrapper, two DOS reads, real 22-byte header and all18 layout words match','limits':'controlled successful DOS open/read responses; decompression and consumers excluded'}))
+print(json.dumps({'profile':profiles[digest][0],'captureSha256':digest,'mainSha256':file_digest,'cases':len(vectors['cases']),'decodedBytes':vectors['decodedBytes'],'result':'open, two reads, MAIN table layout and shared-memory context/object initialization match','limits':'controlled DOS open/read; CPU stack residue masked, registers/SP checked; decompression and later consumers excluded'}))
