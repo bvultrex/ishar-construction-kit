@@ -12,13 +12,29 @@ import {evaluateOriginalDosScriptExpression} from './original-dos-script-express
 import {branchOriginalDosScriptConditional} from './original-dos-script-conditional.ts';
 import {findOriginalDosContextsByModule} from './original-dos-context-query.ts';
 import {activateOriginalDosScriptContext} from './original-dos-context-active.ts';
-export interface NativeScriptDiagnostic {module:AlisModule;memory:Uint8Array;globals:Uint8Array;bp:number;si:number;dx:number;cx:number;steps:number;status:'ready'|'yield'|'stopped';message:string}
+import {resumeOriginalDosScript} from './original-dos-script-resume.ts';
+export interface NativeScriptDiagnostic {module:AlisModule;memory:Uint8Array;globals:Uint8Array;bp:number;si:number;dx:number;cx:number;steps:number;status:'ready'|'yield'|'callback'|'next-context'|'stopped';message:string}
 /** Editor-only controlled context. Does not alter the playtest or source file. */
 export function openNativeScriptDiagnostic(bytes:Uint8Array):NativeScriptDiagnostic{
  const module=readAlisModule(bytes),context=createOriginalDosScriptContext(new Uint8Array(65536),module.image,0,0x4000,0x100,6,0x200,0x5000,65535);
  if(context.error)throw Error(`Original-Kontextaufbau meldet Fehler ${context.error}`);
  const globals=new Uint8Array(65536);globals[0xbd3]=1; // Controlled table base0100h; no invented active-list links.
  return {module,memory:context.memory,globals,bp:context.context,si:context.entry,dx:0,cx:0,steps:0,status:'ready',message:'Kontrollierter Kontext erzeugt. Einzelne belegte Kontrollflussbefehle sind ausführbar.'};
+}
+/** Complete26B2 only to the next native boundary. No automatic callback/scheduler body.
+ * Object memory is not loaded in this diagnostic, so nonempty object chains stop.
+ */
+export function finishNativeScriptDiagnosticYield(state:NativeScriptDiagnostic):NativeScriptDiagnostic{
+ if(state.status!=='yield')return state;
+ const stop=(message:string):NativeScriptDiagnostic=>({...state,status:'stopped',message});
+ if(state.module.image.length>65536)return stop('Yield-Abschluss für Mehrsegmentmodule ist noch nicht angebunden.');
+ const word=(buf:Uint8Array,at:number)=>buf[at&65535]|(buf[(at+1)&65535]<<8),base=word(state.memory,state.bp-20),module=new Uint8Array(65536);module.set(state.module.image);
+ if(base+8>state.module.image.length)return stop('Callbackheader liegt außerhalb des geladenen Moduls.');
+ if(word(module,base+6)===0&&word(state.memory,state.bp-24)!==0)return stop('Objektkette vorhanden; ihr Originalsegment ist in dieser Diagnose noch nicht geladen. Yield-Abschluss unverändert angehalten.');
+ const snapshot=[0,2,4].map(at=>word(state.globals,0xbfa+at)),objectSegment=word(state.globals,0xbea);
+ const next=resumeOriginalDosScript(state.memory,module,new Uint8Array(65536),state.bp,state.si,snapshot,objectSegment),globals=state.globals.slice();
+ for(const [address,value] of Object.entries(next.globals)){const at=Number(address);globals[at]=value&255;if(at!==0xc19)globals[at+1]=value>>>8;}
+ return {...state,memory:next.memory,globals,si:next.si,status:next.phase==='callback'?'callback':'next-context',message:next.phase==='callback'?'Skriptzeiger gespeichert. Rückkehr-Callback erreicht; dessen Ausführung ist hier noch nicht angebunden.':'Skriptzeiger gespeichert und Countdown neu geladen. Nächste Originalgrenze: Kontextauswahl 0x2632; diese wird hier noch nicht ausgeführt.'};
 }
 export function stepNativeScriptDiagnostic(state:NativeScriptDiagnostic):NativeScriptDiagnostic{
  if(state.status!=='ready')return state;

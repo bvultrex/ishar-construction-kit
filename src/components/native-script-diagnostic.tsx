@@ -1,16 +1,18 @@
 import {useState} from 'react';
-import {openNativeScriptDiagnostic,stepNativeScriptDiagnostic,type NativeScriptDiagnostic} from '@/lib/ishar/native-script-diagnostic';
+import {openNativeScriptDiagnostic,stepNativeScriptDiagnostic,finishNativeScriptDiagnosticYield,type NativeScriptDiagnostic} from '@/lib/ishar/native-script-diagnostic';
 const hex=(n:number)=>'0x'+n.toString(16).padStart(4,'0');
 export function NativeScriptDiagnosticPanel(){
  const [state,setState]=useState<NativeScriptDiagnostic|null>(null),[name,setName]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false);
  async function load(file:File){setBusy(true);setError('');try{if(file.size>32*1024*1024)throw Error('Maximal 32 MiB pro Modul.');const next=openNativeScriptDiagnostic(new Uint8Array(await file.arrayBuffer()));setState(next);setName(file.name);}catch(e){setError(String(e));}finally{setBusy(false);}}
  function step(){if(!state)return;try{setState(stepNativeScriptDiagnostic(state));setError('');}catch(e){setError(String(e));}}
+ function finishYield(){if(!state)return;try{setState(finishNativeScriptDiagnosticYield(state));setError('');}catch(e){setError(String(e));}}
  const word=(at:number)=>state?state.memory[(state.bp+at)&65535]|(state.memory[(state.bp+at+1)&65535]<<8):0;
  return <section className="stone-card" aria-labelledby="native-script-title">
   <h2 id="native-script-title">Native Skript-Diagnose</h2>
   <p>Ein lokales Ishar-1/2-IO-Modul mit dem rekonstruierten DOS-Kontextaufbau untersuchen. Diese Diagnose verwendet einen kontrollierten Testkontext und verändert weder Originaldatei noch Playtest.</p>
   <div className="toolbar"><label className="file-button">IO-Modul für Skript-Diagnose öffnen<input hidden type="file" accept=".io,.IO" disabled={busy} onChange={e=>{const file=e.currentTarget.files?.[0];e.currentTarget.value='';if(file)void load(file);}}/></label>
    <button disabled={busy||!state||state.status!=='ready'} onClick={step}>Einen nativen Kontrollfluss-Schritt ausführen</button>
+   <button disabled={busy||!state||state.status!=='yield'} onClick={finishYield}>Yield-Abschluss prüfen</button>
    <button disabled={busy||!state} onClick={()=>{if(state){setState(openNativeScriptDiagnostic(state.module.original));setError('');}}}>Diagnose zurücksetzen</button></div>
   {error&&<p role="alert">{error}</p>}
   {state&&<><p><strong>{name}</strong> · Modul-ID {state.module.header.id} · {state.module.image.length} dekodierte Bytes</p>

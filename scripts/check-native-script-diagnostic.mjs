@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {openNativeScriptDiagnostic,stepNativeScriptDiagnostic} from '../src/lib/ishar/native-script-diagnostic.ts';
+import {openNativeScriptDiagnostic,stepNativeScriptDiagnostic,finishNativeScriptDiagnosticYield} from '../src/lib/ishar/native-script-diagnostic.ts';
 const image=new Uint8Array(32),view=new DataView(image.buffer);view.setUint16(0,1,true);view.setUint16(2,22,true);view.setUint16(20,8,true);image.set([5,2,66,0,17],24);
 const bytes=new Uint8Array(38);new DataView(bytes.buffer).setUint32(0,38,true);bytes[4]=1;bytes.set(image,6);const original=bytes.slice();
 let state=openNativeScriptDiagnostic(bytes);assert.equal(state.si,24);assert.equal(state.module.header.id,1);const initial=state.memory.slice();
@@ -38,3 +38,7 @@ const activate=bytes.slice();activate.set([62,0,6],30);const activateInitial=ope
 activate[32]=255;const negativeInitial=openNativeScriptDiagnostic(activate),negativeNext=stepNativeScriptDiagnostic(negativeInitial);assert.equal(negativeNext.dx,65535);assert.deepEqual(negativeNext.memory,negativeInitial.memory);
 activate[31]=4;const unknownActivation=stepNativeScriptDiagnostic(openNativeScriptDiagnostic(activate));assert.equal(unknownActivation.steps,0);assert.equal(unknownActivation.status,'stopped');
 console.log('Native diagnostic: opcode62 activation, signed skip, previous state and unknown operand preservation passed.');
+const finishedYield=finishNativeScriptDiagnosticYield(state);assert.equal(finishedYield.status,'next-context');assert.equal(finishedYield.si,0);assert.equal(finishedYield.memory[finishedYield.bp-8],27);assert.equal(state.memory[state.bp-8],24);assert.equal(finishedYield.memory[finishedYield.bp-1],finishedYield.memory[finishedYield.bp-2]);assert.equal(finishNativeScriptDiagnosticYield(finishedYield),finishedYield);
+const callbackBytes=bytes.slice();callbackBytes[12]=24;let callbackState=openNativeScriptDiagnostic(callbackBytes);for(let i=0;i<3;i++)callbackState=stepNativeScriptDiagnostic(callbackState);const callbackBoundary=finishNativeScriptDiagnosticYield(callbackState);assert.equal(callbackBoundary.status,'callback');assert.equal(callbackBoundary.si,30);assert.equal(callbackBoundary.memory[callbackBoundary.bp-8],27);assert.equal(callbackBoundary.globals[0xc19],0);assert.equal(callbackBoundary.steps,3);
+const missingObjects={...state,memory:state.memory.slice()};missingObjects.memory[missingObjects.bp-24]=1;const refusedObjects=finishNativeScriptDiagnosticYield(missingObjects);assert.equal(refusedObjects.status,'stopped');assert.deepEqual(refusedObjects.memory,missingObjects.memory);assert.equal(refusedObjects.si,missingObjects.si);
+console.log('Native diagnostic: yield pointer persistence, countdown reload, callback boundary and missing-object stop passed.');

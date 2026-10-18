@@ -42,3 +42,11 @@ Nächste Schritte: Scheduler-Fortsetzung nach Yield an den kontrollierten Kontex
 Die aktuelle Browserprüfung bestätigt ebenfalls19 Schritte bis SI0095h und den unveränderten Halt auf148. Für fortlaufende native Vergleiche: `python scripts/check-native-script-diagnostic-file.py <capture-memory.bin> <lokales-Modul.IO>` mit dem isolierten Unicorn-Pythonpfad aus der Testumgebung. Das Werkzeug prüft jeden unterstützten Schritt; Die Yield-Grenze wird jetzt verglichen; Scheduler-Fortsetzung und Mehrsegmentmodule werden ausdrücklich noch nicht verglichen. Es schreibt keine Originalressourcen ins Repo.
 
 Aktuelle Browserprüfung am18.10.2026:22 Schritte bis zum ersten Yield, SI00A0h, DXFFFFh, CXFFFFh, Timerziel1. Die Oberfläche deaktiviert die weitere Ausführung an dieser Grenze. Damit sind auch die zuvor offenen UI-Prüfungen von148 und62 abgedeckt. Eine Scheduler-Fortsetzung steht weiterhin aus.
+
+## Yield-Abschluss prüfen
+
+Nach Yield ist der neue Button **Yield-Abschluss prüfen** aktiv. Er speichert den Skriptzeiger über die rekonstruierte Routine26B2 und hält vor einem Rückkehr-Callback oder vor der Kontextauswahl2632 an. Bei fehlendem Originalobjektsegment und nichtleerer Objektkette wird unverändert angehalten. Weitere Befehle oder ein Frame werden nicht automatisch ausgeführt.
+
+Der native Dateichecker unterstützt hierfür `--finish-yield`. Der tatsächliche Ablauf ist mit Ishar2 IO.IO (22 Schritte bis Yield plus Abschluss) und Ishar1 PRESTI.IO (ein Yield plus Abschluss) geprüft. Die Snapshotwerte sind Teil des kontrollierten Anfangskontexts, kein importierter Spielstand. Kontextauswahl und Callback-Ausführung bleiben die nächsten Integrationsschritte.
+
+Browserprüfung des neuen Buttons bestanden: Nach22 Schritten von IO.IO ist er aktiv; danach zeigt die Oberfläche den gespeicherten Skriptzeiger00A0h und die nächste Grenze2632. Beide Ausführungsbuttons bleiben dort gesperrt. Das Modulbyte am aktuellen SI ist an dieser Grenze nicht als nächster Befehl freigegeben.
