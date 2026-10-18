@@ -56,7 +56,9 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    sind die DOS-Dateisuche156 (Ishar1) und nach dem188-Rückkehrpfad der erste
    erste Framegrenze nach MAIN-Rückkehr-Callback (Ishar2, explizite BIOS-Antwort0).
    Callback, Rückkehr, Frame mit zwei verdeckten Einträgen und Wiedereinstieg
-   in MAIN sind nativ geprüft. Nächster Skriptbefehl ist43.
+   in MAIN sind nativ geprüft. Auch die folgenden43→66 (Dekrement/Sprung→Yield)
+   stimmen in drei gültigen Speicherlayouts mit dem Original überein. Der
+   vollständige Ablauf bis zum Ende dieser Warteschleife bleibt offen.
    Ohne BIOS-Antwort bleibt der Callback an116 stehen. Aktive Objektliste und
    leere Kontextobjektkette bleiben getrennt;188-Grafikzweige sind separat offen.
    Abnahme:

@@ -1494,3 +1494,37 @@ und Typecheck bestanden. Metadaten ohne Originalbytes:
 PHYSICAL_FRAME_NATIVE_2026-10-18.json. Nächste konkrete Fortsetzung ist Opcode43
 am wiederaufgenommenen MAIN; aktive Zeichen-/Record-/Gerätepfade und die
 Browseranbindung bleiben offene Abnahmen.
+
+### Dekrement und Rücksprung nach dem ersten MAIN-Zyklus (18.10.2026)
+
+`original-dos-script-decrement.ts` rekonstruiert43/44/45 (2837..2884,
+Add-Ergebnisdispatcher2943) für direkte Ziele6/8/18/20. Das typisierte
+Byte-/Wortergebnis entscheidet über den Sprung. DX bleibtFFFF, CX bleibt
+erhalten. Die drei Varianten überspringen1/2/3 Delta-Bytes; Variante45 liest
+dennoch nur die unteren16 Bit. C54 und die C58/C5C-Puffertauschreihenfolge
+werden im gemeinsamen physischen Speicher ausgeführt, auch wenn das Ziel
+C54 überschreibt. Andere Ergebnisformen werden ausdrücklich abgewiesen.
+
+`check-native-dos-decrement.py` vergleicht pro Originalprofil144 synthetische
+Fälle gegen den echten Dispatcher: alle drei Varianten, vier Zieltypen,
+sechs Grenzwerte und getrennte/aliasierende Globals. Sechs Skriptregister,
+SP und der gesamte1MiB-Speicher stimmen überein; ausschließlich der bekannte
+CPU-Stack-Sicherungsbereich wird maskiert. Scratchregister/Flags sind kein
+öffentliches API-Versprechen. Beide Originalcaptures bleiben unverändert.
+
+Der Ressourcenchecker mit `--resume-after-frame --shift-flags 0` führt den
+bereits geladenen Ishar2-MAIN-Zustand weiter:43 dekrementiert und springt
+zurück zu66. Nach zwei Schritten steht SI wieder auf16103, DX=FFFF. Alle
+drei gültigen Layouts stimmen mit der fortlaufenden nativen Ausführung
+überein. Der Zähler wird dabei nicht manuell verändert. Dies belegt einen
+weiteren Yield, noch nicht das Auslaufen der Warteschleife. Die explizite
+BIOS-Antwort0 und die kontrollierte Startumgebung bleiben Testbedingungen.
+Ishar1 bleibt weiterhin an seiner DOS-Dateisuchegrenze; Browser und aktive
+Grafikausgabe sind durch diesen Schritt nicht erweitert.
+
+Reproduktion: `node scripts/check-dos-decrement.mjs`; für jeden lokalen
+Capture `check-native-dos-decrement.py <memory.bin>` mit dem dokumentierten
+Unicorn-PYTHONPATH. Metadaten: `DECREMENT_BRANCH_NATIVE_2026-10-18.json`.
+Schritt-/Yield-/Frame-Regressionen und Typecheck bestanden. Nächste offene
+Abnahme ist die wiederholte Scheduler-/Callback-Fortsetzung bis zu einem
+neuen Originalpfad, ohne einen Zähler oder Dienst künstlich zu überspringen.

@@ -17,7 +17,7 @@ import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');p.add_argument('--objects',action='store_true');p.add_argument('--blocks',action='store_true');p.add_argument('--assignments',action='store_true');p.add_argument('--execute',action='store_true');p.add_argument('--finish-main-yield',action='store_true');p.add_argument('--callback',action='store_true');p.add_argument('--callback-return',action='store_true');p.add_argument('--frame',action='store_true');p.add_argument('--next-main',action='store_true');p.add_argument('--shift-flags',type=int);a=p.parse_args();assert a.shift_flags is None or 0<=a.shift_flags<=255;a.frame=a.frame or a.next_main;a.callback_return=a.callback_return or a.frame;a.callback=a.callback or a.callback_return;a.finish_main_yield=a.finish_main_yield or a.callback;a.execute=a.execute or a.finish_main_yield;a.assignments=a.assignments or a.execute;a.blocks=a.blocks or a.assignments;a.objects=a.objects or a.blocks;a.schedule=a.schedule or a.objects;a.root=a.root or a.schedule;a.decode=a.decode or a.root
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');p.add_argument('--objects',action='store_true');p.add_argument('--blocks',action='store_true');p.add_argument('--assignments',action='store_true');p.add_argument('--execute',action='store_true');p.add_argument('--finish-main-yield',action='store_true');p.add_argument('--callback',action='store_true');p.add_argument('--callback-return',action='store_true');p.add_argument('--frame',action='store_true');p.add_argument('--next-main',action='store_true');p.add_argument('--resume-after-frame',action='store_true');p.add_argument('--shift-flags',type=int);a=p.parse_args();assert a.shift_flags is None or 0<=a.shift_flags<=255;a.next_main=a.next_main or a.resume_after_frame;a.frame=a.frame or a.next_main;a.callback_return=a.callback_return or a.frame;a.callback=a.callback or a.callback_return;a.finish_main_yield=a.finish_main_yield or a.callback;a.execute=a.execute or a.finish_main_yield;a.assignments=a.assignments or a.execute;a.blocks=a.blocks or a.assignments;a.objects=a.objects or a.blocks;a.schedule=a.schedule or a.objects;a.root=a.root or a.schedule;a.decode=a.decode or a.root
 memory=a.capture.read_bytes();data=a.main.read_bytes()
 digest=hashlib.sha256(memory).hexdigest();file_digest=hashlib.sha256(data).hexdigest()
 profiles={
@@ -257,6 +257,18 @@ for case in vectors['cases']:
    actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
    assert hashlib.sha256(actual).hexdigest()==expected['hash'],'next main memory mismatch'
    row['nextMain']={**expected,'opcode':cpu.mem_read(cpu.reg_read(UC_X86_REG_DS)*16+cpu.reg_read(UC_X86_REG_SI),1)[0]}
+  if a.resume_after_frame and 'nextMain' in row and row['nextMain']['phase']=='main':
+   frame_boundary[0]=None;object_phase[0]=True
+   registers={name:cpu.reg_read(r) for name,r in names.items()}
+   expected=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-physical-script-prefix-vector.mjs')],input=json.dumps({'memory':base64.b64encode(bytes(cpu.mem_read(0,0x100000))).decode(),'ss':0x1c0b,'registers':registers,**({'shiftFlags':a.shift_flags} if a.shift_flags is not None else {})}),text=True,cwd=repo))
+   for index,step in enumerate(expected['steps']):
+    assert cpu.mem_read(cpu.reg_read(UC_X86_REG_DS)*16+cpu.reg_read(UC_X86_REG_SI),1)[0]==step['opcode']
+    previous_sp=cpu.reg_read(UC_X86_REG_SP);object_done.clear();cpu.emu_start(0x126eb,0xfffff,count=100000)
+    yielding=step['status']=='yield';assert object_done==[0x126b2 if yielding else 0x126f7] and cpu.reg_read(UC_X86_REG_SP)==previous_sp+(2 if yielding else 0)
+    for name,value in step['registers'].items():assert cpu.reg_read(names[name])==value,('resumed MAIN',index,step['opcode'],name)
+    actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
+    assert hashlib.sha256(actual).hexdigest()==step['hash'],('resumed MAIN memory',index,step['opcode'])
+   row['resumedMain']={'steps':len(expected['steps']),'nextOpcode':expected['nextOpcode'],'reason':expected['reason'],'last':expected['steps'][-1] if expected['steps'] else None}
   results.append(row)
 assert a.capture.read_bytes()==memory and a.main.read_bytes()==data
 print(json.dumps({'profile':profiles[digest][0],'captureSha256':digest,'mainSha256':file_digest,'cases':len(vectors['cases']),'decodedBytes':vectors['decodedBytes'],'decodeAndClose':a.decode,'rootCreation':a.root,'decodeResults':results,'result':'MAIN chain through requested initialization/decode/root boundary matches','limits':('controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed' if a.root else 'controlled DOS replies; initialization memory checked; registry/root and notification bodies excluded')}))
