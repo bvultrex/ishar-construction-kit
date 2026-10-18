@@ -1,6 +1,8 @@
 /** 43-byte FindFirst DTA record, observed against the local DOSBox reference.
  * The first21 bytes are opaque search state. Raw bytes, including bytes after
  * the filename terminator, must survive a no-op write unchanged.
+ * This record alone is NOT a proven cursor snapshot: the DOSBox rewind oracle
+ * retains enumeration progress even after all43 DTA bytes are restored.
  */
 export function readDosFindFirstDta(bytes:Uint8Array){
  if(bytes.length!==43)throw Error('Expected a 43-byte DOS FindFirst DTA record');

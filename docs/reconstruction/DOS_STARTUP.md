@@ -815,3 +815,11 @@ Beobachtungen der konkreten Referenz:
 Metadaten des erfolgreichen automatischen Laufs: DOS_FINDFIRST_ORACLE_2026-10-18.json. DTA-Prüfsummen können sich durch Dateizeit und Suchzustand zwischen neuen Fixtureläufen ändern; semantische Assertions prüfen die beobachteten Eigenschaften, keine globale Byteidentität verschiedener Läufe.
 
 Noch offen: Suchzustand/FindNext, Attribute außerhalb der geprüften normalen Dateien, umfassende DOS-Pfad-/Wildcardregeln, echtes aktuelles Laufwerk und Ishars aktive DTA-Initialisierung. Der existierende Dateisuchdienst bleibt bewusst nicht automatisch an die Diagnose angebunden, bis dessen Zustandswirkungen korrekt erhalten werden können. Die DTA-Dateiwerkzeuge sind keine Behauptung eines kompletten DOS-Dateisystems.
+
+## FindNext, eigener DTA und Snapshot-Rückspieltest
+
+Die DOSBox-Referenzprüfung wurde um acht Suchfolgen mit jeweils FindFirst und drei FindNext-Aufrufen erweitert, je mit Standard-DTA und per INT21/AH1A gesetztem Puffer. Mit den bisherigen acht Einzelprobes ergeben sich16 eigene COM-Programme und40 Suchaufrufe. Der neue Lauf beendet DOSBox selbst erfolgreich und mountet ausschließlich eigene Fixtures. Vollständige Metadaten stehen in DOS_FINDNEXT_ORACLE_2026-10-18.json; Ablauf, Interpretation und Grenzen sind in DOS_FILE_SEARCH.md dokumentiert.
+
+Wesentliche neue Evidenz: Nach Sicherung des DTA bei TrefferA, FindNext zuB und vollständigem Rückspielen aller43 Snapshotbytes liefert FindNext weiterhinC. Beide Pufferarten zeigen dasselbe Verhalten. Der DTA allein ist damit in dieser Referenz kein vollständiger Suchcursor-Snapshot; zusätzlicher Fortsetzungszustand liegt außerhalb dieses Datensatzes. Erfolgreiche FindNext-Aufrufe ändern hier Ergebnisfelder, aber nicht die ersten21 DTA-Bytes. Erfolgloses FindNext nach Ende beziehungsweise erfolglosem FindFirst liefert AX18 und ließ den Datensatz unverändert. Diese Befunde ersetzen keine vollständige DOS-Spezifikation.
+
+Alle40 Datensatz-No-op-Roundtrips, Treffer-/Fehlerfolgen, Pufferpointer und byteweisen Snapshot-Rückspiele bestehen. Der ursprüngliche Acht-Fälle-Lauf besteht weiterhin. Der Dateidienst bleibt bis zur korrekten Abbildung der Zustandswirkungen ausdrücklich von der Toolkitdiagnose getrennt; es wird keine vollständige Dateisuche behauptet.

@@ -1,14 +1,17 @@
 param(
  [Parameter(Mandatory=$true)][string]$Output,
  [Parameter(Mandatory=$true)][string]$Python,
- [string]$DosBox='E:/Programme/Dosbox/DOSBox.exe'
+ [string]$DosBox='E:/Programme/Dosbox/DOSBox.exe',
+ [switch]$Enumeration
 )
 $ErrorActionPreference='Stop'
 $Python=(Resolve-Path -LiteralPath $Python).Path
 $DosBox=(Resolve-Path -LiteralPath $DosBox).Path
 $Output=[IO.Path]::GetFullPath($Output)
 if(Test-Path -LiteralPath $Output){throw 'Use a new oracle output directory; existing probes are never overwritten.'}
-& $Python (Join-Path $PSScriptRoot 'build-dos-findfirst-probe.py') $Output
+$builderArgs=@((Join-Path $PSScriptRoot 'build-dos-findfirst-probe.py'),$Output)
+if($Enumeration){$builderArgs+='--enumeration'}
+& $Python @builderArgs
 if($LASTEXITCODE -ne 0){throw 'Probe build failed'}
 $config=Join-Path $Output 'probe.conf'
 @"
