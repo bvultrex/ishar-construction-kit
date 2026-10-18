@@ -1,0 +1,2157 @@
+{
+  "schema": "ishar-main-indexed-assignment-native-v1",
+  "main": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "mainSha256": "27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b",
+      "cases": 8,
+      "decodedBytes": 26384,
+      "decodeAndClose": true,
+      "rootCreation": true,
+      "decodeResults": [
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "64594a9950e34ddadfabc11cae02acf37b86823f62ac4ed75b9eb52ad28d62b2"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 14984,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "cb091561fb263113453a22556bccc672076658e2265ff645d53bd9bd8d5c6a40",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "652a0e4b3b8096b3454d5d7e2090245429217fde173178187ecbcb34e2c4002f"
+            },
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "61d23f685f61902fb4c560325d40f05910d6f725eb87a0027ab16e441df1ec82"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "c84419486dad96caacad5593c2b3a5c56fe2b65853763415e83d980c4ebaaefb"
+          },
+          "assignments": {
+            "steps": 7,
+            "nextOpcode": 7,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 793,
+                "bp": 672,
+                "dx": 11,
+                "cx": 15,
+                "bx": 10108,
+                "di": 15591,
+                "ax": 15591
+              },
+              "tag": 14,
+              "hash": "218e9345502ff51cdbba07cda99b5738bc0c0d1766c83d788a3d48cda9f6230c"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "81206ca3101b79787804635bcab77c1467063a546ce3768917bc1166f71fd119"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 14984,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "8a10ff0dcc362abab52798504d1049867cb5584f673aa994e8505474a1f8aeb9",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "a39bffebd07795062e971177e4ec2384b5000f94c231c3958475312560924306"
+            },
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "5ef2b41c738c58b091bcd8c3afcbd8849841803998134885ef6fb9fa0bcb0b35"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "75c5d39a2d4945113d9310a0852bca1f98b75c24e439e49707b4dbd48dc310bd"
+          },
+          "assignments": {
+            "steps": 7,
+            "nextOpcode": 7,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 793,
+                "bp": 672,
+                "dx": 11,
+                "cx": 15,
+                "bx": 10108,
+                "di": 15591,
+                "ax": 15591
+              },
+              "tag": 14,
+              "hash": "4d42bae1dceeb8e24e6b0bc69fb6f390af4106a58fea34b7b5123fce2f0b3383"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "4ede92d4e56ee2d047bb02b464bf9795b14d1baba3167ede1b9cd5eaae5c40c6"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "11839fb453d698870f44a73c287a21e49ecaae4a16f19d5b68e19fd6761885d0"
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "d694480a5d6b63d2038e2d82268975166d0236aead29e596e0a817b8cc72fa62"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "11839fb453d698870f44a73c287a21e49ecaae4a16f19d5b68e19fd6761885d0"
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "42fd1046c8d71563fed9e8d200c700e53e61d203799d58cd0708abc71d678869"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 23176,
+            "es": 20480,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "fcb5b68834d5e24321cd96ba7b21d44a7e6f6d967ac863522de16ab4c3f223f7",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "8abc943a024722d5f1177a5c7e8e327e1f4e695776952f1ff231ce22c9d2be12"
+            },
+            {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "22bb9f111c887678fbb214c906bedff433deb3dfd796d011a07cb19b19dce2ae"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "6dc3a9a7347c919d3a8928956ad0b2adadb427d80dee9278491322df39e66704"
+          },
+          "assignments": {
+            "steps": 7,
+            "nextOpcode": 7,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 793,
+                "bp": 672,
+                "dx": 11,
+                "cx": 15,
+                "bx": 10108,
+                "di": 15591,
+                "ax": 15591
+              },
+              "tag": 14,
+              "hash": "a54a1df4d35cda405d23b135f7f4cfcc26363c4800fe7bc36fb394f119003829"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "b140a9bbdfd55ca041bef2fc857268427243af71ac1f0f70412cf1caeececd6b"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "f0618743c98547bae75d16b6b7532ded9be2acc5505b575ddca764bca69cb274"
+        }
+      ],
+      "result": "MAIN chain through requested initialization/decode/root boundary matches",
+      "limits": "controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "mainSha256": "bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95",
+      "cases": 8,
+      "decodedBytes": 27752,
+      "decodeAndClose": true,
+      "rootCreation": true,
+      "decodeResults": [
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "22bab1ca1e85e9a28d40afdc5b5de42edf11d0f24c44b5198004ec377f2a3aed"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 15421,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "081786906b10e2b667fdd276d2202659b1cdee32ffc2dedef6d79b86bf157624",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "d029137af92865b1ea622b59fcba964b003b53e31474fe7b285ca9719639d4b5"
+            },
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "090a13c4d65953fdedf28989e7cc62f127174719e7422a084897716ef2301f55"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "e9797851adf999c96626f2c0d7918be8907ace185b84e99672b9852e2e50b643"
+          },
+          "assignments": {
+            "steps": 8,
+            "nextOpcode": 31,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 778,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 11,
+                "bx": 10108,
+                "di": 20929,
+                "ax": 20929
+              },
+              "tag": 6,
+              "hash": "ddba5b5b3695f0933a40c266c2c1929d6d04937e2991f9cc64ca9309aaa70e7f"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "cad63e06b4e9ab4616305dffa8a3604f0a33c70cb859db6a193150f41949a787"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 15421,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "7f5b16bacda449a84641c3bc7cf3d6774a01f3566059ff432ce8e45a47e761d2",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "755cae8c9eeeaac65f05597248f0f757f065094cb4dbeb56ab4f09a1492062a8"
+            },
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "71619062b92e0abe93e8164e95e18ba772294c963d51ae2b26cbb379c0607ae0"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "2ccad2889327135a5e87482497cc06bfe754270cd83b9a7e3325e2904dfae540"
+          },
+          "assignments": {
+            "steps": 8,
+            "nextOpcode": 31,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 778,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 11,
+                "bx": 10108,
+                "di": 20929,
+                "ax": 20929
+              },
+              "tag": 6,
+              "hash": "0892edaafd025d4764873777b1237be6a0453837267f25726b77b5fd2242504c"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "aa6867a7f268d06e9ff6361e9bde8509f33dc6c44b41f32c331bcdd0a9b549da"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "47f4d32ff7c439330c646ee60de01a82a269c05f44d8af0db8a9dea0471cfe7e"
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "25cc8ff1ea80b989f56d8dc33e4a1a8d46dc055491d1fe4be7ae5f2ccf5386a8"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "47f4d32ff7c439330c646ee60de01a82a269c05f44d8af0db8a9dea0471cfe7e"
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "565a3208f77005b70f07cf183653760df066a8c855a5b06f3956a3940919c8b5"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 23613,
+            "es": 20480,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "3c2484a285da115fa50b4b254f03be29fdaa7ae8c232edaf11653b6504fa82d6",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "e960992c67890c6793cbce28833a5b83e545bf671719f18af83d9e16e27cff9a"
+            },
+            {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "55549455d1ae2533b00d896e10333df499c19ca6d560912e102b2e0d507e6814"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "2e92949de837fc6eaa5c35cb11d2500d17d527325d819c539264eeceb6a15279"
+          },
+          "assignments": {
+            "steps": 8,
+            "nextOpcode": 31,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 778,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 11,
+                "bx": 10108,
+                "di": 20929,
+                "ax": 20929
+              },
+              "tag": 6,
+              "hash": "82bd3306cc164e57956af75ef4b37d7b8b7a4b29aa63f08dd121804731615ae3"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "c922ab1129f69dd31f0d318c40b3163dc519a0242a4d8b6876a20d3dd801bfec"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "d6a12dc7bdcb278e79e69827816266190aa55c572f4e75872ff9ae06bc4cc5bf"
+        }
+      ],
+      "result": "MAIN chain through requested initialization/decode/root boundary matches",
+      "limits": "controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed"
+    }
+  ],
+  "synthetic": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "cases": [
+        {
+          "resultTag": 6,
+          "additionalDimensions": 0,
+          "sourceTag": 0,
+          "hash": "6cdb81430e33da61e10b4bf9ffc086af6682fe0476b88c7340047de3e00cf15e"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 0,
+          "sourceTag": 2,
+          "hash": "3b184f8bc0441d45b8acfe4743f8a05991e2998ae8abb2d5cfb71176529f4bbe"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 0,
+          "sourceTag": 6,
+          "hash": "fd74bf63b5b93f463aa3ec78438808d4d382041830d4add28b98bcbb9694e302"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 0,
+          "sourceTag": 8,
+          "hash": "58fb37803bd8f65506b7b88236e084f5cc7ec28088eb64af5f29ff645f860d12"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 0,
+          "sourceTag": 30,
+          "hash": "c234fe5c7fdfa8fa2b0b932e11fcd1dc0df2d5c930f35b66c227706b280ddb8f"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 0,
+          "sourceTag": 32,
+          "hash": "9b6899aa8caf886b5cdde63b3d32b390058ee91446e7c5ac4f299a1fc88c7381"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 1,
+          "sourceTag": 0,
+          "hash": "8542c71629aee76f92e1adf87aba8c6af85e3a8c4e964d3c7f7dc7d00e4d8a40"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 1,
+          "sourceTag": 2,
+          "hash": "a732f3fbbfe23fae40f7368ffdfc8fd9100235d80d3ef2334970a7269594edd7"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 1,
+          "sourceTag": 6,
+          "hash": "6287bce78275822533827d2f980262043e9a1bc812b99e3e76244838aa0e9bb4"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 1,
+          "sourceTag": 8,
+          "hash": "29e65dd807d14bb0de06b6687553b443813a2e87710cde11bdc28bc3ee77cc10"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 1,
+          "sourceTag": 30,
+          "hash": "9d2f830b0112aafae728234ab5a0e99744865b9734d09a98d25895e5191f6616"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 1,
+          "sourceTag": 32,
+          "hash": "7c50411f2c9c21a808a3928dd6828533de4ed33d2b542898b61748e3fb93cf9b"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 2,
+          "sourceTag": 0,
+          "hash": "b50996c258194bb4717c5d3aa92492d34dcb6895ee51f3445e82413d22ed975a"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 2,
+          "sourceTag": 2,
+          "hash": "97cdb4eec288dc86e294337be1d43598c73a71dbd0e69f4f69609b437d368d4e"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 2,
+          "sourceTag": 6,
+          "hash": "8a9f086bb54472a0be342660e680187057fff723bbab9318e66700e190d7a531"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 2,
+          "sourceTag": 8,
+          "hash": "42c61964d8a1bfce43c5edbafd81a254232488eb97c41b1de533c1f28195ac18"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 2,
+          "sourceTag": 30,
+          "hash": "a6a17623bb4a3ccdef6172eca2bf7d06049f60fc7fd50e12db1ea4ba2f3630e7"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 2,
+          "sourceTag": 32,
+          "hash": "c85a9275b6bb23a24f17d8d5edc910a3b7db1387c1fc8d024fca266d3a840023"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 0,
+          "sourceTag": 0,
+          "hash": "310f636879a6cac0820ceeabfe518645f8129043d0285b4a63e5cf5573ef3477"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 0,
+          "sourceTag": 2,
+          "hash": "ca0d3751b780d22e99037a55d6cb26ba1d81e75f30273e7f1ca3a40dcd596354"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 0,
+          "sourceTag": 6,
+          "hash": "89856ccf1056daee329286a70d8c341b2f9268386c3d21302ca0ed6e91d81c15"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 0,
+          "sourceTag": 8,
+          "hash": "5439a404bae1d57fed7e5373b1cf8720870ce3743cb674fd3a127b32012f5c13"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 0,
+          "sourceTag": 30,
+          "hash": "ce770882e66dfce2375ca12fc0440b8dae17a2fa0142ab0d1c830dbe27928a55"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 0,
+          "sourceTag": 32,
+          "hash": "869b6a1a203d2ecc93fc2d0a893a0b7ed734d05c8d2170066df2a71b91270eec"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 1,
+          "sourceTag": 0,
+          "hash": "587f4199c4fd1c686c1cbfa4bb66eb4b70f316070f5989782ef8c5c74b1de767"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 1,
+          "sourceTag": 2,
+          "hash": "9cf16698d1d6a9c847f8b59ee991992409cfddb7a30d7cf00706b1ff88496282"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 1,
+          "sourceTag": 6,
+          "hash": "ea60314ae5992bdd378cfafd3adb7587f5b96959b4920061cd9d64f09120a461"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 1,
+          "sourceTag": 8,
+          "hash": "0ef3c10c52e9b50542c98c704ee0bad0c647801560142dabcf19cdb1ccc33517"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 1,
+          "sourceTag": 30,
+          "hash": "e68bac89284665ca15dae0d67b936e8d35029b42b611ef8c85c521261283a0cb"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 1,
+          "sourceTag": 32,
+          "hash": "517aad6311e366d3db522a39107f6a323cbd333b1d2938bd56896b1b924d3ee9"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 2,
+          "sourceTag": 0,
+          "hash": "2b523df8bdbe3c6f15867bef6c6bc62cdc6bd116c373f70bfdd955209e7b1b57"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 2,
+          "sourceTag": 2,
+          "hash": "65975a39533a409c44e60d870b51baf2f25c770f5cc5b76988a26375f59693f3"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 2,
+          "sourceTag": 6,
+          "hash": "6585f9f295f10df87f987a6686a1d0aa45a255da870ad6c0e17fe216f12d5b93"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 2,
+          "sourceTag": 8,
+          "hash": "c09cecd573d961675eb2ec675ab5e29f49d8e25f802047e5c82d39e548b13eeb"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 2,
+          "sourceTag": 30,
+          "hash": "ac8c0109dcd1dd015871e81e4056a77538fdce8dfbff97958985d77baa58bb22"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 2,
+          "sourceTag": 32,
+          "hash": "657811a9fb70466d01552a479477efc14fbb89967e126d1333e61836011901c4"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 0,
+          "sourceTag": 0,
+          "hash": "c120e9876782a917fd16abea73c4f7b9884acf26f3016fdc0a1df846f6451081"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 0,
+          "sourceTag": 2,
+          "hash": "7a01b6ce96da694ede2ad2140e879c6bfd147adf443b151ed8818ada056b6919"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 0,
+          "sourceTag": 6,
+          "hash": "d63c6ee93b5f928239ae16c064aed302ff5b63e27b9b99cb92d622e722802518"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 0,
+          "sourceTag": 8,
+          "hash": "cc23027404578bdd102baff853e23d8e622fb27a1a05794147a057312bf0cdb1"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 0,
+          "sourceTag": 30,
+          "hash": "37d28b4b90df210d6cde425522ca80fc0513b1992ea07e3e2f5c5105aabe6f35"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 0,
+          "sourceTag": 32,
+          "hash": "a09c0941cc05995ca0f126a8a885a7ec6ef57fbf9995b92e9fbc5ddbc85330c3"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 1,
+          "sourceTag": 0,
+          "hash": "0c2868e8e426c5a16f0279ab8c6ba40f1661f55152fab3dce3c950f619e865c9"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 1,
+          "sourceTag": 2,
+          "hash": "dfe69f3fd36f75ccbc8919f147591df123d80ef3071fdfb50e2c0c90759735d6"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 1,
+          "sourceTag": 6,
+          "hash": "fefe181fe1a844a523cd014f1f522c43c2f0cb43b815c442ac694c473f26e6d4"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 1,
+          "sourceTag": 8,
+          "hash": "f92f7abc46993c2a2989b17edc17783ef322051b97c953016214b81485a25b33"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 1,
+          "sourceTag": 30,
+          "hash": "2e24e6fce44046b2461c9ed9736039ccde7c41bf586fc8e9d5cf5e41e8357b39"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 1,
+          "sourceTag": 32,
+          "hash": "253ab1946874cf909bfec673270001ade8f2e7263c529a6565c508e98892e777"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 2,
+          "sourceTag": 0,
+          "hash": "40be0b77b8bf224ff0dd05883264dbe75e3f2cb474baad3caa57380b2919db17"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 2,
+          "sourceTag": 2,
+          "hash": "334c122c2ed014024dd56e73b18e23fc7378a2067af28178667e139c6d6be113"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 2,
+          "sourceTag": 6,
+          "hash": "4f0d0fdec009ba3827508454ff7b257ad541a97dda8330f5290b86434097da75"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 2,
+          "sourceTag": 8,
+          "hash": "4480b42f0b384cb48ff663cb071e667f9cfef6376c418ce2d4874db1e7d1a9ac"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 2,
+          "sourceTag": 30,
+          "hash": "3b9f75a7e701fbad6fe5a15016dbc1dbcc5d6a952c091435cd8f072897f8ef6e"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 2,
+          "sourceTag": 32,
+          "hash": "f855fc0ac62952e9f3a2b0d5ab40be0d42a2e4b8c927b51c92d80306c2861a81"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 0,
+          "sourceTag": 0,
+          "hash": "509cc1adb10dbc0ab352d451f2297d7475876aed8cd371279b01e0678091b9c8"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 0,
+          "sourceTag": 2,
+          "hash": "c7225cc93970bdfd47ac4729b0c6b5735394457c553dc6782756f69ef6682047"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 0,
+          "sourceTag": 6,
+          "hash": "23957ba4ff6e8162e027ffcd32ae67ef6678b7a4ca4734e2ef052cffeabac864"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 0,
+          "sourceTag": 8,
+          "hash": "34bc7acc5b3e0c2c4f150608c0ae957a516cb5baf25669ecc1389072d4fa0c90"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 0,
+          "sourceTag": 30,
+          "hash": "11b579267713c9c61a362c6cf20598bc1bac448762d35986219f55644dff0f9c"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 0,
+          "sourceTag": 32,
+          "hash": "8efbffd09883a3fc1cd987aed39105f7353302abc78d3d4bb8721057edb3ddb4"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 1,
+          "sourceTag": 0,
+          "hash": "1a7d0de17e82b1e51e31056fbc570a0db13721bd8a8cd18003f159aaea8bee13"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 1,
+          "sourceTag": 2,
+          "hash": "11ac9ea75d74858fcea61da6e1aba1b5dfb7972e3c8718e836d9ee69d9335bd1"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 1,
+          "sourceTag": 6,
+          "hash": "34dc11c126ff29a2f2a359adbf778ebb495c1ae8ec80900e41415a0bd3334185"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 1,
+          "sourceTag": 8,
+          "hash": "413aa7baeeed9a465865b5231300168ce88a878c8b54da78a1a84b8e8e94f171"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 1,
+          "sourceTag": 30,
+          "hash": "3b5945d398944e29a19048464de22dc6efad57c951fa98f60366d89eb48192f9"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 1,
+          "sourceTag": 32,
+          "hash": "d356e6ea0d5f76aec432dda694cd5c10b3300941c01724f680c86f16c334131d"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 2,
+          "sourceTag": 0,
+          "hash": "891bf8163a2c47302fbc96b8252a72bdebf5f8c930afdb34b480a59d146feac2"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 2,
+          "sourceTag": 2,
+          "hash": "84683c321273f3c0f6100a8aa5391588fe50ca3e643e99543e71a0e69d8227a3"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 2,
+          "sourceTag": 6,
+          "hash": "151c6c09380bd4beaa379f42719eb45efd5c5b0ab04e271e780d7b879a96900a"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 2,
+          "sourceTag": 8,
+          "hash": "ec5a07fbf1557079f8a0f89136f8528d4f6567ec72033121a772814e979792ea"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 2,
+          "sourceTag": 30,
+          "hash": "9c7968a71607c7017332dfa1fad78f04982cc02c7a4cb6cf47faf3584e89fcb6"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 2,
+          "sourceTag": 32,
+          "hash": "ee6e0267772af5d6b628d0defe53d868cc63a5109c97cb6df3572d4749c3fcd5"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 0,
+          "sourceTag": 0,
+          "hash": "fa54a74a5398ad83413a1682670ef3acda49990f214fa77bb80c2499ea707c33"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 0,
+          "sourceTag": 2,
+          "hash": "445ff51e3c289274ed6b68e56c6c465e998ee6b8a67535d51203fabbc8bc4df1"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 0,
+          "sourceTag": 6,
+          "hash": "3de62f594a8c6d973dc5f267b8bbb96ebdd54eb9ac1e50f1a7a07ea2fb525f56"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 0,
+          "sourceTag": 8,
+          "hash": "99ca6ab4801c83790fcd6f09e20017874938896c74d95cabb6d954710786ecd1"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 0,
+          "sourceTag": 30,
+          "hash": "f58c2428b68754926f21bd2416643554b941a4a52245330ebb23a54f90807af7"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 0,
+          "sourceTag": 32,
+          "hash": "691590ae51b77717c2df1bcacdd930e4f0ae71728a90523e33aef8f236868160"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 1,
+          "sourceTag": 0,
+          "hash": "e7565888fd8586465b65b9dab98408d96f3f6c8240c03204fa3d94d29aaa5481"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 1,
+          "sourceTag": 2,
+          "hash": "67ac9cf2a208cdc298c70fe8eeddfa23e45724c2585ac43e8d5e6bfd997ba31d"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 1,
+          "sourceTag": 6,
+          "hash": "85670ba70be3ef7b5973a6931b4f8f63315f97d41dab8c05db27bdaf0c9fe027"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 1,
+          "sourceTag": 8,
+          "hash": "ed3910e88f06aa7893acadbbd8a3df79f4c3bc43bb29a8cf3bcdcefa00e8f602"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 1,
+          "sourceTag": 30,
+          "hash": "54b9076d02d083f09acb7bc85c6cd5043cb56010c6334ce4a4c12b67231387d6"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 1,
+          "sourceTag": 32,
+          "hash": "2df5819c719f90045053494fa4d6dab50999afa71b58964106987bae0fe652a1"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 2,
+          "sourceTag": 0,
+          "hash": "222378b2f40506e9ab2e0fe2e05c589cc20fb5ce2ca724963aa1f4cb3def130e"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 2,
+          "sourceTag": 2,
+          "hash": "26f8510f9bda64a3b2ca15173ca75501ab4896cf028af609593a31f5908dfc50"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 2,
+          "sourceTag": 6,
+          "hash": "da77fee39705fd321e31bd5cca12a811a8a7e41a284e6ebf54971f74e8be5d63"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 2,
+          "sourceTag": 8,
+          "hash": "c719228465041f630e9488bb2b4973c96be5822b27bc14811eb26699d2e0596a"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 2,
+          "sourceTag": 30,
+          "hash": "da12adc52b9695e0b2ebcc23c4118c9043de50505e235791aed14a4af7738e97"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 2,
+          "sourceTag": 32,
+          "hash": "1c9f423c590a1a5da6b0d50a16f21ded0adbed98fc5dc5d1536c828318654cf5"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 0,
+          "sourceTag": 0,
+          "hash": "55f396a0bfcb3485c6b8142155d7a84bcc24e93c5074ecd4df608f67613a984e"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 0,
+          "sourceTag": 2,
+          "hash": "36255ee8b57afb2c0bb90326c02e0541c2750b2916a78ddb4a0343f5e4e4e377"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 0,
+          "sourceTag": 6,
+          "hash": "345e5215f828d6130d5a70c1b98e207a5043383f3975f32b874f05f379752a70"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 0,
+          "sourceTag": 8,
+          "hash": "d878edaf4bbc41065f62c197b1b29291eb28a0acd7ac540d471695d5920b8ab7"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 0,
+          "sourceTag": 30,
+          "hash": "c169705edd5d8c7478cd16a8d64484f0585ed153333a4621dc746a90d310e694"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 0,
+          "sourceTag": 32,
+          "hash": "25b12c4280d07d5954709c42d08ef402f732ab8b8ec0f86ab742d75a1ba93983"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 1,
+          "sourceTag": 0,
+          "hash": "a33da09cfceba553274b78b1053eeaee48bab080fb254d8fa9162db2325f4ebf"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 1,
+          "sourceTag": 2,
+          "hash": "d2409ae1aa2f5432fcac26f7abf5663a97dbd3b71c0f37279a277c38a046453e"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 1,
+          "sourceTag": 6,
+          "hash": "b3ba382bd829ef2f00765ba02e3e4baf64e7669e8a4b50c9433c4d2e403ffd29"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 1,
+          "sourceTag": 8,
+          "hash": "019c23d3ce5e89adb47c96c3e73fcd3f3cc1e2e7387d32c86acd02cca25021fb"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 1,
+          "sourceTag": 30,
+          "hash": "542fca13a8a3f72de48b4a95b830d3d3f77a9b74cd96cf6258f4aa4a93be9c26"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 1,
+          "sourceTag": 32,
+          "hash": "1491d3e3aac2aca5c1e35bdd986d738b70ba06d1ad2bffb1b36f3bdcbec2122f"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 2,
+          "sourceTag": 0,
+          "hash": "664e715d1f8d7eae7d2d57fce43bc1d07482f9ca7d39f75cd6a9566533e3d56a"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 2,
+          "sourceTag": 2,
+          "hash": "fd5c1fee4e1a8370c2a24898e675e5334a45957e7181c18996039cc7fc639eb1"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 2,
+          "sourceTag": 6,
+          "hash": "da3d4846a6da84f9fbfa1a5bfc88d7d01c23440a4f37b0db923db904edf541a5"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 2,
+          "sourceTag": 8,
+          "hash": "3ef7d3520f0fcf160ae6d3c7787ff31b1a42efd7246287d0205bc591b292e48f"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 2,
+          "sourceTag": 30,
+          "hash": "e22aa1d264f2aabd5044daef2ed22dc1189513dba8f66c276cd89a20bf100638"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 2,
+          "sourceTag": 32,
+          "hash": "83c30c19610949a4a38aa846c8f85d8b95bce9c3da890e29b99462cd16c344e3"
+        }
+      ],
+      "limits": "explicit numeric subset; DF0; flags/CPU stack saves excluded"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "cases": [
+        {
+          "resultTag": 6,
+          "additionalDimensions": 0,
+          "sourceTag": 0,
+          "hash": "3b246726f23f75c958fd9ef1c27e21852b334d2b23ed38362b798584148db3a2"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 0,
+          "sourceTag": 2,
+          "hash": "d432198c71ed2372e2d8a574650348e87ef190d7364cb7037ab21d193f7da2b5"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 0,
+          "sourceTag": 6,
+          "hash": "dbcc05e625b13dd9beb05e0133adad15e9ebd25d6273e42384cea9606ce1c8f0"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 0,
+          "sourceTag": 8,
+          "hash": "9c10331ff478d71730656b309b8a47673eb56739c9cd2a3553f7f5317bf59aea"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 0,
+          "sourceTag": 30,
+          "hash": "6a20895c65eccd63fec4fa3bdd2fcea6870483e0bed1c3d6cec00e40e50cd927"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 0,
+          "sourceTag": 32,
+          "hash": "6d756e1a307c6f3d6e17c6163e04564c624d6e3de3f961b4bdf5487df123b7ae"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 1,
+          "sourceTag": 0,
+          "hash": "9676aad16842173dff34cbe8d33fdfd06789ffc80ae6e3d56f9b2b3c39c214cf"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 1,
+          "sourceTag": 2,
+          "hash": "fef542cf08b425b4998f77a6009ee1a5bab9902229042caac51fff722956c1b6"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 1,
+          "sourceTag": 6,
+          "hash": "69e879808e198261ebf378a7f8abb52408c60577f8fc7652b8b974f978538a80"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 1,
+          "sourceTag": 8,
+          "hash": "6ae4d9241c0b40f17f46547069921cd9558f924eaabfe24d0eb1a45bb9d4210a"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 1,
+          "sourceTag": 30,
+          "hash": "9876bb22a84153459157b1dd1044585ba2fc1ba527e64fe7133efb3860fca93b"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 1,
+          "sourceTag": 32,
+          "hash": "323400a862f8a2e0b0ab302e2db4e7ca88430f1f0960972f50bee255d44f9387"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 2,
+          "sourceTag": 0,
+          "hash": "191be1724bfb047d8bc92c49b501a5cecd992b91640b9ec78bd8dc40ee998910"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 2,
+          "sourceTag": 2,
+          "hash": "88c27011edd588a4ac8e6bd806ec1ef97ec06dd18f8bc6c783b487f60957652d"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 2,
+          "sourceTag": 6,
+          "hash": "4b58289aff0154674ce1106b1744018e8539732c3cbc16b8f926050b827c29a7"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 2,
+          "sourceTag": 8,
+          "hash": "01aa3c62998c74074e1e74cdccff7475dc1f017396add3c24f5acb6bde5757c2"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 2,
+          "sourceTag": 30,
+          "hash": "c02f095aefc72a83cd6faefd7029402135f58f42ff73bceb75775de9f3a84e1f"
+        },
+        {
+          "resultTag": 6,
+          "additionalDimensions": 2,
+          "sourceTag": 32,
+          "hash": "f3c8908349d357daf8b1929b9ae6e261204a3724ea4543535357a9be4b7a78b2"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 0,
+          "sourceTag": 0,
+          "hash": "c061f488b7f9f95e6a72d2fd00c106b3d37f82bd05486194c91ea2fa9d669025"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 0,
+          "sourceTag": 2,
+          "hash": "5f3e6943f1a53e145c7fb5102f0de9548609b64c1892113e26de237ccc2d4f96"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 0,
+          "sourceTag": 6,
+          "hash": "27a9cb57fddcdcb39da2c1d6f314515baa6ed1b0f5a33893348855616236b050"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 0,
+          "sourceTag": 8,
+          "hash": "4f323c61a317bc05147b0cbdfb0b67d52918734c5ea83c703160a679fd47fe05"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 0,
+          "sourceTag": 30,
+          "hash": "8664cb857d22e19f3f7894b8b3fb9f072ea36abd0afa62f1820740f1a22a101a"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 0,
+          "sourceTag": 32,
+          "hash": "68d8bfcbea66f5c663be2ff1343ada016f7d7ac53d5f5772333d094b09178bf3"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 1,
+          "sourceTag": 0,
+          "hash": "1fbf5f8a56564f31a065ed294a999788f8c78523a8654c6207a014f782adda83"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 1,
+          "sourceTag": 2,
+          "hash": "dc51b648acfc9030129a8a3e82ed8bd3823120803858f55e371272d1534f8d50"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 1,
+          "sourceTag": 6,
+          "hash": "14c5d51274ffb085d64717f4a110b02cbfa72d60b4cd61ebf5f6ef2a4916be47"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 1,
+          "sourceTag": 8,
+          "hash": "d6a97b8f548149ab019e42fea95005cc018badaa58c2c4a96441ca060aa385bb"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 1,
+          "sourceTag": 30,
+          "hash": "a03035578bcfac0adbe0ecb850af470a7f528abf0f33a0a0792294d77544d14f"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 1,
+          "sourceTag": 32,
+          "hash": "52faadcab2b3f7a70cd92a05fd6506acad850a2d31b38aa8f40f2d8ab6e2a9b9"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 2,
+          "sourceTag": 0,
+          "hash": "01a4a78ecad19bd1cde426366043d943c292eab3ab70a8bd8d67c28973b93b6c"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 2,
+          "sourceTag": 2,
+          "hash": "a61880fc3042fec892bbd040a50c4d0e95a00bad877de040de11a8a39cf2a8a8"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 2,
+          "sourceTag": 6,
+          "hash": "8bac1b818b17e4ce35e886746673d9afda712702b760155792491f74248364e4"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 2,
+          "sourceTag": 8,
+          "hash": "2f1b92c9a3ca1da259de5c292d6f0bf1b38f8aa496f9f8e1409bc8843b0b47d5"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 2,
+          "sourceTag": 30,
+          "hash": "113343df1be9f3df4ef947763ce16d3f264ab3d0aa01fe6555eb9436d68f47cb"
+        },
+        {
+          "resultTag": 8,
+          "additionalDimensions": 2,
+          "sourceTag": 32,
+          "hash": "d3c8893ce2761e78dbe949c022df1115b34158a2ebe8d86bbaf4f35d50afa18c"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 0,
+          "sourceTag": 0,
+          "hash": "5e69de7b9427130a7774e4d448d36c23175ca1c8406ebbab9a8be385c0c7dc95"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 0,
+          "sourceTag": 2,
+          "hash": "0cc804726a8e2c6e430bb4c9b8be97e6d29b83f47618d26f3ed5d3097dc7748c"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 0,
+          "sourceTag": 6,
+          "hash": "58493797be3f4bdbb5734429e0534ec43608d5520131ca6cd510fac777bd3703"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 0,
+          "sourceTag": 8,
+          "hash": "7fb80ffb4c79991bb83ce4ee65e5c6bc7a118ffb808e9753c1bd6fe9245ca894"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 0,
+          "sourceTag": 30,
+          "hash": "ecae43c61cafe7e8f9ec8345e284a3b10a867556caeaa92af5ebb0a9b19572b4"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 0,
+          "sourceTag": 32,
+          "hash": "cb0c3ff9b877cdbb5f44c0594b2bf397caae1f74630e1d4af5d131b95022bc42"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 1,
+          "sourceTag": 0,
+          "hash": "f0b35b5e7198b374f29023763aeaef12671d422cefc1c91084f6883d1d9cf8ff"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 1,
+          "sourceTag": 2,
+          "hash": "aacd49ae6acd7fed12c15c488cb87813250f4b3acf814c3c8c7537b5b8f9d4ec"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 1,
+          "sourceTag": 6,
+          "hash": "9b57bf6b0a7933e5f2ffdad3ba8f9a57440b8fd0cd01f33a5d9f053ccdb7c303"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 1,
+          "sourceTag": 8,
+          "hash": "f77b737b93ed17143e4066366af4e2c1b5d70bc54753b5a8d8be5364f9645326"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 1,
+          "sourceTag": 30,
+          "hash": "0a48d40eb667c9c6414bb504df67e72f8e8d0ce96008a44484f585865693f5da"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 1,
+          "sourceTag": 32,
+          "hash": "a5596577ee729b0224d6b0a9c0bcdd6c48023a28f8a6e6e31a6ba35f90d67079"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 2,
+          "sourceTag": 0,
+          "hash": "49b3691a7e341abe60b4d323c81e003d219a622c46acb799ccf1a8845f4e2f37"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 2,
+          "sourceTag": 2,
+          "hash": "fcefbb64ed8276ae935f9ed7d3ff3bef2c7caa6d539d8b712aca1fbc9e016bd8"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 2,
+          "sourceTag": 6,
+          "hash": "517428e8af865a1f296a88bf5551628164b9771af2bac0d15e8e41d7bdbd2fe4"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 2,
+          "sourceTag": 8,
+          "hash": "39151b67150cd186e87efa9dda18d26551b6c8b4e76f695a9a3df3544f34f542"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 2,
+          "sourceTag": 30,
+          "hash": "b8cfbc2f9fdb8c08512ae6e230da808dd984de9fe6147b1692d1c1126b88cbcd"
+        },
+        {
+          "resultTag": 14,
+          "additionalDimensions": 2,
+          "sourceTag": 32,
+          "hash": "5f2b5c78cce90412a87a570c2c28fe75c2ddc374022fabb23efaa7f71d9d4b49"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 0,
+          "sourceTag": 0,
+          "hash": "57df0482a8c26c396491a6faa63e075a2b7e658342b292d3432cb246e1101289"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 0,
+          "sourceTag": 2,
+          "hash": "bae318886022df9d1056685aabe29fe1aae51b9ffd2a2e282fe99ea33bfd2512"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 0,
+          "sourceTag": 6,
+          "hash": "186088bff1ad8a9c9f80b10bcf34255162e2ddfef50fc51a533b3aba21cbefda"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 0,
+          "sourceTag": 8,
+          "hash": "d2c02c30ac58fe6bd17fee137931a6cd368995899cfcbb754c818db5cbcb06d5"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 0,
+          "sourceTag": 30,
+          "hash": "f07be67a0bb96a639cbfacdc5120c20814d4ee64a2228d9453025e1c15bd7eab"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 0,
+          "sourceTag": 32,
+          "hash": "cf7e705ecd189a6f388fb37f54b5f165001abe3bd29f65cc6ab94d7ce174382c"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 1,
+          "sourceTag": 0,
+          "hash": "d5e56b55de1c761e18de90f3d14d5b36eaa8bae2afe0f7c917ed1548e9d00bdf"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 1,
+          "sourceTag": 2,
+          "hash": "fb5e7b2e43ac18dbecf4c0afd5a4ab42b94a2c71225d870ede8d0b6073d47004"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 1,
+          "sourceTag": 6,
+          "hash": "139510dc1450781d0638cb90b9f84e9032580cacf37160a205f2a18dadaa2d8c"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 1,
+          "sourceTag": 8,
+          "hash": "064de6702c3a3328f894d98dfe5e99d505333c60ee65c64d85f9f3947b036c25"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 1,
+          "sourceTag": 30,
+          "hash": "4b694733ccaaa85fbf3ec9127fa91f6ee364f79168cacfadd4e8369e8de47838"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 1,
+          "sourceTag": 32,
+          "hash": "210a319b31197b1d7fae926f568ea2fb70f7cb71312f2a585198e93b6ed29bfb"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 2,
+          "sourceTag": 0,
+          "hash": "fcd5477789401fc8f2b6b7ca374cbc86a990e10aec5a1a77abe8220a2fdb0d75"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 2,
+          "sourceTag": 2,
+          "hash": "d687f5dbe1f124d9423af21e6d13559f2140b6ebe44ca9ddd86858ccb7d54c14"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 2,
+          "sourceTag": 6,
+          "hash": "6031c9104146d9f7d2e2ee2faee8e325a757725da56755676c8c3bbbf03c8ae6"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 2,
+          "sourceTag": 8,
+          "hash": "581e9f952ee029813d10052efc5e65a0c70a7d3be1dbd3aa03d5f5c55d7c233b"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 2,
+          "sourceTag": 30,
+          "hash": "4fa434940468ebd26013ff6eea718cd8b4f6e43b01f5b1a921a809ac2e9bf11a"
+        },
+        {
+          "resultTag": 16,
+          "additionalDimensions": 2,
+          "sourceTag": 32,
+          "hash": "4894a02a9746b4be5a50a8c93fd9020a368c68e0b57ea9ce26b6d53bd26a44c3"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 0,
+          "sourceTag": 0,
+          "hash": "c4d13d8aa1de70fdc13e19fb7747a53ee2e083dd76a66d2a0e5092f8cc3829d3"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 0,
+          "sourceTag": 2,
+          "hash": "77f9b4d75c339e3c55e96a47a1dc7bb3eda60fe916f28e9710a36f1b83f42e89"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 0,
+          "sourceTag": 6,
+          "hash": "23a4e68285fdd47e1c4c009f4402a8227fcd70950c0f9026a2812be46793a2f5"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 0,
+          "sourceTag": 8,
+          "hash": "f3c39848de2d275502a95a381c4062f3c6b876e19678a742218a86515df9b93d"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 0,
+          "sourceTag": 30,
+          "hash": "bd7da15c423e6f0eb5ce5f5dba0a8f7f16aea4b13fdf927f42926caf58549baa"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 0,
+          "sourceTag": 32,
+          "hash": "58767e47f31b9bd9ce3c965601b7361939b9214efe3f0123a5272f07209e2015"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 1,
+          "sourceTag": 0,
+          "hash": "12528d1e2f7158a5ea94517d9fe17bf661966e9a6c4132bd965b6ffe27255e54"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 1,
+          "sourceTag": 2,
+          "hash": "66b978c8162095f2e7fcb40f8ced42e0f6fa371d4fa5d8790a5f4f2ac05ecb74"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 1,
+          "sourceTag": 6,
+          "hash": "8ac7b53f9812719352cb7714414200d0833b78affdd8380bf2056e9467338280"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 1,
+          "sourceTag": 8,
+          "hash": "5059833081b75ddd5c64430ea32fa46b761689c3478a08f1a3bf2584cd409444"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 1,
+          "sourceTag": 30,
+          "hash": "3b29476ff9d956ec27d951ebece2e1e4f47c03d14e3c0b5b282c6dc96b8355d0"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 1,
+          "sourceTag": 32,
+          "hash": "e40f67bbe7a8e77d5d5d76aab20ed5e851481f802ab23ac364ac3dbf8e936006"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 2,
+          "sourceTag": 0,
+          "hash": "6915a7201246e1ab1a5fba65ade3178423acad36f973890c5d216720031abc91"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 2,
+          "sourceTag": 2,
+          "hash": "ca37add0640911f4bbfa32e8eb01517996b2aa12e83504d6b267dc0180657135"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 2,
+          "sourceTag": 6,
+          "hash": "a7a884a304c203adf164d5c897992e1854f349604f2deaec2ec18dcc0b60b21b"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 2,
+          "sourceTag": 8,
+          "hash": "559bdcab92cfd14346fe017f6f0de982d91ea8bf01ace2033185060af09d63a6"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 2,
+          "sourceTag": 30,
+          "hash": "ba6291440cb21a27f56eb798c4aaa89883a6df65cf67e2baa0f0500675f5ba35"
+        },
+        {
+          "resultTag": 18,
+          "additionalDimensions": 2,
+          "sourceTag": 32,
+          "hash": "42edb3279d7f0e135a4fe4c7f6f29ff91088f91546c25716368b814beaf1aa4f"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 0,
+          "sourceTag": 0,
+          "hash": "7d4a250c134f0dbcb71a048f7701a759a1b2085fbf1b26078d2020dd04f37a37"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 0,
+          "sourceTag": 2,
+          "hash": "363383841d1d43c4f646e19d5f77ff677e411447c0d53b0919a320ab483ef236"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 0,
+          "sourceTag": 6,
+          "hash": "654c56ede641c398fd86397f4004cf411f2bd7b69133d244c73a4581cea0a267"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 0,
+          "sourceTag": 8,
+          "hash": "a0dedc71bec9fd8ad9153da8e3a264249833f13545639f67406513155c3c3195"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 0,
+          "sourceTag": 30,
+          "hash": "75191ca2566e6b4fec35c3773ca15552deec551997e71c338a26c8205e30b593"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 0,
+          "sourceTag": 32,
+          "hash": "40dab38e3b5c86deedf88767b986a5f1b5fd3332d814eebee23ef3f1611db760"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 1,
+          "sourceTag": 0,
+          "hash": "97c59db1adb662efd928c493c83dd10ad2ec85d2fcfcbf9b06c077b4917d51ab"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 1,
+          "sourceTag": 2,
+          "hash": "c97c35f86ab0a097cf47fb60fa2c109b29d1962e7f825c642d675998d01fc000"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 1,
+          "sourceTag": 6,
+          "hash": "c63d88b5cc2d1d6fd9392955df8c40fc1e8e5cb7619dfa2bb5745da4a3dc26e7"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 1,
+          "sourceTag": 8,
+          "hash": "13ae334f1d1f7291714dbfba6bf8e0dd475cb302eb75894e817cdb10f24ccd39"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 1,
+          "sourceTag": 30,
+          "hash": "4f58baaf8a7bcac80f398a395e28121c034695fd10b6aa9b79cba8c33c84a363"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 1,
+          "sourceTag": 32,
+          "hash": "b02a8b552d58b412e1ad85c760c2f996be03386e421148eb01b543cd83d31d5e"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 2,
+          "sourceTag": 0,
+          "hash": "5008bd654339c0d1f5331d7fbcb6189591f72af5b3e7fa942d3ad37dc8e15ea9"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 2,
+          "sourceTag": 2,
+          "hash": "23080871becb9da0844ef23558ea639521d2bfc314eb1c19deca449d6c490ef4"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 2,
+          "sourceTag": 6,
+          "hash": "93d785678bea42e4ee7eab45e6a42a936beaabdf34ace5e6011591d90747b738"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 2,
+          "sourceTag": 8,
+          "hash": "8c212d76f35b6e9a137153ba77b4cca8479574ba45765343e6cfe75300a20ba5"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 2,
+          "sourceTag": 30,
+          "hash": "e45e03329f0ccc102801f62eb995642780012f9e9571e50b8aacdba95f13b8e3"
+        },
+        {
+          "resultTag": 20,
+          "additionalDimensions": 2,
+          "sourceTag": 32,
+          "hash": "fac31923e3ae798b9fa1f4b41d92c08edd24981d878f40dcc22fdfa38af2914f"
+        }
+      ],
+      "limits": "explicit numeric subset; DF0; flags/CPU stack saves excluded"
+    }
+  ]
+}

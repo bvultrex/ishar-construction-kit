@@ -6,12 +6,13 @@ Optional --decode includes actual A1 decode and close; no complete startup claim
 the earlier platform services and loader caller are outside this test.
 --objects also executes the contiguous opcode70 prefix after that entry.
 --blocks additionally compares every following opcode41 in shared physical memory.
+--assignments also checks the supported consecutive indexed opcode30 prefix.
 """
 import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');p.add_argument('--objects',action='store_true');p.add_argument('--blocks',action='store_true');a=p.parse_args();a.objects=a.objects or a.blocks;a.schedule=a.schedule or a.objects;a.root=a.root or a.schedule;a.decode=a.decode or a.root
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');p.add_argument('--objects',action='store_true');p.add_argument('--blocks',action='store_true');p.add_argument('--assignments',action='store_true');a=p.parse_args();a.blocks=a.blocks or a.assignments;a.objects=a.objects or a.blocks;a.schedule=a.schedule or a.objects;a.root=a.root or a.schedule;a.decode=a.decode or a.root
 memory=a.capture.read_bytes();data=a.main.read_bytes()
 digest=hashlib.sha256(memory).hexdigest();file_digest=hashlib.sha256(data).hexdigest()
 profiles={
@@ -169,6 +170,17 @@ for case in vectors['cases']:
     actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
     assert hashlib.sha256(actual).hexdigest()==step['hash'],'loaded block memory mismatch'
    row['blocks']={'steps':len(expected['steps']),'si':expected['si'],'nextOpcode':expected['nextOpcode'],'lastHash':expected['steps'][-1]['hash'] if expected['steps'] else None}
+  if a.assignments and 'blocks' in row:
+   names={'ds':UC_X86_REG_DS,'es':UC_X86_REG_ES,'si':UC_X86_REG_SI,'bp':UC_X86_REG_BP,'dx':UC_X86_REG_DX,'cx':UC_X86_REG_CX,'bx':UC_X86_REG_BX,'di':UC_X86_REG_DI,'ax':UC_X86_REG_AX}
+   registers={name:cpu.reg_read(names[name]) for name in ['ds','es','si','bp','dx']}
+   expected=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-main-assignment-prefix-vector.mjs')],input=json.dumps({'memory':base64.b64encode(bytes(cpu.mem_read(0,0x100000))).decode(),'ss':0x1c0b,'registers':registers}),text=True,cwd=repo))
+   for step in expected['steps']:
+    previous_sp=cpu.reg_read(UC_X86_REG_SP);object_done.clear();cpu.emu_start(0x126eb,0xfffff,count=100000)
+    assert object_done==[0x126f7] and cpu.reg_read(UC_X86_REG_SP)==previous_sp
+    for name,value in step['registers'].items():assert cpu.reg_read(names[name])==value,('assignment',name,cpu.reg_read(names[name]),value)
+    actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
+    assert hashlib.sha256(actual).hexdigest()==step['hash'],'assignment memory mismatch'
+   row['assignments']={'steps':len(expected['steps']),'nextOpcode':expected['nextOpcode'],'reason':expected['reason'],'last':expected['steps'][-1] if expected['steps'] else None}
   results.append(row)
 assert a.capture.read_bytes()==memory and a.main.read_bytes()==data
 print(json.dumps({'profile':profiles[digest][0],'captureSha256':digest,'mainSha256':file_digest,'cases':len(vectors['cases']),'decodedBytes':vectors['decodedBytes'],'decodeAndClose':a.decode,'rootCreation':a.root,'decodeResults':results,'result':'MAIN chain through requested initialization/decode/root boundary matches','limits':('controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed' if a.root else 'controlled DOS replies; initialization memory checked; registry/root and notification bodies excluded')}))

@@ -50,8 +50,9 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    MAIN-Opcode70 samt Objektpoolzugriffen ist inzwischen gegen beide Profile
    geprüft; beide ursprünglichen Anfangsbefehle laufen im CLI-Nachweis durch.
    Die folgenden117/114 Opcode41 je Spiel sind mit dem erhaltenen physischen
-   Zustand nativ verglichen. Als Nächstes den erreichten Opcode30 samt seinen
-   originalen Ergebnis-/Indexdispatchern erschließen und weiter verbinden.
+   Zustand nativ verglichen. Auch die ersten7/8 numerischen Zuweisungen samt
+   Original-Indexstack laufen durch. Nächste Grenzen sind Aufruf7 (Ishar1) und
+   Ausdruck31 (Ishar2); daran die zusammenhängende Ausführung weiterführen.
    Abnahme:
    Register, Speicher, Zeiger und Stopgrenzen pro Profil stimmen überein.
 2. **Erster vollständiger Original-Modnachweis je Spiel.** Bestehenden sicheren

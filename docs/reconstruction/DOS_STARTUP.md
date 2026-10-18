@@ -1078,3 +1078,50 @@ Nächste Lücke ist der originale Opcode30-Zuweisungsablauf an dieser Stelle,
 einschließlich der tatsächlich folgenden Ergebnis-/Indexdispatcher. Die
 bisherigen einfachen Zuweisungsadapter decken diese Folge nicht vollständig ab.
 Kein neuer Browserablauf und kein vollständiger Spielstart werden behauptet.
+
+## Numerische MAIN-Zuweisungen mit Original-Indexstack
+
+`original-dos-indexed-assignment.ts` rekonstruiert einen ausdrücklich begrenzten
+Opcode30-Pfad im gemeinsamen physischen Speicher. Enthalten sind die numerischen
+Operanden0/2/6/8/30/32, Ausdrucksschleife56/58, Operandenspeicher64 und54,
+Ergebnispräfix56 bei739A sowie direkte Ziele6/8/18/20 und indizierte Ziele14/16.
+Nicht erschlossene Tags werden vor Rückgabe eines veränderten Zustands abgewiesen;
+es gibt kein Überspringen oder erfundenes Ziel. Der separate bisherige
+Zuweisungsadapter bleibt erhalten; sein engerer Vertrag wird nicht stillschweigend
+als allgemeine MAIN-Unterstützung ausgegeben.
+
+Der Dispatcher tauscht0C58/0C5C in Originalreihenfolge. Ergebnispräfix56 legt
+den zuzuweisenden Wert bei SS:277Ah ab und wertet die folgenden Indexoperanden
+mit dem originalen BX-Stackpointer aus. Die Helfer6C2E/6C5B lesen die Anzahl
+zusätzlicher Dimensionen und die Wortstrides aus dem zuvor durch Opcode41
+angelegten Kontext. Wortziele verdoppeln nur den letzten Index wie im Original;
+die weiteren Strides sind bereits Bytestrides. Unsigned MUL und Akkumulation
+bleiben modulo16Bit;0B0A und sämtliche tatsächlichen Operandenspeicherstores
+werden erhalten. Es wird kein JavaScript-Array statt der Originalstruktur benutzt.
+
+`check-native-dos-resource-file.py <capture> <MAIN.IO> --assignments` setzt
+Lader, Grafikaufbereitung, Root-/Schedulerübergabe, beide Opcode70 und den
+gesamten41-Präfix mit derselben CPU fort. Danach werden die unterstützten
+aufeinanderfolgenden30-Befehle einzeln ausgeführt. Je drei gültige Layouts
+beider Spiele stimmen in sämtlichen vom Modell beschriebenen Registern,
+Stackwirkung und dem vollständigen Speicher außer den festgelegten
+Stack-Sicherungsbytes überein. Ishar1 erreicht nach sieben Zuweisungen SI793
+und Opcode7; Ishar2 nach acht Zuweisungen Opcode31. Diese Grenze entsteht
+durch den nächsten Originalbefehl, nicht durch Weglassen einer fehlgeschlagenen
+Zuweisung. Der kontrollierte Eintritt2607 bleibt ausdrücklich eine Testgrenze.
+
+`check-native-dos-indexed-assignment.py <capture>` prüft je108 synthetische
+Zuweisungen pro Profil: sechs Quellformen, sechs Ergebnisformen und0/1/2
+zusätzliche Dimensionen. Verglichen werden Register, erhaltene Segmentwerte,
+Stackrückkehr und der vollständige Speicher einschließlich Operandenspeicher
+und0B0A (ausgenommen CPU-Stacksicherungen). Hostprüfung:
+`node scripts/check-dos-indexed-assignment.mjs` für Vorzeichen, Puffertausch,
+Quellschutz und Abbruch bei unerschlossenen/beschädigten Sequenzen.
+Typecheck bestanden. Metadaten ohne Originalbytes:
+MAIN_INDEXED_ASSIGNMENT_NATIVE_2026-10-18.json.
+
+Flags, allgemeine Ausdrucksarithmetik, String-/weitere Ergebnisformen,
+Fehlerhandler und vollständiger Interpreter sind damit nicht nachgewiesen.
+Auch die Browserdiagnose ist noch nicht an diesen physischen MAIN-Zustand
+angebunden. Als Nächstes die unterschiedlichen Fortsetzungen beider Profile
+(Ishar1-Aufruf7, Ishar2-Ausdruck31) mit diesem Zustand weiterführen.
