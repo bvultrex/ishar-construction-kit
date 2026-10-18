@@ -62,8 +62,11 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    zusätzlichen vollständigen Schedulerzyklen folgt43→17, dann Opcode78 bei
    SI15009. Aktivierung78 ist inzwischen ebenfalls implementiert und nativ
    verglichen; auch Auswahl71 bei SI15012 stimmt nativ überein. Danach folgt73
-   bei SI15015. Diese Ressourcen-/Grafikvorbereitung und die folgende sichtbare
-   Ausgabe bleiben offen. Verwandte Wortänderungen192/193/194 haben separate
+   bei SI15015. Dessen Vorbereitung, Ressourcenauflösung und erster rekursiver
+   Verbundeintrag sind inzwischen nativ verglichen (Typ1, Grenze3432). Die
+   Datensatzübernahme, weiteren Teilgrafiken und sichtbare Ausgabe bleiben offen.
+   Der physische Vollschritt weist73 weiterhin ab, bis der gesamte Befehl
+   abgeschlossen werden kann. Verwandte Wortänderungen192/193/194 haben separate
    native Befehlsnachweise, noch keinen vollständigen Inhaltsablauf.
    Ohne BIOS-Antwort bleibt der Callback an116 stehen. Aktive Objektliste und
    leere Kontextobjektkette bleiben getrennt;188-Grafikzweige sind separat offen.

@@ -19,7 +19,7 @@ import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');p.add_argument('--objects',action='store_true');p.add_argument('--blocks',action='store_true');p.add_argument('--assignments',action='store_true');p.add_argument('--execute',action='store_true');p.add_argument('--finish-main-yield',action='store_true');p.add_argument('--callback',action='store_true');p.add_argument('--callback-return',action='store_true');p.add_argument('--frame',action='store_true');p.add_argument('--next-main',action='store_true');p.add_argument('--resume-after-frame',action='store_true');p.add_argument('--cycles',type=int,default=0);p.add_argument('--shift-flags',type=int);a=p.parse_args();assert 0<=a.cycles<=1000;a.resume_after_frame=a.resume_after_frame or a.cycles>0;assert a.shift_flags is None or 0<=a.shift_flags<=255;a.next_main=a.next_main or a.resume_after_frame;a.frame=a.frame or a.next_main;a.callback_return=a.callback_return or a.frame;a.callback=a.callback or a.callback_return;a.finish_main_yield=a.finish_main_yield or a.callback;a.execute=a.execute or a.finish_main_yield;a.assignments=a.assignments or a.execute;a.blocks=a.blocks or a.assignments;a.objects=a.objects or a.blocks;a.schedule=a.schedule or a.objects;a.root=a.root or a.schedule;a.decode=a.decode or a.root
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');p.add_argument('--objects',action='store_true');p.add_argument('--blocks',action='store_true');p.add_argument('--assignments',action='store_true');p.add_argument('--execute',action='store_true');p.add_argument('--finish-main-yield',action='store_true');p.add_argument('--callback',action='store_true');p.add_argument('--callback-return',action='store_true');p.add_argument('--frame',action='store_true');p.add_argument('--next-main',action='store_true');p.add_argument('--resume-after-frame',action='store_true');p.add_argument('--checkpoint',type=Path);p.add_argument('--cycles',type=int,default=0);p.add_argument('--shift-flags',type=int);a=p.parse_args();assert 0<=a.cycles<=1000;a.resume_after_frame=a.resume_after_frame or a.cycles>0;assert a.shift_flags is None or 0<=a.shift_flags<=255;a.next_main=a.next_main or a.resume_after_frame;a.frame=a.frame or a.next_main;a.callback_return=a.callback_return or a.frame;a.callback=a.callback or a.callback_return;a.finish_main_yield=a.finish_main_yield or a.callback;a.execute=a.execute or a.finish_main_yield;a.assignments=a.assignments or a.execute;a.blocks=a.blocks or a.assignments;a.objects=a.objects or a.blocks;a.schedule=a.schedule or a.objects;a.root=a.root or a.schedule;a.decode=a.decode or a.root
 memory=a.capture.read_bytes();data=a.main.read_bytes()
 digest=hashlib.sha256(memory).hexdigest();file_digest=hashlib.sha256(data).hexdigest()
 profiles={
@@ -27,6 +27,9 @@ profiles={
  'f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04':('ishar2','bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95')}
 assert digest in profiles and file_digest==profiles[digest][1], 'Unsupported/mismatched capture and MAIN'
 repo=Path(__file__).resolve().parent.parent
+if a.checkpoint:
+ assert not any(a.checkpoint.resolve().is_relative_to(root.resolve()) for root in [repo,a.main.parent,a.capture.parent]), 'Checkpoint must stay outside repository and original/capture directories'
+
 vectors=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-resource-file-vectors.mjs'),str(a.main.resolve()),str(a.capture.resolve())]+(['--decode'] if a.decode else []),cwd=repo,text=True));results=[]
 for case in vectors['cases']:
  cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,memory)
@@ -305,6 +308,12 @@ for case in vectors['cases']:
     if context['phase']!='main':break
     main=prefix();item['main']=main
     if not main['last'] or main['last']['status']!='yield':break
+  if a.checkpoint and 'cycles' in row:
+   a.checkpoint.mkdir(parents=True,exist_ok=True)
+   stem=f"{case['segment']:04x}-{case['offset']:04x}-{case['frontier']:04x}"
+   (a.checkpoint/(stem+'.bin')).write_bytes(bytes(cpu.mem_read(0,0x100000)))
+   state={name:cpu.reg_read(r) for name,r in {**names,'cs':UC_X86_REG_CS,'ss':UC_X86_REG_SS,'sp':UC_X86_REG_SP,'ip':UC_X86_REG_IP,'ax':UC_X86_REG_AX,'bx':UC_X86_REG_BX,'di':UC_X86_REG_DI,'flags':UC_X86_REG_EFLAGS}.items()}
+   (a.checkpoint/(stem+'.json')).write_text(json.dumps(state))
   results.append(row)
 assert a.capture.read_bytes()==memory and a.main.read_bytes()==data
 print(json.dumps({'profile':profiles[digest][0],'captureSha256':digest,'mainSha256':file_digest,'cases':len(vectors['cases']),'decodedBytes':vectors['decodedBytes'],'decodeAndClose':a.decode,'rootCreation':a.root,'decodeResults':results,'result':'MAIN chain through requested initialization/decode/root boundary matches','limits':('controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed' if a.root else 'controlled DOS replies; initialization memory checked; registry/root and notification bodies excluded')}))

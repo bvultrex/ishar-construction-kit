@@ -1631,3 +1631,63 @@ nach Aktivierung ist weiterhin keine tatsächliche Grafikausgabe geprüft.
 `node scripts/check-dos-object-selection.mjs`, Auswahl-/Sichtbarkeits- und
 Schrittregressionen sowie Typecheck bestanden. Nächste konkrete Grenze ist73
 (336F), mit seiner Fortsetzung in der Ressourcen-/Grafikvorbereitung3415.
+
+### Ressourcenauflösung72/73 und erster Verbundeintrag (18.10.2026)
+
+`original-dos-resource-draw.ts` bildet die numerische Vorbereitung333F/336F,
+den Einstieg3415 und die Auflösung39F5 ab.72 liest eine Ressourcen-ID und setzt
+C02/C04/C06/C0E auf0.73 liest drei Koordinaten, eine Ressourcen-ID und einen
+Unterindex, den699E in CX liefert. Beide setzen C15/C13 auf0 und übernehmen
+das Spiegelungsbyte aus ES:BP-3 nach C12. Numerische Formen0/2/6/8/30/32 sind
+implementiert; der neue synthetische Prüfsatz erreicht0/2. Andere Formen werden
+explizit abgewiesen. Die originalen sequenziellen Globalzugriffe bleiben erhalten.
+
+39F5 liest den Modulzeiger aus ES:BP-20/-18, folgt Header+14 und dessen relativer
+Tabelle und adressiert den vierbytebreiten Eintrag über DX. Der Low-Word-Additions-
+übertrag erhöht das Highwort; danach folgen Bytevertauschung, vier Links-Shifts
+und Absatznormalisierung. Dies ist keine übliche pauschale32-Bit-Offsetaddition.
+Die resultierenden Register und der gesamte Speicher werden nativ verglichen.
+
+Negative Typen außer FE sind Verbünde. Die Routine setzt CX auf Zählerbyte+1,
+springt aber vor dem ersten Körper auf LOOP. Tatsächlich ist daher das rohe
+Zählerbyte die Anzahl der Teilgrafiken;0 beschreibt einen leeren Verbund. Für
+den ersten Eintrag werden C12/C02/C04/C06 gesichert, Koordinaten addiert und bei
+negativer Teil-ID das Vorzeichenbit entfernt sowie C12 umgeschaltet. Die
+X-Verschiebung wird bei zuvor gesetztem C12 negiert. Rekursion erfolgt nach341B,
+ohne C13 erneut zu löschen. Der Host folgt nur bis zur ersten Blattressource,
+dem FE-Sonderpfad oder dem Ende eines leeren Verbunds; Geschwister und Rückkehr
+sind noch offen. Zyklische erste Kindketten und eine explizite Tiefe32 werden
+als Hostgrenzen atomar abgewiesen. Die Tiefe ist keine Originalformatgrenze.
+
+Die API endet bei3432 (Datensatzpfad),342F (FE) oder34AF (leerer Verbund).
+Es bleiben fünf Stackwörter, je rekursiver Ebene kommen zehn hinzu. Der
+physische Vollschritt ist bewusst noch nicht mit einem scheinbar fertigen73
+verbunden. Er weist den Befehl weiterhin ab, bis Rückkehr und alle Seiteneffekte
+rekonstruiert sind. Das ist eine offene Implementierung, keine Spielregel.
+
+`check-native-dos-resource-draw.py <memory.bin>` vergleicht je80 synthetische
+Fälle beider Captures:72/73, getrenntes/SS-aliasierendes ES, relative Überträge,
+Typ0/1/FE/FF, beide Spiegelungen und leere/einelementige Verbünde. Sechs
+Skriptregister, SP und vollständiger Speicher außer dem bekannten Stackbereich
+stimmen überein. Metadaten: `RESOURCE_DRAW_NATIVE_2026-10-18.json`.
+
+Für die Original-MAIN-Fortsetzung erzeugt der Ressourcenchecker optional mit
+`--checkpoint <privates Verzeichnis>` einen vollständigen CPU-/Speicherzustand.
+Repository, Originalinstallations- und Captureverzeichnis sind als Ausgabeziele
+abgewiesen. Die Binärdateien enthalten Originalcode/-daten und bleiben lokal;
+sie dürfen nicht ins Repo. Erzeugung am bisherigen Ende:
+`check-native-dos-resource-file.py <memory.bin> <MAIN.IO> --cycles 40 --shift-flags 0 --checkpoint <privates Verzeichnis>`.
+`check-native-dos-main-draw.py <privates Verzeichnis>` bindet sie anhand der
+vorher dokumentierten Speicherhashes und Register an den geprüften MAIN-Zustand.
+
+In allen drei gültigen Ishar2-Layouts hat Ressource15 TypFF und drei Kinder.
+Der erste Eintrag führt zu Ressource12, Typ1; SI15026, CX1232 und die restlichen
+Skriptregister sowie Speicher und SP stimmen nativ überein. Der Endpunkt liegt
+vor34B7 bei3432; noch kein Datensatz oder Pixel wird ausgegeben. Die vorherige
+kontrollierte Startumgebung/BIOS-Antwort bleibt Voraussetzung. Ishar1 hat hier
+synthetische Befehlsnachweise, keinen entsprechenden vollständigen MAIN-Pfad.
+Metadaten: `MAIN_RESOURCE_DRAW_NATIVE_2026-10-18.json`.
+
+Hosttest `node scripts/check-dos-resource-draw.mjs`, Typecheck und Diffprüfung
+bestanden. Nächste zusammenhängende Arbeit ist34B7 mit Datensatzsuche35CF,
+gegebenenfalls Allokation3626 und der Rückkehr über verbleibende Verbundkinder.

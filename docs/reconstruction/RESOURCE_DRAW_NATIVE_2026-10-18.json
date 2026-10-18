@@ -1,0 +1,51 @@
+{
+  "description": "Resource72/73 numeric preamble, packed pointer lookup and first-child compound descent; no original bytes",
+  "matrix": {
+    "opcodes": [
+      72,
+      73
+    ],
+    "es": [
+      20480,
+      7179
+    ],
+    "relativeCarry": [
+      false,
+      true
+    ],
+    "resourceTypes": [
+      0,
+      1,
+      254,
+      255
+    ],
+    "flip": [
+      0,
+      1
+    ],
+    "compoundChildCounts": [
+      0,
+      1
+    ],
+    "numericFormsExercised": [
+      0,
+      2
+    ]
+  },
+  "profiles": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 80,
+      "resultsSha256": "ddc1ed93f1cfdafab0ec4431fea4d6ddc9ebbfd4a91f823880f3e7f7f8dc8712",
+      "limits": "Six script registers/SP and full physical memory except CPU stack saves. Stops before records, FE body or remaining compound siblings."
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 80,
+      "resultsSha256": "4d9ae22d8d467b445034d46d1c86c41afe0292667bdf0dc1a84e4722e2398417",
+      "limits": "Six script registers/SP and full physical memory except CPU stack saves. Stops before records, FE body or remaining compound siblings."
+    }
+  ]
+}
