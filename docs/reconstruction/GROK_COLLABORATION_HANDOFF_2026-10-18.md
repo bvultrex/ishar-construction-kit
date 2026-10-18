@@ -1,5 +1,11 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**Neuester Nachweis für Grok:** PHYSICAL_CLIVE.md schließt Opcode64 an die
+physische VM an. Der echte post-LOGO-Befehl legt Kontextslot6 an, speichert
+das Ergebnis4268 und erreicht MAIN05AE. Sechs native Vergleiche (Original,
+fehlendes Modul, geerbte Felder, Ergebnisbreiten) bestehen. Next: MAIN05AE,
+explizite Tastaturantworten und Scheduler; Ishar2/weitere Module bleiben offen.
+
 **Neuester Anschluss für Grok:** COMPRESSED_MODULE_COMPOSITION.md weist die
 zusammengesetzte Originalkette7917→26F7 für Ishar1 LOGO nach, einschließlich
 Open/Header und aller DOS-Ereignisse. Native Rückkehr-Checkpoint privat

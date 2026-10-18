@@ -34,6 +34,11 @@ Ein bestandener synthetischer Test beweist keine Original-Verhaltensgleichheit.
 
 ## Nächster konkreter Schritt
 
+Aktuellster Anschluss: PHYSICAL_CLIVE.md weist Opcode64 im echten post-LOGO-
+Zustand und fünf synthetischen Varianten nach. Die physische VM erreicht
+MAIN05AE. Jetzt Tastatur-/MAIN-Fortsetzung und Scheduler prüfen; die Loader-
+Komposition braucht weiterhin den CPU-/Dienstanschluss an Opcode69.
+
 Aktuell: EMPTY_MODULE_RETURN.md weist den realen Ishar1-LOGO-Ladeabschluss
 bis26F7 nach. Nächster Schritt ist die Zusammensetzung am Opcode69 mit
 expliziten DOS-Diensten und das Fortsetzen zum nächsten unbekannten Befehl.

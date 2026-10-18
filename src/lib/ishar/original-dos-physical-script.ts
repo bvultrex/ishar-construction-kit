@@ -1,5 +1,6 @@
 import type {OriginalDosDriveServices} from './original-dos-drive-query.ts';
 import {prepareOriginalDosModuleLoad} from './original-dos-module-load-prefix.ts';
+import {executeOriginalDosPhysicalClive} from './original-dos-physical-clive.ts';
 import {setOriginalDosSeedWord} from './original-dos-seed-word.ts';
 import {controlOriginalDosContext} from './original-dos-context-control.ts';
 import {selectOriginalDosPalette} from './original-dos-palette-select.ts';
@@ -41,6 +42,7 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
  else if(opcode===66)status='yield';
  else if(opcode===42){const next=setOriginalDosSeedWord(memory,ss,{...input,si:after});memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===59){/* Original2E93 is RET; only opcode fetch advances SI. */}
+ else if(opcode===64){const next=executeOriginalDosPhysicalClive(memory,ss,{...input,si:after});memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===69){
   const next=prepareOriginalDosModuleLoad(memory,ss,{...input,si:after},engineSegment);
   if(next.phase!=='return')throw Error(`Original module69 reaches ${next.phase} at${next.entry.toString(16)}`);
