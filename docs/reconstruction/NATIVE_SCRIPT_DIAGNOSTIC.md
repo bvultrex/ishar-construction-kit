@@ -2,7 +2,7 @@
 
 Im Asset Lab (`/assets`) öffnet **IO-Modul für Skript-Diagnose öffnen** eine lokale DOS-IO-Datei aus Ishar1 oder Ishar2. Die Quelldatei, der Playtest und das Mod-Projekt bleiben unverändert. Der Import ist noch getrennt von der gemeinsamen Projektverwaltung.
 
-Der kontrollierte Kontext verwendet Moduloffset0/Segment4000h, Kontextsegment5000h, Pooloffset0200h, Tabellenslot6 und obere GrenzeFFFFh. Globals beginnen mit null. Diese Testparameter stellen keinen wiederhergestellten Originalspielzustand dar. Angezeigt werden Modul-ID, Bildgröße, Einstieg, BP, SI, nächstes Opcodebyte, Skriptstackoffset, gespeicherter Skriptzeiger und Timer-Zielbyte SS:0C99h.
+Der kontrollierte Kontext verwendet Moduloffset0/Segment4000h, Kontextsegment5000h, Pooloffset0200h, Tabellenslot6 und obere GrenzeFFFFh. Globals beginnen mit null; die kontrollierte Tabellenbasis0100h wird in SS:0BD2 gesetzt. Aktive Listenlinks werden nicht erfunden. Diese Testparameter stellen keinen wiederhergestellten Originalspielzustand dar. Angezeigt werden Modul-ID, Bildgröße, Einstieg, BP, SI, nächstes Opcodebyte, Skriptstackoffset, gespeicherter Skriptzeiger und Timer-Zielbyte SS:0C99h.
 
 **Einen nativen Kontrollfluss-Schritt ausführen** verwendet gegen Originalinstruktionen geprüfte Rekonstruktionen:
 
@@ -13,6 +13,7 @@ Der kontrollierte Kontext verwendet Moduloffset0/Segment4000h, Kontextsegment500
 - Opcode71: Literalwort nach ES:[BP-16h], ohne höhere Feldsemantik zu behaupten.
 - Opcode76: drei aufeinanderfolgende Zahlenoperanden nach ES:BP,+2,+4. Spätere Operanden sehen frühere Änderungen.
 - Opcode106: niedriges Ergebnisbyte eines Zahlenoperanden nach SS:0C99h.
+- Opcode156: Kontextliste und Ergebnisübernahme für direkte Ziel-Tags6/8/18/20 (Byte/Wort mit16-/8-Bit-Offset). Eine leere kontrollierte Liste liefertFFFFh.
 
 Die Zahlenoperanden unterstützen Tags0/2/6/8: vorzeichenbehaftetes Literalbyte, Literalwort, Kontextbyte und Kontextwort. Andere Formen oder Opcodes werden nicht geraten oder übersprungen. Der Adapter hält ohne Änderung von SI und Schrittzahl an. Die Hostfunktionen ersetzen keine vollständige x86-Emulation oder ALIS-VM.
 
@@ -22,4 +23,6 @@ Nachweise: Kontextaufbau gegen alle240 lokalen IO-Header (98/142) geprüft. Opco
 
 Am18.10.2026 wurde Ishar2 IO.IO erneut im Browser importiert und16 Schritte ausgeführt: SI006Ch, Timerziel1, nächster Opcode156. Ein weiterer Klick hält dort ohne Änderung von SI/Schrittzahl an. Dies deckt die zuletzt hinzugefügten Opcodes106,71,76 im tatsächlichen UI-Ablauf ab. Es beweist keine vollständige NPC-/Gegnerausführung.
 
-Nächste Schritte: Opcode156 und seine Abhängigkeiten rekonstruieren, weitere belegte Handler anbinden, Scheduler-/Callbackzustände und Schrittprotokoll darstellen, Diagnoseimport in die gemeinsame Projektverwaltung integrieren. Mehrsegmentausführung und vollständige native VM bleiben offen.
+Aktueller Hoststand:17 Schritte mit Ishar2 IO.IO, SI0070h; der nächste Halt ist Opcode31. Ergebnisdispatcher: je192 native Fälle pro Spiel; zusammengesetzter156: je96 Fälle. Auch im Browser am18.10.2026 bestätigt:17 Schritte, SI0070h, Timerziel1 und anschließender unveränderter Halt auf31.
+
+Nächste Schritte: Opcode31 und seine Abhängigkeiten rekonstruieren, weitere belegte Handler anbinden, Scheduler-/Callbackzustände und Schrittprotokoll darstellen, Diagnoseimport in die gemeinsame Projektverwaltung integrieren. Mehrsegmentausführung und vollständige native VM bleiben offen.
