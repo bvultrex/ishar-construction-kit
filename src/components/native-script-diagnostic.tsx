@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {openNativeScriptDiagnostic,stepNativeScriptDiagnostic,finishNativeScriptDiagnosticYield,selectNextNativeScriptDiagnosticContext,type NativeScriptDiagnostic} from '@/lib/ishar/native-script-diagnostic';
+import {openNativeScriptDiagnostic,stepNativeScriptDiagnostic,finishNativeScriptDiagnosticYield,selectNextNativeScriptDiagnosticContext,runNativeScriptDiagnosticFrame,tickNativeScriptDiagnosticFrame,type NativeScriptDiagnostic} from '@/lib/ishar/native-script-diagnostic';
 const hex=(n:number)=>'0x'+n.toString(16).padStart(4,'0');
 export function NativeScriptDiagnosticPanel(){
  const [state,setState]=useState<NativeScriptDiagnostic|null>(null),[name,setName]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false);
@@ -7,6 +7,8 @@ export function NativeScriptDiagnosticPanel(){
  function step(){if(!state)return;try{setState(stepNativeScriptDiagnostic(state));setError('');}catch(e){setError(String(e));}}
  function finishYield(){if(!state)return;try{setState(finishNativeScriptDiagnosticYield(state));setError('');}catch(e){setError(String(e));}}
  function selectContext(){if(!state)return;try{setState(selectNextNativeScriptDiagnosticContext(state));setError('');}catch(e){setError(String(e));}}
+ function frame(){if(state){setState(runNativeScriptDiagnosticFrame(state));setError('');}}
+ function irq(){if(state){setState(tickNativeScriptDiagnosticFrame(state));setError('');}}
  const word=(at:number)=>state?state.memory[(state.bp+at)&65535]|(state.memory[(state.bp+at+1)&65535]<<8):0;
  return <section className="stone-card" aria-labelledby="native-script-title">
   <h2 id="native-script-title">Native Skript-Diagnose</h2>
@@ -15,6 +17,8 @@ export function NativeScriptDiagnosticPanel(){
    <button disabled={busy||!state||state.status!=='ready'} onClick={step}>Einen nativen Kontrollfluss-Schritt ausführen</button>
    <button disabled={busy||!state||state.status!=='yield'} onClick={finishYield}>Yield-Abschluss prüfen</button>
    <button disabled={busy||!state||state.status!=='next-context'} onClick={selectContext}>Nächsten Kontext prüfen</button>
+   <button disabled={busy||!state||!['frame','frame-wait'].includes(state.status)} onClick={frame}>Leeren Frame-Service prüfen</button>
+   <button disabled={busy||!state||state.status!=='frame-wait'} onClick={irq}>Kontrollierten Timer-IRQ prüfen</button>
    <button disabled={busy||!state} onClick={()=>{if(state){setState(openNativeScriptDiagnostic(state.module.original));setError('');}}}>Diagnose zurücksetzen</button></div>
   {error&&<p role="alert">{error}</p>}
   {state&&<><p><strong>{name}</strong> · Modul-ID {state.module.header.id} · {state.module.image.length} dekodierte Bytes</p>
@@ -23,7 +27,8 @@ export function NativeScriptDiagnosticPanel(){
     <tr><td>Kontextzeiger BP</td><td>{hex(state.bp)}</td></tr><tr><td>Header-Einstieg</td><td>{hex(state.module.header.entry)}</td></tr><tr><td>Skriptzeiger SI</td><td>{hex(state.si)}</td></tr><tr><td>Timer-Zielbyte (SS:0x0C99)</td><td>{state.globals[0xc99]}</td></tr>
     <tr><td>DX · numerisches Ergebnis</td><td>{hex(state.dx)}</td></tr><tr><td>CX · Operandregister</td><td>{hex(state.cx)}</td></tr>
     <tr><td>Diagnosephase</td><td>{state.status}</td></tr><tr><td>Tabellenslot (SS:0x0B02)</td><td>{hex(state.globals[0xb02]|(state.globals[0xb03]<<8))}</td></tr>
-    <tr><td>Nächstes Opcodebyte</td><td>{['next-context','context','frame'].includes(state.status)?'— (Schedulergrenze)':state.si<state.module.image.length?hex(state.module.image[state.si]):'außerhalb des Moduls'}</td></tr><tr><td>Skriptstackoffset (BP−0x0A)</td><td>{hex(word(-10))}</td></tr><tr><td>Gespeicherter Skriptzeiger (BP−0x08)</td><td>{hex(word(-8))}</td></tr><tr><td>Ausgeführte Schritte</td><td>{state.steps}</td></tr></tbody></table>
+    <tr><td>Timerzähler (SS:0x0C9A)</td><td>{state.globals[0xc9a]}</td></tr><tr><td>Kontrollierte Timer-IRQs</td><td>{state.timerIrqs}</td></tr>
+    <tr><td>Nächstes Opcodebyte</td><td>{['next-context','context','frame','frame-wait','frame-return'].includes(state.status)?'— (Schedulergrenze)':state.si<state.module.image.length?hex(state.module.image[state.si]):'außerhalb des Moduls'}</td></tr><tr><td>Skriptstackoffset (BP−0x0A)</td><td>{hex(word(-10))}</td></tr><tr><td>Gespeicherter Skriptzeiger (BP−0x08)</td><td>{hex(word(-8))}</td></tr><tr><td>Ausgeführte Schritte</td><td>{state.steps}</td></tr></tbody></table>
   </>}
   <p>Kontextaufbau: gegen alle 240 lokalen Originalmodule geprüft. Einzelschritte: Opcodes 5–10, 17–29, 31, 41, 62, 66, 71, 76, 106, 148 und 156; andere Befehle stoppen unverändert. Noch keine vollständige VM, NPC-Simulation oder vollständiger Schedulerzyklus. Für Module über 64 KiB ist nur die Kontextprüfung angebunden.</p>
  </section>;

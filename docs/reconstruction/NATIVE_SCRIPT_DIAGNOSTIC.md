@@ -44,3 +44,13 @@ Aufruf: `python scripts/check-native-script-diagnostic-file.py <capture-memory.b
 Nächste Schritte: Frame-Service und Scan-/Main-Vorbereitung mit dem Diagnosezustand verbinden, Rückkehr-Callbacks ausführen, echte Modul-/Kontext- und Objektverwaltung importieren, Mehrsegmentausführung und Schrittprotokoll ergänzen und den Import in die gemeinsame Projektverwaltung integrieren. Vollständige NPC-/Gegner- oder Spielausführung ist noch nicht erreicht.
 
 Browserprüfung am18.10.2026: IO.IO erreicht nach22 Schritten, Yield-Abschluss und Kontextauswahl den Status `frame`, SI0100h und Slot0. Die Opcodeanzeige bleibt an dieser Schedulergrenze leer; der gespeicherte Skriptzeiger bleibt00A0h. Beide Fortsetzungsbuttons werden in der vorgesehenen Reihenfolge aktiv und anschließend wieder gesperrt.
+
+## Leerer Frame und kontrollierter Timer-IRQ
+
+In Phase `frame` oder `frame-wait` ist **Leeren Frame-Service prüfen** aktiv. Die kontrollierte Tastatureingabe ist0. Der Timervergleich kann zu `frame-wait` führen; es läuft keine automatische Uhr. **Kontrollierten Timer-IRQ prüfen** führt genau einen geprüften inaktiven IRQ-Pfad aus, mit Audio-Flag0 und ohne aktive Paletten-/Cursor-/Recordcallbacks. Nicht erschlossene Callback- und BIOS-Verkettungspfade werden abgewiesen. Danach muss der Frame-Service separat erneut geprüft werden.
+
+Die Frame-Rückkehr endet als `frame-return` vor264C. Timerzähler und Anzahl kontrollierter IRQs sind sichtbar; die Opcode-Schrittzahl bleibt unverändert. Ein vollständiger Schedulerzyklus ist damit noch nicht erreicht.
+
+Native Prüfung: `python scripts/check-native-script-diagnostic-file.py <capture> <lokales-Modul.IO> --frame-cycle`. Diese Option enthält Yield-Abschluss und Kontextauswahl. Ishar2 IO.IO besteht22 Schritte mit anschließendem wartendem Frame, echtem kontrolliertem Timer-IRQ, IRET und Frame-Rückkehr; Ishar1 PRESTI.IO besteht mit direkter Frame-Rückkehr ohne IRQ. Globale Vergleichsgrenze ist nun28BFh, vor dem folgenden Grafikcode im Realmode-Speicher.
+
+Browserprüfung am18.10.2026 bestanden: IO.IO erreicht nach22 Opcode-Schritten und den Fortsetzungsbuttons zunächst `frame-wait`. Ein kontrollierter IRQ erhöht den Timerzähler auf1. Erneute Frameprüfung erreicht `frame-return` vor264C und setzt den Zähler zurück auf0; die Diagnose zählt genau einen kontrollierten IRQ.

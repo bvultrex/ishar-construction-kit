@@ -14,13 +14,15 @@ import {findOriginalDosContextsByModule} from './original-dos-context-query.ts';
 import {activateOriginalDosScriptContext} from './original-dos-context-active.ts';
 import {resumeOriginalDosScript} from './original-dos-script-resume.ts';
 import {selectOriginalDosNextContext} from './original-dos-next-context.ts';
-export interface NativeScriptDiagnostic {module:AlisModule;memory:Uint8Array;globals:Uint8Array;bp:number;si:number;dx:number;cx:number;steps:number;status:'ready'|'yield'|'callback'|'next-context'|'context'|'frame'|'stopped';message:string}
+import {runOriginalDosIdleFrame} from './original-dos-frame-idle.ts';
+import {stepOriginalDosIdleTimerIrq} from './original-dos-idle-timer-irq.ts';
+export interface NativeScriptDiagnostic {module:AlisModule;memory:Uint8Array;globals:Uint8Array;bp:number;si:number;dx:number;cx:number;steps:number;timerIrqs:number;status:'ready'|'yield'|'callback'|'next-context'|'context'|'frame'|'frame-wait'|'frame-return'|'stopped';message:string}
 /** Editor-only controlled context. Does not alter the playtest or source file. */
 export function openNativeScriptDiagnostic(bytes:Uint8Array):NativeScriptDiagnostic{
  const module=readAlisModule(bytes),context=createOriginalDosScriptContext(new Uint8Array(65536),module.image,0,0x4000,0x100,6,0x200,0x5000,65535);
  if(context.error)throw Error(`Original-Kontextaufbau meldet Fehler ${context.error}`);
  const globals=new Uint8Array(65536);globals[0xbd3]=1; // Controlled table base0100h; no invented active-list links.
- return {module,memory:context.memory,globals,bp:context.context,si:context.entry,dx:0,cx:0,steps:0,status:'ready',message:'Kontrollierter Kontext erzeugt. Einzelne belegte Kontrollflussbefehle sind ausführbar.'};
+ return {module,memory:context.memory,globals,bp:context.context,si:context.entry,dx:0,cx:0,steps:0,timerIrqs:0,status:'ready',message:'Kontrollierter Kontext erzeugt. Einzelne belegte Kontrollflussbefehle sind ausführbar.'};
 }
 /** Complete26B2 only to the next native boundary. No automatic callback/scheduler body.
  * Object memory is not loaded in this diagnostic, so nonempty object chains stop.
@@ -44,6 +46,20 @@ export function selectNextNativeScriptDiagnosticContext(state:NativeScriptDiagno
  const next=selectOriginalDosNextContext(state.memory,word(0xbd2),word(0xb02),state.bp),globals=state.globals.slice();
  globals[0xb02]=next.slot&255;globals[0xb03]=next.slot>>>8;
  return {...state,globals,bp:next.bp,si:next.si,status:next.phase,message:next.phase==='frame'?'Kein weiterer Kontext verknüpft. Originalgrenze vor Frame-Service (0x2649); der Frame wird hier noch nicht ausgeführt.':'Nächster Kontext ausgewählt. Originalgrenze vor Scan-/Main-Vorbereitung (0x264F); noch keine Skriptausführung.'};
+}
+/** Idle frame only. Keyboard CS:318 is explicitly controlled0; no input polling device. */
+export function runNativeScriptDiagnosticFrame(state:NativeScriptDiagnostic):NativeScriptDiagnostic{
+ if(state.status!=='frame'&&state.status!=='frame-wait')return state;
+ try{
+  const next=runOriginalDosIdleFrame(state.globals,0);
+  return {...state,globals:next.memory,status:next.phase==='wait'?'frame-wait':'frame-return',message:next.phase==='wait'?'Frame wartet auf den Timerzähler. Kein Zeitfortschritt simuliert. Ein kontrollierter inaktiver Timer-IRQ kann separat geprüft werden.':'Leerer Frame-Service beendet. Originalgrenze vor 0x264C; Kontextvorbereitung wird noch nicht ausgeführt.'};
+ }catch(e){return {...state,status:'stopped',message:`Frame unverändert angehalten: ${String(e)}`};}
+}
+/** One explicitly requested timer event, inactive callback path; no wall-clock claim. */
+export function tickNativeScriptDiagnosticFrame(state:NativeScriptDiagnostic):NativeScriptDiagnostic{
+ if(state.status!=='frame-wait')return state;
+ try{const next=stepOriginalDosIdleTimerIrq(state.globals,0);return {...state,globals:next.memory,timerIrqs:state.timerIrqs+1,message:'Ein kontrollierter Timer-IRQ mit inaktiven Callbacks geprüft. Frame-Service erneut prüfen; keine automatische Fortsetzung.'};}
+ catch(e){return {...state,status:'stopped',message:`Timer-IRQ unverändert angehalten: ${String(e)}`};}
 }
 export function stepNativeScriptDiagnostic(state:NativeScriptDiagnostic):NativeScriptDiagnostic{
  if(state.status!=='ready')return state;
