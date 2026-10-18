@@ -2226,3 +2226,30 @@ Reproduce: check-native-dos-configuration-detection.py CAPTURE. Evidence:
 CONFIGURATION_DETECTION_NATIVE_2026-10-18.json. Captures remain unchanged.
 The outer four-second confirmation prompt and configuration UI still need
 reconstruction before the original configuration entry can run contiguously.
+
+## Original configuration confirmation prompt (2026-10-18)
+
+`runOriginalDosConfigurationPrompt` reconstructs Ishar1 18CC..1932 and
+Ishar2 19A0..1A06, including text-mode calls, language-table lookup, original
+local dollar-terminated string output and the time/key loop. BIOS cursor DX
+and finite DOS seconds/key streams are mandatory external inputs. Text calls
+are modeled as events; real BIOS/video memory side effects remain external.
+
+The target is current second plus4 modulo60. The original compares equality,
+not elapsed time: jumping over that second does not terminate immediately.
+Enter restarts the poll; zero causes a second AH06 request; uppercase S or
+byte2E sets B90=1. Other keys, including lowercase s, are ignored. Timeout
+preserves B90, including a previously set flag. Exhausted replies throw an
+explicit boundary instead of guessing time or input.
+
+36 native cases per profile pass across three language-table entries, initial
+B90=0/1, normal/minute-wrap timeout, S, extended scan code, Enter/zero and
+lowercase s. Compared: full BIOS/DOS event sequence, reply consumption, shared
+memory outside CPU saves FEC0..FEFF, SP and DF clear. General scratch registers
+are not claimed. Metadata publishes only event hashes, not original strings.
+Evidence: CONFIGURATION_PROMPT_NATIVE_2026-10-18.json. Reproduce with
+check-native-dos-configuration-prompt.py CAPTURE. Original captures unchanged.
+
+Next: compose the outer configuration entry, including Ishar2 drive probing,
+return-to-start path and an explicit boundary for the actual settings menu.
+Joystick axis/non-VGA discovery and the settings UI remain separate open paths.

@@ -82,8 +82,8 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    und acht anschließenden VGA-Kompositionen geprüft. Dateiladen, Konfigurationsauswertung, Übergabe in Engine-Variablen und
    Modulauswahl sind nun für beide Profile komponiert geprüft (je60 Fälle).
    Die Geräteerkennung ist für den VGA-/Joystick-Frühabbruchpfad mit64
-   Fällen separat geprüft. Achsenmessung, Bestätigungsabfrage und äußere
-   Aufrufkette bleiben offen. Die originale Aufrufkette
+   Fällen separat geprüft. Die Bestätigungsabfrage ist mit72 Fällen belegt. Achsenmessung und
+   äußere Aufrufkette einschließlich des eigentlichen Menüs bleiben offen. Die originale Aufrufkette
    einschlieÃŸlich MAIN muss diese ZustÃ¤nde noch selbst herstellen. Das hat Vorrang
    vor einer sichtbaren Ausgabe oder weiteren Aussagen zur Bildgleichheit.
    FE-Sonderpfad, weitere Operandformen
