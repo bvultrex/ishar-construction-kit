@@ -1,5 +1,11 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**Plattformanbindung:** BIOS_TIMER_ADAPTER.md dokumentiert den expliziten
+DOSBox-EGA/unhooked-Timeradapter. Damit verlässt der native Ishar-1-Code die
+Wartebedingung bis 3D6B. Plattformantwort ist ausdrücklich kein Firmware-
+Decompile-Nachweis; ohne Profil bleibt der BIOS-Sprung eine Grenze. Codex
+übernimmt die folgende Framefortsetzung, Helferaufteilung unverändert.
+
 **IRQ-Fortsetzung:** RUNTIME_TIMER_IRQ.md verbindet Originalentry, Palette und
 Tail. Der unveränderte erste Tick erhöht C9A auf 1 und erreicht BIOS 7000:1234;
 der BIOS-Körper ist noch offen. Separate Countdown-Fixtures prüfen IRET und

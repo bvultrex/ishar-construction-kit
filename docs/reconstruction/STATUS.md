@@ -1,5 +1,9 @@
 # Technischer Iststand
 
+[BIOS-Plattformadapter](BIOS_TIMER_ADAPTER.md): Mit ausdrücklich gewähltem
+DOSBox-EGA/unhooked-Profil verlässt Ishar 1 die Timerwarteschleife nativ bis
+3D6B. Kein ausgeführter Firmwarecode und keine automatische BIOS-Ersatzannahme.
+
 [Laufzeit-IRQ](RUNTIME_TIMER_IRQ.md): Der erste unveränderte Ishar-1-Tick
 erhöht den Wartezähler 0 -> 1 und erreicht nativ identisch den gespeicherten
 BIOS-Zeiger. Dessen Körper bleibt offen; separate synthetische IRET-Fälle bestehen.
