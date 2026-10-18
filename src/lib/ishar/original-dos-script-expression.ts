@@ -1,3 +1,4 @@
+import {queryOriginalDosDrive,type OriginalDosDriveServices} from './original-dos-drive-query.ts';
 import {queryOriginalDosMemoryValue} from './original-dos-memory-query.ts';
 import {readOriginalDosNumericOperand} from './original-dos-numeric-operand.ts';
 import {probeOriginalDosFile,type OriginalDosFileSearch} from './original-dos-file-probe.ts';
@@ -13,7 +14,7 @@ export function queryOriginalDosModeValue(mode:number){
  * Shared DX/CX follow native calls, including nested operands; no JavaScript coercion.
  * DF0, bounded source, disjoint context. Limits are host safeguards, not native checks.
  */
-function evaluateExpressionCore(script:Uint8Array,context:Uint8Array,si:number,bp:number,initialDx:number,sourceLength=65536,globals?:Uint8Array,fileSearch?:OriginalDosFileSearch,input?:{keyByte?:number;shiftFlags?:number;memoryQuery?:(selector:number)=>number},shared=false){
+function evaluateExpressionCore(script:Uint8Array,context:Uint8Array,si:number,bp:number,initialDx:number,sourceLength=65536,globals?:Uint8Array,fileSearch?:OriginalDosFileSearch,input?:{keyByte?:number;shiftFlags?:number;memoryQuery?:(selector:number)=>number;driveQuery?:(selector:number)=>number},shared=false){
  if(script.length!==65536||context.length!==65536||![si,bp,initialDx].every(v=>Number.isInteger(v)&&v>=0&&v<=65535))throw Error('Invalid native expression inputs');
  if(globals!==undefined&&globals.length!==65536)throw Error('Expected original global segment');
  let dx=initialDx,cx=initialDx,tokens=0,bx=0x277c;const nextGlobals=shared?globals:globals?.slice();
@@ -24,6 +25,7 @@ function evaluateExpressionCore(script:Uint8Array,context:Uint8Array,si:number,b
   if(si>=sourceLength)throw Error('Expression operand is truncated');
   if(call)cx=dx;
   const tag=script[si];
+  if(tag===160){if(!input?.driveQuery)throw Error('Expression160 requires explicit physical drive services');si++;dx=input.driveQuery(dx);return;}
   if(tag===118){if(!nextGlobals)throw Error('Expression118 requires original globals');si++;dx=input?.memoryQuery?input.memoryQuery(dx):queryOriginalDosMemoryValue(nextGlobals,dx);return;}
   if(tag===116){
    if(input?.shiftFlags===undefined||!Number.isInteger(input.shiftFlags)||input.shiftFlags<0||input.shiftFlags>255)throw Error('Expression116 requires an explicit BIOS INT16 shift-flags reply');
@@ -115,7 +117,7 @@ function evaluateExpressionCore(script:Uint8Array,context:Uint8Array,si:number,b
 }
 
 /** Existing disjoint-segment API; inputs remain immutable. */
-export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Uint8Array,si:number,bp:number,initialDx:number,sourceLength=65536,globals?:Uint8Array,fileSearch?:OriginalDosFileSearch,input?:{keyByte?:number;shiftFlags?:number;memoryQuery?:(selector:number)=>number}){
+export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Uint8Array,si:number,bp:number,initialDx:number,sourceLength=65536,globals?:Uint8Array,fileSearch?:OriginalDosFileSearch,input?:{keyByte?:number;shiftFlags?:number;memoryQuery?:(selector:number)=>number;driveQuery?:(selector:number)=>number}){
  const result=evaluateExpressionCore(script,context,si,bp,initialDx,sourceLength,globals,fileSearch,input);
  return {...result,globals:result.globals?.slice()};
 }
@@ -123,9 +125,9 @@ export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Ui
  * Writes to operand stack/string buffers are immediately visible to aliased
  * context/script reads; errors never mutate the caller image.
  */
-export function evaluateOriginalDosPhysicalExpression(source:Uint8Array,ss:number,input:{ds:number;es:number;si:number;bp:number;dx:number},external?:{keyByte?:number;shiftFlags?:number;memoryQuery?:(selector:number)=>number},fileSearch?:OriginalDosFileSearch){
+export function evaluateOriginalDosPhysicalExpression(source:Uint8Array,ss:number,input:{ds:number;es:number;si:number;bp:number;dx:number},external?:{keyByte?:number;shiftFlags?:number;memoryQuery?:(selector:number)=>number;driveQuery?:(selector:number)=>number;driveServices?:OriginalDosDriveServices;engineSegment?:number},fileSearch?:OriginalDosFileSearch){
  if(source.length!==0x100000||![ss,...Object.values(input)].every(x=>Number.isInteger(x)&&x>=0&&x<=65535)||[ss,input.ds,input.es].some(s=>s*16+65536>source.length))throw Error('Invalid physical expression state');
  const memory=source.slice(),view=(segment:number)=>memory.subarray(segment*16,segment*16+65536);
- const result=evaluateExpressionCore(view(input.ds),view(input.es),input.si,input.bp,input.dx,65536,view(ss),fileSearch,{...external,memoryQuery:selector=>queryOriginalDosMemoryValue(view(ss),selector,memory)},true);
+ const result=evaluateExpressionCore(view(input.ds),view(input.es),input.si,input.bp,input.dx,65536,view(ss),fileSearch,{...external,memoryQuery:selector=>queryOriginalDosMemoryValue(view(ss),selector,memory),driveQuery:selector=>{const next=queryOriginalDosDrive(memory,external?.engineSegment??0x1000,selector,external?.driveServices);memory.set(next.memory);return next.dx;}},true);
  return {memory,si:result.si,dx:result.dx,cx:result.cx,tokens:result.tokens};
 }

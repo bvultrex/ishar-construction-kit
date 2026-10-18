@@ -1,5 +1,9 @@
 # Technischer Iststand
 
+Laufwerksausdruck 160 (2026-10-18): [DOS_DRIVE_QUERY.md](DOS_DRIVE_QUERY.md).
+660 native Fälle für DOS-/BIOS-Pfade; der reale Ishar-1-Start erreicht weiterhin
+183 verglichene Befehle und stoppt nun präzise am aktivierten Originaldialog 8AE4.
+
 Fortsetzung (2026-10-18): [Physische Stringzuweisung](PHYSICAL_STRING_ASSIGNMENT.md)
 verbindet die Original-Stringquellen und -ziele; Ishar 1 erreicht 183 geprüfte
 MAIN-Befehle vor dem noch offenen Ausdruckstag 160.
