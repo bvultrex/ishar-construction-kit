@@ -3073,3 +3073,58 @@ STARTUP_AFTER_RENDER_MAIN_NATIVE_2026-10-18.json. Reproduce:
 Typecheck passes. Next: reconstruct opcode104's actual resource/service path;
 Ishar1 opcode106 and external BIOS handler behavior remain open, as do broader
 engine/editor and complete visible/timed startup coverage.
+
+
+### Palette-select104, frame-counter106 and first color language menu (2026-10-18)
+
+`original-dos-palette-select.ts` connects104:591E..599F with normal resource
+lookup39F5 and the VGA59F2..5B19/5BD5 paths. Positive operands resolve the
+actual current module's resource table; only typeFE is interpreted as palette
+content. RGB triples are shifted right2 into the specified target range;
+the compact count-byte0 format expands16 packed words with the original
+shifts/OR7 operations. Negative-1/-2 restore the existing1763/1A63 slots;
+values below-2 and inhibit/enable/nonpalette branches retain original no-op
+behavior. Immediate upload and calibrated single-pass fade follow the actual
+branch, using the existing palette helpers. Non-VGA device uploads remain
+explicit unsupported boundaries. No palette resource or colors are invented.
+
+Physical opcode106 now performs original58B3..58BB: decode one supported
+numeric operand and write its low byte to C99, preserving the shared DX/CX
+operand-call behavior. This is a timer/frame comparison byte, not a host
+wall-clock delay or a new frame scheduler.
+
+Native comparison passes207 cases per original capture (414 total): RGB4/
+RGB256 and compact16-color resources, nonzero palette start index, saved slots,
+negative/disabled/inhibited/nonpalette branches, calibration2/1000 and frame
+counter values including signed/byte-wrap boundaries. Full physical memory
+except FEC0..FF0F, six script registers/SP and exact DAC/retrace events match.
+Evidence: PALETTE_SELECT_NATIVE_2026-10-18.json. Reproduce:
+`check-native-dos-palette-select.py CAPTURE`.
+
+On both actualIshar2 rendered-frame states, resume264C now compares five
+MAIN instructions215/104/31/20/66 to yield. Opcode104 requests original palette11
+from MAIN and produces1025 exact native events (one explicit retrace reply8,
+1024 DAC writes). Event values remain private; committed evidence contains
+only counts/hashes. Evidence: STARTUP_PALETTE_SELECT_NATIVE_2026-10-18.json.
+Reproduce the startup-script checker with `--resume-context --palette-retrace 8`.
+TheIshar1 root states advance beyond106 to the still unconnected opcode100,
+for both successful and failed DOS FindFirst branches. Evidence:
+STARTUP_FRAME_LIMIT_NATIVE_2026-10-18.json. Typecheck and physical-script
+regression pass.
+
+`render-dos-vga-checkpoint.py` produces an exclusive private diagnostic PNG
+from the verified320x200 A000 indices and1143 DAC shadow. It validates the
+checkpoint hash, requires six-bit channel data, and linearly expands to8-bit
+RGB; no replacement palette or AI-generated graphics are used. Original-data
+PNGs are rejected inside the repository. The two calibration-country states
+produce byte-identical PNGs: the original language menu with English/French/
+German options, black background and amber border. This was visually inspected
+locally. Evidence hashes: STARTUP_LANGUAGE_PREVIEW_2026-10-18.json; image files
+remain private. Reproduce:
+`render-dos-vga-checkpoint.py PRIVATE_CHECKPOINT.bin PRIVATE_PREVIEW.png`.
+
+This is the first colored diagnostic output of the verified original startup
+chain, not a captured hardware video signal, complete game startup or a change
+to the browser toolkit UI. Next: continue the real language-selection yield/
+callback/input loop and connectIshar1 opcode100, retaining original timing/
+IRQ/OS boundaries. Full engine and editor objective remains unfinished.

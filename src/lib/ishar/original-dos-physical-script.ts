@@ -1,3 +1,4 @@
+import {selectOriginalDosPalette} from './original-dos-palette-select.ts';
 import type {OriginalDosFileSearch} from './original-dos-file-probe.ts';
 import {branchOriginalDosScript} from './original-dos-script-branch.ts';
 import {branchOriginalDosScriptConditional} from './original-dos-script-conditional.ts';
@@ -20,14 +21,14 @@ export interface OriginalDosPhysicalScriptRegisters {ds:number;es:number;si:numb
  * registers are a contract; CPU scratch AX/BX/DI, flags and stack save bytes are
  * not modeled. No skipped opcodes, scheduler or invented external services.
  */
-export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters,engineSegment=0x1000,bios?:{shiftFlags?:number;fileSearch?:OriginalDosFileSearch}){
+export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters,engineSegment=0x1000,bios?:{shiftFlags?:number;fileSearch?:OriginalDosFileSearch;palette?:{retraceReads:readonly number[];interruptFlag:boolean}}){
  if(source.length!==0x100000||![ss,...Object.values(input)].every(v=>Number.isInteger(v)&&v>=0&&v<=65535))throw Error('Expected1MiB memory and word registers');
  const window=(segment:number)=>{const at=segment*16;if(at+65536>source.length)throw Error('Script segment exceeds bounded physical window');return at;};
  const scriptAt=window(input.ds),contextAt=window(input.es),globalAt=window(ss);
  if(!Number.isInteger(engineSegment)||engineSegment<0||engineSegment>65535)throw Error('Expected original engine segment');
  const keyByte=source[window(engineSegment)+0x318];
  const opcode=source[scriptAt+input.si],after=(input.si+1)&65535;
- const registers={...input,si:after};let memory=source.slice(),status:'ready'|'yield'='ready';
+ const registers={...input,si:after};let memory=source.slice(),status:'ready'|'yield'='ready';let events:Array<{kind:string;port:number;value:number}>=[];
  const context=()=>memory.slice(contextAt,contextAt+65536),script=()=>memory.slice(scriptAt,scriptAt+65536),globals=()=>memory.slice(globalAt,globalAt+65536);
  const word=(at:number)=>memory[globalAt+at]|memory[globalAt+at+1]<<8;
  if(opcode>=5&&opcode<=10){const next=branchOriginalDosScript(script(),context(),opcode,after,input.bp);memory.set(next.memory,contextAt);registers.si=next.si;}
@@ -40,6 +41,8 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
  else if(opcode===72||opcode===73){const next=executeOriginalDosResourceDraw(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===186||opcode===191){const next=writeOriginalDosPhysicalGlobalOperands(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===185){const next=outputOriginalDosString(memory,ss,{...input,si:after});memory=next.memory;Object.assign(registers,next.registers);}
+ else if(opcode===104){const next=selectOriginalDosPalette(memory,ss,{...input,si:after},bios?.palette);memory=next.memory;Object.assign(registers,next.registers);events=next.events;}
+ else if(opcode===106){const next=readOriginalDosNumericOperand(memory.subarray(scriptAt,scriptAt+65536),memory.subarray(contextAt,contextAt+65536),after,input.bp,memory.subarray(globalAt,globalAt+65536));registers.si=next.si;registers.cx=input.dx;registers.dx=next.value;memory[globalAt+0xc99]=next.value&255;}
  else if(opcode===188){
   const next=executeOriginalDosPaletteControl(memory,ss,{...input,si:after});
   if(next.phase!=='return')throw Error(`Original palette control reaches ${next.phase} boundary at${next.entry.toString(16)}`);
@@ -60,5 +63,5 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
   const next=evaluateOriginalDosPhysicalExpression(memory,ss,{...input,si:after},{keyByte,shiftFlags:bios?.shiftFlags},bios?.fileSearch);
   memory=next.memory;registers.si=next.si;registers.dx=next.dx;registers.cx=next.cx;
  }else throw Error(`Original opcode${opcode} is not connected to physical script execution`);
- return {memory,registers,status,opcode};
+ return {memory,registers,status,opcode,events};
 }
