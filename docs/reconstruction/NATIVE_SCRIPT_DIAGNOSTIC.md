@@ -8,6 +8,7 @@ Der kontrollierte Kontext verwendet Moduloffset0/Segment4000h, Kontextsegment500
 
 - Opcodes5–10: relative Aufrufe und Sprünge.
 - Opcode17: Skript-Return im kontrollierten Hauptskriptmodus.
+- Opcode31: direkte Zahlenformen, Ausdrucksschleifen56/58 und sechs Vergleiche74–84; andere Ausdruckstags halten an.
 - Opcode41: rohe Kontextblöcke.
 - Opcode66: Yield; ausdrücklich keine Scheduler-Fortsetzung.
 - Opcode71: Literalwort nach ES:[BP-16h], ohne höhere Feldsemantik zu behaupten.
@@ -25,4 +26,6 @@ Am18.10.2026 wurde Ishar2 IO.IO erneut im Browser importiert und16 Schritte ausg
 
 Aktueller Hoststand:17 Schritte mit Ishar2 IO.IO, SI0070h; der nächste Halt ist Opcode31. Ergebnisdispatcher: je192 native Fälle pro Spiel; zusammengesetzter156: je96 Fälle. Auch im Browser am18.10.2026 bestätigt:17 Schritte, SI0070h, Timerziel1 und anschließender unveränderter Halt auf31.
 
-Nächste Schritte: Opcode31 und seine Abhängigkeiten rekonstruieren, weitere belegte Handler anbinden, Scheduler-/Callbackzustände und Schrittprotokoll darstellen, Diagnoseimport in die gemeinsame Projektverwaltung integrieren. Mehrsegmentausführung und vollständige native VM bleiben offen.
+Aktueller Hoststand für Opcode31:18 Schritte bis SI0079h, DX0, CXFFFFh; nächster Halt20. Beide Zahlenregister werden jetzt angezeigt und zwischen unterstützten Befehlen weitergeführt.912 native Ausdrucksvergleiche pro Spiel bestehen. Im Browser am18.10.2026 bestätigt:18 Schritte, SI0079h, DX0000h, CXFFFFh, Timerziel1 und anschließender unveränderter Halt auf20.
+
+Nächste Schritte: Opcode20 und seine Abhängigkeiten rekonstruieren, weitere belegte Handler anbinden, Scheduler-/Callbackzustände und Schrittprotokoll darstellen, Diagnoseimport in die gemeinsame Projektverwaltung integrieren. Mehrsegmentausführung und vollständige native VM bleiben offen.
