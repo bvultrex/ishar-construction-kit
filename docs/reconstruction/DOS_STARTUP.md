@@ -2983,3 +2983,51 @@ Next: finish the caller/frame returns after43D0, resume the actual MAIN path,
 and reconstruct IRQ palette/DAC progression needed for original visible colors.
 Ishar1 opcode106, cursor/device branches, mirrored formats and remaining engine/
 editor coverage are still open; the total project is not complete.
+
+
+### Rendered frame return and real IRQ palette callback (2026-10-18)
+
+`original-dos-rendered-frame-return.ts` reconstructs the normal43D0 return
+through44F5 pixel-batch saved registers,416B/3E9E clean-record traversal,
+3EE0 object register restoration,3DBB next-owner selection and3E4B frame
+restore/RET264C. Saved stack return words44F5/416B/3DE7/264C are verified,
+not fabricated. Dirty records, another visible owner or a special record stop
+at their real original entry. Those alternate branches are static reconstruction
+pending separate targeted cases. The actual completed31-record path compares
+all ten returned CPU fields including SP07EE, and full physical memory except
+0798..07ED active CPU scratch, on both original-startup VGA-copy checkpoints.
+
+`original-dos-vga-palette-irq.ts` reconstructs the far callback0EA8..0EC8,
+changed-color upload0BDB..0C3B and optional far0EC9 fade. Exact CB9==1 skips
+work. AdapterC69==1 polls3DA bit8 using finite explicit replies. Changed RGB
+triples are sent via3C8 index and three3C9 writes and copied to the1143 cache.
+Each changed upload ends with STI; unchanged uploads preserve incoming IF.
+CBD decrements as a byte; a negative result reloads CBC, clears CB8 and calls
+the original single-pass fade. AX behavior is retained, including reload AL.
+No frame-duration or fabricated palette interpolation is introduced.
+
+Native palette comparison passes144 cases per capture (288 total): CB9=0/1/2,
+delay0/1/128/255, adapter0/1, unchanged/blue-only/multiple-component changes,
+initial IF0/1 and retrace replies0/0/8. Full1MiB except FEC0..FF03 stack,
+AX/preserved registers/SP/IF and exact port events match. Original sources
+remain unchanged. Evidence: VGA_PALETTE_IRQ_NATIVE_2026-10-18.json. Reproduce:
+`check-native-dos-vga-palette-irq.py CAPTURE`.
+
+The connected checker first verifies the actual rendered-frame return, then
+optionally delivers a real hardware-style IRQ frame through the installed
+D6D/D98 vector, running the original prefix to palette0EA8. The callback is
+compared through its true return0DC9: both states upload256 changed RGB
+entries (1024 DAC writes plus one explicit retrace read), with matching cache,
+AX/IF/SP and full memory. Their calibrated delay states legitimately select
+different fade/no-fade results. Event payloads are recorded as hashes/counts,
+not redistributed original RGB byte streams. The outer IRQ remains pending
+at0DC9; audio/record/cursor/BIOS-chain tail and IRET are not silently stubbed.
+Evidence: STARTUP_FRAME_PALETTE_NATIVE_2026-10-18.json. Reproduce:
+`check-native-dos-startup-frame-return.py PRIVATE_VGA_COPY_DIRECTORY --palette`.
+
+Optional `--checkpoint-frame PRIVATE_OUTPUT_DIRECTORY` exclusively exports
+the verified264C state BEFORE IRQ delivery. These original-code/pixel images
+stay private. Typecheck passes. Next: resume actual MAIN from264C, complete
+the real IRQ tail including its BIOS-chain boundary, and connect palette/DAC
+state to visible-color verification. Ishar1 opcode106 and broader engine/editor
+coverage remain open; no complete colored/timed startup screen is claimed.
