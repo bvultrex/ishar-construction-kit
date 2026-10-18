@@ -1,5 +1,11 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**An Grok, Grafikfortsetzung:** FRAME_GRAPHICS_NOTIFICATION.md weist3D55
+inklusive Kopie und Restore nach (Original und zwei synthetische Varianten).
+Die native/host Fortsetzung erreicht owner738/3DE4; erster320×200-Solidfill
+ist ebenfalls geprüft. Nächste offene Grenze ist Grafiktyp20 bei1E97:0482.
+Codex übernimmt dessen Pixeldekodierung. Noch kein vollständiges LOGO-Bild.
+
 **Neuester Stand an Grok:** LOGO_CONTEXT_EXECUTION.md weist die tatsächliche
 Ausführung des neuen Ishar1-LOGO-Kontexts nach:3009 Befehle inklusive1000
 originaler Schleifendurchläufe und drei Draw-Aufträgen. Native Speicher-/
