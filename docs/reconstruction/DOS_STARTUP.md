@@ -2470,3 +2470,34 @@ Evidence: MOUSE_STARTUP_NATIVE_2026-10-18.json. Original files unchanged.
 Next08FC calls0BFA timer initialization, including real IRQ-dependent waits.
 Timer delivery, active audio driver bodies, earlier072D and MAIN connection
 remain open; no visible full game frame is claimed.
+
+## Timer calibration and real IRQ-wait boundary (2026-10-18)
+
+`prepareOriginalDosTimerStartup` follows08FC ->0BFA through0CFE with explicit
+no-delivered-IRQ, DOS vector, finite retrace samples and PIT counter inputs.
+It saves IRQ8, installs the calibration handler0D54, exhausts65000 initial
+polls (BF6=FFFF), measures retrace/PIT or uses systemType7 period5D2A,
+initializes counters, programs PIT and installs0D6D/0D98 before the real wait.
+The computed period is (((FFFF-counter) >>1)-100)&FFFF. A zero period
+produces the original DIV0 at0CBA with the prefix state preserved.
+
+16 cases per profile pass full1MiB except four CPU stack bytes FEFC..FEFF,
+service/port events,65000 poll count, reply consumption and SP; normal wait
+entry has AX0 and IF set. Cases cover type0/7, four PIT counts including DIV0
+and wraparound, and two retrace sequences with repeated reads. No real IRQ
+is delivered and no wait completion is manufactured.
+
+32 composed cases per game start at0787 and execute original instructions
+contiguously to0CFE on normal config paths; menu cases stop at the actual
+menu. The no-IRQ prefix ends with the timer call still on the stack (SPFEFE),
+not a completed return to08FF. CPU stack mask remains FEBC..FEFF after
+graphics nesting. This comparison also fixes event compression to merge IN
+reads only when both port and value match, preserving distinct PIT low/high
+bytes. Earlier single-value tests are unaffected.
+
+Reproduce: check-native-dos-timer-startup.py CAPTURE;
+check-native-dos-configuration-entry.py CAPTURE START.STP --blancpc BLANCPC.IO --timer-prefix.
+Evidence: TIMER_STARTUP_PREFIX_NATIVE_2026-10-18.json. Original files unchanged.
+Next is actual original IRQ execution/IRET to advance C9A and finish the
+measurement loop0CFE..0D35, then later startup and MAIN. No simulated live
+wait or full boot claim is made by stopping at this boundary.
