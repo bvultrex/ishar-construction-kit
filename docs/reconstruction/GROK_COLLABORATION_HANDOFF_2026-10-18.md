@@ -1,5 +1,11 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**Typ-0-Fortsetzung:** TYPE0_NIBBLE_RENDER.md korrigiert die frühere Byte-
+Einordnung: Typ 0 ist ein 4-Bit-Pfad mit 6-Byte-Header. Erste Ishar-1-Kette,
+VGA-Kopie, Frame-Rückkehr und kontrollierte Palette sind verglichen; private
+Diagnose zeigt DISK A. Codex übernimmt nun Eingabe-/Dateizugriff nach diesem
+kontrollierten Prompt. Kein vollständiger Start und keine Browserintegration.
+
 **Ishar-1-Pixelnachweis:** Nach der getakteten Fortsetzung ist die erste
 320×200-Typ-1-Füllung in 905F:0000 verglichen. Codex übernimmt als Nächstes
 Typ-0-Byteblitting ab 1E97:0531. Kein kompletter Frame und keine Browseränderung;

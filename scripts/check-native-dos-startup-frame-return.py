@@ -10,7 +10,7 @@ if a.checkpoint_frame:
  a.checkpoint_frame.mkdir(parents=True,exist_ok=True)
 paths=sorted(a.checkpoints.glob('*.bin'));assert paths
 for path in paths:
- source=path.read_bytes();meta=json.loads(path.with_suffix('.json').read_text());assert len(source)==0x100000 and hashlib.sha256(source).hexdigest()==meta['memorySha256'];assert meta['captureSha256']=='f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04';assert meta['profile']=='ishar2' and meta['boundary']==0x43d0 and meta['registers']['ip']==0x43d0
+ source=path.read_bytes();meta=json.loads(path.with_suffix('.json').read_text());assert len(source)==0x100000 and hashlib.sha256(source).hexdigest()==meta['memorySha256'];assert meta['captureSha256']=={'ishar1':'5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7','ishar2':'f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04'}[meta['profile']];assert meta['boundary']==0x43d0 and meta['registers']['ip']==0x43d0
  cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,source)
  for key,value in meta['registers'].items():cpu.reg_write(regs[key],value)
  def state():return {key:cpu.reg_read(reg) for key,reg in regs.items()}

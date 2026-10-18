@@ -1,5 +1,9 @@
 # Technischer Iststand
 
+[Typ 0](TYPE0_NIBBLE_RENDER.md) ist als 4-Bit-Pfad rekonstruiert. Die erste
+Ishar-1-Recordkette, VGA-Kopie und Frame-Rückkehr bestehen; eine farbige private
+DISK-A-Diagnose ist nach kontrollierten IRQs möglich. Noch kein kompletter Start.
+
 Ishar 1: Die [getaktete Framefortsetzung](WAIT_FRAME_RESUME.md) erreicht den
 ersten nativen 320×200-Pixelfülllauf (64.000 Adressen). Der nächste Record
 stoppt bei Grafiktyp 0, 1E97:0531. Noch kein kompletter Ishar-1-Frame.
