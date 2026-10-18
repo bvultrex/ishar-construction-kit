@@ -1983,3 +1983,86 @@ ebenso weitere Objektzweige. Ishar1 hat die synthetischen Befehlsnachweise,
 keinen entsprechenden vollständigen MAIN-Start. Hosttest für signierte
 Gleichstände, Grenzen, Freiliste, Zyklen und gemischte Gruppen, bestehende
 Objekt-/Projektionsregressionen, Typecheck und Diffprüfung bestanden.
+
+### Sichtbarkeits-/Clipprüfung und erster Typ1-RAM-Pixellauf (18.10.2026)
+
+`original-dos-pixel-batch.ts` bildet den43FB-Einstieg,4723 und4535 bis vor
+den ersten Grafik-/Bank-/Präsentationsaufruf ab.4723 verwendet bei C18!=0
+die aggregierten C2C/C2E/C30/C32, sonst die Bildgrenzen des aktuellen Eintrags.
+Signed Rechtecktests gegen das Besitzerrechteck können vollständig abweisen.
+Akzeptierte X-Grenzen werden mit AND FFF0 beziehungsweise OR000F ausgerichtet
+und an das Besitzerrechteck geklemmt; C22 erhält die Breite in8-Pixel-Einheiten,
+C24=0 und C26 den Wert1DFB.4535 erweitert die Sichtbarkeitsprüfung auf die
+aktiven Objekte, erhält auch vorzeitige B12/B14/B16/B18-Schreibzugriffe und
+schreibt bei Schnitt C40/C42/C44/C46 sowie C3E=1.
+
+Objektflag40 im zweiten Byte unterdrückt die Hintergrundlöschung. Andernfalls
+endet die API vor dem Clear-Farcall42DB oder der Bankumschaltung42E9. Bei
+übersprungener Löschung wird der erste zulässige Eintrag gewählt: kein
+negativer Status, kein negatives Byte+34 und keine negative Tiefe+16.
+Endpunkt ist4305 (Farcall1E97:0008) oder4313 (Bankzweig). Spezialdatensatz und
+Präsentation bleiben als44AB/431F-Grenzen erhalten. Vollständige frühe Rückkehr
+geht passend zum ursprünglichen Caller nach416B oder40D4; sie restauriert
+die gesicherten Register. Kein unbekannter Aufruf wird erfolgreich simuliert.
+
+`check-native-dos-pixel-batch.py <memory.bin>` prüft je120 Fälle: ES getrennt/
+SS-aliasierend, Einzel-/Aggregatgrenzen, drei Videoflagkombinationen und zehn
+gezielte Situationen für Schnitt/Teilclip/Verwerfung, Recordfilter, Bank,
+Spezial-/Present-Grenze und verborgene Rückkehr. Sechs Skriptregister, BX/DI,
+SP und Speicher außer CPU-Stack-Sicherungen stimmen nativ überein. Metadaten:
+`PIXEL_BATCH_NATIVE_2026-10-18.json`.
+
+`original-dos-sprite-blit.ts` folgt dem echten Farcall1E97:0008 nach01A8.
+Die Ressourcenreferenz wird hier mit ROR16(Highwort,4) normalisiert; diese
+Darstellung wird nicht mit dem Byteaustausch anderer Enginepfade verwechselt.
+Signed Schnittprüfungen und C2C/C2E/C30/C32-Clamping bleiben erhalten. Die
+Formatwahl unterscheidet0/1/2/10h/12h/14h/16h/7Fh und Spiegelung; unbekannte
+Typen und vorzeitig verworfene Bilder enden an ihrem originalen RET.
+Die API stoppt vor dem jeweiligen Pixelverfahren.
+`check-native-dos-sprite-blit.py <memory.bin>` vergleicht je162 Fälle über
+Formate, Spiegelung, Highworte0/1/10h und drei Clippositionen. Metadaten:
+`SPRITE_BLIT_NATIVE_2026-10-18.json`.
+
+`original-dos-solid-blit.ts` implementiert das erste tatsächlich erreichte
+Verfahren Typ1:06C2 samt02DD bis zum Far-Return nach430A. Es schreibt den
+originalen8-Bit-Palettenindex, erhält die CS-Scratchwerte2C/2E/30 und berechnet
+Quellversatz, Zielsegment/-offset und Zeilenstride aus den vorhandenen Globals.
+Breite/Höhe des zugeschnittenen Bereichs sind inklusive beider Grenzen.
+Typ1 überspringt ausdrücklich die sonstige gespiegelte Zielstride-Korrektur.
+STOSB-Zeiger laufen wie im Original modulo16 Bit. Es gibt keinen automatisch
+eingesetzten Pitch320 und kein implizites RGBA-/Browserbild.
+
+`check-native-dos-solid-blit.py <memory.bin>` vergleicht je48 Fälle: Spiegelung,
+Pitch0/16/320, zwei Zieloffsets einschließlich Wrap, Ganz-/Teilbereich und
+zwei Farben. Die Tests verwenden einen eigenen mit5A vorbelegten RAM-Puffer
+bei9000:offset und vergleichen alle Pixel sowie Register/SP/CS-Scratchwerte.
+Originalcaptures bleiben unverändert. Metadaten: `SOLID_BLIT_NATIVE_2026-10-18.json`.
+Zu viele Pixel und ein Ziel im ausführbaren Grafiksegment werden als explizite
+Hostgrenzen atomar abgewiesen, nicht als originales Fehlerverhalten bezeichnet.
+
+`check-native-dos-main-draw.py <privates Verzeichnis> --solid --shift-flags 0`
+führt alle bisherigen MAIN-/Callback-/Frame-/Gruppenschritte fort und erreicht
+in allen drei gültigen Ishar2-Layouts den ersten echten Grafik-Farcall.
+Das Objekt unterdrückt die Hintergrundlöschung. Eintrag192 löst Typ1 auf;
+der320×200-Fülllauf mit Farbe0 und64000 RAM-Schreibzugriffen stimmt bis430A
+nativ überein. Sechs Skriptregister, BX/DI, SP und gesamter Speicher außer
+den jeweils expliziten CPU-Stack-Sicherungsbereichen werden verglichen.
+Die Stackmasken werden für4723 und den Far-/Near-Aufruf gezielt um deren
+Sicherungswörter erweitert, nicht pauschal auf alle hohen Globals.
+
+**Wesentliche noch offene Startlücke:** Der kontrollierte2607-Start hat
+Framebuffer0:0 und Pitch0. Die200 Zeilen schreiben deshalb immer wieder
+dieselben320 Adressen.64000 Schreibzugriffe sind hier kein gültiges320×200-Bild
+und kein sichtbarer Spielframe. Die frühere Testinitialisierung wurde dafür
+nicht stillschweigend mit Ersatzwerten ergänzt. Statisch belegt ist der
+originale Grafikstart1E97:0CC0: BIOS INT10/Modus13h, sichtbarer Bereich A000:0
+und anschließend Pitch320 nach SS:1DD5. Dieser Aufruf und die originale
+Backbufferzuweisung über B88/B8A müssen vor dem bestehenden MAIN-Einstieg
+noch angeschlossen und unabhängig geprüft werden. Das hat jetzt Vorrang.
+Metadaten samt Nullziel-/Nullpitch-Befund: `MAIN_SOLID_BLIT_NATIVE_2026-10-18.json`.
+
+Ishar1 hat die synthetischen Prüfungen, weiterhin nicht diesen vollständigen
+MAIN-Start. Andere Pixelverfahren, Hardware-/Präsentationspfade und die
+Browseranbindung bleiben offen. Hosttest für echte RAM-Pixel, Nullpitch ohne
+Erfindung eines Defaults, Clipausrichtung, Zeigerauflösung und atomare Grenzen,
+Gruppen-/Frameregressionen, Typecheck und Diffprüfung bestanden.

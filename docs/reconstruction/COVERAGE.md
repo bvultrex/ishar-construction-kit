@@ -53,9 +53,9 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Zustand nativ verglichen. Auch die ersten7/8 numerischen Zuweisungen samt
    Original-Indexstack laufen durch. Das gemeinsame physische Schritt-API folgt
    jetzt auch Aufrufen, Ausdrücken und Bedingungen. Tatsächliche nächste Grenzen
-   sind die DOS-Dateisuche156 (Ishar1) und43FB nach der ersten vollständig
-   vorbereiteten Objektgruppe im aktiven Zeichenpfad nach
-   MAIN-Ausgabe/Callback/Frame (Ishar2, explizite BIOS-Antwort0).
+   sind die DOS-Dateisuche156 (Ishar1) und die noch fehlende originale Video-/
+   Pufferinitialisierung vor dem kontrollierten2607-Einstieg sowie weitere
+   Pixelverfahren (Ishar2, explizite BIOS-Antwort0).
    Callback, Rückkehr, Frame mit zwei verdeckten Einträgen und Wiedereinstieg
    in MAIN sind nativ geprüft. Auch die folgenden43→66 (Dekrement/Sprung→Yield)
    stimmen in drei gültigen Speicherlayouts mit dem Original überein. Der
@@ -73,7 +73,11 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Objekt. Dessen Einstieg3E55, Statusverarbeitung und erste Projektion36E1
    sind inzwischen ebenfalls nativ verglichen, bis zur Rückkehr nach40DC.
    Listenumsortierung und alle31 Einträge dieser Gruppe sind inzwischen bis
-   vor dem43FB-Aufruf bei4168 nativ verglichen. Pixelschreiben bleibt offen.
+   vor dem43FB-Aufruf bei4168 nativ verglichen. Dessen Sichtbarkeits-/Clipprüfung,
+   Grafikformatwahl und erster Typ1-RAM-Pixellauf sind inzwischen ebenfalls
+   nativ verglichen. Der kontrollierte Start hat aber Ziel0:0 und Pitch0:
+   noch kein gültiger Frame. Video-/Pufferinitialisierung hat deshalb Vorrang
+   vor einer sichtbaren Ausgabe oder weiteren Aussagen zur Bildgleichheit.
    FE-Sonderpfad, weitere Operandformen
    und sichtbare Ausgabe bleiben offen. Verwandte Wortänderungen192/193/194 haben separate
    native Befehlsnachweise, noch keinen vollständigen Inhaltsablauf.

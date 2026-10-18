@@ -1,0 +1,50 @@
+{
+  "description": "pixel batch native; no original resource bytes",
+  "matrix": {
+    "es": [
+      20480,
+      7179
+    ],
+    "aggregate": [
+      0,
+      1
+    ],
+    "videoModes": [
+      [
+        0,
+        0,
+        255
+      ],
+      [
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        0
+      ]
+    ],
+    "scenarios": 10,
+    "callerEntries": {
+      "normal": 16744,
+      "hiddenReturnTest": 16593
+    }
+  },
+  "profiles": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 120,
+      "resultsSha256": "647db2f90d8ec4ad3ac6b336babcf13c29a1626a9fefcbfc3dd631c65e638813"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 120,
+      "resultsSha256": "bbf4e1dae251573526a845240d62e9cd76e419d9af502287b0004c7729224421"
+    }
+  ],
+  "limits": "Six script registers/BX/DI/SP and full memory except CPU stack saves; clear/record/bank/special/present/return boundaries only; no pixels."
+}
