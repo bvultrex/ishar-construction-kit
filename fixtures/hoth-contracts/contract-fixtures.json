@@ -1,0 +1,2482 @@
+{
+ "schema": "hoth-contract-fixtures/1",
+ "created": "2026-10-18",
+ "author": "Hoth (Grok Bot executor)",
+ "notes": [
+  "Offsets ab 0 (cmp -l = ab0+1).",
+  "Saves = 8359 Nullbytes, Formatmarke Wort@0 = 2, plus die gelisteten künstlichen Felder (be16 = Big-Endian-Wort, u8 = Byte). Keine Originalbytes.",
+  "status: known = eigener Beleg im Original-Lauf (Bericht); suspected = Fremdbefund (Quesh/Alderaan) oder Annahme; unknown = offen, wird nur gezählt.",
+  "changes: exakte Menge der geänderten Bytes (Offset -> neuer Wert) gegenüber dem Eingangspuffer."
+ ],
+ "vectors": [
+  {
+   "id": "P01",
+   "contract": "pickup-ishar2",
+   "status": "suspected",
+   "source": "quesh/pickup-contract-ishar2.json/.md (SOURIS/FRISE); alderaan run_pickup.md, REFERENCES.md §8; PICK9A (Alderaan)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 345,
+      "u8": 7
+     },
+     {
+      "offset": 545,
+      "u8": 25
+     },
+     {
+      "offset": 745,
+      "u8": 1
+     }
+    ],
+    "view": {
+     "map": 1,
+     "row": 6,
+     "col": 25,
+     "facing": 2
+    },
+    "ops": [
+     {
+      "op": "floorPickup",
+      "obj": 9
+     },
+     {
+      "op": "dropPortrait",
+      "char": 0
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "345": 0,
+     "545": 0,
+     "745": 0,
+     "1037": 9
+    },
+    "held": 0
+   },
+   "note": "Variante A: erster freier Rucksackplatz c0 s0 = Save 1036/1037 (cmp 1037/1038)"
+  },
+  {
+   "id": "P02",
+   "contract": "pickup-ishar2",
+   "status": "suspected",
+   "source": "quesh/pickup-contract-ishar2.json/.md (SOURIS/FRISE); alderaan run_pickup.md, REFERENCES.md §8; PICK9B (Alderaan)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 345,
+      "u8": 7
+     },
+     {
+      "offset": 545,
+      "u8": 25
+     },
+     {
+      "offset": 745,
+      "u8": 1
+     }
+    ],
+    "view": {
+     "map": 1,
+     "row": 6,
+     "col": 25,
+     "facing": 2
+    },
+    "ops": [
+     {
+      "op": "floorPickup",
+      "obj": 9
+     },
+     {
+      "op": "dropHand",
+      "char": 0,
+      "slot": 10
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "345": 0,
+     "545": 0,
+     "745": 0,
+     "1057": 9
+    },
+    "held": 0
+   },
+   "note": "Variante B: Handplatz 10 = 1056/1057; Rüstung 1336 bleibt (armour(9)=0)"
+  },
+  {
+   "id": "P03",
+   "contract": "pickup-ishar2",
+   "status": "suspected",
+   "source": "quesh/pickup-contract-ishar2.json/.md (SOURIS/FRISE); alderaan run_pickup.md, REFERENCES.md §8",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 345,
+      "u8": 7
+     },
+     {
+      "offset": 545,
+      "u8": 25
+     },
+     {
+      "offset": 745,
+      "u8": 1
+     },
+     {
+      "offset": 1036,
+      "be16": 65511
+     },
+     {
+      "offset": 1038,
+      "be16": 65519
+     }
+    ],
+    "view": {
+     "map": 1,
+     "row": 6,
+     "col": 25,
+     "facing": 2
+    },
+    "ops": [
+     {
+      "op": "floorPickup",
+      "obj": 9
+     },
+     {
+      "op": "dropPortrait",
+      "char": 0
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "345": 0,
+     "545": 0,
+     "745": 0,
+     "1041": 9
+    },
+    "held": 0
+   },
+   "note": "erster freier Platz 0..8: s0,s1 belegt -> s2 = 1040/1041 (künstliche Belegung)"
+  },
+  {
+   "id": "P04",
+   "contract": "pickup-ishar2",
+   "status": "suspected",
+   "source": "quesh/pickup-contract-ishar2.json/.md (SOURIS/FRISE); alderaan run_pickup.md, REFERENCES.md §8; PICKR (Alderaan); Quesh Gegenprobe CH1N->CH2N",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 1056,
+      "be16": 65511
+     },
+     {
+      "offset": 1336,
+      "u8": 4
+     }
+    ],
+    "ops": [
+     {
+      "op": "handPickup",
+      "char": 0,
+      "slot": 10
+     },
+     {
+      "op": "dropHand",
+      "char": 1,
+      "slot": 10
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "1056": 0,
+     "1057": 0,
+     "1086": 255,
+     "1087": 231,
+     "1336": 0,
+     "1337": 4
+    },
+    "held": 0
+   },
+   "note": "Transfer -25 von c0 Hand 10 zu c1 Hand 10: Rüstung wandert 4 mit"
+  },
+  {
+   "id": "P05",
+   "contract": "pickup-ishar2",
+   "status": "suspected",
+   "source": "quesh/pickup-contract-ishar2.json/.md (SOURIS/FRISE); alderaan run_pickup.md, REFERENCES.md §8; PICKQ->PICKS (Alderaan)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 1056,
+      "be16": 65511
+     },
+     {
+      "offset": 1336,
+      "u8": 4
+     }
+    ],
+    "ops": [
+     {
+      "op": "handPickup",
+      "char": 0,
+      "slot": 10
+     },
+     {
+      "op": "dropHand",
+      "char": 0,
+      "slot": 10
+     }
+    ]
+   },
+   "expected": {
+    "changes": {},
+    "held": 0
+   },
+   "note": "Aufnehmen + Ablegen am selben Platz ist neutral (im Original nur Uhr 45/49)"
+  },
+  {
+   "id": "P06",
+   "contract": "pickup-ishar2",
+   "status": "suspected",
+   "source": "quesh/pickup-contract-ishar2.json/.md (SOURIS/FRISE); alderaan run_pickup.md, REFERENCES.md §8",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 1056,
+      "be16": 65511
+     },
+     {
+      "offset": 1336,
+      "u8": 4
+     }
+    ],
+    "ops": [
+     {
+      "op": "handPickup",
+      "char": 0,
+      "slot": 10
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "1056": 0,
+     "1057": 0,
+     "1336": 0
+    },
+    "held": -25,
+    "saveAllowed": false
+   },
+   "note": "Gegenstand am Cursor: Speichern nicht möglich (Alderaan)"
+  },
+  {
+   "id": "P07",
+   "contract": "pickup-ishar2",
+   "status": "suspected",
+   "source": "quesh/pickup-contract-ishar2.md Rüstungstabelle (Addendum R7)",
+   "input": {
+    "armourCodes": [
+     -89,
+     -87,
+     -71,
+     -69,
+     -25,
+     -26,
+     -30,
+     -17,
+     9,
+     10,
+     0
+    ]
+   },
+   "expected": {
+    "armour": [
+     4,
+     3,
+     12,
+     9,
+     4,
+     1,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   },
+   "note": "18 negative Codes != 0, sonst Default 0"
+  },
+  {
+   "id": "P08",
+   "contract": "pickup-ishar2",
+   "status": "suspected",
+   "source": "quesh/pickup-contract-ishar2.json/.md (SOURIS/FRISE); alderaan run_pickup.md, REFERENCES.md §8",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 1036,
+      "be16": 65504
+     },
+     {
+      "offset": 1038,
+      "be16": 65504
+     },
+     {
+      "offset": 1040,
+      "be16": 65504
+     },
+     {
+      "offset": 1042,
+      "be16": 65504
+     },
+     {
+      "offset": 1044,
+      "be16": 65504
+     },
+     {
+      "offset": 1046,
+      "be16": 65504
+     },
+     {
+      "offset": 1048,
+      "be16": 65504
+     },
+     {
+      "offset": 1050,
+      "be16": 65504
+     },
+     {
+      "offset": 1052,
+      "be16": 65504
+     },
+     {
+      "offset": 345,
+      "u8": 7
+     },
+     {
+      "offset": 545,
+      "u8": 25
+     },
+     {
+      "offset": 745,
+      "u8": 1
+     }
+    ],
+    "view": {
+     "map": 1,
+     "row": 6,
+     "col": 25,
+     "facing": 2
+    },
+    "ops": [
+     {
+      "op": "floorPickup",
+      "obj": 9
+     },
+     {
+      "op": "dropPortrait",
+      "char": 0
+     }
+    ]
+   },
+   "expected": {
+    "rejected": true,
+    "changes": {
+     "345": 0,
+     "545": 0,
+     "745": 0
+    },
+    "held": 9
+   },
+   "note": "Rucksack voll (0..8 belegt): Ablage am Porträt scheitert, Objekt bleibt am Cursor (Annahme aus \"erster freier Platz\", nicht im Original getestet)"
+  },
+  {
+   "id": "M01",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_HEBEL_TUER.md (Rahmen Tür 5, B=65 r40 c31)",
+   "input": {
+    "decodeB": 65,
+    "map": 5
+   },
+   "expected": {
+    "kind": "door",
+    "index": 5
+   }
+  },
+  {
+   "id": "M02",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_HEBEL_TUER_2.md (Tür 6 per Hebel 6)",
+   "input": {
+    "decodeB": 66,
+    "map": 5
+   },
+   "expected": {
+    "kind": "door",
+    "index": 6
+   }
+  },
+  {
+   "id": "M03",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER8.md (Gitter Tür 8)",
+   "input": {
+    "decodeB": 68,
+    "map": 5
+   },
+   "expected": {
+    "kind": "door",
+    "index": 8
+   }
+  },
+  {
+   "id": "M04",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md (map 7 r6 c11)",
+   "input": {
+    "decodeB": 88,
+    "map": 7
+   },
+   "expected": {
+    "kind": "door",
+    "index": 28
+   }
+  },
+  {
+   "id": "M05",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_HEBEL_TUER_2.md (Hebel 6 -> 7437 und 7387)",
+   "input": {
+    "decodeB": -16,
+    "map": 5
+   },
+   "expected": {
+    "kind": "lever",
+    "index": 6
+   }
+  },
+  {
+   "id": "M06",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "quesh/hebel-tuer-trigger-ishar2.md; kit cont-grid.ts doorNumber",
+   "input": {
+    "decodeB": 61,
+    "map": 5
+   },
+   "expected": {
+    "kind": "door",
+    "index": 1
+   }
+  },
+  {
+   "id": "M07",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "quesh/hebel-tuer-trigger-ishar2.md",
+   "input": {
+    "decodeB": 109,
+    "map": 5
+   },
+   "expected": {
+    "kind": "door",
+    "index": 49
+   }
+  },
+  {
+   "id": "M08",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "Grenze 61..109 (cont-grid.ts doorNumber)",
+   "input": {
+    "decodeB": 110,
+    "map": 5
+   },
+   "expected": {
+    "kind": "none"
+   }
+  },
+  {
+   "id": "M09",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "quesh/hebel-tuer-trigger-ishar2.md",
+   "input": {
+    "decodeB": -11,
+    "map": 5
+   },
+   "expected": {
+    "kind": "lever",
+    "index": 1
+   }
+  },
+  {
+   "id": "M10",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "quesh/hebel-tuer-trigger-ishar2.md",
+   "input": {
+    "decodeB": -30,
+    "map": 5
+   },
+   "expected": {
+    "kind": "lever",
+    "index": 20
+   }
+  },
+  {
+   "id": "M11",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "Ebene B -70..-99 Zonenmarker (Quesh), Formel der Zone nicht Teil dieses Vektors",
+   "input": {
+    "decodeB": -76,
+    "map": 5
+   },
+   "expected": {
+    "kind": "zone"
+   }
+  },
+  {
+   "id": "M12",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "Ebene B -100..-119 Lauf-Trigger (maps>4), GERDEP 0x01515; door-mechanics.ts afterStep",
+   "input": {
+    "decodeB": -105,
+    "map": 5
+   },
+   "expected": {
+    "kind": "walkTrigger",
+    "index": 5
+   }
+  },
+  {
+   "id": "M13",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "leer",
+   "input": {
+    "decodeB": 0,
+    "map": 5
+   },
+   "expected": {
+    "kind": "none"
+   }
+  },
+  {
+   "id": "M14",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_HEBEL_TUER.md (Save-Offsets, cmp = ab0+1)",
+   "input": {
+    "doorOffset": [
+     5,
+     6,
+     8,
+     28
+    ],
+    "switchOffset": [
+     6
+    ]
+   },
+   "expected": {
+    "doorOffsets": [
+     7386,
+     7387,
+     7389,
+     7409
+    ],
+    "switchOffsets": [
+     7437
+    ]
+   },
+   "note": "Türtabelle 0x4aa4 @7381+d, Schaltertabelle 0x4ad8 @7431+k (ab 0)"
+  },
+  {
+   "id": "M15",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_HEBEL_TUER_2.md (Klick 152,58; HOTHB*)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7387,
+      "u8": 1
+     },
+     {
+      "offset": 7437,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "lever",
+      "k": 6
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "7387": 0,
+     "7437": 0
+    }
+   }
+  },
+  {
+   "id": "M16",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_HEBEL_TUER_2.md (zweiter Hebelklick)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7387,
+      "u8": 1
+     },
+     {
+      "offset": 7437,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "lever",
+      "k": 6
+     },
+     {
+      "op": "lever",
+      "k": 6
+     }
+    ]
+   },
+   "expected": {
+    "changes": {}
+   },
+   "note": "1 -> 0 -> 1"
+  },
+  {
+   "id": "M17",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_HEBEL_TUER.md (Rahmen Tür 5, Klick 128,70)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     }
+    ],
+    "ops": [
+     {
+      "op": "frame",
+      "d": 5
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "7386": 1
+    }
+   }
+  },
+  {
+   "id": "M18",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER8.md Teil 2 (zweiter Rahmenklick ohne Wirkung)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7386,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "frame",
+      "d": 5
+     }
+    ]
+   },
+   "expected": {
+    "changes": {}
+   },
+   "note": "nur öffnen"
+  },
+  {
+   "id": "M19",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER8.md (Schlüsselloch r61 c15 Blick 2, Klick 129,72)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 1054,
+      "be16": 65519
+     }
+    ],
+    "pos": {
+     "map": 5,
+     "row": 61,
+     "col": 15,
+     "facing": 2,
+     "cellA": 78
+    },
+    "ops": [
+     {
+      "op": "keyhole",
+      "held": -17
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "7389": 1
+    },
+    "keyConsumed": false
+   },
+   "note": "Schlüssel -17 = FF EF; 1054/55 bleiben FF EF"
+  },
+  {
+   "id": "M20",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER8.md (Schlüssel auf Gitterflügel ohne Wirkung)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     }
+    ],
+    "pos": {
+     "map": 5,
+     "row": 53,
+     "col": 16,
+     "facing": 3,
+     "cellA": 0
+    },
+    "ops": [
+     {
+      "op": "keyOnLeaf",
+      "held": -17
+     }
+    ]
+   },
+   "expected": {
+    "changes": {}
+   }
+  },
+  {
+   "id": "M21",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "quesh/hebel-tuer-trigger-ishar2.md Addendum (Form nur auf dem Feld mit Blick 2)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     }
+    ],
+    "pos": {
+     "map": 5,
+     "row": 61,
+     "col": 15,
+     "facing": 3,
+     "cellA": 78
+    },
+    "ops": [
+     {
+      "op": "keyhole",
+      "held": -17
+     }
+    ]
+   },
+   "expected": {
+    "changes": {}
+   },
+   "note": "falsche Blickrichtung: keine Form, nicht im Original getestet"
+  },
+  {
+   "id": "M22",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "door-mechanics.ts useOnDoorForm (SOURIS 0x00a5d)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     }
+    ],
+    "pos": {
+     "map": 5,
+     "row": 61,
+     "col": 15,
+     "facing": 2,
+     "cellA": 78
+    },
+    "ops": [
+     {
+      "op": "keyhole",
+      "held": -21
+     }
+    ]
+   },
+   "expected": {
+    "changes": {}
+   },
+   "note": "anderer Gegenstand am Schlüsselloch von Tür 8"
+  },
+  {
+   "id": "M23",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md (GERDEP 0x00500/0x0052f)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 44,
+      "be16": 0
+     },
+     {
+      "offset": 7409,
+      "u8": 0
+     }
+    ],
+    "ops": [
+     {
+      "op": "hour",
+      "to": 1
+     }
+    ]
+   },
+   "expected": {
+    "door28": 1
+   }
+  },
+  {
+   "id": "M24",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md (GERDEP 0x00500/0x0052f)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 44,
+      "be16": 1
+     },
+     {
+      "offset": 7409,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "hour",
+      "to": 2
+     }
+    ]
+   },
+   "expected": {
+    "door28": 1
+   }
+  },
+  {
+   "id": "M25",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md (GERDEP 0x00500/0x0052f)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 44,
+      "be16": 2
+     },
+     {
+      "offset": 7409,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "hour",
+      "to": 3
+     }
+    ]
+   },
+   "expected": {
+    "door28": 1
+   }
+  },
+  {
+   "id": "M26",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md (GERDEP 0x00500/0x0052f)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 44,
+      "be16": 3
+     },
+     {
+      "offset": 7409,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "hour",
+      "to": 4
+     }
+    ]
+   },
+   "expected": {
+    "door28": 0
+   }
+  },
+  {
+   "id": "M27",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "GERDEP 0x00500/0x0052f (eigene Listing-Lesung, Übergang nicht im Lauf beobachtet)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 44,
+      "be16": 4
+     },
+     {
+      "offset": 7409,
+      "u8": 0
+     }
+    ],
+    "ops": [
+     {
+      "op": "hour",
+      "to": 5
+     }
+    ]
+   },
+   "expected": {
+    "door28": 0
+   }
+  },
+  {
+   "id": "M28",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "GERDEP 0x00500/0x0052f (eigene Listing-Lesung, Übergang nicht im Lauf beobachtet)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 44,
+      "be16": 23
+     },
+     {
+      "offset": 7409,
+      "u8": 0
+     }
+    ],
+    "ops": [
+     {
+      "op": "hour",
+      "to": 0
+     }
+    ]
+   },
+   "expected": {
+    "door28": 0
+   }
+  },
+  {
+   "id": "M29",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_ACTOR69.md (6850 = 0x449a+69)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 44,
+      "be16": 1
+     },
+     {
+      "offset": 6850,
+      "u8": 0
+     },
+     {
+      "offset": 742,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "hour",
+      "to": 2
+     }
+    ]
+   },
+   "expected": {
+    "actor69scene": 12
+   }
+  },
+  {
+   "id": "M30",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_ACTOR69.md (6850 = 0x449a+69)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 44,
+      "be16": 2
+     },
+     {
+      "offset": 6850,
+      "u8": 12
+     },
+     {
+      "offset": 742,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "hour",
+      "to": 3
+     }
+    ]
+   },
+   "expected": {
+    "actor69scene": 12
+   }
+  },
+  {
+   "id": "M31",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_ACTOR69.md (6850 = 0x449a+69)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 44,
+      "be16": 3
+     },
+     {
+      "offset": 6850,
+      "u8": 12
+     },
+     {
+      "offset": 742,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "hour",
+      "to": 4
+     }
+    ]
+   },
+   "expected": {
+    "actor69scene": 0
+   }
+  },
+  {
+   "id": "M32",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "HOTH_ABNAHME_2026-10-18_ACTOR69.md Herleitung (Bedingung Objekt 6 != 0), nicht im Original getestet",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 44,
+      "be16": 1
+     },
+     {
+      "offset": 6850,
+      "u8": 0
+     },
+     {
+      "offset": 742,
+      "u8": 0
+     }
+    ],
+    "ops": [
+     {
+      "op": "hour",
+      "to": 2
+     }
+    ]
+   },
+   "expected": {
+    "actor69scene": 0
+   }
+  },
+  {
+   "id": "M33",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md / ACTOR69.md (Saves Wort @90/92)",
+   "input": {
+    "dayPhaseHour": 1
+   },
+   "expected": {
+    "phase": 3
+   }
+  },
+  {
+   "id": "M34",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md / ACTOR69.md (Saves Wort @90/92)",
+   "input": {
+    "dayPhaseHour": 6
+   },
+   "expected": {
+    "phase": 2
+   }
+  },
+  {
+   "id": "M35",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md / ACTOR69.md (Saves Wort @90/92)",
+   "input": {
+    "dayPhaseHour": 7
+   },
+   "expected": {
+    "phase": 2
+   }
+  },
+  {
+   "id": "M36",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md / ACTOR69.md (Saves Wort @90/92)",
+   "input": {
+    "dayPhaseHour": 8
+   },
+   "expected": {
+    "phase": 1
+   }
+  },
+  {
+   "id": "M37",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "quesh/zeit-ishar2.md (Phase 0x519f)",
+   "input": {
+    "dayPhaseHour": 12
+   },
+   "expected": {
+    "phase": 1
+   }
+  },
+  {
+   "id": "M38",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "quesh/zeit-ishar2.md (Phase 0x519f)",
+   "input": {
+    "dayPhaseHour": 19
+   },
+   "expected": {
+    "phase": 1
+   }
+  },
+  {
+   "id": "M39",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "quesh/zeit-ishar2.md (Phase 0x519f)",
+   "input": {
+    "dayPhaseHour": 20
+   },
+   "expected": {
+    "phase": 2
+   }
+  },
+  {
+   "id": "M40",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "quesh/zeit-ishar2.md (Phase 0x519f)",
+   "input": {
+    "dayPhaseHour": 22
+   },
+   "expected": {
+    "phase": 3
+   }
+  },
+  {
+   "id": "M41",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md (Uhr: Stunde @44, Tag @46, Ticks @48, BE16)",
+   "input": {
+    "clockOffsets": true
+   },
+   "expected": {
+    "hour": 44,
+    "day": 46,
+    "ticks": 48
+   }
+  },
+  {
+   "id": "M42",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "quesh/zeit-ishar2.md (0x4fcc = 1000, DOS); MAIN 0x03faa ff. (eigene Lesung); beobachtet max. 957",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 44,
+      "be16": 0
+     },
+     {
+      "offset": 46,
+      "be16": 3
+     },
+     {
+      "offset": 48,
+      "be16": 998
+     }
+    ],
+    "ops": [
+     {
+      "op": "ticks",
+      "n": 3
+     }
+    ]
+   },
+   "expected": {
+    "hour": 1,
+    "day": 3,
+    "ticks": 1
+   }
+  },
+  {
+   "id": "M43",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "quesh/zeit-ishar2.md",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 44,
+      "be16": 23
+     },
+     {
+      "offset": 46,
+      "be16": 3
+     },
+     {
+      "offset": 48,
+      "be16": 999
+     }
+    ],
+    "ops": [
+     {
+      "op": "ticks",
+      "n": 1
+     }
+    ]
+   },
+   "expected": {
+    "hour": 0,
+    "day": 4,
+    "ticks": 0
+   },
+   "note": "Tageswechsel"
+  },
+  {
+   "id": "M44",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "quesh/zeit-ishar2.md (Ticks nur wenn 0x2ab7 == 0)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 44,
+      "be16": 5
+     },
+     {
+      "offset": 48,
+      "be16": 10
+     }
+    ],
+    "paused": true,
+    "ops": [
+     {
+      "op": "ticks",
+      "n": 50
+     }
+    ]
+   },
+   "expected": {
+    "hour": 5,
+    "day": 0,
+    "ticks": 10
+   }
+  },
+  {
+   "id": "R01",
+   "contract": "rng",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json (start.exe 1000:6d7b, ss:0x0c4e); decompile/engine/rules.md (r*0x7ab7-0x77f)",
+   "input": {
+    "seed": 0,
+    "bounds": [
+     100,
+     100,
+     100
+    ]
+   },
+   "expected": {
+    "values": [
+     97,
+     8,
+     89
+    ],
+    "state": 58889
+   },
+   "note": "-0x77f == +0xf881 mod 2^16; Seed aus BIOS-Tick, nicht im Save"
+  },
+  {
+   "id": "R02",
+   "contract": "rng",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json (start.exe 1000:6d7b, ss:0x0c4e); decompile/engine/rules.md (r*0x7ab7-0x77f)",
+   "input": {
+    "seed": 1,
+    "bounds": [
+     6,
+     6,
+     6,
+     6
+    ]
+   },
+   "expected": {
+    "values": [
+     2,
+     0,
+     1,
+     5
+    ],
+    "state": 63889
+   },
+   "note": "-0x77f == +0xf881 mod 2^16; Seed aus BIOS-Tick, nicht im Save"
+  },
+  {
+   "id": "R03",
+   "contract": "rng",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json (start.exe 1000:6d7b, ss:0x0c4e); decompile/engine/rules.md (r*0x7ab7-0x77f)",
+   "input": {
+    "seed": 4660,
+    "bounds": [
+     100,
+     20,
+     5
+    ]
+   },
+   "expected": {
+    "values": [
+     76,
+     5,
+     3
+    ],
+    "state": 44277
+   },
+   "note": "-0x77f == +0xf881 mod 2^16; Seed aus BIOS-Tick, nicht im Save"
+  },
+  {
+   "id": "R04",
+   "contract": "rng",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json (start.exe 1000:6d7b, ss:0x0c4e); decompile/engine/rules.md (r*0x7ab7-0x77f)",
+   "input": {
+    "seed": 65535,
+    "bounds": [
+     2,
+     32767
+    ]
+   },
+   "expected": {
+    "values": [
+     0,
+     5107
+    ],
+    "state": 10215
+   },
+   "note": "-0x77f == +0xf881 mod 2^16; Seed aus BIOS-Tick, nicht im Save"
+  },
+  {
+   "id": "R05",
+   "contract": "rng",
+   "status": "suspected",
+   "source": "rules.md",
+   "input": {
+    "seed": 0,
+    "firstState": true
+   },
+   "expected": {
+    "state": 63617
+   }
+  },
+  {
+   "id": "K201",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md Spielertreffer",
+   "input": {
+    "f": "playerHit",
+    "LVL": 5,
+    "AGI": 18,
+    "FOOD": 80,
+    "AGI_t": 10,
+    "loc172": 0,
+    "skill": 50
+   },
+   "expected": {
+    "hit": 94
+   },
+   "note": "Ganzzahldivision trunc (suspected); Wurf rnd(100) < hit"
+  },
+  {
+   "id": "K202",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md Spielertreffer",
+   "input": {
+    "f": "playerHit",
+    "LVL": 3,
+    "AGI": 12,
+    "FOOD": 40,
+    "AGI_t": 15,
+    "loc172": 30,
+    "skill": 10
+   },
+   "expected": {
+    "hit": 16
+   },
+   "note": "Ganzzahldivision trunc (suspected); Wurf rnd(100) < hit"
+  },
+  {
+   "id": "K203",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md Spielertreffer",
+   "input": {
+    "f": "playerHit",
+    "LVL": 1,
+    "AGI": 5,
+    "FOOD": 0,
+    "AGI_t": 20,
+    "loc172": 7,
+    "skill": 4
+   },
+   "expected": {
+    "hit": -11
+   },
+   "note": "Ganzzahldivision trunc (suspected); Wurf rnd(100) < hit"
+  },
+  {
+   "id": "K204",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md",
+   "input": {
+    "f": "playerHit",
+    "LVL": 5,
+    "AGI": 18,
+    "FOOD": 80,
+    "AGI_t": 10,
+    "loc172": 0,
+    "skill": 50,
+    "blind": true
+   },
+   "expected": {
+    "hit": 20
+   }
+  },
+  {
+   "id": "K205",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md Faust",
+   "input": {
+    "f": "fist",
+    "STR": 20,
+    "CON_t": 6,
+    "ARM_t": 3
+   },
+   "expected": {
+    "dmg": 4
+   }
+  },
+  {
+   "id": "K206",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md Faust clamp",
+   "input": {
+    "f": "fist",
+    "STR": 5,
+    "CON_t": 9,
+    "ARM_t": 3
+   },
+   "expected": {
+    "dmg": 0
+   }
+  },
+  {
+   "id": "K207",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md Waffe",
+   "input": {
+    "f": "weapon",
+    "STR": 20,
+    "CON_t": 6,
+    "ARM_t": 3,
+    "die": 10,
+    "seed": 4660
+   },
+   "expected": {
+    "dmg": 13
+   }
+  },
+  {
+   "id": "K208",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md Waffe clamp",
+   "input": {
+    "f": "weapon",
+    "STR": 2,
+    "CON_t": 30,
+    "ARM_t": 9,
+    "die": 4,
+    "seed": 0
+   },
+   "expected": {
+    "dmg": 0
+   }
+  },
+  {
+   "id": "K209",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md Monstertreffer",
+   "input": {
+    "f": "monsterHit",
+    "LVL_m": 4,
+    "AGI_p": 10,
+    "AGI_m": 12
+   },
+   "expected": {
+    "hit": 54
+   }
+  },
+  {
+   "id": "K210",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md Monsterschaden",
+   "input": {
+    "f": "monsterDmg",
+    "STR_m": 15,
+    "CON_p": 10,
+    "ARM_p": 4,
+    "seed": 7
+   },
+   "expected": {
+    "dmg": 3
+   }
+  },
+  {
+   "id": "K211",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md Monsterschaden dmax<=0 -> 1",
+   "input": {
+    "f": "monsterDmg",
+    "STR_m": 1,
+    "CON_p": 20,
+    "ARM_p": 4,
+    "seed": 7
+   },
+   "expected": {
+    "dmg": 1
+   },
+   "note": "rnd(0)=0 angenommen"
+  },
+  {
+   "id": "K212",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md halbiert bei 0x2e56",
+   "input": {
+    "f": "monsterDmg",
+    "STR_m": 15,
+    "CON_p": 10,
+    "ARM_p": 4,
+    "seed": 7,
+    "half": true
+   },
+   "expected": {
+    "dmg": 1
+   },
+   "note": "Rundung beim Halbieren unbestätigt"
+  },
+  {
+   "id": "K213",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md XP; ENCB-Diff (+3/+4)",
+   "input": {
+    "f": "xp",
+    "LVL_t": 9,
+    "killer": 1,
+    "alive": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "expected": {
+    "xp": [
+     2,
+     4,
+     2,
+     2,
+     2
+    ]
+   }
+  },
+  {
+   "id": "K214",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md XP nur Lebende",
+   "input": {
+    "f": "xp",
+    "LVL_t": 12,
+    "killer": 0,
+    "alive": [
+     1,
+     0,
+     1,
+     1,
+     0
+    ]
+   },
+   "expected": {
+    "xp": [
+     5,
+     0,
+     3,
+     3,
+     0
+    ]
+   }
+  },
+  {
+   "id": "K215",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md Food -1 pro Schlag; ENCB c0 -7",
+   "input": {
+    "f": "food",
+    "FOOD": 80,
+    "swings": 7
+   },
+   "expected": {
+    "food": 73
+   }
+  },
+  {
+   "id": "K216",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md Tod schreibt 0x449a/0x36ac/0x3a24/0x4b80",
+   "input": {
+    "f": "death",
+    "actor": 91,
+    "contactSlot": 1,
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 6872,
+      "u8": 21
+     },
+     {
+      "offset": 3443,
+      "be16": 72
+     },
+     {
+      "offset": 7577,
+      "u8": 91
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "6872": 0,
+     "3444": 0,
+     "7577": 0
+    }
+   },
+   "note": "0x3a24 nicht im Save abgebildet (nicht geprüft); ENCB: Wort 3443/44 72->0 (High-Byte bleibt 0), 6872 21->0"
+  },
+  {
+   "id": "K217",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md Monster-Cooldown",
+   "input": {
+    "f": "monsterCooldown",
+    "AGI_m": 7,
+    "ticksPerHour": 1000
+   },
+   "expected": {
+    "cooldown": 10
+   }
+  },
+  {
+   "id": "K218",
+   "contract": "combat-ishar2",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar2.json/.md Spieler-Cooldown",
+   "input": {
+    "f": "playerCooldown",
+    "T": 4,
+    "skill": 50,
+    "ticksPerHour": 1000
+   },
+   "expected": {
+    "cooldown": 32
+   }
+  },
+  {
+   "id": "K219",
+   "contract": "combat-ishar2",
+   "status": "unknown",
+   "source": "quesh/combat-contract-ishar2.json/.md \"Trefferchancen im Original offen\"",
+   "input": {
+    "f": "hitChanceObserved"
+   },
+   "expected": {
+    "unknown": true
+   },
+   "note": "Keine Original-Statistik; nicht erfinden"
+  },
+  {
+   "id": "K101",
+   "contract": "combat-ishar1",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar1.json/.md Spielertreffer",
+   "input": {
+    "f": "playerHit",
+    "LVL": 4,
+    "AGI": 16,
+    "FOOD": 80,
+    "AGI_t": 12,
+    "loc146": 5,
+    "skill": 30
+   },
+   "expected": {
+    "hit": 59
+   }
+  },
+  {
+   "id": "K102",
+   "contract": "combat-ishar1",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar1.json/.md Schaden mit Waffe",
+   "input": {
+    "f": "dmg",
+    "bonus": 5,
+    "ARM_t": 2,
+    "STR": 18,
+    "CON_t": 6,
+    "seed": 4660
+   },
+   "expected": {
+    "dmg": 9
+   }
+  },
+  {
+   "id": "K103",
+   "contract": "combat-ishar1",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar1.json/.md Schaden ohne Waffe (bonus -3)",
+   "input": {
+    "f": "dmg",
+    "bonus": -3,
+    "ARM_t": 4,
+    "STR": 10,
+    "CON_t": 6,
+    "seed": 3
+   },
+   "expected": {
+    "dmg": 0
+   },
+   "note": "ENCA: 1 HP pro Treffer"
+  },
+  {
+   "id": "K104",
+   "contract": "combat-ishar1",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar1.json/.md Monstertreffer",
+   "input": {
+    "f": "monsterHit",
+    "T_m": 3,
+    "AGI_p": 10,
+    "AGI_m": 8
+   },
+   "expected": {
+    "hit": 49
+   }
+  },
+  {
+   "id": "K105",
+   "contract": "combat-ishar1",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar1.json/.md XP",
+   "input": {
+    "f": "xp",
+    "T": 4,
+    "killer": 2,
+    "alive": [
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "expected": {
+    "xp": [
+     80,
+     80,
+     200,
+     0
+    ]
+   }
+  },
+  {
+   "id": "K106",
+   "contract": "combat-ishar1",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar1.json/.md R6 Schwellen/Kappe (FRISE 0x06f23)",
+   "input": {
+    "f": "levelUp",
+    "prevXP": 650,
+    "XP": 700,
+    "LVL": 1
+   },
+   "expected": {
+    "XP": 700,
+    "LVL": 2
+   },
+   "note": "Prüfung prev < T <= XP; bei XP == prev keine Prüfung"
+  },
+  {
+   "id": "K107",
+   "contract": "combat-ishar1",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar1.json/.md R6 Schwellen/Kappe (FRISE 0x06f23)",
+   "input": {
+    "f": "levelUp",
+    "prevXP": 690,
+    "XP": 1800,
+    "LVL": 1
+   },
+   "expected": {
+    "XP": 1800,
+    "LVL": 3
+   },
+   "note": "Prüfung prev < T <= XP; bei XP == prev keine Prüfung"
+  },
+  {
+   "id": "K108",
+   "contract": "combat-ishar1",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar1.json/.md R6 Schwellen/Kappe (FRISE 0x06f23)",
+   "input": {
+    "f": "levelUp",
+    "prevXP": 29000,
+    "XP": 32000,
+    "LVL": 9
+   },
+   "expected": {
+    "XP": 31000,
+    "LVL": 10
+   },
+   "note": "Prüfung prev < T <= XP; bei XP == prev keine Prüfung"
+  },
+  {
+   "id": "K109",
+   "contract": "combat-ishar1",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar1.json/.md R6 Schwellen/Kappe (FRISE 0x06f23)",
+   "input": {
+    "f": "levelUp",
+    "prevXP": 5000,
+    "XP": 5000,
+    "LVL": 5
+   },
+   "expected": {
+    "XP": 5000,
+    "LVL": 5
+   },
+   "note": "Prüfung prev < T <= XP; bei XP == prev keine Prüfung"
+  },
+  {
+   "id": "K110",
+   "contract": "combat-ishar1",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar1.json/.md Monster-Cooldown",
+   "input": {
+    "f": "monsterCooldown",
+    "AGI_m": 9,
+    "seed": 4660
+   },
+   "expected": {
+    "cooldown": 7
+   },
+   "note": "RNG-Reihenfolge rnd100, rnd(dmax) bei Treffer, rnd5"
+  },
+  {
+   "id": "K111",
+   "contract": "combat-ishar1",
+   "status": "suspected",
+   "source": "quesh/combat-contract-ishar1.json/.md Save-Offsets (5216 B)",
+   "input": {
+    "f": "offsets",
+    "char": 2,
+    "mon": 3
+   },
+   "expected": {
+    "xp": 462,
+    "hp": 472,
+    "gold": 482,
+    "maxhp": 492,
+    "lvl": 740,
+    "str": 745,
+    "con": 750,
+    "agi": 765,
+    "food": 775,
+    "arm": 785,
+    "monHp": 1734,
+    "monT": 2711
+   }
+  },
+  {
+   "id": "K112",
+   "contract": "combat-ishar1",
+   "status": "unknown",
+   "source": "quesh/combat-contract-ishar1.json/.md L_072f2",
+   "input": {
+    "f": "levelGains"
+   },
+   "expected": {
+    "unknown": true
+   },
+   "note": "Stat/HP-Zuwachs beim Levelaufstieg nicht dekodiert"
+  },
+  {
+   "id": "S01",
+   "contract": "savefields-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md (Gold 1006+2c / 1026+2c, pro Charakter; HOTGLD 12/345)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 1006,
+      "be16": 12
+     },
+     {
+      "offset": 1026,
+      "be16": 345
+     }
+    ],
+    "read": "gold",
+    "char": 0
+   },
+   "expected": {
+    "value": 12345
+   }
+  },
+  {
+   "id": "S02",
+   "contract": "savefields-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md (Referenz Bragl 132/345)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 1008,
+      "be16": 132
+     },
+     {
+      "offset": 1028,
+      "be16": 345
+     }
+    ],
+    "read": "gold",
+    "char": 1
+   },
+   "expected": {
+    "value": 132345
+   }
+  },
+  {
+   "id": "S03",
+   "contract": "savefields-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md (pro Charakter, keine Gruppensumme)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 1008,
+      "be16": 132
+     },
+     {
+      "offset": 1028,
+      "be16": 345
+     }
+    ],
+    "read": "gold",
+    "char": 0
+   },
+   "expected": {
+    "value": 0
+   }
+  },
+  {
+   "id": "S04",
+   "contract": "savefields-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md (Schreiben)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     }
+    ],
+    "write": "gold",
+    "char": 4,
+    "value": 7008
+   },
+   "expected": {
+    "changes": {
+     "1015": 7,
+     "1035": 8
+    }
+   },
+   "note": "Tausender 1014/15, Rest 1034/35"
+  },
+  {
+   "id": "S05",
+   "contract": "savefields-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md (XP 986+2c, Anzeige x100)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 986,
+      "be16": 620
+     }
+    ],
+    "read": "xpDisplay",
+    "char": 0
+   },
+   "expected": {
+    "value": 62000
+   }
+  },
+  {
+   "id": "S06",
+   "contract": "savefields-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 992,
+      "be16": 539
+     }
+    ],
+    "read": "xpDisplay",
+    "char": 3
+   },
+   "expected": {
+    "value": 53900
+   }
+  },
+  {
+   "id": "S07",
+   "contract": "savefields-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md (Level 1291+c Byte)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 1293,
+      "u8": 7
+     }
+    ],
+    "read": "level",
+    "char": 2
+   },
+   "expected": {
+    "value": 7
+   }
+  },
+  {
+   "id": "S08",
+   "contract": "savefields-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md (HP 996+2c; Vitalität 87)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 996,
+      "be16": 87
+     }
+    ],
+    "read": "hp",
+    "char": 0
+   },
+   "expected": {
+    "value": 87
+   }
+  },
+  {
+   "id": "S09",
+   "contract": "savefields-ishar2",
+   "status": "suspected",
+   "source": "quesh/pickup-contract-ishar2.md (0x2f0e = 1336+c, Byte)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 1337,
+      "u8": 12
+     }
+    ],
+    "read": "armour",
+    "char": 1
+   },
+   "expected": {
+    "value": 12
+   }
+  },
+  {
+   "id": "S10",
+   "contract": "savefields-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER8.md / CONT_WRITEBACK_2.md (Kopf: Reihe 2, Spalte 4, Blick 6, Karte 8, Zone 18; BE16)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 2,
+      "be16": 61
+     },
+     {
+      "offset": 4,
+      "be16": 15
+     },
+     {
+      "offset": 6,
+      "be16": 2
+     },
+     {
+      "offset": 8,
+      "be16": 5
+     },
+     {
+      "offset": 18,
+      "be16": 36
+     }
+    ],
+    "read": "header"
+   },
+   "expected": {
+    "value": {
+     "row": 61,
+     "col": 15,
+     "facing": 2,
+     "map": 5,
+     "zone": 36
+    }
+   }
+  },
+  {
+   "id": "S11",
+   "contract": "savefields-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md (Uhr)",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 44,
+      "be16": 13
+     },
+     {
+      "offset": 46,
+      "be16": 2
+     },
+     {
+      "offset": 48,
+      "be16": 957
+     }
+    ],
+    "read": "clock"
+   },
+   "expected": {
+    "value": {
+     "hour": 13,
+     "day": 2,
+     "ticks": 957
+    }
+   }
+  },
+  {
+   "id": "S12",
+   "contract": "savefields-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md Punkt 7 (HOTXC2 vs HOTXPC: nur 49/50 cmp = 48/49 ab0)",
+   "input": {
+    "diffOffsets": [
+     48,
+     49
+    ]
+   },
+   "expected": {
+    "roundtripOk": true
+   }
+  },
+  {
+   "id": "S13",
+   "contract": "savefields-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_CONT_WRITEBACK_2.md (HOTTU1 vs GRIMZEL: nur 45, 49/50 cmp)",
+   "input": {
+    "diffOffsets": [
+     44,
+     48,
+     49
+    ]
+   },
+   "expected": {
+    "roundtripOk": true
+   }
+  },
+  {
+   "id": "S14",
+   "contract": "savefields-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md Punkt 7 (Gold/XP bleiben byte-genau)",
+   "input": {
+    "diffOffsets": [
+     48,
+     49,
+     1007
+    ]
+   },
+   "expected": {
+    "roundtripOk": false
+   },
+   "note": "Negativvektor: Änderung ausserhalb der Uhr verletzt den Roundtrip"
+  },
+  {
+   "id": "S15",
+   "contract": "savefields-ishar2",
+   "status": "suspected",
+   "source": "Annahme: Stundenwechsel während Laden/Speichern ändert auch Tag/Phase (90..93)",
+   "input": {
+    "diffOffsets": [
+     45,
+     47,
+     49,
+     91,
+     93
+    ]
+   },
+   "expected": {
+    "roundtripOk": true
+   },
+   "note": "Phase-Bytes nur bei Stundenwechsel; nicht im Original gezielt getestet"
+  },
+  {
+   "id": "S16",
+   "contract": "savefields-ishar2",
+   "status": "known",
+   "source": "Größe 8359 Byte (IO.IO Größenprüfung; save_layout)",
+   "input": {
+    "saveSize": true
+   },
+   "expected": {
+    "size": 8359
+   }
+  }
+ ]
+}
