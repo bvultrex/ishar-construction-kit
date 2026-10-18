@@ -1,5 +1,9 @@
 # Technischer Iststand
 
+[Leere Objektgruppen](EMPTY_OWNER_FRAMES.md): Der echte erste Ishar-1-Frame
+kehrt nach Verarbeitung beider leerer Gruppen zurück. Der folgende Frame
+wartet nativ identisch bei 3D64 auf den Timer; noch kein gezeichnetes Ishar-1-Bild.
+
 Neueste Korrektur: [AUDIO_QUIESCE.md](AUDIO_QUIESCE.md) identifiziert 8ADB als
 Audio-Stopp. Ishar 1 erreicht nun 202 verglichene MAIN-Befehle, Yield, Callback
 und die erste sichtbare Objektgrenze 3DE4; kein fertiges Ishar-1-Bild behauptet.

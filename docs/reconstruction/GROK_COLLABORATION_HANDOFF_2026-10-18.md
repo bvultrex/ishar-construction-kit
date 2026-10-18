@@ -1,12 +1,17 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**Neueste Fortsetzung:** EMPTY_OWNER_FRAMES.md weist die erste vollständige
+Ishar-1-Frame-Rückkehr mit zwei leeren Gruppen nach. Der nächste Frame wartet
+bei 3D64 auf den Timer. Codex bearbeitet den echten Timer-/IRQ-Anschluss;
+die Helferaufteilung unten bleibt gültig. Noch kein gerendertes Ishar-1-Bild.
+
 **Korrektur nach weiterer Originalanalyse:** 1000:8ADB/8AE4 ist kein
 Laufwerksdialog, sondern Audio-Stopp vor DOS-Zugriffen. Die unten genannte
 Dialog-Deutung beschreibt den inzwischen widerlegten Stand des Basiscommits.
 Aktuell gelten AUDIO_QUIESCE.md und STARTUP_AUDIO_QUIESCE_NATIVE_2026-10-18.json:
 Ishar 1 erreicht 202 MAIN-Befehle, Yield, Callback und Objektgrenze 3DE4.
 Codex bearbeitet diese originale Start-/Audio-/Grafikverbindung weiter;
-die vorgeschlagenen Helferaufgaben und Dateigrenzen bleiben g�ltig.
+die vorgeschlagenen Helferaufgaben und Dateigrenzen bleiben gültig.
 
 Stand: 2026-10-18. Technische Ausgangsbasis:
 `319819c83d8dfe30675bba3ad8a51b43c3afc871`.
