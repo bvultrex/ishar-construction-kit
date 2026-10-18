@@ -2708,3 +2708,50 @@ This establishes the native startup-to-root return on the controlled device
 profile, not a fully reconstructed boot or visible game frame. Next: resume
 2607 scheduler and supported MAIN execution on these states, then follow
 frames with the already initialized VGA target/pitch instead of null targets.
+
+
+### Shared scheduler/expression and actual-startup MAIN prefix (2026-10-18)
+
+The actual20EE context segment's64KiB window overlaps the global segment
+window, although their ordinary active records are separated. The former
+MAIN scheduler and context continuation rejected any such window overlap.
+`original-dos-shared-scheduler.ts` replaces that restriction with direct
+instruction-order reads/writes on one physical image:264C/264F..26AF and
+3C76 snapshot. Clearing C96/C19 happens before reading context flags;
+snapshot words are read and written sequentially, so genuine aliases remain
+visible. MAIN2607 setup and later physical-context continuation reuse it.
+The scan branch now also returns the actual BX scan offset instead of an
+unconditional zero. No callback is executed by this preparation helper.
+
+Native comparison covers576 cases per game: identical,16-byte-offset
+overlapping, actual20EE and disjoint context windows; flags aliasing C19,
+snapshot ranges, scan0/16, active/delay states and both264C/264F entries.
+Full1MiB except FEC0..FEFF stack scratch, BP/SI/BX/DS/ES/SP and immutable
+source match. Evidence: SHARED_SCHEDULER_NATIVE_2026-10-18.json.
+Reproduce: `check-native-dos-shared-scheduler.py CAPTURE`.
+
+Opcode31 also rejected overlapping windows. Its new physical expression
+wrapper evaluates the existing reconstructed expression core using shared
+views into a private1MiB transaction. Operand-stack/string-buffer writes
+are immediately visible to subsequent aliased reads. Failure leaves the
+caller image unchanged; the existing disjoint segment API remains immutable.
+No unsupported operand or external service is synthesized.
+
+`check-native-dos-startup-main-script.py PRIVATE_ROOT_DIRECTORY` resumes the
+six previously verified2607 checkpoints without resetting globals/registers.
+It compares the scheduler and every supported opcode against native execution,
+including full physical memory except07A8..07ED active stack scratch and
+DS/ES/SI/BP/DX/CX/SP. Original entry saves07EE..07FF remain compared. There
+are145 matched opcodes for each of fourIshar1 states and134 for each of two
+Ishar2 states (848 matched opcode transitions total), plus six schedulers.
+Evidence: STARTUP_MAIN_SCRIPT_NATIVE_2026-10-18.json. Existing MAIN scheduler
+and physical-script checks and Typecheck pass.
+
+The next real boundaries differ from the old synthetic zero-global tests:
+Ishar1 reaches expression156 requiring explicit DOS FindFirst; Ishar2 reaches
+opcode188's fade branch5CF4 because actual graphics flags are initialized.
+These are precise continuation points, not skipped operations. No IRQ or
+external service is injected during this prefix. Next: implement/verify that
+original palette-fade continuation and the explicit FindFirst interaction,
+then follow callback/frame execution with the true VGA target and pitch.
+Full game startup and visible frame remain unproven.

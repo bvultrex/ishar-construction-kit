@@ -15,7 +15,7 @@ assert.equal(result.memory[context+0x280-4],1);assert.equal(result.memory[contex
 const out=new DataView(result.memory.buffer);assert.equal(out.getUint16(global+0xbfa,true),0x79);assert.equal(out.getUint16(global+0xc00,true),0x45);
 assert.equal(out.getUint16(global+0xc58,true),0x802);assert.equal(out.getUint16(global+0xc5a,true),0x902);assert.equal(out.getUint16(global+0xc5c,true),0xa02);assert.equal(out.getUint16(global+0xc80,true),0x1e7e);
 assert.deepEqual(memory,before);
-assert.throws(()=>prepare(memory,0x3000,0x3000,0x4000),/Overlapping/);
-assert.throws(()=>prepare(memory,0x1c0b,0xffff,0x4000),/physical window/);
-v.setUint16(global+0xbd2,0xffff,true);assert.throws(()=>prepare(memory,0x1c0b,0x3000,0x4000),/straddles/);
+assert.doesNotThrow(()=>prepare(memory,0x3000,0x3000,0x4000));
+assert.throws(()=>prepare(memory,0x1c0b,0xffff,0x4000),/bounded real-mode window/);
+v.setUint16(global+0xbd2,0xffff,true);assert.throws(()=>prepare(memory,0x1c0b,0x3000,0x4000),/bounded real-mode window/);
 console.log('MAIN scheduler stored root, raw null, snapshot, string buffers and guarded windows passed');

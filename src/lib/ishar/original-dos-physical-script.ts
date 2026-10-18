@@ -1,7 +1,7 @@
 import {branchOriginalDosScript} from './original-dos-script-branch.ts';
 import {branchOriginalDosScriptConditional} from './original-dos-script-conditional.ts';
 import {returnOriginalDosScript} from './original-dos-script-return.ts';
-import {evaluateOriginalDosScriptExpression} from './original-dos-script-expression.ts';
+import {evaluateOriginalDosPhysicalExpression} from './original-dos-script-expression.ts';
 import {createOriginalDosScriptObject} from './original-dos-script-object.ts';
 import {writeOriginalDosPhysicalScriptBlock} from './original-dos-script-block.ts';
 import {assignOriginalDosIndexedValue} from './original-dos-indexed-assignment.ts';
@@ -56,9 +56,8 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
   memory=next.memory;registers.si=next.registers.si;registers.dx=next.registers.dx;registers.cx=next.registers.cx;
  }else if(opcode===30){const next=assignOriginalDosIndexedValue(memory,ss,{ds:input.ds,es:input.es,si:after,bp:input.bp,dx:input.dx});memory=next.memory;Object.assign(registers,{si:next.registers.si,dx:next.registers.dx,cx:next.registers.cx});}
  else if(opcode===31){
-  if(globalAt<contextAt+65536&&contextAt<globalAt+65536||globalAt<scriptAt+65536&&scriptAt<globalAt+65536)throw Error('Expression globals alias needs shared operand reconstruction');
-  const next=evaluateOriginalDosScriptExpression(script(),context(),after,input.bp,input.dx,65536,globals(),undefined,{keyByte,shiftFlags:bios?.shiftFlags});
-  memory.set(next.globals!,globalAt);registers.si=next.si;registers.dx=next.dx;registers.cx=next.cx;
+  const next=evaluateOriginalDosPhysicalExpression(memory,ss,{...input,si:after},{keyByte,shiftFlags:bios?.shiftFlags});
+  memory=next.memory;registers.si=next.si;registers.dx=next.dx;registers.cx=next.cx;
  }else throw Error(`Original opcode${opcode} is not connected to physical script execution`);
  return {memory,registers,status,opcode};
 }

@@ -12,10 +12,10 @@ export function queryOriginalDosModeValue(mode:number){
  * Shared DX/CX follow native calls, including nested operands; no JavaScript coercion.
  * DF0, bounded source, disjoint context. Limits are host safeguards, not native checks.
  */
-export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Uint8Array,si:number,bp:number,initialDx:number,sourceLength=65536,globals?:Uint8Array,fileSearch?:OriginalDosFileSearch,input?:{keyByte?:number;shiftFlags?:number}){
+function evaluateExpressionCore(script:Uint8Array,context:Uint8Array,si:number,bp:number,initialDx:number,sourceLength=65536,globals?:Uint8Array,fileSearch?:OriginalDosFileSearch,input?:{keyByte?:number;shiftFlags?:number},shared=false){
  if(script.length!==65536||context.length!==65536||![si,bp,initialDx].every(v=>Number.isInteger(v)&&v>=0&&v<=65535))throw Error('Invalid native expression inputs');
  if(globals!==undefined&&globals.length!==65536)throw Error('Expected original global segment');
- let dx=initialDx,cx=initialDx,tokens=0,bx=0x277c;const nextGlobals=globals?.slice();
+ let dx=initialDx,cx=initialDx,tokens=0,bx=0x277c;const nextGlobals=shared?globals:globals?.slice();
  if(!Number.isInteger(sourceLength)||sourceLength<1||sourceLength>65536)throw Error('Invalid native expression source length');
  const signed=(v:number)=>v>=32768?v-65536:v;
  function operand(call:boolean,depth:number):void{
@@ -110,4 +110,20 @@ export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Ui
   throw Error(`Native expression tag ${tag} is not reconstructed here`);
  }
  operand(true,0);return {si,dx,cx,tokens,globals:nextGlobals};
+}
+
+/** Existing disjoint-segment API; inputs remain immutable. */
+export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Uint8Array,si:number,bp:number,initialDx:number,sourceLength=65536,globals?:Uint8Array,fileSearch?:OriginalDosFileSearch,input?:{keyByte?:number;shiftFlags?:number}){
+ const result=evaluateExpressionCore(script,context,si,bp,initialDx,sourceLength,globals,fileSearch,input);
+ return {...result,globals:result.globals?.slice()};
+}
+/** Opcode31 expression with shared physical views, on a private transaction.
+ * Writes to operand stack/string buffers are immediately visible to aliased
+ * context/script reads; errors never mutate the caller image.
+ */
+export function evaluateOriginalDosPhysicalExpression(source:Uint8Array,ss:number,input:{ds:number;es:number;si:number;bp:number;dx:number},external?:{keyByte?:number;shiftFlags?:number}){
+ if(source.length!==0x100000||![ss,...Object.values(input)].every(x=>Number.isInteger(x)&&x>=0&&x<=65535)||[ss,input.ds,input.es].some(s=>s*16+65536>source.length))throw Error('Invalid physical expression state');
+ const memory=source.slice(),view=(segment:number)=>memory.subarray(segment*16,segment*16+65536);
+ const result=evaluateExpressionCore(view(input.ds),view(input.es),input.si,input.bp,input.dx,65536,view(ss),undefined,external,true);
+ return {memory,si:result.si,dx:result.dx,cx:result.cx,tokens:result.tokens};
 }
