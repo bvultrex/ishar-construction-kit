@@ -33,7 +33,7 @@ for path in paths:
    returned={'registers':sprite['registers'],'di':sprite['di'],'entry':0x430a,'stackDelta':6,'hash':sprite['hash']}
    compare(sprite['graphicsSegment']*16+sprite['entry'],returned,0x1430a)
    steps.append({'advance':advanced,'sprite':sprite,'earlyReturn':returned});continue
-  if sprite['phase']!='format' or sprite['type'] not in [0,1,16,20] or (sprite.get('mirror',0)!=0 and sprite['type']!=20):
+  if sprite['phase']!='format' or sprite['type'] not in [0,1,16,20] or (sprite.get('mirror',0)!=0 and sprite['type'] not in [0,16,20]):
    assert a.stop_unsupported,('unsupported sprite boundary',sprite.get('phase'),sprite.get('type'),sprite.get('entry'))
    unsupported_type=sprite.get('type');steps.append({'advance':advanced,'sprite':sprite,'unsupportedFormat':unsupported_type});break
   drawn=model('dos-solid-blit-vector.mjs' if sprite['type']==1 else 'dos-byte-blit-vector.mjs' if sprite['type']==20 else 'dos-nibble-blit-vector.mjs',{'di':sprite['di']});writes=[0];target_base=drawn['destination']['segment']*16

@@ -1,9 +1,9 @@
 import type {OriginalDosPhysicalScriptRegisters} from './original-dos-physical-script.ts';
-/** VGA type0 normal0531 and type16 normal0553..05A9, helper038B..0481,
+/** VGA type0 0531/0541 and type16 0553/05AA, helper038B..0481,
  * far return430A. Type0 has a six-byte header and fixed zero palette base;
  * type16 has an eight-byte header and updates CS:30 from its palette field.
  * Two4-bit pixels per byte, zero nibble transparent, nonzero plus palette base.
- * DF0 entry; mirrored0541/05AA are outside this entry contract.
+ * DF0 entry; mirrored0541/05AA follow the same packed source order.
  */
 export function blitOriginalDosNibbleSprite(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters,record:number,graphicsSegment=0x1e97){
  if(source.length!==0x100000||![ss,record,graphicsSegment,...Object.values(input)].every(x=>Number.isInteger(x)&&x>=0&&x<=65535))throw Error('Invalid nibble sprite inputs');
@@ -13,22 +13,29 @@ export function blitOriginalDosNibbleSprite(source:Uint8Array,ss:number,input:Or
  const w=(s:number,o:number,value?:number)=>{const at=address(s,o,true);if(value!==undefined){memory[at]=value&255;memory[at+1]=(value>>>8)&255;}return memory[at]|memory[at+1]<<8;};
  const g=(at:number)=>w(ss,at),ds=input.ds,pool=input.es,originalSi=input.si;
  const type=b(ds,originalSi);
- if(![0,16].includes(type)||(b(pool,record+34)&1)!==0)throw Error('Expected normal unmirrored type0/type16');
+ if(![0,16].includes(type))throw Error('Expected type0/type16');
+ const mirrored=(b(pool,record+34)&1)!==0;
  if(type===16)b(graphicsSegment,0x30,b(ds,originalSi+6));let sourceStride=u(w(ds,originalSi+2)-g(0xc30)+g(0xc2c))>>>1;
- const pitch=g(0x1dd5),stride=u(pitch-1-g(0xc30)+g(0xc2c)),rawWidth=u(g(0xc30)-g(0xc2c)+1),width=rawWidth||65536,rawRows=u(g(0xc32)-g(0xc2e)+1),rows=rawRows||65536;
+ const pitch=g(0x1dd5),stride=u(mirrored?pitch+1+g(0xc30)-g(0xc2c):pitch-1-g(0xc30)+g(0xc2c)),rawWidth=u(g(0xc30)-g(0xc2c)+1),width=rawWidth||65536,rawRows=u(g(0xc32)-g(0xc2e)+1),rows=rawRows||65536;
  if(width*rows>0x100000)throw Error('Nibble sprite exceeds host pixel bound');
  b(graphicsSegment,0x31,0);let offset=0,delta=u(g(0xc2e)-w(pool,record+14));
  if(signed(delta)>0)offset=u(delta*u(w(ds,originalSi+2)+1))>>>1;
- delta=u(g(0xc2c)-w(pool,record+12));if(signed(delta)>0){if(delta&1){b(graphicsSegment,0x31,1);if((rawWidth&1)===0)sourceStride=u(sourceStride-1);}offset=u(offset+(delta>>>1));}
+ delta=u(g(0xc2c)-w(pool,record+12));if(signed(delta)>0){if(delta&1){b(graphicsSegment,0x31,1);if((rawWidth&1)===0)sourceStride=u(sourceStride-1);}if(mirrored)b(graphicsSegment,0x31,0);offset=u(offset+(mirrored?-(delta>>>1):(delta>>>1)));}
+ if(mirrored){
+  const remaining=u(w(ds,originalSi+2)+w(pool,record+12)-g(0xc30));
+  if(signed(remaining)>0&&(remaining&1)){b(graphicsSegment,0x31,1);if((rawWidth&1)===0)offset=u(offset-1);}
+  offset=u(offset+(u(w(ds,originalSi+2)+1-rawWidth)>>>1));
+ }
  w(graphicsSegment,0x2c,sourceStride);w(graphicsSegment,0x2e,stride);
  let si=u(originalSi+(type===0?6:8)+offset),di=u(g(0x1dbf)+u(g(0xc2e)*pitch)+g(0xc2c));const start=di,destinationSegment=g(0x1dc1);let pixelWrites=0;
+ if(mirrored)di=u(di+rawWidth);
  for(let row=0;row<rows;row++){
   let low=b(graphicsSegment,0x31)!==0,packed=0;
   for(let x=0;x<width;x++){
    if(!low||x===0){packed=b(ds,si);si=u(si+1);}
    const color=low?packed&15:packed>>>4;
-   if(color!==0){const at=address(destinationSegment,di);if(at>=graphicsSegment*16&&at<graphicsSegment*16+65536)throw Error('Nibble destination aliases graphics code');memory[at]=(color+(type===0?0:b(graphicsSegment,0x30)))&255;pixelWrites++;}
-   di=u(di+1);low=!low;
+   if(color!==0){const at=address(destinationSegment,mirrored?u(di-1):di);if(at>=graphicsSegment*16&&at<graphicsSegment*16+65536)throw Error('Nibble destination aliases graphics code');memory[at]=(color+(type===0?0:b(graphicsSegment,0x30)))&255;pixelWrites++;}
+   di=u(di+(mirrored?-1:1));low=!low;
   }
   si=u(si+w(graphicsSegment,0x2c));di=u(di+w(graphicsSegment,0x2e));
  }

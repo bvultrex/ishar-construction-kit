@@ -1,3 +1,7 @@
+## Milestone: actual mirrored LOGO frame completed
+
+Reconstructed original mirrored packed-pixel type0/type16 handlers0541/05AA and clipping helper038B. All2880 native fixture comparisons across Ishar1/2 passed; typecheck passed. Actual Ishar1 LOGO:0081 and008D/167 now run through full record processing, VGA presentation and saved frame return, without forced context state. Original indexed output/DAC preview visually checked. See `MIRRORED_NIBBLE_RENDER.md` for hashes, evidence boundaries and private continuation checkpoint. Next: LOGO0099 onward, random assignment and audio; full boot/browser integration remain open.
+
 ## Update: skipped context continuation corrected
 
 The prior operand22/opcode188 report came from the replay runner dispatching script bytes after a scheduler `skip` boundary. It was not a demonstrated engine opcode failure. Added instruction-order shared-memory next-slot selection at 2632 and verified its actual full-memory/register transition. The runner now follows skip -> next slot -> frame, including one explicit original IRQ with the controlled DOSBox BIOS adapter, instead of dispatching a skipped context. After the next MAIN polling/callback pass, actual LOGO:0081 executes commands73/66 and reaches record processing3DE4; its saved next opcode is167 at008D. Typecheck passed. Pixel processing of this resource11 frame and the following mirrored frame remain pending. Private actual checkpoint: `startup-logo-resource11-actual-object-ishar1-2026-10-18`; use its authenticated JSON metadata.
