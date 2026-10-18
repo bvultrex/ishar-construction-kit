@@ -6,7 +6,7 @@ This identifies the observed configuration, not an entire game version.
 
 Seven tag/value pairs use one byte each. Tags at offsets0,2,4,6,8,10,12
 must be R,V,S,P,J,M,K. Values occupy the following bytes. No compression or
-terminator is required by the verified Ishar2 read/decode. That routine requests
+terminator is required by the separately verified Ishar1 and Ishar2 read/decode. That routine requests
 14 bytes; its handling of short successful DOS reads remains unverified.
 
 | Tag | Ishar2 bounded decoder behavior |
@@ -21,7 +21,8 @@ terminator is required by the verified Ishar2 read/decode. That routine requests
 
 Names for opaque parameters are deliberately not inferred from tag letters.
 Ishar1 has an identical supplied file but a different configuration code layout;
-the table above is not a verification of its runtime semantics.
+its EC2..1043 decode is now separately verified with267 cases and follows
+the same field rules. Ishar2 uses F43..10C4.
 
 `startup-settings.ts` reads/writes the structure without normalizing values.
 Unknown values, R and trailing bytes survive unchanged. Invalid tags or a file
@@ -59,6 +60,14 @@ Reopening this exported file feeds four video variants into the original Ishar2
 decode, alongside263 controlled cases: all267 pass exact full-memory comparison.
 Evidence: STARTUP_SETTINGS_RESOURCE_NATIVE_2026-10-18.json. Original files and
 exported resource bytes remain outside the repository.
+
+The complete file routines are additionally tested at Ishar1 E96..1044 and
+Ishar2 EFC..10E0 with60 cases each: three handles, five read lengths and
+open/read/close success or failure. Ishar2 selects its saved drive before and
+after loading; Ishar1 does not. Successful short reads leave the buffer tail
+unchanged and are not rejected by the original. A read error skips close.
+The API requires explicit DOS replies and does not access the host filesystem.
+Evidence: STARTUP_CONFIGURATION_FILE_NATIVE_2026-10-18.json.
 
 This proves resource round-trip and native decoder compatibility. It does not prove
 the full configuration UI, device probing, complete game boot or a visible change.

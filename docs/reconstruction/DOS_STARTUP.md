@@ -2155,3 +2155,26 @@ Reproduce: check-native-dos-startup-configuration.py ISHAR2_CAPTURE. Evidence:
 STARTUP_CONFIGURATION_NATIVE_2026-10-18.json. Ishar1 calls23D7:1AFA instead
 of1BCE and does not share this code layout; its decode remains unimplemented.
 The checker rejects the Ishar1 capture rather than claiming shared support.
+
+## Both configuration file routines verified (2026-10-18)
+
+Ishar1 decode EC2..1043 has now passed267 independent native cases, including
+the supplied file. Its addresses differ from Ishar2, but field offsets and rules
+in this bounded decode match. This supersedes the earlier unsupported status
+for this section only; device discovery and full configuration UI remain open.
+
+`loadOriginalDosStartupConfiguration` adds the complete file routine from E96
+(Ishar1) / EFC (Ishar2) to its final RET boundary1044 /10E0. Explicit DOS
+replies cover open/read/close failures and successful short reads. Native code
+does not reject short reads and skips close after a read failure. Ishar2 also
+selects saved drives B99/B98 around loading; Ishar1 has no such calls.
+
+60 cases per profile compare exact shared memory, service events and SP.
+Only Ishar2 stack saves FEEE..FEFF are masked; scratch registers/flags are not
+claimed. Original files remain unchanged and no guest filesystem writes occur.
+Reproduce: check-native-dos-startup-configuration-file.py CAPTURE START.STP.
+Evidence: STARTUP_CONFIGURATION_FILE_NATIVE_2026-10-18.json.
+
+Next startup dependency: configuration device discovery and application of
+selected fields to engine globals, before072D returns to098F and later services.
+The file routine does not itself transfer selections to engine globals.
