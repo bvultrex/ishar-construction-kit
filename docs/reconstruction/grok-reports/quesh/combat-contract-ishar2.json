@@ -1,0 +1,166 @@
+{
+ "base": "bb42748",
+ "game": "ishar2-dos",
+ "saves": {
+  "LEVELING": "dac7e0a405fa442aae6ec4fb01a3b1aec35a1b1777857c51f183f29def215c57",
+  "ENCB": "5d7cf5b567450fa54bdb3407afb10633705f29f993760ca05524b2b2b207d881"
+ },
+ "semantics": "op(opile)=popped OP acc; ornd n=(n*r)>>16",
+ "input": {
+  "keys": {
+   "F6": 0,
+   "F7": 1,
+   "F8": 2,
+   "F9": 3,
+   "F10": 4
+  },
+  "dos_codes": "192..196 -> 0x4f12 15..19",
+  "entry": "FRISE 0x00909",
+  "conditions": [
+   "0x4fd0==0",
+   "0x4aa0==0",
+   "0x2ab7==0",
+   "HP>0",
+   "food 0x2ef6>0",
+   "0x2e26==0",
+   "loc150[c]<=0"
+  ],
+  "cooldown": "(0x4fcc/120)*(T4a08[w,0]*25/skill+2); dual /2; skill=0x4b40 if type%10==2 else 0x4b38; fist 80",
+  "rating": "proven"
+ },
+ "weapon_table_T4a08": {
+  "-116": [
+   1,
+   10,
+   1,
+   0
+  ],
+  "-109": [
+   4,
+   12,
+   11,
+   0
+  ],
+  "-108": [
+   1,
+   20,
+   1,
+   0
+  ],
+  "-107": [
+   1,
+   20,
+   1,
+   0
+  ]
+ },
+ "player_melee": {
+  "target": "ctstform material 1, form idx 0..2 (dirb65)",
+  "hit": "50+2*LVL+3*(AGI*FOOD/80-AGI_t)-loc172/2+skill/5; 0x2e86->20",
+  "roll": "rnd(100)<hit or target status 0x3946/0x3a24/0x3be0",
+  "dmg_fist": "(STR-CON_t)/2-ARM_t",
+  "dmg_weapon": "(STR+2-CON_t)/2-ARM_t+rnd(die)+1",
+  "clamp": ">=0",
+  "apply": "0x36ac[id]-=dmg",
+  "food": "-1 per swing (0x04fbb)",
+  "pc": "FRISE 0x04e78-0x0574d",
+  "rating": "proven"
+ },
+ "monster_melee": {
+  "cond": "actor on party cell (maps!=1)",
+  "hit": "9*LVL_m+3*AGI_p-AGI_m; overrides 0x2e86->70,0x2e26->95,0x3be0->15,0x2e62->never",
+  "dmax": "STR_m+2-CON_p/2-ARM_p clamp>=0",
+  "dmg": "rnd(dmax)+1; /2 if 0x2e56",
+  "cooldown": "(0x4fcc/480)*(40/(AGI_m+1))",
+  "pc": "EATT 0x009f1-0x00c15",
+  "rating": "proven"
+ },
+ "death_xp": {
+  "cond": "0x36ac[id]<=0",
+  "writes": [
+   "0x4b80[dirb65]=0",
+   "0x449a[id]=0",
+   "0x36ac[id]=0",
+   "0x3a24[id]=0 always"
+  ],
+  "xp_killer": "LVL_t/3+1",
+  "xp_others": "LVL_t/5+1 (alive only)",
+  "ishar1_x50_rule": "not in Ishar 2",
+  "pc": "FRISE 0x0578e-0x0587d",
+  "rating": "proven"
+ },
+ "levelup": {
+  "trigger": "0x2d50[c]!=dirti 0xf6[c] (FRISE memory, set at init 0x00225, not saved)",
+  "pc": "FRISE 0x060d4-0x06435",
+  "rating": "proven"
+ },
+ "rng": {
+  "code": "start.exe 1000:6d7b",
+  "state": "ss:0x0c4e",
+  "step": "r=r*0x7ab7+0xf881",
+  "seed": "crandom 0 (MAIN 0x006c3) -> BIOS 0040:006C",
+  "in_save": false,
+  "calls": {
+   "player": "rnd(100) [+rnd(die) if hit+weapon]",
+   "monster": "rnd(100) [+rnd(dmax) if hit]"
+  }
+ },
+ "encb_diff": {
+  "xp": {
+   "c0": 3,
+   "c1": 4,
+   "c2": 3,
+   "c3": 3,
+   "c4": 3,
+   "victim": "actor 91 level 10 (rerolled)"
+  },
+  "hp": {
+   "c0": -51,
+   "c1": -35
+  },
+  "food": {
+   "c0": -7,
+   "c1": -8
+  },
+  "actor91": {
+   "hp_off": [
+    3443,
+    3444
+   ],
+   "hp": "72->0",
+   "scene_off": 6872,
+   "scene": "21->0"
+  },
+  "unchanged": [
+   "0x4b80 7576-7578",
+   "levels 1291-1295",
+   "gold 14/16"
+  ],
+  "noise": [
+   "45",
+   "49",
+   "91",
+   "93",
+   "EDPLT reroll actors 90-101"
+  ],
+  "xp_note": "formula only; values depend on rerolled victim level"
+ },
+ "addendum_2026_10_18_1955": {
+  "confirmed": [
+   "1 HP per guard hit",
+   "food -1 per swing hit+miss",
+   "xp formula",
+   "kill writes",
+   "damage ranges"
+  ],
+  "contradicted": [
+   "fixed +4/+3: victim level rerolled each load (replay L=9 -> +4/+2)"
+  ],
+  "open": [
+   "hit chances",
+   "one F6 press without swing (cooldown?)"
+  ],
+  "monster_dmg": "dmax=STR_m+2-CON_p/2 (0x00b49); -=ARM_p (0x00b88); clamp>=0 (0x00b8f); dmg=rnd(dmax)+1 (0x00ba2) => min 1 for all EATT melee actors; /2 if 0x2e56 -> 0 skipped",
+  "food_rule": "0x04fbb/0x05357 after L_05552 on both outcomes"
+ }
+}
