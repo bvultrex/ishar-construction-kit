@@ -120,3 +120,5 @@ Sie behauptet insbesondere keine aktuell neu getesteten Browser- oder Originalsp
 2026-10-18: Joystick10CC..1136/13F1..1423 independently verified against both originals (80 cases); includes both timeout phases and partial failures. Contiguous prefix remains08FF until integration. Next0902..0953 and MAIN caller; full boot remains open.
 
 2026-10-18: Contiguous engine0787..0952 now verified for both games through joystick and final checks, stopping atRET0953 or original low-memory0A6F boundary;64 connected cases and640 independent final-check cases. Explicit version minima67C0(I1)/6F80(I2). Next actual caller/MAIN connection and interactive memory-failure branch; not complete boot.
+
+2026-10-18: Actual engine entry25E5 and PSP prefix072D now reconstructed (168 native cases), connected with original SS1C0B/SP0800 and saved register frame through successful RET0953/far8DBE to MAIN caller2604 (64 cases incl. menu/low-memory stops). Next7641/78F9 and resource loader on that state, then2607 without zeroing globals. Full boot remains open.

@@ -13,7 +13,9 @@ import {prepareOriginalDosTimerStartup as prepareTimer} from '../src/lib/ishar/o
 import {completeOriginalDosTimerStartup as completeTimer} from '../src/lib/ishar/original-dos-startup-timer-irq.ts';
 import {initializeOriginalDosJoystick as initializeJoystick} from '../src/lib/ishar/original-dos-joystick-startup.ts';
 import {checkOriginalDosStartup as checkStartup} from '../src/lib/ishar/original-dos-startup-checks.ts';
-const startupChecks=process.argv.includes('--startup-checks'),joystick=startupChecks||process.argv.includes('--joystick');
+import {enterOriginalDosStartup as enterStartup,finishOriginalDosStartupCaller as finishStartup} from '../src/lib/ishar/original-dos-startup-entry.ts';
+const startupCaller=process.argv.includes('--startup-caller'),startupEntry=startupCaller||process.argv.includes('--startup-entry');
+const startupChecks=startupEntry||process.argv.includes('--startup-checks'),joystick=startupChecks||process.argv.includes('--joystick');
 const timerComplete=joystick||process.argv.includes('--timer-complete'),timerPrefix=timerComplete||process.argv.includes('--timer-prefix'),mouse=timerPrefix||process.argv.includes('--mouse'),graphics=mouse||process.argv.includes('--graphics'),keyboard=graphics||process.argv.includes('--keyboard');
 const audio=keyboard||process.argv.includes('--audio'),ems=audio||process.argv.includes('--ems');
 const blancpcIndex=process.argv.indexOf('--blancpc'),blancpc=blancpcIndex>=0?new Uint8Array(readFileSync(process.argv[blancpcIndex+1])):null;
@@ -22,7 +24,7 @@ const source=new Uint8Array(readFileSync(process.argv[2])),settings=new Uint8Arr
 const digest=createHash('sha256').update(source).digest('hex'),profile=digest==='5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7'?'ishar1':digest==='f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04'?'ishar2':null;if(!profile)throw Error('Unsupported capture');
 for(const countryAL of [0x21,0x31])for(const mouseAX of [0,65535])for(const failure of ['none','open','read','close'])for(const configure of [false,true]){
  const devices={countryAL,mouseAX,videoAL:0x1a,adlibBefore:0,adlibAfter:0,speakerRead:255,soundBlasterRead:0,joystickRead:0},drives={currentDrive:2,driveCount:3,currentDirectory:Uint8Array.of(84,69,83,84,0),handle:5,attempts:[{chdirError:mouseAX===0,createError:false}]},file={handle:5,openError:failure==='open',readError:failure==='read',closeError:failure==='close',readBytes:settings},prompt={seconds:configure?[0,0]:[0,4],keys:configure?[83]:[],cursorDX:0xb14};
- const initial=source.slice();if(ems){if(!blancpc)throw Error('--ems requires --blancpc');initial.set(source.slice(0x10b10,0x10b18),0x4000a);if(mouseAX===0)initial[0x4000a]^=255;}
+ let initial=source.slice();if(startupEntry){initial[0x40080]=1;initial[0x40081]=32;initial=enterStartup(initial,{bx:0,cx:0,dx:0,di:0,si:0,ds:0x4000,es:0,bp:0}).memory;}if(ems){if(!blancpc)throw Error('--ems requires --blancpc');initial.set(source.slice(0x10b10,0x10b18),0x4000a);if(mouseAX===0)initial[0x4000a]^=255;}
  const before=initial.slice(),entryResult=run(initial,0x23d7,0x1c0b,profile,{devices,drives,file,prompt});
  let memory=entryResult.memory;const {memory:ignored,...result}=entryResult;
  if(callerSelect&&result.reason==='return'){memory=select(memory,0x1c0b).memory;result.boundary=0x78f;
@@ -48,7 +50,8 @@ for(const countryAL of [0x21,0x31])for(const mouseAX of [0,65535])for(const fail
  }
  }
  }
+ if(startupCaller&&result.reason==='return'){const finished=finishStartup(memory);memory=finished.memory;result.boundary=finished.boundary;result.finalRegisters.di=finished.di;}
  if(!initial.every((v,i)=>v===before[i]))throw Error('Entry mutated source');
- memory.fill(0,0x1c0b0+(graphics&&result.reason!=='menu'?0xfebc:0xfec0),0x1c0b0+0xff00);cases.push({startupChecks,joystick,timerComplete,timerPrefix,mouse,graphics,keyboard,audio,ems,earlyServices,callerSelect,boundarySegment:callerSelect&&result.reason!=='menu'?0x1000:0x23d7,countryAL,mouseAX,failure,configure,...result,hash:createHash('sha256').update(memory).digest('hex')});
+ const delta=startupEntry?0xf714:0;memory.fill(0,0x1c0b0+(graphics&&result.reason!=='menu'?0xfebc:0xfec0)-delta,0x1c0b0+0xff00-delta);cases.push({startupCaller,startupEntry,startupChecks,joystick,timerComplete,timerPrefix,mouse,graphics,keyboard,audio,ems,earlyServices,callerSelect,boundarySegment:callerSelect&&result.reason!=='menu'?0x1000:0x23d7,countryAL,mouseAX,failure,configure,...result,hash:createHash('sha256').update(memory).digest('hex')});
 }
 console.log(JSON.stringify(cases));

@@ -2593,3 +2593,42 @@ Next: connect successful RET to its actual startup caller and MAIN dispatcher;
 reconstruct the interactive0A6F failure path separately. The earlier072D
 command-line prefix, configuration menu, active sound/graphics callbacks,
 and full boot/visible original frame remain open.
+
+
+### Actual engine entry and return to MAIN caller (2026-10-18)
+
+`original-dos-startup-entry.ts` reconstructs25E5..25FB and072D..0786.
+The engine sets SS1C0B/SP0800, pushes nine registers (AX is already1C0B),
+stores SP07EE in B6A, clears DF and calls072D. The PSP parser reads DS:0080
+as a signed byte: lengths>=128 bypass parsing. It skips the leading space
+at0081 and processes length-1 bytes from0082. The uppercase comparison is
+also signed; bytes80..FF are not transformed. S/M/A/J set CA2/CA3/CA4/CA1,
+including repeated/lowercase flags; unknown flags do nothing. BIOS40:49 is
+saved in289A. No interpretation beyond these observed effects is claimed.
+
+Native prefix comparison passes84 cases per game, with all output registers,
+DF, the nine saved registers and full physical memory except07E8..07ED
+scratch compared. Command lengths0/1/2/127/128/255, repeated flags, lowercase,
+high bytes, preserved CH and two BIOS modes are included. Evidence:
+STARTUP_ENTRY_NATIVE_2026-10-18.json; reproduce with
+`check-native-dos-startup-entry.py CAPTURE`.
+
+The existing harness now supports `--startup-entry` and `--startup-caller`.
+Both start original execution at25E5 with controlled empty PSP input and the
+actual SP0800, rather than injecting a call at0787 with a high test stack.
+The latter continues successful RET0953 to25FF, executes far8DBE and all
+four original far8DE3 record resets, and stops before CALL7641 at2604.
+Record unknown bytes remain unchanged; final DI1E2D and AX/BX/CX/DX/SP are
+checked. Low-memory cases still stop at0A6F; menu cases at their actual entry.
+The stack scratch mask is07A8..07EB (menu07AC..07EB), while entry register
+saves07EE..07FF and far-call CS residue07EC are actually compared.
+
+Both profiles pass32 connected cases each, including menu paths and the
+previously documented genuine Ishar2 low-memory paths. Evidence:
+STARTUP_CALLER_NATIVE_2026-10-18.json. Reproduce:
+`check-native-dos-configuration-entry.py CAPTURE START.STP --blancpc BLANCPC.IO --startup-caller`.
+Original files remain unchanged. Explicit OS/port replies and three actual
+IRQ executions remain controlled; no real device emulation claim.
+Next: connect7641/78F9 to the verified76BC MAIN loader on this original
+startup state, then resume2607 without resetting globals. Full boot and
+visible frame are still unproven; interactive0A6F and active callbacks remain open.
