@@ -8,6 +8,7 @@ Der kontrollierte Kontext verwendet Moduloffset0/Segment4000h, Kontextsegment500
 
 - Opcodes5–10: relative Aufrufe und Sprünge.
 - Opcode17: Skript-Return im kontrollierten Hauptskriptmodus.
+- Opcodes18–29: bedingte relative Sprünge bei DX=0/!=0 oder DX=CX/!=CX, jeweils mit drei Offsetcodierungen.
 - Opcode31: direkte Zahlenformen, Ausdrucksschleifen56/58 und sechs Vergleiche74–84; andere Ausdruckstags halten an.
 - Opcode41: rohe Kontextblöcke.
 - Opcode66: Yield; ausdrücklich keine Scheduler-Fortsetzung.
@@ -28,4 +29,8 @@ Aktueller Hoststand:17 Schritte mit Ishar2 IO.IO, SI0070h; der nächste Halt ist
 
 Aktueller Hoststand für Opcode31:18 Schritte bis SI0079h, DX0, CXFFFFh; nächster Halt20. Beide Zahlenregister werden jetzt angezeigt und zwischen unterstützten Befehlen weitergeführt.912 native Ausdrucksvergleiche pro Spiel bestehen. Im Browser am18.10.2026 bestätigt:18 Schritte, SI0079h, DX0000h, CXFFFFh, Timerziel1 und anschließender unveränderter Halt auf20.
 
-Nächste Schritte: Opcode20 und seine Abhängigkeiten rekonstruieren, weitere belegte Handler anbinden, Scheduler-/Callbackzustände und Schrittprotokoll darstellen, Diagnoseimport in die gemeinsame Projektverwaltung integrieren. Mehrsegmentausführung und vollständige native VM bleiben offen.
+Aktueller Hoststand:19 Schritte mit Ishar2 IO.IO bis SI0095h, nächster Halt148. Bedingte Sprünge sind mit je8704 nativen Fällen beider Spiele geprüft. Ein fortlaufender nativer Vergleich bestätigt jeden der19 Schritte; zusätzlich sind14 Schritte des originalen Ishar1 FRISE.IO bis Opcode134 geprüft.
+
+Nächste Schritte: Opcode148 und seine Abhängigkeiten rekonstruieren, weitere belegte Handler anbinden, Scheduler-/Callbackzustände und Schrittprotokoll darstellen, Diagnoseimport in die gemeinsame Projektverwaltung integrieren. Mehrsegmentausführung und vollständige native VM bleiben offen.
+
+Die aktuelle Browserprüfung bestätigt ebenfalls19 Schritte bis SI0095h und den unveränderten Halt auf148. Für fortlaufende native Vergleiche: `python scripts/check-native-script-diagnostic-file.py <capture-memory.bin> <lokales-Modul.IO>` mit dem isolierten Unicorn-Pythonpfad aus der Testumgebung. Das Werkzeug prüft jeden unterstützten Schritt; Yield/Scheduler und Mehrsegmentmodule werden ausdrücklich noch nicht verglichen. Es schreibt keine Originalressourcen ins Repo.

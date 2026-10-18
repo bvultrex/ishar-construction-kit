@@ -1,0 +1,15 @@
+// Local original data is passed to the native checker only; never write this output into the repo.
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {openNativeScriptDiagnostic,stepNativeScriptDiagnostic} from '../src/lib/ishar/native-script-diagnostic.ts';
+const hash=v=>createHash('sha256').update(v).digest('hex'),bytes=new Uint8Array(readFileSync(process.argv[2]));
+let state=openNativeScriptDiagnostic(bytes);if(state.module.image.length>65536)throw Error('Native diagnostic file checker requires a single source segment');
+const initial={bp:state.bp,si:state.si,dx:state.dx,cx:state.cx,script:Buffer.from(state.module.image).toString('base64'),context:Buffer.from(state.memory).toString('base64'),globals:Buffer.from(state.globals.subarray(0,0x2200)).toString('base64')},steps=[];
+for(let i=0;i<1000;i++){
+ const opcode=state.module.image[state.si],next=stepNativeScriptDiagnostic(state);
+ if(next.status==='stopped')break;
+ if(next.status==='yield')throw Error('Native diagnostic file checker does not yet compare yield boundaries');
+ steps.push({opcode,si:next.si,dx:next.dx,cx:next.cx,contextHash:hash(next.memory),globalsHash:hash(next.globals.subarray(0,0x2200))});state=next;
+}
+if(steps.length===1000)throw Error('Native file comparison exceeds host step bound');
+console.log(JSON.stringify({sourceSha256:hash(bytes),initial,steps,nextOpcode:state.module.image[state.si]}));

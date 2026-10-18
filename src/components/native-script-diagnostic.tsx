@@ -20,6 +20,6 @@ export function NativeScriptDiagnosticPanel(){
     <tr><td>DX · numerisches Ergebnis</td><td>{hex(state.dx)}</td></tr><tr><td>CX · Operandregister</td><td>{hex(state.cx)}</td></tr>
     <tr><td>Nächstes Opcodebyte</td><td>{state.si<state.module.image.length?hex(state.module.image[state.si]):'außerhalb des Moduls'}</td></tr><tr><td>Skriptstackoffset (BP−0x0A)</td><td>{hex(word(-10))}</td></tr><tr><td>Gespeicherter Skriptzeiger (BP−0x08)</td><td>{hex(word(-8))}</td></tr><tr><td>Ausgeführte Schritte</td><td>{state.steps}</td></tr></tbody></table>
   </>}
-  <p>Kontextaufbau: gegen alle 240 lokalen Originalmodule geprüft. Einzelschritte: Opcodes 5–10, 17, 31, 41, 66, 71, 76, 106 und 156; andere Befehle stoppen unverändert. Noch keine vollständige VM, NPC-Simulation oder Scheduler-Ausführung. Für Module über 64 KiB ist nur die Kontextprüfung angebunden.</p>
+  <p>Kontextaufbau: gegen alle 240 lokalen Originalmodule geprüft. Einzelschritte: Opcodes 5–10, 17–29, 31, 41, 66, 71, 76, 106 und 156; andere Befehle stoppen unverändert. Noch keine vollständige VM, NPC-Simulation oder Scheduler-Ausführung. Für Module über 64 KiB ist nur die Kontextprüfung angebunden.</p>
  </section>;
 }

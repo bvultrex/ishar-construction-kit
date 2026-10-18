@@ -9,6 +9,7 @@ import {writeOriginalDosScriptPosition} from './original-dos-script-position.ts'
 import {enumerateOriginalDosContexts} from './original-dos-context-list.ts';
 import {storeOriginalDosScriptResult} from './original-dos-script-result.ts';
 import {evaluateOriginalDosScriptExpression} from './original-dos-script-expression.ts';
+import {branchOriginalDosScriptConditional} from './original-dos-script-conditional.ts';
 export interface NativeScriptDiagnostic {module:AlisModule;memory:Uint8Array;globals:Uint8Array;bp:number;si:number;dx:number;cx:number;steps:number;status:'ready'|'yield'|'stopped';message:string}
 /** Editor-only controlled context. Does not alter the playtest or source file. */
 export function openNativeScriptDiagnostic(bytes:Uint8Array):NativeScriptDiagnostic{
@@ -28,6 +29,9 @@ export function stepNativeScriptDiagnostic(state:NativeScriptDiagnostic):NativeS
   const length=[1,2,3][(opcode-5)%3];if(state.si+1+length>state.module.image.length)return stop('Operand ist im Modul abgeschnitten.');
   const script=new Uint8Array(65536);script.set(state.module.image);
   const next=branchOriginalDosScript(script,memory,opcode,after,state.bp);memory=next.memory;si=next.si;
+ }else if(opcode>=18&&opcode<=29){
+  const length=(opcode-18)%3+1;if(state.si+1+length>state.module.image.length)return stop('Bedingter Sprungoperand ist im Modul abgeschnitten.');
+  const script=new Uint8Array(65536);script.set(state.module.image);si=branchOriginalDosScriptConditional(script,opcode,after,dx,cx).si;
  }else if(opcode===41){
   if(state.si+5>state.module.image.length)return stop('Blockheader ist im Modul abgeschnitten.');
   const length=4+state.module.image[after+2]*2;if(after+length>state.module.image.length)return stop('Blockdaten sind im Modul abgeschnitten.');
