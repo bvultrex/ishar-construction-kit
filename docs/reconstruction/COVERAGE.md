@@ -81,7 +81,9 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    ReservierungsfÃ¤lle, acht VGA/Frame-FÃ¤lle; kein IRQ0A). Die vorgelagerte Grafikmodulauswahl098F ist ebenfalls mit18 Fällen
    und acht anschließenden VGA-Kompositionen geprüft. Dateiladen, Konfigurationsauswertung, Übergabe in Engine-Variablen und
    Modulauswahl sind nun für beide Profile komponiert geprüft (je60 Fälle).
-   Geräteerkennung und äußere Aufrufkette bleiben offen. Die originale Aufrufkette
+   Die Geräteerkennung ist für den VGA-/Joystick-Frühabbruchpfad mit64
+   Fällen separat geprüft. Achsenmessung, Bestätigungsabfrage und äußere
+   Aufrufkette bleiben offen. Die originale Aufrufkette
    einschlieÃŸlich MAIN muss diese ZustÃ¤nde noch selbst herstellen. Das hat Vorrang
    vor einer sichtbaren Ausgabe oder weiteren Aussagen zur Bildgleichheit.
    FE-Sonderpfad, weitere Operandformen

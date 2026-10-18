@@ -2201,3 +2201,28 @@ check-native-dos-startup-configuration-file.py CAPTURE START.STP --apply --selec
 Evidence: CONFIGURATION_APPLY_NATIVE_2026-10-18.json. Original files unchanged.
 Device detection, configuration UI return and intervening072D OS services remain
 the next dependencies before a genuine contiguous startup can be claimed.
+
+## Configuration device discovery VGA branch (2026-10-18)
+
+`detectOriginalDosConfigurationDevices` reconstructs Ishar1 E3E..E61 and
+Ishar2 EA4..EC7 with explicit DOS country AL, mouse reset AX, VGA BIOS AL and
+port replies. It follows the country/default selection, mouse detection, VGA
+detection, AdLib timer probe, Sound Blaster reset scan and the joystick early
+return. Port writes and repeated reads are retained in a compact event trace.
+AdLib detection requires (first&E0)=0 and (second&E0)=C0; successful detection
+also clears bit0 on port61. Sound Blaster AA overrides the sound default to2;
+without detection, previous selection is preserved. The scan reads ports21A
+through26A, up to100 reads each. Joystick stable initial/200 reads with upper
+nibble other thanF0 return early. The axis-measurement branch and non-VGA
+error/display path explicitly reject rather than manufacture results.
+
+32 native cases per profile pass: four country replies, mouse0/FFFF, AdLib
+absent/present and Sound Blaster absent/present. Compared: exact service/port
+events, shared memory except bounded CPU stack FEC0..FEFF, balanced SP and
+IF set. General scratch registers are outside the API contract. Real BIOS
+side effects, actual hardware and IRQ delivery are not claimed.
+
+Reproduce: check-native-dos-configuration-detection.py CAPTURE. Evidence:
+CONFIGURATION_DETECTION_NATIVE_2026-10-18.json. Captures remain unchanged.
+The outer four-second confirmation prompt and configuration UI still need
+reconstruction before the original configuration entry can run contiguously.
