@@ -4,12 +4,13 @@ Optional --decode includes actual A1 decode and close; no complete startup claim
 --root also executes registry/notifications/context and the original loader RET.
 --schedule explicitly resumes at2607 to the first dispatch for nonalias layouts;
 the earlier platform services and loader caller are outside this test.
+--objects also executes the contiguous opcode70 prefix after that entry.
 """
 import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');a=p.parse_args();a.root=a.root or a.schedule;a.decode=a.decode or a.root
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');p.add_argument('--objects',action='store_true');a=p.parse_args();a.schedule=a.schedule or a.objects;a.root=a.root or a.schedule;a.decode=a.decode or a.root
 memory=a.capture.read_bytes();data=a.main.read_bytes()
 digest=hashlib.sha256(memory).hexdigest();file_digest=hashlib.sha256(data).hexdigest()
 profiles={
@@ -27,7 +28,7 @@ for case in vectors['cases']:
  if a.decode:cpu.mem_write(0x1c0b0+0xb5c,b'\0\x90')
  if a.root:cpu.mem_write(0x1c0b0+0xff00,b'\0\xe0') # Controlled caller for the final loader RET.
  reads=[];read_events=[];read_boundaries=[];opens=[];open_boundaries=[];done=[];position=[0];saved_init={};init_counts=[0,0];init_end={};init_hash=[];packed_reads=[];closed=[];decode_entry=[];write_bounds=[0x100000,0];close_state={};notifications=[];registry_checked=[];notification_active=[False];registry_writes=[0]
- graphics_expected=[];graphics_checked=[];scheduler_expected=[];scheduler_done=[]
+ graphics_expected=[];graphics_checked=[];scheduler_expected=[];scheduler_done=[];object_phase=[False];object_done=[]
  destination=case['preparedDecode']['registers']['ds']*16+case['preparedDecode']['registers']['dx']
  def interrupt(uc,n,_):
   assert n==0x21
@@ -46,7 +47,8 @@ for case in vectors['cases']:
   reads.append((dx,cx));chunk=data[position[0]:position[0]+cx];position[0]+=len(chunk)
   uc.mem_write(ds*16+dx,chunk);uc.reg_write(UC_X86_REG_AX,len(chunk));uc.reg_write(UC_X86_REG_EFLAGS,uc.reg_read(UC_X86_REG_EFLAGS)&~1)
  def code(uc,address,size,_):
-  if scheduler_expected and address in [0x126eb,0x12632]:scheduler_done.append(address);uc.emu_stop()
+  if object_phase[0] and address in [0x126f7,0x18468]:object_done.append(address);uc.emu_stop()
+  if scheduler_expected and not object_phase[0] and address in [0x126eb,0x12632]:scheduler_done.append(address);uc.emu_stop()
   if a.root and address==0x1185e:
    request={'memory':base64.b64encode(bytes(uc.mem_read(0,0x100000))).decode(),'ss':uc.reg_read(UC_X86_REG_SS),'cs':uc.reg_read(UC_X86_REG_CS),'ds':uc.reg_read(UC_X86_REG_DS),'dx':uc.reg_read(UC_X86_REG_DX)}
    graphics_expected.append(json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-resource-graphics-vector.mjs')],input=json.dumps(request),text=True,cwd=repo)))
@@ -136,6 +138,23 @@ for case in vectors['cases']:
    actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
    assert hashlib.sha256(actual).hexdigest()==expected['hash'],'scheduler memory mismatch'
    row['scheduler']={**expected,'opcode':cpu.mem_read(expected['ds']*16+expected['si'],1)[0] if expected['phase']!='skip' else None}
+  if a.objects and 'scheduler' in row:
+   row['objects']=[];object_phase[0]=True
+   while cpu.mem_read(cpu.reg_read(UC_X86_REG_DS)*16+cpu.reg_read(UC_X86_REG_SI),1)[0]==70:
+    assert len(row['objects'])<100,'Object prefix host bound exceeded'
+    registers={name:cpu.reg_read(r) for name,r in [('ds',UC_X86_REG_DS),('es',UC_X86_REG_ES),('si',UC_X86_REG_SI),('bx',UC_X86_REG_BX),('di',UC_X86_REG_DI),('dx',UC_X86_REG_DX)]}
+    registers['si']=(registers['si']+1)&65535;registers['bx']=140 #26EB fetch/dispatch before handler entry.
+    expected=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-script-object-vector.mjs')],input=json.dumps({'memory':base64.b64encode(bytes(cpu.mem_read(0,0x100000))).decode(),'ss':0x1c0b,'registers':registers}),text=True,cwd=repo))
+    previous_sp=cpu.reg_read(UC_X86_REG_SP);object_done.clear();cpu.emu_start(0x126eb,0xfffff,count=100000)
+    assert object_done==[0x18468 if expected['error'] else 0x126f7]
+    names={'ds':UC_X86_REG_DS,'es':UC_X86_REG_ES,'si':UC_X86_REG_SI,'bx':UC_X86_REG_BX,'di':UC_X86_REG_DI,'dx':UC_X86_REG_DX,'ax':UC_X86_REG_AX,'cx':UC_X86_REG_CX}
+    for name,value in expected['registers'].items():assert cpu.reg_read(names[name])==value,('loaded object',name)
+    assert cpu.reg_read(UC_X86_REG_SP)==previous_sp+expected['stackDelta']-(2 if expected['error'] else 0)
+    actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
+    assert hashlib.sha256(actual).hexdigest()==expected['hash'],'loaded object memory mismatch'
+    row['objects'].append(expected)
+    if expected['error']:break
+   row['nextOpcode']=cpu.mem_read(cpu.reg_read(UC_X86_REG_DS)*16+cpu.reg_read(UC_X86_REG_SI),1)[0]
   results.append(row)
 assert a.capture.read_bytes()==memory and a.main.read_bytes()==data
 print(json.dumps({'profile':profiles[digest][0],'captureSha256':digest,'mainSha256':file_digest,'cases':len(vectors['cases']),'decodedBytes':vectors['decodedBytes'],'decodeAndClose':a.decode,'rootCreation':a.root,'decodeResults':results,'result':'MAIN chain through requested initialization/decode/root boundary matches','limits':('controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed' if a.root else 'controlled DOS replies; initialization memory checked; registry/root and notification bodies excluded')}))

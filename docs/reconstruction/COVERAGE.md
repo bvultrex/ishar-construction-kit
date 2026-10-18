@@ -47,7 +47,10 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    (Details: DOS_STARTUP.md). Alternative Konvertierung bleibt offen.
    Der erzeugte Root-Slot erreicht inzwischen die erste native Scheduler-
    Dispatchgrenze ohne manuelle Wurzelverknüpfung (CLI, noch kein Browseradapter).
-   Als Nächstes MAIN-Opcode70 und seine Objektpoolzugriffe rekonstruieren.
+   MAIN-Opcode70 samt Objektpoolzugriffen ist inzwischen gegen beide Profile
+   geprüft; beide ursprünglichen Anfangsbefehle laufen im CLI-Nachweis durch.
+   Als Nächstes die folgenden Originalbefehle ab Opcode41 mit dem erhaltenen
+   physischen Zustand verbinden.
    Abnahme:
    Register, Speicher, Zeiger und Stopgrenzen pro Profil stimmen überein.
 2. **Erster vollständiger Original-Modnachweis je Spiel.** Bestehenden sicheren

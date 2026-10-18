@@ -995,3 +995,51 @@ Quellschutz und ausdrücklich abgewiesene Speicherfenster. Überlappende
 Globals-/Kontextsegmente und segmentübergreifende Wortzugriffe sind Grenzen
 dieses komponierten API, keine behaupteten Originalregeln. Metadaten stehen in
 MAIN_SCHEDULER_NATIVE_2026-10-18.json; Originaldateien bleiben unverändert.
+
+## MAIN-Opcode70 einschließlich Objektpool und Listenhelfern
+
+`original-dos-script-object.ts` rekonstruiert Handler2DED..2E90 und seine
+Aufrufe3288..32B0 sowie32E4..332C. Eingang sind eine1MiB-Speicherkopie, SS und
+DS/ES/SI/BX/DI/DX am Handlereintritt nach Opcodefetch (DF=0). Ergebnis sind neue
+Speicherbytes, veränderte Register und die Grenze RET oder Fehler10 vor8468.
+Originalquellen bleiben unverändert; Flags und Stack-Sicherungsbytes sind kein
+API-Ausgabevertrag.
+
+Der Befehl liest einen16-Bit-Offset, addiert0BF6, setzt dort Bit40h und kopiert
+ein Byte plus32 Folgedatenbytes. Der Kopiervorgang erfolgt sequentiell wie
+REP MOVSB, einschließlich überlappender Quell-/Zielbereiche. Danach werden
+Objektsegment und Basis aus0BE8/0BEA gelesen und0BEC addiert. Ein Ergebnis0
+führt zu Fehler10: Die vorherigen Kontextstores sind bereits geschehen und
+werden nicht als atomarer Rollback erfunden. Der normale Pfad übernimmt den
+Freilisten-Nachfolger, verknüpft den Datensatz mit dem Poolobjekt, initialisiert
+die originalen Rohfelder und hängt seinen relativen Offset an die0C16-Liste.
+Berechnungen bleiben modulo16Bit; drei signierte8-Bit-Produktdifferenzen werden
+wie im Original an den **überlappenden Wortoffsets38/39/40** geschrieben.
+Diese ungewöhnlichen Schreibbreiten werden nicht vermeintlich korrigiert.
+
+Das sind interne Laufzeitobjekte. Aus Opcode70 allein folgt noch keine belegte
+Zuordnung zu Bodenitems, NPCs oder Gegnern und keine fertige Interaktion.
+
+`check-native-dos-script-object.py <capture>` besteht je32 kontrollierte Fälle
+beider Profile: vier Datenmuster, leere/ein-/zweigliedrige aktive Listen,
+Fehler10 und jeweils getrennte beziehungsweise überlappende Quell-/Kontextdaten.
+Alle vom API beschriebenen Register, erhaltenes BP, SP-Wirkung und der gesamte
+physische Speicher außer SS:FEC0..FF0F stimmen mit den Originalinstruktionen
+überein. Der Körper des Fehlerhandlers wird nicht ausgeführt. Die Hostprüfung
+`node scripts/check-dos-script-object.mjs` prüft zusätzlich Quellschutz,
+Teilwirkungen vor Fehler10, Speichergrenzen und einen abgewiesenen Listenzyklus.
+Die begrenzte Zyklusprüfung ist ein Hostschutz, keine Originalregel.
+
+`check-native-dos-resource-file.py <capture> <MAIN.IO> --objects` setzt den
+vorhandenen Lader-/Grafik-/Root-/Schedulerlauf mit beiden originalen Opcode70
+am Stück fort. Die CPU bleibt über die Schritte erhalten, die rekonstruierten
+Ergebnisse werden nach jedem Befehl verglichen. Je drei gültige Layouts beider
+Spiele bestehen. SI geht24→60→96, der folgende Opcode ist41. Es werden weder
+synthetische Objekte statt der Originaloperanden eingesetzt noch Call-Helfer
+übersprungen. Ungültige Registry-Aliaslayouts bleiben im Ladervergleich und
+werden weiterhin nicht als Spielzustände weitergeführt.
+
+Belegmetadaten ohne Originaldaten: MAIN_OBJECT_NATIVE_2026-10-18.json.
+Typecheck bestanden. Noch keine Browserintegration, vollständige VM oder
+Ausführung ab EXE-Entry. Nächster Schritt: die anschließenden Originalbefehle
+ab Opcode41 mit dem erhaltenen physischen Zustand weiterführen.
