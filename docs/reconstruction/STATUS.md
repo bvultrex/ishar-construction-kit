@@ -1,5 +1,9 @@
 # Technischer Iststand
 
+Fortsetzung (2026-10-18): [Physische Stringzuweisung](PHYSICAL_STRING_ASSIGNMENT.md)
+verbindet die Original-Stringquellen und -ziele; Ishar 1 erreicht 183 geprüfte
+MAIN-Befehle vor dem noch offenen Ausdruckstag 160.
+
 Neuester Teilnachweis (2026-10-18): [DOS-Kontextsteuerung und Initialisierungswort](CONTEXT_SEED.md),
 646 native Vergleichsfälle; Ishar 1 erreicht 176 verglichene MAIN-Befehle vor der
 offenen Stringzuweisung. Dies verändert die Browseroberfläche noch nicht.

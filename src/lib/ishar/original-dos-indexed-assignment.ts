@@ -1,6 +1,7 @@
 import {queryOriginalDosModeValue} from './original-dos-script-expression.ts';
 import {applyOriginalDosNumericBinary} from './original-dos-numeric-binary.ts';
-/** Opcode30 numeric results6/8/18/20 and indexed14/16, including739A,
+/** Opcode30 string operands4/10/34, results10/34 (69D0/69F4/7168/724C),
+ * numeric results6/8/18/20 and indexed14/16, including739A,
  * 7150 and6C2E/6C5B.
  * Explicit bounded operand subset; unsupported expressions throw without changing
  * input. DF0, shared physical memory; flags/CPU stack saves are not outputs.
@@ -18,6 +19,17 @@ export function assignOriginalDosIndexedValue(source:Uint8Array,ss:number,regist
   if(++tokens>4096||depth>128)throw Error('Indexed expression exceeds host bound');
   const tag=nextByte();
   if([66,68,70,72,86,88,90,92,94].includes(tag)){cx=dx;operand(depth+1);const result=applyOriginalDosNumericBinary(tag,cx,dx);cx=result.cx;dx=result.dx;}
+  else if(tag===4||tag===10||tag===34){
+   let source=si,segment=ds;
+   if(tag!==4){source=u((tag===34?w(ss,0xbf6):bp)+nextWord());segment=es;}
+   let destination=w(ss,0xc58),terminated=false;
+   for(let n=0;n<65536;n++){
+    const value=b(segment,source);source=u(source+1);b(ss,destination,value);destination=u(destination+1);
+    if(value===0){terminated=true;break;}
+   }
+   if(!terminated)throw Error('String operand exceeds host traversal bound');
+   if(tag===4)si=source;
+  }
   else if(tag===0){const value=nextByte();dx=value&128?value|0xff00:value;}
   else if(tag===2)dx=nextWord();
   else if([6,8,30,32].includes(tag)){const offset=nextWord(),base=tag>=30?w(ss,0xbf6):bp;dx=tag===6||tag===30?b(es,base+offset):w(es,base+offset);if((tag===6||tag===30)&&(dx&128))dx|=0xff00;}
@@ -31,6 +43,15 @@ export function assignOriginalDosIndexedValue(source:Uint8Array,ss:number,regist
  operand(0);
  const first=w(ss,0xc58);w(ss,0xc58,w(ss,0xc5c));w(ss,0xc5c,first);bx=0x277c;
  let result=nextByte();
+ if(result===10||result===34){
+  let destination=u((result===34?w(ss,0xbf6):bp)+nextWord()),source=w(ss,0xc5c),terminated=false;
+  for(let n=0;n<65536;n++){
+   const value=b(ss,source);source=u(source+1);b(es,destination,value);destination=u(destination+1);
+   if(value===0){terminated=true;break;}
+  }
+  if(!terminated)throw Error('String result exceeds host traversal bound');
+  return {memory,registers:{...registers,si,dx,cx,bx,di:result,ax:ss&0xff00},tag:result,tokens};
+ }
  if(result===56){bx=u(bx-2);w(ss,bx,dx);while(b(ds,si)!==58)operand(0);si=u(si+1);result=nextByte();}
  if([6,8,18,20].includes(result)){
   const ax=result>=18?nextByte():nextWord(),di=ax;

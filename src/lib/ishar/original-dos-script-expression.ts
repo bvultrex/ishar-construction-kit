@@ -8,7 +8,7 @@ export function queryOriginalDosModeValue(mode:number){
  return 2000+(mode===7?1:mode===3?2:mode===5?4:0);
 }
 /** Opcode31 ->2937/69A9; numeric0/2/6/8/30/32, indexed14/16,
- * stack54/64, binary66..72/86..94, explicit input106/116, mode120, raw168, strings4/34,
+ * stack54/64, binary66..72/86..94, explicit input106/116, mode120, raw168, strings4/10/34,
  * loop56/end58, comparisons74..84.
  * Shared DX/CX follow native calls, including nested operands; no JavaScript coercion.
  * DF0, bounded source, disjoint context. Limits are host safeguards, not native checks.
@@ -80,13 +80,13 @@ function evaluateExpressionCore(script:Uint8Array,context:Uint8Array,si:number,b
    si++;const result=probeOriginalDosFile(nextGlobals,fileSearch);dx=result.dx;cx=result.cx;return;
   }
   if([0,2,6,8,30,32].includes(tag)){if(si+(tag===0?2:3)>sourceLength)throw Error('Expression operand is truncated');const next=readOriginalDosNumericOperand(script,context,si,bp,nextGlobals);si=next.si;dx=next.value;return;}
-  if(tag===4||tag===34){
+  if(tag===4||tag===10||tag===34){
    if(nextGlobals?.length!==65536)throw Error('String expression requires the original global segment');
    const word=(at:number)=>nextGlobals[at]|(nextGlobals[at+1]<<8);
    si++;let source=si;
-   if(tag===34){
+   if(tag!==4){
     if(si+2>sourceLength)throw Error('Context string offset is truncated');
-    source=(word(0xbf6)+(script[si]|(script[si+1]<<8)))&65535;si+=2;
+    source=((tag===34?word(0xbf6):bp)+(script[si]|(script[si+1]<<8)))&65535;si+=2;
    }
    let destination=word(0xc58);
    while(true){

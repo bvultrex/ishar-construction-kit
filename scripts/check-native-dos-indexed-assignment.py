@@ -7,18 +7,23 @@ p=argparse.ArgumentParser();p.add_argument('capture',type=Path);a=p.parse_args()
 profiles={'5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7':'ishar1','f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04':'ishar2'}
 assert digest in profiles;repo=Path(__file__).resolve().parent.parent;cases=[]
 def word(m,at,value):m[at:at+2]=(value&65535).to_bytes(2,'little')
-for result_tag in [6,8,14,16,18,20]:
+for result_tag in [6,8,14,16,18,20,10,34]:
  for dimensions in [0,1,2]:
-  for source_tag in [0,2,6,8,30,32]:
+  for source_tag in ([4,10,34] if result_tag in [10,34] else [0,2,6,8,30,32]):
    m=bytearray(original);m[0x1c0b0:0x1c0b0+0x28c0]=bytes(0x28c0);m[0x40000:0x60000]=bytes(0x20000)
    word(m,0x1c0b0+0xbf6,0x400);word(m,0x1c0b0+0xc58,0x802);word(m,0x1c0b0+0xc5c,0xa02)
    code=bytearray([30,source_tag])
-   if source_tag==0:code.append(0xff)
+   if source_tag==4:code.extend(([65]*dimensions)+[0])
+   elif source_tag in [10,34]:
+    code.extend(b'\x00\x01');at=0x50000+(0x400 if source_tag==34 else 0x200)+0x100;m[at:at+dimensions+1]=bytes([66]*dimensions+[0])
+   elif source_tag==0:code.append(0xff)
    elif source_tag==2:code.extend(b'\x34\x92')
    else:code.extend(b'\x00\x01');word(m,0x50000+(0x400 if source_tag>=30 else 0x200)+0x100,0x9234)
-   code.append(56)
-   for n in range(dimensions):code.extend([2,n+1,0,64])
-   code.extend([2,3,0,58,result_tag]);code.extend([0x80] if result_tag>=18 else [0,8])
+   if result_tag not in [10,34]:
+    code.append(56)
+    for n in range(dimensions):code.extend([2,n+1,0,64])
+    code.extend([2,3,0,58])
+   code.append(result_tag);code.extend([0x80] if result_tag in [18,20] else [0,8])
    m[0x40100:0x40100+len(code)]=code;m[0x50a00-1]=dimensions
    for n in range(dimensions):word(m,0x50a00-4-n*2,0x17+n*0x123)
    word(m,0x1c0b0+0xff00,0xe000)
