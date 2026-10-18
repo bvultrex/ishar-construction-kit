@@ -653,3 +653,15 @@ Ergebnisse: Ishar2 IO.IO (SHA256 0df1f34cf2519341ef20825d49c7f1e7ff204878814db74
 Adaptertests für genommenen/nichtgenommenen Sprung, Registererhalt und abgeschnittene Operanden, Typecheck und Produktionsbuild bestehen. Der Toolkit-Adapter bindet18–29 an. Nächste Lücke im kontrollierten Ishar2-Initialpfad:148; die vollständige VM und Originalspielzustände bleiben offen.
 
 Browserprüfung am18.10.2026 bestanden: Ishar2 IO.IO erreicht19 Schritte, SI0095h, DX0000h, CXFFFFh und Timerziel1. Ein weiterer Klick hält auf148 ohne Zustandsfortschritt an. Screenshot außerhalb des Repos: analysis-output/native-script-conditional-ui-2026-10-18.png.
+
+## Opcode148: Kontextsuche nach Modul-ID
+
+`original-dos-context-query.ts` rekonstruiert510F..515C bis zum gemeinsamen Ergebnisdispatcher291B. Das Literalwort nach dem Opcode wird zunächst nach DX gelesen. Der Ablauf prüft zuerst Slot0 der Tabelle SS:0BD2, danach die verknüpften Slots über ES:[Basis+Slot+4]. Der Kontextpointer kommt aus ES:[Basis+Slot], die Modul-ID aus ES:[Pointer-10h]. Der aktuelle Kontext BP wird ausgeschlossen. Insbesondere wird Slot0 nicht pauschal als leer übersprungen; auch ein Nullpointer wird vom Original hier nicht gesondert abgefangen.
+
+Treffer werden ab SS:1E7Eh mit jeweils gelöscht gesetztem Begleitwort+100h gesammelt. Bei SS:0C96=0 endet die Suche nach dem ersten Treffer, bei jedem anderen Bytewert werden weitere Treffer gesucht. Danach folgt FFFFh als Sentinel,0C96 wird gelöscht und der gemeinsame Listenanfang4BC4/4B8F liefert den ersten Slot in DX. Der Cursor0C80 steigt nur bei nichtnegativem Ergebnis. CX bleibt der Listenendpointer. Der bereits rekonstruierte Ergebnisdispatcher übernimmt anschließend den Wert in das direkte Byte-/Wortziel.
+
+`check-native-dos-context-query.py <memory.bin>` vergleicht je2160 Fälle beider identifizierter Captures durch den tatsächlichen Opcode-Dispatch, Suche, Ergebnisdispatcher und RET. Enthalten sind0/1/2/4/16 Folgeknoten zusätzlich zum Wurzelslot, drei IDs, Modusbytes0/1/255, vollständige/abwechselnde/keine Treffer, Selbst-/Fremdkontext, alle vier direkten Ergebnistags und niedrige/hohe Slotwerte. Letztere prüfen auch den nicht fortgeschalteten Cursor bei negativ interpretiertem ersten Slot. Das vollständige Kontextsegment, Globals bis21FFh, SI, DX, CX, Stacktiefe und unveränderte Quelle stimmen überein. Quell-Captures bleiben unverändert.
+
+Hostgrenzen: getrennte Segmente, begrenzte Wortzugriffe, azyklische Liste und maximal127 Treffer zur Trennung der Listen-/Begleitbereiche. Diese Grenzen sind Diagnosebedingungen, keine Originalprüfungen. String-/indizierte Ergebnisziele, sämtliche Register-/Flags und eine aktive Originalspielkontextverwaltung bleiben offen.
+
+Der Toolkit-Adapter bindet148 an; unbekannte/abgeschnittene Ziele halten vor jeder Zustandsänderung. Der fortlaufende Originalvergleich bestätigt nun20 Schritte für Ishar2 IO.IO bis SI009Bh, DXFFFFh und CX1E7Eh; nächster Halt62. Ishar1 FRISE.IO bleibt bei14 geprüften Schritten bis134. Adaptertests, Typecheck und Produktionsbuild bestehen. Die erneute Browserprüfung dieser Erweiterung ist noch offen.

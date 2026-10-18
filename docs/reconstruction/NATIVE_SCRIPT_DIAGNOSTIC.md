@@ -15,6 +15,7 @@ Der kontrollierte Kontext verwendet Moduloffset0/Segment4000h, Kontextsegment500
 - Opcode71: Literalwort nach ES:[BP-16h], ohne höhere Feldsemantik zu behaupten.
 - Opcode76: drei aufeinanderfolgende Zahlenoperanden nach ES:BP,+2,+4. Spätere Operanden sehen frühere Änderungen.
 - Opcode106: niedriges Ergebnisbyte eines Zahlenoperanden nach SS:0C99h.
+- Opcode148: Suche nach Literal-Modul-ID mit Selbstkontext-Ausschluss und erstem/allen Treffern; direkte Ergebnisziele6/8/18/20.
 - Opcode156: Kontextliste und Ergebnisübernahme für direkte Ziel-Tags6/8/18/20 (Byte/Wort mit16-/8-Bit-Offset). Eine leere kontrollierte Liste liefertFFFFh.
 
 Die Zahlenoperanden unterstützen Tags0/2/6/8: vorzeichenbehaftetes Literalbyte, Literalwort, Kontextbyte und Kontextwort. Andere Formen oder Opcodes werden nicht geraten oder übersprungen. Der Adapter hält ohne Änderung von SI und Schrittzahl an. Die Hostfunktionen ersetzen keine vollständige x86-Emulation oder ALIS-VM.
@@ -31,6 +32,8 @@ Aktueller Hoststand für Opcode31:18 Schritte bis SI0079h, DX0, CXFFFFh; nächst
 
 Aktueller Hoststand:19 Schritte mit Ishar2 IO.IO bis SI0095h, nächster Halt148. Bedingte Sprünge sind mit je8704 nativen Fällen beider Spiele geprüft. Ein fortlaufender nativer Vergleich bestätigt jeden der19 Schritte; zusätzlich sind14 Schritte des originalen Ishar1 FRISE.IO bis Opcode134 geprüft.
 
-Nächste Schritte: Opcode148 und seine Abhängigkeiten rekonstruieren, weitere belegte Handler anbinden, Scheduler-/Callbackzustände und Schrittprotokoll darstellen, Diagnoseimport in die gemeinsame Projektverwaltung integrieren. Mehrsegmentausführung und vollständige native VM bleiben offen.
+Aktueller Hoststand:20 Schritte mit Ishar2 IO.IO bis SI009Bh, DXFFFFh, CX1E7Eh; nächster Halt62. Opcode148 ist mit je2160 nativen Fällen pro Spiel geprüft. Die fortlaufende Originalprüfung bestätigt alle20 Schritte. Die erneute Browserprüfung für148 ist noch offen.
+
+Nächste Schritte: Opcode62 und seine Abhängigkeiten rekonstruieren, weitere belegte Handler anbinden, Scheduler-/Callbackzustände und Schrittprotokoll darstellen, Diagnoseimport in die gemeinsame Projektverwaltung integrieren. Mehrsegmentausführung und vollständige native VM bleiben offen.
 
 Die aktuelle Browserprüfung bestätigt ebenfalls19 Schritte bis SI0095h und den unveränderten Halt auf148. Für fortlaufende native Vergleiche: `python scripts/check-native-script-diagnostic-file.py <capture-memory.bin> <lokales-Modul.IO>` mit dem isolierten Unicorn-Pythonpfad aus der Testumgebung. Das Werkzeug prüft jeden unterstützten Schritt; Yield/Scheduler und Mehrsegmentmodule werden ausdrücklich noch nicht verglichen. Es schreibt keine Originalressourcen ins Repo.

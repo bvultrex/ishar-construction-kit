@@ -10,6 +10,7 @@ import {enumerateOriginalDosContexts} from './original-dos-context-list.ts';
 import {storeOriginalDosScriptResult} from './original-dos-script-result.ts';
 import {evaluateOriginalDosScriptExpression} from './original-dos-script-expression.ts';
 import {branchOriginalDosScriptConditional} from './original-dos-script-conditional.ts';
+import {findOriginalDosContextsByModule} from './original-dos-context-query.ts';
 export interface NativeScriptDiagnostic {module:AlisModule;memory:Uint8Array;globals:Uint8Array;bp:number;si:number;dx:number;cx:number;steps:number;status:'ready'|'yield'|'stopped';message:string}
 /** Editor-only controlled context. Does not alter the playtest or source file. */
 export function openNativeScriptDiagnostic(bytes:Uint8Array):NativeScriptDiagnostic{
@@ -45,12 +46,15 @@ export function stepNativeScriptDiagnostic(state:NativeScriptDiagnostic):NativeS
   const script=new Uint8Array(65536);script.set(state.module.image);
   try{const next=evaluateOriginalDosScriptExpression(script,memory,after,state.bp,dx,state.module.image.length);si=next.si;dx=next.dx;cx=next.cx;}
   catch(e){return stop(`Ausdruck unverändert angehalten: ${String(e)}`);}
- }else if(opcode===156){
-  const tag=state.module.image[after],length=[18,20].includes(tag)?2:[6,8].includes(tag)?3:0;
+ }else if(opcode===156||opcode===148){
+  const resultAt=state.si+(opcode===148?3:1);
+  if(resultAt>=state.module.image.length)return stop('Such-/Ergebnisoperand ist im Modul abgeschnitten.');
+  const tag=state.module.image[resultAt],length=[18,20].includes(tag)?2:[6,8].includes(tag)?3:0;
   if(!length)return stop(`Ergebnisoperand-Tag ${tag} ist noch nicht angebunden. Befehl unverändert angehalten.`);
-  if(state.si+1+length>state.module.image.length)return stop('Ergebnisoperand ist im Modul abgeschnitten.');
+  if(resultAt+length>state.module.image.length)return stop('Ergebnisoperand ist im Modul abgeschnitten.');
   const script=new Uint8Array(65536);script.set(state.module.image);
-  const list=enumerateOriginalDosContexts(memory,globals),next=storeOriginalDosScriptResult(script,memory,list.memory,after,state.bp,list.value);
+  const list=opcode===148?findOriginalDosContextsByModule(memory,globals,state.bp,script[after]|(script[after+1]<<8)):enumerateOriginalDosContexts(memory,globals),next=storeOriginalDosScriptResult(script,memory,list.memory,resultAt,state.bp,list.value);
+  if('cx' in list)cx=list.cx;
   memory=next.memory;globals=next.globals;si=next.si;dx=list.value;
  }else if(opcode===76){
   let cursor=state.si+1;
