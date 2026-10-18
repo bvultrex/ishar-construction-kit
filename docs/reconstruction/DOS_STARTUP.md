@@ -2178,3 +2178,26 @@ Evidence: STARTUP_CONFIGURATION_FILE_NATIVE_2026-10-18.json.
 Next startup dependency: configuration device discovery and application of
 selected fields to engine globals, before072D returns to098F and later services.
 The file routine does not itself transfer selections to engine globals.
+
+## Configuration transfer to engine globals (2026-10-18)
+
+`applyOriginalDosStartupConfiguration` follows Ishar1 module1933..1A2D and
+Ishar2 module1A07..1B01. It maps mouse selection to CA3, joystick selection
+to288A/B, video selection to word2894 and bytes2896..2899, keyboard selection
+to ASCII A/Q/Z at2893 and sound selection to2890/2891. Final AX is the
+sound selection byte, AH0; other general registers and SP remain unchanged.
+The sound-port tail at Ishar2 1AE8 (Ishar1 1A14) is unreachable from this entry
+because of the preceding unconditional jump. No invented execution is added.
+
+292 cases per profile (all256 values of each input plus36 mixed cases) compare
+full1MiB without masks, AX, other general registers and SP against native code.
+Flags are not claimed. Two sets of60 configuration-file cases also continue
+through transfer and original098F video selection. Component transitions are
+explicit: this is not the complete outer configuration UI or072D startup.
+The earlier no-IRQ VGA/frame composition remains a separately checked path.
+
+Reproduce: check-native-dos-configuration-apply.py CAPTURE, and
+check-native-dos-startup-configuration-file.py CAPTURE START.STP --apply --select-video.
+Evidence: CONFIGURATION_APPLY_NATIVE_2026-10-18.json. Original files unchanged.
+Device detection, configuration UI return and intervening072D OS services remain
+the next dependencies before a genuine contiguous startup can be claimed.

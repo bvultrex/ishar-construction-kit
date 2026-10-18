@@ -79,7 +79,9 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    noch kein gÃ¼ltiger Frame. Video-/Pufferinitialisierung ist inzwischen separat
    und in kontrollierter Ãœbergabe an den leeren Frame nativ geprÃ¼ft (432
    ReservierungsfÃ¤lle, acht VGA/Frame-FÃ¤lle; kein IRQ0A). Die vorgelagerte Grafikmodulauswahl098F ist ebenfalls mit18 Fällen
-   und acht anschließenden VGA-Kompositionen geprüft. Die originale Aufrufkette
+   und acht anschließenden VGA-Kompositionen geprüft. Dateiladen, Konfigurationsauswertung, Übergabe in Engine-Variablen und
+   Modulauswahl sind nun für beide Profile komponiert geprüft (je60 Fälle).
+   Geräteerkennung und äußere Aufrufkette bleiben offen. Die originale Aufrufkette
    einschlieÃŸlich MAIN muss diese ZustÃ¤nde noch selbst herstellen. Das hat Vorrang
    vor einer sichtbaren Ausgabe oder weiteren Aussagen zur Bildgleichheit.
    FE-Sonderpfad, weitere Operandformen

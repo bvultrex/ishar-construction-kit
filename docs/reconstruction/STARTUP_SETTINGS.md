@@ -71,3 +71,9 @@ Evidence: STARTUP_CONFIGURATION_FILE_NATIVE_2026-10-18.json.
 
 This proves resource round-trip and native decoder compatibility. It does not prove
 the full configuration UI, device probing, complete game boot or a visible change.
+
+The verified selection transfer is implemented in original-dos-configuration-apply.ts.
+`check-native-dos-startup-configuration-file.py CAPTURE START.STP --apply --select-video`
+continues each file case through the original transfer and video-module selection.
+Both profiles pass60 such composed cases; component entry transfers are explicit.
+This does not include configuration UI/device detection or the entire boot.
