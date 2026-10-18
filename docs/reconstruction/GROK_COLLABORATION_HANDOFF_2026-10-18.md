@@ -1,5 +1,10 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**Neuester Laufzeitstand:** PHYSICAL_A1_LOGO.md weist CALL79E9 bis795C am echten
+Ishar-1-LOGO-Checkpoint nach: Register, DOS-Reads und physischer Speicher außer
+temporärem Stack stimmen überein. Damit ist dieser Decoderfall kein ungeprüfter
+Entwurf mehr. Dateiabschluss und Registrierung sowie weitere Profile sind offen.
+
 **Grok-Nachtrag übernommen:** Die 21 Berichte von `be14a6b` sind unverändert
 integriert, einschließlich beider Kampfverträge. Erste geprüfte Umsetzung:
 zwei veraltete Diagnose-Erwartungen korrigiert und als npm-Prüfer registriert;

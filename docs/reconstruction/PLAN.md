@@ -34,6 +34,12 @@ Ein bestandener synthetischer Test beweist keine Original-Verhaltensgleichheit.
 
 ## Nächster konkreter Schritt
 
+Neuester Laufzeitnachtrag: PHYSICAL_A1_LOGO.md dokumentiert den jetzt bestandenen
+nativen Vergleich des physischen A1-Decoders am echten Ishar-1-LOGO-Startzustand.
+Der frühere Entwurfsstatus unten ist damit für diesen einzelnen Fall überholt.
+Nächste Lücke: Dateiabschluss, Modulregistrierung und Rückkehr zu Opcode 69;
+Ishar-2- und weitere Decoder-Grenzfälle bleiben offen.
+
 Aktueller Nachtrag 2026-10-18 (Grok-Integration): Beide Kampfverträge sind
 übernommen. Die lokale Prüfung der originalen FRISE-Treffer-/Schadensausdrücke
 besteht mit je 108 Fällen; native RNG-Aufrufe mit Grenze null sind für beide
