@@ -14,7 +14,9 @@ import {completeOriginalDosTimerStartup as completeTimer} from '../src/lib/ishar
 import {initializeOriginalDosJoystick as initializeJoystick} from '../src/lib/ishar/original-dos-joystick-startup.ts';
 import {checkOriginalDosStartup as checkStartup} from '../src/lib/ishar/original-dos-startup-checks.ts';
 import {enterOriginalDosStartup as enterStartup,finishOriginalDosStartupCaller as finishStartup} from '../src/lib/ishar/original-dos-startup-entry.ts';
-const startupCaller=process.argv.includes('--startup-caller'),startupEntry=startupCaller||process.argv.includes('--startup-entry');
+import {prepareOriginalDosMainStartup as prepareMain} from '../src/lib/ishar/original-dos-main-startup.ts';
+const mainIndex=process.argv.indexOf('--main-prefix'),main=mainIndex>=0?new Uint8Array(readFileSync(process.argv[mainIndex+1])):null;
+const startupCaller=!!main||process.argv.includes('--startup-caller'),startupEntry=startupCaller||process.argv.includes('--startup-entry');
 const startupChecks=startupEntry||process.argv.includes('--startup-checks'),joystick=startupChecks||process.argv.includes('--joystick');
 const timerComplete=joystick||process.argv.includes('--timer-complete'),timerPrefix=timerComplete||process.argv.includes('--timer-prefix'),mouse=timerPrefix||process.argv.includes('--mouse'),graphics=mouse||process.argv.includes('--graphics'),keyboard=graphics||process.argv.includes('--keyboard');
 const audio=keyboard||process.argv.includes('--audio'),ems=audio||process.argv.includes('--ems');
@@ -51,7 +53,8 @@ for(const countryAL of [0x21,0x31])for(const mouseAX of [0,65535])for(const fail
  }
  }
  if(startupCaller&&result.reason==='return'){const finished=finishStartup(memory);memory=finished.memory;result.boundary=finished.boundary;result.finalRegisters.di=finished.di;}
+ if(main&&result.reason==='return'){const prepared=prepareMain(memory,main.slice(0,22),5);memory=prepared.memory;result.stages.push({stage:'main-prefix',events:prepared.events});result.boundary=prepared.boundary;result.finalRegisters={...result.finalRegisters,...prepared.registers};result.mainTables={records:prepared.tableRecords,links:prepared.links};}
  if(!initial.every((v,i)=>v===before[i]))throw Error('Entry mutated source');
- const delta=startupEntry?0xf714:0;memory.fill(0,0x1c0b0+(graphics&&result.reason!=='menu'?0xfebc:0xfec0)-delta,0x1c0b0+0xff00-delta);cases.push({startupCaller,startupEntry,startupChecks,joystick,timerComplete,timerPrefix,mouse,graphics,keyboard,audio,ems,earlyServices,callerSelect,boundarySegment:callerSelect&&result.reason!=='menu'?0x1000:0x23d7,countryAL,mouseAX,failure,configure,...result,hash:createHash('sha256').update(memory).digest('hex')});
+ const delta=startupEntry?0xf714:0;memory.fill(0,0x1c0b0+(graphics&&result.reason!=='menu'?0xfebc:0xfec0)-delta,0x1c0b0+0xff00-delta);cases.push({mainPrefix:!!main,startupCaller,startupEntry,startupChecks,joystick,timerComplete,timerPrefix,mouse,graphics,keyboard,audio,ems,earlyServices,callerSelect,boundarySegment:callerSelect&&result.reason!=='menu'?0x1000:0x23d7,countryAL,mouseAX,failure,configure,...result,hash:createHash('sha256').update(memory).digest('hex')});
 }
 console.log(JSON.stringify(cases));

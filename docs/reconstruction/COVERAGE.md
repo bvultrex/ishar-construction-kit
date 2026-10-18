@@ -122,3 +122,5 @@ Sie behauptet insbesondere keine aktuell neu getesteten Browser- oder Originalsp
 2026-10-18: Contiguous engine0787..0952 now verified for both games through joystick and final checks, stopping atRET0953 or original low-memory0A6F boundary;64 connected cases and640 independent final-check cases. Explicit version minima67C0(I1)/6F80(I2). Next actual caller/MAIN connection and interactive memory-failure branch; not complete boot.
 
 2026-10-18: Actual engine entry25E5 and PSP prefix072D now reconstructed (168 native cases), connected with original SS1C0B/SP0800 and saved register frame through successful RET0953/far8DBE to MAIN caller2604 (64 cases incl. menu/low-memory stops). Next7641/78F9 and resource loader on that state, then2607 without zeroing globals. Full boot remains open.
+
+2026-10-18: Original25E5 startup now connects through7641/78F9 B04-zero branch to actual MAIN header/table/pool initialization77F5, without clearing globals or injected layout;64 connected cases (six reach77F6, other menu/low-memory stops). Native private checkpoints saved outside repo. Next actual-buffer decode/close/registry/root and2607; full boot still unproven.

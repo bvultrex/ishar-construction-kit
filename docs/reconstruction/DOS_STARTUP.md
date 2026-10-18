@@ -2632,3 +2632,36 @@ IRQ executions remain controlled; no real device emulation claim.
 Next: connect7641/78F9 to the verified76BC MAIN loader on this original
 startup state, then resume2607 without resetting globals. Full boot and
 visible frame are still unproven; interactive0A6F and active callbacks remain open.
+
+
+### MAIN loader on actual startup state (2026-10-18)
+
+`original-dos-main-startup.ts` connects CALL7641, the78F9 B04-zero branch,
+and76BC..77F5. It reuses the verified DOS open/read helpers, header table
+planner and physical resource initializer. No globals are cleared and no
+resource base, graphics target or upper frontier is injected. The original
+sets B04/B020, opens CS:7857, reads6+16 bytes to SS2480/2486, plans tables
+from the actual B90/B92/B94/B96 left by startup, and initializes the context
+and object pools before77F6. Other78F9 cached-module paths are not claimed.
+
+`--main-prefix MAIN.IO` implies the full engine-start path. Both identified
+MAIN SHA256s are checked against their capture profile before execution.
+The native checker executes uninterrupted calls from25E5 through77F5,
+with explicit BIOS/DOS/port replies and the three previously tested IRQ8
+handler deliveries. Across32 cases per game, fourIshar1 and twoIshar2
+successful startup paths reach77F6; other cases stop at the previously
+specified menu or low-memory boundary. Full memory except07A8..07EB,
+AX/BX/CX/DX/DI/DS/ES/SP and DOS event traces match. The top caller return
+word07EC is compared rather than hidden by the scratch mask. Typecheck passes.
+
+Evidence: STARTUP_MAIN_PREFIX_NATIVE_2026-10-18.json. Reproduce:
+`check-native-dos-configuration-entry.py CAPTURE START.STP --blancpc BLANCPC.IO --main-prefix MAIN.IO`.
+Optional `--checkpoint-prefix PRIVATE_DIRECTORY` writes exclusive new binary
+memory/checkpoint metadata files only after comparisons succeed, outside the
+repository, source captures and original installation directories. These
+contain original code/data and must remain private; none are committed.
+
+Next: execute77F6 destination/decode setup and A1 decode using the actual
+startup buffer, then close/register/create the root and return to2607.
+The existing standalone MAIN tests used controlled globals/layouts and do
+not by themselves prove this new connected startup path past77F5.
