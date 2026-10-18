@@ -1,0 +1,46 @@
+{
+  "description": "Complete normal/compound resource draw through handler return; no original resource bytes",
+  "matrix": {
+    "opcodes": [
+      72,
+      73
+    ],
+    "es": [
+      20480,
+      7179
+    ],
+    "resources": [
+      "normal type1",
+      "empty compound",
+      "two-leaf compound"
+    ],
+    "existingRecords": [
+      "none",
+      "one FF",
+      "two zero"
+    ],
+    "freeModes": [
+      0,
+      1
+    ],
+    "flip": [
+      0,
+      1
+    ]
+  },
+  "profiles": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 144,
+      "resultsSha256": "7cda652df0510ee32d94222d870631ae9ba6e56ca10a56b3532d2b95541f522c"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 144,
+      "resultsSha256": "56eb24ca17d36d5be317a057052bb2aa90186ab1276b54ba1fad0f46e423b4d9"
+    }
+  ],
+  "limits": "Six script registers/SP and full physical memory except CPU stack saves. FE body and unsupported numeric forms are rejected; original graphics hardware/pixels excluded."
+}

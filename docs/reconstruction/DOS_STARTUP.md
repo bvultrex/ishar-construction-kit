@@ -1691,3 +1691,58 @@ Metadaten: `MAIN_RESOURCE_DRAW_NATIVE_2026-10-18.json`.
 Hosttest `node scripts/check-dos-resource-draw.mjs`, Typecheck und Diffprüfung
 bestanden. Nächste zusammenhängende Arbeit ist34B7 mit Datensatzsuche35CF,
 gegebenenfalls Allokation3626 und der Rückkehr über verbleibende Verbundkinder.
+
+### Vollständiger normaler/Verbundpfad72/73 bis zur Rückkehr (18.10.2026)
+
+`executeOriginalDosResourceDraw` erweitert die Vorbereitung um34B7..35AD:
+Datensatzsuche35CF, Wiederverwendung, Allokation3626, Felderübernahme3A4A,
+Aufräumen und Entfernen3AFA/3B52 sowie alle Verbundkinder und Stackrückkehr.
+Die physische Skriptausführung ruft diesen Pfad für72/73 auf. FE und nicht
+erschlossene numerische Formen werden weiterhin vor einer Rückgabe von
+geändertem Speicher abgewiesen. Poolmangel liefert ausdrücklich die Grenze
+des originalen Fehlers10; eine erfolgreiche Allokation wird nicht simuliert.
+
+35CF sortiert anhand vorzeichenbehafteter16-Bit-Objektwerte und8-Bit-Unterindizes.
+Ein freier Eintrag stammt aus BEC; sein Folgezeiger+4 wird in die Kontextliste
+eingefügt, während+6 die gesonderte Objektverknüpfung erhält. Der Besitzer wird
+über ES:BF6+Auswahl+2 gelesen. Neue Einträge erhaltenFF. Einzelressourcen können
+vorhandene Einträge wiederverwenden; im Verbund-/C14-Pfad werden zunächst nur
+passende Einträge mit Status0 wiederverwendet. Wiederverwendung setzt2, sofern
+der bisherige Status nicht negativ ist. Unbekannte übrige Datensatzbytes bleiben
+erhalten. Ressourcenreferenz, Kontextattribute, Spiegelung und drei absolute
+Koordinaten werden in der nativen Reihenfolge übertragen.
+
+Aufräumen entfernt verbliebene Status0-Einträge des ausgewählten Objekts/
+Unterindexes. Bei BF3=0 werden nichtnegative Einträge mit1 markiert und nur
+aus der Kontextliste genommen. Andernfalls gelangen sie zurück in die Freiliste
+und werden auch aus der Objektverknüpfung entfernt. Die beiden Listen werden
+nicht als ein und dieselbe Struktur behandelt. Zyklische/fehlende Verknüpfungen
+werden als Hostfehler ausgewiesen, ohne den Eingabespeicher zu verändern.
+
+Bei jedem rekursiven Kind werden C12/C02/C04/C06 als Wörter gesichert und
+rückwärts wiederhergestellt. Wichtig: C12 umfasst auch das Byte C13. Dadurch
+erhält die Elternebene ihren Verbundstatus zurück. DS/SI/CX werden nach dem
+Gesamtbefehl wiederhergestellt; DX behält die letzte Teilressourcen-ID.
+
+`check-native-dos-resource-draw-complete.py <memory.bin>` vergleicht je144
+synthetische Fälle beider Spiele bis26F7:72/73, normales Blatt/leerer Verbund/
+zwei Kinder, getrenntes oder SS-aliasierendes ES, keine/eine FF/zwei0-Alteinträge,
+beide BF3-Modi und Spiegelungszustände. Der Nachweis umfasst Register, SP und
+den kompletten Speicher außer dem bekannten CPU-Stackbereich. Metadaten:
+`RESOURCE_DRAW_COMPLETE_NATIVE_2026-10-18.json`. Die bisherigen160
+Vorbereitungsfälle einschließlich relativer Überträge bestehen weiterhin.
+
+`check-native-dos-main-draw.py <privates Verzeichnis> --complete --follow`
+führt den unveränderten, hashgebundenen MAIN-Zustand durch den gesamten73.
+Alle drei gültigen Ishar2-Layouts stimmen nativ überein: Datensätze192/230/268,
+SI15026, DX14, CX10 und unveränderter Stackzeiger. Der folgende Befehl ist186;
+er wird nicht übersprungen. Metadaten:
+`MAIN_RESOURCE_DRAW_COMPLETE_NATIVE_2026-10-18.json`.
+
+Dies ist eine vollständige Befehlsrückkehr für den geprüften normalen/Verbundpfad,
+keine vollständige Rekonstruktion aller Grafikbefehle. Der FE-Pfad und weitere
+Ausdrucksformen bleiben offen. Keine Pixel oder Hardwareausgabe werden durch
+diesen Nachweis behauptet; Ishar1 hat die synthetischen Befehlsnachweise, nicht
+den entsprechenden vollständigen MAIN-Start. Hosttests für Allokation,
+Wiederverwendung, Dispatch und atomare Fehlerschranken, bestehende Regressionen,
+Typecheck und Diffprüfung bestanden. Nächste konkrete Stelle ist186 nach73.
