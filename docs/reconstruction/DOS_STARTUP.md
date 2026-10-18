@@ -1844,3 +1844,78 @@ Browseranbindung bleiben offen. Ishar1 hat synthetische Befehlsnachweise,
 weiterhin keinen entsprechenden vollständigen MAIN-Start. Hosttest
 `node scripts/check-dos-string-output.mjs`, Zeichenlisten-/Schrittregressionen,
 Typecheck und Diffprüfung bestanden. Nächste Originalstelle ist3E55.
+
+### Sichtbarer Objekteinstieg und erste Projektion36E1 (18.10.2026)
+
+`original-dos-visible-object.ts` bildet den Frame-Aufruf3DE4 nach3E55,
+Dirty-Verarbeitung3CEB und die erste Statusauswahl einschließlich4170 ab.
+C48 wird gelöscht, BE8 nach B26 übernommen und der Pool über BEA geladen.
+Bei C49!=0 oder gesetztem Objektbit80 werden die drei ausstehenden Worte
+Objekt+42/+44/+46 zu+22/+24/+26 addiert, dann gelöscht. Die über SS:B18 und
+Pool+6 verketteten Status0-Einträge erhalten2; Objektbit80 wird gelöscht.
+Objektbit4 im zweiten Byte steuert1DA6. Bit10 führt ausdrücklich zur noch
+nicht ausgeführten Clippinggrenze3EEA.
+
+Der normale Pfad liest die erste aktive+6-Verknüpfung, überspringt Status0
+und setzt C18/B56/C48 in nativer Reihenfolge.4170 kopiert das Wort Eintrag+30
+nach B22 und initialisiert C2C/C2E mit7FFF sowie C30/C32 mit8000. Grenzen:
+neuer StatusFF bei408A, Status2 bei40A1, andere Status bei40BA. Die drei
+gesicherten Zusatzwörter ergeben ein Stackdelta-26 relativ zu3DE4; der
+Clippingpfad endet bei-20. Leere Objektlisten kehren bereits vollständig
+nach3DE7 zurück. Zyklen sind explizite Hostfehler, keine Originalspielregeln.
+
+`check-native-dos-visible-object.py <memory.bin>` vergleicht je288 Fälle
+beider Profile: getrenntes/SS-aliasierendes ES, Poolbasis0/100, Dirty- und
+C49-Zustände, Objektbits0/4/10 und sechs Statusketten einschließlich leer,
+Status0/FF/2/1 sowie0→FF. Sechs Skriptregister, SP und ganzer Speicher außer
+den bekannten CPU-Stack-Sicherungen stimmen überein. Metadaten:
+`VISIBLE_OBJECT_NATIVE_2026-10-18.json`.
+
+`original-dos-record-projection.ts` bildet36E1..3942 mit3955 ab. Der
+ausgewählte Eintrag wird relativ zu seinem Besitzer transformiert. Der
+Standardpfad3943 liefert X, Faktor*Y-Z und Y; die alternative vorzeichen-
+gesteuerte Matrix verwendet die originalen neun signed Bytekoeffizienten.
+Die Projektion erhält16-/32-Bit-Überläufe, beide signed Divisionen, das
+Z=0→1-Verhalten, Tiefenbegrenzung, arithmetische Shifts und Objektverschiebung.
+Eine nicht darstellbare Division wird als originale INT0-Grenze abgewiesen.
+
+Der Ressourceneintrag wird über das Tiefenvariant-Offset aufgelöst, mit dem
+bereits nachgewiesenen relativen Übertrag/Byteaustausch/Absatzverfahren.
+Typ3 fügt die originale zusätzliche Indirektion, Offsets und Spiegelungsänderung
+hinzu. Rasteranpassung38C8 einschließlich8-Bit-MUL/DIV und des unveränderten
+AX-Nebeneffekts wird erhalten. Breite/Höhe werden halbiert und von den
+projizierten Koordinaten abgezogen; C5E/C60/C62/C64/C66 und weitere originale
+Scratchglobals stimmen nativ überein. Es werden keine Pixel geschrieben.
+
+`check-native-dos-record-projection.py <memory.bin>` vergleicht je128 Fälle:
+DS/ES getrennt oder SS-aliasierend, deaktivierte Objekt-/Datensatzperspektive,
+aktive Perspektive und Überlauf, Standard-/Matrixtransformation, Typ1/3 und
+Raster0/4. Je96 Fälle vergleichen AX/BX/CX/DX/SI/DI/BP/DS/ES, SP und Speicher;
+je32 prüfen die originale INT0-Grenze, ohne danach vollständige Zustands-
+gleichheit zu behaupten. Die Wortdivisionsfehler sind dadurch nativ geprüft;
+weitere mögliche Byte-Divisionsfehler haben noch keinen eigenen nativen Fall.
+Metadaten: `RECORD_PROJECTION_NATIVE_2026-10-18.json`.
+
+`check-native-dos-main-draw.py <privates Verzeichnis> --projection --shift-flags 0`
+führt den bereits belegten MAIN-/String-/Callback-/Framezustand weiter. Erst
+werden der Objekteinstieg und4170 verglichen, dann die tatsächlichen CALLs
+408A→40D9→36E1 ausgeführt. Die Projektion kehrt nach40DC zurück. Im ersten
+Layout: Objekt738, Eintrag1332, Poolsegment14226, aufgelöste Ressource16974:0.
+Alle drei gültigen Ishar2-Layouts stimmen an diesen Grenzen nativ überein.
+
+Die tiefere Aufrufkette benötigt mehr CPU-Stack als die bisherigen Tests:
+Für die Projektion wird der maskierte Sicherungsbereich gezielt auf
+`min(FEC0, Eintritts-SP-18)..FF0F` erweitert (hier FEBE). Die18 Bytes stammen
+aus fünf PUSH-Wörtern, CALL3955 und drei PUSH-Wörtern im Standardtransform.
+SP und Register bleiben separat geprüft; eine Gleichheit dieser absichtlich
+nicht modellierten Stackbytes wird nicht behauptet. Alle übrigen physischen
+Bytes werden weiterhin verglichen. Das Maskierungsfenster steht in den
+Metadaten: `MAIN_OBJECT_PROJECTION_NATIVE_2026-10-18.json`.
+
+Die neue Fortsetzung ist CLI-Analyse und erweitert den Browser noch nicht.
+Offen bleiben der Clipzweig, die restlichen Einträge,40DC mit Umsortierung
+und die anschließenden Pixel-/Geräteroutinen. Die kontrollierte Startumgebung
+und BIOS-Antwort bleiben explizite Bedingungen; Ishar1 hat weiterhin seinen
+separaten offenen MAIN-Dateisuchpfad. Hosttests für Delta-/Statusverarbeitung,
+Zyklen, Koordinaten/Abmessungen und atomare Divisionfehler, Frame-/String-
+Regressionen, Typecheck und Diffprüfung bestanden.

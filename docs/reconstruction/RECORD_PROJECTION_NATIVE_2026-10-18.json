@@ -1,0 +1,48 @@
+{
+  "description": "record projection native; no original resource bytes",
+  "matrix": {
+    "ds": [
+      28672,
+      7179
+    ],
+    "es": [
+      20480,
+      7179
+    ],
+    "modes": [
+      "skip-object",
+      "skip-record",
+      "perspective",
+      "fault"
+    ],
+    "matrixTransform": [
+      false,
+      true
+    ],
+    "resourceTypes": [
+      1,
+      3
+    ],
+    "grid": [
+      0,
+      4
+    ]
+  },
+  "profiles": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 128,
+      "faultCases": 32,
+      "resultsSha256": "8aa2c75678e29a4d269aa507356167e5fee60981190155bf3a219e8e0f38ea61"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 128,
+      "faultCases": 32,
+      "resultsSha256": "e9e0cd7c12482ded04f3fc020263807337f1b9dcee6512ffdf8d51311b88ffda"
+    }
+  ],
+  "limits": "Return registers/SP and full memory except explicit CPU-stack mask; INT0 cases compare fault boundary only; no pixels/hardware."
+}
