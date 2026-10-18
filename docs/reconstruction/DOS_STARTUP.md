@@ -2441,3 +2441,32 @@ Evidence: KEYBOARD_GRAPHICS_STARTUP_NATIVE_2026-10-18.json. Original files
 unchanged. Next08F9 initializes mouse input, followed by the original timer
 startup. Active audio drivers, earlier072D and MAIN connection remain open.
 No visible full game frame is claimed.
+
+## Complete mouse startup and contiguous input handoff (2026-10-18)
+
+`initializeOriginalDosMouseStartup` follows08F9 ->11C3..1248. Nonzero CA3
+skips driver initialization; otherwise CA3 is set1 and INT33 reset is queried.
+Any nonzero AX enables the driver. It first requests ratio16/32, stores cursor
+data2780:1C0B, and for2896 exactly1 requests position160/100, bounds0..319
+and0..199, ratio32/32 and callback1000:1249 with mask003F. Then CA3=0 and
+C9D mask0004 is set. CB1=FF is written on every return, including skipped/absent
+mouse paths. The data segment1C0B is literal in both captured binaries.
+
+72 cases per game pass exact1MiB except two-byte return address FEFE..FEFF,
+INT33 call order/arguments and DS/ES/SP. Cases cover CA3=0/1/FF, mode0/1/2/FF,
+reset AX0/1/FFFF and old flags0/FFFF. Driver callbacks, device state changes
+and other scratch registers/flags remain outside this explicit service model.
+
+32 combined cases per profile execute the original code contiguously from0787
+through configuration, memory/resource setup, audio fallback, keyboard, VGA
+and mouse to08FC; menu cases stop earlier. No internal component jumps/stubs
+or shared-global resets are used. Reset replies test missing/present mouse;
+callbacks are registered but not delivered. The graphics stack mask remains
+FEBC..FEFF on normal returns, FEC0..FEFF on earlier menu paths.
+
+Reproduce: check-native-dos-mouse-startup.py CAPTURE;
+check-native-dos-configuration-entry.py CAPTURE START.STP --blancpc BLANCPC.IO --mouse.
+Evidence: MOUSE_STARTUP_NATIVE_2026-10-18.json. Original files unchanged.
+Next08FC calls0BFA timer initialization, including real IRQ-dependent waits.
+Timer delivery, active audio driver bodies, earlier072D and MAIN connection
+remain open; no visible full game frame is claimed.
