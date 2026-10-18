@@ -9,13 +9,7 @@ export function assignOriginalDosScriptValue(script:Uint8Array,context:Uint8Arra
  const word=(buf:Uint8Array,at:number)=>buf[at]|(buf[at+1]<<8);
  let nextGlobals=globals.slice(),cx=dx;
  if(si>=sourceLength)throw Error('Assignment expression is truncated');
- if(script[si]===4){
-  si++;let destination=word(nextGlobals,0xc58);
-  while(true){
-   if(si>=sourceLength||destination>=65536)throw Error('Literal string crosses host source/buffer window');
-   const value=script[si++];nextGlobals[destination++]=value;if(value===0)break;
-  }
- }else{const expression=evaluateOriginalDosScriptExpression(script,context,si,bp,dx,sourceLength,globals);si=expression.si;dx=expression.dx;cx=expression.cx;}
+ const expression=evaluateOriginalDosScriptExpression(script,context,si,bp,dx,sourceLength,globals);si=expression.si;dx=expression.dx;cx=expression.cx;nextGlobals=expression.globals!;
  if(si>=sourceLength)throw Error('Assignment result is truncated');
  if(script[si]!==34){
   const tag=script[si],length=[18,20].includes(tag)?2:[6,8].includes(tag)?3:0;

@@ -78,3 +78,9 @@ Der kontrollierte Ishar2-`--resume-main`-Test erreicht jetzt186,31 und20 nach de
 30 unterstützt die bereits erschlossene numerische Ausdrucksteilmenge mit direkten Byte-/Wortzielen sowie Literalstrings4 und Stringziel34 relativ zu SS:0BF6. Die Originalfolge Literalpuffer schreiben,0C58/0C5C tauschen und in das Kontextsegment kopieren bleibt erhalten. Fehlende Terminatoren und überschrittene Hostfenster halten unverändert an. Weitere Stringformen und Segmentüberlappungen bleiben offen.
 
 Je148 native Vergleichsfälle pro Spiel bestanden;192 bestehende Ergebnisfälle pro Spiel bestehen erneut. Der kontrollierte Ishar2-Main-Test erreicht nach dem Frame nun186,31,20,30 und hält bei SI00D3h vor einem weiteren Ausdruck in31. Ishar1 erreicht unverändert seinen zweiten Yield. Noch keine vollständige String- oder Skript-VM.
+
+## Kontextstrings in Ausdrücken
+
+Die Ausdrucksauswertung unterstützt jetzt4 (Literalstring) und34 (Kontextstring relativ zu SS:0BF6). Beide kopieren rohe nullterminierte Bytes in den Originalpuffer SS:[0C58]. Der Auswerter liefert die veränderten Globals zurück; die Diagnose übernimmt sie atomar bei Erfolg. Auch Zuweisung30 verwendet diesen gemeinsamen Ablauf.
+
+Je144 neue native Stringausdrucksfälle pro Spiel bestanden, ebenso die bisherigen Ausdrucks-/Zahlen-/Zuweisungsvergleiche. Fehlende Pufferdaten oder überschrittene Segmentfenster halten unverändert an. IO.IO:00D3h bleibt vorerst offen, weil nach dem Kontextstring der noch nicht rekonstruierte Ausdruckstag156 folgt; dieser ist nicht der bereits unterstützte Skriptopcode156.
