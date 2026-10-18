@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {finishOriginalDosPhysicalYield as finish} from '../src/lib/ishar/original-dos-physical-yield.ts';
+const memory=new Uint8Array(0x100000),v=new DataView(memory.buffer),g=0x1c0b0,c=0x50000,bp=0x200;
+const w=(at,value)=>v.setUint16(at,value,true),input={ds:0x3000,es:0x5000,si:0x1234,bp,dx:0x3456,cx:0x789a};
+for(const [at,value] of [[g+0xbd2,0x100],[g+0xbea,0x6000],[c+bp-18,0x4000],[c+bp,1],[c+bp-24,0x300],[0x60304,0x340]])w(at,value);
+memory[c+bp-2]=7;let before=memory.slice(),result=finish(memory,0x1c0b,input);
+assert.equal(result.phase,'frame');assert.equal(result.visited,2);assert.equal(result.registers.ds,0x6000);assert.equal(result.memory[0x60300],2);assert.equal(result.memory[c+bp-1],7);assert.equal(new DataView(result.memory.buffer).getUint16(c+bp-8,true),input.si);assert.deepEqual(memory,before);
+w(0x40006,20);before=memory.slice();result=finish(memory,0x1c0b,input);assert.equal(result.phase,'callback');assert.equal(result.visited,0);assert.equal(result.memory[0x60300],0);assert.equal(result.memory[c+bp-1],0);assert.deepEqual(memory,before);
+w(0x40006,0);w(0x60344,0x300);const cycle=memory.slice();assert.throws(()=>finish(memory,0x1c0b,input),/cycle/);assert.deepEqual(memory,cycle);
+assert.throws(()=>finish(new Uint8Array(1),0x1c0b,input),/1MiB/);
+assert.throws(()=>finish(memory,0x1c0b,{...input,es:65535}),/outside/);
+console.log('Physical yield object updates, callback precedence, countdown order, immutable inputs and cycle guard passed');

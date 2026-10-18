@@ -1322,3 +1322,55 @@ Lauf vor der expliziten DOS-Dateisuche156; kein Erfolg wird simuliert.
 Metadaten: PALETTE_CONTROL_NATIVE_2026-10-18.json. Originaldateien und Captures
 bleiben unverändert. Nächste Arbeit: echter MAIN-Yield-Abschluss/Scheduler und
 DOS-Dienstbindung; die Gerätepfade bleiben gesonderte offene Abnahmen.
+
+## Physischer Yield-Abschluss und tatsächlich erreichter MAIN-Callback
+
+`original-dos-physical-yield.ts` verbindet26B2..26E8 mit2632..264F in derselben
+physischen Speicherkopie. Zunächst wird SI nach ES:[BP−8] geschrieben. Der
+Modul-Far-Pointer aus BP−20/BP−18 liefert den originalen Rückkehr-Callback.
+Ist dessen Offset ungleich0, werden0C19 gelöscht und der aktuelle Kontextstack
+nach0C56 gesichert; das Ergebnis endet vor dem echten26EB-Callbackdispatch mit
+Stackdelta−2. Countdown-Neuladen, Objektupdates und Kontextauswahl werden in
+diesem Zweig nicht vorgezogen.
+
+Ohne Callback werden die drei aktuellen Kontextworte mit0BFA/0BFC/0BFE
+verglichen. Nichtnull-Deltas laden das Original-Objektsegment0BEA und aktualisieren
+die über BP−24 verketteten Datensätze in Originalreihenfolge. Auch bei leerem
+Kopf wird dann DS geladen. Status0 wird2, Wortfelder22/24/26 erhalten die
+16-Bit-Deltas. Danach wird der Countdown aus BP−2 übernommen und anhand des
+originalen Tabellenslots der nächste Kontext oder die Framegrenze gewählt.
+Gemeinsamer physischer Speicher erhält Objekt-/Kontextaliasse; kein kompletter
+Segment-Writeback überschreibt zwischenzeitliche Änderungen eines anderen Views.
+Zyklen und segmentübergreifende Wortzugriffe werden ausdrücklich als Hostgrenzen
+abgewiesen, nicht als vermeintliche Originalvalidierung ausgegeben.
+
+`check-native-dos-physical-yield.py <capture>` besteht je48 Fälle beider Profile:
+Callback0/20, drei Deltaausgangswerte, leere/zweigliedrige Kontextobjektketten,
+Frame-/Nachbarkontextauswahl und getrennte beziehungsweise identische Objekt-
+und Kontextsegmente. Verglichen werden die sechs Skriptregister, Stackwirkung
+und sämtliche physischen Bytes außer dem bisherigen Sicherungsstackfenster.
+Die Original-Callback- und Framekörper werden an dieser Grenze nicht ausgeführt.
+Hostprüfung: `node scripts/check-dos-physical-yield.mjs` für Callbackvorrang,
+Objekt-/Countdownwirkungen, Quellschutz und Zyklusgrenze. Typecheck besteht.
+
+`check-native-dos-resource-file.py <capture> <MAIN.IO> --finish-main-yield`
+enthält den bisherigen durchgehenden Nachweis und setzt die tatsächlich
+erreichte CPU bei26B2 fort. In Ishar2 führen alle drei gültigen Layouts in den
+Original-Callback bei SI16277, DX30,CX2,BP672. Modulsegment ist das tatsächlich
+geladene Segment,0C19=0 und0C56 enthält den vor dem Callback gesicherten Stack.
+Der gespeicherte MAIN-Skriptzeiger bleibt16103. Der vollständige Speicher- und
+Registervergleich besteht, ohne den Callback zu überspringen.
+
+Wichtiger Befund: Die globale aktive Liste0C16 hat den relativen Kopf14; der
+Kontextobjektkopf BP−24 ist hier dagegen0. Die durch Opcode70 erzeugte aktive
+Liste darf nicht mit der an diesen Kontext gebundenen Delta-Kette gleichgesetzt
+werden. Im tatsächlichen MAIN-Lauf werden an dieser Stelle keine zwei Objekte
+als Kontextkette aktualisiert. Die getrennten synthetischen Fälle prüfen diese
+Updates, ohne sie dem beobachteten Startzustand zuzuschreiben.
+
+Ishar1 erreicht weiterhin vor seinem ersten Yield die explizite DOS-Dateisuche;
+der neue Modus behauptet dort keinen durchgeführten Yield-Abschluss. Metadaten:
+PHYSICAL_MAIN_YIELD_NATIVE_2026-10-18.json. Originaldateien und Captures bleiben
+unverändert. Nächster Schritt ist die Ausführung und Rückkehr des echten
+MAIN-Callbacks vor dem nächsten Frame; vollständiger Scheduler, Spielstart und
+Browserintegration bleiben offen.
