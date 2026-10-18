@@ -61,8 +61,10 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Ablauf bis zum Ende dieser Warteschleife ist ebenfalls verglichen: Nach29
    zusätzlichen vollständigen Schedulerzyklen folgt43→17, dann Opcode78 bei
    SI15009. Aktivierung78 ist inzwischen ebenfalls implementiert und nativ
-   verglichen; danach folgt71 bei SI15012. Dieser nächste Objektbefehl und die
-   folgende sichtbare Ausgabe bleiben offen.
+   verglichen; auch Auswahl71 bei SI15012 stimmt nativ überein. Danach folgt73
+   bei SI15015. Diese Ressourcen-/Grafikvorbereitung und die folgende sichtbare
+   Ausgabe bleiben offen. Verwandte Wortänderungen192/193/194 haben separate
+   native Befehlsnachweise, noch keinen vollständigen Inhaltsablauf.
    Ohne BIOS-Antwort bleibt der Callback an116 stehen. Aktive Objektliste und
    leere Kontextobjektkette bleiben getrennt;188-Grafikzweige sind separat offen.
    Abnahme:

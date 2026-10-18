@@ -1594,3 +1594,40 @@ Ergebnisdigest) sowie `MAIN_OBJECT_ACTIVATION_NATIVE_2026-10-18.json`.
 Hostprüfung: `node scripts/check-dos-object-visibility.mjs`, vorhandene
 Schritt-/Frameregressionen und Typecheck bestanden. Nächste Stelle ist71 im
 echten MAIN, anschließend der aktive Zeichenpfad.
+
+### Objektauswahl71 und Wortänderungen192/193/194 (18.10.2026)
+
+`original-dos-object-selection.ts` rekonstruiert71 (2EF3) sowie192 (2EFF),
+193 (2F41) und194 (2F21).71 liest einen unmittelbaren Wortzeiger und speichert
+ihn bei ES:BP-22, wenn sich die Auswahl geändert hat. DX/CX bleiben erhalten.
+Die drei anderen Befehle lesen zwei69A6/699E-Zahlenwerte und hinterlassen sie
+in DX/CX; unterstützt sind0/2/6/8/30/32, andere Formen werden atomar abgewiesen.
+Eine Nullauswahl unterdrückt nur die Speicheränderung, nicht das Lesen beider
+Operanden. Dies ist ausdrücklich kein erfundenes Editor-Auswahlmodell.
+
+Die Originaladressen unterscheiden sich:192 schreibt bei BF6+Auswahl+10/+12,
+193 dagegen bei BF6+14/+16 und194 bei BF6+18/+20. Nur192 addiert den ausgewählten
+Zeiger. Alle drei setzen Byteflag80 an ihrer jeweiligen Basis, erhalten aber
+die übrigen Flagbits. Die zunächst naheliegende einheitliche Adressierung wurde
+durch den nativen Vergleich widerlegt und anhand des Codes korrigiert. Eine
+weitergehende Bedeutung der Wortfelder wird hier nicht behauptet.
+
+`check-native-dos-object-selection.py <memory.bin>` prüft pro Originalprofil192
+Fälle: vier Befehle, zwei ES-Zuordnungen einschließlich SS-Alias, zwei Basen
+einschließlich16-Bit-Überlauf, Null-/Nichtnullauswahl und sechs Operandformen.
+Sechs Skriptregister, SP und der komplette physische Speicher außer dem
+bekannten CPU-Stack-Sicherungsbereich stimmen nativ überein. Unveränderte
+Captures werden abschließend geprüft. Metadaten mit Prüfmatrix und kanonischem
+Ergebnisdigest: `OBJECT_SELECTION_NATIVE_2026-10-18.json`.
+
+Der tatsächliche Ishar2-MAIN-Pfad läuft nach der Warteschleife nun43→17→78→71,
+in allen drei gültigen Layouts nativ verglichen. Danach steht SI auf15015,
+Opcode73. Die synthetisch geprüften192/193/194 wurden in dieser MAIN-Folge
+noch nicht erreicht. Metadaten: `MAIN_OBJECT_SELECTION_NATIVE_2026-10-18.json`.
+Reproduktion des MAIN-Nachweises weiterhin mit `--cycles 40 --shift-flags 0`.
+Kontrollierte Startglobals und explizite BIOS-Antwort bleiben Testbedingungen;
+nach Aktivierung ist weiterhin keine tatsächliche Grafikausgabe geprüft.
+
+`node scripts/check-dos-object-selection.mjs`, Auswahl-/Sichtbarkeits- und
+Schrittregressionen sowie Typecheck bestanden. Nächste konkrete Grenze ist73
+(336F), mit seiner Fortsetzung in der Ressourcen-/Grafikvorbereitung3415.
