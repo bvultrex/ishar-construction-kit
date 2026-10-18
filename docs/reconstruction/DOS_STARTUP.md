@@ -956,3 +956,42 @@ nur im nativen MAIN-Pfad ausgeführt, nicht allgemein hostseitig rekonstruiert.
 Keine Hardware-/Framebuffer-, Bildgleichheits- oder vollständige Spielstart-
 Behauptung. Nächster Schritt ist die Verbindung der geprüften Lade-/Rootwerte
 mit der Skriptausführung samt tatsächlichem Original-Anfangszustand.
+
+## Geladener MAIN-Kontext bis zum ersten Schedulerdispatch
+
+`original-dos-main-scheduler.ts` verbindet den vorhandenen Root-Slot mit der
+originalen Eintrittsvorbereitung2607..262F und264C..26AF. Die vier initialen
+Worte0C58/0C5A/0C5C/0C80 werden802h/902h/A02h/1E7Eh,0B02 wird0. Anschließend
+kommt der Kontextpointer aus ES:[0BD2], nicht aus einer manuell verknüpften
+Diagnosewurzel. Der vorhandene Schedulerhelfer prüft Aktivität/Countdown und
+übernimmt den gespeicherten Skriptpointer samt Modulsegment. Die vier
+Snapshotworte werden durch den originalen3C76-Vertrag übernommen.
+
+`check-native-dos-resource-file.py <capture> <MAIN.IO> --schedule` enthält den
+bisherigen Lade-/Grafik-/Rootnachweis. Nach dem kontrollierten Lader-RET wird
+die CPU ausdrücklich bei2607 fortgesetzt, mit den vorhandenen Registern und
+Speicherwerten. Es wird kein Kontext nachträglich erzeugt oder verknüpft.
+Die davorliegenden Plattformaufrufe072D/8DBE und der Loader-Aufrufer7641/78F9
+sind damit NICHT nachgewiesen; der kontrollierte Übergang ersetzt keinen Start
+ab EXE-Entry. Das API beschreibt diese Grenze ausdrücklich.
+
+Je drei nicht überlappende MAIN-Layouts pro Spiel erreichen den Hauptdispatch
+26EB mit BP672,SI24,BX0 und dem tatsächlich geladenen Modulsegment. ES/DS,
+BP/SI/BX, erhaltenes DX/CX und CALL-Stackwirkung−2 stimmen mit dem Hostmodell
+überein. Der gesamte physische Speicher wird verglichen, ausgenommen wiederum
+SS:FEC0..FF0F für Stack-Sicherungsbytes. Registryfehler und absichtlich ungültige
+Aliaslayouts bleiben im bisherigen Ladernativtest; ihre weitere Ausführung wird
+nicht als spielbarer Zustand freigegeben.
+
+Beide MAIN-Module beginnen dort mit Opcode70 (Handler2DED). Dieser legt anhand
+des bisherigen nativen Befunds Daten im MAIN-Kontext an und greift auf den
+Objektpool zu. Seine vollständige Rekonstruktion ist der nächste konkrete
+Schritt. Der Test hält VOR dessen Fetch an; er behauptet noch keine Ausführung
+des MAIN-Skripts und erweitert noch nicht die Browserdiagnose.
+
+Hostprüfung: `node scripts/check-dos-main-scheduler.mjs` prüft gespeicherte
+Rootwerte, unverändert belassenen Nullpointer, Snapshots, Stringpufferwerte,
+Quellschutz und ausdrücklich abgewiesene Speicherfenster. Überlappende
+Globals-/Kontextsegmente und segmentübergreifende Wortzugriffe sind Grenzen
+dieses komponierten API, keine behaupteten Originalregeln. Metadaten stehen in
+MAIN_SCHEDULER_NATIVE_2026-10-18.json; Originaldateien bleiben unverändert.

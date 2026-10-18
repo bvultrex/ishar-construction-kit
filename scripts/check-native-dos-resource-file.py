@@ -2,12 +2,14 @@
 Only the two identified read-only MAIN files and corresponding captures are accepted.
 Optional --decode includes actual A1 decode and close; no complete startup claim.
 --root also executes registry/notifications/context and the original loader RET.
+--schedule explicitly resumes at2607 to the first dispatch for nonalias layouts;
+the earlier platform services and loader caller are outside this test.
 """
 import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');a=p.parse_args();a.decode=a.decode or a.root
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');a=p.parse_args();a.root=a.root or a.schedule;a.decode=a.decode or a.root
 memory=a.capture.read_bytes();data=a.main.read_bytes()
 digest=hashlib.sha256(memory).hexdigest();file_digest=hashlib.sha256(data).hexdigest()
 profiles={
@@ -25,7 +27,7 @@ for case in vectors['cases']:
  if a.decode:cpu.mem_write(0x1c0b0+0xb5c,b'\0\x90')
  if a.root:cpu.mem_write(0x1c0b0+0xff00,b'\0\xe0') # Controlled caller for the final loader RET.
  reads=[];read_events=[];read_boundaries=[];opens=[];open_boundaries=[];done=[];position=[0];saved_init={};init_counts=[0,0];init_end={};init_hash=[];packed_reads=[];closed=[];decode_entry=[];write_bounds=[0x100000,0];close_state={};notifications=[];registry_checked=[];notification_active=[False];registry_writes=[0]
- graphics_expected=[];graphics_checked=[]
+ graphics_expected=[];graphics_checked=[];scheduler_expected=[];scheduler_done=[]
  destination=case['preparedDecode']['registers']['ds']*16+case['preparedDecode']['registers']['dx']
  def interrupt(uc,n,_):
   assert n==0x21
@@ -44,6 +46,7 @@ for case in vectors['cases']:
   reads.append((dx,cx));chunk=data[position[0]:position[0]+cx];position[0]+=len(chunk)
   uc.mem_write(ds*16+dx,chunk);uc.reg_write(UC_X86_REG_AX,len(chunk));uc.reg_write(UC_X86_REG_EFLAGS,uc.reg_read(UC_X86_REG_EFLAGS)&~1)
  def code(uc,address,size,_):
+  if scheduler_expected and address in [0x126eb,0x12632]:scheduler_done.append(address);uc.emu_stop()
   if a.root and address==0x1185e:
    request={'memory':base64.b64encode(bytes(uc.mem_read(0,0x100000))).decode(),'ss':uc.reg_read(UC_X86_REG_SS),'cs':uc.reg_read(UC_X86_REG_CS),'ds':uc.reg_read(UC_X86_REG_DS),'dx':uc.reg_read(UC_X86_REG_DX)}
    graphics_expected.append(json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-resource-graphics-vector.mjs')],input=json.dumps(request),text=True,cwd=repo)))
@@ -121,6 +124,18 @@ for case in vectors['cases']:
     if not retained:assert ptr['overlapsModule'] and registry_writes[0]>0,'Unexpected registry corruption outside observed notification alias'
     assert hashlib.sha256(bytes(cpu.mem_read(destination,24))).hexdigest()==root['headerSha256']
     row.update(rootError=None,rootContext=root['context'],rootEntry=root['entry'],notificationCalls=notifications,graphicsModel=graphics_checked[0],registryOverlapsModule=ptr['overlapsModule'],registryPointerRetainedAfterNotifications=retained,notificationWritesOverRegistry=registry_writes[0],convertedModuleSha256=hashlib.sha256(bytes(cpu.mem_read(destination,vectors['decodedBytes']))).hexdigest())
+  if a.schedule and a.root and not root['error'] and not root['registry']['overlapsModule']:
+   request={'memory':base64.b64encode(bytes(cpu.mem_read(0,0x100000))).decode(),'ss':cpu.reg_read(UC_X86_REG_SS),'es':cpu.reg_read(UC_X86_REG_ES),'ds':cpu.reg_read(UC_X86_REG_DS)}
+   expected=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-main-scheduler-vector.mjs')],input=json.dumps(request),text=True,cwd=repo));scheduler_expected.append(expected)
+   previous={r:cpu.reg_read(r) for r in [UC_X86_REG_SP,UC_X86_REG_DX,UC_X86_REG_CX]}
+   cpu.emu_start(0x12607,0xfffff,count=10000)
+   assert scheduler_done==[0x10000+expected['entry']]
+   for r,name in [(UC_X86_REG_BP,'bp'),(UC_X86_REG_SI,'si'),(UC_X86_REG_DS,'ds'),(UC_X86_REG_ES,'es'),(UC_X86_REG_BX,'bx')]:assert cpu.reg_read(r)==expected[name],('scheduler',name)
+   assert cpu.reg_read(UC_X86_REG_SP)==previous[UC_X86_REG_SP]+expected['stackDelta']
+   for r in [UC_X86_REG_DX,UC_X86_REG_CX]:assert cpu.reg_read(r)==previous[r]
+   actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
+   assert hashlib.sha256(actual).hexdigest()==expected['hash'],'scheduler memory mismatch'
+   row['scheduler']={**expected,'opcode':cpu.mem_read(expected['ds']*16+expected['si'],1)[0] if expected['phase']!='skip' else None}
   results.append(row)
 assert a.capture.read_bytes()==memory and a.main.read_bytes()==data
 print(json.dumps({'profile':profiles[digest][0],'captureSha256':digest,'mainSha256':file_digest,'cases':len(vectors['cases']),'decodedBytes':vectors['decodedBytes'],'decodeAndClose':a.decode,'rootCreation':a.root,'decodeResults':results,'result':'MAIN chain through requested initialization/decode/root boundary matches','limits':('controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed' if a.root else 'controlled DOS replies; initialization memory checked; registry/root and notification bodies excluded')}))

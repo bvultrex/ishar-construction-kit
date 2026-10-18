@@ -45,8 +45,10 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    MAIN-Kette als Referenz behalten; Grafiknotification `1000:185E` ist inzwischen
    im normalen Modus gegen beide MAIN-Dateien und synthetische Typfälle geprüft
    (Details: DOS_STARTUP.md). Alternative Konvertierung bleibt offen.
-   Jetzt den erzeugten Kontext statt
-   einer manuell verknüpften Testwurzel an die Diagnose anbinden. Abnahme:
+   Der erzeugte Root-Slot erreicht inzwischen die erste native Scheduler-
+   Dispatchgrenze ohne manuelle Wurzelverknüpfung (CLI, noch kein Browseradapter).
+   Als Nächstes MAIN-Opcode70 und seine Objektpoolzugriffe rekonstruieren.
+   Abnahme:
    Register, Speicher, Zeiger und Stopgrenzen pro Profil stimmen überein.
 2. **Erster vollständiger Original-Modnachweis je Spiel.** Bestehenden sicheren
    CONT- oder Palettenexport verwenden, passende Referenzsituation auswählen,
