@@ -17,7 +17,7 @@ Basis: `workbench/playable-slice` @ `bb42748` (Code-Stand `319819c`). Belegstatu
 | Quesh | [hebel-tuer-trigger-ishar2.md](quesh/hebel-tuer-trigger-ishar2.md) | Hebel-/Tür-Triggerpfad | siehe Bericht |
 | Quesh | [tableau-editor.md](quesh/tableau-editor.md) | TABLEAU.IO Entwickler-Karteneditor | „Static only, no emulator runs“ |
 | Quesh | [zeit-ishar2.md](quesh/zeit-ishar2.md) | Zeit, Actor-Blickrichtung, Speichersperre Ishar 2 (Nachtrag) | siehe Bericht |
-| Alderaan | [REFERENCES.md](alderaan/REFERENCES.md) | Reproduzierbare Originalreferenzen (Pickup, NPC, Shop, Mahlzeit) | Ishar 2: „complete references for all four cases“ (Stand 20:50) |
+| Alderaan | [REFERENCES.md](alderaan/REFERENCES.md) | Reproduzierbare Originalreferenzen (Pickup, NPC, Shop, Mahlzeit) | siehe Bericht |
 | Hoth | [HOTH_ABNAHME_2026-10-18.md](hoth/HOTH_ABNAHME_2026-10-18.md) | Unabhängige Test- und Exportabnahme | siehe Bericht |
 | Hoth | [HOTH_DIAGNOSE_2026-10-18_ROTE_PRUEFER.md](hoth/HOTH_DIAGNOSE_2026-10-18_ROTE_PRUEFER.md) | Diagnose zweier roter Prüfer | siehe Bericht |
 | Hoth | [HOTH_ABNAHME_2026-10-18_XP_GOLD.md](hoth/HOTH_ABNAHME_2026-10-18_XP_GOLD.md) | XP-/Gold-Savepaar Ishar 2 | siehe Bericht |
@@ -28,3 +28,4 @@ Basis: `workbench/playable-slice` @ `bb42748` (Code-Stand `319819c`). Belegstatu
 | Hoth | [HOTH_ABNAHME_2026-10-18_TUER8.md](hoth/HOTH_ABNAHME_2026-10-18_TUER8.md) | Tür 8 über das Schlüsselloch | siehe Bericht |
 | Hoth | [HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md](hoth/HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md) | Zeitgesteuerte Tür 28 (Karte 7) (Nachtrag) | siehe Bericht |
 | Hoth | [HOTH_ABNAHME_2026-10-18_ACTOR69.md](hoth/HOTH_ABNAHME_2026-10-18_ACTOR69.md) | Actor 69 (Nacht-NPC), Speicherfehler um 2 Uhr (Nachtrag) | siehe Bericht |
+| Hoth | [HOTH_FIXTURES_2026-10-18.md](hoth/HOTH_FIXTURES_2026-10-18.md) | Synthetische Vertragsvektoren (Fixtures, Vorschlagsbranch `grok/hoth-contract-fixtures`) (Nachtrag) | siehe Bericht |

@@ -104,3 +104,10 @@ Offset-Notation: **ab 0** wie save_layout und Quesh, **cmp** = `cmp -l` (ab 1). 
 
 ## 8. Belege
 `private/tuer28/`: `session.log`, `snaps/`, Bilder `NN-*.png`, `save_*_dialog`/`_nach.png`, Kontaktbögen m1–m4, `zoom1.png`, `in/z1.json` und `in/z2.json`, `out/*.report.json`, Arbeitskopie, sha-Listen vorher und nachher.
+
+## Nachtrag 18.10.2026 21:0x (suspected, Quelle: Quesh `zeit-ishar2.md`, von mir nicht nachgeprüft)
+- Byte 3180 (ab 0) ist die **Blickrichtung von Actor 69**: Tabelle 0x35ce, Save 3041 + 2·id, Low-Byte.
+- Byte 3220 ist entsprechend die Blickrichtung von **Actor 89**.
+- Eine Stunde hat **1000 Durchläufe** (0x4fcc, DOS-Version). Das passt zu meinem Wert 2:957 in HOTB1 (< 1000).
+- **Eine Zeitsperre beim Speichern gibt es nicht.** Das deckt sich mit meinem Befund: Die Fehlschläge kamen vom offen gebliebenen Diskmenü.
+- Umgesetzt: `private/xpgold/savenew.sh` und `private/actor69/savenew2.sh` klicken nach jedem Speichern auf (266,12), um das Diskmenü zu schließen. Sicherung der alten Fassung: `savenew.sh.bak-20261018`.
