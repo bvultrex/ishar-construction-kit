@@ -13,7 +13,7 @@ for(let i=0;i<1000;i++){
  if(next.status==='yield'){boundary='yield';break;}
 }
 if(steps.length===1000)throw Error('Native file comparison exceeds host step bound');
-let continuation=null,selection=null,frameCycle=null,preparation=null;if(process.argv.includes('--finish-yield')){
+let continuation=null,selection=null,frameCycle=null,preparation=null,resumedSteps=[],resumedBoundary=null;if(process.argv.includes('--finish-yield')){
  if(state.status!=='yield')throw Error('Yield continuation comparison requires an actual yield');
  const next=finishNativeScriptDiagnosticYield(state);if(!['callback','next-context'].includes(next.status))throw Error(next.message);
  continuation={status:next.status,si:next.si,dx:next.dx,cx:next.cx,contextHash:hash(next.memory),globalsHash:hash(next.globals.subarray(0,0x28c0))};
@@ -26,10 +26,26 @@ let continuation=null,selection=null,frameCycle=null,preparation=null;if(process
    if(frame.status==='frame-wait'){const tick=tickNativeScriptDiagnosticFrame(frame);if(tick.status!=='frame-wait')throw Error(tick.message);frameCycle.irq=pack(tick);frame=runNativeScriptDiagnosticFrame(tick);}
    if(frame.status!=='frame-return')throw Error('Controlled comparison requires at most one timer IRQ');frameCycle.returned=pack(frame);
    if(process.argv.includes('--prepare-context')){
+    if(process.argv.includes('--resume-main')){
+     // Explicit TEST fixture: link the existing context as root after the frame.
+     // This is not original initialization and is never done in the runtime API.
+     frame={...frame,memory:frame.memory.slice()};frame.memory[frame.si]=frame.bp&255;frame.memory[frame.si+1]=frame.bp>>>8;
+    }
     const prepared=prepareNativeScriptDiagnosticContext(frame);if(!['ready','next-context'].includes(prepared.status))throw Error(prepared.message);
     preparation={status:prepared.status,bp:prepared.bp,si:prepared.si,contextHash:hash(prepared.memory),globalsHash:hash(prepared.globals.subarray(0,0x28c0))};
+    if(process.argv.includes('--resume-main')){
+     if(prepared.status!=='ready')throw Error('Controlled root fixture did not prepare a main dispatch');
+     let resumed=prepared;resumedBoundary='limit';
+     for(let i=0;i<1000;i++){
+      const opcode=resumed.module.image[resumed.si],next=stepNativeScriptDiagnostic(resumed);
+      if(next.status==='stopped'){resumedBoundary='unsupported';break;}
+      resumedSteps.push({opcode,status:next.status,si:next.si,dx:next.dx,cx:next.cx,contextHash:hash(next.memory),globalsHash:hash(next.globals.subarray(0,0x28c0))});resumed=next;
+      if(next.status==='yield'){resumedBoundary='yield';break;}
+     }
+     if(resumedBoundary==='limit')throw Error('Resumed main exceeds controlled step bound');
+    }
    }
   }
  }
 }
-console.log(JSON.stringify({sourceSha256:hash(bytes),initial,steps,boundary,nextOpcode:state.module.image[state.si],continuation,selection,frameCycle,preparation}));
+console.log(JSON.stringify({sourceSha256:hash(bytes),initial,steps,boundary,nextOpcode:state.module.image[state.si],continuation,selection,frameCycle,preparation,resumedSteps,resumedBoundary}));

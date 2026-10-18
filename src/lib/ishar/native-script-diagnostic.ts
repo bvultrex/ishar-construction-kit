@@ -17,6 +17,7 @@ import {selectOriginalDosNextContext} from './original-dos-next-context.ts';
 import {runOriginalDosIdleFrame} from './original-dos-frame-idle.ts';
 import {stepOriginalDosIdleTimerIrq} from './original-dos-idle-timer-irq.ts';
 import {prepareOriginalDosSchedulerBoundary} from './original-dos-scheduler-boundary.ts';
+import {writeOriginalDosOpcode186} from './original-dos-script-opcode186.ts';
 export interface NativeScriptDiagnostic {module:AlisModule;memory:Uint8Array;globals:Uint8Array;bp:number;si:number;dx:number;cx:number;steps:number;timerIrqs:number;status:'ready'|'yield'|'callback'|'next-context'|'context'|'frame'|'frame-wait'|'frame-return'|'stopped';message:string}
 /** Editor-only controlled context. Does not alter the playtest or source file. */
 export function openNativeScriptDiagnostic(bytes:Uint8Array):NativeScriptDiagnostic{
@@ -106,6 +107,17 @@ export function stepNativeScriptDiagnostic(state:NativeScriptDiagnostic):NativeS
   if(state.si+5>state.module.image.length)return stop('Blockheader ist im Modul abgeschnitten.');
   const length=4+state.module.image[after+2]*2;if(after+length>state.module.image.length)return stop('Blockdaten sind im Modul abgeschnitten.');
   const script=new Uint8Array(65536);script.set(state.module.image);const next=writeOriginalDosScriptBlock(script,memory,after,state.bp);memory=next.memory;si=next.si;
+ }else if(opcode===186){
+  let cursor=after;
+  for(let i=0;i<5;i++){
+   const tag=state.module.image[cursor],length=tag===0?2:[2,6,8].includes(tag)?3:0;
+   if(!length)return stop(`Opcode186: Zahlenoperand-Tag ${tag} ist noch nicht angebunden.`);
+   if(cursor+length>state.module.image.length)return stop('Opcode186: Zahlenoperand ist im Modul abgeschnitten.');
+   cursor+=length;
+  }
+  const script=new Uint8Array(65536);script.set(state.module.image);
+  try{const next=writeOriginalDosOpcode186(script,memory,globals,after,state.bp,dx);globals=next.memory;si=next.si;dx=next.dx;cx=next.cx;}
+  catch(e){return stop(`Opcode186 unverändert angehalten: ${String(e)}`);}
  }else if(opcode===106){
   const tag=state.module.image[after],length=tag===0?2:[2,6,8].includes(tag)?3:0;
   if(!length)return stop(`Zahlenoperand-Tag ${tag} ist noch nicht angebunden. Befehl unverändert angehalten.`);

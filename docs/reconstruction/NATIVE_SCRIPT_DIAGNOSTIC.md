@@ -60,3 +60,9 @@ Browserprüfung am18.10.2026 bestanden: IO.IO erreicht nach22 Opcode-Schritten u
 `prepareNativeScriptDiagnosticContext` setzt die Diagnose ab `frame-return` oder `context` fort. Nach dem Frame liest sie den originalen Wurzelpointer bei ES:[BX+SI], anschließend Aktivität/Countdown und Scan-Vorrang. Main führt zu `ready`, Skip zu `next-context`. Ein Null-Wurzelpointer bleibt0; fehlende Segmente und Scan-Callbacks werden unverändert angehalten. Der Oberflächenbutton dafür ist noch nicht angeschlossen.
 
 Prüfung: `python scripts/check-native-script-diagnostic-file.py <capture> <lokales-Modul.IO> --prepare-context`. Diese Option enthält den bisherigen Framezyklus. Ishar2 IO.IO und Ishar1 PRESTI.IO stimmen bis zum nächsten `next-context` nativ überein. Zusätzlich je216 isolierte native Schedulerfälle pro Spiel, darunter40 Main- und36 Scanpfade; Details und Grenzen in DOS_STARTUP.md. Kein vollständiger Scheduler oder Spielstart.
+
+## Opcode186 und fortgesetzter Main-Test
+
+186 liest fünf Zahlenoperanden (Formen0/2/6/8) und schreibt fünf globale Rohfelder mit den originalen Wort-/Bytebreiten. Die Feldzwecke bleiben unbenannt. Je4096 native Vergleiche pro Spiel bestanden; unbekannte oder abgeschnittene Operanden halten unverändert an.
+
+`python scripts/check-native-script-diagnostic-file.py <capture> <module> --resume-main` prüft zusätzlich die Mainfortsetzung mit erhaltenem CPU-Zustand. Dieser Test verknüpft den vorhandenen Kontext ausdrücklich als Wurzel nach dem Frame; die Laufzeit tut das nicht automatisch. Ishar2 IO.IO erreicht nach22 ersten Schritten und dem Frame einen weiteren Schritt186, anschließend einen offenen Ausdruck in31. Ishar1 PRESTI.IO erreicht nach dem Frame einen weiteren Yield. Es handelt sich weiterhin um kontrollierte Anfangszustände.

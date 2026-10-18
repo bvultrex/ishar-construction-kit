@@ -5,9 +5,9 @@ import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('module',type=Path);p.add_argument('--finish-yield',action='store_true');p.add_argument('--select-next',action='store_true');p.add_argument('--frame-cycle',action='store_true');p.add_argument('--prepare-context',action='store_true');a=p.parse_args();a.frame_cycle=a.frame_cycle or a.prepare_context;a.select_next=a.select_next or a.frame_cycle;a.finish_yield=a.finish_yield or a.select_next;memory=a.capture.read_bytes();digest=hashlib.sha256(memory).hexdigest();original=a.module.read_bytes()
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('module',type=Path);p.add_argument('--finish-yield',action='store_true');p.add_argument('--select-next',action='store_true');p.add_argument('--frame-cycle',action='store_true');p.add_argument('--prepare-context',action='store_true');p.add_argument('--resume-main',action='store_true');a=p.parse_args();a.prepare_context=a.prepare_context or a.resume_main;a.frame_cycle=a.frame_cycle or a.prepare_context;a.select_next=a.select_next or a.frame_cycle;a.finish_yield=a.finish_yield or a.select_next;memory=a.capture.read_bytes();digest=hashlib.sha256(memory).hexdigest();original=a.module.read_bytes()
 assert digest in ['5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7','f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04']
-repo=Path(__file__).resolve().parent.parent;data=json.loads(subprocess.check_output(['node',str(repo/'scripts/native-script-diagnostic-file-vectors.mjs'),str(a.module.resolve())]+(['--finish-yield'] if a.finish_yield else [])+(['--select-next'] if a.select_next else [])+(['--frame-cycle'] if a.frame_cycle else [])+(['--prepare-context'] if a.prepare_context else []),cwd=repo,text=True));assert data['steps']
+repo=Path(__file__).resolve().parent.parent;data=json.loads(subprocess.check_output(['node',str(repo/'scripts/native-script-diagnostic-file-vectors.mjs'),str(a.module.resolve())]+(['--finish-yield'] if a.finish_yield else [])+(['--select-next'] if a.select_next else [])+(['--frame-cycle'] if a.frame_cycle else [])+(['--prepare-context'] if a.prepare_context else [])+(['--resume-main'] if a.resume_main else []),cwd=repo,text=True));assert data['steps']
 cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,memory);initial=data['initial'];done=[]
 cpu.mem_write(0x40000,base64.b64decode(initial['script']));cpu.mem_write(0x50000,base64.b64decode(initial['context']));cpu.mem_write(0x1c0b0,base64.b64decode(initial['globals']))
 for r,v in [(UC_X86_REG_CS,0x1000),(UC_X86_REG_SS,0x1c0b),(UC_X86_REG_SP,0xff00),(UC_X86_REG_ES,0x5000),(UC_X86_REG_DS,0x4000),(UC_X86_REG_SI,initial['si']),(UC_X86_REG_BP,initial['bp']),(UC_X86_REG_DX,initial['dx']),(UC_X86_REG_CX,initial['cx']),(UC_X86_REG_EFLAGS,0x202)]:cpu.reg_write(r,v)
@@ -60,6 +60,7 @@ if a.frame_cycle:
  assert hashlib.sha256(bytes(cpu.mem_read(0x1c0b0,0x28c0))).hexdigest()==expected['returned']['globalsHash']
  assert hashlib.sha256(bytes(cpu.mem_read(0x50000,65536))).hexdigest()==data['selection']['contextHash']
 if a.prepare_context:
+ if a.resume_main:cpu.mem_write(0x50000+cpu.reg_read(UC_X86_REG_SI),cpu.reg_read(UC_X86_REG_BP).to_bytes(2,'little')) # Explicit test-only root link.
  expected=data['preparation'];phase='preparation';done.clear();cpu.emu_start(0x1264c,0xfffff,count=1000)
  assert done==[0x12632 if expected['status']=='next-context' else 0x126eb]
  assert cpu.reg_read(UC_X86_REG_SP)==(0xff02 if expected['status']=='next-context' else 0xff00)
@@ -67,6 +68,14 @@ if a.prepare_context:
  assert cpu.reg_read(UC_X86_REG_DS)==0x4000
  assert hashlib.sha256(bytes(cpu.mem_read(0x50000,65536))).hexdigest()==expected['contextHash']
  assert hashlib.sha256(bytes(cpu.mem_read(0x1c0b0,0x28c0))).hexdigest()==expected['globalsHash']
+if a.resume_main:
+ phase='steps';caller=0x26b2
+ for index,step in enumerate(data['resumedSteps']):
+  done.clear();assert cpu.mem_read(0x40000+cpu.reg_read(UC_X86_REG_SI),1)[0]==step['opcode'];cpu.emu_start(0x126eb,0xfffff,count=10000)
+  yielding=step['status']=='yield';assert done==[0x126b2 if yielding else 0x126f7] and cpu.reg_read(UC_X86_REG_SP)==(0xff02 if yielding else 0xff00)
+  for r,name in [(UC_X86_REG_SI,'si'),(UC_X86_REG_DX,'dx'),(UC_X86_REG_CX,'cx')]:assert cpu.reg_read(r)==step[name],('resumed',index,name)
+  assert hashlib.sha256(bytes(cpu.mem_read(0x50000,65536))).hexdigest()==step['contextHash']
+  assert hashlib.sha256(bytes(cpu.mem_read(0x1c0b0,0x28c0))).hexdigest()==step['globalsHash']
 script=base64.b64decode(initial['script']);assert bytes(cpu.mem_read(0x40000,len(script)))==script
 assert a.capture.read_bytes()==memory and a.module.read_bytes()==original
-print(json.dumps({'captureSha256':digest,'moduleSha256':data['sourceSha256'],'steps':len(data['steps']),'boundary':data['boundary'],'yieldCompletion':data['continuation']['status'] if a.finish_yield else None,'selection':data['selection']['status'] if a.select_next else None,'frameReturned':a.frame_cycle,'contextPrepared':data['preparation']['status'] if a.prepare_context else None,'actualTimerIRQs':1 if a.frame_cycle and data['frameCycle']['irq'] else 0,'result':'persistent native handlers and requested scheduler/frame boundaries match','limits':'controlled initial context and IRQ delivery, inactive callbacks, idle frame only; no callback bodies or multi-segment execution'}))
+print(json.dumps({'captureSha256':digest,'moduleSha256':data['sourceSha256'],'steps':len(data['steps']),'boundary':data['boundary'],'yieldCompletion':data['continuation']['status'] if a.finish_yield else None,'selection':data['selection']['status'] if a.select_next else None,'frameReturned':a.frame_cycle,'contextPrepared':data['preparation']['status'] if a.prepare_context else None,'testRootLinked':a.resume_main,'resumedSteps':len(data['resumedSteps']),'resumedBoundary':data['resumedBoundary'],'actualTimerIRQs':1 if a.frame_cycle and data['frameCycle']['irq'] else 0,'result':'persistent native handlers and requested scheduler/frame boundaries match','limits':'controlled initial context and IRQ delivery, inactive callbacks, idle frame only; no callback bodies or multi-segment execution'}))
