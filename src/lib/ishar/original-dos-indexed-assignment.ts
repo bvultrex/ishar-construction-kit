@@ -1,12 +1,13 @@
 import {queryOriginalDosModeValue} from './original-dos-script-expression.ts';
 import {applyOriginalDosNumericBinary} from './original-dos-numeric-binary.ts';
-/** Opcode30 string operands4/10/34, results10/34 (69D0/69F4/7168/724C),
+/** Opcode32/33 scalar local add/subtract; opcode30 string operands4/10/34, results10/34 (69D0/69F4/7168/724C),
  * numeric results6/8/18/20 and indexed14/16, including739A,
  * 7150 and6C2E/6C5B.
  * Explicit bounded operand subset; unsupported expressions throw without changing
  * input. DF0, shared physical memory; flags/CPU stack saves are not outputs.
  */
-export function assignOriginalDosIndexedValue(source:Uint8Array,ss:number,registers:{ds:number;es:number;si:number;bp:number;dx:number}){
+export function assignOriginalDosIndexedValue(source:Uint8Array,ss:number,registers:{ds:number;es:number;si:number;bp:number;dx:number},operation:'store'|'add'|'subtract'='store'){
+ if(!['store','add','subtract'].includes(operation))throw Error('Unknown original assignment operation');
  if(source.length!==0x100000||![ss,...Object.values(registers)].every(v=>Number.isInteger(v)&&v>=0&&v<=65535))throw Error('Expected1MiB memory and word registers');
  const memory=source.slice(),u=(n:number)=>n&65535;
  const addr=(s:number,o:number,wide=false)=>{o=u(o);const at=s*16+o;if(wide&&o===65535||at+(wide?2:1)>memory.length)throw Error('Indexed assignment outside bounded real-mode window');return at;};
@@ -41,8 +42,10 @@ export function assignOriginalDosIndexedValue(source:Uint8Array,ss:number,regist
   else throw Error(`Indexed expression tag${tag} is not reconstructed`);
  }
  operand(0);
+ if(operation==='subtract')dx=u(-dx);
  const first=w(ss,0xc58);w(ss,0xc58,w(ss,0xc5c));w(ss,0xc5c,first);bx=0x277c;
  let result=nextByte();
+ if(operation!=='store'&&![6,8,18,20].includes(result))throw Error(`Original ${operation} result tag${result} is not reconstructed`);
  if(result===10||result===34){
   let destination=u((result===34?w(ss,0xbf6):bp)+nextWord()),source=w(ss,0xc5c),terminated=false;
   for(let n=0;n<65536;n++){
@@ -55,7 +58,7 @@ export function assignOriginalDosIndexedValue(source:Uint8Array,ss:number,regist
  if(result===56){bx=u(bx-2);w(ss,bx,dx);while(b(ds,si)!==58)operand(0);si=u(si+1);result=nextByte();}
  if([6,8,18,20].includes(result)){
   const ax=result>=18?nextByte():nextWord(),di=ax;
-  if(result===6||result===18)b(es,bp+di,dx);else w(es,bp+di,dx);
+  if(result===6||result===18)b(es,bp+di,operation==='store'?dx:b(es,bp+di)+dx);else w(es,bp+di,operation==='store'?dx:u(w(es,bp+di)+dx));
   return {memory,registers:{...registers,si,dx,cx,bx,di,ax},tag:result,tokens};
  }
  if(result!==14&&result!==16)throw Error(`Indexed result tag${result} is not reconstructed`);

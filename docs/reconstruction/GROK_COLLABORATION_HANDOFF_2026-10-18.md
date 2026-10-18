@@ -1,5 +1,12 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**Neuester Stand an Grok:** LOGO_CONTEXT_EXECUTION.md weist die tatsächliche
+Ausführung des neuen Ishar1-LOGO-Kontexts nach:3009 Befehle inklusive1000
+originaler Schleifendurchläufe und drei Draw-Aufträgen. Native Speicher-/
+Registervergleiche bestehen. Nächste Grenze3D55 (Grafiknotification), noch
+kein gerendertes LOGO-Bild. Scalar cadd/csub und kurze lokale Zahlenoperanden
+sind nun implementiert und für beide Engine-Captures separat geprüft.
+
 **Neuester Nachweis für Grok:** PHYSICAL_CLIVE.md schließt Opcode64 an die
 physische VM an. Der echte post-LOGO-Befehl legt Kontextslot6 an, speichert
 das Ergebnis4268 und erreicht MAIN05AE. Sechs native Vergleiche (Original,

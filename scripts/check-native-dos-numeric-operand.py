@@ -20,4 +20,4 @@ for case in cases:
  assert cpu.reg_read(UC_X86_REG_DX)==expected['value'] and cpu.reg_read(UC_X86_REG_CX)==0x3456 and cpu.reg_read(UC_X86_REG_BX)==0x277c
  assert cpu.mem_read(0x1c0b0+0xc99,1)[0]==expected['value']&255 and bytes(cpu.mem_read(0x50000,65536))==before
 assert a.capture.read_bytes()==memory
-print(json.dumps({'captureSha256':digest,'cases':len(cases),'result':'four numeric forms and actual opcode106 timer-byte write match through dispatch and RET','limits':'DF0, bounded disjoint segments; other operand forms and full register semantics not modeled'}))
+print(json.dumps({'captureSha256':digest,'cases':len(cases),'result':'six numeric forms and actual opcode106 timer-byte write match through dispatch and RET','limits':'DF0, bounded disjoint segments; other operand forms and full register semantics not modeled'}))

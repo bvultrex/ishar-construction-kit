@@ -72,7 +72,7 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
   const next=createOriginalDosScriptObject(memory,ss,{ds:input.ds,es:input.es,si:after,bx:140,di:0,dx:input.dx});
   if(next.error)throw Error(`Original object handler reaches error${next.error}; explicit error boundary required`);
   memory=next.memory;registers.si=next.registers.si;registers.dx=next.registers.dx;registers.cx=next.registers.cx;
- }else if(opcode===30){const next=assignOriginalDosIndexedValue(memory,ss,{ds:input.ds,es:input.es,si:after,bp:input.bp,dx:input.dx});memory=next.memory;Object.assign(registers,{si:next.registers.si,dx:next.registers.dx,cx:next.registers.cx});}
+ }else if(opcode===30||opcode===32||opcode===33){const next=assignOriginalDosIndexedValue(memory,ss,{ds:input.ds,es:input.es,si:after,bp:input.bp,dx:input.dx},opcode===32?'add':opcode===33?'subtract':'store');memory=next.memory;Object.assign(registers,{si:next.registers.si,dx:next.registers.dx,cx:next.registers.cx});}
  else if(opcode===31){
   const next=evaluateOriginalDosPhysicalExpression(memory,ss,{...input,si:after},{keyByte,shiftFlags:bios?.shiftFlags,driveServices:bios?.driveServices,engineSegment},bios?.fileSearch);
   memory=next.memory;registers.si=next.si;registers.dx=next.dx;registers.cx=next.cx;events=next.events;

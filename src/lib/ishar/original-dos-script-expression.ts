@@ -81,7 +81,7 @@ function evaluateExpressionCore(script:Uint8Array,context:Uint8Array,si:number,b
    if(!fileSearch||!nextGlobals)throw Error('Expression156 requires an explicit DOS FindFirst service');
    si++;const result=probeOriginalDosFile(nextGlobals,fileSearch);dx=result.dx;cx=result.cx;return;
   }
-  if([0,2,6,8,30,32].includes(tag)){if(si+(tag===0?2:3)>sourceLength)throw Error('Expression operand is truncated');const next=readOriginalDosNumericOperand(script,context,si,bp,nextGlobals);si=next.si;dx=next.value;return;}
+  if([0,2,6,8,18,20,30,32].includes(tag)){if(si+([0,18,20].includes(tag)?2:3)>sourceLength)throw Error('Expression operand is truncated');const next=readOriginalDosNumericOperand(script,context,si,bp,nextGlobals);si=next.si;dx=next.value;return;}
   if(tag===4||tag===10||tag===34){
    if(nextGlobals?.length!==65536)throw Error('String expression requires the original global segment');
    const word=(at:number)=>nextGlobals[at]|(nextGlobals[at+1]<<8);
