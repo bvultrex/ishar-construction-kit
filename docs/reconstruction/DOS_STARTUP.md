@@ -2315,3 +2315,34 @@ check-native-dos-startup-services.py CAPTURE. Next boundary0833 initializes
 resource memory and calls the BLANCPC loader06B2 before BIOS/EMS allocation.
 Earlier072D argument handling and later platform/timer services remain open.
 This is not a complete boot, MAIN integration or visible frame claim.
+
+## Full physical BLANCPC startup load (2026-10-18)
+
+`initializeOriginalDosBlancpc` reconstructs0833..0852 including06B2 and the
+existing original DOS open/read/close helpers. Resource segment comes from28A2.
+E1C/E1E point to offset0 there; the preserved incoming AX becomes the lower
+resource frontier at resource+0148. The loader requests2500 bytes, then copies
+and transforms2560 bytes starting at resource:0036 to (resource+00A0):0036.
+E20/E22 and E24/E26 retain both pointers. The successful caller stores B90=0
+and B92=resource+0148 before BIOS INT12.
+
+Both supplied BLANCPC.IO files are2100 bytes, SHA256
+fa35da163339385cc8fb95b5469bc5fb52e8d31a803f84854da5c89d7196c229.
+A successful short read does not pad or retry. Therefore514 bytes of the
+source transform window lie beyond the actual file and retain prior RAM.
+The existing signed-byte transform is reused; no fabricated zeros are inserted.
+Unknown original surroundings remain explicit source memory inputs.
+
+36 native cases per profile cover three resource segments, fallback flag0/1,
+normal/retried/failed open, read/close errors and a100-byte short read. Full1MiB
+except CPU stack FEC0..FEFF, DOS events, successful SP and error AX match.
+Error cases stop at8468; the error-handler body is not claimed. No filesystem
+writes occur and originals remain unchanged.
+
+Another32 cases per game execute contiguously from1000:0787 through config,
+video selection, early services and this loader to1000:0853; menu cases stop
+at their real entry. Reproduce: check-native-dos-blancpc-load.py CAPTURE BLANCPC.IO;
+check-native-dos-configuration-entry.py CAPTURE START.STP --blancpc BLANCPC.IO.
+Evidence: BLANCPC_LOAD_NATIVE_2026-10-18.json. The next connection is the
+BIOS/EMS path0853..08EA to the already verified framebuffer reservation.
+Full boot, loaded MAIN execution and a valid visible frame remain open.

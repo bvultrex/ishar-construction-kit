@@ -3,9 +3,9 @@ import argparse,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('settings',type=Path);p.add_argument('--caller-select',action='store_true');p.add_argument('--early-services',action='store_true');a=p.parse_args();a.caller_select=a.caller_select or a.early_services;original=a.capture.read_bytes();settings=a.settings.read_bytes();digest=hashlib.sha256(original).hexdigest()
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('settings',type=Path);p.add_argument('--caller-select',action='store_true');p.add_argument('--early-services',action='store_true');p.add_argument('--blancpc',type=Path);a=p.parse_args();a.early_services=a.early_services or bool(a.blancpc);a.caller_select=a.caller_select or a.early_services;original=a.capture.read_bytes();settings=a.settings.read_bytes();digest=hashlib.sha256(original).hexdigest()
 profiles={'5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7':('ishar1',0x1afa,0xe3e,0xe96,0x18cc,0x1b4b),'f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04':('ishar2',0x1bce,0xea4,0xefc,0x19a0,0x1c22)}
-assert digest in profiles and len(settings)==14;profile,entry,detect,load,prompt,final=profiles[digest];repo=Path(__file__).resolve().parent.parent;cases=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-configuration-entry-vectors.mjs'),str(a.capture.resolve()),str(a.settings.resolve())]+(['--caller-select'] if a.caller_select else [])+(['--early-services'] if a.early_services else []),cwd=repo,text=True))
+assert digest in profiles and len(settings)==14;profile,entry,detect,load,prompt,final=profiles[digest];repo=Path(__file__).resolve().parent.parent;cases=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-configuration-entry-vectors.mjs'),str(a.capture.resolve()),str(a.settings.resolve())]+(['--caller-select'] if a.caller_select else [])+(['--early-services'] if a.early_services else [])+(['--blancpc',str(a.blancpc.resolve())] if a.blancpc else []),cwd=repo,text=True))
 for case in cases:
  cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,original);events=[];done=[];stage=[''];times=[0];keys=[0];adlib_reads=[0];base=0x23d70
  for reg,value in [(UC_X86_REG_CS,0x23d7),(UC_X86_REG_DS,0x4000),(UC_X86_REG_SS,0x1c0b),(UC_X86_REG_SP,0xff00),(UC_X86_REG_EFLAGS,0x202)]:cpu.reg_write(reg,value)
@@ -34,10 +34,10 @@ for case in cases:
    elif ah==0x3b:event({'service':'change-directory','segment':ds,'offset':dx});error=dx in [0xba8,0x1d65] and case['mouseAX']==0;value=0
    elif ah==0x3c:event({'service':'create','segment':ds,'offset':dx,'attributes':cx});value=42 if stage[0]=='engine-services' else 5
    elif ah==0x41:event({'service':'delete','segment':ds,'offset':dx});value=0
-   elif ah==0x3d:event({'service':'open','access':ax&255,'segment':ds,'offset':dx});error=case['failure']=='open';value=2 if error else 5
+   elif ah==0x3d:event({'service':'open','access':ax&255,'segment':ds,'offset':dx});error=stage[0]=='file' and case['failure']=='open';value=2 if error else 5
    elif ah==0x3f:
-    event({'service':'read','handle':bx,'count':cx,'segment':ds,'offset':dx});error=case['failure']=='read';value=5 if error else 14
-    if not error:uc.mem_write(ds*16+dx,settings)
+    event({'service':'read','handle':bx,'count':cx,'segment':ds,'offset':dx});error=stage[0]=='file' and case['failure']=='read';data=a.blancpc.read_bytes() if stage[0]=='blancpc' else settings;value=5 if error else len(data)
+    if not error:uc.mem_write(ds*16+dx,data)
    elif ah==0x3e:event({'service':'close','handle':bx});error=stage[0]=='file' and case['failure']=='close';value=6 if error else 0
    elif ah==0x2c:
     second=([0,0] if case['configure'] else [0,4])[times[0]];times[0]+=1;event({'kind':'time','second':second});uc.reg_write(UC_X86_REG_DX,second<<8)
@@ -52,8 +52,8 @@ for case in cases:
  def boundary(uc,address,size,_):
   offset=address-base
   if address==case['boundarySegment']*16+case['boundary']:done.append(True);uc.emu_stop();return
-  stage[0]='engine-services' if address==0x1078f else {0x1c33:'drives',detect:'devices',load:'file',prompt:'prompt',final:'final'}[offset]
- for address in set([base+v for v in [0x1c33,detect,load,prompt,final]]+[case['boundarySegment']*16+case['boundary']]+([0x1078f] if a.early_services else [])):cpu.hook_add(UC_HOOK_CODE,boundary,None,address,address)
+  stage[0]='blancpc' if address==0x10833 else 'engine-services' if address==0x1078f else {0x1c33:'drives',detect:'devices',load:'file',prompt:'prompt',final:'final'}[offset]
+ for address in set([base+v for v in [0x1c33,detect,load,prompt,final]]+[case['boundarySegment']*16+case['boundary']]+([0x1078f] if a.early_services else [])+([0x10833] if a.blancpc else [])):cpu.hook_add(UC_HOOK_CODE,boundary,None,address,address)
  if a.caller_select:cpu.reg_write(UC_X86_REG_CS,0x1000)
  cpu.hook_add(UC_HOOK_INTR,interrupt);cpu.hook_add(UC_HOOK_INSN,read,None,1,0,UC_X86_INS_IN);cpu.hook_add(UC_HOOK_INSN,write,None,1,0,UC_X86_INS_OUT);cpu.emu_start(0x10787 if a.caller_select else base+entry,0xfffff,count=100000)
  expected=[{'stage':s['stage'],'event':e} for s in case['stages'] for e in s['events']]
@@ -62,4 +62,4 @@ for case in cases:
  actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff00]=bytes(64);assert hashlib.sha256(actual).hexdigest()==case['hash']
  case['traceSha256']=hashlib.sha256(json.dumps(case.pop('stages'),separators=(',',':')).encode()).hexdigest()
 assert a.capture.read_bytes()==original and a.settings.read_bytes()==settings
-print(json.dumps({'profile':profile,'captureSha256':digest,'settingsSha256':hashlib.sha256(settings).hexdigest(),'earlyServices':a.early_services,'callerSelect':a.caller_select,'caseCount':len(cases),'cases':cases,'limits':'Contiguous outer entry, or engine0787 through0832 with --early-services, stopping at original menu entry on menu paths; no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except CPU stack FEC0..FEFF and SP/events checked; menu body, non-VGA and joystick-axis branches excluded; original text only as trace hashes'}))
+print(json.dumps({'profile':profile,'captureSha256':digest,'settingsSha256':hashlib.sha256(settings).hexdigest(),'blancpcSha256':hashlib.sha256(a.blancpc.read_bytes()).hexdigest() if a.blancpc else None,'earlyServices':a.early_services,'callerSelect':a.caller_select,'caseCount':len(cases),'cases':cases,'limits':'Contiguous outer entry, or engine0787 through0832 with --early-services or0852 with --blancpc, stopping at original menu entry on menu paths; no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except CPU stack FEC0..FEFF and SP/events checked; menu body, non-VGA and joystick-axis branches excluded; original text only as trace hashes'}))
