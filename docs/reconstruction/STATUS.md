@@ -1,5 +1,9 @@
 # Technischer Iststand
 
+[Laufzeit-IRQ](RUNTIME_TIMER_IRQ.md): Der erste unveränderte Ishar-1-Tick
+erhöht den Wartezähler 0 -> 1 und erreicht nativ identisch den gespeicherten
+BIOS-Zeiger. Dessen Körper bleibt offen; separate synthetische IRET-Fälle bestehen.
+
 [Leere Objektgruppen](EMPTY_OWNER_FRAMES.md): Der echte erste Ishar-1-Frame
 kehrt nach Verarbeitung beider leerer Gruppen zurück. Der folgende Frame
 wartet nativ identisch bei 3D64 auf den Timer; noch kein gezeichnetes Ishar-1-Bild.

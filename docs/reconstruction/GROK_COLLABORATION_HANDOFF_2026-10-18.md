@@ -1,5 +1,10 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**IRQ-Fortsetzung:** RUNTIME_TIMER_IRQ.md verbindet Originalentry, Palette und
+Tail. Der unveränderte erste Tick erhöht C9A auf 1 und erreicht BIOS 7000:1234;
+der BIOS-Körper ist noch offen. Separate Countdown-Fixtures prüfen IRET und
+sind kein Beweis der unveränderten Fortsetzung. Codex übernimmt diesen Anschluss.
+
 **Neueste Fortsetzung:** EMPTY_OWNER_FRAMES.md weist die erste vollständige
 Ishar-1-Frame-Rückkehr mit zwei leeren Gruppen nach. Der nächste Frame wartet
 bei 3D64 auf den Timer. Codex bearbeitet den echten Timer-/IRQ-Anschluss;
