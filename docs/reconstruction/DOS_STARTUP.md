@@ -1043,3 +1043,38 @@ Belegmetadaten ohne Originaldaten: MAIN_OBJECT_NATIVE_2026-10-18.json.
 Typecheck bestanden. Noch keine Browserintegration, vollständige VM oder
 Ausführung ab EXE-Entry. Nächster Schritt: die anschließenden Originalbefehle
 ab Opcode41 mit dem erhaltenen physischen Zustand weiterführen.
+
+## MAIN-Blockpräfix im erhaltenen physischen Zustand
+
+`writeOriginalDosPhysicalScriptBlock` ergänzt den vorhandenen Opcode41-Helfer
+um gemeinsame physische Speicheradressierung. Handler5713..5737 liest und
+schreibt in Originalreihenfolge: Offsetwort, Countbyte, Countstore, Typbyte,
+Typstore und anschließend rückwärts adressierte Zielworte. Bei Segmentaliasen
+kann ein Store ein später gelesenes Operandenbyte ändern; eine vorab erstellte
+separate Skriptkopie würde diesen Effekt verlieren. Der bisherige Helfer für
+getrennte Segmente bleibt erhalten und wird gegen den neuen Pfad verglichen.
+
+`check-native-dos-resource-file.py <capture> <MAIN.IO> --blocks` enthält
+Laden, Ressourcenaufbereitung, Rootanlage, kontrollierten Schedulereinstieg
+und beide Opcode70. Anschließend werden alle direkt folgenden Opcode41 mit
+derselben CPU und den vorherigen Speicherwerten ausgeführt. Nach jedem Befehl
+werden SI, erhaltene Register, AX/BX des Dispatchers, SP und der gesamte
+physische Speicher außer den beschriebenen Stack-Sicherungsbytes verglichen.
+Je drei gültige Layouts pro Profil bestehen: Ishar1 durchläuft117 Blockbefehle
+von SI96 bis723; Ishar2 durchläuft114 bis702. Beide erreichen dann Opcode30.
+Die Ergebnisse werden pro Befehl geprüft, nicht nur am Ende des Präfixes.
+
+`check-native-dos-physical-block.py <capture>` ergänzt je24 native Fälle pro
+Profil mit Counts0/1/2/255, drei Zieloffsets und getrennter beziehungsweise
+überlappender Quelle/Ziel. Die Aliasfälle umfassen Stores über noch ungelesenen
+Typ-/Datenbytes. Count255 verwendet BP400h, damit kein außerhalb des Hostvertrags
+liegendes Wort bei OffsetFFFFh entsteht; diese Grenze wird separat abgewiesen.
+Alle gespeicherten Register und SI sowie die Speicherergebnisse stimmen überein.
+Hostprüfung: `node scripts/check-dos-physical-block.mjs` vergleicht getrennte
+Segmente mit dem bisherigen Helfer und prüft Quellschutz/Speichergrenzen.
+Typecheck bestanden; Metadaten: MAIN_BLOCK_NATIVE_2026-10-18.json.
+
+Nächste Lücke ist der originale Opcode30-Zuweisungsablauf an dieser Stelle,
+einschließlich der tatsächlich folgenden Ergebnis-/Indexdispatcher. Die
+bisherigen einfachen Zuweisungsadapter decken diese Folge nicht vollständig ab.
+Kein neuer Browserablauf und kein vollständiger Spielstart werden behauptet.

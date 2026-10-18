@@ -1,0 +1,1077 @@
+{
+  "schema": "ishar-main-block41-native-v1",
+  "main": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "mainSha256": "27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b",
+      "cases": 8,
+      "decodedBytes": 26384,
+      "decodeAndClose": true,
+      "rootCreation": true,
+      "decodeResults": [
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "64594a9950e34ddadfabc11cae02acf37b86823f62ac4ed75b9eb52ad28d62b2"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 14984,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "cb091561fb263113453a22556bccc672076658e2265ff645d53bd9bd8d5c6a40",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "652a0e4b3b8096b3454d5d7e2090245429217fde173178187ecbcb34e2c4002f"
+            },
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "61d23f685f61902fb4c560325d40f05910d6f725eb87a0027ab16e441df1ec82"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "c84419486dad96caacad5593c2b3a5c56fe2b65853763415e83d980c4ebaaefb"
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "81206ca3101b79787804635bcab77c1467063a546ce3768917bc1166f71fd119"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 14984,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "8a10ff0dcc362abab52798504d1049867cb5584f673aa994e8505474a1f8aeb9",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "a39bffebd07795062e971177e4ec2384b5000f94c231c3958475312560924306"
+            },
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "5ef2b41c738c58b091bcd8c3afcbd8849841803998134885ef6fb9fa0bcb0b35"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "75c5d39a2d4945113d9310a0852bca1f98b75c24e439e49707b4dbd48dc310bd"
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "4ede92d4e56ee2d047bb02b464bf9795b14d1baba3167ede1b9cd5eaae5c40c6"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "11839fb453d698870f44a73c287a21e49ecaae4a16f19d5b68e19fd6761885d0"
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "d694480a5d6b63d2038e2d82268975166d0236aead29e596e0a817b8cc72fa62"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "11839fb453d698870f44a73c287a21e49ecaae4a16f19d5b68e19fd6761885d0"
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "42fd1046c8d71563fed9e8d200c700e53e61d203799d58cd0708abc71d678869"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 23176,
+            "es": 20480,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "fcb5b68834d5e24321cd96ba7b21d44a7e6f6d967ac863522de16ab4c3f223f7",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "8abc943a024722d5f1177a5c7e8e327e1f4e695776952f1ff231ce22c9d2be12"
+            },
+            {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "22bb9f111c887678fbb214c906bedff433deb3dfd796d011a07cb19b19dce2ae"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "6dc3a9a7347c919d3a8928956ad0b2adadb427d80dee9278491322df39e66704"
+          }
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "b140a9bbdfd55ca041bef2fc857268427243af71ac1f0f70412cf1caeececd6b"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "f0618743c98547bae75d16b6b7532ded9be2acc5505b575ddca764bca69cb274"
+        }
+      ],
+      "result": "MAIN chain through requested initialization/decode/root boundary matches",
+      "limits": "controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "mainSha256": "bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95",
+      "cases": 8,
+      "decodedBytes": 27752,
+      "decodeAndClose": true,
+      "rootCreation": true,
+      "decodeResults": [
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "22bab1ca1e85e9a28d40afdc5b5de42edf11d0f24c44b5198004ec377f2a3aed"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 15421,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "081786906b10e2b667fdd276d2202659b1cdee32ffc2dedef6d79b86bf157624",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "d029137af92865b1ea622b59fcba964b003b53e31474fe7b285ca9719639d4b5"
+            },
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "090a13c4d65953fdedf28989e7cc62f127174719e7422a084897716ef2301f55"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "e9797851adf999c96626f2c0d7918be8907ace185b84e99672b9852e2e50b643"
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "cad63e06b4e9ab4616305dffa8a3604f0a33c70cb859db6a193150f41949a787"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 15421,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "7f5b16bacda449a84641c3bc7cf3d6774a01f3566059ff432ce8e45a47e761d2",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "755cae8c9eeeaac65f05597248f0f757f065094cb4dbeb56ab4f09a1492062a8"
+            },
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "71619062b92e0abe93e8164e95e18ba772294c963d51ae2b26cbb379c0607ae0"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "2ccad2889327135a5e87482497cc06bfe754270cd83b9a7e3325e2904dfae540"
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "aa6867a7f268d06e9ff6361e9bde8509f33dc6c44b41f32c331bcdd0a9b549da"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "47f4d32ff7c439330c646ee60de01a82a269c05f44d8af0db8a9dea0471cfe7e"
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "25cc8ff1ea80b989f56d8dc33e4a1a8d46dc055491d1fe4be7ae5f2ccf5386a8"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "47f4d32ff7c439330c646ee60de01a82a269c05f44d8af0db8a9dea0471cfe7e"
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "565a3208f77005b70f07cf183653760df066a8c855a5b06f3956a3940919c8b5"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 23613,
+            "es": 20480,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "3c2484a285da115fa50b4b254f03be29fdaa7ae8c232edaf11653b6504fa82d6",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "e960992c67890c6793cbce28833a5b83e545bf671719f18af83d9e16e27cff9a"
+            },
+            {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "55549455d1ae2533b00d896e10333df499c19ca6d560912e102b2e0d507e6814"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "2e92949de837fc6eaa5c35cb11d2500d17d527325d819c539264eeceb6a15279"
+          }
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "c922ab1129f69dd31f0d318c40b3163dc519a0242a4d8b6876a20d3dd801bfec"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "d6a12dc7bdcb278e79e69827816266190aa55c572f4e75872ff9ae06bc4cc5bf"
+        }
+      ],
+      "result": "MAIN chain through requested initialization/decode/root boundary matches",
+      "limits": "controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed"
+    }
+  ],
+  "synthetic": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "cases": [
+        {
+          "count": 0,
+          "offset": 261,
+          "bp": 0,
+          "alias": false,
+          "hash": "75c63f311792e98092269e59c1a9f6eda51262d0635a802d09e7ab7cad311060"
+        },
+        {
+          "count": 0,
+          "offset": 261,
+          "bp": 0,
+          "alias": true,
+          "hash": "2baf01667eb2df4c8a05563eef461b28eadf4ff1f4825521ed2c90c05b87751e"
+        },
+        {
+          "count": 0,
+          "offset": 263,
+          "bp": 0,
+          "alias": false,
+          "hash": "d6d7bbd644a862ec5c0e9a97e4a33f3155a63de53a5b4eac093add91a46b3867"
+        },
+        {
+          "count": 0,
+          "offset": 263,
+          "bp": 0,
+          "alias": true,
+          "hash": "9bd94e13d029adf53306da89d5f50788035e97c0ae87368599cb09d48d695105"
+        },
+        {
+          "count": 0,
+          "offset": 768,
+          "bp": 0,
+          "alias": false,
+          "hash": "988981b98a9db857a047402bb6edeb2e45c9571bf7bfb9544c0cf51653eb0cfe"
+        },
+        {
+          "count": 0,
+          "offset": 768,
+          "bp": 0,
+          "alias": true,
+          "hash": "09b6397dc0d20995ee913f27fb7501e112120aff37aa27d09af961955ab581cc"
+        },
+        {
+          "count": 1,
+          "offset": 261,
+          "bp": 0,
+          "alias": false,
+          "hash": "5bb683d1afd2bd7a4ad51c08d999afa8b742d6f3c121c32768298429cf0d98bf"
+        },
+        {
+          "count": 1,
+          "offset": 261,
+          "bp": 0,
+          "alias": true,
+          "hash": "f1bde1a4ccda5fbc2dc814aba091a129605a66938cab6a6542593b2c845ad557"
+        },
+        {
+          "count": 1,
+          "offset": 263,
+          "bp": 0,
+          "alias": false,
+          "hash": "319a3f0f4c34c918dce227931677c0768561a0a35bd90884d0cad0366983dc24"
+        },
+        {
+          "count": 1,
+          "offset": 263,
+          "bp": 0,
+          "alias": true,
+          "hash": "edaa1fabdf6d91a6ce7034893e79286ace4f2dcc555271bfcaf281a2cecb7c32"
+        },
+        {
+          "count": 1,
+          "offset": 768,
+          "bp": 0,
+          "alias": false,
+          "hash": "1a3c66e40aaab0cc344463a55b8ee77259ed1446a6bc02019dcc81eda9f1d53f"
+        },
+        {
+          "count": 1,
+          "offset": 768,
+          "bp": 0,
+          "alias": true,
+          "hash": "086a5e1ac73b993ea2ffed11f10bd244918034460c7ea652af6053387a653163"
+        },
+        {
+          "count": 2,
+          "offset": 261,
+          "bp": 0,
+          "alias": false,
+          "hash": "f78435509538bf9560b8aead99881a8b6a48624aa5cb73d26316090f960da970"
+        },
+        {
+          "count": 2,
+          "offset": 261,
+          "bp": 0,
+          "alias": true,
+          "hash": "b4bac313d0e597e06869cbe9cb6f070764ff0bf111661a6968b96ba87596a9be"
+        },
+        {
+          "count": 2,
+          "offset": 263,
+          "bp": 0,
+          "alias": false,
+          "hash": "4ce4445744bb9444ec96e1f80490eced26b1edaef95109672392a163a74907eb"
+        },
+        {
+          "count": 2,
+          "offset": 263,
+          "bp": 0,
+          "alias": true,
+          "hash": "7d539cdb801f9097611a21c299e282ed5a7a4c2d2a40725d009de6516363c6d9"
+        },
+        {
+          "count": 2,
+          "offset": 768,
+          "bp": 0,
+          "alias": false,
+          "hash": "3a9c55ca51e5b2e4e7abbf3407b943e89e91608758c8a9e8f7f7537a0e951eff"
+        },
+        {
+          "count": 2,
+          "offset": 768,
+          "bp": 0,
+          "alias": true,
+          "hash": "5120458763a78ad67a6077f0fd56a52f596a71324bbdc0c69531e5b695235309"
+        },
+        {
+          "count": 255,
+          "offset": 261,
+          "bp": 1024,
+          "alias": false,
+          "hash": "0c7faff36b67f9fb3be249fe7e1caeb00bc56db053621a12f79f9051cb75c513"
+        },
+        {
+          "count": 255,
+          "offset": 261,
+          "bp": 1024,
+          "alias": true,
+          "hash": "2912fa2e7b53e64e9a93814c4ea0d929e23454e3f7e23e7a1585c6f3858417ec"
+        },
+        {
+          "count": 255,
+          "offset": 263,
+          "bp": 1024,
+          "alias": false,
+          "hash": "39f74dae758ce580c317c715dd31eb307f162a6c7a04fabfb99445a6587d7048"
+        },
+        {
+          "count": 255,
+          "offset": 263,
+          "bp": 1024,
+          "alias": true,
+          "hash": "703cbf6c8a0cbf5cf0a5e9c14aa3e3e77f173b9dbaeaf0aaabc26173eebbafc6"
+        },
+        {
+          "count": 255,
+          "offset": 768,
+          "bp": 1024,
+          "alias": false,
+          "hash": "e7a6b2cf45ac9f0eb97347c2ebec767b784bdcc63bd20c051c967c072530faa6"
+        },
+        {
+          "count": 255,
+          "offset": 768,
+          "bp": 1024,
+          "alias": true,
+          "hash": "d9ef2ac4723dcc410c49cb6e7c986c093f3fcad28260e9d2e278f180ae9307f8"
+        }
+      ],
+      "limits": "DF0; flags and stack save bytes excluded"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "cases": [
+        {
+          "count": 0,
+          "offset": 261,
+          "bp": 0,
+          "alias": false,
+          "hash": "d54bb19abedddf19a9197f2a6b18d6b6b6502d2c52755e05fc41feff520c8cc2"
+        },
+        {
+          "count": 0,
+          "offset": 261,
+          "bp": 0,
+          "alias": true,
+          "hash": "ac305558529403616db46ac32c10052ed6dbd9a86f532a5db142e163c6fd0475"
+        },
+        {
+          "count": 0,
+          "offset": 263,
+          "bp": 0,
+          "alias": false,
+          "hash": "3fa3f90d1d81d9cc2d88e6a579be9a03c199ac524dde52e12d40a1c702c4a156"
+        },
+        {
+          "count": 0,
+          "offset": 263,
+          "bp": 0,
+          "alias": true,
+          "hash": "89375b1f96ca1f23b9bd51e15e92c5a152684f8277871808ba103ff4f1b61b8a"
+        },
+        {
+          "count": 0,
+          "offset": 768,
+          "bp": 0,
+          "alias": false,
+          "hash": "e48760215d3f170c13d21d5296910e880839fc9ca7a72124084c9cc63a08cc60"
+        },
+        {
+          "count": 0,
+          "offset": 768,
+          "bp": 0,
+          "alias": true,
+          "hash": "0797112994c28c745be930d76bf1cbe8423d312d4734867de83eb609ea1de4c8"
+        },
+        {
+          "count": 1,
+          "offset": 261,
+          "bp": 0,
+          "alias": false,
+          "hash": "97046d14ddf27b9e5462d8b9c94e8a791db8e85aa08dcac6eda2fa283deaa830"
+        },
+        {
+          "count": 1,
+          "offset": 261,
+          "bp": 0,
+          "alias": true,
+          "hash": "df387079acb588a15034153f888dad2eeb379964488109e3177d58e41bfc91d5"
+        },
+        {
+          "count": 1,
+          "offset": 263,
+          "bp": 0,
+          "alias": false,
+          "hash": "c42ab09a0b2295ce9b375061f998da42f24df946f2709ab37f6c7f30532dad2c"
+        },
+        {
+          "count": 1,
+          "offset": 263,
+          "bp": 0,
+          "alias": true,
+          "hash": "d45508217e1ddbb8f54d2c17249ad7e33d021fa4db5754d6010565738979f4e1"
+        },
+        {
+          "count": 1,
+          "offset": 768,
+          "bp": 0,
+          "alias": false,
+          "hash": "4bd80f072e62712cfb574511d2774d46ba8853dc229f881d3b0c91b2293cc6cb"
+        },
+        {
+          "count": 1,
+          "offset": 768,
+          "bp": 0,
+          "alias": true,
+          "hash": "3cf8cbf639b8c8b8bffa40083aaf7bf3350c709c758928ff6f098b9620a6a20a"
+        },
+        {
+          "count": 2,
+          "offset": 261,
+          "bp": 0,
+          "alias": false,
+          "hash": "336a27906f92bd0ea71f6d8ef79c72fbe6008416a48c172e5e48d1ef785395d3"
+        },
+        {
+          "count": 2,
+          "offset": 261,
+          "bp": 0,
+          "alias": true,
+          "hash": "cb03492e4398ad6cc6d6381ea10a8fd54dd0d617840c258938b98a26ae1f8cd2"
+        },
+        {
+          "count": 2,
+          "offset": 263,
+          "bp": 0,
+          "alias": false,
+          "hash": "71ad9ce8e98d85f7c5caab9b925e56ceec991abf74be751cc8a3d5b0ee51adf1"
+        },
+        {
+          "count": 2,
+          "offset": 263,
+          "bp": 0,
+          "alias": true,
+          "hash": "78ea0eee75919931828b38cfc2877fa459d9fa39fa71cb9a0f1e1d9b8bf117f7"
+        },
+        {
+          "count": 2,
+          "offset": 768,
+          "bp": 0,
+          "alias": false,
+          "hash": "8f24028020a9f0c53a2f16b0be67fd4f2fd356222e710e42d9e24968896f7516"
+        },
+        {
+          "count": 2,
+          "offset": 768,
+          "bp": 0,
+          "alias": true,
+          "hash": "226ef4e176afd3d505b07486b4dd8d90a6326813910ed7edbd96b59bbc059a58"
+        },
+        {
+          "count": 255,
+          "offset": 261,
+          "bp": 1024,
+          "alias": false,
+          "hash": "458ccfb4495dd9b758060b394944dc8c8e760b0e8e3652d321b9d6b5b388d94a"
+        },
+        {
+          "count": 255,
+          "offset": 261,
+          "bp": 1024,
+          "alias": true,
+          "hash": "09404dd20b187e6c1cee8b8ffee9ca572d5873cd6d01ebc447d3650e2f03644b"
+        },
+        {
+          "count": 255,
+          "offset": 263,
+          "bp": 1024,
+          "alias": false,
+          "hash": "6c97ccb194476a32a30b45f5cf965f0d6f81f70bf9badf7cd9bc8c7e254e10ca"
+        },
+        {
+          "count": 255,
+          "offset": 263,
+          "bp": 1024,
+          "alias": true,
+          "hash": "dc856057d2bcfa9f592636e3013a799fd828852eab152c7c8a342d5ae6e04c0c"
+        },
+        {
+          "count": 255,
+          "offset": 768,
+          "bp": 1024,
+          "alias": false,
+          "hash": "9d577d93331084e45060122dc7d775a62fd978b6df96c1602396ec9634d816a0"
+        },
+        {
+          "count": 255,
+          "offset": 768,
+          "bp": 1024,
+          "alias": true,
+          "hash": "67f3e2c88bdc6d5e014989d4d857772bf5b37e5b33f1d6ae1c91fc06a364b82d"
+        }
+      ],
+      "limits": "DF0; flags and stack save bytes excluded"
+    }
+  ]
+}

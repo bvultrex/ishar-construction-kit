@@ -5,12 +5,13 @@ Optional --decode includes actual A1 decode and close; no complete startup claim
 --schedule explicitly resumes at2607 to the first dispatch for nonalias layouts;
 the earlier platform services and loader caller are outside this test.
 --objects also executes the contiguous opcode70 prefix after that entry.
+--blocks additionally compares every following opcode41 in shared physical memory.
 """
 import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');p.add_argument('--objects',action='store_true');a=p.parse_args();a.schedule=a.schedule or a.objects;a.root=a.root or a.schedule;a.decode=a.decode or a.root
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('main',type=Path);p.add_argument('--decode',action='store_true');p.add_argument('--root',action='store_true');p.add_argument('--schedule',action='store_true');p.add_argument('--objects',action='store_true');p.add_argument('--blocks',action='store_true');a=p.parse_args();a.objects=a.objects or a.blocks;a.schedule=a.schedule or a.objects;a.root=a.root or a.schedule;a.decode=a.decode or a.root
 memory=a.capture.read_bytes();data=a.main.read_bytes()
 digest=hashlib.sha256(memory).hexdigest();file_digest=hashlib.sha256(data).hexdigest()
 profiles={
@@ -155,6 +156,19 @@ for case in vectors['cases']:
     row['objects'].append(expected)
     if expected['error']:break
    row['nextOpcode']=cpu.mem_read(cpu.reg_read(UC_X86_REG_DS)*16+cpu.reg_read(UC_X86_REG_SI),1)[0]
+  if a.blocks and 'objects' in row:
+   request={'memory':base64.b64encode(bytes(cpu.mem_read(0,0x100000))).decode(),'ss':0x1c0b,'ds':cpu.reg_read(UC_X86_REG_DS),'es':cpu.reg_read(UC_X86_REG_ES),'si':cpu.reg_read(UC_X86_REG_SI),'bp':cpu.reg_read(UC_X86_REG_BP)}
+   expected=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-main-block-prefix-vector.mjs')],input=json.dumps(request),text=True,cwd=repo))
+   for step in expected['steps']:
+    assert cpu.mem_read(cpu.reg_read(UC_X86_REG_DS)*16+cpu.reg_read(UC_X86_REG_SI),1)[0]==41
+    saved={r:cpu.reg_read(r) for r in [UC_X86_REG_SP,UC_X86_REG_CX,UC_X86_REG_DX,UC_X86_REG_DI,UC_X86_REG_BP,UC_X86_REG_DS,UC_X86_REG_ES]}
+    object_done.clear();cpu.emu_start(0x126eb,0xfffff,count=100000)
+    assert object_done==[0x126f7] and cpu.reg_read(UC_X86_REG_SI)==step['si']
+    for r,value in saved.items():assert cpu.reg_read(r)==value,('block preserved register',r)
+    assert cpu.reg_read(UC_X86_REG_AX)==82 and cpu.reg_read(UC_X86_REG_BX)==82
+    actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0xfec0:0x1c0b0+0xff10]=bytes(0x50)
+    assert hashlib.sha256(actual).hexdigest()==step['hash'],'loaded block memory mismatch'
+   row['blocks']={'steps':len(expected['steps']),'si':expected['si'],'nextOpcode':expected['nextOpcode'],'lastHash':expected['steps'][-1]['hash'] if expected['steps'] else None}
   results.append(row)
 assert a.capture.read_bytes()==memory and a.main.read_bytes()==data
 print(json.dumps({'profile':profiles[digest][0],'captureSha256':digest,'mainSha256':file_digest,'cases':len(vectors['cases']),'decodedBytes':vectors['decodedBytes'],'decodeAndClose':a.decode,'rootCreation':a.root,'decodeResults':results,'result':'MAIN chain through requested initialization/decode/root boundary matches','limits':('controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed' if a.root else 'controlled DOS replies; initialization memory checked; registry/root and notification bodies excluded')}))

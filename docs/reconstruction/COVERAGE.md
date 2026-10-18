@@ -49,8 +49,9 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    Dispatchgrenze ohne manuelle Wurzelverknüpfung (CLI, noch kein Browseradapter).
    MAIN-Opcode70 samt Objektpoolzugriffen ist inzwischen gegen beide Profile
    geprüft; beide ursprünglichen Anfangsbefehle laufen im CLI-Nachweis durch.
-   Als Nächstes die folgenden Originalbefehle ab Opcode41 mit dem erhaltenen
-   physischen Zustand verbinden.
+   Die folgenden117/114 Opcode41 je Spiel sind mit dem erhaltenen physischen
+   Zustand nativ verglichen. Als Nächstes den erreichten Opcode30 samt seinen
+   originalen Ergebnis-/Indexdispatchern erschließen und weiter verbinden.
    Abnahme:
    Register, Speicher, Zeiger und Stopgrenzen pro Profil stimmen überein.
 2. **Erster vollständiger Original-Modnachweis je Spiel.** Bestehenden sicheren

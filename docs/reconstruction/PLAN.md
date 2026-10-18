@@ -37,6 +37,10 @@ Ein bestandener synthetischer Test beweist keine Original-Verhaltensgleichheit.
 Aktualisierung 2026-10-18: Die native MAIN-Ladekette ist inzwischen bis zur
 Kontextanlage und Rückkehr geprüft. Nächste technische Lücke ist die hostseitige
 Grafiknotification und die Verbindung dieses Kontexts mit der Skriptausführung.
+Nachtrag: Der normale Grafikpfad, die Schedulerübergabe, beide ersten Opcode70
+und die folgenden117/114 Opcode41 sind inzwischen nativ verglichen. Nächste
+konkrete Lücke ist Opcode30 im erreichten MAIN-Zustand; Einzelheiten in
+DOS_STARTUP.md und COVERAGE.md. Der vollständige Spielstart bleibt offen.
 Die vollständige Lieferstrecke und getrennte Abdeckung beider Profile stehen in
 [COVERAGE.md](COVERAGE.md). Der folgende Original-Modnachweis bleibt ebenfalls offen.
 
