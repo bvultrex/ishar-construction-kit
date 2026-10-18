@@ -60,7 +60,9 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    stimmen in drei gültigen Speicherlayouts mit dem Original überein. Der
    Ablauf bis zum Ende dieser Warteschleife ist ebenfalls verglichen: Nach29
    zusätzlichen vollständigen Schedulerzyklen folgt43→17, dann Opcode78 bei
-   SI15009. Dieser Aktivierungsbefehl und die folgende sichtbare Ausgabe bleiben offen.
+   SI15009. Aktivierung78 ist inzwischen ebenfalls implementiert und nativ
+   verglichen; danach folgt71 bei SI15012. Dieser nächste Objektbefehl und die
+   folgende sichtbare Ausgabe bleiben offen.
    Ohne BIOS-Antwort bleibt der Callback an116 stehen. Aktive Objektliste und
    leere Kontextobjektkette bleiben getrennt;188-Grafikzweige sind separat offen.
    Abnahme:

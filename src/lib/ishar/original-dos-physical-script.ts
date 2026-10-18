@@ -8,6 +8,7 @@ import {assignOriginalDosIndexedValue} from './original-dos-indexed-assignment.t
 import {readOriginalDosNumericOperand} from './original-dos-numeric-operand.ts';
 import {prepareOriginalDosPaletteControl} from './original-dos-palette-control.ts';
 import {decrementOriginalDosScript} from './original-dos-script-decrement.ts';
+import {setOriginalDosObjectVisibility} from './original-dos-object-visibility.ts';
 
 export interface OriginalDosPhysicalScriptRegisters {ds:number;es:number;si:number;bp:number;dx:number;cx:number}
 /** Bounded original-script step on physical memory. Only the listed ALIS state
@@ -29,6 +30,7 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
  else if(opcode===17){const next=returnOriginalDosScript(context(),input.bp,after,memory[globalAt+0xc19],word(0xc56));memory.set(next.memory,contextAt);registers.si=next.si;if(next.phase==='yield')status='yield';}
  else if(opcode===66)status='yield';
  else if(opcode>=43&&opcode<=45){const next=decrementOriginalDosScript(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
+ else if(opcode===78||opcode===79){const next=setOriginalDosObjectVisibility(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===188){
   const next=prepareOriginalDosPaletteControl(memory,ss,{...input,si:after});
   if(next.phase!=='return')throw Error(`Original palette control reaches ${next.phase} boundary at${next.entry.toString(16)}`);

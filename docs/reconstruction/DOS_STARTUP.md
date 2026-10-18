@@ -1558,3 +1558,39 @@ Reproduktion mit lokalem Capture und Original-MAIN über
 Die kontrollierte Startumgebung, BIOS-Antwort und fehlenden Plattformpfade
 bleiben Grenzen; insbesondere ist dies keine sichtbare Browsererweiterung
 und kein Nachweis für den Ishar1-Startablauf mit dessen offener Dateisuche.
+
+### Objektaktivierung78 und Verbergen79 (18.10.2026)
+
+`original-dos-object-visibility.ts` bildet325F/3279 und die Listenroutinen
+32B1/3288 in gemeinsamem physischem Speicher ab. Beide Befehle lesen den
+relativen Objektzeiger als unmittelbares Wort; BF6 liefert die Basis.
+78 löscht Byteflag40 und setzt Wortflag80, entfernt das Objekt aus der
+C16-Liste, setzt seinen Folgezeiger(+4) auf0 und hängt es am Listenende an.
+79 setzt ausschließlich Byteflag40; Reihenfolge und Verknüpfung bleiben
+erhalten. SI steigt um zwei Operandbytes; DX/CX und die übrigen öffentlichen
+Skriptregister bleiben erhalten. Fehlerhafte zyklische Listen und Zugriffe
+außerhalb des begrenzten Real-Mode-Fensters werden als Hostgrenzen atomar
+abgewiesen; sie werden nicht als originales Fehlerverhalten ausgegeben.
+
+Die Dispatcher beider identifizierten Captures zeigen auf dieselben Adressen.
+`check-native-dos-object-visibility.py <memory.bin>` prüft je192 Fälle nativ:
+beide Befehle, getrenntes/SS-aliasierendes ES, normale/umgebrochene Basis,
+leere/eine/mehrere Listenelemente sowie Ziel am Kopf/in der Mitte/am Ende
+oder außerhalb der Liste und vier Flagwörter. Sechs Skriptregister, SP und
+vollständiger Speicher außer dem bekannten Stack-Sicherungsbereich stimmen
+überein. Originalcaptures bleiben unverändert. Eigene Tests prüfen zusätzlich
+Listenreihenfolge, Erhalt anderer Flags und unveränderte Eingaben bei Ablehnung.
+
+Die tatsächliche Ishar2-MAIN-Folge wurde erneut ab Original-MAIN mit
+`--cycles 40 --shift-flags 0` verglichen. Nach dem bisherigen Zählerablauf
+läuft jetzt43→17→78 nativ identisch in allen drei gültigen Layouts. SI erreicht
+15012; der nächste nicht angebundene Befehl ist71. Nach78 wurde in dieser
+Prüfung noch kein Frame gerendert. Die Aktivierung beweist deshalb weder
+Pixelgleichheit noch eine sichtbare Browserfunktion. Ishar1 hat native
+synthetische Befehlsnachweise, weiterhin keinen vollständigen MAIN-Start.
+
+Metadaten: `OBJECT_VISIBILITY_NATIVE_2026-10-18.json` (Prüfmatrix und kanonischer
+Ergebnisdigest) sowie `MAIN_OBJECT_ACTIVATION_NATIVE_2026-10-18.json`.
+Hostprüfung: `node scripts/check-dos-object-visibility.mjs`, vorhandene
+Schritt-/Frameregressionen und Typecheck bestanden. Nächste Stelle ist71 im
+echten MAIN, anschließend der aktive Zeichenpfad.
