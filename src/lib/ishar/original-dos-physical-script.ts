@@ -1,3 +1,5 @@
+import {setOriginalDosSeedWord} from './original-dos-seed-word.ts';
+import {controlOriginalDosContext} from './original-dos-context-control.ts';
 import {selectOriginalDosPalette} from './original-dos-palette-select.ts';
 import type {OriginalDosFileSearch} from './original-dos-file-probe.ts';
 import {branchOriginalDosScript} from './original-dos-script-branch.ts';
@@ -35,12 +37,15 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
  else if(opcode>=18&&opcode<=29)registers.si=branchOriginalDosScriptConditional(script(),opcode,after,input.dx,input.cx).si;
  else if(opcode===17){const next=returnOriginalDosScript(context(),input.bp,after,memory[globalAt+0xc19],word(0xc56));memory.set(next.memory,contextAt);registers.si=next.si;if(next.phase==='yield')status='yield';}
  else if(opcode===66)status='yield';
+ else if(opcode===42){const next=setOriginalDosSeedWord(memory,ss,{...input,si:after});memory=next.memory;Object.assign(registers,next.registers);}
+ else if(opcode===59){/* Original2E93 is RET; only opcode fetch advances SI. */}
  else if(opcode>=43&&opcode<=45){const next=decrementOriginalDosScript(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===78||opcode===79){const next=setOriginalDosObjectVisibility(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if([71,192,193,194].includes(opcode)){const next=updateOriginalDosSelectedObject(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===72||opcode===73){const next=executeOriginalDosResourceDraw(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===186||opcode===191){const next=writeOriginalDosPhysicalGlobalOperands(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===185){const next=outputOriginalDosString(memory,ss,{...input,si:after});memory=next.memory;Object.assign(registers,next.registers);}
+ else if(opcode>=98&&opcode<=103){const next=controlOriginalDosContext(memory,ss,{...input,si:after},opcode);memory=next.memory;Object.assign(registers,next.registers);}
  else if(opcode===104){const next=selectOriginalDosPalette(memory,ss,{...input,si:after},bios?.palette);memory=next.memory;Object.assign(registers,next.registers);events=next.events;}
  else if(opcode===106){const next=readOriginalDosNumericOperand(memory.subarray(scriptAt,scriptAt+65536),memory.subarray(contextAt,contextAt+65536),after,input.bp,memory.subarray(globalAt,globalAt+65536));registers.si=next.si;registers.cx=input.dx;registers.dx=next.value;memory[globalAt+0xc99]=next.value&255;}
  else if(opcode===188){

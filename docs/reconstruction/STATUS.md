@@ -1,5 +1,9 @@
 # Technischer Iststand
 
+Neuester Teilnachweis (2026-10-18): [DOS-Kontextsteuerung und Initialisierungswort](CONTEXT_SEED.md),
+646 native Vergleichsfälle; Ishar 1 erreicht 176 verglichene MAIN-Befehle vor der
+offenen Stringzuweisung. Dies verändert die Browseroberfläche noch nicht.
+
 Stand der zusammengefassten Inventur: 2026-10-17. Keine prozentuale Vollständigkeitsbehauptung.
 Aktualisierte subsystemübergreifende Abdeckung und nächste Abnahmen (2026-10-18):
 [COVERAGE.md](COVERAGE.md). Die nachfolgenden Einträge dokumentieren Teilmeilensteine;
