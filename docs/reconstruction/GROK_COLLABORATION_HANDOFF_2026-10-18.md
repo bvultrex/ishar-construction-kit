@@ -1,3 +1,7 @@
+## Update: mirrored type20 graphics
+
+Original 1E97:04BF/02DD mirrored byte rendering is reconstructed; 864 native fixture comparisons across both games and typecheck passed. See `MIRRORED_BYTE_RENDER.md`. Actual LOGO continuation exposed a separate scheduler boundary: after MAIN polling/callback, the selected context is skipped and the runner encounters operand22/opcode188. Actual mirrored LOGO pixels are therefore still unverified; investigate selection/timing before continuing, without forcing state.
+
 ## Update: original mirrored command 167
 
 Reconstructed engine 1000:33B7: context flip XOR 1 followed by the shared five-operand resource draw. Native full record construction passed 216 fixtures per game (432 total); typecheck and resource regression checks passed. See `MIRRORED_RESOURCE_COMMAND.md`. Mirrored type-20 pixel output and actual LOGO:008D replay are still pending; no browser feature or complete boot is claimed.
