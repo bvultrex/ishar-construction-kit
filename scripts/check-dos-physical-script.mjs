@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {stepOriginalDosPhysicalScript as step} from '../src/lib/ishar/original-dos-physical-script.ts';
+const memory=new Uint8Array(0x100000),view=new DataView(memory.buffer),ss=0x1c0b;
+memory.set([5,3,66,0,0,17],0x40100);view.setUint16(0x50000+0x200-10,0x100,true);memory[ss*16+0xc19]=1;
+let registers={ds:0x4000,es:0x5000,si:0x100,bp:0x200,dx:0x1234,cx:0x5678};
+const before=memory.slice(),call=step(memory,ss,registers);assert.equal(call.registers.si,0x105);assert.deepEqual(memory,before);
+const returned=step(call.memory,ss,call.registers);assert.equal(returned.registers.si,0x102);
+const yielded=step(returned.memory,ss,returned.registers);assert.equal(yielded.status,'yield');assert.equal(yielded.registers.si,0x103);
+const unsupported=memory.slice();unsupported[0x40100]=255;const snapshot=unsupported.slice();assert.throws(()=>step(unsupported,ss,registers),/opcode255/);assert.deepEqual(unsupported,snapshot);
+const expression=memory.slice();expression.set([31,120],0x40100);new DataView(expression.buffer).setUint16(ss*16+0x2894,5,true);
+const queried=step(expression,ss,registers);assert.equal(queried.registers.dx,2004);assert.equal(queried.registers.cx,registers.dx);
+assert.throws(()=>step(new Uint8Array(1),ss,registers),/1MiB/);
+console.log('Physical script call/return/yield, mode query, immutable inputs and unsupported-opcode boundary passed');

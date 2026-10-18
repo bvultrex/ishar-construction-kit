@@ -51,8 +51,9 @@ hat keine gleichgewichteten Zeilen: Kampf und ein Codec sind unterschiedlich gro
    geprüft; beide ursprünglichen Anfangsbefehle laufen im CLI-Nachweis durch.
    Die folgenden117/114 Opcode41 je Spiel sind mit dem erhaltenen physischen
    Zustand nativ verglichen. Auch die ersten7/8 numerischen Zuweisungen samt
-   Original-Indexstack laufen durch. Nächste Grenzen sind Aufruf7 (Ishar1) und
-   Ausdruck31 (Ishar2); daran die zusammenhängende Ausführung weiterführen.
+   Original-Indexstack laufen durch. Das gemeinsame physische Schritt-API folgt
+   jetzt auch Aufrufen, Ausdrücken und Bedingungen. Tatsächliche nächste Grenzen
+   sind Ausdrucksoperation90 (Ishar1) und66 (Ishar2); dort weiter rekonstruieren.
    Abnahme:
    Register, Speicher, Zeiger und Stopgrenzen pro Profil stimmen überein.
 2. **Erster vollständiger Original-Modnachweis je Spiel.** Bestehenden sicheren

@@ -1125,3 +1125,63 @@ Fehlerhandler und vollständiger Interpreter sind damit nicht nachgewiesen.
 Auch die Browserdiagnose ist noch nicht an diesen physischen MAIN-Zustand
 angebunden. Als Nächstes die unterschiedlichen Fortsetzungen beider Profile
 (Ishar1-Aufruf7, Ishar2-Ausdruck31) mit diesem Zustand weiterführen.
+
+## Gemischte Skriptausführung auf dem geladenen physischen Zustand
+
+`original-dos-physical-script.ts` verbindet vorhandene Rekonstruktionen zu einem
+begrenzten Einzelschritt-API auf1MiB-Speicher. Der Vertrag umfasst DS/ES/SI/BP
+und die ALIS-Operandenregister DX/CX sowie neue Speicherbytes und ready/yield.
+CPU-Scratchregister AX/BX/DI, Flags und Sicherungsstackbytes sind ausdrücklich
+kein nachgebildeter CPU-Zustand. Unterstützt werden die angeschlossenen
+Teilformen von5–10,17,18–31,41,66 und70. Nicht unterstützte Befehle/Operanden
+werfen einen Grenzfehler ohne Änderung des Eingangsspeichers; keine Funktion
+wird pauschal als vollständiger Interpreter ausgegeben.
+
+Aufrufe schreiben den echten relativen Rückkehrpointer in den Kontextstack;
+Opcode17 liest ihn wieder. Bedingte Sprünge verwenden die erhaltenen DX/CX.
+Die Block-/Objekt-/Zuweisungspfade nutzen den physischen Speicher. Ausdruck31
+verwendet den vorhandenen Ausdruckshelfer; überlappende Globals-/Modul- oder
+Globals-/Kontextsegmente werden dort ausdrücklich abgewiesen. Eine Objekt-
+Fehlergrenze benötigt ein eigenes Fehlerzustands-API und wird hier angehalten,
+statt die Teilwirkungen vor Fehler10 als erfolgreiche Ausführung auszugeben.
+
+Ausdruck120 wurde anhand6DF8 und0F49 ergänzt: Er liest SS:2894 und liefert
+2000, bei Wert7 hingegen2001, bei3 den Wert2002 und bei5 den Wert2004.
+Der semantische Name bleibt unbestätigt. Der native Pfad enthält hier keinen
+BIOS-/Portzugriff. Die gemeinsame Funktion `queryOriginalDosModeValue` wird
+auch von der numerischen Zuweisung verwendet. Ausdruck64 legt DX auf den
+Original-Operandenspeicher;54 übernimmt DX=CX und liest CX vom Stack.
+Index-Leseformen14/16 verwenden die gleichen originalen Strides und0B0A wie
+die vorherigen Ergebnisziele und lesen Byte mit Vorzeichenerweiterung/Wort.
+
+`check-native-dos-resource-file.py <capture> <MAIN.IO> --execute` enthält den
+bisherigen Lade-/Root-/Initialbefehlsnachweis und folgt anschließend der
+gemischten Originalfolge. Nach jedem Schritt werden die sechs vertraglichen
+Register, SP-Wirkung und der gesamte Speicher außer SS:FEC0..FF0F verglichen.
+Je drei gültige Layouts pro Spiel bestehen:
+
+- Ishar1: sechs weitere Schritte mit Aufruf7, Zuweisung30, Ausdruck31 und
+  bedingtem Sprung20; danach unveränderter Halt vor einer Zuweisung mit der
+  noch offenen Ausdrucksoperation90.
+- Ishar2: vier weitere Schritte derselben Befehlsarten; danach unveränderter
+  Halt vor einem Ausdruck mit der noch offenen Operation66.
+
+Der Originalkontrollfluss wird verfolgt; es wird kein Ziel manuell übersprungen.
+Diese zusätzlichen Schritte sind kein vollständiger MAIN-Lauf. Der frühere
+kontrollierte Übergang bei2607 und die fehlenden Plattformdienste bleiben als
+Grenzen bestehen. Metadaten: MAIN_PHYSICAL_EXECUTION_NATIVE_2026-10-18.json.
+
+Zusätzliche native Ausdrucksprüfungen pro Profil:18 Modusfälle (neun Rohwerte,
+zwei eingehende DX) sowie18 indizierte Leseausdrücke (Byte/Wort,0/1/2 weitere
+Dimensionen, drei Indizes). Indexprüfungen vergleichen SI/DX/CX, sämtliche
+Globals einschließlich Operandenspeicher und erhaltene Modul-/Kontextdaten;
+keine Scratchregister- oder Flaggleichheit wird daraus abgeleitet.
+Prüfaufrufe: `check-native-dos-expression-mode.py <capture>` und
+`check-native-dos-expression-index.py <capture>`. Ergebnis-Metadaten ohne
+Originalbytes: EXPRESSION_MODE_INDEX_NATIVE_2026-10-18.json.
+
+Hostintegration: `node scripts/check-dos-physical-script.mjs` prüft die
+Aufruf-/Return-/Yieldkette, Modusabfrage, Quellschutz und unbekannte Befehle.
+Bestehende Diagnose-/Zuweisungsregressionen und Typecheck bestanden.
+Keine neue Browserfunktion. Nächster Schritt: die beiden tatsächlich erreichten
+Ausdrucksoperationen erschließen und den durchgehenden Pfad weiterführen.

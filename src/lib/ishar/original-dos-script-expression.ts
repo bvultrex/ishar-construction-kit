@@ -1,13 +1,19 @@
 import {readOriginalDosNumericOperand} from './original-dos-numeric-operand.ts';
 import {probeOriginalDosFile,type OriginalDosFileSearch} from './original-dos-file-probe.ts';
-/** Opcode31 ->2937/69A9; numeric0/2/6/8/30/32, strings4/34, loop56/end58, comparisons74..84.
+/** Raw0F49 mapping; the semantic meaning of the2000-based value remains unnamed. */
+export function queryOriginalDosModeValue(mode:number){
+ if(!Number.isInteger(mode)||mode<0||mode>65535)throw Error('Expected original mode word');
+ return 2000+(mode===7?1:mode===3?2:mode===5?4:0);
+}
+/** Opcode31 ->2937/69A9; numeric0/2/6/8/30/32, indexed14/16,
+ * stack54/64, mode120, strings4/34, loop56/end58, comparisons74..84.
  * Shared DX/CX follow native calls, including nested operands; no JavaScript coercion.
  * DF0, bounded source, disjoint context. Limits are host safeguards, not native checks.
  */
 export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Uint8Array,si:number,bp:number,initialDx:number,sourceLength=65536,globals?:Uint8Array,fileSearch?:OriginalDosFileSearch){
  if(script.length!==65536||context.length!==65536||![si,bp,initialDx].every(v=>Number.isInteger(v)&&v>=0&&v<=65535))throw Error('Invalid native expression inputs');
  if(globals!==undefined&&globals.length!==65536)throw Error('Expected original global segment');
- let dx=initialDx,cx=initialDx,tokens=0;const nextGlobals=globals?.slice();
+ let dx=initialDx,cx=initialDx,tokens=0,bx=0x277c;const nextGlobals=globals?.slice();
  if(!Number.isInteger(sourceLength)||sourceLength<1||sourceLength>65536)throw Error('Invalid native expression source length');
  const signed=(v:number)=>v>=32768?v-65536:v;
  function operand(call:boolean,depth:number):void{
@@ -15,6 +21,40 @@ export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Ui
   if(si>=sourceLength)throw Error('Expression operand is truncated');
   if(call)cx=dx;
   const tag=script[si];
+  if(tag===64||tag===54){
+   if(!nextGlobals)throw Error('Operand stack requires the original global segment');
+   si++;
+   if(tag===64){bx=(bx-2)&65535;nextGlobals[bx]=dx&255;nextGlobals[(bx+1)&65535]=dx>>>8;}
+   else{dx=cx;cx=nextGlobals[bx]|nextGlobals[(bx+1)&65535]<<8;bx=(bx+2)&65535;}
+   return;
+  }
+  if(tag===14||tag===16){
+   if(!nextGlobals)throw Error('Indexed expression requires the original global segment');
+   if(si+3>sourceLength)throw Error('Indexed expression offset is truncated');
+   let ax=script[si+1]|script[si+2]<<8;si+=3;
+   const count=context[(bp+ax-1)&65535];let di=(bp+ax-2)&65535;
+   if(tag===16)dx=(dx*2)&65535;ax=(ax+dx)&65535;
+   const writeAccumulator=(value:number)=>{nextGlobals[0xb0a]=value&255;nextGlobals[0xb0b]=value>>>8;};
+   if(count!==0){
+    writeAccumulator(ax);
+    for(let n=0;n<count;n++){
+     ax=nextGlobals[bx]|nextGlobals[(bx+1)&65535]<<8;bx=(bx+2)&65535;di=(di-2)&65535;
+     if(di===65535)throw Error('Indexed stride word straddles segment');
+     const product=ax*(context[di]|context[di+1]<<8);ax=product&65535;dx=Math.floor(product/65536);
+     writeAccumulator(((nextGlobals[0xb0a]|nextGlobals[0xb0b]<<8)+ax)&65535);
+    }
+    ax=nextGlobals[0xb0a]|nextGlobals[0xb0b]<<8;
+   }
+   const at=(bp+ax)&65535;
+   if(tag===16&&at===65535)throw Error('Indexed value word straddles segment');
+   dx=tag===14?(context[at]&128?context[at]|0xff00:context[at]):context[at]|context[at+1]<<8;return;
+  }
+  if(tag===120){
+   if(!nextGlobals)throw Error('Expression120 requires the original global segment');
+   si++;const mode=nextGlobals[0x2894]|nextGlobals[0x2895]<<8;
+   // Native6DF8 ->0F49: raw mode-dependent value, no inferred device meaning.
+   dx=queryOriginalDosModeValue(mode);return;
+  }
   if(tag===156){
    if(!fileSearch||!nextGlobals)throw Error('Expression156 requires an explicit DOS FindFirst service');
    si++;const result=probeOriginalDosFile(nextGlobals,fileSearch);dx=result.dx;cx=result.cx;return;
