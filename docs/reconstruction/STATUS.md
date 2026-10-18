@@ -1,5 +1,9 @@
 # Technischer Iststand
 
+Neueste Korrektur: [AUDIO_QUIESCE.md](AUDIO_QUIESCE.md) identifiziert 8ADB als
+Audio-Stopp. Ishar 1 erreicht nun 202 verglichene MAIN-Befehle, Yield, Callback
+und die erste sichtbare Objektgrenze 3DE4; kein fertiges Ishar-1-Bild behauptet.
+
 Laufwerksausdruck 160 (2026-10-18): [DOS_DRIVE_QUERY.md](DOS_DRIVE_QUERY.md).
 660 native Fälle für DOS-/BIOS-Pfade; der reale Ishar-1-Start erreicht weiterhin
 183 verglichene Befehle und stoppt nun präzise am aktivierten Originaldialog 8AE4.

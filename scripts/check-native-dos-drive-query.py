@@ -24,4 +24,4 @@ for case in cases:
  for key,value in case['registers'].items():assert cpu.reg_read(regs[key])==value,(case,key)
  assert cpu.reg_read(UC_X86_REG_SP)==0xff00;actual=bytearray(cpu.mem_read(0,0x100000));actual[g+0xfec0:g+0xff10]=bytes(80);assert hashlib.sha256(actual).hexdigest()==case['hash'],case
 assert path.read_bytes()==original
-print(json.dumps({'captureSha256':digest,'caseCount':len(cases),'verified':'Original dispatch31/tag160; six ALIS registers/SP, full1MiB except FEC0..FF0F, exact DOS/BIOS event order and sector-buffer writes including failures/retry. Optional8AE4 dialog excluded; explicit synthetic services, no host disk access.'}))
+print(json.dumps({'captureSha256':digest,'caseCount':len(cases),'verified':'Original dispatch31/tag160; six ALIS registers/SP, full1MiB except FEC0..FF0F, exact DOS/BIOS event order and sector-buffer writes including failures/retry. Audio8ADB disabled in these drive-isolation fixtures; explicit synthetic services, no host disk access.'}))

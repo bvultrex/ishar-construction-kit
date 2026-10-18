@@ -3,7 +3,7 @@ import argparse,base64,hashlib,json,subprocess
 from pathlib import Path
 from unicorn import *
 from unicorn.x86_const import *
-p=argparse.ArgumentParser();p.add_argument('checkpoints',type=Path);p.add_argument('--current-drive',type=int,choices=range(26));p.add_argument('--find-first-carry',type=int,choices=[0,1]);p.add_argument('--first-frame',action='store_true');p.add_argument('--shift-flags',type=int);p.add_argument('--cycles',type=int,default=0);p.add_argument('--checkpoint-end',type=Path);p.add_argument('--resume-context',action='store_true');p.add_argument('--palette-retrace',type=int);a=p.parse_args();assert a.palette_retrace is None or 0<=a.palette_retrace<=255;assert 0<=a.cycles<=1000;a.first_frame=a.first_frame or a.cycles>0;assert a.shift_flags is None or 0<=a.shift_flags<=255;repo=Path(__file__).resolve().parent.parent;rows=[]
+p=argparse.ArgumentParser();p.add_argument('checkpoints',type=Path);p.add_argument('--equipment-word',type=int,choices=range(65536));p.add_argument('--current-drive',type=int,choices=range(26));p.add_argument('--find-first-carry',type=int,choices=[0,1]);p.add_argument('--first-frame',action='store_true');p.add_argument('--shift-flags',type=int);p.add_argument('--cycles',type=int,default=0);p.add_argument('--checkpoint-end',type=Path);p.add_argument('--resume-context',action='store_true');p.add_argument('--palette-retrace',type=int);a=p.parse_args();assert a.palette_retrace is None or 0<=a.palette_retrace<=255;assert 0<=a.cycles<=1000;a.first_frame=a.first_frame or a.cycles>0;assert a.shift_flags is None or 0<=a.shift_flags<=255;repo=Path(__file__).resolve().parent.parent;rows=[]
 profiles={'ishar1':'5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7','ishar2':'f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04'}
 regs={'ax':UC_X86_REG_AX,'bx':UC_X86_REG_BX,'cx':UC_X86_REG_CX,'dx':UC_X86_REG_DX,'di':UC_X86_REG_DI,'si':UC_X86_REG_SI,'bp':UC_X86_REG_BP,'ds':UC_X86_REG_DS,'es':UC_X86_REG_ES,'ss':UC_X86_REG_SS,'sp':UC_X86_REG_SP,'cs':UC_X86_REG_CS,'ip':UC_X86_REG_IP,'flags':UC_X86_REG_EFLAGS}
 if a.checkpoint_end:
@@ -18,7 +18,7 @@ for path in paths:
  cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,original)
  for key,value in meta['registers'].items():cpu.reg_write(regs[key],value)
  def model(script,extra):
-  request={**({'currentDrive':a.current_drive} if a.current_drive is not None else {}),'memory':base64.b64encode(bytes(cpu.mem_read(0,0x100000))).decode(),'ss':0x1c0b,'stackMask':[0x7a8,0x7ee],**({'palette':{'retraceReads':[a.palette_retrace],'interruptFlag':True}} if a.palette_retrace is not None else {}),**extra}
+  request={**({'equipmentWord':a.equipment_word} if a.equipment_word is not None else {}),**({'equipmentWord':a.equipment_word,'currentDrive':a.current_drive} if a.current_drive is not None else {}),'memory':base64.b64encode(bytes(cpu.mem_read(0,0x100000))).decode(),'ss':0x1c0b,'stackMask':[0x7a8,0x7ee],**({'palette':{'retraceReads':[a.palette_retrace],'interruptFlag':True}} if a.palette_retrace is not None else {}),**extra}
   return json.loads(subprocess.check_output(['node',str(repo/'scripts'/script)],input=json.dumps(request),text=True,cwd=repo))
  def compare_hash(expected):
   actual=bytearray(cpu.mem_read(0,0x100000));actual[0x1c0b0+0x7a8:0x1c0b0+0x7ee]=bytes(0x46);assert hashlib.sha256(actual).hexdigest()==expected,'Physical MAIN memory mismatch'
@@ -32,6 +32,8 @@ for path in paths:
  def probe_entry(uc,address,size,_):drive[0]=None
  cpu.hook_add(UC_HOOK_CODE,probe_entry,None,0x12064,0x12064)
  def interrupt(uc,number,_):
+  if number==0x11:
+   assert a.equipment_word is not None;uc.reg_write(UC_X86_REG_AX,a.equipment_word);return
   if number==0x16:
    assert a.shift_flags is not None and uc.reg_read(UC_X86_REG_AH)==2;uc.reg_write(UC_X86_REG_AL,a.shift_flags);return
   assert number==0x21
@@ -105,4 +107,4 @@ for path in paths:
   with (a.checkpoint_end/path.with_suffix('.json').name).open('x',encoding='utf-8') as f:json.dump({'profile':meta['profile'],'captureSha256':meta['captureSha256'],'memorySha256':hashlib.sha256(raw).hexdigest(),'sourceCheckpointSha256':meta['memorySha256'],'boundary':state['ip'],'registers':state},f,indent=2)
  assert path.read_bytes()==original
  rows.append({'checkpoint':path.name,'checkpointSha256':meta['memorySha256'],'profile':meta['profile'],'scheduler':scheduler,'cycles':cycles,'videoState':video,'continuation':continuation,'portEvidence':port_evidence,'fileEvents':file_events,'steps':len(prefix['steps']),'opcodes':counts,'reason':prefix['reason'],'nextOpcode':prefix['nextOpcode'],'last':reported(prefix['steps'][-1]) if prefix['steps'] else None,'boundary':cpu.reg_read(regs['ip']),'sp':cpu.reg_read(regs['sp'])})
-print(json.dumps({'currentDrive':a.current_drive,'paletteRetrace':a.palette_retrace,'resumeContext':a.resume_context,'requestedCycles':a.cycles,'firstFrame':a.first_frame,'shiftFlags':a.shift_flags,'findFirstCarry':a.find_first_carry,'caseCount':len(rows),'cases':rows,'stackMask':'07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared','limits':'Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. No IRQs delivered; optional explicit DOS FindFirst carry and drive-selection replies, no DTA writes or filesystem access; stops at yield or first unsupported opcode, not complete game/frame.'}))
+print(json.dumps({'equipmentWord':a.equipment_word,'currentDrive':a.current_drive,'paletteRetrace':a.palette_retrace,'resumeContext':a.resume_context,'requestedCycles':a.cycles,'firstFrame':a.first_frame,'shiftFlags':a.shift_flags,'findFirstCarry':a.find_first_carry,'caseCount':len(rows),'cases':rows,'stackMask':'07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared','limits':'Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. No IRQs delivered; optional explicit DOS FindFirst carry and drive-selection replies, no DTA writes or filesystem access; stops at yield or first unsupported opcode, not complete game/frame.'}))

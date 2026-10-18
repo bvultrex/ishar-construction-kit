@@ -127,7 +127,7 @@ export function evaluateOriginalDosScriptExpression(script:Uint8Array,context:Ui
  */
 export function evaluateOriginalDosPhysicalExpression(source:Uint8Array,ss:number,input:{ds:number;es:number;si:number;bp:number;dx:number},external?:{keyByte?:number;shiftFlags?:number;memoryQuery?:(selector:number)=>number;driveQuery?:(selector:number)=>number;driveServices?:OriginalDosDriveServices;engineSegment?:number},fileSearch?:OriginalDosFileSearch){
  if(source.length!==0x100000||![ss,...Object.values(input)].every(x=>Number.isInteger(x)&&x>=0&&x<=65535)||[ss,input.ds,input.es].some(s=>s*16+65536>source.length))throw Error('Invalid physical expression state');
- const memory=source.slice(),view=(segment:number)=>memory.subarray(segment*16,segment*16+65536);
- const result=evaluateExpressionCore(view(input.ds),view(input.es),input.si,input.bp,input.dx,65536,view(ss),fileSearch,{...external,memoryQuery:selector=>queryOriginalDosMemoryValue(view(ss),selector,memory),driveQuery:selector=>{const next=queryOriginalDosDrive(memory,external?.engineSegment??0x1000,selector,external?.driveServices);memory.set(next.memory);return next.dx;}},true);
- return {memory,si:result.si,dx:result.dx,cx:result.cx,tokens:result.tokens};
+ const events:Array<{kind:string;port:number;value:number}>=[];const memory=source.slice(),view=(segment:number)=>memory.subarray(segment*16,segment*16+65536);
+ const result=evaluateExpressionCore(view(input.ds),view(input.es),input.si,input.bp,input.dx,65536,view(ss),fileSearch,{...external,memoryQuery:selector=>queryOriginalDosMemoryValue(view(ss),selector,memory),driveQuery:selector=>{const next=queryOriginalDosDrive(memory,external?.engineSegment??0x1000,selector,external?.driveServices);memory.set(next.memory);events.push(...next.events);return next.dx;}},true);
+ return {memory,si:result.si,dx:result.dx,cx:result.cx,tokens:result.tokens,events};
 }

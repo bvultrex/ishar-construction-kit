@@ -67,7 +67,7 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
  }else if(opcode===30){const next=assignOriginalDosIndexedValue(memory,ss,{ds:input.ds,es:input.es,si:after,bp:input.bp,dx:input.dx});memory=next.memory;Object.assign(registers,{si:next.registers.si,dx:next.registers.dx,cx:next.registers.cx});}
  else if(opcode===31){
   const next=evaluateOriginalDosPhysicalExpression(memory,ss,{...input,si:after},{keyByte,shiftFlags:bios?.shiftFlags,driveServices:bios?.driveServices,engineSegment},bios?.fileSearch);
-  memory=next.memory;registers.si=next.si;registers.dx=next.dx;registers.cx=next.cx;
+  memory=next.memory;registers.si=next.si;registers.dx=next.dx;registers.cx=next.cx;events=next.events;
  }else throw Error(`Original opcode${opcode} is not connected to physical script execution`);
  return {memory,registers,status,opcode,events};
 }

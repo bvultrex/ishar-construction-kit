@@ -4,10 +4,10 @@ import {stepOriginalDosPhysicalScript} from '../src/lib/ishar/original-dos-physi
 import {queryOriginalDosDrive} from '../src/lib/ishar/original-dos-drive-query.ts';
 const original=new Uint8Array(readFileSync(process.argv[2])),cases=[];
 {
- const memory=original.slice();memory[0x1e940]=1;const before=memory.slice();let rejected=false;
- try{queryOriginalDosDrive(memory,0x1000,63);}catch(e){rejected=String(e).includes('8AE4');}
- if(!rejected||!memory.every((v,i)=>v===before[i]))throw Error('Drive dialog boundary not atomic');
- if(queryOriginalDosDrive(memory,0x1000,0).dx!==0)throw Error('Invalid selector must bypass dialog');
+ const memory=original.slice();memory[0x1e940]=1;memory[0x1e93e]=0;const before=memory.slice();let rejected=false;
+ try{queryOriginalDosDrive(memory,0x1000,63);}catch(e){rejected=String(e).includes('2209');}
+ if(!rejected||!memory.every((v,i)=>v===before[i]))throw Error('External audio boundary not atomic');
+ if(queryOriginalDosDrive(memory,0x1000,0).dx!==0)throw Error('Invalid selector must bypass audio stop');
 }
 for(const selector of [0,63,65,66,67,68,97,98,99,255,65535])for(const current of [0,1,2,3,255])for(const equipment of [0,192])for(const statuses of [[0],[4,0],[4,4]]){
  const memory=original.slice(),events=[];memory[0x1e940]=0;memory.set([31,160],0x60100);
