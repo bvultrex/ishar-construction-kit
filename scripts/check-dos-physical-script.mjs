@@ -9,5 +9,10 @@ const yielded=step(returned.memory,ss,returned.registers);assert.equal(yielded.s
 const unsupported=memory.slice();unsupported[0x40100]=255;const snapshot=unsupported.slice();assert.throws(()=>step(unsupported,ss,registers),/opcode255/);assert.deepEqual(unsupported,snapshot);
 const expression=memory.slice();expression.set([31,120],0x40100);new DataView(expression.buffer).setUint16(ss*16+0x2894,5,true);
 const queried=step(expression,ss,registers);assert.equal(queried.registers.dx,2004);assert.equal(queried.registers.cx,registers.dx);
+const raw=memory.slice();raw.set([31,168],0x40100);new DataView(raw.buffer).setUint16(ss*16+0xc9d,0x8000,true);
+const rawRead=step(raw,ss,registers);assert.equal(rawRead.registers.dx,0x8000);assert.equal(rawRead.registers.cx,registers.dx);
+const control=memory.slice();control.set([215,0,255],0x40100);const controlBefore=control.slice(),written=step(control,ss,registers);
+assert.equal(written.registers.dx,65535);assert.equal(written.registers.cx,registers.dx);assert.equal(written.memory[ss*16+0xbf4],255);assert.equal(written.memory[ss*16+0xbf5],1);assert.deepEqual(control,controlBefore);
+control[0x40101]=255;const unsupportedControl=control.slice();assert.throws(()=>step(control,ss,registers),/not reconstructed/);assert.deepEqual(control,unsupportedControl);
 assert.throws(()=>step(new Uint8Array(1),ss,registers),/1MiB/);
 console.log('Physical script call/return/yield, mode query, immutable inputs and unsupported-opcode boundary passed');

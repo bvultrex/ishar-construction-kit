@@ -24,6 +24,7 @@ export function assignOriginalDosIndexedValue(source:Uint8Array,ss:number,regist
   else if(tag===64){bx=u(bx-2);w(ss,bx,dx);}
   else if(tag===54){dx=cx;cx=w(ss,bx);bx=u(bx+2);}
   else if(tag===120)dx=queryOriginalDosModeValue(w(ss,0x2894));
+  else if(tag===168)dx=w(ss,0xc9d);
   else if(tag===56){while(b(ds,si)!==58)operand(depth+1);si=u(si+1);}
   else throw Error(`Indexed expression tag${tag} is not reconstructed`);
  }

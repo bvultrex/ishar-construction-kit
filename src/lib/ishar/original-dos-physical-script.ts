@@ -5,6 +5,7 @@ import {evaluateOriginalDosScriptExpression} from './original-dos-script-express
 import {createOriginalDosScriptObject} from './original-dos-script-object.ts';
 import {writeOriginalDosPhysicalScriptBlock} from './original-dos-script-block.ts';
 import {assignOriginalDosIndexedValue} from './original-dos-indexed-assignment.ts';
+import {readOriginalDosNumericOperand} from './original-dos-numeric-operand.ts';
 
 export interface OriginalDosPhysicalScriptRegisters {ds:number;es:number;si:number;bp:number;dx:number;cx:number}
 /** Bounded original-script step on physical memory. Only the listed ALIS state
@@ -23,6 +24,11 @@ export function stepOriginalDosPhysicalScript(source:Uint8Array,ss:number,input:
  else if(opcode>=18&&opcode<=29)registers.si=branchOriginalDosScriptConditional(script(),opcode,after,input.dx,input.cx).si;
  else if(opcode===17){const next=returnOriginalDosScript(context(),input.bp,after,memory[globalAt+0xc19],word(0xc56));memory.set(next.memory,contextAt);registers.si=next.si;if(next.phase==='yield')status='yield';}
  else if(opcode===66)status='yield';
+ else if(opcode===215){
+  const next=readOriginalDosNumericOperand(script(),context(),after,input.bp,globals());
+  registers.si=next.si;registers.cx=input.dx;registers.dx=next.value;
+  memory[globalAt+0xbf4]=next.value&255;memory[globalAt+0xbf5]=1;
+ }
  else if(opcode===41){const next=writeOriginalDosPhysicalScriptBlock(memory,input.ds,input.es,after,input.bp);memory=next.memory;registers.si=next.si;}
  else if(opcode===70){
   const next=createOriginalDosScriptObject(memory,ss,{ds:input.ds,es:input.es,si:after,bx:140,di:0,dx:input.dx});

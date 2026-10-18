@@ -1227,3 +1227,44 @@ Metadaten ohne Originaldaten: EXPRESSION_ARITHMETIC_NATIVE_2026-10-18.json.
 Die Modus-/Speicherinitialisierung bleibt kontrolliert; vollständiger Start,
 Hardwareanbindung und neue Browserbedienung sind weiterhin offen. Nächste
 konkrete Grenzen sind168 beziehungsweise215, nicht mehr die Rechenoperationen.
+
+## Globales Wort168 und Steuerbytes von Opcode215
+
+Ausdruck168 führt im Original6FEC→0F44 aus: Wort SS:0C9D wird über AX nach DX
+gelesen. Der Aufrufer69A9 setzt CX auf das vorherige DX. Diese Rohfunktion ist
+nun im Ausdrucks- und numerischen Zuweisungspfad enthalten; aus dem Offset wird
+kein unbestätigter Geräte-/Timername abgeleitet. Es erfolgt hier kein externer
+Hardwarezugriff und kein neuer Speicherstore.
+
+Opcode215 bei58D5..58E3 ruft69A6 auf, schreibt DL nach SS:0BF4 und setzt
+SS:0BF5 auf1. Das physische Schritt-API verbindet diesen Pfad für die bereits
+belegten numerischen Operanden0/2/6/8/30/32. Wortwerte bleiben in DX erhalten,
+nur der Store nach0BF4 wird auf ein Byte begrenzt. Komplexere Operanden werden
+weiter angehalten, statt einen Null-/Ersatzwert zu verwenden. Die semantische
+Bedeutung der beiden Steuerbytes wird nicht aus ihrer Verwendung vermutet.
+
+`check-native-dos-global-control.py <capture>` prüft je35 Fälle pro Profil:
+fünf Wortwerte für168 sowie dieselben fünf Werte für jede der sechs numerischen
+Quellformen bei215. Nativer Dispatcher,69A6 und der eigentliche Handler werden
+ausgeführt; SI/DX/CX/BP/DS/ES, SP-Rückkehr, Globals und Kontextbytes stimmen
+überein. Bytevorzeichen, Wortbreite und ursprüngliche SteuerbytesAAh/BBh werden
+berücksichtigt. Skriptbytes bleiben erhalten. Hostprüfungen in
+`check-dos-physical-script.mjs` decken zusätzlich Quellschutz und unveränderten
+Abbruch bei einem nicht unterstützten215-Operanden ab. Diagnose-Regressionen
+und Typecheck bestanden.
+
+Der vollständige bisherige `--execute`-Prüfpfad besteht wieder für je drei
+gültige MAIN-Layouts beider Spiele. Ishar1 erreicht jetzt nach17 gemischten
+Schritten ab dem Initial-Zuweisungspräfix einen Ausdruck156, der einen expliziten
+DOS-FindFirst-Dienst verlangt. Die existierende boolesche Dienstgrenze ersetzt
+noch kein vollständiges DOS-/DTA-Modell; Details in DOS_FILE_SEARCH.md.
+Ishar2 erreicht nach zehn Schritten den nächsten Opcode188. Dieser ruft699E
+und prüft anschließend ursprüngliche Konfigurationswerte; sein vollständiger
+Pfad ist noch nicht an die physische Ausführung angeschlossen.
+
+Beide Grenzen werden vor Veränderung des ankommenden Hostzustands angehalten;
+sie werden weder übersprungen noch durch Erfolg simuliert. Original-Captures
+und Spieldateien bleiben unverändert. Metadaten ohne Originaldaten:
+GLOBAL_CONTROL_NATIVE_2026-10-18.json. Nächste Arbeit: die explizite Dateisuche
+mit nachgewiesenen DOS-Zustandswirkungen verbinden und den tatsächlich
+erreichten188-Pfad rekonstruieren. Browseranbindung und voller Start bleiben offen.
