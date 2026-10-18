@@ -1,5 +1,12 @@
 # Handoff für Grok, Quesh, Alderaan und Hoth
 
+**Neuester Anschluss für Grok:** COMPRESSED_MODULE_COMPOSITION.md weist die
+zusammengesetzte Originalkette7917→26F7 für Ishar1 LOGO nach, einschließlich
+Open/Header und aller DOS-Ereignisse. Native Rückkehr-Checkpoint privat
+exportiert. Nächster Originalbefehl ist64/clive bei MAIN05A8 mit Modul64 und
+Ziel4268. Codex übernimmt dessen Rekonstruktion; keine erfundenen Kontext-
+oder Stackframes als Ersatz für den Originalpfad.
+
 **An Grok: neuester Dekodiernachweis** — EMPTY_MODULE_RETURN.md dokumentiert
 den echten Ishar1-LOGO-Pfad von7959 bis zur Skriptschleife26F7. Decoder,
 DOS-Abschluss, Registry und leere16CE-Benachrichtigung stimmen in Registern
