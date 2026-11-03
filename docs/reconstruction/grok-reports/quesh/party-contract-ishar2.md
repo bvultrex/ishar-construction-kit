@@ -293,3 +293,43 @@ START: map 1, row 11, col 12, facing 2. Party 0 Zubaran (33, human, align 3), 1 
 1. Alderaan/Hoth: run E2 (and E3 refused/granted) on copies, save PARTY1/EXP1, and diff against the tables above.
 2. Codex: the VM needs `ctstform`/`cmatent` for the NPC click (already needed for pickup). The rules in the JSON `routines` are directly testable against PARTY1.
 3. Optional: trace DRUIDE4 → Grimz swap; locate the map-1 tavern for a tavern-recruit sequence.
+
+---
+
+## Addendum 2026-11-03: open points (Grimzel→Grimz, skills, menu option 5)
+
+Evidence levels: **known** = read directly from listing/save; **suspected** = consistent with listing+saves but a link is missing; **unknown**.
+
+### O1. Skill arrays (5 slots, byte each)
+| Addr | Meaning | Level | Evidence |
+|---|---|---|---|
+| 0x4b58 | Lock-picking | known (label) / unknown (use) | Character sheet MESSAGE/D/E ~0x006bf prints label "Lock-picking" then 0x4b58. No game-logic read found in any listing (only FRISE 0x02555 copy-in, PARAM init/load). Use = **unknown** (maybe via lock scripts not yet decompiled). |
+| 0x4c76 | Perception | known | Label at MESSAGEE 0x006eb. MESSAGEE 0x0003b–0x00085: for message codes 1..49 the speaker is the living slot (HP>0) with the highest 0x4c76, ties → **higher** slot index wins (`osupeg`, scan 0→4, initial candidate dirb19). Speaker name + " :" prefixes the text; 0x4f18[code] ← 1 (saved, 50 B: "message already shown"). |
+| 0x4b68 | First aid | known | label + L_01dd1 `rnd(100) < 0x4b68`. |
+| 0x4b38 | Arms 1-handed | known | label; FRISE 0x04d92 picks it as divisor when weapon class `0x4a08[w+116][2] mod 10 ≠ 2`. |
+| 0x4b40 | Arms 2-handed | known | FRISE 0x04d84 when `0x4a08[w+116][2] mod 10 == 2`. Bare hand (dirb50==0): fixed 80 (0x04d63). |
+| 0x4b48 | Throwing | known | FRISE 0x05043 when `0x4a08[w+116][3] == 1`. |
+| 0x4b50 | Shooting | known | FRISE 0x05020 when `0x4a08[w+116][3] == 2`. |
+
+Use of weapon skills (known, formula): attack recovery delay  
+`delay = (0x4fcc / 120) · (base·25 / skill + 2)` (integer, left-to-right), `base = 0x4a08[w+116][0]` (1 if none, FRISE 0x04cb3); ranged and some melee branches halve it (`/2`, 0x04df7, 0x0504d). Higher skill ⇒ shorter delay. Hit/damage use of skills: **none found** (suspected: skills affect only speed).
+
+### O2. Menu option 5 (FRISE 0x01158 → MAIN msg 25)
+**known:** option 5 = **map**. MAIN L_0360e: sleeps entities of type 6, 0x0c, 5; loads `map.IO` (type 0x14), passes 0x51c4 (=0 from FRISE) as +0x0c, sets 0x2ab7 = 1 (pause flag, blocks DRUIDE4/PP12 animation loops), waits for map's +0x0d == 1, then kills it, 0x2ab7 = 0, 0x51c4 = 0. No party/save field is written. (Map rendering itself not analysed.)
+
+### O3. Grimzel → Grimz
+Chain:
+1. **known** SOURIS 0x0086c–0x008b8: dropping the held object 0x2d16 (ids 2..7 exclusive: `>1 and <7`) on a target with material 69 stores it in the first free 0x50ae[k] (k 0..4). AFFOBJ 0x00360 draws them. SASCHA2 0x50ae = 2,6,5,4,3 ⇒ all five objects 2..6 placed.
+2. **known** DRUIDE4 0x00096–0x000fb (only while 0x50b4 == 0): polls until all five 0x50ae ≠ 0, then requires a party slot with 0x2fa2 == 51 (HP not checked here); else keeps waiting. Then: MESSAGEE code 23 (spell text "wilgelindildong"), 0x50b4 ← 1 (saved; one-shot), cutscene L_00176 (0x4fba = 1 during, clears 0x2c4e[2..6], wakes AFFOBJ).
+3. **known** PP11/PP12 are the 51/52 portrait scenes from MAIN msg 17 (PEOPLE1 sends 51, POURS1 sends 52 once via 0x4fbc). PP12 gives item 31 to the first living slot's first empty inventory cell (0x2d8e[s][k] ← −31). Not the swap.
+4. **known** only writer of an actor id into 0x2fa2 is FRISE 0x01570 (recruit, after L_02151). Recruit of 52 requires a living slot with id 51 (L_01240, else message 13) and < 5 living members (0x014f7), target slot = first slot with HP == 0.
+5. **unknown / contradiction:** SASCHA2 shows 52 in Grimzel's former slot 0 with XP/level kept and HP 45 = 36 + 9. The recruit path writes HP ← 0x36ac[52] (36) and a new slot. Neither DRUIDE4 nor MESSAGEE writes slot data. Either a code path outside the decompiled listings (e.g. map/other overlay) did it, or SASCHA2 is not a direct successor of GRIMZ. **suspected:** the 5-object ritual (0x50ae + 0x50b4) is the trigger; slot mechanics unresolved. Do not implement a swap rule beyond "suspected" until T4 below is run.
+
+### Test cases (Alderaan/Hoth, DOSBox original, same click coordinates as above)
+Diff tool: `private/savediff.py A.SAV B.SAV`. Save to a new slot each time; never overwrite originals (work on copies).
+
+- **T1 map (option 5)**: load SASCHA.SAV → click menu icon slot 0 (8,131) → option 5 (144,150). Expected: map screen, world frozen (no monster movement). Leave map, save as T1.SAV. Expected diff vs a save made immediately before: no party/0x50ae/0x50b4 fields changed. **known**.
+- **T2 perception speaker**: on any save with ≥2 living members, note 0x4c76 per slot (savediff dump). Trigger a not-yet-seen message 1..49 (one with 0x4f18[code] == 0). Expected: the line begins with the name of the highest-perception living slot, ties → higher slot number. After saving, 0x4f18[code] 0 → 1. Variant: kill or empty that slot and repeat with a different unseen code → next-best speaker. **known**.
+- **T3 weapon skill speed**: same character, same weapon; compare attack recovery with 1-handed vs 2-handed weapons (classes from 0x4a08). Expected delay ∝ base·25/skill + 2, scaled by 0x4fcc/120. Measure frames between attacks in DOSBox (capture). **known formula, unverified timing**.
+- **T4 Grimz ritual**: load GRIMZ.SAV (map 4, zone 59, row 53, col 44, facing 3). Place objects 2..6 one by one on the material-69 surface (altar). Expected after the 5th object: MESSAGEE text "wilgelindildong", cutscene, 0x50b4 0 → 1, 0x50ae = order of placement. Then save as T4.SAV, `savediff GRIMZ.SAV T4.SAV` and compare with `savediff GRIMZ.SAV SASCHA2.SAV`. Decision rule: slot-0 id 51 → 52 with XP kept ⇒ swap is part of the ritual (upgrade O3.5 to known and trace the writer). Otherwise ⇒ the swap comes from elsewhere. Negative control: same with Grimzel expelled first (GRIMZEL.SAV E2 sequence) ⇒ nothing happens, 0x50b4 stays 0. **suspected**.
+- **T5 lock-picking**: two characters with different 0x4b58 try the same locked door/chest repeatedly (≥20 tries each, from the same save). If the success rates are equal ⇒ the skill is decorative. **unknown**.

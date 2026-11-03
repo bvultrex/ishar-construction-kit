@@ -827,5 +827,70 @@
   "leaver cleanup order (R11)"
  ],
  "contradicted": [],
- "limits": "static + save consistency, no DOSBox run"
+ "limits": "static + save consistency, no DOSBox run",
+ "addendum_2026_11_03_open_points": {
+  "evidence_levels": [
+   "known",
+   "suspected",
+   "unknown"
+  ],
+  "skills": {
+   "0x4b58": {
+    "name": "lock-picking",
+    "use": "unknown",
+    "level": "known(label)"
+   },
+   "0x4c76": {
+    "name": "perception",
+    "use": "MESSAGEE 0x0003b: speaker for msg codes 1..49 = living slot with max 0x4c76, ties -> higher slot; sets 0x4f18[code]=1",
+    "level": "known"
+   },
+   "0x4b68": {
+    "name": "first aid",
+    "use": "rnd(100)<skill in L_01dd1",
+    "level": "known"
+   },
+   "0x4b38": {
+    "name": "arms 1-handed",
+    "use": "divisor in attack delay, FRISE 0x04d92 (0x4a08[w+116][2]%10!=2)",
+    "level": "known"
+   },
+   "0x4b40": {
+    "name": "arms 2-handed",
+    "use": "FRISE 0x04d84 (0x4a08[w+116][2]%10==2); bare hand fixed 80",
+    "level": "known"
+   },
+   "0x4b48": {
+    "name": "throwing",
+    "use": "FRISE 0x05043 (0x4a08[w+116][3]==1)",
+    "level": "known"
+   },
+   "0x4b50": {
+    "name": "shooting",
+    "use": "FRISE 0x05020 (0x4a08[w+116][3]==2)",
+    "level": "known"
+   },
+   "delay_formula": "(0x4fcc/120)*(base*25/skill+2), base=0x4a08[w+116][0] or 1; some branches /2"
+  },
+  "menu_option_5": {
+   "meaning": "map screen (MAIN L_0360e, map.IO, pause 0x2ab7)",
+   "save_effect": "none",
+   "level": "known"
+  },
+  "grimz": {
+   "trigger": "objects 2..6 placed on material 69 -> 0x50ae[0..4]; DRUIDE4 needs id 51 in party; MESSAGEE 23; 0x50b4=1 one-shot",
+   "trigger_level": "known",
+   "swap_writer": "unknown; only id writer FRISE 0x01570 (recruit, first HP==0 slot) contradicts SASCHA2 in-place swap",
+   "swap_level": "unknown",
+   "ritual_causes_swap": "suspected"
+  },
+  "tests": [
+   "T1 map option5 no diff",
+   "T2 perception speaker + 0x4f18",
+   "T3 weapon delay",
+   "T4 GRIMZ.SAV ritual vs SASCHA2 diff",
+   "T5 lock-picking success rate"
+  ],
+  "md_section": "Addendum 2026-11-03"
+ }
 }

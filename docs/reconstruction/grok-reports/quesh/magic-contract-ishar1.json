@@ -1,0 +1,298 @@
+{
+ "game": "ishar1",
+ "date": "2026-11-03",
+ "base": "bb42748",
+ "evidence_levels": {
+  "known": "read in code (proven)",
+  "suspected": "hypothesis",
+  "unknown": "open"
+ },
+ "sha256_prefix": {
+  "FRISE.IO": "3bd158963fdaf0f8",
+  "STAGE.IO": "1b5f4b5ce7222aa7",
+  "PARAM.IO": "f42ea12ceffa6b87",
+  "GEREN.IO": "60405e4537abff12",
+  "SOURIS.IO": "2bbc1362e2f84c51",
+  "MESSAGEE.IO": "1b6a76f2c931e4dd",
+  "MAIN.IO": "27c5834de005afc9",
+  "ITAVERNE.IO": "f3bed78c5fb97360",
+  "start.exe": "3ea63234c97b77d8",
+  "S1.SAV": "92023f2b51e34f74",
+  "LP1.SAV": "76cf91a104ec8675"
+ },
+ "mental": {
+  "var": "0x16b4",
+  "save": "768+c",
+  "range": "0..100",
+  "max_var": null,
+  "regen": "none",
+  "writers": [
+   "FRISE L_02cee cost",
+   "ITAVERNE 0x0067d sleep >50->100 else +50",
+   "FRISE 0x0363d recruit=100",
+   "FRISE 0x05129 flask 1010/1=100",
+   "PARAM init 100"
+  ],
+  "evidence": "known"
+ },
+ "casters": {
+  "classes": [
+   0,
+   2,
+   5,
+   6,
+   9,
+   16,
+   18
+  ],
+  "gate": "menu class check + MENTAL>0; rune shortcut has no class check",
+  "evidence": "known"
+ },
+ "spell_table": {
+  "source": "PARAM 0x4010 (not saved)",
+  "stage_level": "lvl(s)=T[s-1]",
+  "frise_level": "sl(s)=T[s]",
+  "quirk": "off-by-one",
+  "evidence": "known",
+  "T36": {
+   "value": 0,
+   "evidence": "suspected"
+  },
+  "id10_name_mapping": {
+   "evidence": "suspected"
+  }
+ },
+ "learning": {
+  "script": "STAGE",
+  "trainers": {
+   "0": [
+    35,
+    53,
+    1
+   ],
+   "1": [
+    35,
+    67,
+    13
+   ],
+   "2": [
+    18,
+    8,
+    4
+   ],
+   "3": [
+    30,
+    78,
+    14
+   ]
+  },
+  "offers": {
+   "p0": [
+    1,
+    4,
+    7,
+    13,
+    18,
+    19,
+    20,
+    8,
+    25,
+    33,
+    24
+   ],
+   "p1": [
+    5,
+    22,
+    13,
+    12,
+    16,
+    17,
+    33,
+    25,
+    26,
+    27,
+    34
+   ],
+   "p2": [
+    2,
+    6,
+    30,
+    14,
+    35,
+    36,
+    28,
+    30,
+    24,
+    26,
+    18
+   ],
+   "p3": [
+    3,
+    6,
+    23,
+    27,
+    34,
+    33,
+    17,
+    31,
+    10,
+    14,
+    15
+   ]
+  },
+  "price": "3000*lvl(s) from chosen char",
+  "roll": "rnd(13)+lvl(s) < WIS (cls 0,2,5) else INT; fail keeps gold",
+  "no_level_req": true,
+  "recruit_spells": "FRISE 0x03697 copies 0x221e[npc][0..2]",
+  "evidence": "known"
+ },
+ "casting": {
+  "friendly_roll": "rnd(100) < 8L+M",
+  "hostile_roll": "rnd(100) < M-3(sl-L)",
+  "no_roll": [
+   10,
+   13,
+   25,
+   34
+  ],
+  "cost": "max(0,M-(sl+5))",
+  "damage": "L+sl, no RNG/armour; 32=300 (x4 vs actor39 w/ item40, /60 vs others)",
+  "lightning": "floor((L+sl)/2) minus ARM cumulative",
+  "evidence": "known",
+  "item40_meaning": "unknown",
+  "repulse_minus10": "unknown",
+  "charm_visible": "unknown"
+ },
+ "timers": {
+  "party": {
+   "0x161c": 668,
+   "0x15f8": 638,
+   "0x1604": 648,
+   "0x1628": 678,
+   "0x1640": 698,
+   "0x39ae": 4183,
+   "0x15ec": 628,
+   "0x164c": 708
+  },
+  "rate": {
+   "value": "1 per FRISE interrupt pass (per frame)",
+   "evidence": "suspected"
+  },
+  "actor": {
+   "binding": 2008,
+   "sleep": 2148,
+   "confusion": 4473,
+   "blind": 2428,
+   "rule": "only first nonzero decremented per GEREN pass"
+  },
+  "evidence": "known"
+ },
+ "save": {
+  "spells": "788+20c+k",
+  "rune": "5021+c",
+  "icons": "4921+10c+k",
+  "not_saved": [
+   "0x4010",
+   "0x4002",
+   "menu state",
+   "RNG"
+  ],
+  "evidence": "known",
+  "active_timer_sample": "unknown"
+ },
+ "coords": {
+  "flip": "script_y=199-screen_y",
+  "evidence": "suspected",
+  "action": "(64c+16,132)",
+  "cast_spell": "(40,193)",
+  "spell_slot_left": "(40,143+10k)",
+  "target_portrait": "(64t+32,160)",
+  "rune": "(64c+32,160) then (64c+7,168)"
+ },
+ "tests": [
+  {
+   "id": "T1",
+   "save": "S1",
+   "kind": "deterministic",
+   "clicks": [
+    [
+     208,
+     132
+    ],
+    [
+     40,
+     193
+    ],
+    [
+     40,
+     163
+    ],
+    [
+     32,
+     160
+    ]
+   ],
+   "expect": {
+    "771": "0x48->0x43 (61=0x3D would contradict off-by-one)",
+    "698-699": "~720 minus elapsed",
+    "4921": "0x1C",
+    "483": "-1 save cost"
+   },
+   "evidence": "suspected"
+  },
+  {
+   "id": "T2",
+   "save": "S1",
+   "kind": "deterministic",
+   "clicks": [
+    [
+     224,
+     160
+    ],
+    [
+     199,
+     168
+    ],
+    [
+     96,
+     160
+    ]
+   ],
+   "expect": {
+    "771": "72->58",
+    "4185-4186": "~720 minus elapsed",
+    "4931": "0x1E",
+    "5024": "stays 30"
+   },
+   "evidence": "suspected"
+  },
+  {
+   "id": "T3",
+   "save": "LP1",
+   "kind": "rng",
+   "route": "Alderaan ENCA to (21,52)",
+   "clicks": [
+    [
+     272,
+     132
+    ],
+    [
+     40,
+     193
+    ],
+    [
+     40,
+     163
+    ],
+    "monster sprite"
+   ],
+   "expect": {
+    "p_hit": "93%",
+    "dmg": 14,
+    "772": "75->66 hit or miss"
+   },
+   "evidence": "suspected"
+  }
+ ],
+ "limits": "static only; all test diffs are predictions"
+}
