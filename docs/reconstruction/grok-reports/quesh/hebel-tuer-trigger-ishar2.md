@@ -268,3 +268,40 @@ No hits in OBJET, ANIMALS, GESORT, FDJCAT or DJ2.
   - **Door 28 = time-locked door, open from 01:00 to 04:00.** CONT: B = 88 → d = 28 at map 7 r6 c11 (A = 43, a door leaf). The B = 88 cells in maps 3/4 do not have door A codes (hypothesis: different meaning).
   - proven (writers); the map position is a hypothesis.
 - **Relation to the day phase:** 0x519f/0x51a0 (file 90–93) are the palette phase 1/2/3 from the same hour 0x4fc6 (MAIN 0x04018). **Both read the same clock, but they are separate variables.** Alderaan's "time-of-day flag" at 7409 is correct as a description of the trigger; by role it is a door state.
+
+## Addendum 2026-11-03 (quesh): turn reset of doors 5/9/17, door 9
+
+Static (GERDEP.IO.asm / CONT5/6, read only). Evidence levels: known / suspected / unknown.
+
+### (a) Turn path = the same routine L_013af (known)
+- GERDEP move switch 0x00623 `cswitch2 odirb(0x11)`: case 4 = L_007e2 (facing 1→4→3→2→1 = −1 = turn left), case 8 = L_00913 (facing +1 = turn right).
+- Turn left: 0x007e2–0x00834 writes 0x2ab6, then **L_0083a: 0x0083a `cjsr24 L_013af` without any condition**, then 0x0083e cret.
+- Turn right: 0x00913–0x0095x writes 0x2ab6, then **0x0096b `cjsr24 L_013af`**, also without any condition.
+- Steps (0x00682, 0x006cc, 0x00753, 0x0079d, 0x008c1, 0x0090b, 0x009f2, 0x00a3c, 0x00ab5, 0x00b29) call it only after `dirb16 == 1` (L_00b72 found free cell) → confirmed: step success only. Blocked step = no reset.
+- So **10 step calls + 2 turn calls**. 0x0083a and 0x0096b are the two turn entries. The earlier list "12 step paths" was wrong.
+- L_013af: 0x013af–0x013d3 wakes type-33 entities, 0x013d5/0x013df/0x013e9 clears 0x4b80[0..2], **0x013f3/0x013fd/0x01407 sets 0x4aa4[5]/[9]/[17] = 0**, 0x01411 jsr L_0162a, then 0x01415 ff. evaluates walk trigger dirb14 (B of the cell in front, from L_00b2e; on a turn this is stale or the new cell).
+- Save diff on turn (TL or TR): 7386→0, 7390→0, 7398→0, 7576..7578→0. Door 6 (lever) and others are unchanged.
+- Contradiction with HOTKB (contacts stay [0,52,0] after TL,TR): statically 0x4b80 is cleared at every turn. Suspected: the contact is set again directly afterwards by the monster entity (woken at 0x013cd, standing next to the party). On a step the party moves out of range, so it stays 0. Test: TL, save without waiting a tick (if possible), or turn with no monster in reach. Unknown until measured.
+- **Door 5 is therefore NOT one-way** (correction to §"Door 5 … one-way"): it closes again on every successful step and every turn. The existing text stays unchanged.
+- Other (non-constant) writers checked: 0x01590/0x0159e toggle `0x4aa4[0x507c[|B|−100][1]]`, walk trigger B −100..−119, only maps > 4. In all saves the table 0x507c (save 7481..7520, entry i = byte 7482+2i) = i0→4, 1→0, 2→13, 3→13, 4→12, 5→15, 6→21, 7→22, 8→23, 9→12. **No entry is 9 or 17** (known for FINALE/GRIMZ/GRIMZEL; the only static writer of 0x507c is its read at 0x01520, so it is probably initialised by load). This writer is not the turn cause.
+
+### (b) Door 9 (save 7390)
+- CONT: only B = 69 cell is **map 5 r50 c22, A = 70** (frame, same orientation as door 5 r40 c31: corridor along the columns, c21 A = 11 / c23 A = 0, like door 5 c30 A = 11). No lever B = −19 in CONT5. No walk-trigger table entry = 9.
+- All writers of 0x4aa4[9]:
+  - PCAVE frame open 0x0039a (index dirb0d, msg 19 from SOURIS click on material 65)
+  - PCAVE leaf 0x0032a/0x00357 (A = 70 has no leaf)
+  - GERDEP 0x013fd (= 0)
+  - GERDEP toggle 0x01590/0x0159e (no entry 9)
+
+  → **only the frame click can open door 9** (known statically).
+- Spawn condition of the frame (DJ1 L_021a7): only at depth 0 and only while the door is closed → only standing **on r50 c22**, not from c21 (depth 1). Facing as for door 5: **3** (proven there: HOTHBB r40 c31 facing 3).
+- Suspected cause of HOT9B/HOT9F: col patched in the save, so the view was not rebuilt by a real entry/turn (spawn hangs on L_01900 via 0x0045e facing change and cell entry), and/or facing ≠ 3.
+- Test for Hoth:
+  1. Base K5T026 copy, position r50 **c21 facing 3**, door 9 7390 = 0.
+  2. Load, step F (→ c22; L_013af runs, 7390 stays 0).
+  3. Save HOT9K: expect r50 c22 f3.
+  4. Click (128,70) on the frame (material 65; click formula from §PCAVE form 1).
+  5. Save HOT9L: expect **7390 0→1**, opening animation.
+  6. Then TL → 7390 = 0 (turn reset); B → 7390 = 0.
+
+  If 4. fails: also TR+TL on c22 (forces a facing-change spawn), then click again. If it still fails: unknown (check DJ2 0x015cb/0x019b8 for zone of r50 c22).

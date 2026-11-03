@@ -1,0 +1,192 @@
+{
+ "game": "ishar1",
+ "date": "2026-11-03",
+ "evidence_levels": [
+  "known",
+  "suspected",
+  "unknown"
+ ],
+ "sha256_prefix": {
+  "TEXTIN": "d1f987bc6e74",
+  "TEXTINE": "a1c22e5de16e",
+  "TEXTIND": "5120c8885e52",
+  "TEXTINI": "fc00ad2340d2",
+  "MESSAGE": "38c1082c5901",
+  "MESSAGEE": "1b6a76f2c931",
+  "MESSAGED": "e2eeeca923fd",
+  "MESSAGEI": "94cbdf5d1543",
+  "INTMAIS": "0bf4b5872c98",
+  "STAGE": "1b5f4b5ce722",
+  "MARCHAND": "77db63b52c23",
+  "ITAVERNE": "f3bed78c5fb9",
+  "MAIN": "27c5834de005"
+ },
+ "language": {
+  "var": "MAIN loc 0x426f",
+  "set_at": "MAIN 0x0440f keys 1->1,2->0,3->2,4->3",
+  "map": {
+   "0": "FR textin/message",
+   "1": "EN textine/messagee",
+   "2": "DE textind/messaged",
+   "3": "IT textini/messagei"
+  },
+  "evidence": "known",
+  "labels": "suspected"
+ },
+ "storage": {
+  "format": "inline oimmp NUL-terminated strings stored to dirtp 0x2e[0..3]",
+  "index": "case label of dispatch switch + order",
+  "dumps": "private/dialog-ishar1/*.strings.tsv",
+  "counts": {
+   "TEXTIN": 246,
+   "TEXTINE": 246,
+   "TEXTIND": 247,
+   "TEXTINI": 245,
+   "MESSAGE": 266,
+   "MESSAGEE": 266,
+   "MESSAGED": 266,
+   "MESSAGEI": 264
+  },
+  "evidence": "known"
+ },
+ "dispatch_textine": {
+  "gt124": "L_02802 menu",
+  "lt0": "L_01cb7 switches 0x01cff,0x02442,0x02888(0x4002)",
+  "pos": {
+   "switch": "0x000e1",
+   "codes": [
+    1,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    111,
+    112
+   ]
+  },
+  "evidence": "known"
+ },
+ "call": {
+  "textin": "clive 0x002f; +0x0c=code",
+  "message": "clive 0x000e; +0x0c=id",
+  "callers": {
+   "INTMAIS": [
+    "dirb0c (house id !=2)",
+    3,
+    -21,
+    -27,
+    -28
+   ],
+   "ITAVERNE": [
+    -10,
+    "100+t",
+    -20,
+    -22,
+    -21,
+    -29,
+    -31
+   ],
+   "MARCHAND": [
+    -40,
+    -41,
+    -42,
+    -43,
+    -21,
+    "dirb13-10"
+   ],
+   "STAGE": [
+    "-12-x",
+    "-17-x",
+    -21,
+    -35,
+    -36,
+    -37,
+    -38,
+    -45,
+    -46,
+    -47,
+    -48,
+    -49,
+    125,
+    126
+   ]
+  },
+  "evidence": "known"
+ },
+ "layout": {
+  "y_script": {
+   "1": [
+    39
+   ],
+   "2": [
+    47,
+    31
+   ],
+   "3": [
+    51,
+    39,
+    27
+   ],
+   "4": [
+    54,
+    44,
+    34,
+    24
+   ]
+  },
+  "x": "161-len*7/2",
+  "per_line_frames": 1,
+  "dismiss": "L_01c48 release->press->release, sleeps type 4",
+  "evidence": "known",
+  "screen_y": "199-y suspected"
+ },
+ "flags": [
+  {
+   "addr": "0x000a7",
+   "rule": "code9 && 0x41e4==2 && dirb e4==1 -> 0x41e4=1, send type4 24/27",
+   "evidence": "known",
+   "meaning": "suspected NPC27"
+  },
+  {
+   "read": "0x3908[c], 0x377e[i][j]",
+   "evidence": "known",
+   "meaning": "suspected party/relationship variant"
+  },
+  {
+   "read": "0x3d44[c]>=75",
+   "evidence": "known"
+  },
+  {
+   "read": "0x1486[111],[112],[113+x]<0",
+   "evidence": "known",
+   "meaning": "suspected quest state"
+  }
+ ],
+ "tests": {
+  "ND-1": "language keys 1/3 -> EN/DE same layout",
+  "ND-2": "tavern listen layout x=161-3.5*len",
+  "ND-3": "house NPC code=house id, page count",
+  "ND-4": "save byte20 2->1 after scene 9 (suspected)",
+  "ND-5": "static string counts and case sets"
+ },
+ "unknown": [
+  "house id -> NPC",
+  "dirb e4",
+  "FRISE case 10 send(0,25)"
+ ]
+}

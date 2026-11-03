@@ -43,3 +43,5 @@ Basis: `workbench/playable-slice` @ `bb42748` (Code-Stand `319819c`). Belegstatu
 | Hoth | [HOTH_ABNAHME_2026-10-18_STEP_RESET.md](hoth/HOTH_ABNAHME_2026-10-18_STEP_RESET.md) | Nachtrag 7: STEP_RESET-Abnahme aktualisiert (Nachtrag 3.11.) | known/suspected siehe Bericht; nicht integriert |
 | Hoth | [HOTH_FIXTURES_ISHAR1_MAGIE.md](hoth/HOTH_FIXTURES_ISHAR1_MAGIE.md) | Nachtrag 7: Ishar-1-Magie-Fixtures (Branch grok/hoth-contract-fixtures) | known/suspected siehe Bericht; nicht integriert |
 | Alderaan | [REFERENCES.md](alderaan/REFERENCES.md) | Nachtrag 7: Originalreferenzen aktualisiert | siehe Bericht; nicht integriert |
+| Quesh | [npc-dialog-contract-ishar1.md](quesh/npc-dialog-contract-ishar1.md) / [.json](quesh/npc-dialog-contract-ishar1.json) | Nachtrag 7: NPC-Dialog-Vertrag Ishar 1 | statisch; known/suspected je Punkt siehe Bericht; nicht integriert |
+| Quesh | [hebel-tuer-trigger-ishar2.md](quesh/hebel-tuer-trigger-ishar2.md), [party-contract-ishar1.md](quesh/party-contract-ishar1.md) / [.json](quesh/party-contract-ishar1.json) | Nachtrag 7: aktualisierte Fassungen (3.11.) | siehe Bericht; nicht integriert |
