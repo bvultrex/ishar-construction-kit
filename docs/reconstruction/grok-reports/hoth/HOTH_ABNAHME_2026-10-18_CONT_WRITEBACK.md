@@ -1,18 +1,18 @@
 # Ergänzung: Schreibt MAIN.IO CONTn.FIC zurück? Überleben Mod-Bytes? (Hoth, 18.10.2026)
 
+> Bereinigte Fassung (2026-11-03): Positionen, Pixelzahlen, Spielzeiten, sha-Werte und Rohwerte aus Saves stehen in `private/bereinigung/HOTH_ABNAHME_2026-10-18_CONT_WRITEBACK.privat.md`.
+
 Auftrag von Cupero, 18.10. 16:46. Bearbeitet 16:46–16:58 Europe/Berlin (MESZ). Format wie die Hauptabnahme (Handoff-Punkte 1–7).
 Private Dateien liegen unter `/workspace/ishar/codex-support/hoth/private/contwb/`.
 Nichts committet, nichts gepusht. Nicht angefasst: Codex-Prüfer, local-repo, Saschas PC und Alderaans Instanzen.
 
 ## 1. Basis und Versionen
 - Original Ishar 2 DOS (deutsch), `/workspace/ishar/originals/ishar2/Ishar2`.
-  - CONT5.FIC: 5bc64e4c…0ff0a0
-  - start.exe: 5e35e58d…0dadf9
-  - GRIMZEL.SAV: 4b42d32b…4bd3bf (Karte 5, r53 c16)
-  - FINALE.SAV: 2fc3a3d7…6c42 (Karte 6, r53 c32)
+  - CONT5.FIC, start.exe: sha siehe private Fassung
+  - GRIMZEL.SAV (Karte 5), FINALE.SAV (Karte 6): sha und Position siehe private Fassung
 - Toolkit: Clone hoth 319819c, Node v24.22.0 (`cont-mod.mjs`).
 - Emulator: DOSBox-X 2025.02.01 SDL2, Xvfb :97 (eigener), xdotool 3.20160805.1.
-- conf: `private/dosbox-x-auto2-contwb.conf` (sha256 a1e102a7…65fed7). Gegenüber `dosbox/dosbox-x-auto2.conf` geändert sind nur:
+- conf: `private/dosbox-x-auto2-contwb.conf` (sha siehe private Fassung). Gegenüber `dosbox/dosbox-x-auto2.conf` geändert sind nur:
   - die mount-Zeilen auf die Arbeitskopie;
   - **`cycles=fixed 25000`** statt `max 80%`.
 - Je Session eine eigene Instanz, am Ende per SIGKILL beendet (nur das eigene conf-Muster). Xvfb :97 ist am Schluss ebenfalls beendet.
@@ -23,14 +23,13 @@ Wann schreibt das Original eine CONTn.FIC zurück: beim Speichern, beim Kartenwe
 
 ## 3. Befehle und Ablauf
 1. **Mod-Datei:** Kopie von CONT5.FIC, darin per `dd` geändert:
-   - A(r2, c3) = 0x37 (Wert 55, kommt in Ebene A von CONT5 sonst nicht vor);
-   - B(r2, c4) = 0x1B (Wert 27, kommt in Ebene B sonst nicht vor).
+   - eine Zelle in Ebene A und eine in Ebene B, jeweils auf einen Markerwert, der in der Ebene sonst nicht vorkommt (Zellen und Werte siehe private Fassung).
 
-   Beide Zellen liegen in einer Leerfläche (Zeilen 0–5 × Spalten 0–11 sind alle 0), weit weg von GRIMZEL r53 c16 und FINALE r53 c32.
+   Beide Zellen liegen in einer Leerfläche, weit weg von den Startpositionen von GRIMZEL und FINALE.
 2. **Export:**
    - `node scripts/cont-mod.mjs diff <orig> <mod> private/contwb/in/cont5-wb.patch.json` → Exit 0 („2 byte changes“).
    - `node scripts/cont-mod.mjs apply /workspace/ishar/originals/ishar2/Ishar2 …/cont5-wb.patch.json private/contwb/work-20261018-1647` → Exit 0.
-   - `cmp -l` Original gegen Export: `124 0 67` und `5525 0 33` (einsbasiert, oktal), also genau die zwei Bytes. CONT5 der Arbeitskopie hat sha256 56e0771f…224b7b.
+   - `cmp -l` Original gegen Export: nur die Offsets 124 und 5525 (einsbasiert), also genau die zwei Bytes. CONT5-sha der Arbeitskopie siehe private Fassung.
 3. **Zeitstempel als Marker:** Alle Dateien der Arbeitskopie per `touch -d '2026-01-01 00:00:00'` auf mtime 1767222000 gesetzt. Jeder Schreibzugriff des Spiels wäre dadurch sofort sichtbar.
 4. **Schnappschuss nach jedem Schritt:** `private/contwb/snap.sh`, Ergebnis in `snaps/NN-<schritt>.txt`. Er nimmt sha256 und mtime (ns) aller Dateien der Arbeitskopie, vergleicht mit dem vorigen Stand und macht `cmp -l` jeder CONTn.FIC gegen das Original.
 5. **Ablauf:** `private/contwb/session.sh` mit den Schritten `L:<save>` (Laden über Disk-Icon/LOAD) und `S:<neu>` (Speichern über Disk-Icon/SAVE in einen neuen Namen; Abbruch, falls die Datei existiert). Screenshot nach jedem Schritt (`NN-*.png`). Welcher Save wirklich geladen wurde, habe ich per Bilddiff gegen die Ansichten von GRIMZEL und FINALE geprüft.
@@ -38,18 +37,18 @@ Wann schreibt das Original eine CONTn.FIC zurück: beim Speichern, beim Kartenwe
 | # | Schritt | geladen bzw. geschrieben (nachgeprüft) | Kartenwechsel | CONT1–7: sha256 / mtime |
 |---|---|---|---|---|
 | 01 | Boot (neues Spiel, Karte 1) | – | (Start) | unverändert |
-| 02 | L GRIMZEL | ja (Bild = GRIMZEL, 0 px) | 1 → 5 | unverändert |
-| 03 | L FINALE | ja (Bild = FINALE, 0 px) | 5 → 6 | unverändert |
+| 02 | L GRIMZEL | ja (Bild = GRIMZEL, kein Unterschied) | 1 → 5 | unverändert |
+| 03 | L FINALE | ja (Bild = FINALE, kein Unterschied) | 5 → 6 | unverändert |
 | 04 | S HOTWB6 (auf Karte 6) | neue Datei, = FINALE bis auf 2 Byte Spielzeit | – | unverändert |
 | 05 | L GRIMZEL | **nein** (erstes Laden nach dem Speichern greift nicht; bekannte Eigenheit) | – | unverändert |
 | 06 | S HOTWB5 | neue Datei, enthält aber den Karte-6-Zustand (wegen 05) | – | unverändert |
 | 07 | L HOTWB5 | Karte 6 | – | unverändert |
 | 08 | Boot (neue Instanz) | – | (Start) | unverändert |
 | 09 | L GRIMZEL | ja | 1 → 5 | unverändert |
-| 10 | S HOTWC5 (auf Karte 5) | neue Datei, Kopf (2,53,16,3,5); gegen GRIMZEL nur Byte 49/50 (0x4fca) | – | unverändert |
+| 10 | S HOTWC5 (auf Karte 5) | neue Datei, Kopf gleich GRIMZEL; gegen GRIMZEL nur Byte 49/50 (0x4fca, Spielzeit) | – | unverändert |
 | 11 | L FINALE | nein (erstes Laden nach dem Speichern) | – | unverändert |
 | 12 | L FINALE | ja | 5 → 6 | unverändert |
-| 13 | L HOTWC5 (Neuladen des eigenen Saves) | ja (Bild = GRIMZEL, 0 px) | 6 → 5 | unverändert |
+| 13 | L HOTWC5 (Neuladen des eigenen Saves) | ja (Bild = GRIMZEL, kein Unterschied) | 6 → 5 | unverändert |
 | 14 | L HOTWC5 (nochmal) | ja | – | unverändert |
 
 **Durchgehend:** Alle sieben CONTn.FIC haben in jedem Schnappschuss denselben sha256 und die Marker-mtime 1767222000. CONT5 weicht vom Original in genau den zwei Mod-Bytes ab. Das Spiel hat **nur** die neuen SAV-Dateien geschrieben (HOTWB6, HOTWB5, HOTWC5, mit mtime vom Lauf); keine vorhandene Datei wurde verändert.
@@ -65,14 +64,14 @@ Wann schreibt das Original eine CONTn.FIC zurück: beim Speichern, beim Kartenwe
   - TABLEAU wird nur geladen bei MAIN 0x00bc5–0x00c2f: `omodel < 1000` → „EDITER TABLEAU ?“ → Taste o/O → `cload 'tableau.IO'`.
   - In keinem Boot dieser Läufe erschien dieser Prompt (Screenshots 01/08).
 - **Nicht ganz ausgeschlossen:** `csend …, odirw(0x26), oimmb(10)` in SOURIS.IO und TAVERNE.IO senden 10 an ein per Maus bzw. Form getroffenes Entity, nicht direkt an 0. Dass das jemals MAIN ist, halte ich für unwahrscheinlich (suspected), statisch ist es nicht ausgeschlossen.
-- **Nebenbefund:** MAIN 0x00aba/0x00ac0 setzt 0x519f/0x51a0 auf 1. Das erklärt die früher beobachtete Änderung von Save-Byte 91/93 (2 → 1) in den ungültigen XP/Gold-Saves als Startinitialisierung (suspected → plausibel).
+- **Nebenbefund:** MAIN 0x00aba/0x00ac0 setzt 0x519f/0x51a0 auf 1. Das erklärt die früher beobachtete Änderung von Save-Byte 91/93 in den ungültigen XP/Gold-Saves als Startinitialisierung (suspected → plausibel).
 
 ## 5. Ergebnis je Punkt
 
 | # | Punkt | Urteil | Beleg |
 |---|---|---|---|
 | 1 | Schreiben beim Speichern im Spiel | **known: nein.** Speichern auf Karte 5 (HOTWC5) und Karte 6 (HOTWB6) ändert keine CONTn.FIC, weder sha256 noch mtime | Schnappschüsse 04, 06, 10 |
-| 2 | Schreiben beim Kartenwechsel per Laden | **known: nein**, für 1→5, 5→6 und 6→5 | Schnappschüsse 02, 03, 09, 12, 13 |
+| 2 | Schreiben beim Kartenwechsel per Laden | **known: nein**, für alle drei Kartenwechsel per Laden | Schnappschüsse 02, 03, 09, 12, 13 |
 | 3 | Schreiben beim Kartenwechsel per Ausgang bzw. Reise im Spiel | **offen**, nicht getestet. Statisch läuft der Kartenwechsel 0x0165e nur über die Lese-Routine | MAIN 0x0165e |
 | 4 | Schreiben insgesamt | **suspected (stark): nur im Entwicklereditor TABLEAU** (Nachricht 10 nach „SAUVER“). Im normalen Spiel kein Schreibpfad gefunden, und im Lauf nie geschrieben | Abschnitt 4 |
 | 5 | Mod-Bytes überleben | **known: ja.** Beide Mod-Bytes (Ebene A und B) bleiben über alle Schritte erhalten; die Datei wird vom Spiel nie angefasst | `cmp -l` je Schnappschuss |
