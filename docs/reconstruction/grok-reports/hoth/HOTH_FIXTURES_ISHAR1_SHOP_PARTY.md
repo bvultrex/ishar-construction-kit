@@ -28,3 +28,27 @@ Folgerung: Das Commerce-Modell im Kit ist Ishar 2 und für Ishar 1 nicht verwend
 
 ## Dateien
 fixtures/: build-contract-fixtures.py, check-contract-fixtures.mjs, probe-kit-against-fixtures.mjs, contract-fixtures.json, check-output.txt, probe-output.txt.
+
+## Nachtrag 2026-11-03 nachmittags: Gegenläufe Kauf und Speichergebühr (DOSBox, Ishar 1)
+Aufbau: eigene Conf (cycles=fixed 25000), eine Instanz, frische Session je Lauf, nur xdotool, nur neue Slots, sha256 vorher/nachher in private/. Ein Lauf auf einer Kopie mit Gold-Patch (genehmigt), ein Lauf ohne Gold-Patch (Gegenstand im Spiel abgelegt), ein Lauf auf einer Kopie mit Gesamtgold unter 1000. Patches, Save-Namen und Rohwerte: private/save_patches.md.
+Bedienung (öffentlich): Vorwärts (287,80), Kaufdialog OK (276,131), Gegenstand im Raster anklicken, dann Porträt des Käufers, EXIT (298,131).
+
+| Punkt | Beobachtung | Urteil |
+|---|---|---|
+| Kauf: wer zahlt | Nur die Figur der Porträtspalte x/64; andere Figuren beim Kauf unverändert | known (SH13) |
+| Kauf: Betrag | Genau der angezeigte Preis, mit Borgen beim Tausender, wenn der Rest nicht reicht (MARCHAND L_0062f) | known (SH13, SH14, SH03/SH04) |
+| Stapelzähler | +1 je Kauf, nie +2; ein früher vermuteter Doppelkauf war keiner (Saves byte-gleich) | known |
+| Bisherige „Preis + 1000“ | Die 1000 sind die Speichergebühr, nicht der Kauf | known |
+| Speichergebühr | Jedes Speichern im Spiel senkt das Gesamtgold um genau 1000; per Patch erzeugte Saves nicht | known (SG01) |
+| Unter 1000 Gesamtgold | Meldung −21 („Sie haben kein Gold mehr.“), kein Namensdialog, keine neue Datei | known (SG02, Quesh SOS.IO L_00b5e) |
+| Verteilung der Gebühr | Quesh L_00cf8: Durchgang 1 Anteil 1000 div n je belegter Figur in Slotfolge 0..4 (sonst alles, was sie hat), Durchgang 2 erste Figur, die den Rest deckt | suspected (SG03, SG04 synthetisch) |
+
+Vergleich mit den Läufen mit Gold-Patch (zwei Goldträgerinnen/-träger, 5 belegte Figuren): Regel ergibt Anteil 200; Käuferin zahlt 200, der zweite Träger 200 + Rest 600 = 800. Beobachtet 200/800 in beiden Läufen (Preis 300 und 500). Urteil: Regel L_00cf8 durch zwei Läufe gestützt, bleibt suspected bis ein Lauf mit mehr Trägern oder einem Träger unter dem Anteil vorliegt.
+Ergänzung zu SH10: die Byte-483-Änderung beim Speichern ist dieselbe Gebühr.
+
+### Kit-Probe neue Zeilen
+| Vektor | Kit | Ergebnis |
+|---|---|---|
+| SH13, SH14 | original-merchants.ts subtractOriginalPrice (auf die Käuferspalte angewandt) | passt; Spaltenwahl x/64 und Stapel +1 fehlen im Kit |
+| SG01–SG04 | – | fehlt (keine Ishar-1-Speichergebühr) |
+Probe gesamt jetzt 70/246.

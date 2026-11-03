@@ -85,3 +85,14 @@ Koordinaten geprüft gegen PARAM (known): Hebel 2 (25,52), 4 (25,56), 13 (23,32)
 ## 8. Offen
 - Die Namen von `0x3d2c` und `0x41e7`, die Formen der Türen 16–23, die Nachrichten 17/18 an Tür 40 und die Wirkung von `0x41e5` in GERDEP (Zähler bis 25).
 - In einem Original-Save sind die Türen 12–15 offen, ohne dass PARAM sie setzt (private SW-8). Wahrscheinlich Spielfortschritt (unknown).
+
+## Nachtrag 2026-11-03 15:20 (Europe/Berlin): Standposition an Hebeln
+Klickbar ist ein Hebel nur bei Tiefe 0. MCAVE liest dabei die Zelle y = `0x137d` − Tiefe (0x0013c), bei Tiefe 0 also die **eigene Zelle**. L_03713 erzeugt das Klickobjekt für diese Zelle. Material 66–69 bezeichnet die Wand der eigenen Zelle in Blickrichtung (66→Blick 4/x−1, 67→2/x+1, 68→1/y−1, 69→3/y+1); die Nachbarzelle in dieser Richtung ist −99 (Fels). **Man steht AUF der Hebelzelle.** (known, Alderaan-Patch für H13/H14)
+- Hebel 2: CONT5 (25,52), Wert 67, Blick 2
+- Hebel 13: CONT2 (23,32), Wert 66, Blick 4
+- Hebel 14: CONT5 (35,11), Wert 68, Blick 1
+Eine Antwort von 15:16 nannte fälschlich Nachbarzellen ((24,52), (35,12)) als Stand. Das ist hiermit widerrufen.
+
+## Nachtrag 2026-11-03 15:45 (Europe/Berlin): Hoth-Bestätigung T5c / Hebel 14 (known)
+- T5c: Hebel 2 umlegen → 4665 (0x3b98[2]) 0→1. known (Hoth)
+- Hebel 14 umlegen → 4677 (0x3b98[14]) 0→1. Dazu 4641 = 4613+28 = T28 1→0 und 4642 = T29 0→1. Das passt zur PCAVE-Formel H14==0 → T28=1/T29=0 (für H14=1 umgekehrt). known (Hoth + Code)
