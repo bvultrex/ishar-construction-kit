@@ -314,5 +314,270 @@
    "Außenrenderer (PLAINE, VILLE, FORET usw.) für Zonen 1..6 und Werte 100..110",
    "Sprite-Nummern → Bilddateien"
   ]
+ },
+ "nachtrag_2026-11-03_3": {
+  "datum": "2026-11-03 (Nachtrag 3)",
+  "aussenrenderer": {
+   "prinzip": "Schichten: Jedes Modul zeichnet nur seine eigenen Werte. Gleiches Gerüst in allen Modulen: Switch 0x00024 auf −100 (Init), Blick-Switch omainb(0x137e) bei ~0x0005c, Tiefentabelle über 99·n (0x0047d o. ä.), danach der Wert-Switch (known). Welche Module MAIN je Zone lädt, ist nicht einzeln geprüft (suspected). Die Bedeutungsnamen sind aus den Modulnamen abgeleitet (suspected).",
+   "module": [
+    {
+     "modul": "PLAINE",
+     "switch": "0x00552 (odirb 0x1c)",
+     "werte": "−27,−26, 12..25, 34..37",
+     "bedeutung": "Ebene: Wand/Hang, Deko"
+    },
+    {
+     "modul": "RPLAINE",
+     "switch": "0x00a46 (odirb 0x1b)",
+     "werte": "−82..−80, −52..−50, −43..−40, 1..10, 54,55,57",
+     "bedeutung": "Felsen/Ebene; Sonderzellen −40..−43, −50..−52 und Übergänge −80..−82"
+    },
+    {
+     "modul": "FORET",
+     "switch": "0x00566 (odirb 0x2c)",
+     "werte": "−33..−30, 11..16, 21..24",
+     "bedeutung": "Wald"
+    },
+    {
+     "modul": "ARBRE",
+     "switch": "0x00545 (odirb 0x22)",
+     "werte": "30..37",
+     "bedeutung": "Einzelbäume"
+    },
+    {
+     "modul": "VILLE",
+     "switch": "0x00510 (odirb 0x21)",
+     "werte": "35..110",
+     "bedeutung": "Stadt: Häuser/Mauern, inkl. 100..110"
+    },
+    {
+     "modul": "VILLAGE",
+     "switch": "0x00562 (odirb 0x2c), Blick-Switch 0x00612",
+     "werte": "−25..−1",
+     "bedeutung": "Gebäudefassaden = Eingänge (Nachricht 17, siehe Nachtrag 2)"
+    },
+    {
+     "modul": "INVILLE",
+     "switch": "0x004bd (odirb 0x21)",
+     "werte": "97, 98, 109, 110",
+     "bedeutung": "Stadtdeko"
+    },
+    {
+     "modul": "RAMPART",
+     "switch": "0x005a4 (odirb 0x26)",
+     "werte": "100..111",
+     "bedeutung": "Stadtmauer/Wall"
+    },
+    {
+     "modul": "LACUSTRE",
+     "switch": "0x00582 (odirb 0x21)",
+     "werte": "54..57",
+     "bedeutung": "Wasser/Pfahlbau"
+    },
+    {
+     "modul": "FBUIS",
+     "switch": "0x00537 (odirb 0x20)",
+     "werte": "−32, −31, 25, 26",
+     "bedeutung": "Gebüsch"
+    },
+    {
+     "modul": "FONTAINE",
+     "switch": "0x00510 (odirb 0x26)",
+     "werte": "−26",
+     "bedeutung": "Brunnen"
+    },
+    {
+     "modul": "STEL",
+     "switch": "0x00516 (odirb 0x20)",
+     "werte": "−87..−85",
+     "bedeutung": "Stele"
+    },
+    {
+     "modul": "TEMPLE",
+     "switch": "0x004c9 (odirb 0x21)",
+     "werte": "10..16",
+     "bedeutung": "Tempel"
+    }
+   ],
+   "werte_100_110": "VILLE (Stadt), RAMPART 100..111 (Mauer), INVILLE 109/110 (Deko); kommen nur in CONT3/CONT4 vor → Stadtzonen (Code known, Deutung suspected)"
+  },
+  "sprites": {
+   "prinzip": "Sprite-Nr. = Index in der Ressourcentabelle der eigenen .IO-Datei. Zeiger auf die Tabelle: Header-Dword @14; dort Offset und Anzahl. cputnat/cxputat (CATALOG 0x49/0xa7) zeichnen diesen Index (known).",
+   "MCAVE.IO": "247 Ressourcen; 126/144/201/213/228/234/241 sind alle Typ 0xFF (Komposit aus mehreren Teilbildern), 12 ist eine Bitmap (known). Rohbytes: private/sprite-ressourcen-mcave.txt",
+   "andere": "PCAVE-Türblätter #8+d/#12+d liegen in PCAVE.IO; INCAVE-Sprite 12+Tiefe in INCAVE.IO; COLCAVE in COLCAVE.IO (Analogie suspected)",
+   "offen": "Komposit 0xFF auflösen (Teilbilder, z-Reihenfolge, siehe README Punkt 5) und Bilder exportieren"
+  },
+  "tests": [
+   {
+    "id": "S1",
+    "pruefung": "MCAVE.IO entpacken (alis_unpack.load_script), Ressource 126 → Typ 0xFF",
+    "stufe": "known"
+   },
+   {
+    "id": "S2",
+    "pruefung": "Ressourcenanzahl MCAVE.IO ≥ 242 (höchster benutzter Index 241)",
+    "stufe": "known"
+   },
+   {
+    "id": "A1",
+    "pruefung": "Außenzone, Zelle −1..−25 im Blick → Fassade aus VILLAGE; vorwärts → Gebäude-Szene",
+    "stufe": "suspected (Bild), known (Trigger)"
+   },
+   {
+    "id": "A2",
+    "pruefung": "Stadtzone (CONT3/4), Zelle 100..111 → Mauer aus RAMPART",
+    "stufe": "suspected"
+   }
+  ]
+ },
+ "nachtrag_2026-11-03_4": {
+  "datum": "2026-11-03 (Nachtrag 4)",
+  "korrigiert": "Nachtrag 3: Zuordnung der Module zu den Zonen und die Wert-Switches sind jetzt known",
+  "zonen_module": [
+   {
+    "zonen": "1, 3, 4",
+    "module": "PLAINE, FOND, RPLAINE; RAMPART+INVILLE nur bei Region 0x3eac 9/11; ARBRE bei freiem Speicher >56; SAMB optional",
+    "adressen": "0x0179f–0x01875"
+   },
+   {
+    "zonen": "2, 5",
+    "module": "FOND, RPLAINE, FORET; FBUIS bei freiem Speicher >35",
+    "adressen": "0x018b0–0x018fc"
+   },
+   {
+    "zonen": "6",
+    "module": "FTEMPLE, TEMPLE",
+    "adressen": "0x0193e/0x0194c"
+   },
+   {
+    "zonen": "12, 15",
+    "module": "PCAVE, MCAVE (Zone 15 zuvor TELEP); SCAVE optional; COLCAVE bei 0x4239==1",
+    "adressen": "0x01976–0x01a57"
+   },
+   {
+    "zonen": "13, 14",
+    "module": "FVILLE, VILLE, PABO; FONTAINE bei freiem Speicher >16",
+    "adressen": "0x01a93–0x01b30"
+   },
+   {
+    "zonen": "ereignisgesteuert",
+    "module": "VILLAGE (0x02c7a u. a.), LACUSTRE (0x03099), STEL (MAIN Z.1554 ff.), RAMPART/INVILLE (0x0300e/0x0303d)",
+    "adressen": "suspected (Bedingungen nicht ausgewertet)"
+   }
+  ],
+  "zonen_switch": "MAIN 0x0173b, switch olocb(0x1508)",
+  "werte": [
+   {
+    "modul": "PLAINE",
+    "switch": "0x00552",
+    "werte": "12..25, 34..37, −27, −26",
+    "zeichnung": "Bodenschicht und Hänge; Basis dirw 0x10/0x20 + Tiefe 0x0e/0x12",
+    "stufe": "known"
+   },
+   {
+    "modul": "RPLAINE",
+    "switch": "0x00a46",
+    "werte": "1..10, 54, 55, 57, −40..−43, −50..−52, −80..−82",
+    "zeichnung": "Felsen; −80/−81/1 mit zusätzlicher Spiegelschicht (dirw 0x20/0x24)",
+    "stufe": "known"
+   },
+   {
+    "modul": "FORET",
+    "switch": "0x00566",
+    "werte": "11..16, 21..24, −30..−33",
+    "zeichnung": "Wald; Basis dirw 0x1e/0x32",
+    "stufe": "known"
+   },
+   {
+    "modul": "ARBRE",
+    "switch": "0x00545",
+    "werte": "30..37",
+    "zeichnung": "Einzelbäume; Basis dirw 0x14/0x28",
+    "stufe": "known"
+   },
+   {
+    "modul": "VILLE",
+    "switch": "0x00510",
+    "werte": "35..110",
+    "zeichnung": "Nur 78/109/110 zeichnen direkt (dirw 0x14); alle anderen über Unterprogramme, nicht aufgelöst",
+    "stufe": "Switch known, Sprite unknown"
+   },
+   {
+    "modul": "VILLAGE",
+    "switch": "0x00562",
+    "werte": "−25..−1",
+    "zeichnung": "Fassaden; Basis dirw 0x1e + Tiefe, Blick-Switch 0x00612",
+    "stufe": "known"
+   },
+   {
+    "modul": "INVILLE",
+    "switch": "0x004bd",
+    "werte": "97, 98, 109, 110",
+    "zeichnung": "Deko; dirw 0x14",
+    "stufe": "known"
+   },
+   {
+    "modul": "RAMPART",
+    "switch": "0x005a4",
+    "werte": "100..111",
+    "zeichnung": "Mauer; dirw 0x1a/0x2c, gespiegelt",
+    "stufe": "known"
+   },
+   {
+    "modul": "LACUSTRE",
+    "switch": "0x00582",
+    "werte": "54..57",
+    "zeichnung": "dirw 0x14/0x26",
+    "stufe": "known"
+   },
+   {
+    "modul": "FBUIS",
+    "switch": "0x00537",
+    "werte": "−32, −31, 25, 26",
+    "zeichnung": "dirw 0x14/0x24",
+    "stufe": "known"
+   },
+   {
+    "modul": "FONTAINE",
+    "switch": "0x00510",
+    "werte": "−26",
+    "zeichnung": "dirw 0x1a",
+    "stufe": "known"
+   },
+   {
+    "modul": "STEL",
+    "switch": "0x00516",
+    "werte": "−87..−85",
+    "zeichnung": "dirw 0x14",
+    "stufe": "known"
+   },
+   {
+    "modul": "TEMPLE",
+    "switch": "0x004c9",
+    "werte": "10..16",
+    "zeichnung": "10..12 zeichnen direkt (dirw 0x14/0x26); 13..16 über Unterprogramme",
+    "stufe": "teilweise"
+   }
+  ],
+  "sprite_regel": "Sprite = Ressource (dirw-Basis + Tiefenterm) der eigenen .IO; Format siehe io-komposit-format.md. Die konkreten Indizes je Wert hängen von Init-Werten der dirw-Basen ab und sind nicht einzeln aufgelöst (suspected).",
+  "bedeutungsnamen": "Wald/Mauer/Fassade aus Modulnamen und Code-Lage abgeleitet, bildlich nur für MCAVE geprüft (suspected)",
+  "korrektur": "CONT2 mit Hebeln = Zone 12 (Höhle), Zone 2 lädt den Wald: known (vorher suspected). CONT3/4 mit Werten 100..110 = Zonen 13/14 (VILLE); RAMPART/INVILLE laden in Zonen 3/4 nur bei Region 9/11.",
+  "tests": [
+   {
+    "id": "Z1",
+    "pruefung": "Zone 12 → MAIN lädt pcave+mcave, nicht foret",
+    "stufe": "known"
+   },
+   {
+    "id": "Z2",
+    "pruefung": "Zone 13 → ville+fville, Wert 78 in Sicht → VILLE-Sprite über dirw 0x14",
+    "stufe": "known (Code)"
+   },
+   {
+    "id": "Z3",
+    "pruefung": "Zone 2 → FORET zeichnet 11..16",
+    "stufe": "known"
+   }
+  ]
  }
 }

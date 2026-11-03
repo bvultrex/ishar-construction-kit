@@ -79,3 +79,72 @@ Testfälle:
 - **R4:** Außenzone, −1..−25 voraus, vorwärts → Taverne, Händler, Gilde oder Haus wird geladen. (known)
 - **R5:** Zone 15, auf −80 laufen → (36,26). (known)
 Offen: Außenrenderer der Zonen 1..6 und die Werte 100..110; welche Bilddatei zu welcher Sprite-Nummer gehört.
+
+## Nachtrag 2026-11-03 (3): Außenrenderer und Sprite-Ressourcen
+### Außenrenderer (Zonen 1–6)
+Die Außenrenderer arbeiten in Schichten: Jedes Modul zeichnet nur seine eigenen Werte. Alle Module haben dasselbe Gerüst: Init-Switch auf −100, Blick-Switch über 0x137e, Tiefentabelle 99·n, danach der Wert-Switch (known). Welche Module MAIN je Zone lädt, habe ich nicht einzeln geprüft (suspected). Die Bedeutungen sind aus den Modulnamen abgeleitet (suspected).
+
+| Modul | Wert-Switch | Werte | Bedeutung |
+|---|---|---|---|
+| PLAINE | 0x00552 (odirb 0x1c) | −27,−26, 12..25, 34..37 | Ebene: Wand/Hang, Deko |
+| RPLAINE | 0x00a46 (odirb 0x1b) | −82..−80, −52..−50, −43..−40, 1..10, 54,55,57 | Felsen/Ebene; Sonderzellen −40..−43, −50..−52 und Übergänge −80..−82 |
+| FORET | 0x00566 (odirb 0x2c) | −33..−30, 11..16, 21..24 | Wald |
+| ARBRE | 0x00545 (odirb 0x22) | 30..37 | Einzelbäume |
+| VILLE | 0x00510 (odirb 0x21) | 35..110 | Stadt: Häuser/Mauern, inkl. 100..110 |
+| VILLAGE | 0x00562 (odirb 0x2c), Blick-Switch 0x00612 | −25..−1 | Gebäudefassaden = Eingänge (Nachricht 17, siehe Nachtrag 2) |
+| INVILLE | 0x004bd (odirb 0x21) | 97, 98, 109, 110 | Stadtdeko |
+| RAMPART | 0x005a4 (odirb 0x26) | 100..111 | Stadtmauer/Wall |
+| LACUSTRE | 0x00582 (odirb 0x21) | 54..57 | Wasser/Pfahlbau |
+| FBUIS | 0x00537 (odirb 0x20) | −32, −31, 25, 26 | Gebüsch |
+| FONTAINE | 0x00510 (odirb 0x26) | −26 | Brunnen |
+| STEL | 0x00516 (odirb 0x20) | −87..−85 | Stele |
+| TEMPLE | 0x004c9 (odirb 0x21) | 10..16 | Tempel |
+
+Werte 100..110 zeichnen VILLE, RAMPART (100..111) und INVILLE (109/110). Sie kommen nur in CONT3 und CONT4 vor, also in Stadtzonen.
+
+### Sprite-Nummern → Ressourcen
+Eine Sprite-Nummer ist ein Index in die Ressourcentabelle der **eigenen .IO-Datei**. Der Zeiger steht im Header-Dword @14; dort liegen Offset und Anzahl. `cputnat`/`cxputat` zeichnen diesen Index (known).
+MCAVE.IO hat 247 Ressourcen. 126, 144, 201, 213, 228, 234 und 241 sind Komposite vom Typ 0xFF, 12 ist eine Bitmap (known). Die Rohbytes liegen nur in `private/`. Die Türblätter von PCAVE liegen in PCAVE.IO. Offen: die Komposite auflösen und die Bilder exportieren.
+
+Testfälle:
+- **S1:** Ressource 126 aus MCAVE.IO ist Typ 0xFF. (known)
+- **S2:** MCAVE.IO hat mindestens 242 Ressourcen. (known)
+- **A1:** −1..−25 im Blick → Fassade aus VILLAGE; vorwärts → Gebäude-Szene. (Bild suspected, Trigger known)
+- **A2:** 100..111 → Mauer aus RAMPART. (suspected)
+
+## Nachtrag 2026-11-03 (4): Außenmodule je Zone, Wert-Switches belegt
+Ersetzt die Stufe „suspected“ aus Nachtrag 3. Zonen-Switch: MAIN 0x0173b über `0x1508`.
+
+| Zonen | Module | Adressen |
+|---|---|---|
+| 1, 3, 4 | PLAINE, FOND, RPLAINE; RAMPART+INVILLE nur bei Region 0x3eac 9/11; ARBRE bei freiem Speicher >56; SAMB optional | 0x0179f–0x01875 |
+| 2, 5 | FOND, RPLAINE, FORET; FBUIS bei freiem Speicher >35 | 0x018b0–0x018fc |
+| 6 | FTEMPLE, TEMPLE | 0x0193e/0x0194c |
+| 12, 15 | PCAVE, MCAVE (Zone 15 zuvor TELEP); SCAVE optional; COLCAVE bei 0x4239==1 | 0x01976–0x01a57 |
+| 13, 14 | FVILLE, VILLE, PABO; FONTAINE bei freiem Speicher >16 | 0x01a93–0x01b30 |
+| ereignisgesteuert | VILLAGE (0x02c7a u. a.), LACUSTRE (0x03099), STEL (MAIN Z.1554 ff.), RAMPART/INVILLE (0x0300e/0x0303d) | suspected (Bedingungen nicht ausgewertet) |
+
+| Modul | Switch | Werte | Zeichnung | Stufe |
+|---|---|---|---|---|
+| PLAINE | 0x00552 | 12..25, 34..37, −27, −26 | Bodenschicht und Hänge; Basis dirw 0x10/0x20 + Tiefe 0x0e/0x12 | known |
+| RPLAINE | 0x00a46 | 1..10, 54, 55, 57, −40..−43, −50..−52, −80..−82 | Felsen; −80/−81/1 mit zusätzlicher Spiegelschicht (dirw 0x20/0x24) | known |
+| FORET | 0x00566 | 11..16, 21..24, −30..−33 | Wald; Basis dirw 0x1e/0x32 | known |
+| ARBRE | 0x00545 | 30..37 | Einzelbäume; Basis dirw 0x14/0x28 | known |
+| VILLE | 0x00510 | 35..110 | Nur 78/109/110 zeichnen direkt (dirw 0x14); alle anderen über Unterprogramme, nicht aufgelöst | Switch known, Sprite unknown |
+| VILLAGE | 0x00562 | −25..−1 | Fassaden; Basis dirw 0x1e + Tiefe, Blick-Switch 0x00612 | known |
+| INVILLE | 0x004bd | 97, 98, 109, 110 | Deko; dirw 0x14 | known |
+| RAMPART | 0x005a4 | 100..111 | Mauer; dirw 0x1a/0x2c, gespiegelt | known |
+| LACUSTRE | 0x00582 | 54..57 | dirw 0x14/0x26 | known |
+| FBUIS | 0x00537 | −32, −31, 25, 26 | dirw 0x14/0x24 | known |
+| FONTAINE | 0x00510 | −26 | dirw 0x1a | known |
+| STEL | 0x00516 | −87..−85 | dirw 0x14 | known |
+| TEMPLE | 0x004c9 | 10..16 | 10..12 zeichnen direkt (dirw 0x14/0x26); 13..16 über Unterprogramme | teilweise |
+
+- **Sprite-Index:** dirw-Basis + Tiefenterm, als Ressource der eigenen .IO (Format: `io-komposit-format.md`). Die konkreten Indizes je Wert sind nicht aufgelöst (suspected).
+- **Korrektur:** CONT2 mit Hebeln ist Zone 12, jetzt known. Die Werte 100..110 gehören zu den Zonen 13/14 (VILLE). In den Zonen 3/4 laden RAMPART und INVILLE nur bei Region 9/11.
+- **Bedeutungsnamen:** bildlich nur für MCAVE geprüft, sonst suspected.
+
+Testfälle:
+- **Z1:** Zone 12 → PCAVE und MCAVE werden geladen. (known)
+- **Z2:** Zone 13 → VILLE; Wert 78 wird direkt gezeichnet. (known, Code)
+- **Z3:** Zone 2 → FORET zeichnet 11..16. (known)
