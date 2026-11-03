@@ -5,7 +5,7 @@ Offsets are zero-based.
 
 ## Q1. Byte 3220 = 0x35ce table, actor facing
 - 0x35ce is a word array of 110 entries (220 bytes, one per actor id). It is in the save at **3041 + 2·id** (IO.IO cfwriteb main:0x35ce, 0x00dc). **proven**
-- Byte 3220 is the low byte of the big-endian word at 3219–3220, so **id = (3219−3041)/2 = 89**. 0→1 means actor 89 got facing 1. (Hoth's "+179" is the byte offset, not the index.) **proven** (arithmetic)
+- Byte 3220 is the low byte of the big-endian word at 3219–3220, so **id = (3219−3041)/2 = 89**. The change means actor 89 got a new facing (values → private/zeit-ishar2-savewerte.md SW-B2). (Hoth's "+179" is the byte offset, not the index.) **proven** (arithmetic)
 - Meaning: the actor's facing, 1..4 (the same codes as the party facing 0x2ab6).
   - Writers: EAFF 0x00bfc/0x00c22/0x00c48/0x00c6e (fixed 2/4/3/1 by relative position) and EAFF 0x00c7c (= party facing 0x2ab6).
   - Readers:

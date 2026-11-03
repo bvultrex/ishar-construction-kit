@@ -362,3 +362,39 @@ So the only relevant difference is **zone 36 instead of 33**.
 2. *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-23)*
 3. Alternative spot: r50 **c23 facing 1** (from the hall, door cell one ahead; facing-1 branch with depth −1), zone 35 → click.
 4. Check the real zone: walk from the hall entrance r44 c26 via c26 south to r50 c23, then save. Expected zone 35 (suspected). If it is 36, door 9 is not reachable from this side (DJCAT); then check the entry via r44 c23 (west, 36) too.
+
+## Nachtrag 2026-11-03, Teil 3 (Zone an Tür 9, nach Hoths Abnahme)
+
+Statisch (GERDEP.IO.asm, CONT5.FIC, nur lesend). Belegstufen: known / suspected / unknown. Koordinaten: CONT5 = Layer A (Bytes 0..5399) und Layer B (5400..10799), je 60 Spalten, Index = r·60 + c. Gegenprobe: r50 c22 A = 70, B = 69 (Tür 9). **known**
+
+### (a) Welcher Marker setzt Zone 36 auf Hoths Route (Route → private SW-B3)
+- **Mechanik:** Bei jedem Schritt lädt GERDEP den B-Wert der **betretenen** Zelle nach dirb(0x14): L_00a46/0x00a7c (r+1), L_00aba/0x00af0 (r−1), L_00b2e/0x00b53 (Spaltenschritte). Danach setzt 0x01694–0x016b9 die Zone: Liegt B in −99..−70 (bei 0x2d18 ∈ {5,6,7}; bei 0x2d18 = 3 gilt −99..−50, 0x01637), dann wird 0x4ef2 = |B| − 40. Die Zone hängt nur von der betretenen Zelle ab, nicht von der Blickrichtung oder der Schrittrichtung. **known**
+- **Marker im Bereich r40–r55, c17–c32 (Layer B):**
+
+| Zelle | B | Zone | Wirkung |
+|---|---|---|---|
+| r44 c23 | −76 | 36 | Betreten → Zone 36 (DJCAT) |
+| r44 c24 | −75 | 35 | Betreten → Zone 35 (DJ2) |
+| r40 c29 | −74 | 34 | Betreten → Zone 34 (DJ1) |
+| r40 c30 | −73 | 33 | Betreten → Zone 33 (DJ1) |
+
+  Andere Werte im Bereich −70..−99 gibt es dort nicht. Auf c26 (r44–r50) und auf r50 (c22–c26) liegt kein Marker. **known**
+- **Hoths Lauf HOTZX → HOTZY** (Route → private/hebel-tuer-trigger-ishar2-savewerte.md SW-B3): Beim Überqueren des Markerpaars wird erst Zone 35, dann Zone 36 gesetzt. Der setzende Marker ist **r44 c23, B = −76**, Routine GERDEP 0x01694/0x016b9. **known**, passt zu HOTZY.
+- **Korrektur zu Hoths Satz „B −70..−99 nur bei r47 c19/c20, r49 c23/c24“:** Diese Paare liegen in CONT5 bei **r17** c19/c20 (−77/−78) und **r19** c23/c24 (−71/−78). Vermutlich wurde die Zehnerstelle der Zeile verlesen. Im Bereich der Tür liegt das Paar r44 c23/c24. **known**
+
+### (b) Zone 33/35 im regulären Spiel; Erreichbarkeit von Tür 9
+- Das Markerpaar r44 c23/c24 ist eine Zonengrenze. Wer von Westen kommt, betritt zuletzt c24 und hat **Zone 35**. Wer von Osten kommt, betritt zuletzt c23 und hat **Zone 36**. Von r44 c24 führt der Weg ohne weiteren Marker über c25, c26 und c26 nach Süden in die Halle r46–r56 c23–c31 und weiter nach r50 c23. Wer die Halle über r44 betritt, bringt also **Zone 35** mit. **known** (Code + CONT5; begangene Zellen → private SW-B3)
+- Hoths Vermutung „echte Zone bei r44 c26 = 36“ trifft nicht zu. Zone 36 entsteht nur auf r44 c23. Geht man von dort einen Schritt nach Osten auf c24, wird sofort wieder Zone 35 gesetzt. Mit Zone 36 kommt man nur dann an Tür 9 an, wenn ein anderer Weg in die Halle ohne Marker existiert und zuletzt Zone 36 galt. Einen solchen Weg habe ich nicht gefunden; ausgeschlossen ist er aber nicht. **suspected**
+- **Zone 33/34:** Das Paar r40 c29 (34) / r40 c30 (33) liegt am Gang zu Tür 5 (r40 c31). Von Osten kommend gilt danach 34, von Westen 33. Beide Zonen laden DJ1 (`cforme 1`), auch damit öffnet Tür 9. Ob dieser Gang ohne weiteren Marker in die Halle führt (etwa über r42–r44 c29–c32), ist aus Layer A nicht sicher zu lesen. **unknown**
+- **Urteil:** Im regulären Spiel ist Tür 9 aus der Halle über r44 c24 → c26 mit Zone 35 erreichbar. Von r50 c22 (Blick 3) und von r50 c23 (Blick 1) lässt sie sich öffnen. **suspected**, bis T1 unten bestätigt ist; Code und Karte sprechen klar dafür.
+
+### Testfolge für Hoth (Blick 1 = W, 2 = S, 3 = O, 4 = N)
+- **T1 (Hauptbeleg, ohne Zonenpatch):** HOTZY laden (Startposition → private SW-B3). Auf Blick 3 drehen, 1× F → r44 c24, speichern: **Zone 35 erwartet**. Danach 2× F → r44 c26, TR (Blick 2), 6× F → r50 c26, TR (Blick 1), 3× F → r50 c23, speichern: **Zone 35 erwartet**. Dann Klick (128,70), speichern: **7390 0→1 erwartet**.
+- **T2 (Gegenrichtung):** Von r44 c26 mit Blick 1: 1× F → c25 (Zone unverändert), 1× F → c24 (35), 1× F → c23 (36). Nach jedem Schritt speichern. Erwartet wird, dass die Zone je nach betretener Zelle wechselt und nicht von der Blickrichtung abhängt.
+- **T3 (optional, Zone 33/34):** Im Gang r40 von c28 nach Osten auf c29 → 34, auf c30 → 33; danach nach Westen zurück auf c29 → 34. Erst danach prüfen, ob es von dort einen Weg in die Halle gibt.
+- Nur neue Slots verwenden. Savewerte gehören nur nach `private/`.
+
+## Nachtrag 2026-11-03 (CONT-Format, Tabelle 0x4d88)
+- **known:** CONT Ishar 2 = 10800 Byte, 60 Spalten × 180 Zeilen je Ebene: A(r,c)=file[r·60+c], B(r,c)=file[5400+r·60+c]. Gegenprobe CONT5: B r44c23 = −76, B r40c29 = −74 (Zonenmarker → Zone 36/34 nach |B|−40).
+- **known:** Wandermonster-Zonentabelle 0x4d88 hat 114 Einträge (r,c,Zone), PARAM.IO 0x0278e..0x03b14; Details siehe monster-ki-ishar2.md, Nachtrag 2026-11-03.
+- **suspected:** Karte 6 nur Zonen 44/47/48/58.
