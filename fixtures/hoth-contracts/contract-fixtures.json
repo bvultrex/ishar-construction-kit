@@ -1585,8 +1585,8 @@
   {
    "id": "M49",
    "contract": "mechanics-ishar2",
-   "status": "suspected",
-   "source": "GERDEP 0x00682 ff. (L_013af nur bei erfolgreichem Schritt, odirb(0x16)==1)",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_STEP_RESET.md (Nachtrag 2026-11-03 Hoth, private/stepreset4) HOT5A -> Klick Rahmen -> HOT5B (7386 0->1); HOT5E (Kopie HOT5B, ticks 0) -> TL -> HOT5F: 7386 1->0, Blick 3->2, h6; Gegenprobe Laden HOT5E -> HOT5D: 7386 = 1; GERDEP 0x0083a/0x0096b cjsr L_013af ohne Bedingung",
    "input": {
     "save": [
      {
@@ -1601,7 +1601,33 @@
     "ops": [
      {
       "op": "turn"
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "7386": 0
+    }
+   },
+   "note": "Korrigiert 2026-11-03: Drehen (TL Fall 4 L_007e2, TR Fall 8 L_00913) ruft L_013af, Tür 5 fällt zu"
+  },
+  {
+   "id": "M58",
+   "contract": "mechanics-ishar2",
+   "status": "suspected",
+   "source": "GERDEP 0x0066a (L_013af beim Schritt nur bei odirb(0x16)==1); HOTSR3 Vorwärts gegen geschlossene Tür 5 blockiert",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
      },
+     {
+      "offset": 7386,
+      "u8": 1
+     }
+    ],
+    "ops": [
      {
       "op": "blockedStep"
      }
@@ -1610,7 +1636,7 @@
    "expected": {
     "changes": {}
    },
-   "note": "Drehen bzw. blockierter Schritt setzen nicht zurück (HOTSR3: Vorwärts gegen die geschlossene Tür 5 blockiert)"
+   "note": "Abgespalten aus altem M49: blockierter Schritt setzt nicht zurück (offene Tür im Original nicht blockiert getestet)"
   },
   {
    "id": "M50",
@@ -1691,7 +1717,7 @@
      "7398": 0
     }
    },
-   "note": "Widerspricht M49 für Tür 17: Drehen schließt; Mechanismus unbekannt (kein weiterer Schreiber auf 0x4aa4+17 im Listing gefunden)"
+   "note": "Drehen schließt Tür 17: GERDEP 0x0083a/0x0096b cjsr L_013af -> 0x01407"
   },
   {
    "id": "M53",
@@ -1830,7 +1856,7 @@
    "expected": {
     "changes": {}
    },
-   "note": "Drehen leert die Kontaktliste nicht (Drehen ruft also vermutlich nicht L_013af)"
+   "note": "Kontakt bleibt trotz L_013af (0x013d5-0x013e9 leeren beim Drehen); vermutlich Neueintrag durch Monster in Reichweite (suspected, nicht ausserhalb Reichweite getestet)"
   },
   {
    "id": "R01",

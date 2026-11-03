@@ -108,8 +108,10 @@ v('M47',C,'known',SR+' (HOTSR1 frisch geladen: offen; Laden ist kein Schritt)',
 v('M48',C,'suspected','GERDEP 0x013d5-0x01407 (eigene Listing-Lesung; Türen 9/17 und Kontaktliste nicht im Original getestet)',
   {'save':[by(7390,1),by(7398,1),by(7576,91),by(7577,92),by(7578,93),by(7387,1)],'ops':[{'op':'step'}]},
   {'changes':{'7390':0,'7398':0,'7576':0,'7577':0,'7578':0}},'L_013af setzt auch 0x4b80[0..2] = 0; Tür 6 bleibt')
-v('M49',C,'suspected','GERDEP 0x00682 ff. (L_013af nur bei erfolgreichem Schritt, odirb(0x16)==1)',
-  {'save':[by(7386,1)],'ops':[{'op':'turn'},{'op':'blockedStep'}]},{'changes':{}},'Drehen bzw. blockierter Schritt setzen nicht zurück (HOTSR3: Vorwärts gegen die geschlossene Tür 5 blockiert)')
+v('M49',C,'known',H+'STEP_RESET.md (Nachtrag 2026-11-03 Hoth, private/stepreset4) HOT5A -> Klick Rahmen -> HOT5B (7386 0->1); HOT5E (Kopie HOT5B, ticks 0) -> TL -> HOT5F: 7386 1->0, Blick 3->2, h6; Gegenprobe Laden HOT5E -> HOT5D: 7386 = 1; GERDEP 0x0083a/0x0096b cjsr L_013af ohne Bedingung',
+  {'save':[by(7386,1)],'ops':[{'op':'turn'}]},{'changes':{'7386':0}},'Korrigiert 2026-11-03: Drehen (TL Fall 4 L_007e2, TR Fall 8 L_00913) ruft L_013af, Tür 5 fällt zu')
+v('M58',C,'suspected','GERDEP 0x0066a (L_013af beim Schritt nur bei odirb(0x16)==1); HOTSR3 Vorwärts gegen geschlossene Tür 5 blockiert',
+  {'save':[by(7386,1)],'ops':[{'op':'blockedStep'}]},{'changes':{}},'Abgespalten aus altem M49: blockierter Schritt setzt nicht zurück (offene Tür im Original nicht blockiert getestet)')
 
 S3=H+'STEP_RESET.md (Nachtrag 2026-11-03, Sitzungen private/stepreset3)'
 v('M50',C,'known',S3+' HOT17E -> Klick Rahmen (B=77, Karte 6 r25 c17) -> B -> HOT17G: 7398 1->0; GERDEP 0x01407',
@@ -117,7 +119,7 @@ v('M50',C,'known',S3+' HOT17E -> Klick Rahmen (B=77, Karte 6 r25 c17) -> B -> HO
 v('M51',C,'known',S3+' HOT17H frisch geladen -> HOT17I ohne Schritt: 7398 bleibt 1',
   {'save':[by(7398,1)],'ops':[]},{'changes':{}},'Laden ist kein Schritt (Tür 17)')
 v('M52',C,'known',S3+' HOT17E -> Klick -> TL -> HOT17J (h8, kein Stundenwechsel): 7398 = 0; Bild 49/54 Wand zu',
-  {'save':[by(7398,1)],'ops':[{'op':'turn'}]},{'changes':{'7398':0}},'Widerspricht M49 für Tür 17: Drehen schließt; Mechanismus unbekannt (kein weiterer Schreiber auf 0x4aa4+17 im Listing gefunden)')
+  {'save':[by(7398,1)],'ops':[{'op':'turn'}]},{'changes':{'7398':0}},'Drehen schließt Tür 17: GERDEP 0x0083a/0x0096b cjsr L_013af -> 0x01407')
 v('M53',C,'known',S3+' HOT9G (7390=1 im eigenen Save gesetzt, Karte 5 r50 c21) -> B -> HOT9I: 7390 = 0; GERDEP 0x013fd',
   {'save':[by(7390,1)],'ops':[{'op':'step'}]},{'changes':{'7390':0}},'Tür 9 per Klick nicht zu öffnen (c21/c22); Zustand gesetzt')
 v('M54',C,'known',S3+' HOT9G -> TL -> HOT9J (h6): 7390 = 0',
@@ -127,7 +129,7 @@ v('M55',C,'known',S3+' HOT9G frisch geladen -> HOT9H ohne Schritt: 7390 bleibt 1
 v('M56',C,'known',S3+' HOTKA (Kopie GRIMZ, 7577=52) -> F -> HOTKC: 7577 = 0; GERDEP 0x013df',
   {'save':[by(7577,52)],'ops':[{'op':'step'}]},{'changes':{'7577':0}},'Kontaktliste nach erfolgreichem Schritt leer')
 v('M57',C,'known',S3+' HOTKA -> TL,TR -> HOTKB: 7577 bleibt 52',
-  {'save':[by(7577,52)],'ops':[{'op':'turn'},{'op':'turn'}]},{'changes':{}},'Drehen leert die Kontaktliste nicht (Drehen ruft also vermutlich nicht L_013af)')
+  {'save':[by(7577,52)],'ops':[{'op':'turn'},{'op':'turn'}]},{'changes':{}},'Kontakt bleibt trotz L_013af (0x013d5-0x013e9 leeren beim Drehen); vermutlich Neueintrag durch Monster in Reichweite (suspected, nicht ausserhalb Reichweite getestet)')
 
 # ---------------- 3 combat ----------------
 def tdiv(a,b): q=abs(a)//abs(b); return q if (a>=0)==(b>0) else -q
