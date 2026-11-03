@@ -4110,10 +4110,74 @@
    }
   },
   {
+   "id": "SG06",
+   "contract": "shop-ishar1",
+   "status": "known",
+   "source": "quesh/SOS.IO (statisch, L_00b5e/L_00cf8) L_00cf8; eigener Patch-Lauf n=4 (Klassenbyte 0xFF = unbelegt): vier zahlen je 250, freier Slot unverändert, synthetisch",
+   "input": {
+    "op": "saveFee",
+    "gold": [
+     [
+      0,
+      400
+     ],
+     [
+      1,
+      0
+     ],
+     [
+      0,
+      250
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      300
+     ]
+    ],
+    "occ": [
+     1,
+     1,
+     1,
+     0,
+     1
+    ],
+    "cost": 1000
+   },
+   "expected": {
+    "refused": false,
+    "gold": [
+     [
+      0,
+      150
+     ],
+     [
+      0,
+      750
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      50
+     ]
+    ]
+   }
+  },
+  {
    "id": "SG04",
    "contract": "shop-ishar1",
-   "status": "suspected",
-   "source": "quesh/SOS.IO (statisch, L_00b5e/L_00cf8) L_00cf8 mit 3 belegten Figuren (Anteil 333, Rest 1), synthetisch; Gruppengröße ungetestet, da Kodierung von belegt im Save nicht gesichert",
+   "status": "known",
+   "source": "quesh/SOS.IO (statisch, L_00b5e/L_00cf8) L_00cf8 mit 3 belegten Figuren (Anteil 333, Rest 1 an erste fähige Figur in Slotfolge), bestätigt durch Patch-Lauf n=3, synthetisch",
    "input": {
     "op": "saveFee",
     "gold": [

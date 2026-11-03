@@ -51,11 +51,11 @@ Ergänzung zu SH10: die Byte-483-Änderung beim Speichern ist dieselbe Gebühr.
 |---|---|---|
 | SH13, SH14 | original-merchants.ts subtractOriginalPrice (auf die Käuferspalte angewandt) | passt; Spaltenwahl x/64 und Stapel +1 fehlen im Kit |
 | SG01–SG04 | – | fehlt (keine Ishar-1-Speichergebühr) |
-Probe gesamt jetzt 70/247.
+Probe gesamt jetzt 70/248.
 
 ## Nachtrag: Verteilungsregel der Speichergebühr, Ishar-2-Speichern, Probe-Hinweis
 
-**Hinweis zur Probe:** `probe-kit-against-fixtures.mjs` braucht den IO.IO-Pfad als zweites Argument. Ohne ihn fallen 12 Ishar-2-Zeilen weg, die Probe meldet dann 58/235 statt 68/235 (älterer Stand). Aktuell mit Pfad: 70/247.
+**Hinweis zur Probe:** `probe-kit-against-fixtures.mjs` braucht den IO.IO-Pfad als zweites Argument. Ohne ihn fallen 12 Ishar-2-Zeilen weg, die Probe meldet dann 58/235 statt 68/235 (älterer Stand). Aktuell mit Pfad: 70/248.
 
 **Ishar 1, Verteilung (SG03, SG05 jetzt known):** Zwei Patch-Kopien eines normalen Saves, Gold per BE16-Patch gesetzt, Aufteilung vorher vorhergesagt, dann im Original gespeichert:
 
@@ -66,6 +66,17 @@ Probe gesamt jetzt 70/247.
 
 Sonst änderte sich nur das Gold. Urteil: Queshs Regel (L_00cf8) ist bestätigt. Rohwerte und sha256 stehen in `private/save_patches.md`.
 
-**Gruppengröße (SG04 bleibt suspected):** Nicht getestet. Das Klassenbyte −1 kommt nur in einem Fall vor (Taverne, unbelegt). Ob das allein „belegt“ für die Gebührenroutine festlegt, ist nicht gesichert, deshalb habe ich es nicht gepatcht.
+**Gruppengröße:** siehe nächsten Nachtrag (SG04 inzwischen known).
 
 **Ishar 2, Speichern:** Ein normales Save geladen, ohne weitere Aktion in einen neuen Slot gespeichert. Gold (Tausender 1006+2c, Rest 1026+2c) blieb bei allen fünf Figuren gleich. Urteil: Speichern kostet in Ishar 2 kein Gold (known für diesen Lauf). Die übrigen Byte-Diffs liegen außerhalb der Goldfelder.
+
+## Nachtrag: Gruppengröße (SG04 known, SG06 neu)
+
+„Belegt“ heißt hier: Save-Byte 728+c ≠ 0xFF (Quesh, aus dem Code). Auf Kopien habe ich das Klassenbyte freier Slots auf 0xFF gesetzt und dann im Original gespeichert. Alle belegten Figuren hatten genug Gold.
+
+| Lauf | n | Vorhersage | Ergebnis |
+|---|---|---|---|
+| N4 | 4 (ein Slot frei) | vier zahlen je 250, freier Slot bleibt gleich, gesamt −1000 | exakt so |
+| N3 | 3 (zwei Slots frei) | Durchgang 1 je 333, den Rest 1 zahlt Slot 0 als erste fähige Figur → 334/333/333 | exakt so |
+
+Freie Slots wurden sauber als leere Steckplätze angezeigt, es gab keinen Absturz. Außer dem Gold änderte sich nur eine Byte-Reihe nach den Hebeln (Schrittweite 5, laut Diff ein Zustand, den das Spiel nachführt). Die Goldfelder berührt sie nicht. Urteil: Queshs Regel gilt auch für n=3 und n=4.
