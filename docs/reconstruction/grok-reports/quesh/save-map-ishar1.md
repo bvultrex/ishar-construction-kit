@@ -2,7 +2,7 @@
 
 ## Handoff-Kopf
 - Von: Quesh · An: Codex (save-maps.ts), Alderaan, Hoth · Stand: 2026-11-03
-- Maschinenlesbar: `save-map-ishar1.json` (SaveMap-kompatibel; zusätzliche Schlüssel `byteMap`, `classNameVariants`)
+- Maschinenlesbar: `save-map-ishar1.json` (SaveMap-kompatibel; zusätzliche Schlüssel `byteMap`, `classNameVariants`, `validation`)
 - Werkzeuge (private/): `ishar1-savemap-build.py`, `ishar1-savemap-check.py`
 - Regeln: read-only, statisch, keine Commits, keine Originalbytes außerhalb private/.
 - Belegstufen: known → `confirmed`, suspected → `probable`, unknown → `unknown`.
@@ -12,7 +12,7 @@
 2. Bytes 0..33: 17 BE16-Wörter; Byte-Variablen werden sign-extended gespeichert (z. B. 0x41e6 = −1 → `ff ff`).
 3. Danach Struct-of-Arrays: je Feld 5 (Party) bzw. 70 (Akteure) Einträge hintereinander. Wort-Arrays (`ti`) BE16, Byte-Arrays (`tc`) 1 Byte. Darum gilt in FieldSpec `stride = size`.
 4. Die bisherigen ISHAR1_SAVE-Offsets (0x2d5 hp, 0x2df gold, 0x2e9 psychic, 0x3e2 level, 0x3e7…0x400 Attribute) sind **widerlegt**: 0x2d5 = Low-Byte von Gift 0x1658[3]; 0x2df = Rasse c2; 0x2e9 = Stärke c2; 0x3e2…0x400 liegen im NPC-Namensblock 0x1746. Ersetzen.
-5. Gold = `goldThousands`(3993+2c)·1000 + `gold`(478+2c). Die Party hält Gold meist bei einem Charakter.
+5. *(Savewerte → `private/save-map-ishar1-savewerte.md`, SW-1)*
 6. Hoths Offsets 7386/7576 (Teil 2/3) liegen jenseits 5216 → gehören zu Ishar 2, nicht in diese Map.
 
 ## Party-Felder (für `fields`)
@@ -63,7 +63,7 @@ Quelle: Switch `odirb(0x1b)` = 0x1664[c] in MESSAGE.IO (FR), MESSAGEE (EN), MESS
 | 17 | DARK KNIGHT | DARK KNIGHT | Finsterer Ritter | CAVALIERE | Schwarzer Ritter ✗ |
 | 18 | MOINE OCCULTE | OCCULT MONK | Okkulter Mönch | MONACO | |
 
-Hoths Party [1,17,18,6,9] = Krieger, Finsterer Ritter, Okkulter Mönch, Zauberer, Priester – stimmt mit MESSAGED überein. Ursache der Abweichungen: ISHAR2_CLASSES wurde für Ishar 1 übernommen. Ishar 1 braucht eigene `classes`/`races` (in JSON).
+Hoths Party-Zusammensetzung stimmt mit MESSAGED überein (Werte: private).
 
 Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UMANO, 2 ELFE/ELF/Elfe/ELFO, 3 NAIN/DWARF/Zwerg/NANO, 4 ORC/ORC/Ork/ORCO, 5 HOMME LEZARD/LIZARD/Eidechse/(IT fehlt).
 
@@ -82,7 +82,7 @@ Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UM
 | 18 | 2 | be | `main 0x3ffe` | 1 | Flag 0x3ffe: 0/1, von FRISE gesetzt, DPLT liest (Anzeige-Modus?) | 0..1 | FRISE:4 PARAM:1 MAIN:1 | DPLT:3 MAIN:1 | unknown |
 | 20 | 2 | be | `main 0x41e4` | 1 | NPC-27-Zustand: 2 = in Party (FRISE 0x0197a), −1 = entfernt, 0 = INTMAIS, 1 = nach Szene 9 (TEXTIN) | -1..2 | FRISE:3 MAIN:2 TEXTIND:1 INTMAIS:1 TEXTIN:1 TEXTINE:1 | TEXTIND:4 INTMAIS:4 TEXTIN:4 TEXTINE:4 TEXTINI:4 MAIN:1 | known |
 | 22 | 2 | be | `main 0x41e5` | 1 | Flag 0x41e5: PCAVE setzt 0/1, GERDEP/ENCONT lesen | 0..1 | PCAVE:4 PARAM:1 MAIN:1 | GERDEP:1 ENCONT:1 MAIN:1 | suspected |
-| 24 | 2 | be | `main 0x41e6` | 1 | Ort/Szenen-ID: GERDEP setzt 30..44, MAIN-Switch 30..; −1 = keiner (S1) | -1..63 | GERDEP:34 MAIN:7 | MAIN:13 DPLT:6 GERDEP:1 AFFOBJ:1 | suspected |
+| → `private/save-map-ishar1-savewerte.md` SW-2 |  |  |  |  |  |  |  |  |  |
 | 26 | 2 | be | `main 0x421c` | 1 | Teleport-Ziel: TELEP/MONSTRE schreiben | 0..255 | TELEP:1 MAIN:1 MONSTRE:1 | MAIN:2 | suspected |
 | 28 | 2 | be | `main 0x421d` | 1 | Teleport-Flag: 0/1 | 0..1 | MAIN:4 TELEP:3 MONSTRE:3 | MAIN:4 | suspected |
 | 30 | 2 | be | `main 0x421e` | 1 | Flag 0x421e: nur MAIN, 1 gesetzt | 0..1 | MAIN:3 | MAIN:3 | unknown |
@@ -103,7 +103,7 @@ Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UM
 | 668 | 10 | be | `main 0x161c` | 5 | Schutz-Timer mit Stufe: 10000·Stufe + Timer, Icon 4 | 0.. | FRISE:4 PARAM:1 | FRISE:3 GEREN:2 | known |
 | 678 | 10 | be | `main 0x1628` | 5 | Effekt-Timer 0x1628: Icon 27 | 0.. | FRISE:3 PARAM:1 | FRISE:2 GEREN:2 | known |
 | 688 | 10 | be | `main 0x1634` | 5 | ungenutzt 0x1634: kein Leser/Schreiber in Skripten gefunden | 0 |  |  | unknown |
-| 698 | 10 | be | `main 0x1640` | 5 | Mentalschild-Timer: Icon 28 (Hoth-Beobachtung; Wert nur lokal) | 0.. | FRISE:2 PARAM:1 | GEREN:4 FRISE:2 | known |
+| 698 | 10 | be | `main 0x1640` | 5 | Mentalschild-Timer: Icon 28 (Hoth HOA→HOB 698/699 [Savewert entfernt]) | 0.. | FRISE:2 PARAM:1 | GEREN:4 FRISE:2 | known |
 | 708 | 10 | be | `main 0x164c` | 5 | Blindheit: ≠0 → Trefferchance 20 | 0.. | FRISE:3 GEREN:1 PARAM:1 | FRISE:3 GERDEP:1 | known |
 | 718 | 10 | be | `main 0x1658` | 5 | Gift-Stärke: HP −= Wert pro Gifttick | 0.. | FRISE:4 INTMAIS:1 PARAM:1 | FRISE:3 | known |
 | 728 | 5 | none | `main 0x1664` | 5 | Klasse: Klassen-ID 0..18, 255/−1 = leerer Slot (MESSAGE* 0x01bcd) | 0..18,255 | PARAM:17 FRISE:2 INTMAIS:1 ITAVERNE:1 | FRISE:32 ITAVERNE:5 STAGE:4 SOS:3 INTMAIS:3 SOSD:3 | known |
@@ -114,7 +114,7 @@ Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UM
 | 753 | 5 | none | `main 0x1694` | 5 | Weisheit: FRISE 0x07804 | 0..255 | PARAM:2 FRISE:1 STAGE:1 | STAGE:3 FRISE:2 | known |
 | 758 | 5 | none | `main 0x169c` | 5 | Intelligenz: FRISE 0x077dc | 0..255 | PARAM:2 FRISE:1 STAGE:1 | FRISE:7 STAGE:3 | known |
 | 763 | 5 | none | `main 0x16a4` | 5 | Geschicklichkeit: FRISE 0x077b4 | 0..255 | PARAM:2 FRISE:1 STAGE:1 | FRISE:5 STAGE:2 GEREN:1 | known |
-| 768 | 5 | none | `main 0x16b4` | 5 | Mental (Psi-Energie): FRISE 0x07735 MENTAL, Hoth 771 72→67 | 0..100 | FRISE:3 ITAVERNE:3 PARAM:2 | FRISE:9 ITAVERNE:2 | known |
+| 768 | 5 | none | `main 0x16b4` | 5 | Mental (Psi-Energie): FRISE 0x07735 MENTAL, Hoth: 771 sinkt um die Zauberkosten | 0..100 | FRISE:3 ITAVERNE:3 PARAM:2 | FRISE:9 ITAVERNE:2 | known |
 | 773 | 5 | none | `main 0x16bc` | 5 | Körperlich (Sättigung): FRISE 0x0770e PHYSICAL; Taverne +40/+15, Kampf −1 | 0..100 | FRISE:6 ITAVERNE:5 PARAM:2 GERDEP:1 | FRISE:12 ITAVERNE:3 GERDEP:1 | known |
 | 778 | 5 | none | `main 0x16cc` | 5 | Gesinnung/Charakter: Abstimmung |0x16cc−0x206e| (recruit/dismiss) | 0..255 | FRISE:1 PARAM:1 | FRISE:3 | suspected |
 | 783 | 5 | none | `main 0x16d4` | 5 | Rüstungswert: ARM_p im Schadensmodell | 0..255 | FRISE:11 | GEREN:2 | known |
@@ -182,18 +182,18 @@ Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UM
 0 (0x421f), 10–17 (0x3e54/0x3e56/0x3f0c/0x3f0e), 18 (0x3ffe), 28 (0x421e), 688–697 (0x1634, kein Skriptzugriff; in MTDB ≠0), 3128 (0x20b8), 3783 (0x369a), 4103 (0x3958), 4173–4182 (0x39a2, nur PARAM), 4781/4851 (0x3d5a/0x3da2), 5026–5045 (0x3eee…0x3f06), 5166–5215 (0x41ea, kein Zugriff, in allen Saves 0).
 
 ## Abgleich mit allen Ishar-1-Saves
-79 Dateien mit 5216 Bytes, 23 eindeutige Hashes (S1, SHOPA=PROBEB, LP, LP1=LPONE, LP2, IMP, IMP1, IMP2, FINALE, FDROPA, FPICKA, PROBEC/D, ENCA, ITEMA, MTDA=MTEA, MTDB, MTEB, MTFA, MTFB, NDFA, NPCA, HOB; SONE=S1, FLRA=FDROPA, FLRB=FPICKA). Geprüft: Klasse ∈ 0..18∖{13,14} oder 255, Rasse 1..5, Level 1..10, HP ≤ HPmax, MENTAL/PHYSICAL ≤ 100, Gold-Einer ≤ 999, Skills ≤ 100, Namen ASCII, unknown-Lücken = 0.
-- [ausgelassen fürs Repo: enthält aus Originalsaves gelesene Werte; nur lokale Fassung]
-- [ausgelassen fürs Repo: enthält aus Originalsaves gelesene Werte; nur lokale Fassung]
-- [ausgelassen fürs Repo: enthält aus Originalsaves gelesene Werte; nur lokale Fassung]
-- Details pro Save (`validation`) nur lokal, nicht im Repo.
+*(Savewerte → `private/save-map-ishar1-savewerte.md`, SW-3)*
+- **Ergebnis: keine Bereichsverletzung.** Abweichungen nur in Lücken: MTDB 0x1634[0] ≠ 0 [Savewert entfernt] → Kandidat für einen bisher ungefundenen Zugriff (suspected Engine-intern).
+- *(Savewerte → `private/save-map-ishar1-savewerte.md`, SW-4)*
+- HOB: 698/699 [Savewert entfernt] liegt in 0x1640[0] (Mentalschild), nicht in einer Lücke.
+- Details pro Save: `validation` in JSON.
 
 ## Testfälle (Alderaan/Hoth)
-1. [ausgelassen fürs Repo: enthält aus Originalsaves gelesene Werte; nur lokale Fassung]
-2. [ausgelassen fürs Repo: enthält aus Originalsaves gelesene Werte; nur lokale Fassung]
-3. [ausgelassen fürs Repo: enthält aus Originalsaves gelesene Werte; nur lokale Fassung]
-4. Gold-Probe: Kauf 1000 GS bei S1-Stand → 0x3770[2] −1, 0x154e[2] unverändert (Hoths Beobachtung Byte 483 ⇒ Tausender/Einer prüfen).
-5. [ausgelassen fürs Repo: enthält aus Originalsaves gelesene Werte; nur lokale Fassung]
+1. *(Savewerte → `private/save-map-ishar1-savewerte.md`, SW-5)*
+2. *(Savewerte → `private/save-map-ishar1-savewerte.md`, SW-6)*
+3. *(Savewerte → `private/save-map-ishar1-savewerte.md`, SW-7)*
+4. *(Savewerte → `private/save-map-ishar1-savewerte.md`, SW-8)*
+5. MENTAL: HOA→HOB 771 sinkt um die Zauberkosten (0x16b4[3]).
 6. Skills: Charakterbogen-Seite SKILLS im Spiel vs. Bytes 4738+5k+c.
 7. Inventar Slot 11/12: Rüstung/Helm an- und ablegen (offen, suspected).
 8. Lücke 0x1634: MTDB-Erzeugungsschritte reproduzieren, Wert erklären.

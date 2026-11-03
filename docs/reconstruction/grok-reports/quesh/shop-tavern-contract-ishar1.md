@@ -3,21 +3,21 @@
 ## Handoff header
 - **Base commit:** `bb42748` (read-only clone, nothing committed/pushed). Static analysis only.
 - **Question:** buy flow, prices, inventories, stack rules, gold arithmetic and save offsets of the shops; tavern menu, prices, eat/sleep effects, payment split, leave/theft event, hire list.
-- **Method:** ALIS listings `decompile/alis/listings/ishar1/{MARCHAND,ITAVERNE,MAIN,PARAM}.IO.asm`; PARAM tables via `private/ishar1-contracts/ptab.py` (0x3fd6, 0x3f94, 0x3f18); S1/LP1 byte dumps; Alderaan SHOPA reference (REFERENCES.md §13–17).
-- **Result:** S1–S5 (shop), V1–V6 (tavern), tests T1–T5.
+- *(Savewerte → `private/shop-tavern-contract-ishar1-savewerte.md`, SW-1)*
+- *(Savewerte → `private/shop-tavern-contract-ishar1-savewerte.md`, SW-2)*
 - **Limits:** tavern menu coordinates and the menu-index→action mapping were not read (menu is drawn by another entity); no runtime tavern diff; a tavern is not reachable on the known S1 route.
-- **Next step:** T1 (already confirmed by SHOPA), then T2/T3; tavern tests once Alderaan/Hoth find a route to a tavern door.
+- *(Savewerte → `private/shop-tavern-contract-ishar1-savewerte.md`, SW-3)*
 
 Evidence levels: **known** = read in code (and checked against saves/SHOPA where stated), **suspected** = plausible, not closed, **unknown** = open.
 
 ## SHA-256 (originals/ishar1/Ishar1)
 | File | SHA-256 |
 |---|---|
-| MARCHAND.IO | 77db63b52c23075261e7a5776545cc9435dc38f679b29823468eb43872c1c706 |
-| ITAVERNE.IO | f3bed78c5fb97360e1ac2dd46dc4f50052762ebbf2251af5049d02608086e808 |
-| MAIN.IO | 27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b |
-| PARAM.IO | f42ea12ceffa6b879aeb88f074a81f8e9fed39f92a11f625d7c815b9b7594afd |
-| S1.SAV / LP1.SAV | 92023f2b51e34f74f191068d07922a4b1afa28cff1bd04423d98e4505a463f7f / 76cf91a104ec8675394ec82b44f7238b016d641a8e0ccf3752d117ae2980b64b |
+| MARCHAND.IO | 77db63b52c23… |
+| ITAVERNE.IO | f3bed78c5fb9… |
+| MAIN.IO | 27c5834de005… |
+| PARAM.IO | f42ea12ceffa… |
+| S1.SAV / LP1.SAV | 92023f2b51e3… / 76cf91a104ec… |
 
 Gold per member = thousands 0x154e[c] (save 478+2c) + units 0x3770[c] (save 3993+2c), units 0..999. Items: 0x1568[c][k] words (save 498+26c+2k).
 
@@ -27,7 +27,7 @@ Gold per member = thousands 0x154e[c] (save 478+2c) + units 0x3770[c] (save 3993
 ### S2. Inventories (item, price k, price u, [qty]) — known
 qty defaults to 1; −57 → 5, −58 → 20 where listed.
 - s0: (−57,0,320,5) (−50,0,900) (−25,1,800) (−35,1,200) (−60,0,500) (−62,0,300)
-- s1: (−57,0,380,5) (−54,1,100) (−46,2,0) (−58,0,500,20) (−63,0,600) (−40,2,2)
+- *(Savewerte → `private/shop-tavern-contract-ishar1-savewerte.md`, SW-4)*
 - s2: (−58,0,300,20) (−55,2,500) (−36,1,800) (−64,0,800) (−45,3,200)
 - s3: (−57,0,400,5) (−60,0,600) (−62,0,400) (−63,0,800) (−64,0,950) (−66,1,500)
 - s4: (−40,2,500) (−41,4,900) (−45,3,800) (−44,4,200) (−47,6,0) (−58,0,650,20) (−48,1,600) (−49,7,500) (−54,1,300)
@@ -76,20 +76,34 @@ How the menu click maps to 0x18 is in another entity: **unknown**. Inside L_0016
 2. Otherwise (and if none found): first member i (npc ≠ −1) for whom **no** other member j (npc ≠ −1) has rel 0x377e[i][j] > −2 (save 4003+5i+j) becomes leaver.
 3. If there is no other member, nothing happens. Else every other member j loses the **first item in slots 0..8 with −57 < code < −19** (set to 0); leaver: 0x1664 = 1 (sic), HP = 0, 0x3908 = −1, BUSTE refresh, message −29 with the npc id. The leaver keeps nothing; his gold is not cleared here. The `0x1664 = 1` write is known, its meaning **unknown**.
 ### V6. Hire list — known (FRISE side suspected)
-- Candidates 0x3f18[t][0..7] (save **5046+8t+k**, −1 = none); PARAM init: t0 {2}, t1 {−,21,10,0,5,3}, t2 {k4..7: 6,14,12,24}, t3 {7}, t4 {k1: 9}, t5 {k4: 15, k5: 22}, t6 {18,23 at k4/5}, t7 {k1..5: 20,19,8,13,17}, t9 {1}, t11 {16,11,25 at k4..6}, t12 {k1: 26}. S1 already has most hired/removed (S1: t0 {2}, t1 k5 = 3, t2 k6 = 12, t4 k1 = 9, t5 k4 = 15, t6 {18,23}, t7 {20,19,·,13,17}, t9 {1}, t11 k5 = 11).
+- *(Savewerte → `private/shop-tavern-contract-ishar1-savewerte.md`, SW-5)*
 - Click portrait grid: k = (x−1)/64, +4 if script y < 136 (y > 74, x < 257); x > 287 / y 62..72 = EXIT. Candidate sent to FRISE (type 4) as message 24; if FRISE sets 0x3ead = 1 (accepted), entry := −1. Loop repeats while an empty slot (class −1) exists.
 - FRISE acceptance = party vote (see party contract P3). **suspected** (link message 24 → FRISE L_0133b not traced).
 
 ## Tests (Alderaan/Hoth)
 Shared: load as in REFERENCES §13 (save A right after load: c2 byte 483 −1 = 1000 GS), act, save B, diff A→B.
 ### T1 (deterministic, **known** — SHOPA reproduced): S1, shop #1 dagger
-Load s1 → turn right (310,101) ×2 → forward (289,82) → turn left (266,101) → forward → OK (270,132) → dagger (201,20) → portrait c2 (160,160) → exit (288,112) → save.
-Diff: 3 1E→1F, 7 04→03 (position), 483 13→11, 556/557 → FF CA (item −54 into c2 slot), 3998 B2→4E; total −2100 = save 1000 + dagger 1k100. SHOPA = PROBEB byte-identical.
+
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/shop-tavern-contract-ishar1-savewerte.md`, SW-6.*
+
+Relative Erwartung: Gold des gewählten Mitglieds sinkt um Save-Kosten + Preis (Tausender/Einheiten getrennt, §Gold). Gegenstand landet im ersten freien Slot. Positionsbytes ändern sich durch das Laufen.
+
 ### T2 (deterministic, suspected): S1 shop #1 stack item −57 (0,380,5)
-As T1 but click grid slot 0 at (165,20) (same row as the dagger, one cell left) instead of the dagger, portrait c2. Expect 3997/3998: c2 units 434 → 54 (0x01B2 → 0x0036; 434−380), 483 unchanged by the buy, item −57 (0xFFC7) in first free slot of c2 (or merged), **4971+20+9 = 5000** (0x3e22[2][9]) += 5.
+
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/shop-tavern-contract-ishar1-savewerte.md`, SW-7.*
+
+Relative Erwartung: Einheiten des Mitglieds sinken um den Preis; Stapelzähler 4971+10c+(item+66) steigt um qty (Deckel laut S-Regel).
+
 ### T3 (deterministic, suspected): refusal
-S1 portrait c0 (32,160) instead of c2 (c0 gold 0): message −21, **no byte changes** except the save cost. Bag-full variant: not set up (no S1 member has 9 full slots; **unknown**).
+*(Savewerte → `private/shop-tavern-contract-ishar1-savewerte.md`, SW-8)*
 ### T4 (deterministic once inside, suspected): tavern sleep with LP1 at tavern t
-Price 900+80t from c0 (only c0 has gold, 165k798). Expect c0 gold −(900+80t) (478/479, 3993/3994); food 773..777: [96,100,67,44,83] → [100,100,82,59,98]; MENTAL 768..772: [100,92,67,40,75] → [100,100,100,90,100]; HP 469.. : c1 131 → 131 (⌊3/5⌋ = 0), c4 62 → 62; **no leaver** (npc ids 3,2,30,29,1 not special; every row has a rel > −2) → deterministic. Route to a tavern door: **unknown**. Note: the save-A cost (1000 GS) is taken as in REFERENCES; on LP1 check which member pays before computing the diff.
+
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/shop-tavern-contract-ishar1-savewerte.md`, SW-9.*
+
+Relative Erwartung: Gold −(900+80t). Futter +15 (Deckel 100). MENTAL > 50 → 100, sonst +50. HP += ⌊(maxHP − HP)/5⌋.
+
 ### T5 (deterministic once inside, suspected): tavern eat with LP1
-Price 500+40t from c0; food → [100,100,100,84,100]; nothing else.
+
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/shop-tavern-contract-ishar1-savewerte.md`, SW-10.*
+
+Relative Erwartung: Gold −(500+40t). Futter > 60 → 100, sonst +40 (Deckel 100). Sonst nichts.

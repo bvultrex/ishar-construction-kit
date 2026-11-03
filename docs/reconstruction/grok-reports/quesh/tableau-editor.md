@@ -1,7 +1,7 @@
 # TABLEAU.IO: developer map/enemy editor (Ishar 2), static analysis
 
 Base commit: bvultrex/ishar-construction-kit workbench/playable-slice bb42748 (read-only clone). Static only, no emulator runs.
-Hashes (SHA-256): Ishar 2 TABLEAU.IO c25bfe28d79869f2b2a347b92d4a307786cf9d521c6b5d8292e924a20ddd85fa; MAIN.IO bfab5e91…8cf8db95; EN1.FIC b3710e9a1af7d8016b794d9b4aec8c9f3f472b7a5ce4003426da135cdbf6f2d4; start.exe 5e35e58d…adf9. Ishar 1 MAIN.IO 27c5834d…06c5.
+Hashes (SHA-256): Ishar 2 TABLEAU.IO c25bfe28d798…; MAIN.IO bfab5e91…8cf8db95; EN1.FIC b3710e9a1af7…; start.exe 5e35e58d…adf9. Ishar 1 MAIN.IO 27c5834d…06c5.
 Sources: ALIS listings decompile/alis/listings/ishar{1,2}/*.asm, unpacked start.exe segment 1000 (capstone). No original bytes in this file.
 
 ## 1. Activation (omodel)
