@@ -1,16 +1,16 @@
 # Data-flow matrix: Ishar 1 (DOS), NPC / monster / item
 
 - **Base commit:** `bb42748` (handoff); code `319819c`.
-- **Profile:** Ishar 1 DOS, `start.exe` SHA-256 `3ea63234c97b77d88e3c18aa5d88ac10dede1f10daf2854225b88b7d948d588b`.
+- **Profile:** Ishar 1 DOS, `start.exe` SHA-256 `3ea63234c97b…`.
 - **Script hashes (SHA-256):**
-  - MAIN.IO `27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b`
-  - FRISE.IO `3bd158963fdaf0f88517b03509002100159a7587c8e2486389314b8abc707e15`
-  - AFFOBJ.IO `abe105fad328b76d813dfb496f9d37ea691a7a7e38ed84917be2f7d780e38ec6`
-  - OBJET.IO `03bd357d89c0bb58295ebf79cc6864896b08e837bde63840a45b76787524565f`
-  - MARCHAND.IO `77db63b52c23075261e7a5776545cc9435dc38f679b29823468eb43872c1c706`
-  - MESSAGE.IO `38c1082c5901e748541b1c46f23db19ab12eb76e4c22a0be59858ebe3efd7717`
-  - GEREN.IO `60405e4537abff12c5756a79506eb555c616a91b64069451fcc11419bcb8a405`
-  - GERDEP.IO `8b3f93c1acf8f2c8b07570db77ff78a25723161befd98982ee719a7b27c411f3`
+  - MAIN.IO `27c5834de005…`
+  - FRISE.IO `3bd158963fda…`
+  - AFFOBJ.IO `abe105fad328…`
+  - OBJET.IO `03bd357d89c0…`
+  - MARCHAND.IO `77db63b52c23…`
+  - MESSAGE.IO `38c1082c5901…`
+  - GEREN.IO `60405e4537ab…`
+  - GERDEP.IO `8b3f93c1acf8…`
 - **No EAFF/EATT modules:** Ishar 1 has none; monsters are per-type modules (ORC, LOUP, SKELET, …) plus FRISE/GEREN.
 - **Save:** 5216 B, written by MAIN.IO 0x4816–0x4a1c, read by 0x4a43–0x4c49, 107 fields. Derived with the kit's `deriveIshar1SaveLayout`; full table in `private/`.
 

@@ -2,8 +2,8 @@
  "base": "bb42748",
  "game": "ishar2-dos",
  "saves": {
-  "LEVELING": "dac7e0a405fa442aae6ec4fb01a3b1aec35a1b1777857c51f183f29def215c57",
-  "ENCB": "5d7cf5b567450fa54bdb3407afb10633705f29f993760ca05524b2b2b207d881"
+  "LEVELING": "dac7e0a405fa…",
+  "ENCB": "→ private/combat-contract-ishar2-savewerte.json#/saves/ENCB"
  },
  "semantics": "op(opile)=popped OP acc; ornd n=(n*r)>>16",
  "input": {
@@ -105,46 +105,7 @@
    "monster": "rnd(100) [+rnd(dmax) if hit]"
   }
  },
- "encb_diff": {
-  "xp": {
-   "c0": 3,
-   "c1": 4,
-   "c2": 3,
-   "c3": 3,
-   "c4": 3,
-   "victim": "actor 91 level 10 (rerolled)"
-  },
-  "hp": {
-   "c0": -51,
-   "c1": -35
-  },
-  "food": {
-   "c0": -7,
-   "c1": -8
-  },
-  "actor91": {
-   "hp_off": [
-    3443,
-    3444
-   ],
-   "hp": "72->0",
-   "scene_off": 6872,
-   "scene": "21->0"
-  },
-  "unchanged": [
-   "0x4b80 7576-7578",
-   "levels 1291-1295",
-   "gold 14/16"
-  ],
-  "noise": [
-   "45",
-   "49",
-   "91",
-   "93",
-   "EDPLT reroll actors 90-101"
-  ],
-  "xp_note": "formula only; values depend on rerolled victim level"
- },
+ "encb_diff": "→ private/combat-contract-ishar2-savewerte.json#/encb_diff",
  "addendum_2026_10_18_1955": {
   "confirmed": [
    "1 HP per guard hit",

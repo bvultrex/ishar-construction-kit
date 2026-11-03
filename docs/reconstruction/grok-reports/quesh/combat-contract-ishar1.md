@@ -4,10 +4,10 @@ Status 2026-10-18 20:12 CEST, Quesh. Read-only. Nothing committed. Original byte
 ## 1. Base and profile
 | file | SHA-256 |
 |---|---|
-| start.exe (I1) | 3ea63234c97b77d88e3c18aa5d88ac10dede1f10daf2854225b88b7d948d588b |
-| FRISE.IO (I1) | 3bd158963fdaf0f88517b03509002100159a7587c8e2486389314b8abc707e15 |
-| GEREN.IO (I1) | 60405e4537abff12c5756a79506eb555c616a91b64069451fcc11419bcb8a405 |
-| MAIN.IO (I1) | 27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b |
+| start.exe (I1) | 3ea63234c97b… |
+| FRISE.IO (I1) | 3bd158963fda… |
+| GEREN.IO (I1) | 60405e4537ab… |
+| MAIN.IO (I1) | 27c5834de005… |
 | LP1.SAV / ENCA.SAV (Alderaan §16) | 76cf91a1…b64b / 8003a196…5605 |
 Listings: `decompile/alis/listings/ishar1/*.asm`. Operand order is the same as in Ishar 2 (`osub(opile)` = popped − acc).
 
@@ -59,19 +59,10 @@ Listings: `decompile/alis/listings/ishar1/*.asm`. Operand order is the same as i
 107 cfwriteb fields, total 5216 bytes (`private/ishar1-save-layout-derived.txt`, sum checked). XP 0x1536 → 458+2c, HP 0x1542 → 468+2c, gold 0x154e → 478+2c, max HP 0x155a → 488+2c, monster HP 0x1b22 → 1728+2i, monster T 0x1f06 → 2708+i (a **byte** per actor; "monster XP" is really the level/XP factor). Also: LVL 738+c, STR 743+c, CON 748+c, AGI 763+c, food 773+c, ARM 783+c, monster STR 2778+i, CON 2848+i, ARM 3338+i, AGI 3408+i, grid 3758. Words are big-endian. **proven**
 
 ## 7. Expected diffs ENCA vs LP1 (checked against the real 26-byte diff)
-LP1: c0/c1 LVL 10, STR 20, CON 18/19, ARM 14/17, AGI 20, food 96/100, hands (−49,−125)/(−43,−56). Monsters 63–68: T 1/5/10/10/5/7, CON 6/10/15/15/10/12, ARM 0, AGI 6–15.
-| item | expected | real | rating |
-|---|---|---|---|
-| party HP per monster hit | c0: dmax = STR_m+2−9−14 < 0 → **exactly 1**; c1 likewise (CON 19, ARM 17). Loss = number of hits | −11 / −14 | ✓ consistent |
-| player hit chance | c0: 30+20+5·(24−AGI_t)+skill/5 ≥ 95 → nearly always hits | all 6 dead within 8 rounds | ✓ |
-| player damage | bonus(item) + 1..(22−CON_t)/2, e.g. vs 63: +1..8 | HP → 0 | ✓ |
-| monster HP 1855–1865 | → 0 (0x06845) | → 00 ×6 | ✓ |
-| XP 458–467 | +50·T killer / +20·T others, then capped at 31000 → **no change** | unchanged | ✓ |
-| food 773/774 | −1 per ATTACK action with a front position → −8 each | 96→88, 100→92 | ✓ (8 actions each) |
-| level 738+ | unchanged (L10, cap) | unchanged | ✓ |
-| actor x/y, party pos, gold −1000 | AI movement / walking / save cost | as recorded | ✓ (out of scope) |
-| RNG state | not saved | n/a | ✓ |
-No contradiction with the real diff. To see XP, use a party below 31000: expect killer +50·T, others +20·T (T from 2708+i), level-up only on crossing a threshold.
+
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/combat-contract-ishar1-savewerte.md`, SW-1.*
+
+Relative Erwartung: Je Monstertreffer verliert das getroffene Mitglied genau 1 HP (dmax ≤ 0 → Mindestschaden 1). Futter sinkt um 1 je ATTACK-Aktion aus der vorderen Reihe. Monster-HP (1855–1865) → 0. XP bleibt unverändert, wenn sie schon am Deckel 31000 steht.
 
 ## 8. Open
 L_072f2 gains per level; the exact meaning of status words 0x15ec/0x15f8/0x1604/0x1610/0x1628/0x164c and actor 0x1c3e/0x1de8; whether the interrupt runs exactly once per frame.
@@ -97,7 +88,7 @@ maxHP[c] += gain                                  0x155a (save 488+2c, BE)
 | Conditions | runs only if `XP ≠ dirti 0xf8[c]` (never on load). The thresholds are an **else-if chain** starting from the lowest: the first T with `prev < T ≤ XP` wins. Then `0xf8 = XP`. If one award crosses two thresholds, only the lower level is set and the higher one is skipped until the next threshold is crossed (e.g. prev 600 → XP 1800: level 2, one gain; level 3 is never granted, the next level set is 4 at 3000). There is no alive/class check in the loop, but dead members get no XP (R5), so they never level | **proven** (static); the skip quirk has no save evidence |
 | Cap | XP > 31000 → 31000 after the level check (unchanged, R6) | proven |
 
-Save plausibility (no before/after pair exists): IMP1 slot 0 XP 5300 ↔ level 5 (5000 ≤ XP < 8000) ✓. All level-10 parties have max HP inside the range allowed by 9 gains on top of their start HP. Not a proof. Note: S1.SAV slot 2 holds XP 39530 > 31000. The cap only runs after an XP change, so a loaded value above the cap persists until the next award (origin of that value **open**, possibly edited).
+*(Savewerte → `private/combat-contract-ishar1-savewerte.md`, SW-2)*
 
 Expected diff for one level step (e.g. a human with CON 18 crossing 700 XP): 738+c → 2; 468+2c and 488+2c each + (rnd(12) + 3 + 3) = +6..+17; XP 458+2c as awarded; nothing else.
 

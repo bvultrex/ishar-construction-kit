@@ -6,20 +6,20 @@ bvultrex/ishar-construction-kit bb42748 (read-only). Static only; no runs. Nothi
 SHA-256:
 | File | SHA-256 |
 |---|---|
-| FRISE.IO | 27117c124caf904a… |
-| EATT.IO | d5ef72a5b25eabb5… |
-| PARAM.IO | d06a65de13628470… |
-| GUARD3.IO | 267b32ea639130a6… |
-| SOURIS.IO | 78df7c73f8804663… |
-| EDPLT.IO | 2f6156c6a2ae2087… |
+| FRISE.IO | 27117c124caf… |
+| EATT.IO | d5ef72a5b25e… |
+| PARAM.IO | d06a65de1362… |
+| GUARD3.IO | 267b32ea6391… |
+| SOURIS.IO | 78df7c73f880… |
+| EDPLT.IO | 2f6156c6a2ae… |
 | MAIN.IO | bfab5e91…db95 |
 | start.exe | 5e35e58d…adf9 |
-| LEVELING.SAV | dac7e0a405fa442aae6ec4fb01a3b1aec35a1b1777857c51f183f29def215c57 |
-| ENCA.SAV | 88b7442c3fbda4cefee1816fcf919792824793cafe06673e1c17d16b8242e01f |
-| **ENCB.SAV** | **5d7cf5b567450fa54bdb3407afb10633705f29f993760ca05524b2b2b207d881** (Alderaan, 18:49) |
+| LEVELING.SAV | dac7e0a405fa… |
+| ENCA.SAV | 88b7442c3fbd… |
+| → `private/combat-contract-ishar2-savewerte.md` SW-1 |  |
 
 Notes:
-- REFERENCES.md does not have an ENCB section yet. I used ENCB.SAV from `alderaan/private/work/ishar2` and compared it with LEVELING.SAV, its start save.
+- *(Savewerte → `private/combat-contract-ishar2-savewerte.md`, SW-2)*
 - Expression semantics: `op(opile)` = **popped OP acc** (maestun opile; the correction from 2026-10-11).
 - Save offsets are zero-based. Word arrays are big-endian in the file; element i is at off + 2i (high byte) / off + 2i + 1 (low byte).
 
@@ -35,7 +35,7 @@ A routine contract for player melee, monster melee, death/XP, level-up and RNG, 
   - **Cooldown loc 0x150[c] ≤ 0**.
   - All met → L_04b01. **proven**
 - **Weapon choice** (0x04b21–0x04c5d): dirtc 0x54[c] alternates hands. Slot 9 (0x54 = 0) or 10 is used if it holds a weapon code −116..−90; otherwise the other hand; 0 = fist. **proven**
-  - Characters without a weapon and with flag 0x9a[c] = 0 do not swing (that is F8 in ENCA).
+  - *(Savewerte → `private/combat-contract-ishar2-savewerte.md`, SW-3)*
 - **Cooldown** (0x04da7, melee): `loc150[c] = (0x4fcc/120) · (T4a08[w,0]·25 / skill + 2)`, halved when dual-wielding (0x04df7/0x04e4e).
   - skill = 0x4b40[c] if T4a08[w,2] mod 10 == 2, else 0x4b38[c]; fist: 80.
   - 0x4fcc is the platform speed constant (MAIN 0x003ff chain).
@@ -49,7 +49,7 @@ A routine contract for player melee, monster melee, death/XP, level-up and RNG, 
 ## R2. Player melee (FRISE 0x04e78–0x0574d)
 1. **Target search:** L_05552 runs `ctstform material 1` at form index **dirb65 = 0..2** (the attack forms in front of the party).
    - The pattern depends on 0x9a[c]: 1/2 → 0,1,2; 3 → 1,0,2; 4/5 → 2,1,0.
-   - The first entity hit gives loc178 = actor id (+0x0d of the entity). GUARD3 sets `cforme 0 + depth` (0x000e1), so only depth 0 = **own cell** can be hit. **proven** for the ENCA miss / ENCB hit.
+   - *(Savewerte → `private/combat-contract-ishar2-savewerte.md`, SW-4)*
 2. **Load the target:**
    - CON_t = 0x3e7e[id], AGI_t = 0x41fc[id], LVL_t = 0x3d9e[id], ARM_t = 0x418c[id]
    - If 0x43ba[id] ≥ 0 and id ≠ 50: relation = −1 and 0x4f4c[id] = 0 (becomes hostile, leaves the party).
@@ -63,7 +63,7 @@ A routine contract for player melee, monster melee, death/XP, level-up and RNG, 
    - Weapon: `(STR_a + 2 − CON_t)/2 − ARM_t + rnd(T4a08[w,1]) + 1`
    - Clamped ≥ 0, then **0x36ac[id] −= dmg**. Operand order re-checked: `2 osub(CON_t)` is direct, the rest is commutative. **proven**
    - The number is shown with font 48.
-5. On a miss (no hit or no form): **food 0x2ef6[c] −= 1** per swing (0x04fbb), even on a miss. **proven** (ENCA/ENCB 1326/1327).
+5. *(Savewerte → `private/combat-contract-ishar2-savewerte.md`, SW-5)*
 
 ## R3. Monster melee on the party (EATT 0x009f1–0x00c15)
 - **Condition:** the actor is on the **party's own cell** (EATT 0x00102–0x00180 on maps ≠ 1). Cooldown dirti 0x20[id] ≤ 0.
@@ -79,7 +79,7 @@ A routine contract for player melee, monster melee, death/XP, level-up and RNG, 
   - `dmg = rnd(dmax) + 1`; halved if 0x2e56[slot]. The value 0 is skipped.
   - **HP 0x2d5c[slot] −= dmg**, clamped ≥ 0. 0x4b1a[slot][0..4] = 0.
 - **Cooldown:** `dirti20[id] = (0x4fcc/480)·(40/(AGI_m+1))`. **proven** (formula)
-- **ENCB:** guards STR 20, characters 0/1 CON 20, ARM 16 → dmax = 20 + 2 − 10 − 16 < 0 → 0 → **every hit costs exactly 1 HP** (unless halved → 0).
+- *(Savewerte → `private/combat-contract-ishar2-savewerte.md`, SW-6)*
   - So HP loss = number of hits: c0 −51, c1 −35. **hypothesis** (number of hits not counted); a clear testable prediction.
 
 ## R4. Death, XP, loot (FRISE 0x0578e–0x0595b)
@@ -96,22 +96,22 @@ A routine contract for player melee, monster melee, death/XP, level-up and RNG, 
 - **Loot:**
   - gold |0x3868[id]| / |0x378a[id]| → 0x4c96/0x4c94 (save 16/14), then L_06865
   - items 0x4040[id][0..2] > 0 → ground tables 0x2c4e/0x2aba/0x2b84/0x50c8 at the actor's position (+ wakeup type 0x0b)
-  - ENCB: actor 91 has gold 0 and no items → no change.
+  - *(Savewerte → `private/combat-contract-ishar2-savewerte.md`, SW-7)*
 
 ## R5. Level-up check (FRISE 0x060d4–0x06435, called every frame from 0x00ab4)
 - For each c: **only if 0x2d50[c] ≠ dirti 0xf6[c]** (the previous XP in FRISE's own entity memory, **not in the save**).
-- FRISE init (0x00225) sets 0xf6[c] = XP[c], so **loading never levels up**. ✓ Hoth (XP 620 stays level 13). 0x02151 sets −1 (forces a check).
+- FRISE init (0x00225) sets 0xf6[c] = XP[c], so **loading never levels up**. ✓ Hoth (Level bleibt nach dem Laden unverändert; Werte: private). 0x02151 sets −1 (forces a check).
 - Formula as in rules.md (cap 10000, level = argmin |3·XP/10 − n²|):
   - **only new > old** raises the level; HP gain L_06668 `rnd(T4b0c[race]) + max(0, (CON−8)/2)`; spells by class
   - at the end 0xf6[c] = XP (0x06427)
 - **ENCB:**
   | Character | XP | 3·XP/10 | Level formula | Stored level | Result |
   |---|---|---|---|---|---|
-  | c0 | 1600 | 480 | 22 | 22 | no change |
-  | c1 | 1468 | 440 | 21 | 21 | no change |
-  | c2 | 1209 | 362 | 19 | 19 | no change |
-  | c3 | 31 | — | 3 | 7 | not higher → no change |
-  | c4 | 16 | — | 2 | 6 | not higher → no change |
+  | c0 | [Wert aus Original-Save entfernt; nur lokal in private/] |
+  | c1 | [Wert aus Original-Save entfernt; nur lokal in private/] |
+  | c2 | [Wert aus Original-Save entfernt; nur lokal in private/] |
+  | c3 | [Wert aus Original-Save entfernt; nur lokal in private/] |
+  | c4 | [Wert aus Original-Save entfernt; nur lokal in private/] |
   **No level-up and no RNG call.** ✓ ENCB levels unchanged.
 
 ## R6. RNG
@@ -129,36 +129,15 @@ A routine contract for player melee, monster melee, death/XP, level-up and RNG, 
   | Level-up (only with new > old) | 1 × rnd(T4b0c) per character |
 
 ## R7. ENCB vs LEVELING, actual diff (78 bytes) with explanation
-| Bytes | Change | Explanation | Rating |
-|---|---|---|---|
-| 45, 49 | clock, hour 20→23 | clock | noise |
-| 91, 93 | day phase 2→3 (night) | | noise |
-| 986..995 (low bytes 987/989/991/993/995) | XP c0 1597→**1600 (+3)**, c1 1464→**1468 (+4 = killer, F7)**, c2 +3, c3 +3, c4 +3 | victim actor 91 **level 10** (re-rolled after load, 5112: 6→10): killer 10/3 + 1 = 4, others 10/5 + 1 = 3 | proven |
-| 997, 999 | HP c0 235→184 (−51), c1 244→209 (−35) | guard hits of 1 HP each (R3) | hypothesis |
-| 1326/1327 | food c0 68→61 (7 swings), c1 70→62 (8 swings) | | proven |
-| **3443/3444** | actor 91 HP 72→**0** | 0x36ac[91] | proven |
-| **6872** | 0x449a[91] 21→**0** | removed from scene | proven |
-| 3442–3464 (other guards' HP), 5111–5122, 5221–5232, 5331–5341, 5441–5452, 5551–5562, 6211–6221 | | EDPLT re-roll after load (actors 90–101: HP/level/STR/CON/WIS/INT/AGI) | noise, RNG |
 
-Unchanged: 0x4b80 7576–7578 (0,0,0 before and after), levels 1291–1295, ground tables, gold 14/16, CONT.
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/combat-contract-ishar2-savewerte.md`, SW-9.*
 
-**Expected for a repeat** (ranges):
-- XP: killer + (L91/3 + 1), others + (L91/5 + 1), with L91 = the **re-rolled** level of the victim (read it from the after save at 5021 + id).
-- Victim HP → 0 and 0x449a → 0.
-- Party HP −1 per guard hit.
-- Food −1 per swing.
-- Damage per party hit on actor 91 (CON 20 after the re-roll, ARM 0):
-  - c1 (STR 18, −107): 0 + rnd(20) + 1 = 1..20
-  - c0 (STR 20, −108): 1 + 1..20 = 2..21
-  - So ≥ 4 hits for 72 HP.
-- Hit chance (at food ≈ 64):
-  - c0 ≈ 50 + 44 + 3·(16·64/80 − 20) + 93/5 = **88 %**
-  - c1 ≈ 50 + 42 + 3·(4·64/80 − 20) + 81/5 = **57 %**
+Relative Erwartung: XP: Töter und übrige Mitglieder erhalten ihren Anteil nach R4. HP der Getroffenen sinkt je Treffer (R3). Futter −1 je Schlag. HP des getöteten Akteurs → 0. Uhr und Tagesphase sind Rauschen.
 
 ## Limits
 - Static only.
 - Not proven: which frame loop decrements loc150 and dirti20; the meaning of the status bytes (0x2e26/0x2e4a/0x2e62/0x2e86/0x2fb6/0x3946/0x3a24/0x3be0); the EATT target choice per formation.
-- The ENCB step: the save is at (65,12) again; how the party left the guard cell is unknown (no notes yet).
+- *(Savewerte → `private/combat-contract-ishar2-savewerte.md`, SW-10)*
 
 ## Next step
 - Alderaan: record the ENCB sequence in REFERENCES.md (step, number of swings, kill moment).
@@ -171,11 +150,11 @@ Unchanged: 0x4b80 7576–7578 (0,0,0 before and after), levels 1291–1295, grou
 | 1 HP per guard hit (87/87 splashes) | **proven** (runtime + script) |
 | Food −1 per swing, hit or miss | **proven**. Correction to R2.5: the decrement at 0x04fac/0x04fbb (and 0x05348/0x05357) comes after L_05552 on **both** paths, not only on a miss |
 | XP formula killer L/3+1, living L/5+1 (0x05846/0x0585d) | **proven** |
-| Kill writes (0x36ac = 0, 0x449a = 0, 0x4b80[slot] = 0) | **proven** (ENCYH 7576 91 → 0) |
+| → `private/combat-contract-ishar2-savewerte.md` SW-11 |  |
 | Damage ranges | **proven** (consistent) |
-| Fixed values "+4/+3" as an expectation for repeats | **contradicted**. L91 is re-rolled by EDPLT on **every** load (ENCB L = 10 → +4/+3; replay L = 9 → +4/+2). **Only the formula holds**; read L from the after save at file 5021 + id |
+| → `private/combat-contract-ishar2-savewerte.md` SW-12 |  |
 | Hit chances (88 % / 57 %, monster 110/74) | **open** (sample too small; monster attempts are not visible) |
-| One F6 press without a swing in ENCB (c0 −7 after 8 presses) | open; most likely the cooldown loc150 > 0 (0x00909) |
+| → `private/combat-contract-ishar2-savewerte.md` SW-13 |  |
 
 ### R3 correction: no separate clamp at EATT 0x00b49 — proven
 - 0x00b49 only computes `dmax = STR_m + 2 − CON_p/2`.
@@ -196,7 +175,7 @@ SHA-256: FRISE.IO 27117c12…2b64, EATT.IO d5ef72a5…14ec, GESORT.IO 71f842f2�
 - Countdown: FRISE 0x0717f–0x07337, the block behind the script-header `ret_offset` (0x7179 → entry 0x717b, `cjmp`, then the block). This is FRISE's interrupt routine, run once per ALIS frame. Each pass: `loc150[c] −= 1` for c = 0..4 when it is non-zero. At ≤ 0 it is set to 0 and the attack icon redraws (`ctrasen 78+c`). **proven** (code); **hypothesis** that it runs once per frame (interrupt semantics). The same pattern is in Ishar 1 (FRISE ret_offset 0x7e3c → 0x07e42).
 - The same routine counts `dirb 0x8b` and every 10th pass decrements the party status timers (A2). **proven**
 - Attack gate (FRISE 0x0150 entry ceval): `food 0x2ef6[c] > 0 && 0x2e26[c] == 0 && loc150[c] ≤ 0`. **proven**
-- **Why ENCB had an F6 without a swing:** the press came while `loc150[c] > 0`, or the cell in front had no live target / the character was not in the front row. The press is dropped with no RNG and no food. **hypothesis** (cooldown is the likely cause; nothing in the save can tell)
+- *(Savewerte → `private/combat-contract-ishar2-savewerte.md`, SW-14)*
 - **Monster:** `dirti 0x20[id]` (EATT process, not saved). EATT 0x00238 decrements it once per actor-loop pass (loop 0x00074…0x002ba over ids loc114..loc115). Set after each attempt: `(0x4fcc/480)·(40/(AGI_m+1))` (0x00b69), `50/(AGI+1)` (0x00e37), `0x4fcc/4/(l105+1)` (0x01216). −1 means "attack now". **proven**
 
 ### A2. Status bytes
