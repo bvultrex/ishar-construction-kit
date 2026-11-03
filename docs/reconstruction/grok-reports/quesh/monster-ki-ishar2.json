@@ -1,0 +1,55 @@
+{
+ "spiel": "Ishar 2",
+ "akteure": {
+  "monster_ab": 50,
+  "save": {
+   "x": "2601+2i",
+   "y": "2821+2i",
+   "hp": "3261+2i",
+   "haltung": "6561+i",
+   "zone": "6781+i",
+   "heim_x": "7136+i",
+   "heim_y": "7246+i",
+   "kontakt": "7576..7578"
+  }
+ },
+ "scheduler": {
+  "fenster": 10,
+  "start": 50
+ },
+ "bewegung": {
+  "bedingung": "-30<=h<=-2 oder h==9",
+  "ziel": "0x2d18==1 ? Frontzelle : Partyzelle",
+  "cooldown": 2,
+  "tuerblock": "Material>60 && 0x4aa4[m-60]==0 (bei 0x2d18>4)",
+  "x_bereich": "3<x<85",
+  "rng": null
+ },
+ "kontaktliste": {
+  "var": "0x4b80",
+  "slotfolge": [
+   1,
+   0,
+   2
+  ],
+  "leeren": [
+   "GERDEP 0x013d5 Schritt alle",
+   "FRISE 0x057b3 Tod eigener Slot"
+  ]
+ },
+ "angriff": "siehe combat-contract-ishar2 R3/A3",
+ "wandermonster": {
+  "akteure": "90..N-1",
+  "trigger": "0x4ef2!=0x4f06",
+  "tabelle": "0x4d88 (120)",
+  "nach_laden": "Neuwuerfeln suspected (0x4f06 ungespeichert, kein Sync)"
+ },
+ "tests": [
+  "N1",
+  "N2",
+  "N3",
+  "N4",
+  "N5",
+  "N6"
+ ]
+}

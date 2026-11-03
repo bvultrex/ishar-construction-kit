@@ -8,13 +8,13 @@
   "unknown"
  ],
  "sha256": {
-  "FRISE.IO": "3bd158963fdaf0f88517b03509002100159a7587c8e2486389314b8abc707e15",
-  "ITAVERNE.IO": "f3bed78c5fb97360e1ac2dd46dc4f50052762ebbf2251af5049d02608086e808",
-  "BUSTE.IO": "883f807a2b3bc791ff45c4b34c54a0a4fda40012e8eb0dbd1892b97cbb8924a1",
-  "MAIN.IO": "27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b",
-  "PARAM.IO": "f42ea12ceffa6b879aeb88f074a81f8e9fed39f92a11f625d7c815b9b7594afd",
-  "S1.SAV": "92023f2b51e34f74f191068d07922a4b1afa28cff1bd04423d98e4505a463f7f",
-  "LP1.SAV": "76cf91a104ec8675394ec82b44f7238b016d641a8e0ccf3752d117ae2980b64b"
+  "FRISE.IO": "3bd158963fda…",
+  "ITAVERNE.IO": "f3bed78c5fb9…",
+  "BUSTE.IO": "883f807a2b3b…",
+  "MAIN.IO": "27c5834de005…",
+  "PARAM.IO": "f42ea12ceffa…",
+  "S1.SAV": "→ private/party-contract-ishar1-savewerte.json#/sha256/S1.SAV",
+  "LP1.SAV": "→ private/party-contract-ishar1-savewerte.json#/sha256/LP1.SAV"
  },
  "slots": {
   "class": "728+c",
