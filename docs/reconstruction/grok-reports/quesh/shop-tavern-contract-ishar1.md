@@ -19,7 +19,7 @@ Evidence levels: **known** = read in code (and checked against saves/SHOPA where
 | PARAM.IO | f42ea12ceffa… |
 | S1.SAV / LP1.SAV | 92023f2b51e3… / 76cf91a104ec… |
 
-Gold per member = thousands 0x154e[c] (save 478+2c) + units 0x3770[c] (save 3993+2c), units 0..999. Items: 0x1568[c][k] words (save 498+26c+2k).
+Gold per member = thousands 0x154e[c] (save 478+2c) + units 0x3770[c] (save 3993+2c), units 0..999. **Bestätigt (known) 2026-11-03 durch Hoths Spielaktion (HOTH_FIXTURES_ISHAR1_SAVEMAP.md SM06–SM08); Gesamt = Tausender·1000 + Rest.** Items: 0x1568[c][k] words (save 498+26c+2k).
 
 ## Shops
 ### S1. Entry (MAIN building dispatch) — known

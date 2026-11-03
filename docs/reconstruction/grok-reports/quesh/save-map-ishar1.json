@@ -226,7 +226,7 @@
    "evidence": {
     "kind": "known",
     "summary": "main 0x16b4[c]",
-    "source": "FRISE 0x07735 (MENTAL); Hoth HOA→HOB 771 [Savewert entfernt]; bestätigt durch Hoth-Abnahme 2026-11-03 (SM02/SM03/SM04)"
+    "source": "FRISE 0x07735 (MENTAL); Hoth HOA→HOB 771 sinkt um die Zauberkosten (→ private/save-map-ishar1-savewerte.md SW-9); bestätigt durch Hoth-Abnahme 2026-11-03 (SM02/SM03/SM04)"
    },
    "tooltip": "Psi-/Mentalenergie"
   },
@@ -1195,7 +1195,7 @@
    "layout": "5",
    "id": "mentalShield",
    "label": "Mentalschild-Timer",
-   "meaning": "Icon 28 (Hoth HOA→HOB 698/699 [Savewert entfernt])",
+   "meaning": "Icon 28 (Hoth HOA→HOB: 698/699 belegt, Wert → private/save-map-ishar1-savewerte.md SW-9)",
    "range": "0..",
    "writers": "FRISE:2 PARAM:1",
    "readers": "GEREN:4 FRISE:2",
@@ -1371,7 +1371,7 @@
    "layout": "5",
    "id": "mental",
    "label": "Mental (Psi-Energie)",
-   "meaning": "FRISE 0x07735 MENTAL, Hoth 771 [Savewert entfernt]",
+   "meaning": "FRISE 0x07735 MENTAL, Hoth 771 sinkt um die Zauberkosten (→ private/save-map-ishar1-savewerte.md SW-9)",
    "range": "0..100",
    "writers": "FRISE:3 ITAVERNE:3 PARAM:2",
    "readers": "FRISE:9 ITAVERNE:2",
@@ -2470,6 +2470,28 @@
    "date": "2026-11-03",
    "befund": "class/level/psychic auf known",
    "beleg": "Hoth SM02–SM04"
+  },
+  {
+   "datum": "2026-11-03",
+   "feld": "main 0x1c3e (2008..2147)",
+   "alt": "Akteur Effekt (Halt), known",
+   "neu": "suspected",
+   "befund": "Byte 2117 = (2117−2008)=109 → Akteur 54, Low-Byte (BE). Laut Alderaan beim Klick vor Hebel 14 von ≠0 auf 0 gesetzt, ein Schild verschwand → vermutlich Schild-/Objektzustand (suspected).",
+   "schreiber_grep": {
+    "FRISE 0x02a32": "store ⌊0x0136·0x0134/4⌋ → 0x1c3e[0x014c] (Halt-Zauber, known)",
+    "GEREN 0x003c3/0x003d2": "wenn >0 → −1 je Durchlauf (Countdown, known)",
+    "GEREN 0x003dc/0x003e6": "0x1c3e[39]=0, 0x1c3e[50]=0 fest (known)",
+    "PCAVE/SOURIS": "keine Treffer",
+    "MAIN 0x04913/0x04b40/0x045be": "Save schreiben/laden, EN1.FIC"
+   },
+   "schreiber": "unknown für Akteur 54; kein direkter Schreiber über einen Index 54 und keiner in PCAVE/SOURIS. Mögliche Erklärung: GEREN-Countdown (suspected)"
+  },
+  {
+   "date": "2026-11-03",
+   "befund": "Feld 2008..2147 (main 0x1c3e), Byte 2117 (Akteur 54 Low-Byte): Schildzustand widerlegt",
+   "korrektur": "0x1c3e[a] = Halte-/Lähm-Countdown je Akteur (int16 BE). FRISE 0x02a32 setzt ⌊ML·Stufe/4⌋ (Halt-Zauber), GEREN 0x003c3/0x003d2 zählt pro Akteur-Tick um 1 herunter, solange >0, und überspringt dann die Aktion (→ L_0046f). Ein laufender Countdown ändert sich daher in jedem Save. Indexrechnung 2008+2·54+1 = 2117 stimmt (kein Indexfehler). Schild-Hypothese verworfen; das Verschwinden bei Hebel 14 war vermutlich ein Ablauf auf 0 (Zufall).",
+   "stufe": "known (Mechanik), suspected (Zuordnung zur Beobachtung bei Hebel 14)",
+   "beleg": "GEREN.IO 0x003c3–0x003f0, FRISE.IO 0x02a32; Alderaan: Byte 2117 ändert sich in jedem Save"
   }
  ]
 }

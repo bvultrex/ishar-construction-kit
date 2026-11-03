@@ -108,7 +108,7 @@ Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UM
 | 668 | 10 | be | `main 0x161c` | 5 | Schutz-Timer mit Stufe: 10000·Stufe + Timer, Icon 4 | 0.. | FRISE:4 PARAM:1 | FRISE:3 GEREN:2 | known |
 | 678 | 10 | be | `main 0x1628` | 5 | Effekt-Timer 0x1628: Icon 27 | 0.. | FRISE:3 PARAM:1 | FRISE:2 GEREN:2 | known |
 | 688 | 10 | be | `main 0x1634` | 5 | ungenutzt 0x1634: kein Leser/Schreiber in Skripten gefunden | 0 |  |  | unknown |
-| 698 | 10 | be | `main 0x1640` | 5 | Mentalschild-Timer: Icon 28 (Hoth HOA→HOB: 698/699 = 0x01BC) | 0.. | FRISE:2 PARAM:1 | GEREN:4 FRISE:2 | known |
+| 698 | 10 | be | `main 0x1640` | 5 | Mentalschild-Timer: Icon 28 (Hoth HOA→HOB: 698/699 belegt, Wert → private/save-map-ishar1-savewerte.md SW-9) | 0.. | FRISE:2 PARAM:1 | GEREN:4 FRISE:2 | known |
 | 708 | 10 | be | `main 0x164c` | 5 | Blindheit: ≠0 → Trefferchance 20 | 0.. | FRISE:3 GEREN:1 PARAM:1 | FRISE:3 GERDEP:1 | known |
 | 718 | 10 | be | `main 0x1658` | 5 | Gift-Stärke: HP −= Wert pro Gifttick | 0.. | FRISE:4 INTMAIS:1 PARAM:1 | FRISE:3 | known |
 | 728 | 5 | none | `main 0x1664` | 5 | Klasse: Klassen-ID 0..18, 255/−1 = leerer Slot (MESSAGE* 0x01bcd) | 0..18,255 | PARAM:17 FRISE:2 INTMAIS:1 ITAVERNE:1 | FRISE:32 ITAVERNE:5 STAGE:4 SOS:3 INTMAIS:3 SOSD:3 | known |
@@ -190,7 +190,7 @@ Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UM
 *(Savewerte → `private/save-map-ishar1-savewerte.md`, SW-3)*
 - **Ergebnis: keine Bereichsverletzung.** Abweichungen nur in Lücken: MTDB 0x1634[0] = 0x022a (sonst 0) → Kandidat für einen bisher ungefundenen Zugriff (suspected Engine-intern).
 - *(Savewerte → `private/save-map-ishar1-savewerte.md`, SW-4)*
-- HOB: 698/699 = 0x01BC liegt in 0x1640[0] (Mentalschild), nicht in einer Lücke.
+- HOB: 698/699 (Wert → private/save-map-ishar1-savewerte.md SW-9) liegt in 0x1640[0] (Mentalschild), nicht in einer Lücke.
 - Details pro Save: `validation` in JSON.
 
 ## Testfälle (Alderaan/Hoth)
@@ -213,3 +213,12 @@ Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UM
   - MAIN 0x04913/0x04b40: Save schreiben/laden.
   - In PCAVE und SOURIS gibt es keine Treffer.
 - Schreiber für Akteur 54: **unknown**. Der GEREN-Countdown käme als Ursache in Frage (suspected).
+
+## Korrektur 2026-11-03 (2): Byte 2117 / Feld 2008..2147 neu bewertet
+- Der Schildzustand ist **widerlegt**, denn Alderaan sieht, dass sich Byte 2117 in jedem Save ändert.
+- `0x1c3e[a]` ist der **Halte-/Lähm-Countdown** je Akteur (int16, BE). **known**
+  - FRISE 0x02a32 setzt den Wert per Halt-Zauber.
+  - GEREN 0x003c3/0x003d2 zieht pro Akteur-Tick 1 ab, solange der Wert >0 ist. Die Aktion des Akteurs wird dann übersprungen (Sprung nach L_0046f).
+- Der Index stimmt: 2008 + 2·54 + 1 = 2117 ist Akteur 54, Low-Byte. Ein Indexfehler liegt nicht vor. **known**
+- Dass das Byte vor Hebel 14 auf 0 fiel, war wahrscheinlich das normale Ablaufen des Countdowns. **suspected**
+- Das Label „Akteur Effekt (Halt)“ ist damit wieder **known** (Mechanik).

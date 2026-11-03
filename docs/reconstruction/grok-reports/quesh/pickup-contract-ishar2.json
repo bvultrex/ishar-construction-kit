@@ -189,11 +189,8 @@
    168
   ],
   "expected_diff": {
-   "345": "12->0",
-   "545": "12->0",
-   "745": "1->0",
-   "1036-1037": "0000->0009 (variant A)",
-   "1056-1057": "0000->0009 (variant B)"
+   "regel": "Stückzahl-Byte der aufgenommenen/abgelegten Gegenstandsreihe (345/545/745) → 0; Handslot-Wort 1036-1037 (Variante A) bzw. 1056-1057 (Variante B) ← Item-ID",
+   "werte": "→ private/pickup-contract-ishar2-savewerte.md SW-B1"
   }
  },
  "addendum_2026_10_18_armour": {
