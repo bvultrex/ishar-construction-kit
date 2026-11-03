@@ -50,3 +50,4 @@ Basis: `workbench/playable-slice` @ `bb42748` (Code-Stand `319819c`). Belegstatu
 | Alderaan | [REFERENCES.md](alderaan/REFERENCES.md) | Nachtrag 8: Originalreferenzen aktualisiert | siehe Bericht; nicht integriert |
 | Hoth | [HOTH_FIXTURES_ISHAR1_SHOP_PARTY.md](hoth/HOTH_FIXTURES_ISHAR1_SHOP_PARTY.md) | Nachtrag 9: Abnahme-Fixtures Ishar 1 Shop/Taverne/Party | siehe Bericht; nicht integriert |
 | Hoth/Quesh | [STEP_RESET](hoth/HOTH_ABNAHME_2026-10-18_STEP_RESET.md), [hebel-tuer-trigger-ishar2.md](quesh/hebel-tuer-trigger-ishar2.md) | Nachtrag 9: aktualisierte Fassungen (3.11.) | siehe Bericht; nicht integriert |
+| Quesh | [save-map-ishar1.md](quesh/save-map-ishar1.md) / [.json](quesh/save-map-ishar1.json) | Nachtrag 10: Quesh vollständige Save-Map Ishar 1 (5216 Bytes, ersetzt ISHAR1_SAVE in save-maps.ts; nicht integriert) | siehe Bericht; Repo-Fassung ohne Werte aus Originalsaves (`validation` und Einzelwerte entfernt) |
