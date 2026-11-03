@@ -148,3 +148,32 @@ Testfälle:
 - **Z1:** Zone 12 → PCAVE und MCAVE werden geladen. (known)
 - **Z2:** Zone 13 → VILLE; Wert 78 wird direkt gezeichnet. (known, Code)
 - **Z3:** Zone 2 → FORET zeichnet 11..16. (known)
+
+## Nachtrag (5) 2026-11-03: MCAVE-Sprite-Indizes je Zellwert
+Quelle: MCAVE.IO L_004b7 (Basen), L_037b9 (Tiefe), Switch 0x0055f (Zellwert `dirb 0x26`), Unterprogramme 0x03101..0x03713. Werkzeug und Volltabelle (Wert × Blickrichtung 0x137e × lat): `private/mcave-sprite-walk.py` → `private/mcave-sprite-walk.json`; Export-Prüfung: `private/mcave-sprite-export-check.txt`.
+
+- **known:** Sprite = Basis + `dirb 0x25`. Dabei ist `dirb 0x25` = Tiefe d (0..5), weil L_037b9 `dirw 0x10 = (d+1)·99` setzt und daraus `0x10/100` bildet. Die Skalierung `dirw 0x34` beträgt je Tiefe 100/157/242/378/576/1000. Jede Spritegruppe hat 6 Ressourcen, eine pro Tiefe.
+- **known:** Die Basen hängen von lat (`dirb 0x23`) ab.
+  - lat = 0: 0x28 = 15, 0x2a = 21, 0x2c = 201, 0x2e = 207, 0x38/0x3a/0x3c = 49/61/73, 0x3e/0x40/0x42 = 55/67/79.
+  - lat ≠ 0: 0x28/0x2c/0x2e/0x38/0x3a/0x3c = 43, 0x2a/0x3e/0x40/0x42 = 37.
+- **known:** Die Seite ergibt sich aus Wert − Gruppenbasis (0..3) relativ zur Blickrichtung. X steht für `cxputat` (gespiegelt).
+- **Türen** (Rahmen und Blatt; die „Front“ zeigt die Kante der Nachbarzelle, gezeichnet bei d−1):
+
+| Werte | Blatt frontal | Rahmen seitlich | Wände dazu |
+|---|---|---|---|
+| 46–49 | 126+d bzw. 126+(d−1) | 144+d / X144+d | – |
+| 50–53 | 126 | 144 | 15/21 bzw. 43/37, Boden 27+d |
+| 54–57 | 132 | 150 | wie 50–53 |
+| 58–61 | 138 | 156 | wie 50–53 |
+| 62–65 | 181 | 21+d (seitlich), 171 (Nebenpfad) | wie 50–53 |
+| 82–85 | 234 | 144 | wie 50–53 |
+| 78–81 | 228 | 150 | wie 50–53 |
+
+- **known (statisch):** Der Türrenderer liest keinen Zustand. Offen oder zu muss also über den Zellwert selbst kodiert sein. Welche Gruppe „offen“ bedeutet, ist **unknown**. Nächster Test: Zellwert vor und nach dem Öffnen im Save oder in CONT vergleichen.
+- **Hebel 66–69:**
+  - frontal: 213+d, wenn `0x3b98[k] == 0`, sonst 219+d
+  - seitlich bei lat = 0: 201+d bzw. 207+d; bei lat ≠ 0 nur 43+d (Wand)
+  - k = Treffer in 0x3c68/0x3c9c = (x, y)
+  - Bei d = 0 legt der Frontzweig zusätzlich ein Klickobjekt an (0x03777, Typ 36, Index −k). Ob 0 „zu“ oder „oben“ bedeutet, ist **suspected** (Ausgangslage = 0). Die Zuordnung zu offen/zu bleibt **unknown**.
+- **known (Export):** Alle Gruppen 15..246 existieren (MCAVE hat 247 Ressourcen) und sind Komposite. Die Teilzahl fällt mit der Tiefe ab, z. B. 126..131 = 9/7/7/4/1/1 und 213..218 = 4/5/5/5/1/1. Das passt zu 6 Tiefenstufen.
+- Tests: T5a `python3 private/mcave-sprite-walk.py` erzeugt für jeden Wert 10..85 und −80..−82 eine Liste. T5b `private/mcave-sprite-export-check.txt` meldet keine fehlenden Indizes. T5c Hoth: Hebel vor und nach dem Umlegen bei d = 0 erzeugt die Indizes 213 bzw. 219.

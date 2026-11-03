@@ -35,7 +35,7 @@
 | 13 | Player melee | FRISE 0x05600–0x0575d: hit = 50+2·Lvl+3·(AGI·S2ef6/80−AGI_t)−d/2+skill/5; dmg = (STR+2−CON_t)/2−ARM_t+rnd(T4a08[item+116])+1 (bare hands: no weapon roll); `T36ac[t] −= dmg` | proven (static; operand order per opile) | **none** | Kit port + test; d term (entity+2/15) meaning; spells |
 | 14 | Monster attack on party | EATT 0x0a3d–0x0bfb (negative branch from 0x00553): hit = 9·L+3·fc−l101, dmax = l104+2−CON/2−armour, HP 0x2d5c −= rnd(dmax)+1 | proven (static) | **none** (`original-actor-signal.ts` explicitly excludes 0x553) | Port; damage/animation handshake |
 | 15 | Death signal + XP | FRISE 0x0575d–0x05870: `T36ac≤0` → ckill entity, csend 40, clear 0x449a/0x36ac; killer XP += L_t/3+1 (0x05846), others +L_t/5+1 (0x0585d); id 57 special send −100 | proven (static) | **none** | Port; death of party members (EATT 0x0bfb → ?) open |
-| 16 | Level-up | FRISE 0x060e0–0x06190 (level = argmin \|3·XP/10−n²\|), 0x06668 HP gain, spells 0x4d20 → 0x2f18 | proven (static); trigger = actual XP gain only, loading XP 620 keeps level 13 (Hoth runtime 2026-10-18) | **none** | Port |
+| 16 | Level-up | FRISE 0x060e0–0x06190 (level = argmin \|3·XP/10−n²\|), 0x06668 HP gain, spells 0x4d20 → 0x2f18 | proven (static); trigger = actual XP gain only, loading a save does not recompute the level (values → private/dataflow-ishar2-savewerte.md SW-B1) (Hoth runtime 2026-10-18) | **none** | Port |
 | 17 | Persistence of results | all of the above live in fields of row 1 (0x2d50, 0x2d68/80, 0x2d8e, 0x36ac, ground records) | proven | `save:main` patch/inspect | Nothing loaded back in the original yet |
 
 ## Browser-side kit inventions (NOT original paths)
@@ -48,7 +48,7 @@
 | any NPC click/dialog in the authored playtest | | invention; the original rows 6–8 are not wired |
 
 ## Contradicted
-- My earlier `rules.md` called 0x2d68/0x2d80 "MP". **Contradicted:** they are gold thousands/remainder (FRISE 0x046ac, MARCHAND 0x00603; Bragl 132/345 = displayed 132345). The per-id 0x378a/0x3868 are actor gold, not MP.
+- My earlier `rules.md` called 0x2d68/0x2d80 "MP". **Contradicted:** they are gold thousands/remainder (FRISE 0x046ac, MARCHAND 0x00603; displayed = thousands·1000 + remainder; example → private/dataflow-ishar2-savewerte.md SW-B1). The per-id 0x378a/0x3868 are actor gold, not MP.
 
 ## Smallest real end-to-end flow
 **Ground item pickup, map 1, object 9 or 10** (rows 10 → 11 → 17):

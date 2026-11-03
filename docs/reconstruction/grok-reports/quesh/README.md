@@ -35,8 +35,8 @@ No kit tests were run: most `*-local` tests need Windows env vars. That is open 
 Ishar 2 save file offsets (IO.IO block loads, 5 slots × BE16; proven by IO.IO, Hoth's display values and CH-diffs):
 | field | MAIN | file offset | notes |
 |---|---|---|---|
-| XP | 0x2d50 | 986 (+2·slot) | HUD shows XP·100 (Beispielwerte nur lokal); script caps at 10000 |
-| gold thousands | 0x2d68 | 1006 (+2·slot) | Bragl 132 / 345 = displayed 132345 |
+| XP | 0x2d50 | 986 (+2·slot) | HUD shows XP·100 (example → private/dataflow-ishar2-savewerte.md SW-B1); script caps at 10000 |
+| gold thousands | 0x2d68 | 1006 (+2·slot) | displayed gold = thousands·1000 + remainder (example → private/dataflow-ishar2-savewerte.md SW-B1) |
 | gold remainder | 0x2d80 | 1026 (+2·slot) | |
 | level | 0x2eb6 | 1291 (+slot, byte) | recomputed by FRISE 0x60e0 from XP whenever XP changes |
 | HP / max HP | 0x2d5c / 0x2d74 | 996 / 1016 | |
