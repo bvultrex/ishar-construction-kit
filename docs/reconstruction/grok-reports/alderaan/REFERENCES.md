@@ -855,3 +855,138 @@ Is the player hit chance `hit% = 50 + 2·LVL + 3·(AGI·FOOD//80 − AGI_t) + sk
 
 ### 20.7 Code proposals
 None. Suggested follow-up: 100 c1 swings against slot 2 only (kill slots 0/1 first in a session, then save and reload with the same timing).
+
+## 21. Ishar 2 magic records: T1 / T2 / T3 / kill share / Metamorphosis (references MTAA–MTHB; handoff 7-section format)
+
+### 21.1 Base commit and game profile
+- As §1 / §12.1: Ishar 2, Deutsch (KP_3), DOSBox-X 2025.02.01.
+- Run 2026-11-03 12:20–12:31 CET. Log: `private/run_magic_party_i2.md`. Captures: `private/shots/ishar2/magic/`.
+- Contract checked: `codex-support/quesh/magic-contract-ishar2.md` `0d80d798d23db07baad086401101818ca1eead3b43ebf066e500ba4af7f3c540` (read-only).
+- Check tool: `private/case_diff.py` `b02c3988…d290`.
+- Re-verified 2026-11-03:
+  - All save SHA-256 in the log match (sha256sum -c, 0 failures).
+  - START, LEVELING, GRIMZEL and CONT1–7.FIC in `work/ishar2` are byte-identical to the originals (cmp).
+- Plan: `private/cases_magic_party_plan.md` §1.
+
+### 21.2 Question
+Do Quesh's R9 predictions hold? These are T1 Physical protection, T2 Healing and T3 Lightning. Two questions were open in the contract:
+- Who gets the killer XP share on a spell kill?
+- What does Metamorphosis (spell 7) visibly do?
+
+### 21.3 Reproducible input
+Common steps:
+- Load: disk (266,12) → LOAD (238,32) → name → Return. Wait 14 s; the first T3 try waited too little.
+- Save A at once. Save: disk → SAVE (240,58) → name → Return. Then close the menu with (266,12).
+
+| ref | base | clicks after save A | saves (SHA-256 prefix) |
+|---|---|---|---|
+| T1 | START | (248,131) c3 dot → (200,145) spell 2 → (32,160) c0 → save within about 10 s | MTAA d6494e0b, MTAB 9bd39052 |
+| T2 | LEVELING | (312,131) → (264,145) spell 1 → (32,160) | MTBA 97ce7b70, MTBB 3cf3e346 |
+| T3 | LEVELING | (184,131) → (184,160) next page → (168,160) spell 25 | MTCC 59301f85, MTCD fec55a29 (the first try left only an orphan MTCB 120bb128: no MTCA was written because the load had not finished; not a reference) |
+| T3K try 1 | LEVELING | 6 × Lightning (casts 2–3 of the first batch misfired: the dot click toggled the grid and "next" paged on to page 2) | MTGA 3486a777, MTGB bdedaaad, MTGC 1c142a10 |
+| T3K try 2 | LEVELING | 6 × Lightning (dot → next → slot 5 per cast) | MTGD 2f8b4f74, MTGE 51e33c3f |
+| Meta | LEVELING | (184,131) → (152,160) page 0 slot 4 = spell 7 | MTHA 4a0fd632, MTHB 9c34a5b2 |
+
+### 21.4 Data contract
+- MP: 1321 + c.
+- HP: 996 + 20c (BE16). XP: 986 + 2c.
+- Actor HP: 3261 + 2id. Actor level: 5021 + id.
+- Protection timer 0x2e56[0]: 1216/1217. Status icons: 7579 + 10c.
+- Clock: 45/48/49. In MTG*, 91/93 also changed: actor AI fields, allowed as clock/AI noise by the tool.
+
+### 21.5 Result (rerun 2026-11-03; every check exit 0 with 0 unexpected offsets; CONT unchanged)
+
+| prediction (contract R9 / plan) | observed | verdict |
+|---|---|---|
+| T1: MP 1324 100 → 97 | 97 | **proven** |
+| T1: timer 1216/1217 between 1 and 30 | 24 (save about 9 s after the cast) | **proven** |
+| T1: status icon 2 on c0 in 7579..7588 | 7579 = 2 | **proven** |
+| T1: icon gone after about 13 s; save C at 1216 = 0 | not captured (no save C) | open |
+| T2: c0 HP 235 → 240 exactly | 240 | **proven** |
+| T2: MP 1325 100 → 94 | 94 | **proven** |
+| T3: MP 1323 100 → 88 | 88 | **proven** |
+| T3: guards 90–95 lose the same D ∈ the ⌊6s/4⌋ set | all 13 (s = 9) | **proven** |
+| T3: guards 96–101 unchanged | unchanged | **proven** |
+| T3: no deaths; sleep words unchanged | none; no unexpected offsets | **proven** |
+| T3K try 1: equal D per cast, per guard | per guard 90–95: 16 after cast 1 (MTGB), 48 in total (MTGC); MP 100 → 28 (6 paid casts × 12, the 2 misfires included) | consistent |
+| Lightning has no MP ≥ cost check | not tested (MP kept ≥ 12) | open |
+| **Killer share** (contract: "open"; plan: caster through FRISE dirb13, suspected) | MTGD → MTGE: guards 91 and 94 (HP 72, level 6) killed, the others in 90–95 lost 72 each. XP delta c0..c4 = **4, 4, 6, 4, 4**. Two kills give the killer 2 × (6//3 + 1) = 6 and each other member 2 × (6//5 + 1) = 4 | **proven: the caster (c2) gets the killer share** (dirb13 = the clicked red-dot column) |
+| Metamorphosis cost 3 × power 3 = 9; no other byte | MP 1323 100 → 91; no other byte | **proven** |
+| Metamorphosis visible (contract: "open"; plan: all living portraits become the same BUSTE bust, resource 33) | all five portraits replaced by the same bust | **proven** |
+| Metamorphosis reverts on the next portrait redraw (plan, suspected; listed senders of message 22: FRISE 0x00dfc / 0x0609c, TAVERNE 0x008f8, "MAIN on menu rebuild") | the bust stayed through the save / disk-menu redraw | **contradicted** for the disk menu. Revert through message 22 (formation change, tavern, party change) is still **open** |
+| Spell names on cast | no spell-name text appears on any cast | observed (contract names come from the manual: still a hypothesis) |
+| Lightning animation | a fireball-like animation | observed; the animation resource is not traced |
+
+### 21.6 Limits
+- One sample per RNG case. In T3K the kill blow itself (which cast) is not isolated, but this does not affect the share.
+- The Metamorphosis revert was tried only with the disk menu.
+- T1 decay was not captured.
+
+### 21.7 Code proposals
+- VM: the killer XP slot = FRISE dirb13, set by the spell-panel click.
+- Metamorphosis is cosmetic: it sets a portrait override that survives menu redraws and is cleared only on message 22.
+- No save patches.
+
+## 22. Ishar 2 party records: E2 expel + recruit on GRIMZEL, E3 refused + granted expel on START (references PEAA–PEBC; handoff 7-section format)
+
+### 22.1 Base commit and game profile
+- As §21.1. Run 12:31–12:37 CET, two fresh boots. Captures: `private/shots/ishar2/party/`.
+- Contract: `codex-support/quesh/party-contract-ishar2.md` `7bb0a7dec2f2b9e14a999fbe889762f9ba6302cc374233945107a081c7b8fcdb` (read-only).
+
+### 22.2 Question
+Do the contract's E2 and E3 reference sequences produce the predicted votes, texts and bytes? Specifically:
+- the deterministic vote (R4/R7);
+- the losers' penalty (R6);
+- the recruit copy (R9);
+- the expel clearing (R10).
+
+### 22.3 Reproducible input
+
+| ref | base | clicks after save A | saves |
+|---|---|---|---|
+| E2a | GRIMZEL | (72,131) Bragl menu → (48,150) expel → (32,170) Eliandr → OK (127,136) | PEAA 40cde9b8, PEAB 11a42a7c |
+| E2b | in-session after PEAB | (72,131) → (16,150) recruit → (128,90) Grimzel sprite → OK (127,136) on the sheet → OK (127,136) after the vote. The contract's step 9 (second OK) was not needed | PEAC 3865f46d |
+| E3a | START (fresh boot) | (8,131) Zubaran menu → (48,150) → (288,170) Yornh → OK (127,136) | PEBA 03d1d1cb, PEBB 159a678e |
+| E3b | in-session after PEBB | (8,131) → (48,150) → (160,170) Dhrurhn → OK (127,136) | PEBC 00bd1f75 |
+
+The task brief said "recruit Dhrurhn 4:0". Dhrurhn is already a START member, so the contract's granted path (expel Dhrurhn 4:0) was run.
+
+### 22.4 Data contract
+As contract §E2/§E3 (offsets table above E2): name 936 + 10n, XP 986 + 2n, HP 996 + 2n, class 1276 + n, actor id 1476 + n, grid 7111 + 5col + row, relations 7356 + 5a + b, skills 7546.. / 7729, 0x5068 = 8034 + n.
+
+### 22.5 Result
+Game texts (German, verbatim from the captures/log):
+- E2a vote panel: Bragl „dafür“, Noegh „dagegen“, Brom „dafür“, Molgo „dafür“ → „akzeptiert“.
+- E2b candidate sheet: „Grimzel / Geistlicher / Mensch / Level 4 / Kraft 3 / Verfassung 5 / Beweglichkeit 2 / Intelligenz 15“. Vote: all four „dafür“ → „Mitglied aufgenommen“.
+- E3a: Zubaran „dagegen“, Fandhir „dagegen“, Dhrurhn „dafür“, Unknown „dagegen“ → „abgelehnt“.
+- E3b: Zubaran, Fandhir, Unknown, Yornh „dafür“ → „akzeptiert“.
+
+| prediction (contract) | observed | verdict |
+|---|---|---|
+| E2a vote 3:1, Noegh the only "against" (10 − 14 = −4) | as predicted, „akzeptiert“ | **proven** |
+| E2a expel clearing (R10): id 1476 → FF, HP 0, class FF, grid 7114 → 0, penalty on Noegh's relations | as predicted (case-allowed bytes 997, 1276, 1476, 7114, 7363/7367/7369/7370/7373/7378) | **proven** |
+| **XP 986/987 539 → 0, attributed to R10 (expel, L_05f26)** in the cumulative GRIMZEL → PARTY1 table | zeroed already at E2a (PEAA → PEAB: 0x021B → 0) | **proven, the contract is right**. The row sits in the E2 cumulative table, but its rule is R10 = expel. The deviation was in my plan's E2a check list, which omitted it; it now passes with `--word 986=0`. It also matches E3's "XP 990–991 already 0" |
+| E2b sheet: Grimzel L4, STR 3, CON 5, AGI 2, INT 15 | as predicted | **proven** (sprite hit at (128,90): proven for this position) |
+| E2b vote 4:0 (forced 10 for id 51) | 4:0 „Mitglied aufgenommen“ | **proven** |
+| E2b copy (R9): HP 14/14, level 4, stats 3/5/16/15/2, MP/food 100, id 51, 3363 → 0, grid 7125 → 1, relation rows R8, skills 20/16/17/15/22/85/55, inventory/0x4fde zeroed | all as predicted (PEAB → PEAC, 0 unexpected) | **proven** |
+| E2b needs two OKs (step 9) | one OK was enough; the view returned with Grimzel in slot 0 | **contradicted** (UI detail only) |
+| E3a 1:3 refused, no save change | „abgelehnt“; no change besides the clock | **proven** |
+| E3b 4:0 granted, no penalty: 1000 → 0, 1278 → FF, 1478 → FF, 7125 → 0, 8036 → 0 | exactly these bytes | **proven** |
+
+**Spelling "Grinzel" vs "Grimzel":**
+- The save and data bytes read `G rimzel` (0x47 0x20 0x72 0x69 **0x6d** …). This is the same in PEAC, all 20 original saves that contain it, and EN1.FIC. The leading "X␣" pattern is common to all names, e.g. `B ragl`.
+- A pixel dump of the sheet capture (`e2b_vote.png`, y 33–41) shows that the 4th glyph has three stems (`##.##` / `#.#.#`): a narrow „m“.
+- The text reads **„Grimzel“**. "Grinzel" in the log is a misreading of the 320×200 font.
+
+### 22.6 Limits
+- The relation matrices were checked only through the tool's allowed-offset sets plus the contract values. There was no independent decode beyond the case check.
+- The stale-v[0] variance (R6) was not provoked.
+- The tavern recruit after E3b is not covered (open in the contract).
+
+### 22.7 Code proposals
+- VM: clear XP in the expel path (R10), not the recruit path.
+- After the admission vote, a single OK returns to the view.
+- No save patches.
+
+## 23. Ishar 1 magic records (SONE / LPONE; T1–T3): reserved, the run is in progress
+(To be filled in from the Ishar 1 run log. Plan: `private/cases_magic_party_plan.md` §3. Saves MTDA/MTDB, MTEA/MTEB, MTFA/MTFB.)

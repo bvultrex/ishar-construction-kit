@@ -115,3 +115,26 @@ Checker: 109 vectors, exit 0 (mechanics 27 known / 22 suspected, all green). Kit
 - Doors 9 and 17 were not checked in the original (bytecode only).
 - The meaning of the contact list 0x4b80 and the wake-up of type-33 entities are open.
 - The zone world noise when first loading position patches (HOTSL0→HOTSL1) is known as a phenomenon, but the actors involved are not identified.
+
+## Addendum 2026-11-03 (Hoth): doors 9/17 and contact list in the original
+
+Sessions: private/stepreset3 (fresh work copy of dosbox/ishar2, new slots HOT9*/HOT17*/HOTK* only, cycles fixed 25000 on Xvfb :97, instance ended after each session). sha256 of originals and dosbox/ishar2* before = after (1418 files). Work copy CONT*.FIC = originals (no CONT bytes changed). The half-finished private/stepreset2 copy from 18.10. was NOT reused.
+
+Door cells (CONT layer B): door 9 = map 5 r50 c22 (A=70, frame like door 5); door 17 = map 6 r25 c17 (A=71). The B=77 cells on maps 3/4 are not used here. Bases: copies of K5T026 / K6T045 (col set to the door cell, ticks set to 0 in my own copies so that no hour change falls inside a measurement).
+
+| Point | Evidence (save offsets from 0) | Verdict |
+|---|---|---|
+| Door 17 opens via frame click (128,70) | HOT17A 7398=0 -> click -> HOT17B 7398=1, image 14/34 opening | known |
+| Door 17 closes after a successful step | HOT17E -> click -> B -> HOT17G (h8, same hour): 7398=0, col 17->16 | known |
+| Door 17 stays open on load without step | HOT17H (=17B) fresh -> HOT17I: 7398=1 | known |
+| Door 17 closes on a **turn** (no step) | HOT17E -> click -> TL -> HOT17J (h8, no hour change): 7398=0; images 49/54 wall again | known; **contradicts M49 for door 17** |
+| Door 9 via frame click | from c22 and c21: no change (HOT9B/HOT9F 7390=0) | door 9 could not be opened via the B route; state set in my own save (HOT9G 7390=1) |
+| Door 9 closes after a step | HOT9G -> B -> HOT9I: 7390=0 | known (state patched, not opened in game) |
+| Door 9 closes on a turn | HOT9G -> TL -> HOT9J (h6): 7390=0 | known (same limitation) |
+| Door 9 stays on load without step | HOT9G -> HOT9H: 7390=1 | known |
+| Contact list 0x4b80 (7576-7578) after a step | HOTKA (copy GRIMZ, 7577=52) -> F -> HOTKC: [0,0,0] | known |
+| Contact list on turn | HOTKA -> TL,TR -> HOTKB: [0,52,0] | known (stays) |
+
+Mechanism for turn closing 9/17: unknown. In the GERDEP listing the only writers to 0x4aa4+9/+17 are 0x013fd/0x01407 in L_013af, and the click toggle 0x01590/0x0159e (index odirb(0x36)). A turn does not clear the contact list (HOTKB), so L_013af is probably not called on turns; another path (other script, or the toggle with 0x36 = door in view) is suspected. Door 5 on turn: not tested (M49 stays suspected for door 5). Hour change confounded the first attempts (HOT17C/HOT17F crossed h8->h9/10), they are not used as evidence.
+
+Kit: door-mechanics.ts afterStep matches steps for 9/17 (M50/M53). Deviations: no turn hook (M52 Ist {} / Soll 7398=0; M54 Ist {} / Soll 7390=0) and no contact-list reset (M56 Ist {} / Soll 7577=0). Fixtures M50-M57 added; checker reference model: turn clears doors 9/17, keeps contacts.
