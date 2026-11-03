@@ -124,7 +124,7 @@ for (const v of fx.vectors.filter((x) => x.contract.startsWith('combat'))) if (v
 { const om = await imp('original-merchants.ts');
   for (const id of ['SH13', 'SH14']) { const v = byId[id], i = v.input, c = Math.trunc(i.x / 64), g = i.gold.map((t) => t.slice()); g[c] = om.subtractOriginalPrice(i.gold[c], i.price);
     rec(id, 'original-merchants.ts subtractOriginalPrice auf Käuferspalte x/64 (Spaltenwahl und Stapel +1 nicht im Kit)', eq(g, v.expected.gold), `bekommen ${JSON.stringify(g)} erwartet ${JSON.stringify(v.expected.gold)}; Stapel/Spalte fehlt`); }
-  for (const id of ['SG01', 'SG02', 'SG03', 'SG04']) rec(id, '(keine Ishar-1-Speichergebühr im Kit)', false, 'fehlt');
+  for (const id of ['SG01', 'SG02', 'SG03', 'SG04', 'SG05']) rec(id, '(keine Ishar-1-Speichergebühr im Kit)', false, 'fehlt');
   for (const id of ['LV01', 'LV02', 'LV03']) rec(id, '(kein Ishar-1-Hebel/Türlayout 4613/4663 im Kit; door-mechanics.ts ist Ishar 2 7381/7431)', false, 'fehlt'); }
 // monster-ki (Hoth 2026-11-03): save-actors.ts readActorSave gegen MK25; Rest ohne Kit-Gegenstück
 {

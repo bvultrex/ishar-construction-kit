@@ -300,8 +300,9 @@ def fee(gold,occ,cost=1000):
 OCC=[1,1,1,1,1]
 v('SG01',C,'known',OWS+': jedes Speichern im Spiel senkt das Gesamtgold um genau 1000 (alle Läufe), synthetisch',{'op':'saveFee','gold':[[4,321],[0,0],[0,0],[0,0],[0,0]],'occ':OCC,'cost':1000},{'totalDelta':-1000})
 v('SG02',C,'known',QS+' L_00b5e; eigener Lauf: Gesamtgold < 1000 -> Meldung -21 ("Sie haben kein Gold mehr."), kein Abzug, keine neue Datei',{'op':'saveFee','gold':[[0,600],[0,300],[0,0],[0,0],[0,0]],'occ':OCC,'cost':1000},fee([[0,600],[0,300],[0,0],[0,0],[0,0]],OCC))
-v('SG03',C,'suspected',QS+' L_00cf8: Durchgang 1 Anteil 1000 div n in Slotfolge (sonst alles), Durchgang 2 erste Figur deckt Rest; synthetisch',{'op':'saveFee','gold':[[0,150],[2,40],[0,0],[0,900],[0,0]],'occ':OCC,'cost':1000},fee([[0,150],[2,40],[0,0],[0,900],[0,0]],OCC))
-v('SG04',C,'suspected',QS+' L_00cf8 mit 3 belegten Figuren (Anteil 333, Rest 1), synthetisch',{'op':'saveFee','gold':[[1,500],[0,400],[0,0],[0,0],[0,0]],'occ':[1,1,1,0,0],'cost':1000},fee([[1,500],[0,400],[0,0],[0,0],[0,0]],[1,1,1,0,0]))
+v('SG03',C,'known',QS+' L_00cf8, bestätigt durch zwei Patch-Läufe mit Vorhersage (gleichverteilt; Figuren unter Anteil, spätere deckt Rest): Durchgang 1 Anteil 1000 div n in Slotfolge (sonst alles), Durchgang 2 erste Figur deckt Rest; synthetisch',{'op':'saveFee','gold':[[0,150],[2,40],[0,0],[0,900],[0,0]],'occ':OCC,'cost':1000},fee([[0,150],[2,40],[0,0],[0,900],[0,0]],OCC))
+v('SG05',C,'known',QS+' L_00cf8; eigener Patch-Lauf: alle fünf über Anteil, jede zahlt genau 200, synthetisch',{'op':'saveFee','gold':[[0,250],[0,250],[0,250],[0,250],[0,250]],'occ':OCC,'cost':1000},fee([[0,250],[0,250],[0,250],[0,250],[0,250]],OCC))
+v('SG04',C,'suspected',QS+' L_00cf8 mit 3 belegten Figuren (Anteil 333, Rest 1), synthetisch; Gruppengröße ungetestet, da Kodierung von belegt im Save nicht gesichert',{'op':'saveFee','gold':[[1,500],[0,400],[0,0],[0,0],[0,0]],'occ':[1,1,1,0,0],'cost':1000},fee([[1,500],[0,400],[0,0],[0,0],[0,0]],[1,1,1,0,0]))
 C='tavern-ishar1'
 v('TV01',C,'known','ITAVERNE 0x0017f (dirb18==3: 900+80t) / 0x00194 (500+40t) -> 0x3f10',{'op':'price','t':[0,5,12],'kind':['eat','sleep']},{'eat':[500,700,980],'sleep':[900,1300,1860]})
 v('TV02',C,'known','ITAVERNE 0x001a5-0x001ca (P > 1000 -> 0x3f12=1, 0x3f10=P-1000; sonst 0x3f12=0)',{'op':'split','P':[980,1000,1001,1860]},{'k':[[0,980],[0,1000],[1,1],[1,860]]})

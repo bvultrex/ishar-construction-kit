@@ -3984,8 +3984,8 @@
   {
    "id": "SG03",
    "contract": "shop-ishar1",
-   "status": "suspected",
-   "source": "quesh/SOS.IO (statisch, L_00b5e/L_00cf8) L_00cf8: Durchgang 1 Anteil 1000 div n in Slotfolge (sonst alles), Durchgang 2 erste Figur deckt Rest; synthetisch",
+   "status": "known",
+   "source": "quesh/SOS.IO (statisch, L_00b5e/L_00cf8) L_00cf8, bestätigt durch zwei Patch-Läufe mit Vorhersage (gleichverteilt; Figuren unter Anteil, spätere deckt Rest): Durchgang 1 Anteil 1000 div n in Slotfolge (sonst alles), Durchgang 2 erste Figur deckt Rest; synthetisch",
    "input": {
     "op": "saveFee",
     "gold": [
@@ -4046,10 +4046,74 @@
    }
   },
   {
+   "id": "SG05",
+   "contract": "shop-ishar1",
+   "status": "known",
+   "source": "quesh/SOS.IO (statisch, L_00b5e/L_00cf8) L_00cf8; eigener Patch-Lauf: alle fünf über Anteil, jede zahlt genau 200, synthetisch",
+   "input": {
+    "op": "saveFee",
+    "gold": [
+     [
+      0,
+      250
+     ],
+     [
+      0,
+      250
+     ],
+     [
+      0,
+      250
+     ],
+     [
+      0,
+      250
+     ],
+     [
+      0,
+      250
+     ]
+    ],
+    "occ": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "cost": 1000
+   },
+   "expected": {
+    "refused": false,
+    "gold": [
+     [
+      0,
+      50
+     ],
+     [
+      0,
+      50
+     ],
+     [
+      0,
+      50
+     ],
+     [
+      0,
+      50
+     ],
+     [
+      0,
+      50
+     ]
+    ]
+   }
+  },
+  {
    "id": "SG04",
    "contract": "shop-ishar1",
    "status": "suspected",
-   "source": "quesh/SOS.IO (statisch, L_00b5e/L_00cf8) L_00cf8 mit 3 belegten Figuren (Anteil 333, Rest 1), synthetisch",
+   "source": "quesh/SOS.IO (statisch, L_00b5e/L_00cf8) L_00cf8 mit 3 belegten Figuren (Anteil 333, Rest 1), synthetisch; Gruppengröße ungetestet, da Kodierung von belegt im Save nicht gesichert",
    "input": {
     "op": "saveFee",
     "gold": [
