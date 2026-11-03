@@ -3747,6 +3747,369 @@
    }
   },
   {
+   "id": "SH13",
+   "contract": "shop-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_ISHAR1_SHOP_PARTY.md §Gegenläufe (eigene Läufe, Details private/save_patches.md): nur die Figur der Porträtspalte x/64 zahlt, genau den Anzeigepreis; Stapelzähler +1. Synthetische Werte",
+   "input": {
+    "op": "buy",
+    "gold": [
+     [
+      3,
+      450
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      2,
+      100
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    "x": 130,
+    "price": [
+     0,
+     380
+    ],
+    "stack": 4
+   },
+   "expected": {
+    "gold": [
+     [
+      3,
+      450
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      720
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    "refused": false,
+    "stack": 5,
+    "buyer": 2
+   }
+  },
+  {
+   "id": "SH14",
+   "contract": "shop-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_ISHAR1_SHOP_PARTY.md §Gegenläufe (eigene Läufe, Details private/save_patches.md): Kauf ohne Borgen (Rest > Preis), synthetisch",
+   "input": {
+    "op": "buy",
+    "gold": [
+     [
+      2,
+      700
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "x": 20,
+    "price": [
+     0,
+     250
+    ],
+    "stack": 0
+   },
+   "expected": {
+    "gold": [
+     [
+      2,
+      450
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "refused": false,
+    "stack": 1,
+    "buyer": 0
+   }
+  },
+  {
+   "id": "SG01",
+   "contract": "shop-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_ISHAR1_SHOP_PARTY.md §Gegenläufe (eigene Läufe, Details private/save_patches.md): jedes Speichern im Spiel senkt das Gesamtgold um genau 1000 (alle Läufe), synthetisch",
+   "input": {
+    "op": "saveFee",
+    "gold": [
+     [
+      4,
+      321
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "occ": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "cost": 1000
+   },
+   "expected": {
+    "totalDelta": -1000
+   }
+  },
+  {
+   "id": "SG02",
+   "contract": "shop-ishar1",
+   "status": "known",
+   "source": "quesh/SOS.IO (statisch, L_00b5e/L_00cf8) L_00b5e; eigener Lauf: Gesamtgold < 1000 -> Meldung -21 (\"Sie haben kein Gold mehr.\"), kein Abzug, keine neue Datei",
+   "input": {
+    "op": "saveFee",
+    "gold": [
+     [
+      0,
+      600
+     ],
+     [
+      0,
+      300
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "occ": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "cost": 1000
+   },
+   "expected": {
+    "refused": true,
+    "msg": -21,
+    "gold": [
+     [
+      0,
+      600
+     ],
+     [
+      0,
+      300
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ]
+   }
+  },
+  {
+   "id": "SG03",
+   "contract": "shop-ishar1",
+   "status": "suspected",
+   "source": "quesh/SOS.IO (statisch, L_00b5e/L_00cf8) L_00cf8: Durchgang 1 Anteil 1000 div n in Slotfolge (sonst alles), Durchgang 2 erste Figur deckt Rest; synthetisch",
+   "input": {
+    "op": "saveFee",
+    "gold": [
+     [
+      0,
+      150
+     ],
+     [
+      2,
+      40
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      900
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "occ": [
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "cost": 1000
+   },
+   "expected": {
+    "refused": false,
+    "gold": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      390
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      700
+     ],
+     [
+      0,
+      0
+     ]
+    ]
+   }
+  },
+  {
+   "id": "SG04",
+   "contract": "shop-ishar1",
+   "status": "suspected",
+   "source": "quesh/SOS.IO (statisch, L_00b5e/L_00cf8) L_00cf8 mit 3 belegten Figuren (Anteil 333, Rest 1), synthetisch",
+   "input": {
+    "op": "saveFee",
+    "gold": [
+     [
+      1,
+      500
+     ],
+     [
+      0,
+      400
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "occ": [
+     1,
+     1,
+     1,
+     0,
+     0
+    ],
+    "cost": 1000
+   },
+   "expected": {
+    "refused": false,
+    "gold": [
+     [
+      0,
+      833
+     ],
+     [
+      0,
+      67
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ]
+   }
+  },
+  {
    "id": "TV01",
    "contract": "tavern-ishar1",
    "status": "known",
@@ -6161,6 +6524,118 @@
     ]
    },
    "note": "Ankunftsreihenfolge synthetisch"
+  },
+  {
+   "id": "MK29",
+   "contract": "monster-ki-ishar2",
+   "status": "known",
+   "source": "HOTH_FIXTURES_MONSTER_KI.md (eigene Läufe 03.11.2026) §I2 Zonenwechsel: Eintritt in Zone mit Wandermonstern -> Akteure 90+ neu gewürfelt, auf Spawnpunkte gesetzt",
+   "input": {
+    "op": "zoneEnter",
+    "entries": 3,
+    "spawns": [
+     [
+      11,
+      12
+     ],
+     [
+      13,
+      14
+     ],
+     [
+      15,
+      16
+     ]
+    ]
+   },
+   "expected": {
+    "actorsChanged": true,
+    "onSpawns": true
+   }
+  },
+  {
+   "id": "MK30",
+   "contract": "monster-ki-ishar2",
+   "status": "known",
+   "source": "HOTH_FIXTURES_MONSTER_KI.md (eigene Läufe 03.11.2026) §I2 Zonenwechsel: Verlassen bzw. Laden in Zone ohne Einträge -> Akteure 90+ gelöscht, Kontaktliste 0",
+   "input": {
+    "op": "zoneLeave",
+    "actors": [
+     91,
+     92
+    ]
+   },
+   "expected": {
+    "actorsCleared": true,
+    "contact": [
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "id": "LV01",
+   "contract": "lever-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_MONSTER_KI.md §T5c (eigener Lauf): Hebel k umlegen (ein Klick, auf der Hebelzelle) -> Save-Byte 4663+k 0->1; Index synthetisch",
+   "input": {
+    "op": "leverSave",
+    "k": 5,
+    "before": 0
+   },
+   "expected": {
+    "offset": 4668,
+    "after": 1
+   }
+  },
+  {
+   "id": "LV02",
+   "contract": "lever-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_MONSTER_KI.md §T5c (eigener Lauf): Kontrollhebel: zusätzlich ändern sich Formeltüren im Türbereich 4613..4662; Werte synthetisch",
+   "input": {
+    "op": "leverDoors",
+    "k": 7,
+    "doors": {
+     "4620": 1,
+     "4621": 0
+    }
+   },
+   "expected": {
+    "lever": {
+     "4670": 1
+    },
+    "doors": {
+     "4620": 0,
+     "4621": 1
+    },
+    "doorRange": [
+     4613,
+     4662
+    ]
+   }
+  },
+  {
+   "id": "LV03",
+   "contract": "lever-ishar1",
+   "status": "suspected",
+   "source": "HOTH_FIXTURES_MONSTER_KI.md §T5c (eigener Lauf): ohne Formeltür ändert sich nur das Hebel-Byte (plus Speichergebühr)",
+   "input": {
+    "op": "leverDoors",
+    "k": 3,
+    "doors": {}
+   },
+   "expected": {
+    "lever": {
+     "4666": 1
+    },
+    "doors": {},
+    "doorRange": [
+     4613,
+     4662
+    ]
+   }
   }
  ]
 }

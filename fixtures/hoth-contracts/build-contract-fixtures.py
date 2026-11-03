@@ -279,6 +279,29 @@ v('SH09',C,'suspected',SQ+' S5/T2 Zähler 0x3e22[c][item+66] Save 4971+10c+(item
 v('SH10',C,'known',OWN+': Speichern kostet 1000 GS, cmp vorher->nachher Byte 483 (Gold-Tausender c2 Low-Byte, 478+2c+1)',{'op':'goldOffset','c':2},{'goldK':482,'goldKLow':483})
 v('SH11',C,'suspected',SQ+' S5 (Einheiten 3993+2c, Gegenstände 498+26c+2k; SHOPA-Diff Alderaan 3998, 556/557)',{'op':'goldOffset','c':2,'k':3},{'goldU':3997,'item':556})
 v('SH12',C,'suspected',SQ+' S4 kein Verkauf, Vorrat unbegrenzt (Tabelle bei jedem Eintritt neu)',{'op':'flags'},{'sell':False,'stockSaved':False})
+
+OWS='HOTH_FIXTURES_ISHAR1_SHOP_PARTY.md §Gegenläufe (eigene Läufe, Details private/save_patches.md)'
+def buy(gold,x,price,stack):
+    c=x//64; g=[list(t) for t in gold]; r=pay(g[c][0],g[c][1],price[0],price[1])
+    if r is None: return {'gold':gold,'refused':True,'stack':stack}
+    g[c]=r; return {'gold':g,'refused':False,'stack':stack+1,'buyer':c}
+v('SH13',C,'known',OWS+': nur die Figur der Porträtspalte x/64 zahlt, genau den Anzeigepreis; Stapelzähler +1. Synthetische Werte',{'op':'buy','gold':[[3,450],[0,0],[2,100],[0,0],[1,0]],'x':130,'price':[0,380],'stack':4},buy([[3,450],[0,0],[2,100],[0,0],[1,0]],130,[0,380],4))
+v('SH14',C,'known',OWS+': Kauf ohne Borgen (Rest > Preis), synthetisch',{'op':'buy','gold':[[2,700],[0,0],[0,0],[0,0],[0,0]],'x':20,'price':[0,250],'stack':0},buy([[2,700],[0,0],[0,0],[0,0],[0,0]],20,[0,250],0))
+QS=Q+'SOS.IO (statisch, L_00b5e/L_00cf8)'
+def fee(gold,occ,cost=1000):
+    t=lambda g:1000*g[0]+g[1]
+    if sum(t(g) for g,o in zip(gold,occ) if o)<cost: return {'refused':True,'msg':-21,'gold':gold}
+    g=[t(x) for x in gold]; n=sum(occ); sh=cost//n; R=cost
+    for c in range(5):
+        if occ[c]: p=min(sh,g[c]); g[c]-=p; R-=p
+    for c in range(5):
+        if R and occ[c] and g[c]>=R: g[c]-=R; R=0
+    return {'refused':False,'gold':[[x//1000,x%1000] for x in g]}
+OCC=[1,1,1,1,1]
+v('SG01',C,'known',OWS+': jedes Speichern im Spiel senkt das Gesamtgold um genau 1000 (alle Läufe), synthetisch',{'op':'saveFee','gold':[[4,321],[0,0],[0,0],[0,0],[0,0]],'occ':OCC,'cost':1000},{'totalDelta':-1000})
+v('SG02',C,'known',QS+' L_00b5e; eigener Lauf: Gesamtgold < 1000 -> Meldung -21 ("Sie haben kein Gold mehr."), kein Abzug, keine neue Datei',{'op':'saveFee','gold':[[0,600],[0,300],[0,0],[0,0],[0,0]],'occ':OCC,'cost':1000},fee([[0,600],[0,300],[0,0],[0,0],[0,0]],OCC))
+v('SG03',C,'suspected',QS+' L_00cf8: Durchgang 1 Anteil 1000 div n in Slotfolge (sonst alles), Durchgang 2 erste Figur deckt Rest; synthetisch',{'op':'saveFee','gold':[[0,150],[2,40],[0,0],[0,900],[0,0]],'occ':OCC,'cost':1000},fee([[0,150],[2,40],[0,0],[0,900],[0,0]],OCC))
+v('SG04',C,'suspected',QS+' L_00cf8 mit 3 belegten Figuren (Anteil 333, Rest 1), synthetisch',{'op':'saveFee','gold':[[1,500],[0,400],[0,0],[0,0],[0,0]],'occ':[1,1,1,0,0],'cost':1000},fee([[1,500],[0,400],[0,0],[0,0],[0,0]],[1,1,1,0,0]))
 C='tavern-ishar1'
 v('TV01',C,'known','ITAVERNE 0x0017f (dirb18==3: 900+80t) / 0x00194 (500+40t) -> 0x3f10',{'op':'price','t':[0,5,12],'kind':['eat','sleep']},{'eat':[500,700,980],'sleep':[900,1300,1860]})
 v('TV02',C,'known','ITAVERNE 0x001a5-0x001ca (P > 1000 -> 0x3f12=1, 0x3f10=P-1000; sonst 0x3f12=0)',{'op':'split','P':[980,1000,1001,1860]},{'k':[[0,980],[0,1000],[1,1],[1,860]]})
@@ -380,6 +403,15 @@ v('MK26',C,'known',OWNK+' §I2 (b): Laden in einer Zone mit Wandermonstern -> Ak
   {'op':'afterLoad','zoneHasEntries':True,'sync':False},{'actorsChanged':True,'sessionsEqual':False})
 v('MK27',C,'known',OWNK+' §I2 (b): Zonenwechsel 36->35->36 (beide ohne Wandermonster): Akteure 90+ bleiben leer, keine Änderung',{'op':'zoneChange','entries':0,'before':'empty'},{'actorsChanged':False})
 v('MK28',C,'suspected',QK2+' Kontaktliste Slotfolge 1,0,2',{'op':'contactOrder','arrivals':[91,92,93]},{'contact':[92,91,93]},'Ankunftsreihenfolge synthetisch')
+
+v('MK29',C,'known',OWNK+' §I2 Zonenwechsel: Eintritt in Zone mit Wandermonstern -> Akteure 90+ neu gewürfelt, auf Spawnpunkte gesetzt',{'op':'zoneEnter','entries':3,'spawns':[[11,12],[13,14],[15,16]]},{'actorsChanged':True,'onSpawns':True})
+v('MK30',C,'known',OWNK+' §I2 Zonenwechsel: Verlassen bzw. Laden in Zone ohne Einträge -> Akteure 90+ gelöscht, Kontaktliste 0',{'op':'zoneLeave','actors':[91,92]},{'actorsCleared':True,'contact':[0,0,0]})
+
+# ---------------- lever-ishar1 T5c (Hoth 2026-11-03, Details private/save_patches.md) ----------------
+C='lever-ishar1'; OWL='HOTH_FIXTURES_MONSTER_KI.md §T5c (eigener Lauf)'
+v('LV01',C,'known',OWL+': Hebel k umlegen (ein Klick, auf der Hebelzelle) -> Save-Byte 4663+k 0->1; Index synthetisch',{'op':'leverSave','k':5,'before':0},{'offset':4668,'after':1})
+v('LV02',C,'known',OWL+': Kontrollhebel: zusätzlich ändern sich Formeltüren im Türbereich 4613..4662; Werte synthetisch',{'op':'leverDoors','k':7,'doors':{'4620':1,'4621':0}},{'lever':{'4670':1},'doors':{'4620':0,'4621':1},'doorRange':[4613,4662]})
+v('LV03',C,'suspected',OWL+': ohne Formeltür ändert sich nur das Hebel-Byte (plus Speichergebühr)',{'op':'leverDoors','k':3,'doors':{}},{'lever':{'4666':1},'doors':{},'doorRange':[4613,4662]})
 
 out={'schema':'hoth-contract-fixtures/1','created':'2026-10-18','author':'Hoth (Grok Bot executor)',
  'notes':['Offsets ab 0 (cmp -l = ab0+1).','Saves = 8359 Nullbytes, Formatmarke Wort@0 = 2, plus die gelisteten künstlichen Felder (be16 = Big-Endian-Wort, u8 = Byte). Keine Originalbytes.',

@@ -176,6 +176,15 @@ function shop1(v) { const i = v.input;
     case 'stackOffset': return { offset: 4971 + 10 * i.c + (i.item + 66) };
     case 'goldOffset': return { goldK: 478 + 2 * i.c, goldKLow: 479 + 2 * i.c, goldU: 3993 + 2 * i.c, item: 498 + 26 * i.c + 2 * (i.k ?? 0) };
     case 'flags': return { sell: false, stockSaved: false };
+    case 'buy': { const c = Math.trunc(i.x / 64), g = i.gold.map((t) => t.slice()), [k, u] = g[c], [pk, pu] = i.price;
+      if (pk > k || (pk === k && pu > u)) return { gold: i.gold, refused: true, stack: i.stack };
+      const t = 1000 * (k - pk) + (u - pu); g[c] = [Math.floor(t / 1000), t % 1000]; return { gold: g, refused: false, stack: i.stack + 1, buyer: c }; }
+    case 'saveFee': { const t = (g) => 1000 * g[0] + g[1], g = i.gold.map(t), tot = g.reduce((a, x, c) => a + (i.occ[c] ? x : 0), 0);
+      if (tot < i.cost) return { refused: true, msg: -21, gold: i.gold, totalDelta: 0 };
+      const n = i.occ.filter(Boolean).length, sh = Math.floor(i.cost / n); let R = i.cost;
+      for (let c = 0; c < 5; c++) if (i.occ[c]) { const p = Math.min(sh, g[c]); g[c] -= p; R -= p; }
+      for (let c = 0; c < 5; c++) if (R && i.occ[c] && g[c] >= R) { g[c] -= R; R = 0; }
+      return { refused: false, gold: g.map((x) => [Math.floor(x / 1000), x % 1000]), totalDelta: g.reduce((a, x) => a + x, 0) - i.gold.map(t).reduce((a, x) => a + x, 0) }; }
   } throw new Error('op ' + i.op); }
 function tavern1(v) { const i = v.input;
   switch (i.op) {
@@ -245,9 +254,16 @@ function monsterKi(v) {
     case 'wanderReset': { const b = new Uint8Array(8359); for (const f of i.save) if ('be16' in f) { b[f.offset] = f.be16 >> 8; b[f.offset + 1] = f.be16 & 255; } else b[f.offset] = f.u8;
       const a = b.slice(); for (let n = 60; n < 70; n++) { for (const o of [1448, 1588, 1728]) { b[o + 2 * n] = 0; b[o + 2 * n + 1] = 0; } b[3688 + n] = 0; b[4033 + n] = 0; }
       const ch = {}; for (let k = 0; k < a.length; k++) if (a[k] !== b[k]) ch[k] = b[k]; return { changes: ch }; }
+    case 'zoneEnter': return { actorsChanged: i.entries > 0, onSpawns: i.entries > 0 && i.spawns.length >= i.entries };
+    case 'zoneLeave': return { actorsCleared: true, contact: [0, 0, 0] };
     case 'contactOrder': { const c = [0, 0, 0]; [1, 0, 2].forEach((slot, k) => (c[slot] = i.arrivals[k])); return { contact: c }; }
   } throw new Error('op ' + i.op); }
-const MODELS = { 'monster-ki-ishar1': monsterKi, 'monster-ki-ishar2': monsterKi, 'savemap-ishar1': savemap1, 'shop-ishar1': shop1, 'tavern-ishar1': tavern1, 'party-ishar1': party1, 'magic-ishar1': magic1, 'pickup-ishar2': (v) => (v.input.armourCodes ? pickupArmour(v) : pickup(v)), 'mechanics-ishar2': mech, rng: rngVec, 'combat-ishar2': combat2, 'combat-ishar1': combat1, 'savefields-ishar2': savefields };
+function lever1(v) { const i = v.input;
+  switch (i.op) {
+    case 'leverSave': return { offset: 4663 + i.k, after: i.before ^ 1 };
+    case 'leverDoors': return { lever: { [4663 + i.k]: 1 }, doors: Object.fromEntries(Object.entries(i.doors).map(([o, x]) => [o, x ^ 1])), doorRange: [4613, 4662] };
+  } throw new Error('op ' + i.op); }
+const MODELS = { 'lever-ishar1': lever1, 'monster-ki-ishar1': monsterKi, 'monster-ki-ishar2': monsterKi, 'savemap-ishar1': savemap1, 'shop-ishar1': shop1, 'tavern-ishar1': tavern1, 'party-ishar1': party1, 'magic-ishar1': magic1, 'pickup-ishar2': (v) => (v.input.armourCodes ? pickupArmour(v) : pickup(v)), 'mechanics-ishar2': mech, rng: rngVec, 'combat-ishar2': combat2, 'combat-ishar1': combat1, 'savefields-ishar2': savefields };
 // ---------- compare ----------
 const norm = (x) => JSON.stringify(x, (k, val) => (val && typeof val === 'object' && !Array.isArray(val) ? Object.fromEntries(Object.entries(val).map(([kk, vv]) => [String(kk), vv]).sort(([p], [q]) => (p < q ? -1 : 1))) : val));
 const subset = (exp, got) => Object.keys(exp).every((k) => norm(exp[k]) === norm(got[k]));
