@@ -61,18 +61,23 @@ PCAVE: Formen 0..15 = Material 33..48, Form 16 = Material 64.
 - **Abgleich mit zwei Original-Saves (Details private SW-2):** Alle Formeltüren stimmen mit den Hebeln überein. Der Unterschied zwischen den beiden Saves betrifft genau H2 und H4 → T16. Die Formel ist damit durch echte Daten bestätigt.
 
 ## 6. Bewegung, Blockade, Reset
-- GERDEP 0x011d5/0x013a9 → L_01629: Ein Schritt wird blockiert, wenn auf der eigenen oder der Zielzelle eine **geschlossene** Tür liegt (Material 46–69, passend zur Richtung) und `0x41e7 ≠ 1` ist. `0x41e7` wird nicht gespeichert; Bedeutung unknown. (known)
+- **Bewegungsregel (korrigierter Befund 2026-11-03, known):** Die Tür ist eine **Kante** ihrer Zelle; das Material der Türzelle (Karte `CONTn.FIC`, siehe `dungeon-karten-ishar1.md`) legt fest, welche. `m % 4`: 2 → Kante x−1, 3 → Kante x+1, 0 → Kante y−1, 1 → Kante y+1 (gilt für 46–65 und 82–85). Ein Schritt ist blockiert, wenn er diese Kante einer geschlossenen Tür (`0x3b64[d]==0`, Koordinaten `0x3c00/0x3c34` = Türzelle) überquert und `0x41e7 ≠ 1` ist.
+  - GERDEP L_011d5 (`switch odirb(0x13)` = Material der **eigenen** Zelle `map[0x137c][0x137d]`): Verlassen der Türzelle über ihre Türkante → L_01629 mit eigener Position.
+  - GERDEP L_013a9 (`switch odirb(0x12)` = Material der **Zielzelle** `map[0x3fd0][0x137d]` bzw. y-Variante): Betreten der Türzelle über ihre Türkante → L_01629 mit der Zielposition.
+  - Laufrichtung = Blick (`0x137e`) × Taste (`dirb 0x11`: 1 vor, 2 zurück, 5/9 seitlich; gesetzt in GERDEP 0x000e8–0x001fc, ausgewertet L_00541).
+  - `0x41e7` wird nicht gespeichert; Bedeutung unknown.
+  - *Früher stand hier:* „blockiert, wenn auf der eigenen oder der Zielzelle eine geschlossene Tür liegt“. Das war zu grob: Eine Tür ohne Kante zur Laufrichtung blockiert nicht. Ausgelöst durch Alderaans Emulatorbefund (`alderaan/private/run_door_lever_i1.md`, T4).
 - **Kein Reset beim Schritt oder Drehen:** GERDEP schreibt nie in `0x3b64`/`0x3b98`; einziger Schreiber ist PCAVE. Das ist ein Unterschied zu Ishar 2. (known)
 - Ein Schritt (L_0167b) setzt `0x3d54[0..2]=0`. Beim Drehen wird der erste Eintrag mit `0x3958[i]≠0` gelöscht und ENCONT geweckt; Details stehen in `monster-ki-ishar1.md`. (known)
 
 ## 7. Testfälle (Alderaan: Emulator, Hoth: Save-Patch)
-Koordinaten geprüft gegen PARAM (known): Hebel 2 (25,52), 4 (25,56), 13 (23,32), 14 (35,11); Tür 2 (29,24), Tür 10 (20,53). T4 steht auf (20,52) mit Blick 3 (y+1), also direkt vor Tür 10.
+Koordinaten geprüft gegen PARAM (known): Hebel 2 (25,52), 4 (25,56), 13 (23,32), 14 (35,11); Tür 2 (29,24), Tür 10 (20,53). T4 startet auf (20,52) mit Blick 3 (y+1). Tür 10 hat Material 53 (53 % 4 = 1 → Türkante y+1), liegt also zwischen (20,53) und (20,54).
 | # | Ausgangs-Save | Aktion / Patch | Erwartung |
 |---|---|---|---|
 | T1 | Original-Save vor dem Hebelrätsel (Name/Position: private SW-3) | Hebel 2 (25,52) und 4 (25,56) mit leerer Hand umlegen, jeweils frontal bei Tiefe 0 | Hebelbytes 4665 und 4667 wechseln 0→1 → **4629 (T16)=1** |
 | T2 | Save nach T1 (private SW-4) | Hebel 14 bei (35,11) umlegen | 4677 kippt; T28 (4641) und T29 (4642) tauschen ihren Wert (Formel H14==0) |
 | T3 | Save nach T1 (private SW-5) | Hebel 13 bei (23,32) umlegen (0→2) | 4676=2 → 4636 (T23)=1, 4635=0, 4634=0 |
-| T4 | Zone 15, Patch 4623 (T10)=0 | Party bei (20,52), Blickrichtung 3, einen Schritt vor | Schritt blockiert |
+| T4 (korrigiert) | Zone 15, Patch 4623 (T10)=0 | Party bei (20,52), Blickrichtung 3, zweimal vor | 1. Schritt → (20,53) **gelingt**, 2. Schritt nach (20,54) **blockiert** (L_011d5, eigene Zelle Material 53). Kontrolle mit 4623=1: Ankunft auf (20,54). Beleg: Alderaan run_door_lever_i1 (known) |
 | T5 | beliebiger Save in Zone 12/15 (private SW-6) | 20 Schritte und mehrere Drehungen | 4613..4712 unverändert (kein Reset) |
 | T6 | Save mit Gegenstand Nr. 3 im Inventar (private SW-7) | Gegenstand Nr. 3 (= d+1) auf Tür 2 bei (29,24) ziehen | 4615 0→1, Gegenstand verbraucht (suspected) |
 | T7 | Neues Spiel | – | Türen 25, 27, 28, 30, 33, 34, 36, 38 = 1, alle anderen 0 |

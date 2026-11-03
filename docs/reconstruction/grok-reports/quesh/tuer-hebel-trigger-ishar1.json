@@ -351,7 +351,18 @@
   "schritt": "keiner (known)",
   "drehen": "keiner (known)"
  },
- "blockade": "GERDEP L_01629, 0x41e7!=1",
+ "blockade": {
+  "regel": "Tür = Kante der Türzelle; Kante aus Material m%4: 2→x-1, 3→x+1, 0→y-1, 1→y+1 (m in 46..65, 82..85). Blockiert, wenn der Schritt diese Kante überquert, Tür zu (0x3b64[d]==0) und 0x41e7!=1.",
+  "eigene_zelle": "GERDEP L_011d5 switch odirb(0x13)=map[x][y] -> L_01629(x,y)",
+  "zielzelle": "GERDEP L_013a9 switch odirb(0x12)=Zielzellen-Material -> L_01629(Ziel)",
+  "routine": "GERDEP L_01629, 0x41e7!=1",
+  "stufe": "known",
+  "korrigiert": {
+   "datum": "2026-11-03",
+   "alt": "Blockade, wenn eigene oder Zielzelle eine geschlossene Tür ist",
+   "grund": "Alderaan Emulator T4 (alderaan/private/run_door_lever_i1.md): Betreten von (20,53) gelingt, Verlassen nach (20,54) blockiert; Code-Ursache: Material 53 -> Kante y+1"
+  }
+ },
  "tests": [
   {
    "id": "T1",
@@ -389,8 +400,15 @@
    "patch": {
     "4623": 0
    },
-   "erwartet": "Schritt blockiert",
-   "koord": "Party (20,52) Blick 3 vor Tür 10 (20,53)"
+   "erwartet": {
+    "schritt1": "(20,53) gelingt",
+    "schritt2": "blockiert",
+    "kontrolle_4623_1": "(20,54) erreicht"
+   },
+   "koord": "Tür 10 (20,53), Material 53, Kante y+1",
+   "aktion": "Start (20,52) Blick 3, zweimal vorwärts",
+   "stufe": "known",
+   "korrigiert": true
   },
   {
    "id": "T5",
