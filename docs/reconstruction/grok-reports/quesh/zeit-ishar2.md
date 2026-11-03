@@ -1,6 +1,6 @@
 # Time, actor facing, save gate in Ishar 2: static, handoff format
-Status 2026-10-18 20:40 CEST, Quesh. Read-only. Nothing committed. Basis: Hoth's report HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md, with saves HOTK753 → HOTZ0/HOTZ1/HOTZ1N/HOTZ2/HOTZ3B/HOTZ4.
-SHA-256 (prefix) MAIN/GERDEP/FRISE/EAFF/IO.IO: bfab5e9175931dbb… 58d2c57ff3eb8318… 27117c124caf904a… 6ab9102e2566617a… 0df1f34cf2519341… 
+*(Savewerte → `private/zeit-ishar2-savewerte.md`, SW-1)*
+SHA-256 (prefix) MAIN/GERDEP/FRISE/EAFF/IO.IO: bfab5e917593… 58d2c57ff3eb… 27117c124caf… 6ab9102e2566… 0df1f34cf251… 
 Offsets are zero-based.
 
 ## Q1. Byte 3220 = 0x35ce table, actor facing
