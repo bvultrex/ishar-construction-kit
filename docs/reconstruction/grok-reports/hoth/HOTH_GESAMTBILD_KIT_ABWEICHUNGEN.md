@@ -9,7 +9,7 @@ Grundlage: HOTH_FIXTURES_MONSTER_KI.md, HOTH_FIXTURES_ISHAR1_SAVEMAP.md, HOTH_FI
 | 2 | gold | 735, u8, kein goldThousands | Tausender 478+2c, Rest 3993+2c, je BE16 | known für Speichern/Low-Byte (SH10); Kauf-Diff offen |
 | 3 | level / psychic | 994+c (997) / 745+c (748) | 738+c / 768+c | known (SM03, SM04) |
 | 4 | hp | 725/728 u8 | 468+2c BE16 (bei PA02 474) | suspected (PA02.hp) |
-| 5 | race | fehlt | 733+c (1 Mensch, 2 Elf, 3 Zwerg, 4 Ork, 5 Echse) | **known kausal** (Patch RACEX: Bogen zeigt „Eidechse“ statt „Menschlich“) |
+| 5 | race | fehlt | 733+c (1 Mensch, 2 Elf, 3 Zwerg, 4 Ork, 5 Echse) | **known kausal** (Patch RACEX: Bogen zeigt die gepatchte Rasse) |
 | 6 | class, xp, hpMax, temper, Inventar 498+26c+2k, Zauberbuch, Name | fehlen | siehe SAVEMAP | class known (731, PA01.class), Rest suspected (SM19, SM31–SM33) |
 | 7 | Attributwerte | DEBUG-Cheat-Map | siehe SAVEMAP | known: falsch |
 

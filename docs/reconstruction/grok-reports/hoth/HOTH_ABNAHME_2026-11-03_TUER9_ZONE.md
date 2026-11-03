@@ -24,6 +24,6 @@ Bei Zone 33/35 öffnet der Klick Tür 9, bei Zone 36 nicht (known). Zuordnung Zo
 | T1a: von Markerzelle Zone 36 einen Schritt nach O | Zone 36→35 | known (Quesh-These bestätigt) |
 | T1b: weiter bis vor Tür 9 (ohne Marker) | Zone bleibt 35 | known |
 | T1c: Klick Tür 9 | 7390 0→1 | known |
-| T2: drei Schritte nach W auf die Marker (Start mit Zone 35) | c25: Zone bleibt 35 (nicht trennscharf, da Start 35); c24: 35; c23: 36 | known |
+| T2: drei Schritte nach W auf die Marker (Start mit Zone 35) | 1. Schritt: Zone bleibt 35 (nicht trennscharf, da Start 35); 2. Schritt: 35; 3. Schritt: 36 | known |
 | T3 Gang zur Halle | nicht durchgeführt | offen |
 Damit: Marker B=−75 → Zone 35, B=−76 → Zone 36 bestätigt (Zone = |B|−40 für diese zwei Werte known; allgemeine Regel −99..−70 suspected; Marker 34/33 nicht getestet).

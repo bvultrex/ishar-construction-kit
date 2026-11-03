@@ -1,6 +1,6 @@
 # HOTH_FIXTURES 18.10.2026: synthetic contract vectors (Hoth)
 
-> Bereinigte Fassung (2026-11-03): Positionen, Klickkoordinaten, Pixelzahlen, Spielzeiten, sha-Werte und Rohwerte aus Saves stehen in `private/bereinigung/HOTH_FIXTURES_2026-10-18.privat.md`.
+> Bereinigte Fassung (2026-11-03): Positionen, Pixelzahlen, Spielzeiten, sha-Werte und Rohwerte aus Saves stehen in `private/bereinigung/HOTH_FIXTURES_2026-10-18.privat.md`.
 
 Assignment from Cupero, 21:01. Part A is small stuff, Part B is the main assignment. Offsets count from 0, `cmp -l` = from-0 + 1.
 Status levels: **known** means I have my own evidence from a run of the original (report named). **suspected** means a finding by another agent (Quesh/Alderaan) or an assumption. **unknown** means open; such vectors are only counted.
@@ -37,7 +37,7 @@ Verdicts per point:
 - **Pickup: suspected.** Source: Quesh `pickup-contract-ishar2`, Alderaan PICK9A/9B/R/Q→S. I did not reproduce it in the original myself. P08 (full backpack → item stays on the cursor) is only an assumption drawn from "first free slot".
 - **Lever 6 (M15/M16), frame door 5 (M17/M18), keyhole door 8 (M19/M20), door 28 at 0→1 and 3→4 plus the unchanged middle hours (M23–M26), actor 69 (M29–M31), clock offsets (M41), day phase at hours 1/6/7/8: known.** Sources: my reports HEBEL_TUER(_2), TUER8, TUER28_ZEIT, ACTOR69.
 - **B ranges outside the doors I tested (weitere B-Werte privat, zone, walk trigger), wrong facing and wrong item at the keyhole (M21/M22), door 28 at 4→5 and 23→0, actor 69 without object 6, day phase at 12/19/20/22: suspected.**
-- **Clock rollover (M42–M44): suspected.** The limit of 1000 comes from Quesh; I observed at most 957, which is consistent with it. Ticks paused while 0x2ab7≠0 also comes from Quesh.
+- **Clock rollover (M42–M44): suspected.** The limit of 1000 comes from Quesh; my observed maximum (value private) is consistent with it. Ticks paused while 0x2ab7≠0 also comes from Quesh.
 - **RNG: suspected.** Two independent sources agree: Quesh with +0xf881, and rules.md / the kit `originalActorRandom` with −0x77f. These are equal mod 2^16. My own check in start.exe found no plain-text code: the constant sits at file 0x44ea in packed/encoded data, and I did not disassemble it.
 - **Combat Ishar 2 and Ishar 1: suspected** (Quesh JSONs). Integer division is assumed to truncate (suspected). Halving when 0x2e56 is set has unconfirmed rounding. K211 assumes rnd(0)=0 for dmax≤0, giving damage 1.
 - **Combat unknown: K219** (hit chances in the original, flagged as open by Quesh) and **K112** (Ishar 1 L_072f2 stat/HP gain on level-up). Not made up.
@@ -58,7 +58,7 @@ Verdicts per point:
 |---|---|---|---|
 | `door-mechanics.ts pullLever` | lever 6 (toggles switch k and door k) | **full** | M15, M16 fit |
 | `door-mechanics.ts hourTick` | door 28 at 1 and 4 o'clock | **full** | M23–M28 fit |
-| `door-mechanics.ts useOnDoorForm` | key −17 on form 66 → door 8 | **partial**: the item/form rule fits; the position [Pos.], facing 2 and the "key not consumed" rule must come from outside | M19, M22 fit |
+| `door-mechanics.ts useOnDoorForm` | key −17 on form 66 → door 8 | **partial**: the item/form rule fits; the position, facing and the "key not consumed" rule must come from outside | M19, M22 fit |
 | (missing) frame click door 5 "open only" | M17/M18 | **missing**: no model for clicking the frame of a leaf door | – |
 | `door-mechanics.ts afterStep` | STEP_RESET_DOORS 5, 9, 17 | not contradictory, but **open**: per the kit, door 5 falls shut after every step (GERDEP L_013af). My runs had no step after opening, so this is not tested | informational |
 | `cont-grid.ts doorNumber` | B 61..109 → door | **full** for doors. Levers are in `nicheSwitch` (A 78/79, B −11..−59) and `pullLever`; zone/trigger are in `sceneTriggerAt`/`afterStep` | M01–M13 fit |
