@@ -111,6 +111,24 @@ v('M48',C,'suspected','GERDEP 0x013d5-0x01407 (eigene Listing-Lesung; Türen 9/1
 v('M49',C,'suspected','GERDEP 0x00682 ff. (L_013af nur bei erfolgreichem Schritt, odirb(0x16)==1)',
   {'save':[by(7386,1)],'ops':[{'op':'turn'},{'op':'blockedStep'}]},{'changes':{}},'Drehen bzw. blockierter Schritt setzen nicht zurück (HOTSR3: Vorwärts gegen die geschlossene Tür 5 blockiert)')
 
+S3=H+'STEP_RESET.md (Nachtrag 2026-11-03, Sitzungen private/stepreset3)'
+v('M50',C,'known',S3+' HOT17E -> Klick Rahmen (B=77, Karte 6 r25 c17) -> B -> HOT17G: 7398 1->0; GERDEP 0x01407',
+  {'save':[by(7398,1)],'ops':[{'op':'step'}]},{'changes':{'7398':0}},'Tür 17 fällt nach erfolgreichem Schritt zu (gleiche Stunde h8)')
+v('M51',C,'known',S3+' HOT17H frisch geladen -> HOT17I ohne Schritt: 7398 bleibt 1',
+  {'save':[by(7398,1)],'ops':[]},{'changes':{}},'Laden ist kein Schritt (Tür 17)')
+v('M52',C,'known',S3+' HOT17E -> Klick -> TL -> HOT17J (h8, kein Stundenwechsel): 7398 = 0; Bild 49/54 Wand zu',
+  {'save':[by(7398,1)],'ops':[{'op':'turn'}]},{'changes':{'7398':0}},'Widerspricht M49 für Tür 17: Drehen schließt; Mechanismus unbekannt (kein weiterer Schreiber auf 0x4aa4+17 im Listing gefunden)')
+v('M53',C,'known',S3+' HOT9G (7390=1 im eigenen Save gesetzt, Karte 5 r50 c21) -> B -> HOT9I: 7390 = 0; GERDEP 0x013fd',
+  {'save':[by(7390,1)],'ops':[{'op':'step'}]},{'changes':{'7390':0}},'Tür 9 per Klick nicht zu öffnen (c21/c22); Zustand gesetzt')
+v('M54',C,'known',S3+' HOT9G -> TL -> HOT9J (h6): 7390 = 0',
+  {'save':[by(7390,1)],'ops':[{'op':'turn'}]},{'changes':{'7390':0}},'Drehen schließt auch Tür 9')
+v('M55',C,'known',S3+' HOT9G frisch geladen -> HOT9H ohne Schritt: 7390 bleibt 1',
+  {'save':[by(7390,1)],'ops':[]},{'changes':{}})
+v('M56',C,'known',S3+' HOTKA (Kopie GRIMZ, 7577=52) -> F -> HOTKC: 7577 = 0; GERDEP 0x013df',
+  {'save':[by(7577,52)],'ops':[{'op':'step'}]},{'changes':{'7577':0}},'Kontaktliste nach erfolgreichem Schritt leer')
+v('M57',C,'known',S3+' HOTKA -> TL,TR -> HOTKB: 7577 bleibt 52',
+  {'save':[by(7577,52)],'ops':[{'op':'turn'},{'op':'turn'}]},{'changes':{}},'Drehen leert die Kontaktliste nicht (Drehen ruft also vermutlich nicht L_013af)')
+
 # ---------------- 3 combat ----------------
 def tdiv(a,b): q=abs(a)//abs(b); return q if (a>=0)==(b>0) else -q
 def rng(r): return (r*0x7ab7+0xf881)&0xffff
@@ -193,6 +211,51 @@ v('S13',C,'known',H+'CONT_WRITEBACK_2.md (HOTTU1 vs GRIMZEL: nur 45, 49/50 cmp)'
 v('S14',C,'known',SX+' Punkt 7 (Gold/XP bleiben byte-genau)',{'diffOffsets':[48,49,1007]},{'roundtripOk':False},'Negativvektor: Änderung ausserhalb der Uhr verletzt den Roundtrip')
 v('S15',C,'suspected','Annahme: Stundenwechsel während Laden/Speichern ändert auch Tag/Phase (90..93)',{'diffOffsets':[45,47,49,91,93]},{'roundtripOk':True},'Phase-Bytes nur bei Stundenwechsel; nicht im Original gezielt getestet')
 v('S16',C,'known','Größe 8359 Byte (IO.IO Größenprüfung; save_layout)',{'saveSize':True},{'size':8359})
+
+# ---------------- magic-ishar1 (Quesh magic-contract-ishar1.md; Hoth 2026-11-03) ----------------
+C='magic-ishar1'; MQ=Q+'magic-contract-ishar1.md'
+# T = PARAM 0x4010 table as given by Quesh R3 (T[0..35]; T[36]=0 assumed). Hoth check: lvl(s)=T[s-1] and sl(s)=T[s] columns are mutually consistent.
+T=[1,3,5,1,3,5,1,2,0,8,0,6,3,8,10,4,6,1,1,1,0,3,3,4,4,5,6,6,0,7,9,10,3,4,6,5,0]
+def r100(seed,n):
+    r=seed; out=[]
+    for _ in range(n): r=(r*0x7ab7+0xf881)&0xffff; out.append(r)
+    return out
+def rnd(r,n): return (r*n)>>16
+v('I01',C,'known','FRISE 0x02cee-0x02d0c (Hoth-Lesung: loc136 -= dirb5c+5; <0 -> 0; -> 0x16b4[dirb11])',
+  {'op':'cost','M':72,'sl':0},{'mental':67})
+v('I02',C,'known','FRISE 0x02cee (Untergrenze 0)',{'op':'cost','M':3,'sl':9},{'mental':0})
+v('I03',C,'suspected',MQ+' R3/R5 T1 (sl(28)=T[28]=0 -> 72-5); FRISE 0x02337 dirb5c = 0x4010[dirb5d]',
+  {'op':'castCost','s':28,'M':72},{'mental':67},'61 wäre lvl(s) statt sl(s) (R3 off-by-one widerlegt)')
+v('I04',C,'suspected',MQ+' R9 T2 (sl(30)=9)',{'op':'castCost','s':30,'M':72},{'mental':58})
+v('I05',C,'suspected',MQ+' R9 T3 (sl(23)=4)',{'op':'castCost','s':23,'M':75},{'mental':66})
+v('I06',C,'known','FRISE 0x02413 (rnd(100) < 8*loc134 + loc136; loc134=0x167c[c], loc136=0x16b4[c] bei 0x02314/0x0231f)',
+  {'op':'friendlyThreshold','L':8,'M':72},{'threshold':136})
+v('I07',C,'known','FRISE 0x02515 (rnd(100) < loc136 - 3*(dirb5c - loc134))',{'op':'hostileThreshold','L':10,'M':75,'sl':4},{'threshold':93})
+v('I08',C,'known','FRISE 0x02515 (negativ möglich)',{'op':'hostileThreshold','L':1,'M':10,'sl':10},{'threshold':-17})
+seed=0x1234; rs=r100(seed,3); hp=10
+for r in rs: hp=min(14,hp+rnd(r,2*2+2)+1)
+v('I09',C,'suspected',MQ+' R5 Healing; FRISE 0x0243a (rnd(2*s+2)+1, Hoth-Lesung) ; RNG wie Vertrag rng',
+  {'op':'heal','s':2,'L':3,'hp':10,'maxHp':14,'seed':seed},{'hp':hp},'L Iterationen, Kappe je Schritt')
+v('I10',C,'suspected',MQ+' R5 Schadenszauber (L+sl, kein RNG, keine Rüstung)',{'op':'damage','s':23,'L':10,'actor':63,'item40':False},{'dmg':14})
+v('I11',C,'suspected',MQ+' R5 (Spell 32 gegen Actor != 39: 300/60)',{'op':'damage','s':32,'L':10,'actor':63,'item40':False},{'dmg':5})
+v('I12',C,'suspected',MQ+' R5 (Actor 39 + Item 40: x4)',{'op':'damage','s':32,'L':10,'actor':39,'item40':True},{'dmg':1200})
+v('I13',C,'suspected',MQ+' R5 Lightning (D=floor((L+sl)/2), D -= ARM kumulativ)',{'op':'lightning','L':10,'arm':[2,3,10]},{'dmg':[5,2,0]})
+v('I14',C,'suspected',MQ+' R3 Protection 3 (s=5: 10000*(s-4)+floor(5ML/4))',{'op':'protection','s':5,'L':8,'M':72},{'timer':10720})
+v('I15',C,'suspected',MQ+' R3 Mental shield (floor(5ML/4))',{'op':'timer54','L':8,'M':72},{'timer':720})
+v('I16',C,'suspected',MQ+' R3 Sleep/Blindness/Binding/Confusion (floor(ML/4))',{'op':'actorTimer','L':8,'M':72},{'timer':144})
+v('I17',C,'known','STAGE 0x005e6 (0x3f12 = 3*T[s-1], Tausender) ; Werte T: '+MQ+' R3',{'op':'price','lvl':6},{'goldK':18})
+v('I18',C,'suspected',MQ+' R4 Preis aus Tabelle (s=28: lvl 6)',{'op':'priceSpell','s':28},{'goldK':18})
+v('I19',C,'suspected',MQ+' R4 Lernwurf rnd(13)+lvl < WIS (Klassen 0,2,5) sonst INT; STAGE 0x007ea',
+  {'op':'learn','s':4,'cls':6,'wis':5,'int':12,'r':0x8000},{'learned':True},'rnd(13)=6, lvl(4)=1 -> 7 < 12')
+v('I20',C,'suspected',MQ+' R4 Lernwurf (Paladin nutzt WIS)',{'op':'learn','s':4,'cls':0,'wis':5,'int':12,'r':0x8000},{'learned':False})
+for n,(cls,sp,ok) in enumerate([(0,1,True),(0,2,False),(6,34,True),(6,17,False),(9,20,True),(2,33,True),(18,23,True),(18,31,False)]):
+    v('I%02d'%(21+n),C,'suspected',MQ+' R4 Klassenregel STAGE 0x00461',{'op':'allow','cls':cls,'s':sp},{'allowed':ok})
+v('I29',C,'suspected',MQ+' R1 ITAVERNE 0x0067d (Schlaf: >50 -> 100 sonst +50)',{'op':'sleep','M':[30,51,0]},{'mental':[80,100,50]})
+v('I30',C,'suspected',MQ+' R2 Zauberklassen',{'op':'canCast','cls':[0,1,6,17]},{'can':[True,False,True,False]})
+v('I31',C,'suspected',MQ+' R7 Save-Offsets (MAIN L_0480e cfwriteb)',{'op':'saveOffsets','c':3,'k':2},{'mental':771,'spell':850,'rune':5024,'icon':4953,'level':741,'size':5216})
+v('I32',C,'suspected',MQ+' R6 Actor-Timer: nur der erste != 0 (Bindung, Schlaf, Verwirrung, Blindheit) sinkt',{'op':'actorTimers','t':[0,5,3,2]},{'t':[0,4,3,2]})
+v('I33',C,'suspected',MQ+' R6 Actor 39/50 immun',{'op':'actorTimers','t':[4,5,3,2],'actor':39},{'t':[0,0,0,0]})
+v('I34',C,'suspected',MQ+' R5 Kosten auch bei Fehlwurf; nicht bei Abbruch (außer 16)',{'op':'paid','cases':['miss','cancel','cancel16','dead']},{'paid':[True,False,True,False]})
 
 out={'schema':'hoth-contract-fixtures/1','created':'2026-10-18','author':'Hoth (Grok Bot executor)',
  'notes':['Offsets ab 0 (cmp -l = ab0+1).','Saves = 8359 Nullbytes, Formatmarke Wort@0 = 2, plus die gelisteten künstlichen Felder (be16 = Big-Endian-Wort, u8 = Byte). Keine Originalbytes.',

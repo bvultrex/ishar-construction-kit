@@ -58,7 +58,8 @@ function mech(v) {
     else if (op.op === 'keyhole') { const p = i.pos; if (p.map === 5 && p.row === 61 && p.col === 15 && p.facing === 2 && op.held === -17) b[L.door + 8] = 1; res.keyConsumed = false; }
     else if (op.op === 'keyOnLeaf') { /* leaf has no form: nothing */ }
     else if (op.op === 'step') { for (const d of [5, 9, 17]) b[L.door + d] = 0; for (let k = 0; k < 3; k++) b[L.contact + k] = 0; } // GERDEP L_013af
-    else if (op.op === 'turn' || op.op === 'blockedStep') { /* no L_013af */ }
+    else if (op.op === 'turn') { b[L.door + 9] = 0; b[L.door + 17] = 0; } // beobachtet (M52/M54/M57): Türen 9/17 zu, Kontaktliste bleibt; Tür 5 beim Drehen ungetestet
+    else if (op.op === 'blockedStep') { /* no L_013af */ }
     else if (op.op === 'hour') {
       const from = rd(b, L.hour), to = op.to; wr(b, L.hour, to);
       if (from !== to) { if (to === 1) b[L.door + 28] = 1; if (to === 4) b[L.door + 28] = 0;
@@ -128,7 +129,38 @@ function savefields(v) {
   }
   throw Error('unknown read');
 }
-const MODELS = { 'pickup-ishar2': (v) => (v.input.armourCodes ? pickupArmour(v) : pickup(v)), 'mechanics-ishar2': mech, rng: rngVec, 'combat-ishar2': combat2, 'combat-ishar1': combat1, 'savefields-ishar2': savefields };
+// ---------- magic-ishar1 (Quesh magic-contract-ishar1.md, Hoth 2026-11-03) ----------
+const T1 = [1,3,5,1,3,5,1,2,0,8,0,6,3,8,10,4,6,1,1,1,0,3,3,4,4,5,6,6,0,7,9,10,3,4,6,5,0];
+const lvl1 = (s) => T1[s - 1], sl1 = (s) => T1[s];
+const ALLOW = { 0: (s) => lvl1(s) === 1 && s < 18, 2: (s) => (lvl1(s) < 4 && s < 18) || s === 33, 5: (s) => s < 18 || [33,35,36].includes(s),
+  6: (s) => (s > 17 && s < 33) || s === 34, 9: (s) => [20,22,24,26].includes(s), 16: (s) => [22,24,26,27,30,34].includes(s), 18: (s) => (lvl1(s) < 6 && s > 17 && s < 33) || s === 34 };
+const CASTERS = [0,2,5,6,9,16,18];
+function magic1(v) {
+  const i = v.input, cost = (M, sl) => Math.max(0, M - (sl + 5));
+  switch (i.op) {
+    case 'cost': return { mental: cost(i.M, i.sl) };
+    case 'castCost': return { mental: cost(i.M, sl1(i.s)) };
+    case 'friendlyThreshold': return { threshold: 8 * i.L + i.M };
+    case 'hostileThreshold': return { threshold: i.M - 3 * (i.sl - i.L) };
+    case 'heal': { const f = rngFrom(i.seed); let hp = i.hp; for (let k = 0; k < i.L; k++) hp = Math.min(i.maxHp, hp + f(2 * i.s + 2) + 1); return { hp }; }
+    case 'damage': { let d = i.s === 32 ? 300 : i.L + sl1(i.s); if (i.actor === 39 && i.item40) d *= 4; else if (i.s === 32) d = Math.trunc(d / 60); return { dmg: d }; }
+    case 'lightning': { let D = Math.floor((i.L + sl1(25)) / 2); return { dmg: i.arm.map((a) => { D -= a; return D > 0 ? D : 0; }) }; }
+    case 'protection': return { timer: 10000 * (i.s - 4) + Math.floor((5 * i.M * i.L) / 4) };
+    case 'timer54': return { timer: Math.floor((5 * i.M * i.L) / 4) };
+    case 'actorTimer': return { timer: Math.floor((i.M * i.L) / 4) };
+    case 'price': return { goldK: 3 * i.lvl };
+    case 'priceSpell': return { goldK: 3 * lvl1(i.s) };
+    case 'learn': { const stat = [0,2,5].includes(i.cls) ? i.wis : i.int; return { learned: ((i.r * 13) >>> 16) + lvl1(i.s) < stat }; }
+    case 'allow': return { allowed: !!ALLOW[i.cls]?.(i.s) };
+    case 'sleep': return { mental: i.M.map((m) => (m > 50 ? 100 : Math.min(100, m + 50))) };
+    case 'canCast': return { can: i.cls.map((c) => CASTERS.includes(c)) };
+    case 'saveOffsets': return { mental: 768 + i.c, spell: 788 + 20 * i.c + i.k, rune: 5021 + i.c, icon: 4921 + 10 * i.c + i.k, level: 738 + i.c, size: 5216 };
+    case 'actorTimers': { if (i.actor === 39 || i.actor === 50) return { t: [0,0,0,0] }; const t = i.t.slice(); const j = t.findIndex((x) => x !== 0); if (j >= 0) t[j]--; return { t }; }
+    case 'paid': return { paid: i.cases.map((c) => c === 'miss' || c === 'cancel16') };
+  }
+  throw new Error('op ' + i.op);
+}
+const MODELS = { 'magic-ishar1': magic1, 'pickup-ishar2': (v) => (v.input.armourCodes ? pickupArmour(v) : pickup(v)), 'mechanics-ishar2': mech, rng: rngVec, 'combat-ishar2': combat2, 'combat-ishar1': combat1, 'savefields-ishar2': savefields };
 // ---------- compare ----------
 const norm = (x) => JSON.stringify(x, (k, val) => (val && typeof val === 'object' && !Array.isArray(val) ? Object.fromEntries(Object.entries(val).map(([kk, vv]) => [String(kk), vv]).sort(([p], [q]) => (p < q ? -1 : 1))) : val));
 const subset = (exp, got) => Object.keys(exp).every((k) => norm(exp[k]) === norm(got[k]));

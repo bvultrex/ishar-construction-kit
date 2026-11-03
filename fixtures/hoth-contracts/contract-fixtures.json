@@ -1613,6 +1613,226 @@
    "note": "Drehen bzw. blockierter Schritt setzen nicht zurück (HOTSR3: Vorwärts gegen die geschlossene Tür 5 blockiert)"
   },
   {
+   "id": "M50",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_STEP_RESET.md (Nachtrag 2026-11-03, Sitzungen private/stepreset3) HOT17E -> Klick Rahmen (B=77, Karte 6 r25 c17) -> B -> HOT17G: 7398 1->0; GERDEP 0x01407",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7398,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "step"
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "7398": 0
+    }
+   },
+   "note": "Tür 17 fällt nach erfolgreichem Schritt zu (gleiche Stunde h8)"
+  },
+  {
+   "id": "M51",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_STEP_RESET.md (Nachtrag 2026-11-03, Sitzungen private/stepreset3) HOT17H frisch geladen -> HOT17I ohne Schritt: 7398 bleibt 1",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7398,
+      "u8": 1
+     }
+    ],
+    "ops": []
+   },
+   "expected": {
+    "changes": {}
+   },
+   "note": "Laden ist kein Schritt (Tür 17)"
+  },
+  {
+   "id": "M52",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_STEP_RESET.md (Nachtrag 2026-11-03, Sitzungen private/stepreset3) HOT17E -> Klick -> TL -> HOT17J (h8, kein Stundenwechsel): 7398 = 0; Bild 49/54 Wand zu",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7398,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "turn"
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "7398": 0
+    }
+   },
+   "note": "Widerspricht M49 für Tür 17: Drehen schließt; Mechanismus unbekannt (kein weiterer Schreiber auf 0x4aa4+17 im Listing gefunden)"
+  },
+  {
+   "id": "M53",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_STEP_RESET.md (Nachtrag 2026-11-03, Sitzungen private/stepreset3) HOT9G (7390=1 im eigenen Save gesetzt, Karte 5 r50 c21) -> B -> HOT9I: 7390 = 0; GERDEP 0x013fd",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7390,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "step"
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "7390": 0
+    }
+   },
+   "note": "Tür 9 per Klick nicht zu öffnen (c21/c22); Zustand gesetzt"
+  },
+  {
+   "id": "M54",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_STEP_RESET.md (Nachtrag 2026-11-03, Sitzungen private/stepreset3) HOT9G -> TL -> HOT9J (h6): 7390 = 0",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7390,
+      "u8": 1
+     }
+    ],
+    "ops": [
+     {
+      "op": "turn"
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "7390": 0
+    }
+   },
+   "note": "Drehen schließt auch Tür 9"
+  },
+  {
+   "id": "M55",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_STEP_RESET.md (Nachtrag 2026-11-03, Sitzungen private/stepreset3) HOT9G frisch geladen -> HOT9H ohne Schritt: 7390 bleibt 1",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7390,
+      "u8": 1
+     }
+    ],
+    "ops": []
+   },
+   "expected": {
+    "changes": {}
+   }
+  },
+  {
+   "id": "M56",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_STEP_RESET.md (Nachtrag 2026-11-03, Sitzungen private/stepreset3) HOTKA (Kopie GRIMZ, 7577=52) -> F -> HOTKC: 7577 = 0; GERDEP 0x013df",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7577,
+      "u8": 52
+     }
+    ],
+    "ops": [
+     {
+      "op": "step"
+     }
+    ]
+   },
+   "expected": {
+    "changes": {
+     "7577": 0
+    }
+   },
+   "note": "Kontaktliste nach erfolgreichem Schritt leer"
+  },
+  {
+   "id": "M57",
+   "contract": "mechanics-ishar2",
+   "status": "known",
+   "source": "HOTH_ABNAHME_2026-10-18_STEP_RESET.md (Nachtrag 2026-11-03, Sitzungen private/stepreset3) HOTKA -> TL,TR -> HOTKB: 7577 bleibt 52",
+   "input": {
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 7577,
+      "u8": 52
+     }
+    ],
+    "ops": [
+     {
+      "op": "turn"
+     },
+     {
+      "op": "turn"
+     }
+    ]
+   },
+   "expected": {
+    "changes": {}
+   },
+   "note": "Drehen leert die Kontaktliste nicht (Drehen ruft also vermutlich nicht L_013af)"
+  },
+  {
    "id": "R01",
    "contract": "rng",
    "status": "suspected",
@@ -2659,6 +2879,558 @@
    },
    "expected": {
     "size": 8359
+   }
+  },
+  {
+   "id": "I01",
+   "contract": "magic-ishar1",
+   "status": "known",
+   "source": "FRISE 0x02cee-0x02d0c (Hoth-Lesung: loc136 -= dirb5c+5; <0 -> 0; -> 0x16b4[dirb11])",
+   "input": {
+    "op": "cost",
+    "M": 72,
+    "sl": 0
+   },
+   "expected": {
+    "mental": 67
+   }
+  },
+  {
+   "id": "I02",
+   "contract": "magic-ishar1",
+   "status": "known",
+   "source": "FRISE 0x02cee (Untergrenze 0)",
+   "input": {
+    "op": "cost",
+    "M": 3,
+    "sl": 9
+   },
+   "expected": {
+    "mental": 0
+   }
+  },
+  {
+   "id": "I03",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R3/R5 T1 (sl(28)=T[28]=0 -> 72-5); FRISE 0x02337 dirb5c = 0x4010[dirb5d]",
+   "input": {
+    "op": "castCost",
+    "s": 28,
+    "M": 72
+   },
+   "expected": {
+    "mental": 67
+   },
+   "note": "61 wäre lvl(s) statt sl(s) (R3 off-by-one widerlegt)"
+  },
+  {
+   "id": "I04",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R9 T2 (sl(30)=9)",
+   "input": {
+    "op": "castCost",
+    "s": 30,
+    "M": 72
+   },
+   "expected": {
+    "mental": 58
+   }
+  },
+  {
+   "id": "I05",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R9 T3 (sl(23)=4)",
+   "input": {
+    "op": "castCost",
+    "s": 23,
+    "M": 75
+   },
+   "expected": {
+    "mental": 66
+   }
+  },
+  {
+   "id": "I06",
+   "contract": "magic-ishar1",
+   "status": "known",
+   "source": "FRISE 0x02413 (rnd(100) < 8*loc134 + loc136; loc134=0x167c[c], loc136=0x16b4[c] bei 0x02314/0x0231f)",
+   "input": {
+    "op": "friendlyThreshold",
+    "L": 8,
+    "M": 72
+   },
+   "expected": {
+    "threshold": 136
+   }
+  },
+  {
+   "id": "I07",
+   "contract": "magic-ishar1",
+   "status": "known",
+   "source": "FRISE 0x02515 (rnd(100) < loc136 - 3*(dirb5c - loc134))",
+   "input": {
+    "op": "hostileThreshold",
+    "L": 10,
+    "M": 75,
+    "sl": 4
+   },
+   "expected": {
+    "threshold": 93
+   }
+  },
+  {
+   "id": "I08",
+   "contract": "magic-ishar1",
+   "status": "known",
+   "source": "FRISE 0x02515 (negativ möglich)",
+   "input": {
+    "op": "hostileThreshold",
+    "L": 1,
+    "M": 10,
+    "sl": 10
+   },
+   "expected": {
+    "threshold": -17
+   }
+  },
+  {
+   "id": "I09",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R5 Healing; FRISE 0x0243a (rnd(2*s+2)+1, Hoth-Lesung) ; RNG wie Vertrag rng",
+   "input": {
+    "op": "heal",
+    "s": 2,
+    "L": 3,
+    "hp": 10,
+    "maxHp": 14,
+    "seed": 4660
+   },
+   "expected": {
+    "hp": 14
+   },
+   "note": "L Iterationen, Kappe je Schritt"
+  },
+  {
+   "id": "I10",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R5 Schadenszauber (L+sl, kein RNG, keine Rüstung)",
+   "input": {
+    "op": "damage",
+    "s": 23,
+    "L": 10,
+    "actor": 63,
+    "item40": false
+   },
+   "expected": {
+    "dmg": 14
+   }
+  },
+  {
+   "id": "I11",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R5 (Spell 32 gegen Actor != 39: 300/60)",
+   "input": {
+    "op": "damage",
+    "s": 32,
+    "L": 10,
+    "actor": 63,
+    "item40": false
+   },
+   "expected": {
+    "dmg": 5
+   }
+  },
+  {
+   "id": "I12",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R5 (Actor 39 + Item 40: x4)",
+   "input": {
+    "op": "damage",
+    "s": 32,
+    "L": 10,
+    "actor": 39,
+    "item40": true
+   },
+   "expected": {
+    "dmg": 1200
+   }
+  },
+  {
+   "id": "I13",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R5 Lightning (D=floor((L+sl)/2), D -= ARM kumulativ)",
+   "input": {
+    "op": "lightning",
+    "L": 10,
+    "arm": [
+     2,
+     3,
+     10
+    ]
+   },
+   "expected": {
+    "dmg": [
+     5,
+     2,
+     0
+    ]
+   }
+  },
+  {
+   "id": "I14",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R3 Protection 3 (s=5: 10000*(s-4)+floor(5ML/4))",
+   "input": {
+    "op": "protection",
+    "s": 5,
+    "L": 8,
+    "M": 72
+   },
+   "expected": {
+    "timer": 10720
+   }
+  },
+  {
+   "id": "I15",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R3 Mental shield (floor(5ML/4))",
+   "input": {
+    "op": "timer54",
+    "L": 8,
+    "M": 72
+   },
+   "expected": {
+    "timer": 720
+   }
+  },
+  {
+   "id": "I16",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R3 Sleep/Blindness/Binding/Confusion (floor(ML/4))",
+   "input": {
+    "op": "actorTimer",
+    "L": 8,
+    "M": 72
+   },
+   "expected": {
+    "timer": 144
+   }
+  },
+  {
+   "id": "I17",
+   "contract": "magic-ishar1",
+   "status": "known",
+   "source": "STAGE 0x005e6 (0x3f12 = 3*T[s-1], Tausender) ; Werte T: quesh/magic-contract-ishar1.md R3",
+   "input": {
+    "op": "price",
+    "lvl": 6
+   },
+   "expected": {
+    "goldK": 18
+   }
+  },
+  {
+   "id": "I18",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R4 Preis aus Tabelle (s=28: lvl 6)",
+   "input": {
+    "op": "priceSpell",
+    "s": 28
+   },
+   "expected": {
+    "goldK": 18
+   }
+  },
+  {
+   "id": "I19",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R4 Lernwurf rnd(13)+lvl < WIS (Klassen 0,2,5) sonst INT; STAGE 0x007ea",
+   "input": {
+    "op": "learn",
+    "s": 4,
+    "cls": 6,
+    "wis": 5,
+    "int": 12,
+    "r": 32768
+   },
+   "expected": {
+    "learned": true
+   },
+   "note": "rnd(13)=6, lvl(4)=1 -> 7 < 12"
+  },
+  {
+   "id": "I20",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R4 Lernwurf (Paladin nutzt WIS)",
+   "input": {
+    "op": "learn",
+    "s": 4,
+    "cls": 0,
+    "wis": 5,
+    "int": 12,
+    "r": 32768
+   },
+   "expected": {
+    "learned": false
+   }
+  },
+  {
+   "id": "I21",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R4 Klassenregel STAGE 0x00461",
+   "input": {
+    "op": "allow",
+    "cls": 0,
+    "s": 1
+   },
+   "expected": {
+    "allowed": true
+   }
+  },
+  {
+   "id": "I22",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R4 Klassenregel STAGE 0x00461",
+   "input": {
+    "op": "allow",
+    "cls": 0,
+    "s": 2
+   },
+   "expected": {
+    "allowed": false
+   }
+  },
+  {
+   "id": "I23",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R4 Klassenregel STAGE 0x00461",
+   "input": {
+    "op": "allow",
+    "cls": 6,
+    "s": 34
+   },
+   "expected": {
+    "allowed": true
+   }
+  },
+  {
+   "id": "I24",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R4 Klassenregel STAGE 0x00461",
+   "input": {
+    "op": "allow",
+    "cls": 6,
+    "s": 17
+   },
+   "expected": {
+    "allowed": false
+   }
+  },
+  {
+   "id": "I25",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R4 Klassenregel STAGE 0x00461",
+   "input": {
+    "op": "allow",
+    "cls": 9,
+    "s": 20
+   },
+   "expected": {
+    "allowed": true
+   }
+  },
+  {
+   "id": "I26",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R4 Klassenregel STAGE 0x00461",
+   "input": {
+    "op": "allow",
+    "cls": 2,
+    "s": 33
+   },
+   "expected": {
+    "allowed": true
+   }
+  },
+  {
+   "id": "I27",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R4 Klassenregel STAGE 0x00461",
+   "input": {
+    "op": "allow",
+    "cls": 18,
+    "s": 23
+   },
+   "expected": {
+    "allowed": true
+   }
+  },
+  {
+   "id": "I28",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R4 Klassenregel STAGE 0x00461",
+   "input": {
+    "op": "allow",
+    "cls": 18,
+    "s": 31
+   },
+   "expected": {
+    "allowed": false
+   }
+  },
+  {
+   "id": "I29",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R1 ITAVERNE 0x0067d (Schlaf: >50 -> 100 sonst +50)",
+   "input": {
+    "op": "sleep",
+    "M": [
+     30,
+     51,
+     0
+    ]
+   },
+   "expected": {
+    "mental": [
+     80,
+     100,
+     50
+    ]
+   }
+  },
+  {
+   "id": "I30",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R2 Zauberklassen",
+   "input": {
+    "op": "canCast",
+    "cls": [
+     0,
+     1,
+     6,
+     17
+    ]
+   },
+   "expected": {
+    "can": [
+     true,
+     false,
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "I31",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R7 Save-Offsets (MAIN L_0480e cfwriteb)",
+   "input": {
+    "op": "saveOffsets",
+    "c": 3,
+    "k": 2
+   },
+   "expected": {
+    "mental": 771,
+    "spell": 850,
+    "rune": 5024,
+    "icon": 4953,
+    "level": 741,
+    "size": 5216
+   }
+  },
+  {
+   "id": "I32",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R6 Actor-Timer: nur der erste != 0 (Bindung, Schlaf, Verwirrung, Blindheit) sinkt",
+   "input": {
+    "op": "actorTimers",
+    "t": [
+     0,
+     5,
+     3,
+     2
+    ]
+   },
+   "expected": {
+    "t": [
+     0,
+     4,
+     3,
+     2
+    ]
+   }
+  },
+  {
+   "id": "I33",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R6 Actor 39/50 immun",
+   "input": {
+    "op": "actorTimers",
+    "t": [
+     4,
+     5,
+     3,
+     2
+    ],
+    "actor": 39
+   },
+   "expected": {
+    "t": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "id": "I34",
+   "contract": "magic-ishar1",
+   "status": "suspected",
+   "source": "quesh/magic-contract-ishar1.md R5 Kosten auch bei Fehlwurf; nicht bei Abbruch (außer 16)",
+   "input": {
+    "op": "paid",
+    "cases": [
+     "miss",
+     "cancel",
+     "cancel16",
+     "dead"
+    ]
+   },
+   "expected": {
+    "paid": [
+     true,
+     false,
+     true,
+     false
+    ]
    }
   }
  ]

@@ -27,6 +27,10 @@ for (const id of ['M19', 'M22']) { const v = byId[id]; let s = stateFrom(mk(v.in
 for (let n = 23; n <= 28; n++) { const v = byId['M' + n]; const b = mk(v.input.save); let s = stateFrom(b); s.hour = (b[44] << 8) | b[45]; s = dm.hourTick(v.input.ops[0].to, s).state; rec(v.id, 'door-mechanics.ts hourTick', s.doors[28] === v.expected.door28); }
 { const s = dm.afterStep({ game: 'ishar2', rows: 90, cols: 60, mapNumber: 5, layerA: cg.bytesToBase64(new Uint8Array(5400)), layerB: cg.bytesToBase64(new Uint8Array(5400)) }, 0, 0, { ...dm.newMechState(), doors: Object.assign(Array(50).fill(0), { 5: 1 }) }); rec('M18+', 'door-mechanics.ts afterStep (STEP_RESET_DOORS 5,9,17)', true, `Tür 5 nach einem Schritt: ${s.state.doors[5]} (Original: HOTSR2 ebenfalls 0, siehe M45)`); }
 for (let n = 1; n <= 13; n++) { const v = byId['M' + String(n).padStart(2, '0')]; const b = v.input.decodeB; const d = cg.doorNumber(b); const e = v.expected; const ok = e.kind === 'door' ? d === e.index : d === undefined; rec(v.id, 'cont-grid.ts doorNumber' + (e.kind === 'door' || e.kind === 'none' ? '' : ' (nur Türen; Hebel/Zone/Trigger in nicheSwitch/sceneTriggerAt/afterStep)'), ok, e.kind); }
+for (const id of ['M50', 'M51', 'M52', 'M53', 'M54', 'M55', 'M56', 'M57']) { const v = byId[id]; const b = mk(v.input.save); const a = b.slice(); let s = stateFrom(b); const g = { game: 'ishar2', rows: 90, cols: 60, mapNumber: 5, layerA: cg.bytesToBase64(new Uint8Array(5400)), layerB: cg.bytesToBase64(new Uint8Array(5400)) };
+  let turn = false; for (const op of v.input.ops) { if (op.op === 'step') s = dm.afterStep(g, 0, 0, s).state; else if (op.op === 'turn') turn = true; } for (let i = 0; i < 50; i++) { b[7381 + i] = s.doors[i]; b[7431 + i] = s.switches[i]; }
+  const ist = JSON.stringify(diff(a, b)), soll = JSON.stringify(v.expected.changes);
+  rec(id, 'door-mechanics.ts afterStep' + (turn ? ' (Drehen: kein Kit-Hook)' : ''), ist === soll, ist === soll ? '' : `Ist ${ist} / Soll ${soll}`); }
 for (const id of ['M45', 'M46', 'M48']) { const v = byId[id]; const b = mk(v.input.save); const a = b.slice(); let s = stateFrom(b); const g = { game: 'ishar2', rows: 90, cols: 60, mapNumber: 5, layerA: cg.bytesToBase64(new Uint8Array(5400)), layerB: cg.bytesToBase64(new Uint8Array(5400)) };
   for (const op of v.input.ops) if (op.op === 'step') s = dm.afterStep(g, 0, 0, s).state; for (let i = 0; i < 50; i++) { b[7381 + i] = s.doors[i]; b[7431 + i] = s.switches[i]; }
   rec(id, 'door-mechanics.ts afterStep', JSON.stringify(diff(a, b)) === JSON.stringify(v.expected.changes), id === 'M48' ? `Kit-Diff ${JSON.stringify(diff(a, b))} (Kontaktliste 0x4b80[0..2] fehlt im Kit)` : ''); }
@@ -63,6 +67,17 @@ for (const id of ['P01', 'P03', 'P08']) {
 for (const id of ['P02', 'P04', 'P05', 'P06', 'P07']) rec(id, '(kein Kit-Modell für Handplätze 9/10 und Rüstung 0x2f0e)', false, 'fehlt');
 // combat
 for (const v of fx.vectors.filter((x) => x.contract.startsWith('combat'))) if (v.status !== 'unknown') rec(v.id, '(kein Kampfmodul im Kit; nur cont-grid.ts trapDamage für Fallen)', false, 'fehlt');
+// magic-ishar1 (Hoth 2026-11-03): kit has only the ISHAR1_SAVE field map (save-maps.ts); no Ishar-1 magic functions.
+{
+  const smap = await imp('save-maps.ts'), F = smap.ISHAR1_SAVE.fields, v = byId['I31'], c = v.input.c;
+  const at = (f) => (f ? f.offset + f.stride * c : undefined);
+  for (const [k, kf] of [['mental', 'psychic'], ['level', 'level']]) {
+    const got = at(F[kf]); rec(`I31.${k}`, `save-maps.ts ISHAR1_SAVE.fields.${kf} (offset+stride*c)`, got === v.expected[k], `bekommen ${got} erwartet ${v.expected[k]}`);
+  }
+  for (const k of ['spell', 'rune', 'icon']) rec(`I31.${k}`, '(kein Feld in ISHAR1_SAVE)', false, `fehlt, erwartet ${v.expected[k]}`);
+  const sz = smap.ISHAR1_SAVE.minLength; rec('I31.size', 'save-maps.ts ISHAR1_SAVE.minLength', sz <= 5216, `minLength ${sz} <= 5216 (keine Größe 5216 im Kit)`);
+  for (const x of fx.vectors.filter((y) => y.contract === 'magic-ishar1' && y.id !== 'I31')) rec(x.id, `(keine Ishar-1-Magie im Kit: ${x.input.op})`, false, 'fehlt');
+}
 const ok = rows.filter((r) => r.ok).length;
 for (const r of rows) console.log(`${r.ok ? 'PASST ' : 'NEIN  '} ${r.id.padEnd(5)} ${r.fn}${r.note ? '  — ' + r.note : ''}`);
 console.log(`\nKit: ${kit}\nPasst: ${ok}/${rows.length}`);
