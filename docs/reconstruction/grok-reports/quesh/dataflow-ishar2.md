@@ -1,19 +1,19 @@
 # Data-flow matrix: Ishar 2 (DOS), NPC / monster / item
 
 - **Base commit:** `bb42748` (handoff); code `319819c`.
-- **Profile:** Ishar 2 DOS, `start.exe` SHA-256 `5e35e58d2d133dadeed4b233b7f962f9c941c3d635feb9d3a067a63c340dadf9`.
+- **Profile:** Ishar 2 DOS, `start.exe` SHA-256 `5e35e58d2d13…`.
 - **Script hashes (SHA-256 of the original packed files):**
-  - IO.IO `0df1f34cf2519341ef20825d49c7f1e7ff204878814db744f7e5cb58ce6b5918`
-  - MAIN.IO `bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95`
-  - EAFF.IO `6ab9102e2566617a9e7511ae1503f3302db1e81ea006081f3bb76d08835957ab`
-  - EATT.IO `d5ef72a5b25eabb50e89a9142ef8acf176f9023c82e694bfe8a06290ba7b14ec`
-  - FRISE.IO `27117c124caf904a31568f5c58f615946083dd3429c02ade1dc1e17552cc2b64`
-  - OBJET.IO `51ec1fdf24bea52fd07cfc5bf01fa46c6ae7b75bbccb93433d6d0c66b0d99e08`
-  - AFFOBJ.IO `40b882fbadff3ea452c76a2af3fdbba9d2b3e4c62d0f19dd838c41f0d5ebdf1e`
-  - SOURIS.IO `78df7c73f880466303867b63dd5e20897777802b0595c64935b9f4462354f9d3`
-  - MARCHAND.IO `a5b84f95b8b50f1c68fc8e6c368a67742f9f96a67ca033d6e72ee4d7c4673529`
-  - GERDEP.IO `58d2c57ff3eb8318ac73512d5a89292477fbcc892a4ceb6d75bf7de58b88da4b`
-  - MESSAGE.IO `d180a5d858c7d188bc1ccf4546c3561bfed1779b8389ad10e7c74599a73e2742`
+  - IO.IO `0df1f34cf251…`
+  - MAIN.IO `bfab5e917593…`
+  - EAFF.IO `6ab9102e2566…`
+  - EATT.IO `d5ef72a5b25e…`
+  - FRISE.IO `27117c124caf…`
+  - OBJET.IO `51ec1fdf24be…`
+  - AFFOBJ.IO `40b882fbadff…`
+  - SOURIS.IO `78df7c73f880…`
+  - MARCHAND.IO `a5b84f95b8b5…`
+  - GERDEP.IO `58d2c57ff3eb…`
+  - MESSAGE.IO `d180a5d858c7…`
 - **Addresses:** image offsets in the unpacked module; MAIN = ALIS main VRAM.
 - **Not run here:** kit tests (node 20 on this box; the repo expects Node 24 TS stripping, and `*-local` needs ISHAR2_DIR/listings).
 
@@ -31,7 +31,7 @@
 | 9 | Shop purchase | MARCHAND 0x004b8–0x005c0, 0x00603, 0x00693, 0x00775; shop entry MAIN 0x02e14/0x03169/0x0326a | proven (static) | `original-commerce.ts`, `original-merchants.ts`, `original-shop-entry.ts`, `test:original-shop` | Selling path, stock UI; original-game confirmation |
 | 10 | Ground items | SAV 200 records (row 336, col 536, scene 736, facing 8039); AFFOBJ scans ids 0..110; OBJET 0x003ad/0x003db; SOURIS 0x004a6–0x004ba clears fields | proven for object ids 9/10, map 1 | `save-world-items.ts`, `original-ground-runtime.ts`, `test:save-world-items`, `test:original-ground` | Other object codes (quest/stack branches), occlusion on other maps, drop path |
 | 11 | Inventory layout | MAIN 0x2d8e = 5 chars × 15 words (stride 30 B; cdim at MAIN 0x0009b); slots 9/10 = hands; stacks 0x... file 7629 (5×20) | **proven** (cdim + CH1V→CH1N→CH2N diff: item −109 +48→+20, −25 +50→+18) | `original-commerce.ts` (`ORIGINAL_COMMERCE_OFFSETS.inventory=1036`), `test:inventory` | Hand→hand transfer routine (FRISE) not ported |
-| 12 | Armour from equipment | MAIN 0x2f0e (5 bytes, file 1336) | **proven** (CH2N: slot0 0→4, slot1 16→12 when item −25 changed hands) | none | Locate the recompute routine (FRISE, after hand drop) |
+| 12 | Armour from equipment | MAIN 0x2f0e (5 bytes, file 1336) | **proven** (CH2N: Rüstungswerte slot0/slot1 ändern sich (Werte: private) when item −25 changed hands) | none | Locate the recompute routine (FRISE, after hand drop) |
 | 13 | Player melee | FRISE 0x05600–0x0575d: hit = 50+2·Lvl+3·(AGI·S2ef6/80−AGI_t)−d/2+skill/5; dmg = (STR+2−CON_t)/2−ARM_t+rnd(T4a08[item+116])+1 (bare hands: no weapon roll); `T36ac[t] −= dmg` | proven (static; operand order per opile) | **none** | Kit port + test; d term (entity+2/15) meaning; spells |
 | 14 | Monster attack on party | EATT 0x0a3d–0x0bfb (negative branch from 0x00553): hit = 9·L+3·fc−l101, dmax = l104+2−CON/2−armour, HP 0x2d5c −= rnd(dmax)+1 | proven (static) | **none** (`original-actor-signal.ts` explicitly excludes 0x553) | Port; damage/animation handshake |
 | 15 | Death signal + XP | FRISE 0x0575d–0x05870: `T36ac≤0` → ckill entity, csend 40, clear 0x449a/0x36ac; killer XP += L_t/3+1 (0x05846), others +L_t/5+1 (0x0585d); id 57 special send −100 | proven (static) | **none** | Port; death of party members (EATT 0x0bfb → ?) open |

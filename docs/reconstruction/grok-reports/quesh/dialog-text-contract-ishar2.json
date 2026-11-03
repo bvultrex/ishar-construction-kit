@@ -8,12 +8,12 @@
  ],
  "contract": "dialog-text-contract-ishar2",
  "sha256": {
-  "TEXTIN.IO": "e0c8293e19017f3e90f4c0b2d812b5a9a85052673be9acc18df3f686c1a65a6c",
-  "TEXTINE.IO": "a8f9dc4b7be0c4b5034e284f8af2699693dcd16bcda5704f89dc42f411a2e1c6",
-  "TEXTIND.IO": "b36ded430e7d183ad29be627679aaf8823aeae5cb056394253dec118f048465d",
-  "MAIN.IO": "bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95",
-  "PP11.IO": "5e7672ecc83dd8712ebc9718d66c4f5a4825d1d2e3f1f1d02ca74ce5e3c09423",
-  "MARCHAND.IO": "a5b84f95b8b50f1c68fc8e6c368a67742f9f96a67ca033d6e72ee4d7c4673529"
+  "TEXTIN.IO": "e0c8293e1901…",
+  "TEXTINE.IO": "a8f9dc4b7be0…",
+  "TEXTIND.IO": "b36ded430e7d…",
+  "MAIN.IO": "bfab5e917593…",
+  "PP11.IO": "5e7672ecc83d…",
+  "MARCHAND.IO": "a5b84f95b8b5…"
  },
  "routines": [
   {

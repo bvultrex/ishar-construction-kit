@@ -12,7 +12,7 @@ SHA-256:
 - EDPLT.IO 2f6156c6…9ecb
 - MAIN.IO bfab5e91…db95
 - CONT5.FIC 5bc64e4c…f0a0
-- base save dosbox/ishar2-alis/K5F005.SAV 324c1ce7…fb88
+- *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-1)*
 
 Sources: ALIS listings `decompile/alis/listings/ishar2/*.asm`. No original bytes in this file.
 
@@ -82,7 +82,7 @@ Save layout: 0x4aa4 file 7381 + d, 0x4ad8 file 7431 + k (50-byte blocks; IO.IO 0
 
 ### 4. Test spot A: lever (recommended, DJ1)
 Map 5, lever at **r23 c19** (A = 64, B = −16 → k = 6), door 6 at r27 c17 (A = 43, B = 66).
-- Base K5F005.SAV: map 5, zone 31 (DJ1), facing 3; 0x4aa4[6] = 1, 0x4ad8[6] = 1.
+- *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-2)*
 - Patch:
   | File offset (BE word) | Value | Meaning |
   |---|---|---|
@@ -98,7 +98,7 @@ Map 5, lever at **r23 c19** (A = 64, B = −16 → k = 6), door 6 at r27 c17 (A 
 - Plus the noise known from §8.4 (clock, day phase, monster re-roll).
 
 ### 5. Test spot B: door frame (DJ1)
-Map 5, **r40 c31** (A = 70, B = 65 → door 5, closed in K5F005).
+*(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-3)*
 - Patch row 40, col 31, facing 3, zone (offset 18) = 33. The zone marker at r40 c30 sets 33 = DJ1.
 - Click the door frame (x = 128, y ≈ 70).
 - Expected: **7386 0 → 1**. The frame slides away and it is one-way.
@@ -160,11 +160,11 @@ Static. The PCAVE/OBJET forms were decoded with the kit library (`readDosAlisFor
 
 ### (2) 0x4b80 / "86": index error, not a contradiction — proven
 - 0x4b80 occupies **file 7576..7578, zero-based** (IO.IO 0x010f5).
-  - K5F005: [0, 0, 0]. GRIMZ: **[0, 52, 0]**, so 52 sits in **slot 1**. Hoth's cmp offset 7578 (one-based) = 7577.
+  - *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-4)*
 - The **86 is byte 7575 = 0x4b68[4]**, not part of 0x4b80. 0x4b68 occupies file 7571..7575, 5 bytes, one per character.
   - It is **"Premiers soins" (first aid, %)**: MESSAGE 0x00729/0x0073e prints it; FRISE 0x01e34 rolls `rnd(100) < 0x4b68[c]`; FRISE 0x02569 sets it (with 0x4b58/0x4c76) on character creation or a level change; PARAM 0x00eea initialises it.
   - 86 is character 4's first-aid value, not an actor id.
-- GERDEP 0x013d5 clears all 3 slots of 0x4b80. That fits GRIMZ → HOTTU6 (52 disappears after a step). The claim stands (exact trigger point of GERDEP 0x013d5 in the move: hypothesis).
+- *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-5)*
 
 ### (3) 0x519f / 0x51a0 = time-of-day phase — proven
 - **Writers:**
@@ -222,14 +222,14 @@ No hits in OBJET, ANIMALS, GESORT, FDJCAT or DJ2.
 ### Door 8 in CONT5 (proven)
 - **Leaves:** A 42/38 with B = 68 → d = 8, at r41/45/49/53/57 × c14 and c16: 10 bars on both sides of the corridor in column 15. They all switch together through 0x4aa4[8].
 - **Keyhole:** **r61 c15**, A = 78, B = 0. This is the south end of the same corridor; there is no lock marker in B.
-- **Zone:** marker r61 c21 = −76 → 36 = DJCAT (MAIN 0x01c96). The K5T0xx saves in this corridor (r57 c15, …) all have zone 36. No other decor module spawns there.
+- *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-6)*
 - Ways to open:
   - **Key click:** SOURIS 0x00a50 — material 66 hit + held item −17 → 0x4aa4[8] = 1, plus a PCAVE nudge (0x00a67). No inventory write, so the key is not consumed (static).
   - **Spell:** GESORT 0x01433 (66 → 0x4aa4[8] = 1). Its target test is presumably the same form.
   - No script event found.
 
 ### Test spot (for Hoth)
-- **Base:** HOTKY1 (map 5, zone 36, key −17 in character 0 slot 9 = file 1054/1055 = FF EF, door 8 closed).
+- *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-7)*
 - **Patch** (BE words):
   | File offset | Value | Meaning |
   |---|---|---|
@@ -259,7 +259,7 @@ No hits in OBJET, ANIMALS, GESORT, FDJCAT or DJ2.
 - **0x4b80 (file 7576–7578):** Alderaan's "guard list of the party's cell" and my "melee-contact list" are **the same**. proven
   - Filled by EAFF 0x0057f/0x005a1/0x005cb (and EDPLT 0x002c6–0x00300) when an actor stands on the party cell.
   - Cleared per slot by FRISE 0x057b3 on a kill, and all three by GERDEP 0x013d5–0x013e9 on movement.
-  - Runtime: ENCZ → ENCYA 0,0,0 → 91,90,92; ENCYH 7576 → 0; ENCYJ (Back) → all 0.
+  - *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-8)*
   - The slot index is the form/depth slot dirb65 of the player attack.
 - **Byte 7409 = 0x4aa4[28]** (door table, 7381 + 28), **not** a second day-phase flag. GERDEP 0x0048a–0x0054d runs on every change of the hour 0x4fc6 (compared with dirb 0x33):
   - hour 1 → 0x4aa4[28] = 1 (door 28 opens), wake entity type 0x5b (DJ1 decor, redraw)
@@ -281,9 +281,9 @@ Static (GERDEP.IO.asm / CONT5/6, read only). Evidence levels: known / suspected 
 - So **10 step calls + 2 turn calls**. 0x0083a and 0x0096b are the two turn entries. The earlier list "12 step paths" was wrong.
 - L_013af: 0x013af–0x013d3 wakes type-33 entities, 0x013d5/0x013df/0x013e9 clears 0x4b80[0..2], **0x013f3/0x013fd/0x01407 sets 0x4aa4[5]/[9]/[17] = 0**, 0x01411 jsr L_0162a, then 0x01415 ff. evaluates walk trigger dirb14 (B of the cell in front, from L_00b2e; on a turn this is stale or the new cell).
 - Save diff on turn (TL or TR): 7386→0, 7390→0, 7398→0, 7576..7578→0. Door 6 (lever) and others are unchanged.
-- Contradiction with HOTKB (contacts stay [0,52,0] after TL,TR): statically 0x4b80 is cleared at every turn. Suspected: the contact is set again directly afterwards by the monster entity (woken at 0x013cd, standing next to the party). On a step the party moves out of range, so it stays 0. Test: TL, save without waiting a tick (if possible), or turn with no monster in reach. Unknown until measured.
+- *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-9)*
 - **Door 5 is therefore NOT one-way** (correction to §"Door 5 … one-way"): it closes again on every successful step and every turn. The existing text stays unchanged.
-- Other (non-constant) writers checked: 0x01590/0x0159e toggle `0x4aa4[0x507c[|B|−100][1]]`, walk trigger B −100..−119, only maps > 4. In all saves the table 0x507c (save 7481..7520, entry i = byte 7482+2i) = i0→4, 1→0, 2→13, 3→13, 4→12, 5→15, 6→21, 7→22, 8→23, 9→12. **No entry is 9 or 17** (known for FINALE/GRIMZ/GRIMZEL; the only static writer of 0x507c is its read at 0x01520, so it is probably initialised by load). This writer is not the turn cause.
+- *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-10)*
 
 ### (b) Door 9 (save 7390)
 - CONT: only B = 69 cell is **map 5 r50 c22, A = 70** (frame, same orientation as door 5 r40 c31: corridor along the columns, c21 A = 11 / c23 A = 0, like door 5 c30 A = 11). No lever B = −19 in CONT5. No walk-trigger table entry = 9.
@@ -294,26 +294,26 @@ Static (GERDEP.IO.asm / CONT5/6, read only). Evidence levels: known / suspected 
   - GERDEP toggle 0x01590/0x0159e (no entry 9)
 
   → **only the frame click can open door 9** (known statically).
-- Spawn condition of the frame (DJ1 L_021a7): only at depth 0 and only while the door is closed → only standing **on r50 c22**, not from c21 (depth 1). Facing as for door 5: **3** (proven there: HOTHBB r40 c31 facing 3).
-- Suspected cause of HOT9B/HOT9F: col patched in the save, so the view was not rebuilt by a real entry/turn (spawn hangs on L_01900 via 0x0045e facing change and cell entry), and/or facing ≠ 3.
+- *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-11)*
+- *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-12)*
 - Test for Hoth:
-  1. Base K5T026 copy, position r50 **c21 facing 3**, door 9 7390 = 0.
+  1. *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-13)*
   2. Load, step F (→ c22; L_013af runs, 7390 stays 0).
-  3. Save HOT9K: expect r50 c22 f3.
+  3. *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-14)*
   4. Click (128,70) on the frame (material 65; click formula from §PCAVE form 1).
-  5. Save HOT9L: expect **7390 0→1**, opening animation.
+  5. *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-15)*
   6. Then TL → 7390 = 0 (turn reset); B → 7390 = 0.
 
   If 4. fails: also TR+TL on c22 (forces a facing-change spawn), then click again. If it still fails: unknown (check DJ2 0x015cb/0x019b8 for zone of r50 c22).
 
 ### Addendum 2026-11-03, part 2 (quesh, 13:04): why door 9 shows no frame in HOT9L/HOT9Q
 
-**Correction (contradicted):** the test sequence in part 1 (r50 c22, facing 3, click (128,70)) is incomplete. The decor module that draws the cell, chosen by zone, was missing. Hoth's result (HOT9L/HOT9Q 7390 = 0, no frame) is consistent with the code.
+*(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-16)*
 
 **Save diff** (private/savediff.py, saves in hoth/private/stepreset3/work-20261103):
-- HOT5A (working door-5 case) → HOT9P: only row 40→50, col 31→21, and **zone 0x4ef2 (save off 18..19) 33→36**. Facing 3 is unchanged.
-- HOT9P → HOT9L: col 21→22, 0x4fca, 0x50c8[23]. 7390 stays 0.
-- HOT5A → HOT5B (frame click works): 0x4aa4[5] 0→1.
+- *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-17)*
+- *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-18)*
+- *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-19)*
 
 So the only relevant difference is **zone 36 instead of 33**.
 
@@ -338,12 +338,12 @@ So the only relevant difference is **zone 36 instead of 33**.
    - 09 = 2 → `cforme 2` (0x001b6);
    - 09 = 0 (leaf) → no form, except doors 8/29/30.
 5. Click: SOURIS 0x0069a, material 65 → 0x006c9 `csend 19` → PCAVE L_00282 → L_00385 → **0x0039a 0x4aa4[d] = 1**.
-6. **DJCAT (zone 36)** spawns PCAVE only with +09 = 0 (0x0167e/0x016b0, 0x016e4/0x01716). That is a leaf without a form, so **nothing is clickable**. DJCAT has no A = 70 frame path. This is the cause of HOT9B/F/L/Q. Known statically; it matches Hoth's image (no frame).
+6. *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-20)*
 
 **Which zone is really at r50 c22 (suspected):**
 - Zone markers near the door: r44 c23 B = −76 → 36, and r44 c24 B = −75 → 35 (GERDEP 0x01694, zone = |B| − 40).
 - The hall r46–56 c23–31, from which the door-9 niche (r50 c20–22, lever cell c19) is reached, connects north via c26 into row 44 **east of the marker pair**. So going east sets 35 = DJ2.
-- All K5T*.SAV in dosbox/ishar2 have zone 36 wherever they stand, so they are teleport/test saves and not evidence of the in-game zone.
+- *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-21)*
 - Statically, door 9 can therefore only be reached in DJ2 (zone 35) or DJ1. DJ2 gives `cforme 2`. **Which material form 2 carries is unknown.** If it is 65, the click opens; if not, door 9 has no click path in DJ2 either.
 
 **Other writers of 0x4aa4[9] (checked again):**
@@ -356,9 +356,9 @@ So the only relevant difference is **zone 36 instead of 33**.
 - → **The frame click (PCAVE 0x0039a) remains the only open path** (known statically). Lever 10 (r50 c19, A = 60, B = −20) only opens door 10, not 9.
 
 **Test for Hoth (copies only, slots HOT9S…):**
-1. HOT9S = copy of HOT9P (r50 c21 f3, 7390 = 0), **zone off 18..19 set to 35** (word-BE 0x0023). Load → F (to c22) → look: is there a frame image? → click (128,70) → save HOT9T.
+1. *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-22)*
    - Expected with form 2 = material 65: 7390 0→1.
    - Frame visible but no change: form 2 is not 65. Then try a click grid around (128,70).
-2. Control: same with **zone 33** (DJ1, as in the door-5 case) → HOT9U/HOT9V. Expected 7390 0→1, because it is the same chain as door 5.
+2. *(Savewerte → `private/hebel-tuer-trigger-ishar2-savewerte.md`, SW-23)*
 3. Alternative spot: r50 **c23 facing 1** (from the hall, door cell one ahead; facing-1 branch with depth −1), zone 35 → click.
 4. Check the real zone: walk from the hall entrance r44 c26 via c26 south to r50 c23, then save. Expected zone 35 (suspected). If it is 36, door 9 is not reachable from this side (DJCAT); then check the entry via r44 c23 (west, 36) too.

@@ -8,17 +8,17 @@
   "unknown": "open"
  },
  "sha256_prefix": {
-  "FRISE.IO": "3bd158963fdaf0f8",
-  "STAGE.IO": "1b5f4b5ce7222aa7",
-  "PARAM.IO": "f42ea12ceffa6b87",
-  "GEREN.IO": "60405e4537abff12",
-  "SOURIS.IO": "2bbc1362e2f84c51",
-  "MESSAGEE.IO": "1b6a76f2c931e4dd",
-  "MAIN.IO": "27c5834de005afc9",
-  "ITAVERNE.IO": "f3bed78c5fb97360",
-  "start.exe": "3ea63234c97b77d8",
-  "S1.SAV": "92023f2b51e34f74",
-  "LP1.SAV": "76cf91a104ec8675"
+  "FRISE.IO": "3bd158963fda",
+  "STAGE.IO": "1b5f4b5ce722",
+  "PARAM.IO": "f42ea12ceffa",
+  "GEREN.IO": "60405e4537ab",
+  "SOURIS.IO": "2bbc1362e2f8",
+  "MESSAGEE.IO": "1b6a76f2c931",
+  "MAIN.IO": "27c5834de005",
+  "ITAVERNE.IO": "f3bed78c5fb9",
+  "start.exe": "3ea63234c97b",
+  "S1.SAV": "→ private/magic-contract-ishar1-savewerte.json#/sha256_prefix/S1.SAV",
+  "LP1.SAV": "→ private/magic-contract-ishar1-savewerte.json#/sha256_prefix/LP1.SAV"
  },
  "mental": {
   "var": "0x16b4",
@@ -270,7 +270,7 @@
    "id": "T3",
    "save": "LP1",
    "kind": "rng",
-   "route": "Alderaan ENCA to (21,52)",
+   "route": "→ private/magic-contract-ishar1-savewerte.json#/tests/2/route",
    "clicks": [
     [
      272,
