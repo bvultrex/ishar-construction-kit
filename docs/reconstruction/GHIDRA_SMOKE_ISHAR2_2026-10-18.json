@@ -1,0 +1,28 @@
+{
+  "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+  "language": "x86:LE:16:Real Mode",
+  "compiler": "default",
+  "functions": [
+    {
+      "function": "ishar_opcode71_literal_context_word",
+      "segment": 4096,
+      "start": 12019,
+      "end": 12030,
+      "instructions": 5,
+      "instructionBoundariesAndBytesMatch": true,
+      "decompilerProducedOutput": true,
+      "decompilerSemanticsVerified": false
+    },
+    {
+      "function": "ishar_opcode20_jump_if_zero_padded_word",
+      "segment": 4096,
+      "start": 10396,
+      "end": 10408,
+      "instructions": 8,
+      "instructionBoundariesAndBytesMatch": true,
+      "decompilerProducedOutput": true,
+      "decompilerSemanticsVerified": false
+    }
+  ],
+  "limits": "two bounded handlers, no whole-program analysis; C output lacks explicit register/segment contract and is not a reconstruction proof"
+}

@@ -1,0 +1,9 @@
+# Mirrored packed-pixel rendering and actual LOGO frame
+
+The original LOGO:008D command167 uses a mirrored type16 resource, not type20. Reconstructed 1E97:0541 (type0), 05AA (type16), shared helper038B and packed high/low nibble loop. Source bytes advance forward while output advances right to left. Horizontal clipping has separate left and right parity corrections; even visible widths adjust source stride/offset as the original does. Zero nibbles preserve destination pixels. Type16 palette addition wraps at byte width; type0 preserves CS30 but uses zero base.
+
+Both authenticated original executable captures passed 1440 native fixtures each (2880 total), comparing script registers, BX/DI, SP, pixel writes and full physical memory excluding CPU stack scratch. Fixtures exercise both formats/directions, odd/even clipping and widths, top clipping, zero pitch, wrapped destination offsets and palette overflow. Typecheck passed.
+
+Actual Ishar1 LOGO:0081 resource11 and LOGO:008D command167 now execute through complete record chains, original VGA word copy and saved-register frame return to264C. Intermediate scheduler skips are followed via native next-slot/frame transitions, with explicit neutral input and controlled timer/BIOS replies; no forced context selection. The mirrored frame copies1536 bytes (left64, top138,24 words,32 rows). VGA SHA256: cdf0c6cffbe1c2bf3de9bc63e34fd2b97498cc2f3489a56efd5bc4c7f36f5b5a. DAC shadow SHA256: bc80dcea6fb640de5f8f2ec6c2580f850ae66917c22122ddd5eef5aa947003d3. Private PNG SHA256: 7d75bbb171452338c8e813fc85ef32c04d0ec5c1af25a66d8505ee1b3db5a5ed; visually checked emblem/S with sparkle detail. Original pixels and checkpoints are not committed.
+
+Next actual continuation input: private `startup-logo-mirror-complete-return-ishar1-2026-10-18`. Continue toward LOGO:0099 and subsequent random assignment/audio boundaries. This is a verified startup animation slice, not complete game boot or browser integration.

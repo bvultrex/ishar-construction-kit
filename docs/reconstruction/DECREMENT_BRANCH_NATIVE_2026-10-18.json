@@ -1,0 +1,5281 @@
+{
+  "description": "Native decrement and resumed original MAIN evidence; no original resource bytes",
+  "profiles": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "cases": 144,
+      "limits": "direct add-result forms only; six script registers, SP and full memory except stack saves; other flags/scratch excluded",
+      "results": [
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 6,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 130,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "6861a38fa71ca9c7c9a8b8b010700e607d3a2d69b6df58317febf05b59c5fef5"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 6,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "9c5fabbad023cc143ae44f7da8f73410595f005b0b0388bffc63bcb2c64cadbf"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 6,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "be26f81c9b1bcaea5a668c4d2a4e393364d09a8839f865dd39e5559ba7ee09d2"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 6,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "ba531ddc089a984b2ab13f6f8e4bd804d52fdff39d57a02f098dcf95aa356a70"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 6,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "1750047183101e985e2b768d1b96d5ac2ecac49d1ac6634f69ade378a8490ab1"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 6,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "ffb6a9707aa5c7803354bccf9a11b7f29ac19e349b2d508f136de5783b9f9834"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 8,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 130,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "09b0ca19c659a166b3027a9ba5484738778539bfa34aa43195ac1793a2a99bae"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 8,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "9fe596113cc417f645917fe437d9135a34904c22a78fd98fdbdba059b62ca98b"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 8,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e060f9e162de78759fd2a973d8831541880a2c69ec7698332043d46eee21c9de"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 8,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "7c143a33ed06dfe39e72ce9d9927f3e4e5ec595bbfb1bf07e25d294f0440644f"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 8,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "95c6d5321e2ccbcbfa53e81f082772e4d0f08fdaef048c3c59f51e1748c40a94"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 8,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "968ba4f504bdaa8ccdbcb2deb5367697461119b3eec86b94341bccdb62480400"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 18,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 130,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "d44d6f38fc640b880614cbe1cad6def05b851f81d6e5fd6a0d358881ba4d7766"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 18,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 260,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b15c66d39f9f1b5a344719a754bebb189d070cfef416da79a949aaab5ec3ad8b"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 18,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "9f9addfa3a42077416f27504371abd42395c649da3732948ab0fa944a4a538e0"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 18,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "dcb348d3b31a73bd8287a1bbbe1e95fa2ef8ff7d644e680a9062b4b3973559e0"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 18,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "f7e679a1f07fa98f1d87ff6675ed29465e5096380e4735265ea3b6ade8fc40b6"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 18,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "2410c235f629de71765a9ef1e1bcf6db4ac103eda46b6f984db1b19149a9e71c"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 20,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 130,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "6ac2c1638827ff471e0a5f78f68697723bddd7aae5fc42c280b0167f5b818fa7"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 20,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 260,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "6d3f84c4b95579eff2dade8b1294fe40a48c2fe6cf44fc7a934c36204e9b3604"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 20,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "f25cc8b2b2038b965aace55bc326f1e6beb5627318ea0b0d319df3d155c861a4"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 20,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "6636a375640e2f3322facf5be4a7e332afb7115f4129e92964ee0d19527ff1b2"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 20,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "f5b8b2d5d0e16a9d7a46fb688499b2a9806a121e14dff2226285543c374c512a"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 20,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "77cc6d1724173f12682f97789d9eb05ff8f85e6b16e67eb62b75a57859094413"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 6,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 387,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "2765d449e904ccdb1a90e07ff16131d06b9c26bb6c37c1857854823de62ffed3"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 6,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "52811108b807ba1d4b331775a0a6dadaf29296f2b4822d2ecb3e6cfc0cdf46ae"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 6,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8dc528952e87987ec3b7158b328d3fb7eb4661c7740a25bce43667274e5acf54"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 6,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8e8f15498bf7b0744a8dcd54279b528c162093ea9b5eff18fddfb3a6b26ee505"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 6,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "5519bbe09307e159e29850b5777ecbb581cef8934ab6f64515916a217b800cd1"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 6,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "a8299198811d6b878cedc41c85d15e9329bf2f854c628cc3b0830adad5e5e735"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 8,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 387,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "ebf55cc36a1dce2c34f42ac53b6cbb1b512fe1f15e6cc3d3ee1bcffb41cedec1"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 8,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "932f700d9b2f0b36c36d19da1ac90418d5b160f68acab774f6c2d8298dbd1a1a"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 8,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "ffdcb87dc56f87f1c30fd32609c103d5d5f8f997b88dad77a935cb254aea37cc"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 8,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "41e49d715e8553d2e3390a1ecd65c81079a3062b6ebefdec054d74380e1ed08c"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 8,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "3ff5509142b891dbde84fe37dc4dc3c9aff9d6139063efbeb4fdb413eda1b5db"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 8,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "a326eebbc60ba32c9eee46f05a49e88d8097c6f78a5b3be5e5f5cfea51650569"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 18,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 387,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "98968eda718a54a017bfdbb95fd4f221582beaa0462f7870559ba32449a7a032"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 18,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "887f5b95f95b0d51ba3b8290ce7707c7d6977a83e7d641f56f3ec6f75b671137"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 18,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "04ded514cfaf9b1291684bf802f08ff1dc041d081f92c7ad75091eb974707f12"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 18,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "9d102047ca68b0138c435cb4af16b0484f84ab3af0d662aa691ecaeb2f735a49"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 18,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "97da3a9d857517073156c110584d1b4ea1d5826e786edec10fc5eb6b4b3d17fb"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 18,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "005071fa0ec68ab824890e57aa44955f21cdc8ed8c38a05728d0687c4120b308"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 20,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 387,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "0d76a92f9e0dcf16b92bc4863e9d8b3d38e7de07559b6766d67d5d7bf06ad425"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 20,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "25139955adf5bcaf7d05ce480c1ebb1c881fa9ba46752439fc92c6b7afe2c856"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 20,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "ffc524f60e844a12dbf4dc40cec5c0f5930d026ae6d268ccacf8881d4042364e"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 20,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e13165dae4a502055d3bcb912ec2d49f047e552c94caf5f272fe165684ccf4cf"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 20,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "2e94f41dd56e72c091394aa40b7f61c40a1ef84cbaef8744690d5c2e4c04393c"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 20,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "462f3d75ef673433711acb516ff9e07d7bcc5b28bf95012fd8cc9e3710f4613e"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 6,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 388,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "66400e000a927187d62d9a8a5c37d077c424eac3fc60fd531bed23db91f5c4c6"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 6,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "0bfca312e2ee71a62932955bb85802d3cd7040865bfbdb2c98646effeac5b005"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 6,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8d1271616d77410610f7f0bd8027b78e7c03da0612800583e4361939c808da60"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 6,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "36f0cb089e7990fc8c5e8841b8e359e094854a3c17df7ef932ba0a7058dc5bdf"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 6,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b791a176eb5ba03a20e27e714224a4cd1c440b526f893759908880c2b59d0e06"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 6,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e1b01bb40c3a64713c32ce82782bdbf85f27031dce1a45c3428673fe0ea6ee08"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 8,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 388,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "bfb8201ae39c7413cfe0fad8d30abe807c4c6d3beb425e9ca22d3c27e3c7db8a"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 8,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "40dd810c32b87e52bd08eb5bd0708cc6d3137ab6e42db82088370be454efc185"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 8,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "99a99d770e885c90453892ed9bea53a00413c293a051747332a5a270d4be041a"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 8,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "ea51b3843e3dd45ba35b8b03b4ccf02663b382024f6a137b9705a5d4ed009eaf"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 8,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "27649d8a4f1a22cdc2597965df2899362777c116f0717bcbf710f24f6a7c93e0"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 8,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "84e4db918580ab1af544cc02eff7fd6c56ecb3760c17c4c766a99ce032c8d4ab"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 18,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 388,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "47ef7e0312d9e158d8a7170e401536b7003c9f367cde5aef379bc2eef350c219"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 18,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "ee80efc4bb8eb783f465bb5f0b2320f5c85e7c5c5e24f4ce0cd629aaa9e1121c"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 18,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "ed0b4b7e07494b722748626e55b47509848e7eac5a42f150ecc9bbabb97435bb"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 18,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "a177aeea2fe880b60fa9ad4d8dfba6697633cdde44f9f8f7749ce37de2ea45b2"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 18,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "563784a7a6c0029c2e9acec74092b51e2dbefe2a248e036811d5a334f6ad3193"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 18,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "03f4df376f2387a9c40f52a48bea4c9ecd98b109dc4c1621e9dacf2a68ddccfb"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 20,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 388,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "9fa71f33397afa106f0938c0d5a942c0916cce5fc8d5add2fea7c4809e29d8a1"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 20,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "aa214567e953c2b08429b975e5a745a1178b3120c777dfb2169e5659b82bde59"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 20,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "4bb0b1e5c36baee74d61c1850207aa96f6143ef0ab736b7f5126b9811439ff60"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 20,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "0fdcd76b737438172c89d7a5431507001bd094757f9f1eefb9aa042d1a17c7bd"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 20,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "5172bb627d2969881c05ff4445e9a250e8781f1514d3d93e592937e0fa603856"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 20,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "4f52d2584c107e783be2be564a7fd6c75cfbdc198350ca2d95d1c26c0fe633a5"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 6,
+          "value": 0,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "9902741ee2db978c4992db18ccea73f7bcc87838fa4a12ff13664e0f36d738fb"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 6,
+          "value": 1,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "96787d6e754bbc1e802f358925cc5c4c16aae257612cd87cb09b6a25671af1c6"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 6,
+          "value": 2,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "d07ffbe903587950093ab010bcbb1d5160009ebe8b93b0d061560d8b0b279a32"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 6,
+          "value": 255,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "d07ffbe903587950093ab010bcbb1d5160009ebe8b93b0d061560d8b0b279a32"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 6,
+          "value": 256,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "d07ffbe903587950093ab010bcbb1d5160009ebe8b93b0d061560d8b0b279a32"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 6,
+          "value": 65535,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "d07ffbe903587950093ab010bcbb1d5160009ebe8b93b0d061560d8b0b279a32"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 8,
+          "value": 0,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "55a270279679ff4b94e9ffbe54c20c9a9412ebd6f7565b7c891dfdb6e9addbc4"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 8,
+          "value": 1,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "1493f504359901263687e9f1e12449b30d9a8ade4083df2727cdb6e8ead06421"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 8,
+          "value": 2,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b250be6df3dd60a12244fe818ca6e7c619b302e51d4bf68be5fe7ac7297e9d7b"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 8,
+          "value": 255,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b250be6df3dd60a12244fe818ca6e7c619b302e51d4bf68be5fe7ac7297e9d7b"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 8,
+          "value": 256,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b250be6df3dd60a12244fe818ca6e7c619b302e51d4bf68be5fe7ac7297e9d7b"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 8,
+          "value": 65535,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b250be6df3dd60a12244fe818ca6e7c619b302e51d4bf68be5fe7ac7297e9d7b"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 18,
+          "value": 0,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 260,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8e26b504222d4d1cd746c938363f681c7d8ddf00598d8482fac20e4f4b13ee39"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 18,
+          "value": 1,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 260,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "7d21bf5a065a9345498f6dd16841d2cb455d0808b4c66c60dcc0b879e4e4ae6c"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 18,
+          "value": 2,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 260,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "7a7f2dbd5ef59e0547b45e8edf4a255ae09d50edf71cd3cce7d580a499bc11f2"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 18,
+          "value": 255,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 260,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "7a7f2dbd5ef59e0547b45e8edf4a255ae09d50edf71cd3cce7d580a499bc11f2"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 18,
+          "value": 256,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 260,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "7a7f2dbd5ef59e0547b45e8edf4a255ae09d50edf71cd3cce7d580a499bc11f2"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 18,
+          "value": 65535,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 260,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "7a7f2dbd5ef59e0547b45e8edf4a255ae09d50edf71cd3cce7d580a499bc11f2"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 20,
+          "value": 0,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "79ea66105297cf4d5df60df16f7f59d076c397422c0f88fda0d24a62c207779f"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 20,
+          "value": 1,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "2862ca886d8045871e8517976044c8e4d4a5e34727b11eee340739580e4c902f"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 20,
+          "value": 2,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "396d159691c49ace4a8e643b06faba6e5f1f45b3681efa3b6732fe86dd5b64c0"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 20,
+          "value": 255,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "396d159691c49ace4a8e643b06faba6e5f1f45b3681efa3b6732fe86dd5b64c0"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 20,
+          "value": 256,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "396d159691c49ace4a8e643b06faba6e5f1f45b3681efa3b6732fe86dd5b64c0"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 20,
+          "value": 65535,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "396d159691c49ace4a8e643b06faba6e5f1f45b3681efa3b6732fe86dd5b64c0"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 6,
+          "value": 0,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "dba667570dec0e98749e6bf0b5d0c0e4a0d4b9c349533ab95bc013343a4131db"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 6,
+          "value": 1,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e8fcbf6257c9fdab791f2a249d1d4e261e445a33f30940b54343f05dc8c8c694"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 6,
+          "value": 2,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "52e48b515332ef30ebef5bf8d7336ea4c06f4761b453101c1008a5b852caf37b"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 6,
+          "value": 255,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "52e48b515332ef30ebef5bf8d7336ea4c06f4761b453101c1008a5b852caf37b"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 6,
+          "value": 256,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "52e48b515332ef30ebef5bf8d7336ea4c06f4761b453101c1008a5b852caf37b"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 6,
+          "value": 65535,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "52e48b515332ef30ebef5bf8d7336ea4c06f4761b453101c1008a5b852caf37b"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 8,
+          "value": 0,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 33070,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "775e204ba8d36a23269298836654b8c777196635d937c0e4363ea217c3990d8c"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 8,
+          "value": 1,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 302,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "d951122ce94215ee032dfd167ac49170377a8a099d74854b7db7ee1dd672e0ee"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 8,
+          "value": 2,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "c01e7a12bf92fbb9a5294a067029197b6f61d761662645d647f317da82381611"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 8,
+          "value": 255,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "c01e7a12bf92fbb9a5294a067029197b6f61d761662645d647f317da82381611"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 8,
+          "value": 256,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "c01e7a12bf92fbb9a5294a067029197b6f61d761662645d647f317da82381611"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 8,
+          "value": 65535,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "c01e7a12bf92fbb9a5294a067029197b6f61d761662645d647f317da82381611"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 18,
+          "value": 0,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "c0f7b21bf476e76dff539dc5723d477b5d1d8b41a251f2e76e132d8eb6e3b9ef"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 18,
+          "value": 1,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "7f0ac1d63eb38904126c9c849113db47181ca85557e0d4de22007cd7093558c4"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 18,
+          "value": 2,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "0048fdeb793ebaf31c1d851a7ced57777cac3ea13b256ee3fd6a16d12027ed80"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 18,
+          "value": 255,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "0048fdeb793ebaf31c1d851a7ced57777cac3ea13b256ee3fd6a16d12027ed80"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 18,
+          "value": 256,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "0048fdeb793ebaf31c1d851a7ced57777cac3ea13b256ee3fd6a16d12027ed80"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 18,
+          "value": 65535,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "0048fdeb793ebaf31c1d851a7ced57777cac3ea13b256ee3fd6a16d12027ed80"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 20,
+          "value": 0,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 33070,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "56f42ad16401799ca4309d78b4c67332d0069f2272b2641b878686b9dacfd646"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 20,
+          "value": 1,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 302,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "420a0a6a99b72e875617566cf901d31fd153690105d77f0a5d4c8f2653298c13"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 20,
+          "value": 2,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "26a2177a2af1296bb7a1e38647d086a859bbd14f1dd3c2f7b3775fd80a00df79"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 20,
+          "value": 255,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "26a2177a2af1296bb7a1e38647d086a859bbd14f1dd3c2f7b3775fd80a00df79"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 20,
+          "value": 256,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "26a2177a2af1296bb7a1e38647d086a859bbd14f1dd3c2f7b3775fd80a00df79"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 20,
+          "value": 65535,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "26a2177a2af1296bb7a1e38647d086a859bbd14f1dd3c2f7b3775fd80a00df79"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 6,
+          "value": 0,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "ad31f5d7694be5440b7f3159add445790164b9e0f1148bf8a90fc11de806b2b5"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 6,
+          "value": 1,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "4fa2fba7b59e4909a7d87de60fc0db000d620f8e8925afeaa6fb82321f5745b2"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 6,
+          "value": 2,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e63c780112ead470a2def0e5d9b0860454a5d6b4a4c67e3e1db566959e354fb9"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 6,
+          "value": 255,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e63c780112ead470a2def0e5d9b0860454a5d6b4a4c67e3e1db566959e354fb9"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 6,
+          "value": 256,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e63c780112ead470a2def0e5d9b0860454a5d6b4a4c67e3e1db566959e354fb9"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 6,
+          "value": 65535,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e63c780112ead470a2def0e5d9b0860454a5d6b4a4c67e3e1db566959e354fb9"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 8,
+          "value": 0,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 33072,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "5de9fd09b95aac9ae212c674c874f2834a3284126e7daa95248c9ed5db320ecb"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 8,
+          "value": 1,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 304,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b9a88cfa05d6da30ffec97fc27fe588d5929bc2d78e281b0ce97be77c0491073"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 8,
+          "value": 2,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "575f10a5aebe720e1047ea5aadf26ba242926b18130f29bb4508b2305b183cd7"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 8,
+          "value": 255,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "575f10a5aebe720e1047ea5aadf26ba242926b18130f29bb4508b2305b183cd7"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 8,
+          "value": 256,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "575f10a5aebe720e1047ea5aadf26ba242926b18130f29bb4508b2305b183cd7"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 8,
+          "value": 65535,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "575f10a5aebe720e1047ea5aadf26ba242926b18130f29bb4508b2305b183cd7"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 18,
+          "value": 0,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "85232781af3f60942c7a55b27079cbab7fa599e80e46e336002f624dfff4a7b5"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 18,
+          "value": 1,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e4c6dbd5edb99d9554ec843092866a9010c76c2db5d88f63c277d72ef291e0c8"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 18,
+          "value": 2,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "95aafb00eea9d481af2f154aeca62144135a8b323b79c39b37fb37432f297a27"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 18,
+          "value": 255,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "95aafb00eea9d481af2f154aeca62144135a8b323b79c39b37fb37432f297a27"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 18,
+          "value": 256,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "95aafb00eea9d481af2f154aeca62144135a8b323b79c39b37fb37432f297a27"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 18,
+          "value": 65535,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "95aafb00eea9d481af2f154aeca62144135a8b323b79c39b37fb37432f297a27"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 20,
+          "value": 0,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 33072,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "f12aec52634c9c09a18ee74c209d53d9c1e42c45472f812c1855cd7f92d72c1f"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 20,
+          "value": 1,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 304,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "c629a0b6216c74dd72779e3dc4c5a98174571fef5261fe65a81021fc3eee816b"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 20,
+          "value": 2,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "a784449b755b4ad8662c9f38b1ade0be7f48919bc4113d70d6ba0f8bbf1b2879"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 20,
+          "value": 255,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "a784449b755b4ad8662c9f38b1ade0be7f48919bc4113d70d6ba0f8bbf1b2879"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 20,
+          "value": 256,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "a784449b755b4ad8662c9f38b1ade0be7f48919bc4113d70d6ba0f8bbf1b2879"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 20,
+          "value": 65535,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "a784449b755b4ad8662c9f38b1ade0be7f48919bc4113d70d6ba0f8bbf1b2879"
+        }
+      ]
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "cases": 144,
+      "limits": "direct add-result forms only; six script registers, SP and full memory except stack saves; other flags/scratch excluded",
+      "results": [
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 6,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 130,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "ce6b8a7a5b2d22f4db69488b4e5bee4782f4aab7c5b03705f04bb79b7d841a57"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 6,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "090fb4204a47f20250f066cf1318b30fae7eb3fe23c1388aa7fd9610179acdce"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 6,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "68ccf955a2d2581b995414bf386f8eb8c7e62b8e49b2a9a5b846f6933ae1da78"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 6,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "d7410bc84e03dbd990f09f7f3b155689f4f5cb78d6bcf8aa23e1b5e327e62258"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 6,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "613f2589134dadc706b8cd87b6ea86c5e26323e94f87d2aafae0b71756e48f0d"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 6,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "2bb63f99b7f9fbb263c82cc571be2d9bb6d79050ba4617f66821cf11d4dbf58e"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 8,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 130,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "9142fa072e89511681d4f60d5a95d5d348d6537d8f832e54be48d659d9cb2c36"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 8,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "f9d10ee279409f332dd7947d335f65bf4d0fb77ca207322ac9b858782c95e331"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 8,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "cdbeb8acf6926e0ee106f21654e1f3241ad0556b08adb190727a86114b3753ea"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 8,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "2a05df353ff1f2ccec261125c609b0be1bd4f632cf46cc291dc58df54911cb71"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 8,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "d72670d6bf526e0bfc5fbcdfedf4ab56ae7df6057bf00e78a586b3b2ce31b6fa"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 8,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "dff34a2d3ca967360f1e91a826b10bbe9443729c23e1d196e6d0eb954f09c7a2"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 18,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 130,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "621c18592ddb5e5cf16a732ba8e39af92df0c0e6ef9f847f2ce83102b7136a4e"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 18,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 260,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "ab09da1583dad4d2be74dc990ec0925b200fda5cf5623e6beecba0fc1addc697"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 18,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "34f75bdebf3459628bfbf6829329cca265eba71912da086cf989698c338fc05e"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 18,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "f50536a8562620e5c5c6ddf64975e8b4e0b1f64ce799578aa7f37c13cd1e3639"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 18,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "f810aed5eb5f94247307c70f8b583cdbf8eb7992635414ddf9bad47410818449"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 18,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "eec7803b66cf659d952f70ff630614e6fc9e16945cd0f67ddb7eed331bbffe93"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 20,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 130,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "5b2ebc011b4d86bde2f78655c62aaff24489a433109749e3d2b48b67827a0a6a"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 20,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 260,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b864e73094218e2714116476727e9bc49a60fc596982340370f1a496d70bc47b"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 20,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b812097bfda388bf792945b3c8ce257f6b85ccbaaaeacdbc641fb8965cb10479"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 20,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "a1eb9a45103d6c5562433ea05a59369e61130bbee689869e5d65c8f1ba5252b8"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 20,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "4f58b069296a2840df936c8ba01d38161d927fd511e3dd02f62a8c806d7e29d7"
+        },
+        {
+          "alias": false,
+          "opcode": 43,
+          "tag": 20,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 257,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "3c16145c24631e7f7476b3ee664350234580029098250722a2bc047b22b48e84"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 6,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 387,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "c1f3ea0f20b34072197148b9b5af651fafba140425b37ee5b6cd913a4279b95e"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 6,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "2a40c63f623471e95aca7b2f52d217a5e07728b630bbe05e9704b23da0dfe55a"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 6,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "9a247bd8042176186227f1f05e3dd8fa5fa1214c3b5c1e4289404e867901bfc8"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 6,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8e48fe799583d6bec9b57a4dcb623c2eef17bc7d1ef19555ce1ff95ffef5c37c"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 6,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "9306a7a1e85c7e6a731ca56b8ddf9c2b766beab8ca8ee22fe44a4b7cb82f6e44"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 6,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "6636d5bac5b93831c75d02265dbe7eef5f667b2dc48531ff3809216fc5d4188e"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 8,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 387,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "037f515b47d318b0dcc2e44262e82de32dbb094feb8f02707d2474a15e9aa63f"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 8,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "663a3fc2ab55672c0405b0dd1e87b73ac7adf6936f663634052323d4f5903c28"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 8,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8b5b0089110e258a4d3c6bae70df658c3e008f244ed4fdb9e60e4f2f4d45c049"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 8,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "812481be65dff65690e0e854dc01527fc5485721206ef6ffdadb8854ebe13b58"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 8,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "fbf997cd538a020b062f0905c34f9cf928de5c4c525d5bfb7a2053d0cdaba64e"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 8,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "c79266c91450a4863e01e27e80702427a57829f64aa20cc7487f50c0a8b04628"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 18,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 387,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "3daae4925c3c360266d0aac2e52ff38ff148ce6f7a1971769f51c7d43ea6324f"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 18,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "27b497f7d0741cd91c21deabb435ba0b6e4e906f2e8f0b11526ca755e542ecd7"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 18,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "d863c20e8f25dbfc867a0fd18534a5b9aeda360e847c8be2a792151bf5a56412"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 18,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "768a901a8749f3a0eb8b3d9b95d04e6f6213ebd852b87fa1527b3b921523197e"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 18,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "a03bf2d0327bef5d6249dee968919a1ca4a6d87efb7a2c4330fb008a326d00ae"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 18,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "deb750f68d8b93cdc5e8282aa985c7e59db94c074db9650f6083914dd4579bae"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 20,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 387,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "74ce80375763fb671523d5e7381c8c0eb9e70daa32c1dcff218587e56b0dcb54"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 20,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "ad72b60e44f93328c3c87dfd6f5f1c7d6fe326639937bb71fc1e1461b6bb83b6"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 20,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "4ef1b84c96fe070ba7d6671a1c7e8256f1fdd187e0448f60306158a99395d7b1"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 20,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "5fe7f97d63da7307ca7c86f78fa7392c5ae273f98ad2528fe2b112baed638e3f"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 20,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "4573de6a122cb1165ed4867cbc7fa4e67fdea54620c53df3c493c634c9b92363"
+        },
+        {
+          "alias": false,
+          "opcode": 44,
+          "tag": 20,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 258,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8ccd71b46e02e79ede40e631e3691b5856a4c9dfe2c4ee06e246665a92cd5eda"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 6,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 388,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b293d96c18adc41073293985e68c1a25b9c51115b0b9aa59b4f411f4cadeccba"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 6,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "02d010334e78dbcc8db19b436d0c5fc48423ebeaabee5368c4a42315f336c305"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 6,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "3ba882317eda251c9cb857b281f2aaa0b1cc589391251a586ca4a2bb75a0dd7a"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 6,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "c84bd08f56d17fcd208a8c940288d8c87b4ed01ad512b520458500943c53225d"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 6,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "0a4ca76f62d80b0ba0931277621ab568725dbf214284dd98870494532e0f8a22"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 6,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "04048949ab9091c2b207fe35f4360f4f5d2a2e3877f79b357bfbbb4d72505c5a"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 8,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 388,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "fe793665933186d36d9961bff6e13f451548642a0a543e148b3cff9f6d457b88"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 8,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b17db6fc97c15067b60088244a6b05cdc8e8032811c293ca15189ed6873938d6"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 8,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "9e340835e479b85d32585aeb1f21e95c0bf3a53a7101a02c9122c8f6d440e198"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 8,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "7bfee7353105dac393854d8293f9af16f4392daaaed1f6374572675142fcaa01"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 8,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "44646bce253f2c13bdc8d5355d769716952e8a3c0557645e0395a2d9bf93b4dd"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 8,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 512,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "0e0d365dd881884f99a85e7e8057030d1d8d1d1d9cba757b5635453aff21eef3"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 18,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 388,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "c73b6ab0c30fe3f43e5586ac371962e250ac13d36e28187c140018fe634d9409"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 18,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "59783cc0f6fbf3e0634d924c92ab5ebec82eb0b2ab8ecef1d738e615655717fb"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 18,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "2d51a6d0ec3b377bfaaff535ed6b61a6909847365eef68640f3937a5a6e7f64d"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 18,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "63468942f42f10ab58a1bdf6b8470c4f138524c0896215b6408d677749683a0b"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 18,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "7a2c0607858e8088e930d4739a99b1638e5c4f7804f98591086593cb6770816e"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 18,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e5d1079892ca76418e38a1b1d9ff2f62970488e82ed2252a2d7d09589aede32c"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 20,
+          "value": 0,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 388,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "dc7775518b47cfa02cb9da65314d2790719ae433bf0b61e71f902c006732dd48"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 20,
+          "value": 1,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "c1aae14586427aeed4f273f8ce0f0033af84223ff8cde8976bb28698862d5012"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 20,
+          "value": 2,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "a4cede676150ecb06703d64c0889cdb21131d86abcf4db4d21bc4392ab1ca14c"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 20,
+          "value": 255,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "dca81655a96de13ab22079dc1f4a98b9f87afd9567be92fe343dfa34ca2c8a80"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 20,
+          "value": 256,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "759c76f7f32445d03a52c2de3b9e50bfb30bd99d3baa5b91e20845bb20393f00"
+        },
+        {
+          "alias": false,
+          "opcode": 45,
+          "tag": 20,
+          "value": 65535,
+          "es": 20480,
+          "bp": 512,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 259,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "abf42430f91936821fb8d50373f97ae721eb7acff82be151fa24431de22cade1"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 6,
+          "value": 0,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "de8c19190a9d220d797f2e829a27b55a135472b50ccaaffa73c7f2b25e475bc3"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 6,
+          "value": 1,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "085b663937e8eb03be86dc29d54c84e40b402b9508161317927602a485483535"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 6,
+          "value": 2,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "563149debe248fdb73222507934a7c110ef6e77cb9b774de6f118b0ccb84b4ce"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 6,
+          "value": 255,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "563149debe248fdb73222507934a7c110ef6e77cb9b774de6f118b0ccb84b4ce"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 6,
+          "value": 256,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "563149debe248fdb73222507934a7c110ef6e77cb9b774de6f118b0ccb84b4ce"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 6,
+          "value": 65535,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "563149debe248fdb73222507934a7c110ef6e77cb9b774de6f118b0ccb84b4ce"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 8,
+          "value": 0,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "902aba13f98b7c097c108d45d97e70c408955b8761c851c7847615868ad58d41"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 8,
+          "value": 1,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e034e4065e4c683552fd9487be47f24eddd225ec039bcb8d33266b2c549d1747"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 8,
+          "value": 2,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "6a0b7b5d79ba4eb40b120567127987bfde15b65b2a9c5cfcdef9448f117e7014"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 8,
+          "value": 255,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "6a0b7b5d79ba4eb40b120567127987bfde15b65b2a9c5cfcdef9448f117e7014"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 8,
+          "value": 256,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "6a0b7b5d79ba4eb40b120567127987bfde15b65b2a9c5cfcdef9448f117e7014"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 8,
+          "value": 65535,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "6a0b7b5d79ba4eb40b120567127987bfde15b65b2a9c5cfcdef9448f117e7014"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 18,
+          "value": 0,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 260,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "da0174007e1644c14740bc50bfab91819e72c3b295b8a349c83c1ccc13cbc4a0"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 18,
+          "value": 1,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 260,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "6564f61911d4a1d4c99e4a88d9030aff36196ce3b84a666544c1539db45aa70a"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 18,
+          "value": 2,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 260,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "1558ad3aed4e89252cf5952e27f7a5ff15a0a578e7ed412adc292a00941a57f2"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 18,
+          "value": 255,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 260,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "1558ad3aed4e89252cf5952e27f7a5ff15a0a578e7ed412adc292a00941a57f2"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 18,
+          "value": 256,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 260,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "1558ad3aed4e89252cf5952e27f7a5ff15a0a578e7ed412adc292a00941a57f2"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 18,
+          "value": 65535,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 260,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "1558ad3aed4e89252cf5952e27f7a5ff15a0a578e7ed412adc292a00941a57f2"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 20,
+          "value": 0,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "ce851fac815ff8c1a9e63d1226cc04574ff69b665e0d6dab3b7c8031a9f68778"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 20,
+          "value": 1,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "a24930a18268c2c60717eaf42bc0b3cceeaf6398acba02baf267b11ecce4c39f"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 20,
+          "value": 2,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "3f28847c0149b8610242cf8a80b54c6ba692e608d07f6034017442cd1499a4f6"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 20,
+          "value": 255,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "3f28847c0149b8610242cf8a80b54c6ba692e608d07f6034017442cd1499a4f6"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 20,
+          "value": 256,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "3f28847c0149b8610242cf8a80b54c6ba692e608d07f6034017442cd1499a4f6"
+        },
+        {
+          "alias": true,
+          "opcode": 43,
+          "tag": 20,
+          "value": 65535,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 300,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "3f28847c0149b8610242cf8a80b54c6ba692e608d07f6034017442cd1499a4f6"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 6,
+          "value": 0,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "6d5970d70de74d11ccc0a9176fe5a49d6af83141813b023648c5cc68c4e209c5"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 6,
+          "value": 1,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "6e4a03da53b0c75b46fda5a55441da4e0e2027b4b66b0754e4d8ab02fc7e69c1"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 6,
+          "value": 2,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e1a5bacd35c8ea9898609dc16c9e08d15d9b7213846441597e246e1bf6e2ba2a"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 6,
+          "value": 255,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e1a5bacd35c8ea9898609dc16c9e08d15d9b7213846441597e246e1bf6e2ba2a"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 6,
+          "value": 256,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e1a5bacd35c8ea9898609dc16c9e08d15d9b7213846441597e246e1bf6e2ba2a"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 6,
+          "value": 65535,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e1a5bacd35c8ea9898609dc16c9e08d15d9b7213846441597e246e1bf6e2ba2a"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 8,
+          "value": 0,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 33070,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e95d6773dc8df3ea80b3c9010cd82fca4a8002bae5c89c465a2a2d5ace6ade56"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 8,
+          "value": 1,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 302,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b9c62d24b83d5e968c0c9c9a83b90e196773721a4036de13406faeaecb5bfa51"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 8,
+          "value": 2,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8399ef11ab981fb8ec1700e35ab7f9b1bd2e6b0c2e02a1698063b5f97a82073d"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 8,
+          "value": 255,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8399ef11ab981fb8ec1700e35ab7f9b1bd2e6b0c2e02a1698063b5f97a82073d"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 8,
+          "value": 256,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8399ef11ab981fb8ec1700e35ab7f9b1bd2e6b0c2e02a1698063b5f97a82073d"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 8,
+          "value": 65535,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8399ef11ab981fb8ec1700e35ab7f9b1bd2e6b0c2e02a1698063b5f97a82073d"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 18,
+          "value": 0,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b4487add5e946201d7e3aabbd56184636fc91d6d34ba16b59baf7f78a3b3cf4a"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 18,
+          "value": 1,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8abc67d09439473a4c0b01cf995acd4434012b4ecc85706ed558f3a78b03d984"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 18,
+          "value": 2,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "72072594d3485f49f7e758e4d6cec22459b2a9dfcfe0464b2bf20a5756cbcc22"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 18,
+          "value": 255,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "72072594d3485f49f7e758e4d6cec22459b2a9dfcfe0464b2bf20a5756cbcc22"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 18,
+          "value": 256,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "72072594d3485f49f7e758e4d6cec22459b2a9dfcfe0464b2bf20a5756cbcc22"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 18,
+          "value": 65535,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 261,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "72072594d3485f49f7e758e4d6cec22459b2a9dfcfe0464b2bf20a5756cbcc22"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 20,
+          "value": 0,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 33070,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "e4818755f20ffd180c9d01de6768d101053a3b4e85f7ff4ff41ed01a0286d142"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 20,
+          "value": 1,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 302,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "36506828d3e7b467e951bfb25fdfda143c61170be5d49d69017ee80be9b1e1d6"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 20,
+          "value": 2,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "bbef347eec53baa6c37a0dcdfa8e2b75dd2ad047e4baccaf58f63ed5d3057038"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 20,
+          "value": 255,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "bbef347eec53baa6c37a0dcdfa8e2b75dd2ad047e4baccaf58f63ed5d3057038"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 20,
+          "value": 256,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "bbef347eec53baa6c37a0dcdfa8e2b75dd2ad047e4baccaf58f63ed5d3057038"
+        },
+        {
+          "alias": true,
+          "opcode": 44,
+          "tag": 20,
+          "value": 65535,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 46,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "bbef347eec53baa6c37a0dcdfa8e2b75dd2ad047e4baccaf58f63ed5d3057038"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 6,
+          "value": 0,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "80ae4b5622aa7a66844b279a55ffd9d6cb138b12fa995a1c4bd0155ecc952690"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 6,
+          "value": 1,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "9af8f2808192ef4b67c2215000fa9f85738270df2e495d21f124cc018a226ce7"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 6,
+          "value": 2,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8c7992f4d402ae7246373bbe5481d80f90abf036f92d282ca87cd07a0181993f"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 6,
+          "value": 255,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8c7992f4d402ae7246373bbe5481d80f90abf036f92d282ca87cd07a0181993f"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 6,
+          "value": 256,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8c7992f4d402ae7246373bbe5481d80f90abf036f92d282ca87cd07a0181993f"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 6,
+          "value": 65535,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 263,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "8c7992f4d402ae7246373bbe5481d80f90abf036f92d282ca87cd07a0181993f"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 8,
+          "value": 0,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 33072,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "cd6a60239b5629b367801ac38b25723efb197b972deef9f0d0bae6db8e8e73fe"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 8,
+          "value": 1,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 304,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "a0b8938e64b406548a68a8e6ee3213a611a71aa841b54fcd7e3f20ef288a0c3a"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 8,
+          "value": 2,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b5f26a9bc256b1e56a46900fc75f53a3bf97bb2bb13f50bc6128e6f1f1ca0f2a"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 8,
+          "value": 255,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b5f26a9bc256b1e56a46900fc75f53a3bf97bb2bb13f50bc6128e6f1f1ca0f2a"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 8,
+          "value": 256,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b5f26a9bc256b1e56a46900fc75f53a3bf97bb2bb13f50bc6128e6f1f1ca0f2a"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 8,
+          "value": 65535,
+          "es": 7179,
+          "bp": 512,
+          "offset": 2644,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 512,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "b5f26a9bc256b1e56a46900fc75f53a3bf97bb2bb13f50bc6128e6f1f1ca0f2a"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 18,
+          "value": 0,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "f319133874528d306134f5023a776c10e5657fc2c7fdfc408f64623b1caeb9ab"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 18,
+          "value": 1,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "bbb901e48a5185d09a79410541ab8ca4e7a749a2354808f151797c84685dd135"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 18,
+          "value": 2,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "2a7b394ca7a0a0272e6ee423acb461e4d9728da44102f3890d70e7ab6e37e56c"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 18,
+          "value": 255,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "2a7b394ca7a0a0272e6ee423acb461e4d9728da44102f3890d70e7ab6e37e56c"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 18,
+          "value": 256,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "2a7b394ca7a0a0272e6ee423acb461e4d9728da44102f3890d70e7ab6e37e56c"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 18,
+          "value": 65535,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 262,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "2a7b394ca7a0a0272e6ee423acb461e4d9728da44102f3890d70e7ab6e37e56c"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 20,
+          "value": 0,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 33072,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "bad458f3c50e3b582c663efae71a82a6243e09b439d4c5b9f7df69ada90a2a56"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 20,
+          "value": 1,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 304,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "877528efa418d2ac6221d983429586db20c7d43f9515b7465ac56abb1a117e93"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 20,
+          "value": 2,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "fd8425539a1b6183e876b4ddcb904154bfbf987309872d57de039076aa8e7308"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 20,
+          "value": 255,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "fd8425539a1b6183e876b4ddcb904154bfbf987309872d57de039076aa8e7308"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 20,
+          "value": 256,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "fd8425539a1b6183e876b4ddcb904154bfbf987309872d57de039076aa8e7308"
+        },
+        {
+          "alias": true,
+          "opcode": 45,
+          "tag": 20,
+          "value": 65535,
+          "es": 7179,
+          "bp": 3028,
+          "offset": 128,
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 48,
+            "bp": 3028,
+            "dx": 65535,
+            "cx": 22136
+          },
+          "hash": "fd8425539a1b6183e876b4ddcb904154bfbf987309872d57de039076aa8e7308"
+        }
+      ]
+    }
+  ],
+  "main": {
+    "profile": "ishar2",
+    "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+    "mainSha256": "bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95",
+    "layouts": [
+      {
+        "tableBaseSegment": 12288,
+        "tableBaseOffset": 0,
+        "upperFrontier": 24576,
+        "resumedMain": {
+          "steps": 2,
+          "nextOpcode": 43,
+          "reason": null,
+          "last": {
+            "registers": {
+              "ds": 15421,
+              "es": 12288,
+              "si": 16103,
+              "bp": 672,
+              "dx": 65535,
+              "cx": 0
+            },
+            "status": "yield",
+            "opcode": 66,
+            "hash": "77e574e97411a4a21d13c01b769d0fd6b0c662f4c45c64d4a23e3c5fa10bc5d2"
+          }
+        }
+      },
+      {
+        "tableBaseSegment": 12288,
+        "tableBaseOffset": 0,
+        "upperFrontier": 36864,
+        "resumedMain": {
+          "steps": 2,
+          "nextOpcode": 43,
+          "reason": null,
+          "last": {
+            "registers": {
+              "ds": 15421,
+              "es": 12288,
+              "si": 16103,
+              "bp": 672,
+              "dx": 65535,
+              "cx": 0
+            },
+            "status": "yield",
+            "opcode": 66,
+            "hash": "20bfd8edeab077837aead654e5c124e4419fecac4fd94b2511228e894d9b69ad"
+          }
+        }
+      },
+      {
+        "tableBaseSegment": 20480,
+        "tableBaseOffset": 0,
+        "upperFrontier": 36864,
+        "resumedMain": {
+          "steps": 2,
+          "nextOpcode": 43,
+          "reason": null,
+          "last": {
+            "registers": {
+              "ds": 23613,
+              "es": 20480,
+              "si": 16103,
+              "bp": 672,
+              "dx": 65535,
+              "cx": 0
+            },
+            "status": "yield",
+            "opcode": 66,
+            "hash": "d059dc43cbb1dd2cbcf8cc6064a93363f82d0a88804bc0979f2dca2ae729a334"
+          }
+        }
+      }
+    ]
+  }
+}

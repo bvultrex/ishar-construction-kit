@@ -1,0 +1,3473 @@
+{
+  "scope": "Complete original mouse startup and contiguous configuration-to-mouse path",
+  "reports": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 72,
+      "cases": [
+        {
+          "skip": 0,
+          "mode": 0,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "edd2be2bc7fce58db52fd9d4eb507d39480e23a6b32b8b83c12f6d3aed8285c4"
+        },
+        {
+          "skip": 0,
+          "mode": 0,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "e063cde7c170e7c8de15569e6199aa11560845dbd69e70843ea6dd9cbf82654c"
+        },
+        {
+          "skip": 0,
+          "mode": 0,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "152348447ed74a5e17eea7ada03e4d93ebfcd6cfa52c77b751728d1c2e7fb582"
+        },
+        {
+          "skip": 0,
+          "mode": 0,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "adc45a918c8c63cab4de196915500a092eb026822b85ec0f3606196139362333"
+        },
+        {
+          "skip": 0,
+          "mode": 0,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "152348447ed74a5e17eea7ada03e4d93ebfcd6cfa52c77b751728d1c2e7fb582"
+        },
+        {
+          "skip": 0,
+          "mode": 0,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "adc45a918c8c63cab4de196915500a092eb026822b85ec0f3606196139362333"
+        },
+        {
+          "skip": 0,
+          "mode": 1,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "c9f2f79373c1472cf6bd86e738779c1ed9d1ea293d7d30422be395a43b3fa310"
+        },
+        {
+          "skip": 0,
+          "mode": 1,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "f9500b035abcf973f52723996a02a3f6d7897a8bcfefcad865a21c2bf60cfe6a"
+        },
+        {
+          "skip": 0,
+          "mode": 1,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 4,
+              "cx": 160,
+              "dx": 100
+            },
+            {
+              "interrupt": 51,
+              "ax": 7,
+              "cx": 0,
+              "dx": 319
+            },
+            {
+              "interrupt": 51,
+              "ax": 8,
+              "cx": 0,
+              "dx": 199
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 32,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 12,
+              "cx": 63,
+              "dx": 4681,
+              "es": 4096
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": true,
+          "boundary": 2300,
+          "hash": "a1ad35ab5021f87ab2bce763a2d4d1432ee943519e6a679ec8db1f394a8ec7e0"
+        },
+        {
+          "skip": 0,
+          "mode": 1,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 4,
+              "cx": 160,
+              "dx": 100
+            },
+            {
+              "interrupt": 51,
+              "ax": 7,
+              "cx": 0,
+              "dx": 319
+            },
+            {
+              "interrupt": 51,
+              "ax": 8,
+              "cx": 0,
+              "dx": 199
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 32,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 12,
+              "cx": 63,
+              "dx": 4681,
+              "es": 4096
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": true,
+          "boundary": 2300,
+          "hash": "9da4b8ee6b7844c0db31c350c46f9a1e341e2ccb5f6e0de55a06e03006c00bdc"
+        },
+        {
+          "skip": 0,
+          "mode": 1,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 4,
+              "cx": 160,
+              "dx": 100
+            },
+            {
+              "interrupt": 51,
+              "ax": 7,
+              "cx": 0,
+              "dx": 319
+            },
+            {
+              "interrupt": 51,
+              "ax": 8,
+              "cx": 0,
+              "dx": 199
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 32,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 12,
+              "cx": 63,
+              "dx": 4681,
+              "es": 4096
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": true,
+          "boundary": 2300,
+          "hash": "a1ad35ab5021f87ab2bce763a2d4d1432ee943519e6a679ec8db1f394a8ec7e0"
+        },
+        {
+          "skip": 0,
+          "mode": 1,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 4,
+              "cx": 160,
+              "dx": 100
+            },
+            {
+              "interrupt": 51,
+              "ax": 7,
+              "cx": 0,
+              "dx": 319
+            },
+            {
+              "interrupt": 51,
+              "ax": 8,
+              "cx": 0,
+              "dx": 199
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 32,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 12,
+              "cx": 63,
+              "dx": 4681,
+              "es": 4096
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": true,
+          "boundary": 2300,
+          "hash": "9da4b8ee6b7844c0db31c350c46f9a1e341e2ccb5f6e0de55a06e03006c00bdc"
+        },
+        {
+          "skip": 0,
+          "mode": 2,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "7b7bca776883f66fd29f2d61052612f8dc5bf8dc9e464df26dd49c58a0e71bde"
+        },
+        {
+          "skip": 0,
+          "mode": 2,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "da1ac8147f5883996554c8c02c52da2d03ff8901ac31c56423944b1979159af5"
+        },
+        {
+          "skip": 0,
+          "mode": 2,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "a5e8e8185ce5f35e87a1c2defd439ecf0ea68d53267d2c82ccd575a055231def"
+        },
+        {
+          "skip": 0,
+          "mode": 2,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "384b2349aab31995532dd71b6d381bd4539d5908d9a9e6d04eb234f774df542f"
+        },
+        {
+          "skip": 0,
+          "mode": 2,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "a5e8e8185ce5f35e87a1c2defd439ecf0ea68d53267d2c82ccd575a055231def"
+        },
+        {
+          "skip": 0,
+          "mode": 2,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "384b2349aab31995532dd71b6d381bd4539d5908d9a9e6d04eb234f774df542f"
+        },
+        {
+          "skip": 0,
+          "mode": 255,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "dde7fae710d321cad9416bdc62df75a9617461e24f0bc6de1cf6fe459d94596a"
+        },
+        {
+          "skip": 0,
+          "mode": 255,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "7ec737b02fb7112b56c210aa2206af00a714da2b3f68e0c465a7a05d0aba6ac9"
+        },
+        {
+          "skip": 0,
+          "mode": 255,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "26b4742b79268cbfa9597a7a8272cb9b8d778f12dbb8da68f39b388292212fef"
+        },
+        {
+          "skip": 0,
+          "mode": 255,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "1ed4b730701f6a855916a50e648f41efc420f3afdb36fe340433badcd4524041"
+        },
+        {
+          "skip": 0,
+          "mode": 255,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "26b4742b79268cbfa9597a7a8272cb9b8d778f12dbb8da68f39b388292212fef"
+        },
+        {
+          "skip": 0,
+          "mode": 255,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "1ed4b730701f6a855916a50e648f41efc420f3afdb36fe340433badcd4524041"
+        },
+        {
+          "skip": 1,
+          "mode": 0,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "edd2be2bc7fce58db52fd9d4eb507d39480e23a6b32b8b83c12f6d3aed8285c4"
+        },
+        {
+          "skip": 1,
+          "mode": 0,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "e063cde7c170e7c8de15569e6199aa11560845dbd69e70843ea6dd9cbf82654c"
+        },
+        {
+          "skip": 1,
+          "mode": 0,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "edd2be2bc7fce58db52fd9d4eb507d39480e23a6b32b8b83c12f6d3aed8285c4"
+        },
+        {
+          "skip": 1,
+          "mode": 0,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "e063cde7c170e7c8de15569e6199aa11560845dbd69e70843ea6dd9cbf82654c"
+        },
+        {
+          "skip": 1,
+          "mode": 0,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "edd2be2bc7fce58db52fd9d4eb507d39480e23a6b32b8b83c12f6d3aed8285c4"
+        },
+        {
+          "skip": 1,
+          "mode": 0,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "e063cde7c170e7c8de15569e6199aa11560845dbd69e70843ea6dd9cbf82654c"
+        },
+        {
+          "skip": 1,
+          "mode": 1,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "c9f2f79373c1472cf6bd86e738779c1ed9d1ea293d7d30422be395a43b3fa310"
+        },
+        {
+          "skip": 1,
+          "mode": 1,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "f9500b035abcf973f52723996a02a3f6d7897a8bcfefcad865a21c2bf60cfe6a"
+        },
+        {
+          "skip": 1,
+          "mode": 1,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "c9f2f79373c1472cf6bd86e738779c1ed9d1ea293d7d30422be395a43b3fa310"
+        },
+        {
+          "skip": 1,
+          "mode": 1,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "f9500b035abcf973f52723996a02a3f6d7897a8bcfefcad865a21c2bf60cfe6a"
+        },
+        {
+          "skip": 1,
+          "mode": 1,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "c9f2f79373c1472cf6bd86e738779c1ed9d1ea293d7d30422be395a43b3fa310"
+        },
+        {
+          "skip": 1,
+          "mode": 1,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "f9500b035abcf973f52723996a02a3f6d7897a8bcfefcad865a21c2bf60cfe6a"
+        },
+        {
+          "skip": 1,
+          "mode": 2,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "7b7bca776883f66fd29f2d61052612f8dc5bf8dc9e464df26dd49c58a0e71bde"
+        },
+        {
+          "skip": 1,
+          "mode": 2,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "da1ac8147f5883996554c8c02c52da2d03ff8901ac31c56423944b1979159af5"
+        },
+        {
+          "skip": 1,
+          "mode": 2,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "7b7bca776883f66fd29f2d61052612f8dc5bf8dc9e464df26dd49c58a0e71bde"
+        },
+        {
+          "skip": 1,
+          "mode": 2,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "da1ac8147f5883996554c8c02c52da2d03ff8901ac31c56423944b1979159af5"
+        },
+        {
+          "skip": 1,
+          "mode": 2,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "7b7bca776883f66fd29f2d61052612f8dc5bf8dc9e464df26dd49c58a0e71bde"
+        },
+        {
+          "skip": 1,
+          "mode": 2,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "da1ac8147f5883996554c8c02c52da2d03ff8901ac31c56423944b1979159af5"
+        },
+        {
+          "skip": 1,
+          "mode": 255,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "dde7fae710d321cad9416bdc62df75a9617461e24f0bc6de1cf6fe459d94596a"
+        },
+        {
+          "skip": 1,
+          "mode": 255,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "7ec737b02fb7112b56c210aa2206af00a714da2b3f68e0c465a7a05d0aba6ac9"
+        },
+        {
+          "skip": 1,
+          "mode": 255,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "dde7fae710d321cad9416bdc62df75a9617461e24f0bc6de1cf6fe459d94596a"
+        },
+        {
+          "skip": 1,
+          "mode": 255,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "7ec737b02fb7112b56c210aa2206af00a714da2b3f68e0c465a7a05d0aba6ac9"
+        },
+        {
+          "skip": 1,
+          "mode": 255,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "dde7fae710d321cad9416bdc62df75a9617461e24f0bc6de1cf6fe459d94596a"
+        },
+        {
+          "skip": 1,
+          "mode": 255,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "7ec737b02fb7112b56c210aa2206af00a714da2b3f68e0c465a7a05d0aba6ac9"
+        },
+        {
+          "skip": 255,
+          "mode": 0,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "734ce1f135e2f8491eb8ebb8b8df5c41ce52840dd2540e6e8759b7d3c9d57a0b"
+        },
+        {
+          "skip": 255,
+          "mode": 0,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "75d5fc63753bb869020d809cfb02d7abb33950fd62a63601aaf7df69107edda8"
+        },
+        {
+          "skip": 255,
+          "mode": 0,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "734ce1f135e2f8491eb8ebb8b8df5c41ce52840dd2540e6e8759b7d3c9d57a0b"
+        },
+        {
+          "skip": 255,
+          "mode": 0,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "75d5fc63753bb869020d809cfb02d7abb33950fd62a63601aaf7df69107edda8"
+        },
+        {
+          "skip": 255,
+          "mode": 0,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "734ce1f135e2f8491eb8ebb8b8df5c41ce52840dd2540e6e8759b7d3c9d57a0b"
+        },
+        {
+          "skip": 255,
+          "mode": 0,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "75d5fc63753bb869020d809cfb02d7abb33950fd62a63601aaf7df69107edda8"
+        },
+        {
+          "skip": 255,
+          "mode": 1,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "e46df98124b9461e10b78a4249bdb00aefc2cf1ec0dd8323b649f84ecfd5e94c"
+        },
+        {
+          "skip": 255,
+          "mode": 1,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "3fe5d0a533b95c60c0a9d636eacb3a084a9424babffbc1d0e4a6f934e6c6911a"
+        },
+        {
+          "skip": 255,
+          "mode": 1,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "e46df98124b9461e10b78a4249bdb00aefc2cf1ec0dd8323b649f84ecfd5e94c"
+        },
+        {
+          "skip": 255,
+          "mode": 1,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "3fe5d0a533b95c60c0a9d636eacb3a084a9424babffbc1d0e4a6f934e6c6911a"
+        },
+        {
+          "skip": 255,
+          "mode": 1,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "e46df98124b9461e10b78a4249bdb00aefc2cf1ec0dd8323b649f84ecfd5e94c"
+        },
+        {
+          "skip": 255,
+          "mode": 1,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "3fe5d0a533b95c60c0a9d636eacb3a084a9424babffbc1d0e4a6f934e6c6911a"
+        },
+        {
+          "skip": 255,
+          "mode": 2,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "1247cdfde2a1b7b7d31428750a41cf9655de23ecd8ec80d0f80365b0d1e6f70d"
+        },
+        {
+          "skip": 255,
+          "mode": 2,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "8aaafbdcb50fb48bc18d532b44432a2d2e7ddcec8ff614bb0c8e5d635ddf9c83"
+        },
+        {
+          "skip": 255,
+          "mode": 2,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "1247cdfde2a1b7b7d31428750a41cf9655de23ecd8ec80d0f80365b0d1e6f70d"
+        },
+        {
+          "skip": 255,
+          "mode": 2,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "8aaafbdcb50fb48bc18d532b44432a2d2e7ddcec8ff614bb0c8e5d635ddf9c83"
+        },
+        {
+          "skip": 255,
+          "mode": 2,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "1247cdfde2a1b7b7d31428750a41cf9655de23ecd8ec80d0f80365b0d1e6f70d"
+        },
+        {
+          "skip": 255,
+          "mode": 2,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "8aaafbdcb50fb48bc18d532b44432a2d2e7ddcec8ff614bb0c8e5d635ddf9c83"
+        },
+        {
+          "skip": 255,
+          "mode": 255,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "e3f13b58dcdb8b40cc5bd7982cc5006d98493c1b210f798b231961626c564608"
+        },
+        {
+          "skip": 255,
+          "mode": 255,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "d0ebd1f4148d535b40f0ae416bdc2384362b3d1fb5802fb41414b62e42d201a9"
+        },
+        {
+          "skip": 255,
+          "mode": 255,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "e3f13b58dcdb8b40cc5bd7982cc5006d98493c1b210f798b231961626c564608"
+        },
+        {
+          "skip": 255,
+          "mode": 255,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "d0ebd1f4148d535b40f0ae416bdc2384362b3d1fb5802fb41414b62e42d201a9"
+        },
+        {
+          "skip": 255,
+          "mode": 255,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "e3f13b58dcdb8b40cc5bd7982cc5006d98493c1b210f798b231961626c564608"
+        },
+        {
+          "skip": 255,
+          "mode": 255,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "d0ebd1f4148d535b40f0ae416bdc2384362b3d1fb5802fb41414b62e42d201a9"
+        }
+      ],
+      "limits": "Complete08F9 call to08FC; explicit reset/no driver side effects or callbacks; full memory except FEFE..FEFF return address, events/DS/ES/SP verified; other scratch registers/flags excluded"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 72,
+      "cases": [
+        {
+          "skip": 0,
+          "mode": 0,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "56133b5341f39aee0a479934c63684450fcfa8523e2ae980afd1147127aacf54"
+        },
+        {
+          "skip": 0,
+          "mode": 0,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "5add67b29af2660981dca0da5d3b09f2f302669e7f7eb23a0d11f590c50e1191"
+        },
+        {
+          "skip": 0,
+          "mode": 0,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "89755ba063717e94ad54619f82f2f8ee1e54d78464d1729be34ce156b2b06056"
+        },
+        {
+          "skip": 0,
+          "mode": 0,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "717b41024780930cce4b0e0970c9d77e2d16b0f9e64e71a8ea4c10c174b78642"
+        },
+        {
+          "skip": 0,
+          "mode": 0,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "89755ba063717e94ad54619f82f2f8ee1e54d78464d1729be34ce156b2b06056"
+        },
+        {
+          "skip": 0,
+          "mode": 0,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "717b41024780930cce4b0e0970c9d77e2d16b0f9e64e71a8ea4c10c174b78642"
+        },
+        {
+          "skip": 0,
+          "mode": 1,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "88b1ad12cfcd39d5dcf4550452c9305ed911567739788d68bdda6c557e4ed1e9"
+        },
+        {
+          "skip": 0,
+          "mode": 1,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "8f92be53114219795e3934310f550fa574f4b7c9e4b09e52c3008ac236cd91de"
+        },
+        {
+          "skip": 0,
+          "mode": 1,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 4,
+              "cx": 160,
+              "dx": 100
+            },
+            {
+              "interrupt": 51,
+              "ax": 7,
+              "cx": 0,
+              "dx": 319
+            },
+            {
+              "interrupt": 51,
+              "ax": 8,
+              "cx": 0,
+              "dx": 199
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 32,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 12,
+              "cx": 63,
+              "dx": 4681,
+              "es": 4096
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": true,
+          "boundary": 2300,
+          "hash": "c4eeec83e52c72dadaf2ff7cf46eeb18ed26b0a6277e1e18a40c613c3873d0cf"
+        },
+        {
+          "skip": 0,
+          "mode": 1,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 4,
+              "cx": 160,
+              "dx": 100
+            },
+            {
+              "interrupt": 51,
+              "ax": 7,
+              "cx": 0,
+              "dx": 319
+            },
+            {
+              "interrupt": 51,
+              "ax": 8,
+              "cx": 0,
+              "dx": 199
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 32,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 12,
+              "cx": 63,
+              "dx": 4681,
+              "es": 4096
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": true,
+          "boundary": 2300,
+          "hash": "76889828e65b37e1d42397bac14b63fba2fe2c5b271ba99720e60294c6e9fa25"
+        },
+        {
+          "skip": 0,
+          "mode": 1,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 4,
+              "cx": 160,
+              "dx": 100
+            },
+            {
+              "interrupt": 51,
+              "ax": 7,
+              "cx": 0,
+              "dx": 319
+            },
+            {
+              "interrupt": 51,
+              "ax": 8,
+              "cx": 0,
+              "dx": 199
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 32,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 12,
+              "cx": 63,
+              "dx": 4681,
+              "es": 4096
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": true,
+          "boundary": 2300,
+          "hash": "c4eeec83e52c72dadaf2ff7cf46eeb18ed26b0a6277e1e18a40c613c3873d0cf"
+        },
+        {
+          "skip": 0,
+          "mode": 1,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 4,
+              "cx": 160,
+              "dx": 100
+            },
+            {
+              "interrupt": 51,
+              "ax": 7,
+              "cx": 0,
+              "dx": 319
+            },
+            {
+              "interrupt": 51,
+              "ax": 8,
+              "cx": 0,
+              "dx": 199
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 32,
+              "dx": 32
+            },
+            {
+              "interrupt": 51,
+              "ax": 12,
+              "cx": 63,
+              "dx": 4681,
+              "es": 4096
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": true,
+          "boundary": 2300,
+          "hash": "76889828e65b37e1d42397bac14b63fba2fe2c5b271ba99720e60294c6e9fa25"
+        },
+        {
+          "skip": 0,
+          "mode": 2,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "26dd5967c0ad39c32f0fb13a509ec92f0fee7f98e0f5c1f9f875004fa35cb0e0"
+        },
+        {
+          "skip": 0,
+          "mode": 2,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "241eae38fb476787b0c91d356473773f84ad9e67cb89a408181db44620a47456"
+        },
+        {
+          "skip": 0,
+          "mode": 2,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "bb49bdd7eb34964ae09689e83dc92f1212b03fea63e3b26c7e2fecb0626e80ee"
+        },
+        {
+          "skip": 0,
+          "mode": 2,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "f306bd8a42c0ff904315f4abee5f0b0a95b83a4f98f5f043eedebf858ae4d284"
+        },
+        {
+          "skip": 0,
+          "mode": 2,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "bb49bdd7eb34964ae09689e83dc92f1212b03fea63e3b26c7e2fecb0626e80ee"
+        },
+        {
+          "skip": 0,
+          "mode": 2,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "f306bd8a42c0ff904315f4abee5f0b0a95b83a4f98f5f043eedebf858ae4d284"
+        },
+        {
+          "skip": 0,
+          "mode": 255,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "c4102078af72a614da0bad9fa81c6f746f1994691cdc1f40c422e1de09ff05b9"
+        },
+        {
+          "skip": 0,
+          "mode": 255,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            }
+          ],
+          "phase": "absent",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "1b9d69302fdf0c86cf340022f9df3d68ec70b34f5aae7cb880849a4a4a8c63fb"
+        },
+        {
+          "skip": 0,
+          "mode": 255,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "e73db358bf4796e6b6730dea61d7ed11aea8a6de04a121e25499a6a0d73ddaad"
+        },
+        {
+          "skip": 0,
+          "mode": 255,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "7679e94af7fce64baf104e087160351778e445264f2c0339181ba94458c6c6c7"
+        },
+        {
+          "skip": 0,
+          "mode": 255,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "e73db358bf4796e6b6730dea61d7ed11aea8a6de04a121e25499a6a0d73ddaad"
+        },
+        {
+          "skip": 0,
+          "mode": 255,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [
+            {
+              "interrupt": 51,
+              "ax": 0
+            },
+            {
+              "interrupt": 51,
+              "ax": 15,
+              "cx": 16,
+              "dx": 32
+            }
+          ],
+          "phase": "present",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "7679e94af7fce64baf104e087160351778e445264f2c0339181ba94458c6c6c7"
+        },
+        {
+          "skip": 1,
+          "mode": 0,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "56133b5341f39aee0a479934c63684450fcfa8523e2ae980afd1147127aacf54"
+        },
+        {
+          "skip": 1,
+          "mode": 0,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "5add67b29af2660981dca0da5d3b09f2f302669e7f7eb23a0d11f590c50e1191"
+        },
+        {
+          "skip": 1,
+          "mode": 0,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "56133b5341f39aee0a479934c63684450fcfa8523e2ae980afd1147127aacf54"
+        },
+        {
+          "skip": 1,
+          "mode": 0,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "5add67b29af2660981dca0da5d3b09f2f302669e7f7eb23a0d11f590c50e1191"
+        },
+        {
+          "skip": 1,
+          "mode": 0,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "56133b5341f39aee0a479934c63684450fcfa8523e2ae980afd1147127aacf54"
+        },
+        {
+          "skip": 1,
+          "mode": 0,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "5add67b29af2660981dca0da5d3b09f2f302669e7f7eb23a0d11f590c50e1191"
+        },
+        {
+          "skip": 1,
+          "mode": 1,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "88b1ad12cfcd39d5dcf4550452c9305ed911567739788d68bdda6c557e4ed1e9"
+        },
+        {
+          "skip": 1,
+          "mode": 1,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "8f92be53114219795e3934310f550fa574f4b7c9e4b09e52c3008ac236cd91de"
+        },
+        {
+          "skip": 1,
+          "mode": 1,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "88b1ad12cfcd39d5dcf4550452c9305ed911567739788d68bdda6c557e4ed1e9"
+        },
+        {
+          "skip": 1,
+          "mode": 1,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "8f92be53114219795e3934310f550fa574f4b7c9e4b09e52c3008ac236cd91de"
+        },
+        {
+          "skip": 1,
+          "mode": 1,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "88b1ad12cfcd39d5dcf4550452c9305ed911567739788d68bdda6c557e4ed1e9"
+        },
+        {
+          "skip": 1,
+          "mode": 1,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "8f92be53114219795e3934310f550fa574f4b7c9e4b09e52c3008ac236cd91de"
+        },
+        {
+          "skip": 1,
+          "mode": 2,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "26dd5967c0ad39c32f0fb13a509ec92f0fee7f98e0f5c1f9f875004fa35cb0e0"
+        },
+        {
+          "skip": 1,
+          "mode": 2,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "241eae38fb476787b0c91d356473773f84ad9e67cb89a408181db44620a47456"
+        },
+        {
+          "skip": 1,
+          "mode": 2,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "26dd5967c0ad39c32f0fb13a509ec92f0fee7f98e0f5c1f9f875004fa35cb0e0"
+        },
+        {
+          "skip": 1,
+          "mode": 2,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "241eae38fb476787b0c91d356473773f84ad9e67cb89a408181db44620a47456"
+        },
+        {
+          "skip": 1,
+          "mode": 2,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "26dd5967c0ad39c32f0fb13a509ec92f0fee7f98e0f5c1f9f875004fa35cb0e0"
+        },
+        {
+          "skip": 1,
+          "mode": 2,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "241eae38fb476787b0c91d356473773f84ad9e67cb89a408181db44620a47456"
+        },
+        {
+          "skip": 1,
+          "mode": 255,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "c4102078af72a614da0bad9fa81c6f746f1994691cdc1f40c422e1de09ff05b9"
+        },
+        {
+          "skip": 1,
+          "mode": 255,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "1b9d69302fdf0c86cf340022f9df3d68ec70b34f5aae7cb880849a4a4a8c63fb"
+        },
+        {
+          "skip": 1,
+          "mode": 255,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "c4102078af72a614da0bad9fa81c6f746f1994691cdc1f40c422e1de09ff05b9"
+        },
+        {
+          "skip": 1,
+          "mode": 255,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "1b9d69302fdf0c86cf340022f9df3d68ec70b34f5aae7cb880849a4a4a8c63fb"
+        },
+        {
+          "skip": 1,
+          "mode": 255,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "c4102078af72a614da0bad9fa81c6f746f1994691cdc1f40c422e1de09ff05b9"
+        },
+        {
+          "skip": 1,
+          "mode": 255,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "1b9d69302fdf0c86cf340022f9df3d68ec70b34f5aae7cb880849a4a4a8c63fb"
+        },
+        {
+          "skip": 255,
+          "mode": 0,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "d233168fa6ecbf583b0f16c2eef5e7fdfee2fc34a714f864d310f8baf394ff69"
+        },
+        {
+          "skip": 255,
+          "mode": 0,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "6fdfb714d73467af9c1da647dd2bda3f79f34887830c34d2cce5e60ce9de6ae5"
+        },
+        {
+          "skip": 255,
+          "mode": 0,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "d233168fa6ecbf583b0f16c2eef5e7fdfee2fc34a714f864d310f8baf394ff69"
+        },
+        {
+          "skip": 255,
+          "mode": 0,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "6fdfb714d73467af9c1da647dd2bda3f79f34887830c34d2cce5e60ce9de6ae5"
+        },
+        {
+          "skip": 255,
+          "mode": 0,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "d233168fa6ecbf583b0f16c2eef5e7fdfee2fc34a714f864d310f8baf394ff69"
+        },
+        {
+          "skip": 255,
+          "mode": 0,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "6fdfb714d73467af9c1da647dd2bda3f79f34887830c34d2cce5e60ce9de6ae5"
+        },
+        {
+          "skip": 255,
+          "mode": 1,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "66db005dce517c76f23156773119fc2729d9ee354f7376fa9d85a47daa241282"
+        },
+        {
+          "skip": 255,
+          "mode": 1,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "68d8ceccc18b436e6fb18d86288011e07900714e3422250bddb2d144c0c34d5e"
+        },
+        {
+          "skip": 255,
+          "mode": 1,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "66db005dce517c76f23156773119fc2729d9ee354f7376fa9d85a47daa241282"
+        },
+        {
+          "skip": 255,
+          "mode": 1,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "68d8ceccc18b436e6fb18d86288011e07900714e3422250bddb2d144c0c34d5e"
+        },
+        {
+          "skip": 255,
+          "mode": 1,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "66db005dce517c76f23156773119fc2729d9ee354f7376fa9d85a47daa241282"
+        },
+        {
+          "skip": 255,
+          "mode": 1,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "68d8ceccc18b436e6fb18d86288011e07900714e3422250bddb2d144c0c34d5e"
+        },
+        {
+          "skip": 255,
+          "mode": 2,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "6e3a544b3cd69c565d98d17831680729a5512e4a9f21d506a81c49918fe5fc64"
+        },
+        {
+          "skip": 255,
+          "mode": 2,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "c188ba100768845f5332c9faee2c336d8e753c0e5968a05b45771fbbdbac24d5"
+        },
+        {
+          "skip": 255,
+          "mode": 2,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "6e3a544b3cd69c565d98d17831680729a5512e4a9f21d506a81c49918fe5fc64"
+        },
+        {
+          "skip": 255,
+          "mode": 2,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "c188ba100768845f5332c9faee2c336d8e753c0e5968a05b45771fbbdbac24d5"
+        },
+        {
+          "skip": 255,
+          "mode": 2,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "6e3a544b3cd69c565d98d17831680729a5512e4a9f21d506a81c49918fe5fc64"
+        },
+        {
+          "skip": 255,
+          "mode": 2,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "c188ba100768845f5332c9faee2c336d8e753c0e5968a05b45771fbbdbac24d5"
+        },
+        {
+          "skip": 255,
+          "mode": 255,
+          "resetAX": 0,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "0f959d9645a9602fd257fed2052871acc354bfbb0cd48be82e9e54f448130cd4"
+        },
+        {
+          "skip": 255,
+          "mode": 255,
+          "resetAX": 0,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "8c798fcbea91c8ccbe759ccd292754b902c7ecd6b0b69210752b9ad654aa1343"
+        },
+        {
+          "skip": 255,
+          "mode": 255,
+          "resetAX": 1,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "0f959d9645a9602fd257fed2052871acc354bfbb0cd48be82e9e54f448130cd4"
+        },
+        {
+          "skip": 255,
+          "mode": 255,
+          "resetAX": 1,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "8c798fcbea91c8ccbe759ccd292754b902c7ecd6b0b69210752b9ad654aa1343"
+        },
+        {
+          "skip": 255,
+          "mode": 255,
+          "resetAX": 65535,
+          "oldFlags": 0,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "0f959d9645a9602fd257fed2052871acc354bfbb0cd48be82e9e54f448130cd4"
+        },
+        {
+          "skip": 255,
+          "mode": 255,
+          "resetAX": 65535,
+          "oldFlags": 65535,
+          "events": [],
+          "phase": "skip",
+          "callbackRegistered": false,
+          "boundary": 2300,
+          "hash": "8c798fcbea91c8ccbe759ccd292754b902c7ecd6b0b69210752b9ad654aa1343"
+        }
+      ],
+      "limits": "Complete08F9 call to08FC; explicit reset/no driver side effects or callbacks; full memory except FEFE..FEFF return address, events/DS/ES/SP verified; other scratch registers/flags excluded"
+    },
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "settingsSha256": "d4eb29e43511a5af7e9dea13dcd64aba2679e995afffeefe560c89c90a332a9e",
+      "stackMask": "FEBC..FEFF for graphics returns; FEC0..FEFF otherwise",
+      "mouse": true,
+      "graphics": true,
+      "keyboard": true,
+      "audio": true,
+      "ems": true,
+      "blancpcSha256": "fa35da163339385cc8fb95b5469bc5fb52e8d31a803f84854da5c89d7196c229",
+      "earlyServices": true,
+      "callerSelect": true,
+      "caseCount": 32,
+      "cases": [
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2300,
+          "hash": "4a4b44be611f590515ef31f36c52693ceb0d133fe51eb8dedfde384fdc121a55",
+          "traceSha256": "76596dc24900a8f992582798f676fd1eee778fccd158db5828315b91aba47ee0"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "9faf6fa749ef6c9b9737285f8433996924839d8cc43970fb1fb5a1c2e2e49fa1",
+          "traceSha256": "c26227f571bc4d8b64836091d913e4d0ae0c783506b73e5992b96c5b1bf55065"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5c88ad1f1237e19c093ed5b6739ed56afcf196549f40ab353307c279d037f73a",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5c88ad1f1237e19c093ed5b6739ed56afcf196549f40ab353307c279d037f73a",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "b506cc207b07e0848177dc69ad8a519ebf3909daf382669558f213fc4232c181",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "b506cc207b07e0848177dc69ad8a519ebf3909daf382669558f213fc4232c181",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "320b9ab382ef852a881891c5c2e0df2be7505f0108d0b348fd67436fe4859118",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "320b9ab382ef852a881891c5c2e0df2be7505f0108d0b348fd67436fe4859118",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2300,
+          "hash": "1c1b0e149b08ee6392fc03f7dd5cf197c695ad372ee193110e721417ae6f8331",
+          "traceSha256": "a3041f26e500f411e3dbd6abcfe41bb3176ceb545cb01f3944b250396a01f4e7"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "ca2373264ea582e67099bd83c1ced868bbda29a3dcc01298764fa261cbc0f680",
+          "traceSha256": "c26227f571bc4d8b64836091d913e4d0ae0c783506b73e5992b96c5b1bf55065"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f4c8379d01e4f7f5692005745e9e20b5277fb384196da3b64a06464796d468aa",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f4c8379d01e4f7f5692005745e9e20b5277fb384196da3b64a06464796d468aa",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "2566237f412e8acde813ad37c3357223fcc15f7713f5f79d2213994a911cf4f8",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "2566237f412e8acde813ad37c3357223fcc15f7713f5f79d2213994a911cf4f8",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "595b3f1266d34226c7f0157bc91b01191ea552f0cfc64d2d19a8f2acebdff066",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "595b3f1266d34226c7f0157bc91b01191ea552f0cfc64d2d19a8f2acebdff066",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2300,
+          "hash": "6066b17f0e1ef337e7a7139000a164deca9939dbebb14fe2efd8f4d4071bea35",
+          "traceSha256": "72f23173eb68d7231239d75ab36b1eec64387b10dbd6ea1fdb35201982799142"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "9007def20abe3575676cd46e33e694be9d3c9f0b095765222a721a4ed4c12920",
+          "traceSha256": "5ed46aed1f4c293cd975c50080f7cee5238e7223c4c058b7065e17936e0f3e41"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "703dbc62fa97bd22cb0805a1a1602f870b71a933be1c9cb55f3fa0fc442099fa",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "703dbc62fa97bd22cb0805a1a1602f870b71a933be1c9cb55f3fa0fc442099fa",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "4081ee181c15cc9510a33c80c8a15fad35cccff0bc43e4b4b2320cd84bf12e1c",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "4081ee181c15cc9510a33c80c8a15fad35cccff0bc43e4b4b2320cd84bf12e1c",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "eea91efe32d690499ac3d0ec3d81ed697637bae0b5f626518e5c2bb517177a3f",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "eea91efe32d690499ac3d0ec3d81ed697637bae0b5f626518e5c2bb517177a3f",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2300,
+          "hash": "64297f598032d0f5cb275cf146d69af30036d85ce8aa1494df2693d572cb2a27",
+          "traceSha256": "8a5f573326c69aae8cc133cb11d9924185e0e8beb5a6416c44884191a9a140cc"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "3a981f3315afcc0953256b2758942a96bde7b48da583a3158efbb5cab2a9aaea",
+          "traceSha256": "5ed46aed1f4c293cd975c50080f7cee5238e7223c4c058b7065e17936e0f3e41"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5f7052f37a3b720df59f20adc755df5fc37f17233a132df09c8206a49f94b110",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5f7052f37a3b720df59f20adc755df5fc37f17233a132df09c8206a49f94b110",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "320edbcd1b9bd42d692a65aa9a7a909d53505982076d5c524ef8d84484e03284",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "320edbcd1b9bd42d692a65aa9a7a909d53505982076d5c524ef8d84484e03284",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "979d93bd4dc3fd1d9c2b95650910cb68bc9fdecc8ae3368a32ffe64a6c90e9dd",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "979d93bd4dc3fd1d9c2b95650910cb68bc9fdecc8ae3368a32ffe64a6c90e9dd",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        }
+      ],
+      "limits": "Contiguous outer entry, or engine0787 through0832 with --early-services or0852 with --blancpc or08EA with --ems or08EF with --audio,08F5 with --keyboard,08F8 with --graphics,08FB with --mouse (explicit absent SB/no IRQ0A/mouse callbacks), stopping at original menu entry on menu paths; no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except documented CPU stack mask and SP/events checked; menu body, non-VGA and joystick-axis branches excluded; original text only as trace hashes"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "settingsSha256": "d4eb29e43511a5af7e9dea13dcd64aba2679e995afffeefe560c89c90a332a9e",
+      "stackMask": "FEBC..FEFF for graphics returns; FEC0..FEFF otherwise",
+      "mouse": true,
+      "graphics": true,
+      "keyboard": true,
+      "audio": true,
+      "ems": true,
+      "blancpcSha256": "fa35da163339385cc8fb95b5469bc5fb52e8d31a803f84854da5c89d7196c229",
+      "earlyServices": true,
+      "callerSelect": true,
+      "caseCount": 32,
+      "cases": [
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2300,
+          "hash": "cd252fe9ab0e8dd1f03f008487c85fc468d3d05f48430ebaa805e58767387e86",
+          "traceSha256": "ab15d7a9f666a4940210edd738eaaa38acd900a2ad2a424c4be012667f0f7ccf"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "972366206a48077d9e93f46687f06b1de6b0c5c9306598c16fe11481ea565923",
+          "traceSha256": "f1c2c73b8f53878fa42168cc5bed9675b69348c42e6b777ba0c916f36d624318"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "725bf801d622c8393211b1038fd8f2c5e608c914c95b7f98bb0afc1b09013290",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "725bf801d622c8393211b1038fd8f2c5e608c914c95b7f98bb0afc1b09013290",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "ced49e659543e526f23aad574d20f28f9f15023212a68440722232eeb89f1807",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "ced49e659543e526f23aad574d20f28f9f15023212a68440722232eeb89f1807",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "1089d2d402cbc44ca80fae3527c26abff4a39f236beac28841b2ce0a0b444025",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "1089d2d402cbc44ca80fae3527c26abff4a39f236beac28841b2ce0a0b444025",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2300,
+          "hash": "9c542e058165ccee8fd59db76102d8788c2be4fc2640b010495355eb5517f5bb",
+          "traceSha256": "29ae2148c7918b23e50b5a205d5fb1f23852827b97530d3428403a9502b82ed2"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "92e8de0c4a782528d19f103c0f3ddad5d8345f260b950bf070cc0d17e6f442e5",
+          "traceSha256": "c8d3cfdeea07c7651eec73663e329c487a257bc2c5f06c4cb9cd22e741fcdd61"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "f7d96dc320f8b3e9e958368bd8d87e3dceaccce7d83546be2dc9a445f1da2baa",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "f7d96dc320f8b3e9e958368bd8d87e3dceaccce7d83546be2dc9a445f1da2baa",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "c1f88a86e98f0aa1cdc08b4ccb89895c49f343beba83a3e40958bbc878850ebc",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "c1f88a86e98f0aa1cdc08b4ccb89895c49f343beba83a3e40958bbc878850ebc",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "415d3578683b20dda831d28c1d79db09ff993855dd6766e8578cbcf7ae72861d",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "415d3578683b20dda831d28c1d79db09ff993855dd6766e8578cbcf7ae72861d",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2300,
+          "hash": "8dacd5eb9be3f521a94f25e7015ae5b436b653d6a2e63ea96acaf910b515479e",
+          "traceSha256": "bf60b5baa3bc20744c0ff1674b020a1cab742e4e2487d8cd91e119dbc9c5f17c"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "f20d39b282edf46829baeaa23de17f00434c6e40d97095dd0e5fe7b7a9ca5ea5",
+          "traceSha256": "07b7024b5f4b44e0e4588de7d083d56f7134c091a75597caff273ea208a0df8d"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "bdd8b00f0fa4dace881d86a701fe13f7e9e61bbf7505806891187d52301a3ef6",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "bdd8b00f0fa4dace881d86a701fe13f7e9e61bbf7505806891187d52301a3ef6",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "0852ef30f61d56d573b5962f35c2a8ba8f26aacbcc8ff2ed91b9d11b5b69aae3",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "0852ef30f61d56d573b5962f35c2a8ba8f26aacbcc8ff2ed91b9d11b5b69aae3",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "13fe63dfab6bd4f964993d6e3c865943b0347fe77a40f7c94259f85f410658b7",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "13fe63dfab6bd4f964993d6e3c865943b0347fe77a40f7c94259f85f410658b7",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2300,
+          "hash": "f2fb0f6f5f4be0b330d6e21d58d28458b62ffe719cdfcd301a0f33743270dffa",
+          "traceSha256": "bcb1eeca343eba4d3420b6220d5b130c93c4b038f81bad92bc6e0ce3ee892021"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "7ebd819cb95f2535ce3a59fe93aa420aa5589ea278063ccf797f58d803b6c30a",
+          "traceSha256": "cd26a4ae968f8edf7a444779762707086d55a747f5e918e91b5aaca72aac349c"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "6f026bbe9281b4ed0bae3f7b81ed5563e977a10548564ed474af7e7003265fee",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "6f026bbe9281b4ed0bae3f7b81ed5563e977a10548564ed474af7e7003265fee",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "03205b5139b4c84cd934c007ec177e3cd21253bd5aceae78e6e1a7259090208c",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "03205b5139b4c84cd934c007ec177e3cd21253bd5aceae78e6e1a7259090208c",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "3bde863abfd655c10d5c95aaa3a5abfc104ba0c1c509d14bc94765657c187dd6",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "3bde863abfd655c10d5c95aaa3a5abfc104ba0c1c509d14bc94765657c187dd6",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        }
+      ],
+      "limits": "Contiguous outer entry, or engine0787 through0832 with --early-services or0852 with --blancpc or08EA with --ems or08EF with --audio,08F5 with --keyboard,08F8 with --graphics,08FB with --mouse (explicit absent SB/no IRQ0A/mouse callbacks), stopping at original menu entry on menu paths; no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except documented CPU stack mask and SP/events checked; menu body, non-VGA and joystick-axis branches excluded; original text only as trace hashes"
+    }
+  ]
+}

@@ -1,0 +1,1155 @@
+{
+  "schema": "ishar-main-object70-native-v1",
+  "main": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "mainSha256": "27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b",
+      "cases": 8,
+      "decodedBytes": 26384,
+      "decodeAndClose": true,
+      "rootCreation": true,
+      "decodeResults": [
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "64594a9950e34ddadfabc11cae02acf37b86823f62ac4ed75b9eb52ad28d62b2"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 14984,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "cb091561fb263113453a22556bccc672076658e2265ff645d53bd9bd8d5c6a40",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "652a0e4b3b8096b3454d5d7e2090245429217fde173178187ecbcb34e2c4002f"
+            },
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "61d23f685f61902fb4c560325d40f05910d6f725eb87a0027ab16e441df1ec82"
+            }
+          ],
+          "nextOpcode": 41
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "81206ca3101b79787804635bcab77c1467063a546ce3768917bc1166f71fd119"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 14984,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "8a10ff0dcc362abab52798504d1049867cb5584f673aa994e8505474a1f8aeb9",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "a39bffebd07795062e971177e4ec2384b5000f94c231c3958475312560924306"
+            },
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "5ef2b41c738c58b091bcd8c3afcbd8849841803998134885ef6fb9fa0bcb0b35"
+            }
+          ],
+          "nextOpcode": 41
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "4ede92d4e56ee2d047bb02b464bf9795b14d1baba3167ede1b9cd5eaae5c40c6"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "11839fb453d698870f44a73c287a21e49ecaae4a16f19d5b68e19fd6761885d0"
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "d694480a5d6b63d2038e2d82268975166d0236aead29e596e0a817b8cc72fa62"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "11839fb453d698870f44a73c287a21e49ecaae4a16f19d5b68e19fd6761885d0"
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "42fd1046c8d71563fed9e8d200c700e53e61d203799d58cd0708abc71d678869"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 23176,
+            "es": 20480,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "fcb5b68834d5e24321cd96ba7b21d44a7e6f6d967ac863522de16ab4c3f223f7",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "8abc943a024722d5f1177a5c7e8e327e1f4e695776952f1ff231ce22c9d2be12"
+            },
+            {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "22bb9f111c887678fbb214c906bedff433deb3dfd796d011a07cb19b19dce2ae"
+            }
+          ],
+          "nextOpcode": 41
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "b140a9bbdfd55ca041bef2fc857268427243af71ac1f0f70412cf1caeececd6b"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "f0618743c98547bae75d16b6b7532ded9be2acc5505b575ddca764bca69cb274"
+        }
+      ],
+      "result": "MAIN chain through requested initialization/decode/root boundary matches",
+      "limits": "controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "mainSha256": "bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95",
+      "cases": 8,
+      "decodedBytes": 27752,
+      "decodeAndClose": true,
+      "rootCreation": true,
+      "decodeResults": [
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "22bab1ca1e85e9a28d40afdc5b5de42edf11d0f24c44b5198004ec377f2a3aed"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 15421,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "081786906b10e2b667fdd276d2202659b1cdee32ffc2dedef6d79b86bf157624",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "d029137af92865b1ea622b59fcba964b003b53e31474fe7b285ca9719639d4b5"
+            },
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "090a13c4d65953fdedf28989e7cc62f127174719e7422a084897716ef2301f55"
+            }
+          ],
+          "nextOpcode": 41
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "cad63e06b4e9ab4616305dffa8a3604f0a33c70cb859db6a193150f41949a787"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 15421,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "7f5b16bacda449a84641c3bc7cf3d6774a01f3566059ff432ce8e45a47e761d2",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "755cae8c9eeeaac65f05597248f0f757f065094cb4dbeb56ab4f09a1492062a8"
+            },
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "71619062b92e0abe93e8164e95e18ba772294c963d51ae2b26cbb379c0607ae0"
+            }
+          ],
+          "nextOpcode": 41
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "aa6867a7f268d06e9ff6361e9bde8509f33dc6c44b41f32c331bcdd0a9b549da"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "47f4d32ff7c439330c646ee60de01a82a269c05f44d8af0db8a9dea0471cfe7e"
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "25cc8ff1ea80b989f56d8dc33e4a1a8d46dc055491d1fe4be7ae5f2ccf5386a8"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "47f4d32ff7c439330c646ee60de01a82a269c05f44d8af0db8a9dea0471cfe7e"
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "565a3208f77005b70f07cf183653760df066a8c855a5b06f3956a3940919c8b5"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 23613,
+            "es": 20480,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "3c2484a285da115fa50b4b254f03be29fdaa7ae8c232edaf11653b6504fa82d6",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "e960992c67890c6793cbce28833a5b83e545bf671719f18af83d9e16e27cff9a"
+            },
+            {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "55549455d1ae2533b00d896e10333df499c19ca6d560912e102b2e0d507e6814"
+            }
+          ],
+          "nextOpcode": 41
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "c922ab1129f69dd31f0d318c40b3163dc519a0242a4d8b6876a20d3dd801bfec"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "d6a12dc7bdcb278e79e69827816266190aa55c572f4e75872ff9ae06bc4cc5bf"
+        }
+      ],
+      "result": "MAIN chain through requested initialization/decode/root boundary matches",
+      "limits": "controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed"
+    }
+  ],
+  "synthetic": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "cases": 32,
+      "results": [
+        {
+          "seed": 0,
+          "existingLinks": 0,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "6cefaeaf289f6b72f48a1d80d63d14ed6eb4a315be99538ea3b0b5ba15346a12"
+        },
+        {
+          "seed": 0,
+          "existingLinks": 0,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "b2065922199f79922a4607383b4eda1eba92627758041e4c5c8311fae133e792"
+        },
+        {
+          "seed": 0,
+          "existingLinks": 1,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "e87c46dd850e260cfcbdbedcc3a7cdbfea683ee25fdf03a325f37e8c275e708d"
+        },
+        {
+          "seed": 0,
+          "existingLinks": 1,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "8690ef31a6a069d24fc18817d43520877eb5ee12ac20123e19376e4e56fc5aa3"
+        },
+        {
+          "seed": 0,
+          "existingLinks": 2,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "ab0e74c94bc140d533daedea6152d4153a0e7b1db88d2a6b5f6094f99435ba50"
+        },
+        {
+          "seed": 0,
+          "existingLinks": 2,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "ee51f911ffca42ceae092e6f02badbd0900a2e3a8aba9901f5547ad9c1674911"
+        },
+        {
+          "seed": 0,
+          "existingLinks": -1,
+          "sourceContextAlias": false,
+          "error": 10,
+          "hash": "c92a9b852b4e58f40a261eb5c440ea49522bcd5f4e094bb399af1dadf5081c05"
+        },
+        {
+          "seed": 0,
+          "existingLinks": -1,
+          "sourceContextAlias": true,
+          "error": 10,
+          "hash": "04a53ee4012df6160366c254d9041a2549c4746ed47d1a1d7c33b4405415918c"
+        },
+        {
+          "seed": 1,
+          "existingLinks": 0,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "f6b65a2911775e07446bb31bf0258dbabbedad53e7e0c45da0d99a4084eca4b7"
+        },
+        {
+          "seed": 1,
+          "existingLinks": 0,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "f32b8d841595af96fbaf09bae2b4e5e1858414ffa992fa126c2f589ceba22356"
+        },
+        {
+          "seed": 1,
+          "existingLinks": 1,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "3b84b300ca6c5081af601e480947d88e07e07885d618307d9f6f5c034e9afe3b"
+        },
+        {
+          "seed": 1,
+          "existingLinks": 1,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "bca5c08af8247022de4b8c89e2e08b6e524e0ddfec9a177651a8e5ec7b2f0a1c"
+        },
+        {
+          "seed": 1,
+          "existingLinks": 2,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "1374eb3b5ea2be2917efbf52767386fe1de0dd66c547c6d293e770ff05c24c4d"
+        },
+        {
+          "seed": 1,
+          "existingLinks": 2,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "eccb53444cfd3946fbcbf61e48e478468cfaa2432bf9b89965f37c3083d07653"
+        },
+        {
+          "seed": 1,
+          "existingLinks": -1,
+          "sourceContextAlias": false,
+          "error": 10,
+          "hash": "b7dd22e34ae875b2e1569fe197dc61add5374b100372584ee2cb12d707dba43f"
+        },
+        {
+          "seed": 1,
+          "existingLinks": -1,
+          "sourceContextAlias": true,
+          "error": 10,
+          "hash": "4ee4c664321eadffbcad8120af1058f24ca1828a2bc51aeb97a6c6512756ac9e"
+        },
+        {
+          "seed": 128,
+          "existingLinks": 0,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "4c34c5a225d44703986036266010825fc68a58573e8bd9949ab9ffa1063f5183"
+        },
+        {
+          "seed": 128,
+          "existingLinks": 0,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "332cc0cd51ec29baba34332b66c1d33eac0a29a4c1bf806a7119221fde272531"
+        },
+        {
+          "seed": 128,
+          "existingLinks": 1,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "3147dbb68379b06f372a7475fe6168e3070f256cd9b342173fae03f3693d30f4"
+        },
+        {
+          "seed": 128,
+          "existingLinks": 1,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "53a06c5c18a0a3f1520ff697c2688345763c402271b6c2c4763577466ff82bf6"
+        },
+        {
+          "seed": 128,
+          "existingLinks": 2,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "b4a267c16c1a33bc39e82b209b91abf8dd238e2b2d41aa832b611ae0e88487a1"
+        },
+        {
+          "seed": 128,
+          "existingLinks": 2,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "cccfdfd05fb8ed1136133cac6655d6e6cb739d39907fc691a73dc5dd65841937"
+        },
+        {
+          "seed": 128,
+          "existingLinks": -1,
+          "sourceContextAlias": false,
+          "error": 10,
+          "hash": "cee26ba7b244cd5520aeb1c72a49dc1de3dfcd6e8da9a6a227291e309a096972"
+        },
+        {
+          "seed": 128,
+          "existingLinks": -1,
+          "sourceContextAlias": true,
+          "error": 10,
+          "hash": "9fd378807ec1782d9af658b15affde71eb20a28d3e59c5e7f12f8f1c75ead59e"
+        },
+        {
+          "seed": 255,
+          "existingLinks": 0,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "85c017213c6058e7ef25d3409bfe33a6e596e1a240acd39fce24f9029a475b13"
+        },
+        {
+          "seed": 255,
+          "existingLinks": 0,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "065163c6216940ef8ce2bb4aafb32dfe578795821e502ecf0ae31b22493c0c33"
+        },
+        {
+          "seed": 255,
+          "existingLinks": 1,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "707daf8a4813cb61c6dabfab9b8e60cfe0c201c7b6fa2baf4a6b1cb5d6aa9745"
+        },
+        {
+          "seed": 255,
+          "existingLinks": 1,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "53ad6e6c2059eeefda557e47227e3abf8b83a4d43121457d4d432c218387df70"
+        },
+        {
+          "seed": 255,
+          "existingLinks": 2,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "a171b66db6386321c0f88bfdf87861b839d77442695d5efb81cfc82dae7dafd3"
+        },
+        {
+          "seed": 255,
+          "existingLinks": 2,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "f77933911db280df40a18e51a0328651fe2942e64c9e13613df0b1d9ebebd44e"
+        },
+        {
+          "seed": 255,
+          "existingLinks": -1,
+          "sourceContextAlias": false,
+          "error": 10,
+          "hash": "124244ecb47a7bc4fa6d044189556aee8d4e53bdd6584a6bb27af8df201aaa5d"
+        },
+        {
+          "seed": 255,
+          "existingLinks": -1,
+          "sourceContextAlias": true,
+          "error": 10,
+          "hash": "9aae1c2e1d09db0b0f0535d51d9fa71cfe18aec546935cf2397a1c4c581c5c21"
+        }
+      ],
+      "limits": "DF0; full memory except stack saves; flags/error-handler body excluded"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "cases": 32,
+      "results": [
+        {
+          "seed": 0,
+          "existingLinks": 0,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "79549f7ad21e88b52f693025e2580da8b74560a94319ffd6755f8e8b955b6810"
+        },
+        {
+          "seed": 0,
+          "existingLinks": 0,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "d593a5220bc975b40346dd51f5f66ec6dc8cd3fa705dc009eabdd31f3dc60c51"
+        },
+        {
+          "seed": 0,
+          "existingLinks": 1,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "40f7471711de70fb976e1991841c5ae5d0328a004815a3aa6d9a0434f79f724f"
+        },
+        {
+          "seed": 0,
+          "existingLinks": 1,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "4786da6d3b29105e98233d4eaaa3be8f249f3d9c3746fc5e96887ce2493fb94b"
+        },
+        {
+          "seed": 0,
+          "existingLinks": 2,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "f85f5d7b7711335342ff935318f088e6acd0094736cb6b20fb4587259128b14b"
+        },
+        {
+          "seed": 0,
+          "existingLinks": 2,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "0d564d0e0cf3778421fa62394336c681c681a15222f2b48947a1fd081d25723d"
+        },
+        {
+          "seed": 0,
+          "existingLinks": -1,
+          "sourceContextAlias": false,
+          "error": 10,
+          "hash": "02597856eb9b384d74e1a8666de6ba85312b44e063516e3c4c58bf5318f6f9d4"
+        },
+        {
+          "seed": 0,
+          "existingLinks": -1,
+          "sourceContextAlias": true,
+          "error": 10,
+          "hash": "de2c4592dd8bc42af0f121f3f0c6e60681fb22d3c6cfefa34c5241696d55348f"
+        },
+        {
+          "seed": 1,
+          "existingLinks": 0,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "a9d0bcd5a72c84f8e05b37b15f15b38c99853d1ee4718b5dc70d4d9d5cdd3653"
+        },
+        {
+          "seed": 1,
+          "existingLinks": 0,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "641526a6ff2d85128719fef095cec803397c774a75fd4d9cc58f50c44f547cf6"
+        },
+        {
+          "seed": 1,
+          "existingLinks": 1,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "988831bef9727204eafcb7c4fa88c60aea78c4c9c142fc6f3913d8771ccce5c9"
+        },
+        {
+          "seed": 1,
+          "existingLinks": 1,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "378fdc1cb6489ab2eb4dae47c5127f195e711626c004a1e4c224fd5509d18a67"
+        },
+        {
+          "seed": 1,
+          "existingLinks": 2,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "468046d03715f4004c19896135be9c306231f5415d68950fa95da4e657bd553f"
+        },
+        {
+          "seed": 1,
+          "existingLinks": 2,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "9ae36a95e4fe8b55c6ba99e966b4f03c5dddb24cddbe2cf1efedc3e5313a2175"
+        },
+        {
+          "seed": 1,
+          "existingLinks": -1,
+          "sourceContextAlias": false,
+          "error": 10,
+          "hash": "23719ec56c88e9022bc26dae5bec9149dc944a5e71fc96917232ee781663dcf1"
+        },
+        {
+          "seed": 1,
+          "existingLinks": -1,
+          "sourceContextAlias": true,
+          "error": 10,
+          "hash": "223c327e263d041d1d4ceb5b3bf3aa4373c9e403820346817010143f6ef3cb98"
+        },
+        {
+          "seed": 128,
+          "existingLinks": 0,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "14640737f19527e593a0c2fcc8f02e1338059d87f96ad548f2ea4ab7e56bab3d"
+        },
+        {
+          "seed": 128,
+          "existingLinks": 0,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "1d53e3df8009eafcd6c929647b06be91f87757b3a1928a102d6ea609aef4b632"
+        },
+        {
+          "seed": 128,
+          "existingLinks": 1,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "93a9eb34909c302ffc5c34121af8cacce9d85af4187965a1087945a7c8b56cf7"
+        },
+        {
+          "seed": 128,
+          "existingLinks": 1,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "fc0daf113327d0236714ac0e1c4f7772135c58beef5f75cadc485fb51318cd64"
+        },
+        {
+          "seed": 128,
+          "existingLinks": 2,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "dfd2a202ad2b9fe499f91fce9dac6194c1b59cff58f9b8b1db57ac95ae13df7c"
+        },
+        {
+          "seed": 128,
+          "existingLinks": 2,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "da477f233e60671ae58e97dd7f3ac04b0bcfd07952129cec5ca8e065497c2646"
+        },
+        {
+          "seed": 128,
+          "existingLinks": -1,
+          "sourceContextAlias": false,
+          "error": 10,
+          "hash": "d1411b0f3a7318670c63cb60c9725dd17054bf321b019a920c2b1b91469e45a2"
+        },
+        {
+          "seed": 128,
+          "existingLinks": -1,
+          "sourceContextAlias": true,
+          "error": 10,
+          "hash": "4478c47ccc6218632710ceb29ba5597ad181ce9c6323d266a86dab55d1430821"
+        },
+        {
+          "seed": 255,
+          "existingLinks": 0,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "d5323d8fbc590bfcfd914d4d052f0d1569a97eae17eee581a1e17248ed43baf0"
+        },
+        {
+          "seed": 255,
+          "existingLinks": 0,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "11d10458a720f644529d64c48a108d5fe188e74889745ea5fc0cb15e8635b8e2"
+        },
+        {
+          "seed": 255,
+          "existingLinks": 1,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "88d949223603ba03114d31863a76ddea4c01adea0fd0f12aada3b9e3243184f1"
+        },
+        {
+          "seed": 255,
+          "existingLinks": 1,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "69166106f7c940d4c72da9f07ee3d523099ef04615672e81cad71feee92e2bdf"
+        },
+        {
+          "seed": 255,
+          "existingLinks": 2,
+          "sourceContextAlias": false,
+          "error": null,
+          "hash": "9e0ab27f8d9633b192df2f2e35226a5640d049d4cad794ed339a7fb9ad0e1f2d"
+        },
+        {
+          "seed": 255,
+          "existingLinks": 2,
+          "sourceContextAlias": true,
+          "error": null,
+          "hash": "0cc14f39d02f939c5a2751f92286aa0b6c3061329d35315a683e5fb6f6e938d1"
+        },
+        {
+          "seed": 255,
+          "existingLinks": -1,
+          "sourceContextAlias": false,
+          "error": 10,
+          "hash": "d63d00a802f83aa8aeccde6199d670192c9b489f38f6824e312cced14ff647ca"
+        },
+        {
+          "seed": 255,
+          "existingLinks": -1,
+          "sourceContextAlias": true,
+          "error": 10,
+          "hash": "fe3648165a4da72123a33e52d15e45ca36002f4fcc72b01e06d545841da027aa"
+        }
+      ],
+      "limits": "DF0; full memory except stack saves; flags/error-handler body excluded"
+    }
+  ]
+}

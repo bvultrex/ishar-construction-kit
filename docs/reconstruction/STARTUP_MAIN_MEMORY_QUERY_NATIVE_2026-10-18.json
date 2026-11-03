@@ -1,0 +1,587 @@
+[
+  {
+    "requestedCycles": 0,
+    "firstFrame": true,
+    "shiftFlags": 0,
+    "findFirstCarry": 0,
+    "caseCount": 4,
+    "cases": [
+      {
+        "checkpoint": "country33-mouse0.bin",
+        "checkpointSha256": "a0f77df73af054e974fdcd6a1237fedc132bbbf9265d0fbe6e49e3fbc290d5c6",
+        "profile": "ishar1",
+        "scheduler": {
+          "bp": 672,
+          "si": 24,
+          "bx": 0,
+          "ds": 11126,
+          "es": 8430,
+          "phase": "main",
+          "entry": 9963,
+          "stackDelta": -2,
+          "hash": "070154878c097f8b327edc3592a7e6a7a7a588c0968e76ab4404282d29c5fd69"
+        },
+        "cycles": [],
+        "videoState": {
+          "pitch": 320,
+          "destinationSegment": 40960,
+          "destinationOffset": 0
+        },
+        "continuation": null,
+        "fileEvents": [
+          {
+            "patternSha256": "176bc9db0ad3db2f14d85f65778424d48b36e30c7cf65e4ec57b3b4b63aa01d4",
+            "attributes": 0,
+            "drive": null,
+            "carry": false
+          },
+          {
+            "patternSha256": "93ffbf3690291d7fdd0c4f994b0031e5e933f1b9d9465b2dc50f20d75c990ea7",
+            "attributes": 0,
+            "drive": null,
+            "carry": false
+          }
+        ],
+        "steps": 162,
+        "opcodes": {
+          "70": 2,
+          "41": 117,
+          "30": 14,
+          "7": 2,
+          "31": 12,
+          "20": 12,
+          "10": 2,
+          "17": 1
+        },
+        "reason": "Error: Original opcode106 is not connected to physical script execution",
+        "nextOpcode": 106,
+        "last": {
+          "registers": {
+            "ds": 11126,
+            "es": 8430,
+            "si": 1394,
+            "bp": 672,
+            "dx": 3,
+            "cx": 3
+          },
+          "status": "ready",
+          "opcode": 10,
+          "hash": "942510deb70f1b61ff6d382457332af66a7f3d94eb9c6820d28ddf2ae0554f74"
+        },
+        "boundary": 9975,
+        "sp": 2028
+      },
+      {
+        "checkpoint": "country33-mouse65535.bin",
+        "checkpointSha256": "db830bd6f3b11cbe476b3ba6f8c37fdec6f8497f655553f82685c96b77cb6969",
+        "profile": "ishar1",
+        "scheduler": {
+          "bp": 672,
+          "si": 24,
+          "bx": 0,
+          "ds": 11126,
+          "es": 8430,
+          "phase": "main",
+          "entry": 9963,
+          "stackDelta": -2,
+          "hash": "0d457b0657351f81c04b2e826f5183c7821de1c4837ecc77eb4cb7ebc8e1136c"
+        },
+        "cycles": [],
+        "videoState": {
+          "pitch": 320,
+          "destinationSegment": 40960,
+          "destinationOffset": 0
+        },
+        "continuation": null,
+        "fileEvents": [
+          {
+            "patternSha256": "176bc9db0ad3db2f14d85f65778424d48b36e30c7cf65e4ec57b3b4b63aa01d4",
+            "attributes": 0,
+            "drive": null,
+            "carry": false
+          },
+          {
+            "patternSha256": "93ffbf3690291d7fdd0c4f994b0031e5e933f1b9d9465b2dc50f20d75c990ea7",
+            "attributes": 0,
+            "drive": null,
+            "carry": false
+          }
+        ],
+        "steps": 162,
+        "opcodes": {
+          "70": 2,
+          "41": 117,
+          "30": 14,
+          "7": 2,
+          "31": 12,
+          "20": 12,
+          "10": 2,
+          "17": 1
+        },
+        "reason": "Error: Original opcode106 is not connected to physical script execution",
+        "nextOpcode": 106,
+        "last": {
+          "registers": {
+            "ds": 11126,
+            "es": 8430,
+            "si": 1394,
+            "bp": 672,
+            "dx": 3,
+            "cx": 3
+          },
+          "status": "ready",
+          "opcode": 10,
+          "hash": "0f9cc471048f3d6f14eab854be5bbbfdde651f7fba7b961300cbe91143666cbb"
+        },
+        "boundary": 9975,
+        "sp": 2028
+      },
+      {
+        "checkpoint": "country49-mouse0.bin",
+        "checkpointSha256": "54687f9d9c78c771f81a699b8dfad29e48e43209e8973b1f7976773b49a63a7f",
+        "profile": "ishar1",
+        "scheduler": {
+          "bp": 672,
+          "si": 24,
+          "bx": 0,
+          "ds": 11126,
+          "es": 8430,
+          "phase": "main",
+          "entry": 9963,
+          "stackDelta": -2,
+          "hash": "e9eed5286ef95137e1f6c4d9447466aeb7bb9358ba2e2e8f39ac4ef3149f902a"
+        },
+        "cycles": [],
+        "videoState": {
+          "pitch": 320,
+          "destinationSegment": 40960,
+          "destinationOffset": 0
+        },
+        "continuation": null,
+        "fileEvents": [
+          {
+            "patternSha256": "176bc9db0ad3db2f14d85f65778424d48b36e30c7cf65e4ec57b3b4b63aa01d4",
+            "attributes": 0,
+            "drive": null,
+            "carry": false
+          },
+          {
+            "patternSha256": "93ffbf3690291d7fdd0c4f994b0031e5e933f1b9d9465b2dc50f20d75c990ea7",
+            "attributes": 0,
+            "drive": null,
+            "carry": false
+          }
+        ],
+        "steps": 162,
+        "opcodes": {
+          "70": 2,
+          "41": 117,
+          "30": 14,
+          "7": 2,
+          "31": 12,
+          "20": 12,
+          "10": 2,
+          "17": 1
+        },
+        "reason": "Error: Original opcode106 is not connected to physical script execution",
+        "nextOpcode": 106,
+        "last": {
+          "registers": {
+            "ds": 11126,
+            "es": 8430,
+            "si": 1394,
+            "bp": 672,
+            "dx": 3,
+            "cx": 3
+          },
+          "status": "ready",
+          "opcode": 10,
+          "hash": "1b450f97ba12bde49a31a5e9ba25412a53847b1906497c897f3a1759fa572da3"
+        },
+        "boundary": 9975,
+        "sp": 2028
+      },
+      {
+        "checkpoint": "country49-mouse65535.bin",
+        "checkpointSha256": "b35e12e20753cb0928db9f7cfe118b740861c58c53f7950f50b53296d262eeff",
+        "profile": "ishar1",
+        "scheduler": {
+          "bp": 672,
+          "si": 24,
+          "bx": 0,
+          "ds": 11126,
+          "es": 8430,
+          "phase": "main",
+          "entry": 9963,
+          "stackDelta": -2,
+          "hash": "1576a33cdec6965c4c560685a66b34bfce4733ddd540135cf3bd5531cc875fdb"
+        },
+        "cycles": [],
+        "videoState": {
+          "pitch": 320,
+          "destinationSegment": 40960,
+          "destinationOffset": 0
+        },
+        "continuation": null,
+        "fileEvents": [
+          {
+            "patternSha256": "176bc9db0ad3db2f14d85f65778424d48b36e30c7cf65e4ec57b3b4b63aa01d4",
+            "attributes": 0,
+            "drive": null,
+            "carry": false
+          },
+          {
+            "patternSha256": "93ffbf3690291d7fdd0c4f994b0031e5e933f1b9d9465b2dc50f20d75c990ea7",
+            "attributes": 0,
+            "drive": null,
+            "carry": false
+          }
+        ],
+        "steps": 162,
+        "opcodes": {
+          "70": 2,
+          "41": 117,
+          "30": 14,
+          "7": 2,
+          "31": 12,
+          "20": 12,
+          "10": 2,
+          "17": 1
+        },
+        "reason": "Error: Original opcode106 is not connected to physical script execution",
+        "nextOpcode": 106,
+        "last": {
+          "registers": {
+            "ds": 11126,
+            "es": 8430,
+            "si": 1394,
+            "bp": 672,
+            "dx": 3,
+            "cx": 3
+          },
+          "status": "ready",
+          "opcode": 10,
+          "hash": "5ec8ba8ecec0952d81e225a253856132ff0ed4c89c42e06463b0bc95e5c7dfa4"
+        },
+        "boundary": 9975,
+        "sp": 2028
+      }
+    ],
+    "stackMask": "07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared",
+    "limits": "Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. No IRQs delivered; optional explicit DOS FindFirst carry and drive-selection replies, no DTA writes or filesystem access; stops at yield or first unsupported opcode, not complete game/frame."
+  },
+  {
+    "firstFrame": true,
+    "shiftFlags": 0,
+    "findFirstCarry": 1,
+    "caseCount": 4,
+    "cases": [
+      {
+        "checkpoint": "country33-mouse0.bin",
+        "checkpointSha256": "a0f77df73af054e974fdcd6a1237fedc132bbbf9265d0fbe6e49e3fbc290d5c6",
+        "profile": "ishar1",
+        "scheduler": {
+          "bp": 672,
+          "si": 24,
+          "bx": 0,
+          "ds": 11126,
+          "es": 8430,
+          "phase": "main",
+          "entry": 9963,
+          "stackDelta": -2,
+          "hash": "070154878c097f8b327edc3592a7e6a7a7a588c0968e76ab4404282d29c5fd69"
+        },
+        "videoState": {
+          "pitch": 320,
+          "destinationSegment": 40960,
+          "destinationOffset": 0
+        },
+        "continuation": null,
+        "fileEvents": [
+          {
+            "patternSha256": "176bc9db0ad3db2f14d85f65778424d48b36e30c7cf65e4ec57b3b4b63aa01d4",
+            "attributes": 0,
+            "drive": null,
+            "carry": true
+          },
+          {
+            "patternSha256": "176bc9db0ad3db2f14d85f65778424d48b36e30c7cf65e4ec57b3b4b63aa01d4",
+            "attributes": 0,
+            "drive": 2,
+            "carry": true
+          },
+          {
+            "patternSha256": "93ffbf3690291d7fdd0c4f994b0031e5e933f1b9d9465b2dc50f20d75c990ea7",
+            "attributes": 0,
+            "drive": null,
+            "carry": true
+          },
+          {
+            "patternSha256": "93ffbf3690291d7fdd0c4f994b0031e5e933f1b9d9465b2dc50f20d75c990ea7",
+            "attributes": 0,
+            "drive": 2,
+            "carry": true
+          }
+        ],
+        "steps": 161,
+        "opcodes": {
+          "70": 2,
+          "41": 117,
+          "30": 13,
+          "7": 2,
+          "31": 12,
+          "20": 12,
+          "10": 2,
+          "17": 1
+        },
+        "reason": "Error: Original opcode106 is not connected to physical script execution",
+        "nextOpcode": 106,
+        "last": {
+          "registers": {
+            "ds": 11126,
+            "es": 8430,
+            "si": 1394,
+            "bp": 672,
+            "dx": 3,
+            "cx": 3
+          },
+          "status": "ready",
+          "opcode": 10,
+          "hash": "a0258ad2d6ab4ee825598741de7efe29adce4d2a7919dcd5bcb88a597cc8bb16"
+        },
+        "boundary": 9975,
+        "sp": 2028
+      },
+      {
+        "checkpoint": "country33-mouse65535.bin",
+        "checkpointSha256": "db830bd6f3b11cbe476b3ba6f8c37fdec6f8497f655553f82685c96b77cb6969",
+        "profile": "ishar1",
+        "scheduler": {
+          "bp": 672,
+          "si": 24,
+          "bx": 0,
+          "ds": 11126,
+          "es": 8430,
+          "phase": "main",
+          "entry": 9963,
+          "stackDelta": -2,
+          "hash": "0d457b0657351f81c04b2e826f5183c7821de1c4837ecc77eb4cb7ebc8e1136c"
+        },
+        "videoState": {
+          "pitch": 320,
+          "destinationSegment": 40960,
+          "destinationOffset": 0
+        },
+        "continuation": null,
+        "fileEvents": [
+          {
+            "patternSha256": "176bc9db0ad3db2f14d85f65778424d48b36e30c7cf65e4ec57b3b4b63aa01d4",
+            "attributes": 0,
+            "drive": null,
+            "carry": true
+          },
+          {
+            "patternSha256": "176bc9db0ad3db2f14d85f65778424d48b36e30c7cf65e4ec57b3b4b63aa01d4",
+            "attributes": 0,
+            "drive": 2,
+            "carry": true
+          },
+          {
+            "patternSha256": "93ffbf3690291d7fdd0c4f994b0031e5e933f1b9d9465b2dc50f20d75c990ea7",
+            "attributes": 0,
+            "drive": null,
+            "carry": true
+          },
+          {
+            "patternSha256": "93ffbf3690291d7fdd0c4f994b0031e5e933f1b9d9465b2dc50f20d75c990ea7",
+            "attributes": 0,
+            "drive": 2,
+            "carry": true
+          }
+        ],
+        "steps": 161,
+        "opcodes": {
+          "70": 2,
+          "41": 117,
+          "30": 13,
+          "7": 2,
+          "31": 12,
+          "20": 12,
+          "10": 2,
+          "17": 1
+        },
+        "reason": "Error: Original opcode106 is not connected to physical script execution",
+        "nextOpcode": 106,
+        "last": {
+          "registers": {
+            "ds": 11126,
+            "es": 8430,
+            "si": 1394,
+            "bp": 672,
+            "dx": 3,
+            "cx": 3
+          },
+          "status": "ready",
+          "opcode": 10,
+          "hash": "15d25140c78aa0bfee2546b7a729b3232aee3d0212592f8372777769f7fafcba"
+        },
+        "boundary": 9975,
+        "sp": 2028
+      },
+      {
+        "checkpoint": "country49-mouse0.bin",
+        "checkpointSha256": "54687f9d9c78c771f81a699b8dfad29e48e43209e8973b1f7976773b49a63a7f",
+        "profile": "ishar1",
+        "scheduler": {
+          "bp": 672,
+          "si": 24,
+          "bx": 0,
+          "ds": 11126,
+          "es": 8430,
+          "phase": "main",
+          "entry": 9963,
+          "stackDelta": -2,
+          "hash": "e9eed5286ef95137e1f6c4d9447466aeb7bb9358ba2e2e8f39ac4ef3149f902a"
+        },
+        "videoState": {
+          "pitch": 320,
+          "destinationSegment": 40960,
+          "destinationOffset": 0
+        },
+        "continuation": null,
+        "fileEvents": [
+          {
+            "patternSha256": "176bc9db0ad3db2f14d85f65778424d48b36e30c7cf65e4ec57b3b4b63aa01d4",
+            "attributes": 0,
+            "drive": null,
+            "carry": true
+          },
+          {
+            "patternSha256": "176bc9db0ad3db2f14d85f65778424d48b36e30c7cf65e4ec57b3b4b63aa01d4",
+            "attributes": 0,
+            "drive": 2,
+            "carry": true
+          },
+          {
+            "patternSha256": "93ffbf3690291d7fdd0c4f994b0031e5e933f1b9d9465b2dc50f20d75c990ea7",
+            "attributes": 0,
+            "drive": null,
+            "carry": true
+          },
+          {
+            "patternSha256": "93ffbf3690291d7fdd0c4f994b0031e5e933f1b9d9465b2dc50f20d75c990ea7",
+            "attributes": 0,
+            "drive": 2,
+            "carry": true
+          }
+        ],
+        "steps": 161,
+        "opcodes": {
+          "70": 2,
+          "41": 117,
+          "30": 13,
+          "7": 2,
+          "31": 12,
+          "20": 12,
+          "10": 2,
+          "17": 1
+        },
+        "reason": "Error: Original opcode106 is not connected to physical script execution",
+        "nextOpcode": 106,
+        "last": {
+          "registers": {
+            "ds": 11126,
+            "es": 8430,
+            "si": 1394,
+            "bp": 672,
+            "dx": 3,
+            "cx": 3
+          },
+          "status": "ready",
+          "opcode": 10,
+          "hash": "d97e964638cf0eaea198a5bdfd301a58a1a03f9372b921ae78738d58a0653ae5"
+        },
+        "boundary": 9975,
+        "sp": 2028
+      },
+      {
+        "checkpoint": "country49-mouse65535.bin",
+        "checkpointSha256": "b35e12e20753cb0928db9f7cfe118b740861c58c53f7950f50b53296d262eeff",
+        "profile": "ishar1",
+        "scheduler": {
+          "bp": 672,
+          "si": 24,
+          "bx": 0,
+          "ds": 11126,
+          "es": 8430,
+          "phase": "main",
+          "entry": 9963,
+          "stackDelta": -2,
+          "hash": "1576a33cdec6965c4c560685a66b34bfce4733ddd540135cf3bd5531cc875fdb"
+        },
+        "videoState": {
+          "pitch": 320,
+          "destinationSegment": 40960,
+          "destinationOffset": 0
+        },
+        "continuation": null,
+        "fileEvents": [
+          {
+            "patternSha256": "176bc9db0ad3db2f14d85f65778424d48b36e30c7cf65e4ec57b3b4b63aa01d4",
+            "attributes": 0,
+            "drive": null,
+            "carry": true
+          },
+          {
+            "patternSha256": "176bc9db0ad3db2f14d85f65778424d48b36e30c7cf65e4ec57b3b4b63aa01d4",
+            "attributes": 0,
+            "drive": 2,
+            "carry": true
+          },
+          {
+            "patternSha256": "93ffbf3690291d7fdd0c4f994b0031e5e933f1b9d9465b2dc50f20d75c990ea7",
+            "attributes": 0,
+            "drive": null,
+            "carry": true
+          },
+          {
+            "patternSha256": "93ffbf3690291d7fdd0c4f994b0031e5e933f1b9d9465b2dc50f20d75c990ea7",
+            "attributes": 0,
+            "drive": 2,
+            "carry": true
+          }
+        ],
+        "steps": 161,
+        "opcodes": {
+          "70": 2,
+          "41": 117,
+          "30": 13,
+          "7": 2,
+          "31": 12,
+          "20": 12,
+          "10": 2,
+          "17": 1
+        },
+        "reason": "Error: Original opcode106 is not connected to physical script execution",
+        "nextOpcode": 106,
+        "last": {
+          "registers": {
+            "ds": 11126,
+            "es": 8430,
+            "si": 1394,
+            "bp": 672,
+            "dx": 3,
+            "cx": 3
+          },
+          "status": "ready",
+          "opcode": 10,
+          "hash": "9667c7fdc3246b8ab745670794f68f76934e7093d75e3a3ef9d02e5f2164d30c"
+        },
+        "boundary": 9975,
+        "sp": 2028
+      }
+    ],
+    "stackMask": "07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared",
+    "limits": "Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. No IRQs delivered; optional explicit DOS FindFirst carry and drive-selection replies, no DTA writes or filesystem access; stops at yield or first unsupported opcode, not complete game/frame."
+  }
+]

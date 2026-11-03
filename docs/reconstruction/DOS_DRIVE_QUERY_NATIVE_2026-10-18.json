@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-18",
+  "results": [
+    {
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 330,
+      "verified": "Original dispatch31/tag160; six ALIS registers/SP, full1MiB except FEC0..FF0F, exact DOS/BIOS event order and sector-buffer writes including failures/retry. Optional8AE4 dialog excluded; explicit synthetic services, no host disk access."
+    },
+    {
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 330,
+      "verified": "Original dispatch31/tag160; six ALIS registers/SP, full1MiB except FEC0..FF0F, exact DOS/BIOS event order and sector-buffer writes including failures/retry. Optional8AE4 dialog excluded; explicit synthetic services, no host disk access."
+    }
+  ]
+}

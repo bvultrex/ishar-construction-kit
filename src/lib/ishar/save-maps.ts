@@ -119,14 +119,15 @@ export const ISHAR2_SAVE: SaveMap = {
       offset: 1026,
       size: 2,
       unit: "u16",
+      max: 65535999,
       confidence: "probable",
       tooltip:
-        "Mitgeführtes Gold pro Charakter. Ishar 1 verlangt Gold zum Speichern; Ishar 2 nicht. Eine zweite Gold-Stelle im File wurde von IshadNha vermutet.",
+        "Ishar 2 DOS v2: Gold = Wort bei 1006 × 1000 + Wort bei 1026, jeweils pro Charakter. IO.IO-Ladefolge und MARCHAND 0x00603 belegen beide Felder.",
       evidence: {
         kind: "suspected",
-        summary: "2 Bytes je Charakter ab 1026. Zweite Kopie möglich.",
-        source: I2_SRC + " / GOG-Forum IshadNha",
-        nextTest: "Gold geben, speichern, alle 16-bit-Treffer des Betrags listen.",
+        summary: "Ishar 2 DOS v2: getrennte Wörter für Tausender (1006) und Rest (1026).",
+        source: "IO.IO 0x00f04/0x00f12; MARCHAND.IO 0x00603",
+        nextTest: "Exportierte Save-Kopie im Originalspiel gegenprüfen.",
       },
     }),
     classId: field({

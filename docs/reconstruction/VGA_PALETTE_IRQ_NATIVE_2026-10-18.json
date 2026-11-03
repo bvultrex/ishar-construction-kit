@@ -1,0 +1,12 @@
+[
+  {
+    "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+    "caseCount": 144,
+    "verified": "Original VGA0EA8/0BDB and optional0EC9; CB9 exact1 skip, adapter retrace wait, changed RGB cache/DAC output, signed CBD countdown/reload and fade; whole1MiB except FEC0..FF03, preserved registers/AX/SP/IF and exact ports. No outer IRQ delivery, BIOS tail, real DAC/device timing or colored-frame claim."
+  },
+  {
+    "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+    "caseCount": 144,
+    "verified": "Original VGA0EA8/0BDB and optional0EC9; CB9 exact1 skip, adapter retrace wait, changed RGB cache/DAC output, signed CBD countdown/reload and fade; whole1MiB except FEC0..FF03, preserved registers/AX/SP/IF and exact ports. No outer IRQ delivery, BIOS tail, real DAC/device timing or colored-frame claim."
+  }
+]

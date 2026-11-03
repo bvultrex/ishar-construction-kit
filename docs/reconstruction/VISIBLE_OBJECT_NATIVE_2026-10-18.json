@@ -1,0 +1,62 @@
+{
+  "description": "visible object native; no original resource bytes",
+  "matrix": {
+    "es": [
+      20480,
+      7179
+    ],
+    "poolBases": [
+      0,
+      256
+    ],
+    "dirty": [
+      false,
+      true
+    ],
+    "force": [
+      0,
+      1
+    ],
+    "objectFlags": [
+      0,
+      4,
+      16
+    ],
+    "statuses": [
+      [],
+      [
+        0
+      ],
+      [
+        255
+      ],
+      [
+        2
+      ],
+      [
+        1
+      ],
+      [
+        0,
+        255
+      ]
+    ]
+  },
+  "profiles": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 288,
+      "faultCases": 0,
+      "resultsSha256": "ccf4f576ce6ffc903f0de04a622e82c9c68f23c18c43c9141486d61d93f635de"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 288,
+      "faultCases": 0,
+      "resultsSha256": "77396d0cf36b53647589604b70728a33f954db0b129874d0c624e0d4c55a1af7"
+    }
+  ],
+  "limits": "Return registers/SP and full memory except explicit CPU-stack mask; INT0 cases compare fault boundary only; no pixels/hardware."
+}

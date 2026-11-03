@@ -1,0 +1,1485 @@
+{
+  "scope": "Original complete configuration confirmation prompt for both captured DOS profiles",
+  "reports": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 36,
+      "cases": [
+        {
+          "language": 0,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              4
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+          "eventSha256": "b258a34facc15d4461adbbad9eeeeeea348f2eebd640ba866eb8a2567d6083ee"
+        },
+        {
+          "language": 0,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              58,
+              2
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+          "eventSha256": "d538f0bcd9ee4f9487ba17e5cdfb805a39ca27b10820c314a76052d5360f1790"
+        },
+        {
+          "language": 0,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0
+            ],
+            "keys": [
+              83
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "78d5cec2dd381c5bb2446d45b48edb6f93541e884a41f3f725cb9002085da6a8",
+          "eventSha256": "761bcec6913d9db72753f689e6e8fcb6566dc3b6ee6b3eb1e1e0f6675730ff35"
+        },
+        {
+          "language": 0,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              58,
+              59
+            ],
+            "keys": [
+              0,
+              46
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 2,
+          "directionFlag": false,
+          "hash": "78d5cec2dd381c5bb2446d45b48edb6f93541e884a41f3f725cb9002085da6a8",
+          "eventSha256": "6471174ff99199e3bfeedeae93a318064c736988b41b660dac782c0680a67a25"
+        },
+        {
+          "language": 0,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              1,
+              4
+            ],
+            "keys": [
+              13,
+              0,
+              0
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 4,
+          "keyReplies": 3,
+          "directionFlag": false,
+          "hash": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+          "eventSha256": "0736cdd9809e73d79065c1650324839b9cc7efb0a992d8f48dc1e4dcbb717bf9"
+        },
+        {
+          "language": 0,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              4
+            ],
+            "keys": [
+              115
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 3,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+          "eventSha256": "f2bfe8ff73d56ffd149a510d0ee3e37ff0648c74ca50df4af9dc16929d767bdc"
+        },
+        {
+          "language": 0,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              4
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "78d5cec2dd381c5bb2446d45b48edb6f93541e884a41f3f725cb9002085da6a8",
+          "eventSha256": "b258a34facc15d4461adbbad9eeeeeea348f2eebd640ba866eb8a2567d6083ee"
+        },
+        {
+          "language": 0,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              58,
+              2
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "78d5cec2dd381c5bb2446d45b48edb6f93541e884a41f3f725cb9002085da6a8",
+          "eventSha256": "d538f0bcd9ee4f9487ba17e5cdfb805a39ca27b10820c314a76052d5360f1790"
+        },
+        {
+          "language": 0,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0
+            ],
+            "keys": [
+              83
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "78d5cec2dd381c5bb2446d45b48edb6f93541e884a41f3f725cb9002085da6a8",
+          "eventSha256": "761bcec6913d9db72753f689e6e8fcb6566dc3b6ee6b3eb1e1e0f6675730ff35"
+        },
+        {
+          "language": 0,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              58,
+              59
+            ],
+            "keys": [
+              0,
+              46
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 2,
+          "directionFlag": false,
+          "hash": "78d5cec2dd381c5bb2446d45b48edb6f93541e884a41f3f725cb9002085da6a8",
+          "eventSha256": "6471174ff99199e3bfeedeae93a318064c736988b41b660dac782c0680a67a25"
+        },
+        {
+          "language": 0,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              1,
+              4
+            ],
+            "keys": [
+              13,
+              0,
+              0
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 4,
+          "keyReplies": 3,
+          "directionFlag": false,
+          "hash": "78d5cec2dd381c5bb2446d45b48edb6f93541e884a41f3f725cb9002085da6a8",
+          "eventSha256": "0736cdd9809e73d79065c1650324839b9cc7efb0a992d8f48dc1e4dcbb717bf9"
+        },
+        {
+          "language": 0,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              4
+            ],
+            "keys": [
+              115
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 3,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "78d5cec2dd381c5bb2446d45b48edb6f93541e884a41f3f725cb9002085da6a8",
+          "eventSha256": "f2bfe8ff73d56ffd149a510d0ee3e37ff0648c74ca50df4af9dc16929d767bdc"
+        },
+        {
+          "language": 1,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              4
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "b200303fe61b3453ec5b893d06afbd3ab465c7d26f47578fa6262d1675673e44",
+          "eventSha256": "f7af5bedb48f0d823ee1fa2d1b5d344624f565b8832c15dae5ef38d5d70e57f9"
+        },
+        {
+          "language": 1,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              58,
+              2
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "b200303fe61b3453ec5b893d06afbd3ab465c7d26f47578fa6262d1675673e44",
+          "eventSha256": "4277aa58b2bfd7f3bc64ee6018b86dfbc369741534e2da6835113bc59c9334ed"
+        },
+        {
+          "language": 1,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0
+            ],
+            "keys": [
+              83
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "76aad0383ccace6c5ee054a6c94c4f1267ec8f3858659bf9952979018460290c",
+          "eventSha256": "642ce65f89d0860ed58ba1e63667ac7d92472c114effbc1deb5ca2c040f0d946"
+        },
+        {
+          "language": 1,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              58,
+              59
+            ],
+            "keys": [
+              0,
+              46
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 2,
+          "directionFlag": false,
+          "hash": "76aad0383ccace6c5ee054a6c94c4f1267ec8f3858659bf9952979018460290c",
+          "eventSha256": "8460148922b5efa286787f2b114d01c2bd1c420438ef8907bfb182837615b9d3"
+        },
+        {
+          "language": 1,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              1,
+              4
+            ],
+            "keys": [
+              13,
+              0,
+              0
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 4,
+          "keyReplies": 3,
+          "directionFlag": false,
+          "hash": "b200303fe61b3453ec5b893d06afbd3ab465c7d26f47578fa6262d1675673e44",
+          "eventSha256": "f0d1974d3076c2046c0097ecffb93f2565e72d0c8b86883e6f693ceb37d65059"
+        },
+        {
+          "language": 1,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              4
+            ],
+            "keys": [
+              115
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 3,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "b200303fe61b3453ec5b893d06afbd3ab465c7d26f47578fa6262d1675673e44",
+          "eventSha256": "a3907ee8d571a4e94b65cbb731d91749fbb1e165c3a12288a61328bec7b5f5dd"
+        },
+        {
+          "language": 1,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              4
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "76aad0383ccace6c5ee054a6c94c4f1267ec8f3858659bf9952979018460290c",
+          "eventSha256": "f7af5bedb48f0d823ee1fa2d1b5d344624f565b8832c15dae5ef38d5d70e57f9"
+        },
+        {
+          "language": 1,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              58,
+              2
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "76aad0383ccace6c5ee054a6c94c4f1267ec8f3858659bf9952979018460290c",
+          "eventSha256": "4277aa58b2bfd7f3bc64ee6018b86dfbc369741534e2da6835113bc59c9334ed"
+        },
+        {
+          "language": 1,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0
+            ],
+            "keys": [
+              83
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "76aad0383ccace6c5ee054a6c94c4f1267ec8f3858659bf9952979018460290c",
+          "eventSha256": "642ce65f89d0860ed58ba1e63667ac7d92472c114effbc1deb5ca2c040f0d946"
+        },
+        {
+          "language": 1,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              58,
+              59
+            ],
+            "keys": [
+              0,
+              46
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 2,
+          "directionFlag": false,
+          "hash": "76aad0383ccace6c5ee054a6c94c4f1267ec8f3858659bf9952979018460290c",
+          "eventSha256": "8460148922b5efa286787f2b114d01c2bd1c420438ef8907bfb182837615b9d3"
+        },
+        {
+          "language": 1,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              1,
+              4
+            ],
+            "keys": [
+              13,
+              0,
+              0
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 4,
+          "keyReplies": 3,
+          "directionFlag": false,
+          "hash": "76aad0383ccace6c5ee054a6c94c4f1267ec8f3858659bf9952979018460290c",
+          "eventSha256": "f0d1974d3076c2046c0097ecffb93f2565e72d0c8b86883e6f693ceb37d65059"
+        },
+        {
+          "language": 1,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              4
+            ],
+            "keys": [
+              115
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 3,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "76aad0383ccace6c5ee054a6c94c4f1267ec8f3858659bf9952979018460290c",
+          "eventSha256": "a3907ee8d571a4e94b65cbb731d91749fbb1e165c3a12288a61328bec7b5f5dd"
+        },
+        {
+          "language": 2,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              4
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "957a6b0ddacbb1b4259d2df26da0949c9b9898533128680eddca899d8044f944",
+          "eventSha256": "92d6c3de46f341408aea69d8dfaf8b09eee525f8e90a653b48ccfaa44359408a"
+        },
+        {
+          "language": 2,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              58,
+              2
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "957a6b0ddacbb1b4259d2df26da0949c9b9898533128680eddca899d8044f944",
+          "eventSha256": "a7d898d711f6682e67ecbd84e3c3161c5f5dfa5ba613e6828492c19704da5c6c"
+        },
+        {
+          "language": 2,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0
+            ],
+            "keys": [
+              83
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "d71ba1bcb28d3374e048e472227069dc96333658495f469fd551c4ac30ec6717",
+          "eventSha256": "9b7e132bcb540307eb2f2c7f6f9c097695c3e0641ca13f349f210303adcd253b"
+        },
+        {
+          "language": 2,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              58,
+              59
+            ],
+            "keys": [
+              0,
+              46
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 2,
+          "directionFlag": false,
+          "hash": "d71ba1bcb28d3374e048e472227069dc96333658495f469fd551c4ac30ec6717",
+          "eventSha256": "e9bf22ee7a4d198f7b685f28e9c6f55db00a614218a78de305f2070ef1b1813a"
+        },
+        {
+          "language": 2,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              1,
+              4
+            ],
+            "keys": [
+              13,
+              0,
+              0
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 4,
+          "keyReplies": 3,
+          "directionFlag": false,
+          "hash": "957a6b0ddacbb1b4259d2df26da0949c9b9898533128680eddca899d8044f944",
+          "eventSha256": "651e312eae3bee2b9a3b072fd5c3dfc0afee5c44266cd32afaf0eaceb04ff2c0"
+        },
+        {
+          "language": 2,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              4
+            ],
+            "keys": [
+              115
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 3,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "957a6b0ddacbb1b4259d2df26da0949c9b9898533128680eddca899d8044f944",
+          "eventSha256": "797a9f6f94dd155638dd0c3eb9fcf7ab5cca11f1d29dbb31e0fa0c03d105b31d"
+        },
+        {
+          "language": 2,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              4
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "d71ba1bcb28d3374e048e472227069dc96333658495f469fd551c4ac30ec6717",
+          "eventSha256": "92d6c3de46f341408aea69d8dfaf8b09eee525f8e90a653b48ccfaa44359408a"
+        },
+        {
+          "language": 2,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              58,
+              2
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "d71ba1bcb28d3374e048e472227069dc96333658495f469fd551c4ac30ec6717",
+          "eventSha256": "a7d898d711f6682e67ecbd84e3c3161c5f5dfa5ba613e6828492c19704da5c6c"
+        },
+        {
+          "language": 2,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0
+            ],
+            "keys": [
+              83
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "d71ba1bcb28d3374e048e472227069dc96333658495f469fd551c4ac30ec6717",
+          "eventSha256": "9b7e132bcb540307eb2f2c7f6f9c097695c3e0641ca13f349f210303adcd253b"
+        },
+        {
+          "language": 2,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              58,
+              59
+            ],
+            "keys": [
+              0,
+              46
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 2,
+          "directionFlag": false,
+          "hash": "d71ba1bcb28d3374e048e472227069dc96333658495f469fd551c4ac30ec6717",
+          "eventSha256": "e9bf22ee7a4d198f7b685f28e9c6f55db00a614218a78de305f2070ef1b1813a"
+        },
+        {
+          "language": 2,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              1,
+              4
+            ],
+            "keys": [
+              13,
+              0,
+              0
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 4,
+          "keyReplies": 3,
+          "directionFlag": false,
+          "hash": "d71ba1bcb28d3374e048e472227069dc96333658495f469fd551c4ac30ec6717",
+          "eventSha256": "651e312eae3bee2b9a3b072fd5c3dfc0afee5c44266cd32afaf0eaceb04ff2c0"
+        },
+        {
+          "language": 2,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              4
+            ],
+            "keys": [
+              115
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 3,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "d71ba1bcb28d3374e048e472227069dc96333658495f469fd551c4ac30ec6717",
+          "eventSha256": "797a9f6f94dd155638dd0c3eb9fcf7ab5cca11f1d29dbb31e0fa0c03d105b31d"
+        }
+      ],
+      "limits": "Complete prompt entry to RET boundary, controlled BIOS/DOS services; text event hashes only; memory outside stack FEC0..FEFF, SP/DF and reply consumption checked; no actual display or general scratch register claim"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 36,
+      "cases": [
+        {
+          "language": 0,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              4
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+          "eventSha256": "b258a34facc15d4461adbbad9eeeeeea348f2eebd640ba866eb8a2567d6083ee"
+        },
+        {
+          "language": 0,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              58,
+              2
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+          "eventSha256": "d538f0bcd9ee4f9487ba17e5cdfb805a39ca27b10820c314a76052d5360f1790"
+        },
+        {
+          "language": 0,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0
+            ],
+            "keys": [
+              83
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "d18c888a9f30bc7acc633bfdde0eb5316987a3818a0cc28f507fd4a47a10aca9",
+          "eventSha256": "761bcec6913d9db72753f689e6e8fcb6566dc3b6ee6b3eb1e1e0f6675730ff35"
+        },
+        {
+          "language": 0,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              58,
+              59
+            ],
+            "keys": [
+              0,
+              46
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 2,
+          "directionFlag": false,
+          "hash": "d18c888a9f30bc7acc633bfdde0eb5316987a3818a0cc28f507fd4a47a10aca9",
+          "eventSha256": "6471174ff99199e3bfeedeae93a318064c736988b41b660dac782c0680a67a25"
+        },
+        {
+          "language": 0,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              1,
+              4
+            ],
+            "keys": [
+              13,
+              0,
+              0
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 4,
+          "keyReplies": 3,
+          "directionFlag": false,
+          "hash": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+          "eventSha256": "0736cdd9809e73d79065c1650324839b9cc7efb0a992d8f48dc1e4dcbb717bf9"
+        },
+        {
+          "language": 0,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              4
+            ],
+            "keys": [
+              115
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 3,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+          "eventSha256": "f2bfe8ff73d56ffd149a510d0ee3e37ff0648c74ca50df4af9dc16929d767bdc"
+        },
+        {
+          "language": 0,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              4
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "d18c888a9f30bc7acc633bfdde0eb5316987a3818a0cc28f507fd4a47a10aca9",
+          "eventSha256": "b258a34facc15d4461adbbad9eeeeeea348f2eebd640ba866eb8a2567d6083ee"
+        },
+        {
+          "language": 0,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              58,
+              2
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "d18c888a9f30bc7acc633bfdde0eb5316987a3818a0cc28f507fd4a47a10aca9",
+          "eventSha256": "d538f0bcd9ee4f9487ba17e5cdfb805a39ca27b10820c314a76052d5360f1790"
+        },
+        {
+          "language": 0,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0
+            ],
+            "keys": [
+              83
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "d18c888a9f30bc7acc633bfdde0eb5316987a3818a0cc28f507fd4a47a10aca9",
+          "eventSha256": "761bcec6913d9db72753f689e6e8fcb6566dc3b6ee6b3eb1e1e0f6675730ff35"
+        },
+        {
+          "language": 0,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              58,
+              59
+            ],
+            "keys": [
+              0,
+              46
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 2,
+          "directionFlag": false,
+          "hash": "d18c888a9f30bc7acc633bfdde0eb5316987a3818a0cc28f507fd4a47a10aca9",
+          "eventSha256": "6471174ff99199e3bfeedeae93a318064c736988b41b660dac782c0680a67a25"
+        },
+        {
+          "language": 0,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              1,
+              4
+            ],
+            "keys": [
+              13,
+              0,
+              0
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 4,
+          "keyReplies": 3,
+          "directionFlag": false,
+          "hash": "d18c888a9f30bc7acc633bfdde0eb5316987a3818a0cc28f507fd4a47a10aca9",
+          "eventSha256": "0736cdd9809e73d79065c1650324839b9cc7efb0a992d8f48dc1e4dcbb717bf9"
+        },
+        {
+          "language": 0,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              4
+            ],
+            "keys": [
+              115
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 3,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "d18c888a9f30bc7acc633bfdde0eb5316987a3818a0cc28f507fd4a47a10aca9",
+          "eventSha256": "f2bfe8ff73d56ffd149a510d0ee3e37ff0648c74ca50df4af9dc16929d767bdc"
+        },
+        {
+          "language": 1,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              4
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "9082af9521394a4dbc5659c1dacca7481df64eeeba3476d4b759d62438015143",
+          "eventSha256": "f7af5bedb48f0d823ee1fa2d1b5d344624f565b8832c15dae5ef38d5d70e57f9"
+        },
+        {
+          "language": 1,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              58,
+              2
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "9082af9521394a4dbc5659c1dacca7481df64eeeba3476d4b759d62438015143",
+          "eventSha256": "4277aa58b2bfd7f3bc64ee6018b86dfbc369741534e2da6835113bc59c9334ed"
+        },
+        {
+          "language": 1,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0
+            ],
+            "keys": [
+              83
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "11b4c43c9022f2658d46791831eb21c919c74bc335db061b46a5dc17b60d1d59",
+          "eventSha256": "642ce65f89d0860ed58ba1e63667ac7d92472c114effbc1deb5ca2c040f0d946"
+        },
+        {
+          "language": 1,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              58,
+              59
+            ],
+            "keys": [
+              0,
+              46
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 2,
+          "directionFlag": false,
+          "hash": "11b4c43c9022f2658d46791831eb21c919c74bc335db061b46a5dc17b60d1d59",
+          "eventSha256": "8460148922b5efa286787f2b114d01c2bd1c420438ef8907bfb182837615b9d3"
+        },
+        {
+          "language": 1,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              1,
+              4
+            ],
+            "keys": [
+              13,
+              0,
+              0
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 4,
+          "keyReplies": 3,
+          "directionFlag": false,
+          "hash": "9082af9521394a4dbc5659c1dacca7481df64eeeba3476d4b759d62438015143",
+          "eventSha256": "f0d1974d3076c2046c0097ecffb93f2565e72d0c8b86883e6f693ceb37d65059"
+        },
+        {
+          "language": 1,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              4
+            ],
+            "keys": [
+              115
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 3,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "9082af9521394a4dbc5659c1dacca7481df64eeeba3476d4b759d62438015143",
+          "eventSha256": "a3907ee8d571a4e94b65cbb731d91749fbb1e165c3a12288a61328bec7b5f5dd"
+        },
+        {
+          "language": 1,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              4
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "11b4c43c9022f2658d46791831eb21c919c74bc335db061b46a5dc17b60d1d59",
+          "eventSha256": "f7af5bedb48f0d823ee1fa2d1b5d344624f565b8832c15dae5ef38d5d70e57f9"
+        },
+        {
+          "language": 1,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              58,
+              2
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "11b4c43c9022f2658d46791831eb21c919c74bc335db061b46a5dc17b60d1d59",
+          "eventSha256": "4277aa58b2bfd7f3bc64ee6018b86dfbc369741534e2da6835113bc59c9334ed"
+        },
+        {
+          "language": 1,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0
+            ],
+            "keys": [
+              83
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "11b4c43c9022f2658d46791831eb21c919c74bc335db061b46a5dc17b60d1d59",
+          "eventSha256": "642ce65f89d0860ed58ba1e63667ac7d92472c114effbc1deb5ca2c040f0d946"
+        },
+        {
+          "language": 1,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              58,
+              59
+            ],
+            "keys": [
+              0,
+              46
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 2,
+          "directionFlag": false,
+          "hash": "11b4c43c9022f2658d46791831eb21c919c74bc335db061b46a5dc17b60d1d59",
+          "eventSha256": "8460148922b5efa286787f2b114d01c2bd1c420438ef8907bfb182837615b9d3"
+        },
+        {
+          "language": 1,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              1,
+              4
+            ],
+            "keys": [
+              13,
+              0,
+              0
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 4,
+          "keyReplies": 3,
+          "directionFlag": false,
+          "hash": "11b4c43c9022f2658d46791831eb21c919c74bc335db061b46a5dc17b60d1d59",
+          "eventSha256": "f0d1974d3076c2046c0097ecffb93f2565e72d0c8b86883e6f693ceb37d65059"
+        },
+        {
+          "language": 1,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              4
+            ],
+            "keys": [
+              115
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 3,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "11b4c43c9022f2658d46791831eb21c919c74bc335db061b46a5dc17b60d1d59",
+          "eventSha256": "a3907ee8d571a4e94b65cbb731d91749fbb1e165c3a12288a61328bec7b5f5dd"
+        },
+        {
+          "language": 2,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              4
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "591e750ace0131cbc6458857e69ddab9043810a5009bcce6545cc9ca169bd027",
+          "eventSha256": "92d6c3de46f341408aea69d8dfaf8b09eee525f8e90a653b48ccfaa44359408a"
+        },
+        {
+          "language": 2,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              58,
+              2
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "591e750ace0131cbc6458857e69ddab9043810a5009bcce6545cc9ca169bd027",
+          "eventSha256": "a7d898d711f6682e67ecbd84e3c3161c5f5dfa5ba613e6828492c19704da5c6c"
+        },
+        {
+          "language": 2,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0
+            ],
+            "keys": [
+              83
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "b960925e91e1da2cc09f25d22d605c1c8ae15ddc549adf8475c7ab5d47120b21",
+          "eventSha256": "9b7e132bcb540307eb2f2c7f6f9c097695c3e0641ca13f349f210303adcd253b"
+        },
+        {
+          "language": 2,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              58,
+              59
+            ],
+            "keys": [
+              0,
+              46
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 2,
+          "directionFlag": false,
+          "hash": "b960925e91e1da2cc09f25d22d605c1c8ae15ddc549adf8475c7ab5d47120b21",
+          "eventSha256": "e9bf22ee7a4d198f7b685f28e9c6f55db00a614218a78de305f2070ef1b1813a"
+        },
+        {
+          "language": 2,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              1,
+              4
+            ],
+            "keys": [
+              13,
+              0,
+              0
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 4,
+          "keyReplies": 3,
+          "directionFlag": false,
+          "hash": "591e750ace0131cbc6458857e69ddab9043810a5009bcce6545cc9ca169bd027",
+          "eventSha256": "651e312eae3bee2b9a3b072fd5c3dfc0afee5c44266cd32afaf0eaceb04ff2c0"
+        },
+        {
+          "language": 2,
+          "flag": 0,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              4
+            ],
+            "keys": [
+              115
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 3,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "591e750ace0131cbc6458857e69ddab9043810a5009bcce6545cc9ca169bd027",
+          "eventSha256": "797a9f6f94dd155638dd0c3eb9fcf7ab5cca11f1d29dbb31e0fa0c03d105b31d"
+        },
+        {
+          "language": 2,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              4
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "b960925e91e1da2cc09f25d22d605c1c8ae15ddc549adf8475c7ab5d47120b21",
+          "eventSha256": "92d6c3de46f341408aea69d8dfaf8b09eee525f8e90a653b48ccfaa44359408a"
+        },
+        {
+          "language": 2,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              58,
+              2
+            ],
+            "keys": [],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 2,
+          "keyReplies": 0,
+          "directionFlag": false,
+          "hash": "b960925e91e1da2cc09f25d22d605c1c8ae15ddc549adf8475c7ab5d47120b21",
+          "eventSha256": "a7d898d711f6682e67ecbd84e3c3161c5f5dfa5ba613e6828492c19704da5c6c"
+        },
+        {
+          "language": 2,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0
+            ],
+            "keys": [
+              83
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "b960925e91e1da2cc09f25d22d605c1c8ae15ddc549adf8475c7ab5d47120b21",
+          "eventSha256": "9b7e132bcb540307eb2f2c7f6f9c097695c3e0641ca13f349f210303adcd253b"
+        },
+        {
+          "language": 2,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              58,
+              59
+            ],
+            "keys": [
+              0,
+              46
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "configure",
+          "timeReplies": 2,
+          "keyReplies": 2,
+          "directionFlag": false,
+          "hash": "b960925e91e1da2cc09f25d22d605c1c8ae15ddc549adf8475c7ab5d47120b21",
+          "eventSha256": "e9bf22ee7a4d198f7b685f28e9c6f55db00a614218a78de305f2070ef1b1813a"
+        },
+        {
+          "language": 2,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              1,
+              4
+            ],
+            "keys": [
+              13,
+              0,
+              0
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 4,
+          "keyReplies": 3,
+          "directionFlag": false,
+          "hash": "b960925e91e1da2cc09f25d22d605c1c8ae15ddc549adf8475c7ab5d47120b21",
+          "eventSha256": "651e312eae3bee2b9a3b072fd5c3dfc0afee5c44266cd32afaf0eaceb04ff2c0"
+        },
+        {
+          "language": 2,
+          "flag": 1,
+          "replies": {
+            "seconds": [
+              0,
+              0,
+              4
+            ],
+            "keys": [
+              115
+            ],
+            "cursorDX": 2836
+          },
+          "reason": "timeout",
+          "timeReplies": 3,
+          "keyReplies": 1,
+          "directionFlag": false,
+          "hash": "b960925e91e1da2cc09f25d22d605c1c8ae15ddc549adf8475c7ab5d47120b21",
+          "eventSha256": "797a9f6f94dd155638dd0c3eb9fcf7ab5cca11f1d29dbb31e0fa0c03d105b31d"
+        }
+      ],
+      "limits": "Complete prompt entry to RET boundary, controlled BIOS/DOS services; text event hashes only; memory outside stack FEC0..FEFF, SP/DF and reply consumption checked; no actual display or general scratch register claim"
+    }
+  ]
+}

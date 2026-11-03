@@ -1,0 +1,12 @@
+[
+  {
+    "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+    "caseCount": 207,
+    "verified": "Original104 VGA resource/saved palettes, FE compact16-color and RGB tables, fast/slow calibration, inhibit/enable/nonpalette/negative skip branches, DAC/retrace events;106 low-byte frame counter write. Full1MiB except FEC0..FF0F and six script registers/SP match; immutable source. Non-VGA uploads, arbitrary operands and real hardware timing excluded."
+  },
+  {
+    "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+    "caseCount": 207,
+    "verified": "Original104 VGA resource/saved palettes, FE compact16-color and RGB tables, fast/slow calibration, inhibit/enable/nonpalette/negative skip branches, DAC/retrace events;106 low-byte frame counter write. Full1MiB except FEC0..FF0F and six script registers/SP match; immutable source. Non-VGA uploads, arbitrary operands and real hardware timing excluded."
+  }
+]

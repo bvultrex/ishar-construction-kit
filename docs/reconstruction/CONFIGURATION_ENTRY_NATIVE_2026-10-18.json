@@ -1,0 +1,3232 @@
+{
+  "scope": "Ishar2 original drive probe and contiguous outer configuration/caller handoff for both profiles",
+  "reports": [
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 36,
+      "cases": [
+        {
+          "currentDrive": 0,
+          "driveCount": 2,
+          "scenario": "success",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            }
+          ],
+          "accepted": false,
+          "attempts": 0,
+          "hash": "ad909cdad94c2027642636d780581cc0466796b8b885b6e262efe111c704aadb"
+        },
+        {
+          "currentDrive": 0,
+          "driveCount": 2,
+          "scenario": "chdir-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            }
+          ],
+          "accepted": false,
+          "attempts": 0,
+          "hash": "ad909cdad94c2027642636d780581cc0466796b8b885b6e262efe111c704aadb"
+        },
+        {
+          "currentDrive": 0,
+          "driveCount": 2,
+          "scenario": "create-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            }
+          ],
+          "accepted": false,
+          "attempts": 0,
+          "hash": "ad909cdad94c2027642636d780581cc0466796b8b885b6e262efe111c704aadb"
+        },
+        {
+          "currentDrive": 0,
+          "driveCount": 2,
+          "scenario": "second",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            }
+          ],
+          "accepted": false,
+          "attempts": 0,
+          "hash": "ad909cdad94c2027642636d780581cc0466796b8b885b6e262efe111c704aadb"
+        },
+        {
+          "currentDrive": 0,
+          "driveCount": 3,
+          "scenario": "success",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "close",
+              "handle": 5
+            },
+            {
+              "service": "delete",
+              "segment": 9175,
+              "offset": 2975
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            }
+          ],
+          "accepted": true,
+          "attempts": 1,
+          "hash": "ca54f2c6c618f86af4b62830ea52b53cd7f3b117cd72ace1f232d466a432a190"
+        },
+        {
+          "currentDrive": 0,
+          "driveCount": 3,
+          "scenario": "chdir-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            }
+          ],
+          "accepted": false,
+          "attempts": 1,
+          "hash": "d7e7b0815e29df65dee6bae9a0d5d7dd6759d095811f4a7d9d8beb3addb88125"
+        },
+        {
+          "currentDrive": 0,
+          "driveCount": 3,
+          "scenario": "create-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            }
+          ],
+          "accepted": false,
+          "attempts": 1,
+          "hash": "d7e7b0815e29df65dee6bae9a0d5d7dd6759d095811f4a7d9d8beb3addb88125"
+        },
+        {
+          "currentDrive": 0,
+          "driveCount": 3,
+          "scenario": "second",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            }
+          ],
+          "accepted": false,
+          "attempts": 1,
+          "hash": "d7e7b0815e29df65dee6bae9a0d5d7dd6759d095811f4a7d9d8beb3addb88125"
+        },
+        {
+          "currentDrive": 0,
+          "driveCount": 5,
+          "scenario": "success",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "close",
+              "handle": 5
+            },
+            {
+              "service": "delete",
+              "segment": 9175,
+              "offset": 2975
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            }
+          ],
+          "accepted": true,
+          "attempts": 1,
+          "hash": "bb211c9a2c8ebb2b053da11934fa9de5651b67ecb34973ca40e9432eb6d4f5d4"
+        },
+        {
+          "currentDrive": 0,
+          "driveCount": 5,
+          "scenario": "chdir-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 3
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 4
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            }
+          ],
+          "accepted": false,
+          "attempts": 3,
+          "hash": "1213bb20940e27ad01a641daf96cb1b1aad19fd6fca51b55fc5d5969b1c6c6a8"
+        },
+        {
+          "currentDrive": 0,
+          "driveCount": 5,
+          "scenario": "create-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 3
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 4
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            }
+          ],
+          "accepted": false,
+          "attempts": 3,
+          "hash": "1213bb20940e27ad01a641daf96cb1b1aad19fd6fca51b55fc5d5969b1c6c6a8"
+        },
+        {
+          "currentDrive": 0,
+          "driveCount": 5,
+          "scenario": "second",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 3
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "close",
+              "handle": 5
+            },
+            {
+              "service": "delete",
+              "segment": 9175,
+              "offset": 2975
+            },
+            {
+              "service": "select-drive",
+              "drive": 0
+            }
+          ],
+          "accepted": true,
+          "attempts": 2,
+          "hash": "26a10864c362300724495487574ca9417031c3002b82550eebc63602241d73c5"
+        },
+        {
+          "currentDrive": 2,
+          "driveCount": 2,
+          "scenario": "success",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            }
+          ],
+          "accepted": false,
+          "attempts": 0,
+          "hash": "8a6b207abcac629ee36e8775d8ee3fb146ed1d58173bca7b8067d3ed6cc5ff7f"
+        },
+        {
+          "currentDrive": 2,
+          "driveCount": 2,
+          "scenario": "chdir-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            }
+          ],
+          "accepted": false,
+          "attempts": 0,
+          "hash": "8a6b207abcac629ee36e8775d8ee3fb146ed1d58173bca7b8067d3ed6cc5ff7f"
+        },
+        {
+          "currentDrive": 2,
+          "driveCount": 2,
+          "scenario": "create-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            }
+          ],
+          "accepted": false,
+          "attempts": 0,
+          "hash": "8a6b207abcac629ee36e8775d8ee3fb146ed1d58173bca7b8067d3ed6cc5ff7f"
+        },
+        {
+          "currentDrive": 2,
+          "driveCount": 2,
+          "scenario": "second",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            }
+          ],
+          "accepted": false,
+          "attempts": 0,
+          "hash": "8a6b207abcac629ee36e8775d8ee3fb146ed1d58173bca7b8067d3ed6cc5ff7f"
+        },
+        {
+          "currentDrive": 2,
+          "driveCount": 3,
+          "scenario": "success",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "close",
+              "handle": 5
+            },
+            {
+              "service": "delete",
+              "segment": 9175,
+              "offset": 2975
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            }
+          ],
+          "accepted": true,
+          "attempts": 1,
+          "hash": "69b4ff6e3b47a7b6ebe04d80504254bdff1e7b154f7dfaf6c316f1d148ef8f5c"
+        },
+        {
+          "currentDrive": 2,
+          "driveCount": 3,
+          "scenario": "chdir-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            }
+          ],
+          "accepted": false,
+          "attempts": 1,
+          "hash": "67a96ddb07aa5520ff9741e8e2fcf2e742afde2f00677a2696cd0198aa11e27f"
+        },
+        {
+          "currentDrive": 2,
+          "driveCount": 3,
+          "scenario": "create-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            }
+          ],
+          "accepted": false,
+          "attempts": 1,
+          "hash": "67a96ddb07aa5520ff9741e8e2fcf2e742afde2f00677a2696cd0198aa11e27f"
+        },
+        {
+          "currentDrive": 2,
+          "driveCount": 3,
+          "scenario": "second",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            }
+          ],
+          "accepted": false,
+          "attempts": 1,
+          "hash": "67a96ddb07aa5520ff9741e8e2fcf2e742afde2f00677a2696cd0198aa11e27f"
+        },
+        {
+          "currentDrive": 2,
+          "driveCount": 5,
+          "scenario": "success",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "close",
+              "handle": 5
+            },
+            {
+              "service": "delete",
+              "segment": 9175,
+              "offset": 2975
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            }
+          ],
+          "accepted": true,
+          "attempts": 1,
+          "hash": "201fa0197ab440fc4796942ffa91f27cc47557448ab057f05ccd75ea8f4a6407"
+        },
+        {
+          "currentDrive": 2,
+          "driveCount": 5,
+          "scenario": "chdir-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 3
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 4
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            }
+          ],
+          "accepted": false,
+          "attempts": 3,
+          "hash": "8df1585e166fbdde23014183d321c5f3b6dc34f82880132c02354327344dce78"
+        },
+        {
+          "currentDrive": 2,
+          "driveCount": 5,
+          "scenario": "create-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 3
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 4
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            }
+          ],
+          "accepted": false,
+          "attempts": 3,
+          "hash": "8df1585e166fbdde23014183d321c5f3b6dc34f82880132c02354327344dce78"
+        },
+        {
+          "currentDrive": 2,
+          "driveCount": 5,
+          "scenario": "second",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 3
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "close",
+              "handle": 5
+            },
+            {
+              "service": "delete",
+              "segment": 9175,
+              "offset": 2975
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            }
+          ],
+          "accepted": true,
+          "attempts": 2,
+          "hash": "a6bc4137eaf425ef96eb645f2f3464a077dd1fb5015acb7f36000846001dcd38"
+        },
+        {
+          "currentDrive": 5,
+          "driveCount": 2,
+          "scenario": "success",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            }
+          ],
+          "accepted": false,
+          "attempts": 0,
+          "hash": "f036cf03892b9db8f2bc282c6671d2dcd2c455b38d33b30547aaf882468da076"
+        },
+        {
+          "currentDrive": 5,
+          "driveCount": 2,
+          "scenario": "chdir-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            }
+          ],
+          "accepted": false,
+          "attempts": 0,
+          "hash": "f036cf03892b9db8f2bc282c6671d2dcd2c455b38d33b30547aaf882468da076"
+        },
+        {
+          "currentDrive": 5,
+          "driveCount": 2,
+          "scenario": "create-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            }
+          ],
+          "accepted": false,
+          "attempts": 0,
+          "hash": "f036cf03892b9db8f2bc282c6671d2dcd2c455b38d33b30547aaf882468da076"
+        },
+        {
+          "currentDrive": 5,
+          "driveCount": 2,
+          "scenario": "second",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            }
+          ],
+          "accepted": false,
+          "attempts": 0,
+          "hash": "f036cf03892b9db8f2bc282c6671d2dcd2c455b38d33b30547aaf882468da076"
+        },
+        {
+          "currentDrive": 5,
+          "driveCount": 3,
+          "scenario": "success",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "close",
+              "handle": 5
+            },
+            {
+              "service": "delete",
+              "segment": 9175,
+              "offset": 2975
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            }
+          ],
+          "accepted": true,
+          "attempts": 1,
+          "hash": "95916ede4e7506ee456388c8a9d090c1af73d9b1b1dedf546a1441452465da31"
+        },
+        {
+          "currentDrive": 5,
+          "driveCount": 3,
+          "scenario": "chdir-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            }
+          ],
+          "accepted": false,
+          "attempts": 1,
+          "hash": "d4297a07045a205f0c24ead74db30f4553ed5b5bed27e6e3ad3dfd5acfc838b4"
+        },
+        {
+          "currentDrive": 5,
+          "driveCount": 3,
+          "scenario": "create-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            }
+          ],
+          "accepted": false,
+          "attempts": 1,
+          "hash": "d4297a07045a205f0c24ead74db30f4553ed5b5bed27e6e3ad3dfd5acfc838b4"
+        },
+        {
+          "currentDrive": 5,
+          "driveCount": 3,
+          "scenario": "second",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            }
+          ],
+          "accepted": false,
+          "attempts": 1,
+          "hash": "d4297a07045a205f0c24ead74db30f4553ed5b5bed27e6e3ad3dfd5acfc838b4"
+        },
+        {
+          "currentDrive": 5,
+          "driveCount": 5,
+          "scenario": "success",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "close",
+              "handle": 5
+            },
+            {
+              "service": "delete",
+              "segment": 9175,
+              "offset": 2975
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            }
+          ],
+          "accepted": true,
+          "attempts": 1,
+          "hash": "cedb1f674455ccccfc771af9dd6092ea2e8cc471c0719d2a750f96f6c982cac8"
+        },
+        {
+          "currentDrive": 5,
+          "driveCount": 5,
+          "scenario": "chdir-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 3
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 4
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            }
+          ],
+          "accepted": false,
+          "attempts": 3,
+          "hash": "bd27a85f723360e41e0178f973be7680aaba4b76ee0c29ef29f5d61d8308001f"
+        },
+        {
+          "currentDrive": 5,
+          "driveCount": 5,
+          "scenario": "create-fail",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 3
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 4
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2973
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            }
+          ],
+          "accepted": false,
+          "attempts": 3,
+          "hash": "bd27a85f723360e41e0178f973be7680aaba4b76ee0c29ef29f5d61d8308001f"
+        },
+        {
+          "currentDrive": 5,
+          "driveCount": 5,
+          "scenario": "second",
+          "events": [
+            {
+              "service": "current-drive"
+            },
+            {
+              "service": "current-directory",
+              "drive": 0,
+              "segment": 9175,
+              "offset": 2985
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            },
+            {
+              "service": "select-drive",
+              "drive": 2
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "select-drive",
+              "drive": 3
+            },
+            {
+              "service": "change-directory",
+              "segment": 9175,
+              "offset": 2984
+            },
+            {
+              "service": "create",
+              "segment": 9175,
+              "offset": 2975,
+              "attributes": 0
+            },
+            {
+              "service": "close",
+              "handle": 5
+            },
+            {
+              "service": "delete",
+              "segment": 9175,
+              "offset": 2975
+            },
+            {
+              "service": "select-drive",
+              "drive": 5
+            }
+          ],
+          "accepted": true,
+          "attempts": 2,
+          "hash": "84962897b172281fe37788239c65addd2fd22f5de9da8b5b7fa28b1c62271891"
+        }
+      ],
+      "limits": "Entire1C33..1D06 to RET boundary; controlled DOS replies, no real create/delete/change-directory; full memory outside saved registers FEEE..FEFF, general registers and SP checked; external drive state/flags excluded"
+    },
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "settingsSha256": "d4eb29e43511a5af7e9dea13dcd64aba2679e995afffeefe560c89c90a332a9e",
+      "caseCount": 32,
+      "cases": [
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 7003,
+          "hash": "b17c2eb7204fe27e81d557a1cc31fa5e9f706d0cc61cad390c7b8f27c1bfc656",
+          "traceSha256": "a6137d47079d37f23e550aa3166fc48f2da103171937b25905b8219227dafa08"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "1d1d8f94473c9982c67541b69c7ad4ddd9f9a7cf8339aa91fa2b76924e3ce3c0",
+          "traceSha256": "c26227f571bc4d8b64836091d913e4d0ae0c783506b73e5992b96c5b1bf55065"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5e86bf22de0764880ea0cfa4258ae2529cfa57673dd35d1df4abae204cb7dcd6",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5e86bf22de0764880ea0cfa4258ae2529cfa57673dd35d1df4abae204cb7dcd6",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "c48c49b53e99dc3b69858eaa2a44e2919896a639503fc4fc2a31c090e1f762df",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "c48c49b53e99dc3b69858eaa2a44e2919896a639503fc4fc2a31c090e1f762df",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "cd227704708272d35c23f59359617720082002f4e25d48e381bf7028c42d4951",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "cd227704708272d35c23f59359617720082002f4e25d48e381bf7028c42d4951",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 7003,
+          "hash": "a78428a563e1aeeca2ab7f2da044811e5f2c3256bc85ad1b2166a20f8348cd17",
+          "traceSha256": "a6137d47079d37f23e550aa3166fc48f2da103171937b25905b8219227dafa08"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f5e6e8876c9ec978131a4946bed90919687476eaba756157d37d3c046a216097",
+          "traceSha256": "c26227f571bc4d8b64836091d913e4d0ae0c783506b73e5992b96c5b1bf55065"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f43140a30890ac84593b8dbb7ebfe44da8875c3243745ebe9f2b73d90f340e31",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f43140a30890ac84593b8dbb7ebfe44da8875c3243745ebe9f2b73d90f340e31",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "969122df1c4763547e8e9cc41e6911dab80643cc33b0280dcfb2689eefab2f8a",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "969122df1c4763547e8e9cc41e6911dab80643cc33b0280dcfb2689eefab2f8a",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f9a0c3081bfeca5102f56a6e057e98f7d34cc370654e3eb8bac21eb3f7e6316e",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f9a0c3081bfeca5102f56a6e057e98f7d34cc370654e3eb8bac21eb3f7e6316e",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 7003,
+          "hash": "b3bceeed49e1dd6d93980f65295c2d4a9beebe26af0ebaa5d4f8a18c29b845a8",
+          "traceSha256": "374ce75b955f38a40179d9b39ebf316a725033c0ace6f3a06d8f85ece691840b"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "698bc33d5e1707a9585ffefe47f57df848257fb460a24fd28ffe8e00c1d3231f",
+          "traceSha256": "5ed46aed1f4c293cd975c50080f7cee5238e7223c4c058b7065e17936e0f3e41"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "cac7bc9f8b9f054b7434f232532e407e0186fe6141d5bad07ffe077613b65b88",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "cac7bc9f8b9f054b7434f232532e407e0186fe6141d5bad07ffe077613b65b88",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "ef54e5bc7eec8877fcf662327ff3dc4dadce1c393a745a70d8a40b112e47d083",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "ef54e5bc7eec8877fcf662327ff3dc4dadce1c393a745a70d8a40b112e47d083",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "9f0a6ef06765acc504c5c573d50bc8c2c4378de287d154289732a285e22715b0",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "9f0a6ef06765acc504c5c573d50bc8c2c4378de287d154289732a285e22715b0",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 7003,
+          "hash": "48cb993ec402fb844d0b5cff694a4c21a68e438680b8e273da0a80ccf2a94dda",
+          "traceSha256": "374ce75b955f38a40179d9b39ebf316a725033c0ace6f3a06d8f85ece691840b"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "c1864c1b8bb8b0179796cac7fb7c7a4cf62a92ae3f614338693f3f46d36d272a",
+          "traceSha256": "5ed46aed1f4c293cd975c50080f7cee5238e7223c4c058b7065e17936e0f3e41"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5f3ef76204ee47b44ae9a9b50b1e00bbb681410a8eb8e9e6280711a7719a492c",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5f3ef76204ee47b44ae9a9b50b1e00bbb681410a8eb8e9e6280711a7719a492c",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "fe31b7e0bf6ce1f36744a994713e192bb63f7c8562f2aa17a91b3087c18c5654",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "fe31b7e0bf6ce1f36744a994713e192bb63f7c8562f2aa17a91b3087c18c5654",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "4697042e128cb331d244e6321d221c6276dc0393312a9943af5c960c156a5913",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "4697042e128cb331d244e6321d221c6276dc0393312a9943af5c960c156a5913",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        }
+      ],
+      "limits": "Contiguous original outer entry to final RETF or menu entry; no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except CPU stack FEC0..FEFF and SP/events checked; menu body, non-VGA and joystick-axis branches excluded; original text only as trace hashes"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "settingsSha256": "d4eb29e43511a5af7e9dea13dcd64aba2679e995afffeefe560c89c90a332a9e",
+      "caseCount": 32,
+      "cases": [
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 7218,
+          "hash": "b28d1678117618f1cc107967e3d6e2a3283e5b1431bffd2c5c9c023fc53e989b",
+          "traceSha256": "a4e7116f89f3b117e9bea75fdcc3f6a8642b53fc5d5ad75a668077c152ddc505"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "f7109a664736c7ef6bbf5baafe12477b773549d5894b98c7d05f5fd9a7fda35f",
+          "traceSha256": "f1c2c73b8f53878fa42168cc5bed9675b69348c42e6b777ba0c916f36d624318"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "924c45e550058fc309ef983f0dc53a5d8e25946972597b09883884e239de9b4d",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "924c45e550058fc309ef983f0dc53a5d8e25946972597b09883884e239de9b4d",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "a35422d542c798b731e94d32c0c719903de90c4f623d3120927101c7e4c2ac92",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "a35422d542c798b731e94d32c0c719903de90c4f623d3120927101c7e4c2ac92",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "acc61b01c6a0d394243decedb9a3a7f9feae316328b0c115f3941a19d8637e9f",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "acc61b01c6a0d394243decedb9a3a7f9feae316328b0c115f3941a19d8637e9f",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 7218,
+          "hash": "0578056279d3e47e86bac60c525c33b454cf9297c7c6ccd983a4eb41b5d64fbc",
+          "traceSha256": "5385503dabd737c8148c67003c1e692b6ee3ba7ce63782ad7fb839fbfcd0640f"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "8868dac0953eb51396752b03034945583e54a89956d83a81b125090431263e4c",
+          "traceSha256": "c8d3cfdeea07c7651eec73663e329c487a257bc2c5f06c4cb9cd22e741fcdd61"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "835ad0e9bd356e67a2d7873c25a3785407fbefd6d1ef9727ac821e55cce48562",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "835ad0e9bd356e67a2d7873c25a3785407fbefd6d1ef9727ac821e55cce48562",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "e72f3a4076a53f898c4fb04fd7afa48aed90cddfee0799eba383662a0014fb0b",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "e72f3a4076a53f898c4fb04fd7afa48aed90cddfee0799eba383662a0014fb0b",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "b34e68c925447bf147a86e77ef4520adabf4bfe8859905246b756e44d2c0e851",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "b34e68c925447bf147a86e77ef4520adabf4bfe8859905246b756e44d2c0e851",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 7218,
+          "hash": "e82bed20dab1bb7645c386ccc6bc6d2f61091d5707f1ce940ffd19013019243b",
+          "traceSha256": "5f88da3169e2be71a8569f548ff58df5bb84be0b7662fdf6e52dc0241ed4566b"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "7c5e60bc7e74dafbb1f3cb342c264e187366e4917b754a51516489098e1e1464",
+          "traceSha256": "07b7024b5f4b44e0e4588de7d083d56f7134c091a75597caff273ea208a0df8d"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "1c8a471f48ed8a36711e2eda5f808ca6c84ab0f4911f0f6f34b8d0c8d9e093a6",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "1c8a471f48ed8a36711e2eda5f808ca6c84ab0f4911f0f6f34b8d0c8d9e093a6",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "886e560def6d0a6e5d3d7a5b380135deba278d3a886790463ed88bcff7850275",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "886e560def6d0a6e5d3d7a5b380135deba278d3a886790463ed88bcff7850275",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "ac02adfdee04ca06ab943ff37114c4086ce1a2e70967886e55a095478b465d20",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "ac02adfdee04ca06ab943ff37114c4086ce1a2e70967886e55a095478b465d20",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 7218,
+          "hash": "8a25016f2b08ccc308c9d708063c55266d622b6c8d3eae02c842d0c63d786a48",
+          "traceSha256": "f818e529323fa96562248b3b20a7f5a6ac2559f39a256846555ba53d68c2ba5e"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "c344040e637a9971f8dc70189053fb14ebab47f64947317832b1b7fa2028fb95",
+          "traceSha256": "cd26a4ae968f8edf7a444779762707086d55a747f5e918e91b5aaca72aac349c"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "115e33cefd7a233f669f238360de862eecf079e280255365e71393deac3531a0",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "115e33cefd7a233f669f238360de862eecf079e280255365e71393deac3531a0",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "d2f75aa99bcd828584296fa8f9a0981cbd8941ae7d3d470b843cae9f644514c4",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "d2f75aa99bcd828584296fa8f9a0981cbd8941ae7d3d470b843cae9f644514c4",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "3de31d8416ed685aed0f2fd0fa15dfdb7a6c981e200ea2e1ab304ada34287cc3",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "3de31d8416ed685aed0f2fd0fa15dfdb7a6c981e200ea2e1ab304ada34287cc3",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        }
+      ],
+      "limits": "Contiguous original outer entry to final RETF or menu entry; no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except CPU stack FEC0..FEFF and SP/events checked; menu body, non-VGA and joystick-axis branches excluded; original text only as trace hashes"
+    },
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "settingsSha256": "d4eb29e43511a5af7e9dea13dcd64aba2679e995afffeefe560c89c90a332a9e",
+      "callerSelect": true,
+      "caseCount": 32,
+      "cases": [
+        {
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 1935,
+          "hash": "08cd25ddfb040674c150ed82e512fa3bf46ed8bb6a428ead613d4238dc4e2dae",
+          "traceSha256": "a6137d47079d37f23e550aa3166fc48f2da103171937b25905b8219227dafa08"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "1d1d8f94473c9982c67541b69c7ad4ddd9f9a7cf8339aa91fa2b76924e3ce3c0",
+          "traceSha256": "c26227f571bc4d8b64836091d913e4d0ae0c783506b73e5992b96c5b1bf55065"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5e86bf22de0764880ea0cfa4258ae2529cfa57673dd35d1df4abae204cb7dcd6",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5e86bf22de0764880ea0cfa4258ae2529cfa57673dd35d1df4abae204cb7dcd6",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "c48c49b53e99dc3b69858eaa2a44e2919896a639503fc4fc2a31c090e1f762df",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "c48c49b53e99dc3b69858eaa2a44e2919896a639503fc4fc2a31c090e1f762df",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "cd227704708272d35c23f59359617720082002f4e25d48e381bf7028c42d4951",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "cd227704708272d35c23f59359617720082002f4e25d48e381bf7028c42d4951",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 1935,
+          "hash": "dcb55da32bac012d495d1bc16c4cf7833b2ce8338c490135b363023c2a454d37",
+          "traceSha256": "a6137d47079d37f23e550aa3166fc48f2da103171937b25905b8219227dafa08"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f5e6e8876c9ec978131a4946bed90919687476eaba756157d37d3c046a216097",
+          "traceSha256": "c26227f571bc4d8b64836091d913e4d0ae0c783506b73e5992b96c5b1bf55065"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f43140a30890ac84593b8dbb7ebfe44da8875c3243745ebe9f2b73d90f340e31",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f43140a30890ac84593b8dbb7ebfe44da8875c3243745ebe9f2b73d90f340e31",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "969122df1c4763547e8e9cc41e6911dab80643cc33b0280dcfb2689eefab2f8a",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "969122df1c4763547e8e9cc41e6911dab80643cc33b0280dcfb2689eefab2f8a",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f9a0c3081bfeca5102f56a6e057e98f7d34cc370654e3eb8bac21eb3f7e6316e",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f9a0c3081bfeca5102f56a6e057e98f7d34cc370654e3eb8bac21eb3f7e6316e",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 1935,
+          "hash": "5bc5377b0dbd7f80999959ee9cb3cf9894d2d4c955139a9d2512c17374050c1a",
+          "traceSha256": "374ce75b955f38a40179d9b39ebf316a725033c0ace6f3a06d8f85ece691840b"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "698bc33d5e1707a9585ffefe47f57df848257fb460a24fd28ffe8e00c1d3231f",
+          "traceSha256": "5ed46aed1f4c293cd975c50080f7cee5238e7223c4c058b7065e17936e0f3e41"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "cac7bc9f8b9f054b7434f232532e407e0186fe6141d5bad07ffe077613b65b88",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "cac7bc9f8b9f054b7434f232532e407e0186fe6141d5bad07ffe077613b65b88",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "ef54e5bc7eec8877fcf662327ff3dc4dadce1c393a745a70d8a40b112e47d083",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "ef54e5bc7eec8877fcf662327ff3dc4dadce1c393a745a70d8a40b112e47d083",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "9f0a6ef06765acc504c5c573d50bc8c2c4378de287d154289732a285e22715b0",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "9f0a6ef06765acc504c5c573d50bc8c2c4378de287d154289732a285e22715b0",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 1935,
+          "hash": "4bc9bb65ffa16bc5c1332e39a19dd186f43fdeaaabbf35bcf1d317851088d4cc",
+          "traceSha256": "374ce75b955f38a40179d9b39ebf316a725033c0ace6f3a06d8f85ece691840b"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "c1864c1b8bb8b0179796cac7fb7c7a4cf62a92ae3f614338693f3f46d36d272a",
+          "traceSha256": "5ed46aed1f4c293cd975c50080f7cee5238e7223c4c058b7065e17936e0f3e41"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5f3ef76204ee47b44ae9a9b50b1e00bbb681410a8eb8e9e6280711a7719a492c",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5f3ef76204ee47b44ae9a9b50b1e00bbb681410a8eb8e9e6280711a7719a492c",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "fe31b7e0bf6ce1f36744a994713e192bb63f7c8562f2aa17a91b3087c18c5654",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "fe31b7e0bf6ce1f36744a994713e192bb63f7c8562f2aa17a91b3087c18c5654",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "4697042e128cb331d244e6321d221c6276dc0393312a9943af5c960c156a5913",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "4697042e128cb331d244e6321d221c6276dc0393312a9943af5c960c156a5913",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        }
+      ],
+      "limits": "Contiguous original outer entry to final RETF or menu entry; no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except CPU stack FEC0..FEFF and SP/events checked; menu body, non-VGA and joystick-axis branches excluded; original text only as trace hashes"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "settingsSha256": "d4eb29e43511a5af7e9dea13dcd64aba2679e995afffeefe560c89c90a332a9e",
+      "callerSelect": true,
+      "caseCount": 32,
+      "cases": [
+        {
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 1935,
+          "hash": "3084b3e669bea94e487ce7468a485a5532f290ffe3291a7b8a00e20bd4e4e4c1",
+          "traceSha256": "a4e7116f89f3b117e9bea75fdcc3f6a8642b53fc5d5ad75a668077c152ddc505"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "f7109a664736c7ef6bbf5baafe12477b773549d5894b98c7d05f5fd9a7fda35f",
+          "traceSha256": "f1c2c73b8f53878fa42168cc5bed9675b69348c42e6b777ba0c916f36d624318"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "924c45e550058fc309ef983f0dc53a5d8e25946972597b09883884e239de9b4d",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "924c45e550058fc309ef983f0dc53a5d8e25946972597b09883884e239de9b4d",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "a35422d542c798b731e94d32c0c719903de90c4f623d3120927101c7e4c2ac92",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "a35422d542c798b731e94d32c0c719903de90c4f623d3120927101c7e4c2ac92",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "acc61b01c6a0d394243decedb9a3a7f9feae316328b0c115f3941a19d8637e9f",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "acc61b01c6a0d394243decedb9a3a7f9feae316328b0c115f3941a19d8637e9f",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 1935,
+          "hash": "7bd2c6c8c0c6ba764d43c9e1b10b7c1fecfe9efc0dd161732a854d7668673a83",
+          "traceSha256": "5385503dabd737c8148c67003c1e692b6ee3ba7ce63782ad7fb839fbfcd0640f"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "8868dac0953eb51396752b03034945583e54a89956d83a81b125090431263e4c",
+          "traceSha256": "c8d3cfdeea07c7651eec73663e329c487a257bc2c5f06c4cb9cd22e741fcdd61"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "835ad0e9bd356e67a2d7873c25a3785407fbefd6d1ef9727ac821e55cce48562",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "835ad0e9bd356e67a2d7873c25a3785407fbefd6d1ef9727ac821e55cce48562",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "e72f3a4076a53f898c4fb04fd7afa48aed90cddfee0799eba383662a0014fb0b",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "e72f3a4076a53f898c4fb04fd7afa48aed90cddfee0799eba383662a0014fb0b",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "b34e68c925447bf147a86e77ef4520adabf4bfe8859905246b756e44d2c0e851",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "b34e68c925447bf147a86e77ef4520adabf4bfe8859905246b756e44d2c0e851",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 1935,
+          "hash": "abf268d01678a086f6dc4e9cd50377cfac603394837f8260985737e48d1a9484",
+          "traceSha256": "5f88da3169e2be71a8569f548ff58df5bb84be0b7662fdf6e52dc0241ed4566b"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "7c5e60bc7e74dafbb1f3cb342c264e187366e4917b754a51516489098e1e1464",
+          "traceSha256": "07b7024b5f4b44e0e4588de7d083d56f7134c091a75597caff273ea208a0df8d"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "1c8a471f48ed8a36711e2eda5f808ca6c84ab0f4911f0f6f34b8d0c8d9e093a6",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "1c8a471f48ed8a36711e2eda5f808ca6c84ab0f4911f0f6f34b8d0c8d9e093a6",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "886e560def6d0a6e5d3d7a5b380135deba278d3a886790463ed88bcff7850275",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "886e560def6d0a6e5d3d7a5b380135deba278d3a886790463ed88bcff7850275",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "ac02adfdee04ca06ab943ff37114c4086ce1a2e70967886e55a095478b465d20",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "ac02adfdee04ca06ab943ff37114c4086ce1a2e70967886e55a095478b465d20",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 1935,
+          "hash": "a1a8aa7fb49b07721ffc288c0f0bf54e10301fa5ef530ef39fd64532e43c5a1d",
+          "traceSha256": "f818e529323fa96562248b3b20a7f5a6ac2559f39a256846555ba53d68c2ba5e"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "c344040e637a9971f8dc70189053fb14ebab47f64947317832b1b7fa2028fb95",
+          "traceSha256": "cd26a4ae968f8edf7a444779762707086d55a747f5e918e91b5aaca72aac349c"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "115e33cefd7a233f669f238360de862eecf079e280255365e71393deac3531a0",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "115e33cefd7a233f669f238360de862eecf079e280255365e71393deac3531a0",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "d2f75aa99bcd828584296fa8f9a0981cbd8941ae7d3d470b843cae9f644514c4",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "d2f75aa99bcd828584296fa8f9a0981cbd8941ae7d3d470b843cae9f644514c4",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "3de31d8416ed685aed0f2fd0fa15dfdb7a6c981e200ea2e1ab304ada34287cc3",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "3de31d8416ed685aed0f2fd0fa15dfdb7a6c981e200ea2e1ab304ada34287cc3",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        }
+      ],
+      "limits": "Contiguous original outer entry to final RETF or menu entry; no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except CPU stack FEC0..FEFF and SP/events checked; menu body, non-VGA and joystick-axis branches excluded; original text only as trace hashes"
+    }
+  ]
+}

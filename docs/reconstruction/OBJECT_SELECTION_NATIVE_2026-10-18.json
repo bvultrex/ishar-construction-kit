@@ -1,0 +1,47 @@
+{
+  "description": "Native object selection and two-word field controls; no original resource bytes",
+  "matrix": {
+    "opcodes": [
+      71,
+      192,
+      193,
+      194
+    ],
+    "es": [
+      20480,
+      7179
+    ],
+    "bases": [
+      512,
+      65280
+    ],
+    "selected": [
+      0,
+      256
+    ],
+    "numericTags": [
+      0,
+      2,
+      6,
+      8,
+      30,
+      32
+    ]
+  },
+  "profiles": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 192,
+      "resultsSha256": "4880bf9b9582673e920a317bebee853428c267e5e2539f29dd29276b45ccda17",
+      "limits": "six script registers/SP and full physical memory except CPU stack saves; no drawing or device calls"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 192,
+      "resultsSha256": "3e38848ad23aa91fef1ebf9485feb519756d71697b68ab6f7970ee8e2e153697",
+      "limits": "six script registers/SP and full physical memory except CPU stack saves; no drawing or device calls"
+    }
+  ]
+}

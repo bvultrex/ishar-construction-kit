@@ -1,0 +1,22 @@
+{
+  "profile": "ishar2",
+  "width": 320,
+  "height": 200,
+  "evidence": [
+    {
+      "country": 33,
+      "checkpointSha256": "9acc5b584b032dd5fd91cf6db59ed5221f91868462779d99998fc33793c97a1e",
+      "vgaSha256": "b7818108955ecb9eb5aba0126ff9f5a3b78200dd125a346fbf3a61d49313d78c",
+      "dacShadowSha256": "2f10e350d4459d8b9456808da2e2810debfacb691dbc84d0ccf32c45102a8f36",
+      "privatePngSha256": "8d16e5819f2284fba56ce919d84e630345fa0f89ec99a7c0bc29924111d98171"
+    },
+    {
+      "country": 49,
+      "checkpointSha256": "2a4a8c2013bdb49d71b3c5544318693be95bf37879a0d1dff5caed36e797df6c",
+      "vgaSha256": "b7818108955ecb9eb5aba0126ff9f5a3b78200dd125a346fbf3a61d49313d78c",
+      "dacShadowSha256": "2f10e350d4459d8b9456808da2e2810debfacb691dbc84d0ccf32c45102a8f36",
+      "privatePngSha256": "8d16e5819f2284fba56ce919d84e630345fa0f89ec99a7c0bc29924111d98171"
+    }
+  ],
+  "visualInspection": "Private diagnostic shows original three-language menu, black background and amber border; actual indices/DAC shadow, linear6-bit to8-bit expansion. No hardware timing/full-game startup claim; PNG/resources kept outside repository."
+}

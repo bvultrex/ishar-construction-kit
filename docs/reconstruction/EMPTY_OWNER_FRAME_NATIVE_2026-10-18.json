@@ -1,0 +1,883 @@
+{
+  "date": "2026-10-18",
+  "results": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "cases": [
+        {
+          "case": "empty-owners",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 2,
+          "hidden": 1,
+          "emptyOwners": [
+            526
+          ],
+          "hash": "a03502e6f9d27e37ab87e362a1e86c5d78d0bd28dec62a4d0dabf8e2061e95db"
+        },
+        {
+          "case": "empty-then-drawable",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32
+          },
+          "phase": "object",
+          "entry": 15844,
+          "stackDelta": -20,
+          "visited": 2,
+          "hidden": 0,
+          "emptyOwners": [
+            526
+          ],
+          "bx": 564,
+          "hash": "db6fa8bbb01a0fc49ae4dae2f69f1626c3242cc5ddd27e7ddd474719815ac656"
+        },
+        {
+          "case": "alias-empty-owners",
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 2,
+          "hidden": 1,
+          "emptyOwners": [
+            526
+          ],
+          "hash": "9f5b3524056447abba1203e66640913755bf015520f1242eaac7bf230deeaba1"
+        },
+        {
+          "case": "empty",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "e58f064bbe5272af4ed20ca935e2e13cef356cc54f8667456b7555901f352ee6"
+        },
+        {
+          "case": "hidden",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 2,
+          "hidden": 2,
+          "emptyOwners": [],
+          "hash": "fc2dc32f0d7a4b873064ac23426c98a35ab21fa3b1173330ca2af44112ce236f"
+        },
+        {
+          "case": "visible",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 837
+          },
+          "phase": "object",
+          "entry": 15844,
+          "stackDelta": -20,
+          "visited": 1,
+          "hidden": 0,
+          "emptyOwners": [],
+          "bx": 526,
+          "hash": "9a977f4cf9cd7f366155198edac1eecd6095a9ba277d117c5282d5d4ee475e4e"
+        },
+        {
+          "case": "mixed",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 1110
+          },
+          "phase": "object",
+          "entry": 15844,
+          "stackDelta": -20,
+          "visited": 2,
+          "hidden": 1,
+          "emptyOwners": [],
+          "bx": 564,
+          "hash": "e68a302512a41098e220a593a900d2f3fb42a62631269459212629fb80cf9745"
+        },
+        {
+          "case": "alias-hidden",
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 2,
+          "hidden": 2,
+          "emptyOwners": [],
+          "hash": "6762d34b463ca4df403afdc97673f71605f720b3b4aba7cce23f195f7fa6b7b8"
+        },
+        {
+          "case": "alias-visible",
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 837
+          },
+          "phase": "object",
+          "entry": 15844,
+          "stackDelta": -20,
+          "visited": 1,
+          "hidden": 0,
+          "emptyOwners": [],
+          "bx": 526,
+          "hash": "60909bd2799c1d3286b6b6fb82186c154a4b93bee867dd5b2b408e0dd78a817e"
+        },
+        {
+          "case": "notification",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "notification",
+          "entry": 15701,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "fdc084411f9fa4a59083b970d82342d4022ebf0e8c91e0ea7a6031d43ce36e65"
+        },
+        {
+          "case": "wait",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "wait",
+          "entry": 15716,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "0d2137977f11037edb8d4e625a5051f9346934224d20682564d2e5a52d78eeac"
+        },
+        {
+          "case": "wait-keyboard",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "wait",
+          "entry": 15716,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "b69e7bf749d80fd1a3d82bb9340b6b124f6a6c48d5c9662a472f9f503f279cd6"
+        },
+        {
+          "case": "keyboard",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "keyboard",
+          "entry": 15723,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "49c4a00fd0a50d7080f7dea6adc1bc209bc8b4df8705484e5f2f765591ab0a63"
+        },
+        {
+          "case": "equal-timer",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "79521277f89be4e9dd1c441e309fc73004ad2bda6a3ed9f2dc9a7876c5723384"
+        },
+        {
+          "case": "ignored-notification",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "b5623e1570a9018829e2a5bbedc8656a39d82e4f71e128964f9dde3e3541f0d4"
+        },
+        {
+          "case": "record0",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "78c2926de20b6450db5cac74a3c384c96ca9561e543a821de349ac3ac6cc2190"
+        },
+        {
+          "case": "record254",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "9805c55da1ed6a949f4c76be46cccef8978a42a62d3a0df349642b2caac042b7"
+        },
+        {
+          "case": "record1",
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 128
+          },
+          "phase": "record",
+          "entry": 15908,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "di": 768,
+          "type": 1,
+          "hash": "6b1044ba856411b5d6495d41b978f20213b9d2058955af2aff6564c39e483b72"
+        },
+        {
+          "case": "record2",
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 128
+          },
+          "phase": "record",
+          "entry": 15908,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "di": 768,
+          "type": 2,
+          "hash": "cecbf18224eb67ede864ede3ae33c615f46f0771a22ff70903e62f1ac3f59b25"
+        },
+        {
+          "case": "record255",
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 128
+          },
+          "phase": "record",
+          "entry": 15908,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "di": 768,
+          "type": 255,
+          "hash": "94b9e62496fdca3dfb724d2bb748385fc55132240a7a31724e3008a2bb9ff1b3"
+        },
+        {
+          "case": "record3",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "13cf1fdffcf63dce103b6e8e4b400c4e7249fe4a94ed17f9b4d86d43f26c5bf5"
+        },
+        {
+          "case": "record-disabled",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "7a35e5446310d435533920f0a7bb353fb8a94ddd21016e832b21bfa2b51caa4b"
+        },
+        {
+          "case": "record-wrap",
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 128
+          },
+          "phase": "record",
+          "entry": 15908,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "di": 256,
+          "type": 2,
+          "hash": "cf2c76954d5b87ef3dd7a78d8bcfb1f415b0d53121a238229b2fcaa6e741437f"
+        }
+      ],
+      "limits": "DF0; six script registers and physical memory except stack saves; device/input/draw bodies excluded"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "cases": [
+        {
+          "case": "empty-owners",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 2,
+          "hidden": 1,
+          "emptyOwners": [
+            526
+          ],
+          "hash": "f7277b0e1e0696d34267e242ed4aed694972f7dd5803a7b7cd0189de400bca77"
+        },
+        {
+          "case": "empty-then-drawable",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 32
+          },
+          "phase": "object",
+          "entry": 15844,
+          "stackDelta": -20,
+          "visited": 2,
+          "hidden": 0,
+          "emptyOwners": [
+            526
+          ],
+          "bx": 564,
+          "hash": "4a7b761fc1ba1cc9c9db18ddd434cca61f957a55927f99c25827662d6595fb82"
+        },
+        {
+          "case": "alias-empty-owners",
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 2,
+          "hidden": 1,
+          "emptyOwners": [
+            526
+          ],
+          "hash": "5a67ceb59d2b62d07c29a6f54d0fad61af938137feff0399c7368b467d66e8f6"
+        },
+        {
+          "case": "empty",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "24162f1ba08a26ce78a89c5a3801e7c30c8dadd818a5a7a67c7f243895b53cc6"
+        },
+        {
+          "case": "hidden",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 2,
+          "hidden": 2,
+          "emptyOwners": [],
+          "hash": "34254c757dd8926328e4340d987439e653dbcf68b11b9bff68ef65c085b360ec"
+        },
+        {
+          "case": "visible",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 837
+          },
+          "phase": "object",
+          "entry": 15844,
+          "stackDelta": -20,
+          "visited": 1,
+          "hidden": 0,
+          "emptyOwners": [],
+          "bx": 526,
+          "hash": "af13543af9b9dbaebebbb4840222ad3ddf53e97c9c95b0ea6cb43711e975dcae"
+        },
+        {
+          "case": "mixed",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 1110
+          },
+          "phase": "object",
+          "entry": 15844,
+          "stackDelta": -20,
+          "visited": 2,
+          "hidden": 1,
+          "emptyOwners": [],
+          "bx": 564,
+          "hash": "0eaf4c448370db59bb0a7dbc917c5154ee753f6bb911a24484c1d3a9862a947a"
+        },
+        {
+          "case": "alias-hidden",
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 2,
+          "hidden": 2,
+          "emptyOwners": [],
+          "hash": "90b7fbd9d8ecbf973536e28c1a599cd3029c21454384c4753c85b729e35eacfb"
+        },
+        {
+          "case": "alias-visible",
+          "registers": {
+            "ds": 16384,
+            "es": 7179,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 837
+          },
+          "phase": "object",
+          "entry": 15844,
+          "stackDelta": -20,
+          "visited": 1,
+          "hidden": 0,
+          "emptyOwners": [],
+          "bx": 526,
+          "hash": "31942493cd7ce56adf9755f5f2614b2baf6efdc41e73a133648a925a98b4b5d9"
+        },
+        {
+          "case": "notification",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "notification",
+          "entry": 15701,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "632eef75e59a3975ccd28ac2f5ed655c27265643e68ebc1a5dfd42ce710856fd"
+        },
+        {
+          "case": "wait",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "wait",
+          "entry": 15716,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "cf033fe9b63b8aa7a77bee53d8cd42bbba0dbd195ea2a6dc12053282343140c2"
+        },
+        {
+          "case": "wait-keyboard",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "wait",
+          "entry": 15716,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "c8b7c5bf35f3e47be090be37d5d0ce063242633ecee88f9dd0487466077ef217"
+        },
+        {
+          "case": "keyboard",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "keyboard",
+          "entry": 15723,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "bc563d957a0d9c178bf4dd434c4690a96c541b4094934341469374303c8c148f"
+        },
+        {
+          "case": "equal-timer",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "68ee10675f3791e4e77c089d198e9eb55ca9e94395ce996d0434b0ee6e981c49"
+        },
+        {
+          "case": "ignored-notification",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "4cbfc5ff5db4a7cd778103b929a18e127f0e8cecbee99ec55ef402cb8be1082f"
+        },
+        {
+          "case": "record0",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "f777a299b94997497bbdb638847dfd48e041a4359a2d5909d21c2e4c29b1f229"
+        },
+        {
+          "case": "record254",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "03dd9bc39f6923e4b82dd946c298c7186ed488accc94272c0c3e5c000399268c"
+        },
+        {
+          "case": "record1",
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 128
+          },
+          "phase": "record",
+          "entry": 15908,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "di": 768,
+          "type": 1,
+          "hash": "1214c851a2b2b1a400ebacc0c9db244cfe2c3bd0c6e27a47470f73fedd54c841"
+        },
+        {
+          "case": "record2",
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 128
+          },
+          "phase": "record",
+          "entry": 15908,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "di": 768,
+          "type": 2,
+          "hash": "1c46b58747abd622a67eb3e5446965881f0cd7310d0ec819fe0cfc4fc017acea"
+        },
+        {
+          "case": "record255",
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 128
+          },
+          "phase": "record",
+          "entry": 15908,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "di": 768,
+          "type": 255,
+          "hash": "609ae2d99d86c8f0b1be35a878110d05d7c5607cc2a838219a7a53bab7e20c7c"
+        },
+        {
+          "case": "record3",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "21ce816dbcf0bb9de9783df1bf4c5b4b447ff7e4bb57eeffbefe665cbc90764c"
+        },
+        {
+          "case": "record-disabled",
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "hash": "e8d7b0f7ebb813c5d7fd1dd6aa5bee59cb011086d43dad25a65c99be1b6545a3"
+        },
+        {
+          "case": "record-wrap",
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 4660,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 128
+          },
+          "phase": "record",
+          "entry": 15908,
+          "stackDelta": -20,
+          "visited": 0,
+          "hidden": 0,
+          "emptyOwners": [],
+          "di": 256,
+          "type": 2,
+          "hash": "16e50cc39bb3319d5b305d0dfcfd131419fc5109148a0739fc5eaf9f6175d009"
+        }
+      ],
+      "limits": "DF0; six script registers and physical memory except stack saves; device/input/draw bodies excluded"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-18",
+  "results": [
+    {
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "cases": 24,
+      "verified": "8ADB through RETF; internal sample timer stop, queue clear, IRQ-vector restore, ports, registers and full1MiB except FEC0..FF0F. External2209 and active SB92E0 excluded; CPU flags not contracted."
+    },
+    {
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "cases": 24,
+      "verified": "8ADB through RETF; internal sample timer stop, queue clear, IRQ-vector restore, ports, registers and full1MiB except FEC0..FF0F. External2209 and active SB92E0 excluded; CPU flags not contracted."
+    }
+  ]
+}

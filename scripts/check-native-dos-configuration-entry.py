@@ -1,0 +1,146 @@
+"""Contiguous original outer configuration entry, no skipped internal calls."""
+import argparse,hashlib,json,subprocess
+from pathlib import Path
+from unicorn import *
+from unicorn.x86_const import *
+p=argparse.ArgumentParser();p.add_argument('capture',type=Path);p.add_argument('settings',type=Path);p.add_argument('--caller-select',action='store_true');p.add_argument('--early-services',action='store_true');p.add_argument('--blancpc',type=Path);p.add_argument('--ems',action='store_true');p.add_argument('--audio',action='store_true');p.add_argument('--keyboard',action='store_true');p.add_argument('--graphics',action='store_true');p.add_argument('--mouse',action='store_true');p.add_argument('--timer-prefix',action='store_true');p.add_argument('--timer-complete',action='store_true');p.add_argument('--joystick',action='store_true');p.add_argument('--startup-checks',action='store_true');p.add_argument('--startup-entry',action='store_true');p.add_argument('--startup-caller',action='store_true');p.add_argument('--main-prefix',type=Path);p.add_argument('--checkpoint-prefix',type=Path);a=p.parse_args();a.startup_caller=a.startup_caller or bool(a.main_prefix);a.startup_entry=a.startup_entry or a.startup_caller;a.startup_checks=a.startup_checks or a.startup_entry;a.joystick=a.joystick or a.startup_checks;a.timer_complete=a.timer_complete or a.joystick;a.timer_prefix=a.timer_prefix or a.timer_complete;a.mouse=a.mouse or a.timer_prefix;a.graphics=a.graphics or a.mouse;a.keyboard=a.keyboard or a.graphics;a.audio=a.audio or a.keyboard;a.ems=a.ems or a.audio;assert not a.ems or a.blancpc, '--ems requires --blancpc';a.early_services=a.early_services or bool(a.blancpc);a.caller_select=a.caller_select or a.early_services;original=a.capture.read_bytes();settings=a.settings.read_bytes();digest=hashlib.sha256(original).hexdigest()
+profiles={'5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7':('ishar1',0x1afa,0xe3e,0xe96,0x18cc,0x1b4b),'f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04':('ishar2',0x1bce,0xea4,0xefc,0x19a0,0x1c22)}
+assert digest in profiles and len(settings)==14;profile,entry,detect,load,prompt,final=profiles[digest];repo=Path(__file__).resolve().parent.parent;cases=json.loads(subprocess.check_output(['node',str(repo/'scripts/dos-configuration-entry-vectors.mjs'),str(a.capture.resolve()),str(a.settings.resolve())]+(['--caller-select'] if a.caller_select else [])+(['--early-services'] if a.early_services else [])+(['--blancpc',str(a.blancpc.resolve())] if a.blancpc else [])+(['--ems'] if a.ems else [])+(['--audio'] if a.audio else [])+(['--keyboard'] if a.keyboard else [])+(['--graphics'] if a.graphics else [])+(['--mouse'] if a.mouse else [])+(['--timer-prefix'] if a.timer_prefix else [])+(['--timer-complete'] if a.timer_complete else [])+(['--joystick'] if a.joystick else [])+(['--startup-checks'] if a.startup_checks else [])+(['--startup-entry'] if a.startup_entry else [])+(['--startup-caller'] if a.startup_caller else [])+(['--main-prefix',str(a.main_prefix.resolve())] if a.main_prefix else []),cwd=repo,text=True))
+if a.main_prefix:
+ expected_main='27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b' if profile=='ishar1' else 'bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95'
+ assert hashlib.sha256(a.main_prefix.read_bytes()).hexdigest()==expected_main,'Unsupported MAIN/capture pairing'
+if a.checkpoint_prefix:
+ assert a.main_prefix,'Checkpoint requires --main-prefix'
+ assert not any(a.checkpoint_prefix.resolve().is_relative_to(root.resolve()) for root in [repo,a.capture.parent,a.settings.parent,a.blancpc.parent,a.main_prefix.parent]),'Private checkpoint must stay outside repo/original/capture directories'
+ a.checkpoint_prefix.mkdir(parents=True,exist_ok=True)
+for case in cases:
+ cpu=Uc(UC_ARCH_X86,UC_MODE_16);cpu.mem_map(0,0x100000);cpu.mem_write(0,original)
+ if a.ems:
+  signature=bytearray(original[0x10b10:0x10b18]);signature[0]^=255 if case['mouseAX']==0 else 0;cpu.mem_write(0x4000a,bytes(signature))
+ if a.startup_entry:cpu.mem_write(0x40080,bytes([1,32]))
+ main_position=[0]
+ events=[];done=[];stage=[''];times=[0];keys=[0];adlib_reads=[0];timer_retrace=[0];timer_pit=[0];irq_index=[0];irq_read=[0];base=0x23d70
+ for reg,value in [(UC_X86_REG_CS,0x23d7),(UC_X86_REG_DS,0x4000),(UC_X86_REG_SS,0x1c0b),(UC_X86_REG_SP,0xff00),(UC_X86_REG_EFLAGS,0x202)]:cpu.reg_write(reg,value)
+ def event(value):events.append({'stage':stage[0],'event':value})
+ def interrupt(uc,number,_):
+  ax=uc.reg_read(UC_X86_REG_AX);ah=ax>>8;dx=uc.reg_read(UC_X86_REG_DX);ds=uc.reg_read(UC_X86_REG_DS);cx=uc.reg_read(UC_X86_REG_CX);bx=uc.reg_read(UC_X86_REG_BX);error=False;value=ax
+  if number==0x33 and stage[0]=='mouse':
+   item={'interrupt':number,'ax':ax}
+   if ax==0:value=case['mouseAX']
+   else:
+    assert ax in [4,7,8,12,15];item.update(cx=cx,dx=dx)
+    if ax==12:item['es']=uc.reg_read(UC_X86_REG_ES)
+   event(item)
+  elif number==0x33:assert stage[0]=='devices' and ax==0;event({'kind':'interrupt','number':number,'ax':ax});value=case['mouseAX']
+  elif number==0x12:event({'interrupt':number});value=640
+  elif number==0x67:
+   if ah==0x41:event({'interrupt':number,'ah':ah});uc.reg_write(UC_X86_REG_BX,0xe000)
+   elif ah==0x43:event({'interrupt':number,'ah':ah,'bx':bx});uc.reg_write(UC_X86_REG_DX,0x1234)
+   else:assert ah==0x44;event({'interrupt':number,'ax':ax,'bx':bx,'dx':dx})
+   value=ax&255
+  elif number==0x13:assert ax in [0,1];event({'service':'disk-reset','al':ax});uc.mem_write(0x475,bytes([ax]));value=0
+  elif number==0x10:
+   if stage[0]=='graphics':assert ax==19;event({'kind':'interrupt','number':number,'ax':ax});uc.mem_write(0x449,b'\x13');uc.mem_write(0x463,b'\xd4\x03')
+   elif ax==0x1a00:event({'kind':'interrupt','number':number,'ax':ax});value=(ax&0xff00)|0x1a
+   elif ah==0:event({'kind':'mode','value':ax&255})
+   elif ah==1:event({'kind':'shape','cx':cx})
+   elif ah==2:event({'kind':'cursor','dx':dx})
+   elif ah==3:event({'kind':'read-cursor'});uc.reg_write(UC_X86_REG_DX,0xb14)
+   else:assert ah==9;event({'kind':'text','value':ax&255,'attribute':bx&255,'count':cx})
+  else:
+   assert number==0x21
+   if ah==0x38:event({'kind':'interrupt','number':number,'ah':ah,'al':ax&255,'dx':dx});value=(ax&0xff00)|case['countryAL']
+   elif ah==0x35 and stage[0]=='graphics':assert ax==0x350a;event({'kind':'interrupt','number':number,'ax':ax});uc.reg_write(UC_X86_REG_BX,0x1234);uc.reg_write(UC_X86_REG_ES,0x7000)
+   elif ah==0x25 and stage[0]=='graphics':assert ax==0x250a;event({'kind':'interrupt','number':number,'ax':ax,'ds':ds,'dx':dx});uc.mem_write(0x28,dx.to_bytes(2,'little')+ds.to_bytes(2,'little'))
+   elif ah==0x35 and stage[0]=='ems':assert ax==0x3567;event({'interrupt':number,'ax':ax});uc.reg_write(UC_X86_REG_BX,0x1234);uc.reg_write(UC_X86_REG_ES,0x4000);value=0
+   elif ah==0x35:
+    vector=ax&255;event({'service':'get-vector','number':vector});uc.reg_write(UC_X86_REG_BX,0x1234 if vector else 0x2345);uc.reg_write(UC_X86_REG_ES,0x7000 if vector else 0x7100);value=0
+   elif ah==0x25:
+    vector=ax&255;event({'service':'set-vector','number':vector,'segment':ds,'offset':dx});uc.mem_write(vector*4,dx.to_bytes(2,'little')+ds.to_bytes(2,'little'));value=0
+   elif ah==0x19:event({'service':'current-drive'});value=2
+   elif ah==0x47:event({'service':'current-directory','drive':dx&255,'segment':ds,'offset':uc.reg_read(UC_X86_REG_SI)});uc.mem_write(ds*16+uc.reg_read(UC_X86_REG_SI),b'TEST\0');value=0
+   elif ah==0xe:event({'service':'select-drive','drive':dx&255});value=3
+   elif ah==0x3b:event({'service':'change-directory','segment':ds,'offset':dx});error=dx in [0xba8,0x1d65] and case['mouseAX']==0;value=0
+   elif ah==0x3c:event({'service':'create','segment':ds,'offset':dx,'attributes':cx});value=42 if stage[0]=='engine-services' else 5
+   elif ah==0x41:event({'service':'delete','segment':ds,'offset':dx});value=0
+   elif ah==0x3d:event({'service':'open','access':ax&255,'segment':ds,'offset':dx});error=stage[0]=='file' and case['failure']=='open';value=2 if error else 5
+   elif ah==0x3f:
+    event({'service':'read','handle':bx,'count':cx,'segment':ds,'offset':dx});error=stage[0]=='file' and case['failure']=='read';data=a.blancpc.read_bytes() if stage[0]=='blancpc' else settings
+    if stage[0]=='main-prefix':data=a.main_prefix.read_bytes()[main_position[0]:main_position[0]+cx];main_position[0]+=len(data)
+    value=5 if error else len(data)
+    if not error:uc.mem_write(ds*16+dx,data)
+   elif ah==0x3e:event({'service':'close','handle':bx});error=stage[0]=='file' and case['failure']=='close';value=6 if error else 0
+   elif ah==2 and stage[0]=='startup-checks':event({'kind':'character','value':dx&255})
+   elif ah==0x2c:
+    second=([0,0] if case['configure'] else [0,4])[times[0]];times[0]+=1;event({'kind':'time','second':second});uc.reg_write(UC_X86_REG_DX,second<<8)
+   else:assert ah==6 and case['configure'];keys[0]+=1;event({'kind':'key','value':83});value=(ax&0xff00)|83
+  uc.reg_write(UC_X86_REG_AX,value);f=uc.reg_read(UC_X86_REG_EFLAGS);uc.reg_write(UC_X86_REG_EFLAGS,(f|1) if error else (f&~1))
+ def read(uc,port,size,_):
+  assert size==1
+  if stage[0]=='timer-irq':
+   assert port==0x3da;value=[[0,8],[8],[0,0,8]][irq_index[0]][irq_read[0]];irq_read[0]+=1;item={'kind':'in','port':port,'value':value,'repeat':1}
+  elif stage[0]=='timer':
+   if port==0x3da:value=[0,8,0,8][timer_retrace[0]];timer_retrace[0]+=1
+   else:assert port==0x40;value=[0,128][timer_pit[0]];timer_pit[0]+=1
+   item={'kind':'in','port':port,'value':value,'repeat':1}
+  elif stage[0]=='graphics':value={0x3d5:255,0x21:255,0x3c2:128,0x3da:8}[port];item={'kind':'in','port':port,'width':1,'value':value,'repeat':1}
+  else:assert port in [0x388,0x201,0x21a,0x22a,0x23a,0x24a,0x25a,0x26a];value=0;item={'kind':'in','port':port,'value':value,'repeat':1}
+  if events and events[-1]['stage']==stage[0] and events[-1]['event'].get('kind')=='in' and events[-1]['event'].get('port')==port and events[-1]['event'].get('value')==value:events[-1]['event']['repeat']+=1
+  else:event(item)
+  return value
+ def write(uc,port,size,value,_):
+  if stage[0]=='graphics':event({'kind':'out','port':port,'width':size,'value':value})
+  else:assert size==1;event({'kind':'out','port':port,'value':value})
+ def boundary(uc,address,size,_):
+  offset=address-base
+  if address==case['boundarySegment']*16+case['boundary']:done.append(True);uc.emu_stop();return
+  stage[0]='main-prefix' if address==0x12604 else 'startup-checks' if address==0x10902 else 'joystick' if address==0x108ff else 'timer' if address==0x108fc else 'mouse' if address==0x108f9 else 'graphics' if address==0x108f6 else 'keyboard' if address==0x108f0 else 'audio' if address==0x108eb else 'ems' if address==0x10853 else 'blancpc' if address==0x10833 else 'engine-services' if address==0x1078f else {0x1c33:'drives',detect:'devices',load:'file',prompt:'prompt',final:'final'}[offset]
+ for address in set([base+v for v in [0x1c33,detect,load,prompt,final]]+[case['boundarySegment']*16+case['boundary']]+([0x1078f] if a.early_services else [])+([0x10833] if a.blancpc else [])+([0x10853] if a.ems else [])+([0x108eb] if a.audio else [])+([0x108f0] if a.keyboard else [])+([0x108f6] if a.graphics else [])+([0x108f9] if a.mouse else [])+([0x108fc] if a.timer_prefix else [])+([0x108ff] if a.joystick else [])+([0x10902] if a.startup_checks else [])+([0x12604] if a.main_prefix else [])):cpu.hook_add(UC_HOOK_CODE,boundary,None,address,address)
+ if a.caller_select:cpu.reg_write(UC_X86_REG_CS,0x1000)
+ paused=[];pause_handle=None
+ if a.timer_complete and case['reason']!='menu':
+  def pause(uc,address,size,_):paused.append(True);uc.emu_stop()
+  pause_handle=cpu.hook_add(UC_HOOK_CODE,pause,None,0x10cfe,0x10cfe)
+ cpu.hook_add(UC_HOOK_INTR,interrupt);cpu.hook_add(UC_HOOK_INSN,read,None,1,0,UC_X86_INS_IN);cpu.hook_add(UC_HOOK_INSN,write,None,1,0,UC_X86_INS_OUT);cpu.emu_start(0x125e5 if a.startup_entry else 0x10787 if a.caller_select else base+entry,0xfffff,count=6000000 if a.graphics else 100000)
+ if a.timer_complete and case['reason']!='menu':
+  assert paused==[True] and not done;cpu.hook_del(pause_handle);stage[0]='timer-irq';g=0x1c0b0;visits=[0]
+  def deliver(index,loop):
+   event({'kind':'irq','vector':8,'loop':loop});irq_index[0]=index;irq_read[0]=0
+   regs=[UC_X86_REG_AX,UC_X86_REG_BX,UC_X86_REG_CX,UC_X86_REG_DX,UC_X86_REG_DI,UC_X86_REG_SI,UC_X86_REG_DS,UC_X86_REG_ES,UC_X86_REG_BP,UC_X86_REG_SP,UC_X86_REG_CS,UC_X86_REG_IP,UC_X86_REG_EFLAGS];saved={reg:cpu.reg_read(reg) for reg in regs};assert saved[UC_X86_REG_EFLAGS]&0x200
+   sp=saved[UC_X86_REG_SP]
+   for value in [saved[UC_X86_REG_EFLAGS]&65535,saved[UC_X86_REG_CS],saved[UC_X86_REG_IP]]:sp=(sp-2)&65535;cpu.mem_write(g+sp,value.to_bytes(2,'little'))
+   vector=bytes(cpu.mem_read(32,4));off=int.from_bytes(vector[:2],'little');seg=int.from_bytes(vector[2:],'little');assert seg==0x1000 and off in [0xd6d,0xd98]
+   cpu.reg_write(UC_X86_REG_SP,sp);cpu.reg_write(UC_X86_REG_EFLAGS,saved[UC_X86_REG_EFLAGS]&~0x300);cpu.reg_write(UC_X86_REG_CS,seg);cpu.reg_write(UC_X86_REG_IP,off);returned=[]
+   def back(uc,address,size,_):returned.append(True);uc.emu_stop()
+   resume=saved[UC_X86_REG_CS]*16+saved[UC_X86_REG_IP];h=cpu.hook_add(UC_HOOK_CODE,back,None,resume,resume);cpu.emu_start(seg*16+off,0xfffff,count=1000);cpu.hook_del(h);assert returned==[True]
+   for reg,value in saved.items():assert cpu.reg_read(reg)==value
+  deliver(0,-1)
+  third=79 if case['countryAL']==0x21 else 40000
+  for index,target in [(1,0),(2,third)]:
+   stopped=[]
+   def measure(uc,address,size,_):
+    if visits[0]==target:stopped.append(True);uc.emu_stop()
+    else:visits[0]+=1
+   h=cpu.hook_add(UC_HOOK_CODE,measure,None,0x10d0c,0x10d0c);cpu.emu_start(cpu.reg_read(UC_X86_REG_CS)*16+cpu.reg_read(UC_X86_REG_IP),0xfffff,count=500000);cpu.hook_del(h);assert stopped==[True];deliver(index,target)
+  cpu.emu_start(0x10d0c,0xfffff,count=1000000)
+  for reg,key in [(UC_X86_REG_AX,'ax'),(UC_X86_REG_BX,'bx'),(UC_X86_REG_DX,'dx')]:assert cpu.reg_read(reg)==case.get('finalRegisters',case['timerMeasurement'])[key]
+ if a.main_prefix and case['reason']=='return':
+  assert main_position[0]==22
+  for key,reg in [('ds',UC_X86_REG_DS),('es',UC_X86_REG_ES)]:assert cpu.reg_read(reg)==case['finalRegisters'][key]
+ if a.startup_caller and case['reason']=='return':assert cpu.reg_read(UC_X86_REG_DI)==case['finalRegisters']['di']
+ if a.joystick and case['reason']!='menu':assert cpu.reg_read(UC_X86_REG_CX)==case['finalRegisters']['cx']
+ expected=[{'stage':s['stage'],'event':e} for s in case['stages'] for e in s['events']]
+ assert done==[True] and events==expected,(done,len(events),len(expected),next((i for i,(x,y) in enumerate(zip(events,expected)) if x!=y),None))
+ delta=0xf714 if a.startup_entry else 0
+ assert cpu.reg_read(UC_X86_REG_SP)==((0xfefa if a.caller_select else 0xfefe) if case['reason']=='menu' else 0xfefe if case['reason'] in ['wait-timer','low-memory'] else 0xfefc if a.main_prefix else 0xff02 if a.startup_caller else 0xff00)-delta
+ actual=bytearray(cpu.mem_read(0,0x100000));mask=0xfebc if a.graphics and case['reason']!='menu' else 0xfec0;actual[0x1c0b0+mask-delta:0x1c0b0+0xff00-delta]=bytes(0xff00-mask);assert hashlib.sha256(actual).hexdigest()==case['hash']
+ if a.graphics and not a.timer_prefix and case['reason']=='return':assert not(cpu.reg_read(UC_X86_REG_EFLAGS)&0x200)
+ if case['reason']=='wait-timer' or a.timer_complete and case['reason']=='return':assert cpu.reg_read(UC_X86_REG_EFLAGS)&0x200
+ if a.checkpoint_prefix and case['reason']=='return':
+  name=f"country{case['countryAL']}-mouse{case['mouseAX']}";raw=bytes(cpu.mem_read(0,0x100000))
+  with (a.checkpoint_prefix/(name+'.bin')).open('xb') as f:f.write(raw)
+  registers={key:cpu.reg_read(reg) for key,reg in [('ax',UC_X86_REG_AX),('bx',UC_X86_REG_BX),('cx',UC_X86_REG_CX),('dx',UC_X86_REG_DX),('di',UC_X86_REG_DI),('si',UC_X86_REG_SI),('bp',UC_X86_REG_BP),('ds',UC_X86_REG_DS),('es',UC_X86_REG_ES),('ss',UC_X86_REG_SS),('sp',UC_X86_REG_SP),('cs',UC_X86_REG_CS),('ip',UC_X86_REG_IP),('flags',UC_X86_REG_EFLAGS)]}
+  with (a.checkpoint_prefix/(name+'.json')).open('x',encoding='utf-8') as f:json.dump({'profile':profile,'captureSha256':digest,'memorySha256':hashlib.sha256(raw).hexdigest(),'boundary':case['boundary'],'registers':registers},f,indent=2)
+ case['traceSha256']=hashlib.sha256(json.dumps(case.pop('stages'),separators=(',',':')).encode()).hexdigest()
+assert a.capture.read_bytes()==original and a.settings.read_bytes()==settings
+print(json.dumps({'profile':profile,'captureSha256':digest,'settingsSha256':hashlib.sha256(settings).hexdigest(),'stackMask':'07A8..07EB after graphics;07AC..07EB on menu paths; saved entry registers07EE..07FF compared' if a.startup_entry else 'FEBC..FEFF after graphics; FEC0..FEFF on menu paths','mainPrefixSha256':hashlib.sha256(a.main_prefix.read_bytes()).hexdigest() if a.main_prefix else None,'startupCaller':a.startup_caller,'startupEntry':a.startup_entry,'startupChecks':a.startup_checks,'joystick':a.joystick,'timerComplete':a.timer_complete,'timerPrefix':a.timer_prefix,'mouse':a.mouse,'graphics':a.graphics,'keyboard':a.keyboard,'audio':a.audio,'ems':a.ems,'blancpcSha256':hashlib.sha256(a.blancpc.read_bytes()).hexdigest() if a.blancpc else None,'earlyServices':a.early_services,'callerSelect':a.caller_select,'caseCount':len(cases),'cases':cases,'limits':'Contiguous outer entry, or engine0787 through0832 with --early-services or0852 with --blancpc or08EA with --ems or08EF with --audio,08F5 with --keyboard,08F8 with --graphics,08FB with --mouse or0CFE wait with --timer-prefix or08FE with --timer-complete,0901 with --joystick,0953 RET/0A6F low-memory boundary with --startup-checks (explicit absent SB/idle callbacks; --timer-complete delivers three original IRQs), stopping at original menu entry on menu paths; --main-prefix continues original MAIN open/header reads and table/pool initialization through77F5 (no decode yet); --startup-caller additionally executes RET0953 and far8DBE through2604 MAIN caller; --startup-entry starts25E5 with original SP0800 and executes072D PSP prefix (controlled empty command line); no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except documented CPU stack mask and SP/events checked; menu body and non-VGA branches excluded; contiguous joystick uses explicit absent-device replies (axis cases separately verified); original text only as trace hashes'}))

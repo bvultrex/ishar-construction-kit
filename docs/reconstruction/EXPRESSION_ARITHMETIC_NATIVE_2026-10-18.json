@@ -1,0 +1,2314 @@
+{
+  "schema": "ishar-expression-arithmetic-native-v1",
+  "main": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "mainSha256": "27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b",
+      "cases": 8,
+      "decodedBytes": 26384,
+      "decodeAndClose": true,
+      "rootCreation": true,
+      "decodeResults": [
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "64594a9950e34ddadfabc11cae02acf37b86823f62ac4ed75b9eb52ad28d62b2"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 14984,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "cb091561fb263113453a22556bccc672076658e2265ff645d53bd9bd8d5c6a40",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "652a0e4b3b8096b3454d5d7e2090245429217fde173178187ecbcb34e2c4002f"
+            },
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "61d23f685f61902fb4c560325d40f05910d6f725eb87a0027ab16e441df1ec82"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "c84419486dad96caacad5593c2b3a5c56fe2b65853763415e83d980c4ebaaefb"
+          },
+          "assignments": {
+            "steps": 7,
+            "nextOpcode": 7,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 793,
+                "bp": 672,
+                "dx": 11,
+                "cx": 15,
+                "bx": 10108,
+                "di": 15591,
+                "ax": 15591
+              },
+              "tag": 14,
+              "hash": "218e9345502ff51cdbba07cda99b5738bc0c0d1766c83d788a3d48cda9f6230c"
+            }
+          },
+          "execution": {
+            "steps": 14,
+            "opcodes": [
+              7,
+              10,
+              20,
+              30,
+              31
+            ],
+            "nextOpcode": 31,
+            "reason": "Error: Native expression tag 168 is not reconstructed here",
+            "last": {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 1198,
+                "bp": 672,
+                "dx": 1,
+                "cx": 65535
+              },
+              "status": "ready",
+              "opcode": 30,
+              "hash": "fad33a1b211b520de96b426319d6ea3f25403472f73568fe16df2d2ff3b6f67e"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "81206ca3101b79787804635bcab77c1467063a546ce3768917bc1166f71fd119"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 14984,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "8a10ff0dcc362abab52798504d1049867cb5584f673aa994e8505474a1f8aeb9",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "a39bffebd07795062e971177e4ec2384b5000f94c231c3958475312560924306"
+            },
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "5ef2b41c738c58b091bcd8c3afcbd8849841803998134885ef6fb9fa0bcb0b35"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "75c5d39a2d4945113d9310a0852bca1f98b75c24e439e49707b4dbd48dc310bd"
+          },
+          "assignments": {
+            "steps": 7,
+            "nextOpcode": 7,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 793,
+                "bp": 672,
+                "dx": 11,
+                "cx": 15,
+                "bx": 10108,
+                "di": 15591,
+                "ax": 15591
+              },
+              "tag": 14,
+              "hash": "4d42bae1dceeb8e24e6b0bc69fb6f390af4106a58fea34b7b5123fce2f0b3383"
+            }
+          },
+          "execution": {
+            "steps": 14,
+            "opcodes": [
+              7,
+              10,
+              20,
+              30,
+              31
+            ],
+            "nextOpcode": 31,
+            "reason": "Error: Native expression tag 168 is not reconstructed here",
+            "last": {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 1198,
+                "bp": 672,
+                "dx": 1,
+                "cx": 65535
+              },
+              "status": "ready",
+              "opcode": 30,
+              "hash": "98432c2f1b42950130410385c80ba61517b2ca97cf46508ad11f5f877deb7666"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "4ede92d4e56ee2d047bb02b464bf9795b14d1baba3167ede1b9cd5eaae5c40c6"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "11839fb453d698870f44a73c287a21e49ecaae4a16f19d5b68e19fd6761885d0"
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "d694480a5d6b63d2038e2d82268975166d0236aead29e596e0a817b8cc72fa62"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "11839fb453d698870f44a73c287a21e49ecaae4a16f19d5b68e19fd6761885d0"
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "42fd1046c8d71563fed9e8d200c700e53e61d203799d58cd0708abc71d678869"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 23176,
+            "es": 20480,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "fcb5b68834d5e24321cd96ba7b21d44a7e6f6d967ac863522de16ab4c3f223f7",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "8abc943a024722d5f1177a5c7e8e327e1f4e695776952f1ff231ce22c9d2be12"
+            },
+            {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "22bb9f111c887678fbb214c906bedff433deb3dfd796d011a07cb19b19dce2ae"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "6dc3a9a7347c919d3a8928956ad0b2adadb427d80dee9278491322df39e66704"
+          },
+          "assignments": {
+            "steps": 7,
+            "nextOpcode": 7,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 793,
+                "bp": 672,
+                "dx": 11,
+                "cx": 15,
+                "bx": 10108,
+                "di": 15591,
+                "ax": 15591
+              },
+              "tag": 14,
+              "hash": "a54a1df4d35cda405d23b135f7f4cfcc26363c4800fe7bc36fb394f119003829"
+            }
+          },
+          "execution": {
+            "steps": 14,
+            "opcodes": [
+              7,
+              10,
+              20,
+              30,
+              31
+            ],
+            "nextOpcode": 31,
+            "reason": "Error: Native expression tag 168 is not reconstructed here",
+            "last": {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 1198,
+                "bp": 672,
+                "dx": 1,
+                "cx": 65535
+              },
+              "status": "ready",
+              "opcode": 30,
+              "hash": "355515cdcef91d3383a4996e05c64ab66cb1d8a00a7914c6a2669d5ed4b24bac"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "b140a9bbdfd55ca041bef2fc857268427243af71ac1f0f70412cf1caeececd6b"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "f0618743c98547bae75d16b6b7532ded9be2acc5505b575ddca764bca69cb274"
+        }
+      ],
+      "result": "MAIN chain through requested initialization/decode/root boundary matches",
+      "limits": "controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "mainSha256": "bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95",
+      "cases": 8,
+      "decodedBytes": 27752,
+      "decodeAndClose": true,
+      "rootCreation": true,
+      "decodeResults": [
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "22bab1ca1e85e9a28d40afdc5b5de42edf11d0f24c44b5198004ec377f2a3aed"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 15421,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "081786906b10e2b667fdd276d2202659b1cdee32ffc2dedef6d79b86bf157624",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "d029137af92865b1ea622b59fcba964b003b53e31474fe7b285ca9719639d4b5"
+            },
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "090a13c4d65953fdedf28989e7cc62f127174719e7422a084897716ef2301f55"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "e9797851adf999c96626f2c0d7918be8907ace185b84e99672b9852e2e50b643"
+          },
+          "assignments": {
+            "steps": 8,
+            "nextOpcode": 31,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 778,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 11,
+                "bx": 10108,
+                "di": 20929,
+                "ax": 20929
+              },
+              "tag": 6,
+              "hash": "ddba5b5b3695f0933a40c266c2c1929d6d04937e2991f9cc64ca9309aaa70e7f"
+            }
+          },
+          "execution": {
+            "steps": 9,
+            "opcodes": [
+              7,
+              20,
+              30,
+              31
+            ],
+            "nextOpcode": 215,
+            "reason": "Error: Original opcode215 is not connected to physical script execution",
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16084,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "ready",
+              "opcode": 20,
+              "hash": "85c50967456579be41f284de57d288a0637c4923548216301f5d7459fe316e9b"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "cad63e06b4e9ab4616305dffa8a3604f0a33c70cb859db6a193150f41949a787"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 15421,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "7f5b16bacda449a84641c3bc7cf3d6774a01f3566059ff432ce8e45a47e761d2",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "755cae8c9eeeaac65f05597248f0f757f065094cb4dbeb56ab4f09a1492062a8"
+            },
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "71619062b92e0abe93e8164e95e18ba772294c963d51ae2b26cbb379c0607ae0"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "2ccad2889327135a5e87482497cc06bfe754270cd83b9a7e3325e2904dfae540"
+          },
+          "assignments": {
+            "steps": 8,
+            "nextOpcode": 31,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 778,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 11,
+                "bx": 10108,
+                "di": 20929,
+                "ax": 20929
+              },
+              "tag": 6,
+              "hash": "0892edaafd025d4764873777b1237be6a0453837267f25726b77b5fd2242504c"
+            }
+          },
+          "execution": {
+            "steps": 9,
+            "opcodes": [
+              7,
+              20,
+              30,
+              31
+            ],
+            "nextOpcode": 215,
+            "reason": "Error: Original opcode215 is not connected to physical script execution",
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16084,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "ready",
+              "opcode": 20,
+              "hash": "ac393b182bccce557636458e7d8cf110038e9790b55698f9842260172c3013f0"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "aa6867a7f268d06e9ff6361e9bde8509f33dc6c44b41f32c331bcdd0a9b549da"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "47f4d32ff7c439330c646ee60de01a82a269c05f44d8af0db8a9dea0471cfe7e"
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "25cc8ff1ea80b989f56d8dc33e4a1a8d46dc055491d1fe4be7ae5f2ccf5386a8"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "47f4d32ff7c439330c646ee60de01a82a269c05f44d8af0db8a9dea0471cfe7e"
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "565a3208f77005b70f07cf183653760df066a8c855a5b06f3956a3940919c8b5"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 23613,
+            "es": 20480,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "3c2484a285da115fa50b4b254f03be29fdaa7ae8c232edaf11653b6504fa82d6",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "e960992c67890c6793cbce28833a5b83e545bf671719f18af83d9e16e27cff9a"
+            },
+            {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "55549455d1ae2533b00d896e10333df499c19ca6d560912e102b2e0d507e6814"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "2e92949de837fc6eaa5c35cb11d2500d17d527325d819c539264eeceb6a15279"
+          },
+          "assignments": {
+            "steps": 8,
+            "nextOpcode": 31,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 778,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 11,
+                "bx": 10108,
+                "di": 20929,
+                "ax": 20929
+              },
+              "tag": 6,
+              "hash": "82bd3306cc164e57956af75ef4b37d7b8b7a4b29aa63f08dd121804731615ae3"
+            }
+          },
+          "execution": {
+            "steps": 9,
+            "opcodes": [
+              7,
+              20,
+              30,
+              31
+            ],
+            "nextOpcode": 215,
+            "reason": "Error: Original opcode215 is not connected to physical script execution",
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16084,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "ready",
+              "opcode": 20,
+              "hash": "16a12b0fed6fcb57333a4b0878e0559b48649146504c44b1906745aa9de7dfd2"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "c922ab1129f69dd31f0d318c40b3163dc519a0242a4d8b6876a20d3dd801bfec"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "d6a12dc7bdcb278e79e69827816266190aa55c572f4e75872ff9ae06bc4cc5bf"
+        }
+      ],
+      "result": "MAIN chain through requested initialization/decode/root boundary matches",
+      "limits": "controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed"
+    }
+  ],
+  "arithmetic": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "cases": [
+        {
+          "tag": 66,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 0
+        },
+        {
+          "tag": 66,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 3,
+          "cx": 7
+        },
+        {
+          "tag": 66,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 1,
+          "cx": 65529
+        },
+        {
+          "tag": 66,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 5,
+          "cx": 7
+        },
+        {
+          "tag": 66,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 65529,
+          "cx": 65529
+        },
+        {
+          "tag": 66,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 0,
+          "cx": 32768
+        },
+        {
+          "tag": 66,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 32767,
+          "cx": 32767
+        },
+        {
+          "tag": 66,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 65535
+        },
+        {
+          "tag": 68,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 0
+        },
+        {
+          "tag": 68,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 7,
+          "cx": 7
+        },
+        {
+          "tag": 68,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 65531,
+          "cx": 65529
+        },
+        {
+          "tag": 68,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 65535,
+          "cx": 7
+        },
+        {
+          "tag": 68,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 65533,
+          "cx": 65529
+        },
+        {
+          "tag": 68,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 32769,
+          "cx": 32768
+        },
+        {
+          "tag": 68,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 65535,
+          "cx": 32767
+        },
+        {
+          "tag": 68,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 65535,
+          "cx": 65535
+        },
+        {
+          "tag": 70,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 0
+        },
+        {
+          "tag": 70,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 4,
+          "cx": 7
+        },
+        {
+          "tag": 70,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 65530,
+          "cx": 65529
+        },
+        {
+          "tag": 70,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 65530,
+          "cx": 7
+        },
+        {
+          "tag": 70,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 4,
+          "cx": 65529
+        },
+        {
+          "tag": 70,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 32769,
+          "cx": 32768
+        },
+        {
+          "tag": 70,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 32768,
+          "cx": 32767
+        },
+        {
+          "tag": 70,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 65535,
+          "cx": 65535
+        },
+        {
+          "tag": 72,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 65535,
+          "cx": 0
+        },
+        {
+          "tag": 72,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 65531,
+          "cx": 7
+        },
+        {
+          "tag": 72,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 5,
+          "cx": 65529
+        },
+        {
+          "tag": 72,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 5,
+          "cx": 7
+        },
+        {
+          "tag": 72,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 65531,
+          "cx": 65529
+        },
+        {
+          "tag": 72,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 32766,
+          "cx": 32768
+        },
+        {
+          "tag": 72,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 32767,
+          "cx": 32767
+        },
+        {
+          "tag": 72,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 65535
+        },
+        {
+          "tag": 86,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 0
+        },
+        {
+          "tag": 86,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 10,
+          "cx": 7
+        },
+        {
+          "tag": 86,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 65532,
+          "cx": 65529
+        },
+        {
+          "tag": 86,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 4,
+          "cx": 7
+        },
+        {
+          "tag": 86,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 65526,
+          "cx": 65529
+        },
+        {
+          "tag": 86,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 32769,
+          "cx": 32768
+        },
+        {
+          "tag": 86,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 32766,
+          "cx": 32767
+        },
+        {
+          "tag": 86,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 65535,
+          "cx": 65535
+        },
+        {
+          "tag": 88,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 0
+        },
+        {
+          "tag": 88,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 4,
+          "cx": 4
+        },
+        {
+          "tag": 88,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 65526,
+          "cx": 65526
+        },
+        {
+          "tag": 88,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 10,
+          "cx": 10
+        },
+        {
+          "tag": 88,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 65532,
+          "cx": 65532
+        },
+        {
+          "tag": 88,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 32767,
+          "cx": 32767
+        },
+        {
+          "tag": 88,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 32768,
+          "cx": 32768
+        },
+        {
+          "tag": 88,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 65535,
+          "cx": 65535
+        },
+        {
+          "tag": 90,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 1
+        },
+        {
+          "tag": 90,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 1,
+          "cx": 3
+        },
+        {
+          "tag": 90,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 65535,
+          "cx": 3
+        },
+        {
+          "tag": 90,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 1,
+          "cx": 65533
+        },
+        {
+          "tag": 90,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 65535,
+          "cx": 65533
+        },
+        {
+          "tag": 90,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 0,
+          "cx": 1
+        },
+        {
+          "tag": 90,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 0,
+          "cx": 65535
+        },
+        {
+          "tag": 90,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 1
+        },
+        {
+          "tag": 92,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 1
+        },
+        {
+          "tag": 92,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 2,
+          "cx": 3
+        },
+        {
+          "tag": 92,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 65534,
+          "cx": 3
+        },
+        {
+          "tag": 92,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 65534,
+          "cx": 65533
+        },
+        {
+          "tag": 92,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 2,
+          "cx": 65533
+        },
+        {
+          "tag": 92,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 32768,
+          "cx": 1
+        },
+        {
+          "tag": 92,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 32769,
+          "cx": 65535
+        },
+        {
+          "tag": 92,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 65535,
+          "cx": 1
+        },
+        {
+          "tag": 94,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 0
+        },
+        {
+          "tag": 94,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 21,
+          "cx": 7
+        },
+        {
+          "tag": 94,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 65515,
+          "cx": 65529
+        },
+        {
+          "tag": 94,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 65515,
+          "cx": 7
+        },
+        {
+          "tag": 94,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 21,
+          "cx": 65529
+        },
+        {
+          "tag": 94,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 32768,
+          "cx": 32768
+        },
+        {
+          "tag": 94,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 32769,
+          "cx": 32767
+        },
+        {
+          "tag": 94,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 65535
+        },
+        {
+          "tag": 66,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 65534,
+          "cx": 65534
+        },
+        {
+          "tag": 68,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 65534,
+          "cx": 65534
+        },
+        {
+          "tag": 70,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 0,
+          "cx": 65534
+        },
+        {
+          "tag": 72,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 65535,
+          "cx": 65534
+        },
+        {
+          "tag": 86,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 65532,
+          "cx": 65534
+        },
+        {
+          "tag": 88,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 0,
+          "cx": 0
+        },
+        {
+          "tag": 90,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 0,
+          "cx": 65534
+        },
+        {
+          "tag": 92,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 1,
+          "cx": 65534
+        },
+        {
+          "tag": 94,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 4,
+          "cx": 65534
+        }
+      ],
+      "overflow": [
+        {
+          "tag": 90,
+          "dividend": -32768,
+          "divisor": -1,
+          "interrupt": 0
+        },
+        {
+          "tag": 92,
+          "dividend": -32768,
+          "divisor": -1,
+          "interrupt": 0
+        }
+      ],
+      "limits": "DF0; SI/DX/CX, return stack and globals; INT0 body/flags excluded"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "cases": [
+        {
+          "tag": 66,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 0
+        },
+        {
+          "tag": 66,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 3,
+          "cx": 7
+        },
+        {
+          "tag": 66,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 1,
+          "cx": 65529
+        },
+        {
+          "tag": 66,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 5,
+          "cx": 7
+        },
+        {
+          "tag": 66,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 65529,
+          "cx": 65529
+        },
+        {
+          "tag": 66,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 0,
+          "cx": 32768
+        },
+        {
+          "tag": 66,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 32767,
+          "cx": 32767
+        },
+        {
+          "tag": 66,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 65535
+        },
+        {
+          "tag": 68,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 0
+        },
+        {
+          "tag": 68,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 7,
+          "cx": 7
+        },
+        {
+          "tag": 68,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 65531,
+          "cx": 65529
+        },
+        {
+          "tag": 68,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 65535,
+          "cx": 7
+        },
+        {
+          "tag": 68,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 65533,
+          "cx": 65529
+        },
+        {
+          "tag": 68,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 32769,
+          "cx": 32768
+        },
+        {
+          "tag": 68,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 65535,
+          "cx": 32767
+        },
+        {
+          "tag": 68,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 65535,
+          "cx": 65535
+        },
+        {
+          "tag": 70,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 0
+        },
+        {
+          "tag": 70,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 4,
+          "cx": 7
+        },
+        {
+          "tag": 70,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 65530,
+          "cx": 65529
+        },
+        {
+          "tag": 70,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 65530,
+          "cx": 7
+        },
+        {
+          "tag": 70,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 4,
+          "cx": 65529
+        },
+        {
+          "tag": 70,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 32769,
+          "cx": 32768
+        },
+        {
+          "tag": 70,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 32768,
+          "cx": 32767
+        },
+        {
+          "tag": 70,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 65535,
+          "cx": 65535
+        },
+        {
+          "tag": 72,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 65535,
+          "cx": 0
+        },
+        {
+          "tag": 72,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 65531,
+          "cx": 7
+        },
+        {
+          "tag": 72,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 5,
+          "cx": 65529
+        },
+        {
+          "tag": 72,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 5,
+          "cx": 7
+        },
+        {
+          "tag": 72,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 65531,
+          "cx": 65529
+        },
+        {
+          "tag": 72,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 32766,
+          "cx": 32768
+        },
+        {
+          "tag": 72,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 32767,
+          "cx": 32767
+        },
+        {
+          "tag": 72,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 65535
+        },
+        {
+          "tag": 86,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 0
+        },
+        {
+          "tag": 86,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 10,
+          "cx": 7
+        },
+        {
+          "tag": 86,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 65532,
+          "cx": 65529
+        },
+        {
+          "tag": 86,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 4,
+          "cx": 7
+        },
+        {
+          "tag": 86,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 65526,
+          "cx": 65529
+        },
+        {
+          "tag": 86,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 32769,
+          "cx": 32768
+        },
+        {
+          "tag": 86,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 32766,
+          "cx": 32767
+        },
+        {
+          "tag": 86,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 65535,
+          "cx": 65535
+        },
+        {
+          "tag": 88,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 0
+        },
+        {
+          "tag": 88,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 4,
+          "cx": 4
+        },
+        {
+          "tag": 88,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 65526,
+          "cx": 65526
+        },
+        {
+          "tag": 88,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 10,
+          "cx": 10
+        },
+        {
+          "tag": 88,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 65532,
+          "cx": 65532
+        },
+        {
+          "tag": 88,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 32767,
+          "cx": 32767
+        },
+        {
+          "tag": 88,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 32768,
+          "cx": 32768
+        },
+        {
+          "tag": 88,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 65535,
+          "cx": 65535
+        },
+        {
+          "tag": 90,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 1
+        },
+        {
+          "tag": 90,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 1,
+          "cx": 3
+        },
+        {
+          "tag": 90,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 65535,
+          "cx": 3
+        },
+        {
+          "tag": 90,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 1,
+          "cx": 65533
+        },
+        {
+          "tag": 90,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 65535,
+          "cx": 65533
+        },
+        {
+          "tag": 90,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 0,
+          "cx": 1
+        },
+        {
+          "tag": 90,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 0,
+          "cx": 65535
+        },
+        {
+          "tag": 90,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 1
+        },
+        {
+          "tag": 92,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 1
+        },
+        {
+          "tag": 92,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 2,
+          "cx": 3
+        },
+        {
+          "tag": 92,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 65534,
+          "cx": 3
+        },
+        {
+          "tag": 92,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 65534,
+          "cx": 65533
+        },
+        {
+          "tag": 92,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 2,
+          "cx": 65533
+        },
+        {
+          "tag": 92,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 32768,
+          "cx": 1
+        },
+        {
+          "tag": 92,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 32769,
+          "cx": 65535
+        },
+        {
+          "tag": 92,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 65535,
+          "cx": 1
+        },
+        {
+          "tag": 94,
+          "left": 0,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 0
+        },
+        {
+          "tag": 94,
+          "left": 7,
+          "right": 3,
+          "si": 9,
+          "dx": 21,
+          "cx": 7
+        },
+        {
+          "tag": 94,
+          "left": 65529,
+          "right": 3,
+          "si": 9,
+          "dx": 65515,
+          "cx": 65529
+        },
+        {
+          "tag": 94,
+          "left": 7,
+          "right": 65533,
+          "si": 9,
+          "dx": 65515,
+          "cx": 7
+        },
+        {
+          "tag": 94,
+          "left": 65529,
+          "right": 65533,
+          "si": 9,
+          "dx": 21,
+          "cx": 65529
+        },
+        {
+          "tag": 94,
+          "left": 32768,
+          "right": 1,
+          "si": 9,
+          "dx": 32768,
+          "cx": 32768
+        },
+        {
+          "tag": 94,
+          "left": 32767,
+          "right": 65535,
+          "si": 9,
+          "dx": 32769,
+          "cx": 32767
+        },
+        {
+          "tag": 94,
+          "left": 65535,
+          "right": 0,
+          "si": 9,
+          "dx": 0,
+          "cx": 65535
+        },
+        {
+          "tag": 66,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 65534,
+          "cx": 65534
+        },
+        {
+          "tag": 68,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 65534,
+          "cx": 65534
+        },
+        {
+          "tag": 70,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 0,
+          "cx": 65534
+        },
+        {
+          "tag": 72,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 65535,
+          "cx": 65534
+        },
+        {
+          "tag": 86,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 65532,
+          "cx": 65534
+        },
+        {
+          "tag": 88,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 0,
+          "cx": 0
+        },
+        {
+          "tag": 90,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 0,
+          "cx": 65534
+        },
+        {
+          "tag": 92,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 1,
+          "cx": 65534
+        },
+        {
+          "tag": 94,
+          "nestedSubtract": true,
+          "si": 15,
+          "dx": 4,
+          "cx": 65534
+        }
+      ],
+      "overflow": [
+        {
+          "tag": 90,
+          "dividend": -32768,
+          "divisor": -1,
+          "interrupt": 0
+        },
+        {
+          "tag": 92,
+          "dividend": -32768,
+          "divisor": -1,
+          "interrupt": 0
+        }
+      ],
+      "limits": "DF0; SI/DX/CX, return stack and globals; INT0 body/flags excluded"
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "paletteRetrace": 8,
+  "resumeContext": true,
+  "requestedCycles": 0,
+  "firstFrame": false,
+  "shiftFlags": null,
+  "findFirstCarry": null,
+  "caseCount": 2,
+  "cases": [
+    {
+      "checkpoint": "country33-mouse65535.bin",
+      "checkpointSha256": "002b464d10308bad45b2ad1ea5a7e4d0a849a933bb7f173e734a61193b049be9",
+      "profile": "ishar2",
+      "scheduler": {
+        "registers": {
+          "ds": 11563,
+          "es": 8430,
+          "si": 15129,
+          "bp": 672,
+          "dx": 0,
+          "cx": 0
+        },
+        "phase": "main",
+        "entry": 9963,
+        "stackDelta": -2,
+        "hash": "675a8d15c26f2ddb65ecefe41c71326532c3541dc692afa1b2bc9e841e3e8f1d"
+      },
+      "cycles": [],
+      "videoState": {
+        "pitch": 320,
+        "destinationSegment": 40960,
+        "destinationOffset": 0
+      },
+      "continuation": null,
+      "portEvidence": [
+        {
+          "step": 1,
+          "opcode": 104,
+          "eventCount": 1025,
+          "eventSha256": "ad3dd64c9503707583472186f4e235306302146648a251657e6950e99f5f5735"
+        }
+      ],
+      "fileEvents": [],
+      "steps": 5,
+      "opcodes": {
+        "215": 1,
+        "104": 1,
+        "31": 1,
+        "20": 1,
+        "66": 1
+      },
+      "reason": null,
+      "nextOpcode": 8,
+      "last": {
+        "registers": {
+          "ds": 11563,
+          "es": 8430,
+          "si": 15147,
+          "bp": 672,
+          "dx": 65535,
+          "cx": 0
+        },
+        "status": "yield",
+        "opcode": 66,
+        "hash": "7267f5b86fb280d8622eda3af64494ebabd35f6157aba488a3d75477d599c411",
+        "eventCount": 0,
+        "eventSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "boundary": 9906,
+      "sp": 2030
+    },
+    {
+      "checkpoint": "country49-mouse65535.bin",
+      "checkpointSha256": "67e4e3403b564f35c1de73d59f53f92c6d33aa08628ade5b13ebd9aeed902c80",
+      "profile": "ishar2",
+      "scheduler": {
+        "registers": {
+          "ds": 11563,
+          "es": 8430,
+          "si": 15129,
+          "bp": 672,
+          "dx": 0,
+          "cx": 0
+        },
+        "phase": "main",
+        "entry": 9963,
+        "stackDelta": -2,
+        "hash": "9bdc20d682f875e3c174514f6eadff42195956b57b4a5b220a0e350b726a5d94"
+      },
+      "cycles": [],
+      "videoState": {
+        "pitch": 320,
+        "destinationSegment": 40960,
+        "destinationOffset": 0
+      },
+      "continuation": null,
+      "portEvidence": [
+        {
+          "step": 1,
+          "opcode": 104,
+          "eventCount": 1025,
+          "eventSha256": "ad3dd64c9503707583472186f4e235306302146648a251657e6950e99f5f5735"
+        }
+      ],
+      "fileEvents": [],
+      "steps": 5,
+      "opcodes": {
+        "215": 1,
+        "104": 1,
+        "31": 1,
+        "20": 1,
+        "66": 1
+      },
+      "reason": null,
+      "nextOpcode": 8,
+      "last": {
+        "registers": {
+          "ds": 11563,
+          "es": 8430,
+          "si": 15147,
+          "bp": 672,
+          "dx": 65535,
+          "cx": 0
+        },
+        "status": "yield",
+        "opcode": 66,
+        "hash": "ef01a6bfa4faa01dbcfb00e78f2e76aefa0a440126b1a24e23bb519a31e5bf4b",
+        "eventCount": 0,
+        "eventSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "boundary": 9906,
+      "sp": 2030
+    }
+  ],
+  "stackMask": "07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared",
+  "limits": "Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. No IRQs delivered; optional explicit DOS FindFirst carry and drive-selection replies, no DTA writes or filesystem access; stops at yield or first unsupported opcode, not complete game/frame."
+}

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useKit } from "@/lib/store";
 import { inventoryLoose, inventoryZip, summarizeInventory } from "@/lib/ishar/inventory";
 import { formatBytes } from "@/lib/utils";
+import { OriginalMerchantEditor } from '@/components/builder/original-merchant-editor';
 
 export const Route = createFileRoute("/files")({ component: FileLab });
 
@@ -21,6 +22,7 @@ function FileLab() {
   }
 
   return <section>
+    <OriginalMerchantEditor />
     <header className="page-head"><div><p className="eyebrow">File Lab</p><h1>Binärdaten inventarisieren</h1><p>IO, FIC, SAV und EXE werden lokal nach Magic, Entropie, Packer-Headern und belegten Dateinamen klassifiziert.</p></div><label className="file-button">{busy?"Analysiere…":"ZIP / Dateien öffnen"}<input type="file" multiple disabled={busy} onChange={(e)=>void ingest(Array.from(e.currentTarget.files ?? []))}/></label></header>
     {!inventory.length ? <div className="empty-state">Zieh hier keine Originaldaten ins Repo: Wähle sie lokal aus. Das File Lab liest sie im Browser und speichert nichts hoch.</div> : <>
       <div className="stats-grid file-stats"><article><span>Dateien</span><strong>{summary.total}</strong></article><article><span>Volumen</span><strong>{formatBytes(summary.bytes)}</strong></article><article><span>Saves</span><strong>{summary.savs.length}</strong></article><article><span>IO/AO</span><strong>{summary.io.length}</strong></article><article><span>Unbekannt</span><strong>{summary.unknown.length}</strong></article></div>

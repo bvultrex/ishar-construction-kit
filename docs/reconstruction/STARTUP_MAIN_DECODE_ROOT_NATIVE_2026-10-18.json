@@ -1,0 +1,384 @@
+[
+  {
+    "mainSha256": "27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b",
+    "root": true,
+    "caseCount": 4,
+    "cases": [
+      {
+        "checkpoint": "country33-mouse0.bin",
+        "checkpointSha256": "71e62bbc1dc4f26e9c6d35988c61be94eb7224b44a23567c7497679c824c3809",
+        "profile": "ishar1",
+        "destination": 178016,
+        "bufferSegment": 36959,
+        "decodedBytes": 26384,
+        "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+        "reads": [
+          {
+            "segment": 36959,
+            "offset": 0,
+            "requested": 8000,
+            "returned": 8000
+          },
+          {
+            "segment": 36959,
+            "offset": 0,
+            "requested": 8000,
+            "returned": 3218
+          }
+        ],
+        "writesPastDeclaredSize": 2,
+        "boundary": 30777,
+        "sp": 2030,
+        "closed": {
+          "registers": {
+            "ax": 0,
+            "bx": 5,
+            "cx": 0,
+            "dx": 0,
+            "ds": 11126
+          },
+          "carry": false,
+          "endSegment": 12775
+        },
+        "root": {
+          "context": 672,
+          "entry": 24,
+          "es": 8430,
+          "rangeStart": 620,
+          "rangeLength": 17062,
+          "rangeSha256": "f7b6f1756bd0b929f2e6adb23cc9ae355e31c5334447db095de2b6f76191c765",
+          "globals": {
+            "2822": 0,
+            "2828": 588,
+            "2830": 672,
+            "3018": 12776,
+            "3022": 1,
+            "3024": 4,
+            "3032": 17682,
+            "3062": 672,
+            "3064": 8430
+          },
+          "boundary": 9735,
+          "notifications": [
+            71374
+          ],
+          "sp": 2030
+        }
+      },
+      {
+        "checkpoint": "country33-mouse65535.bin",
+        "checkpointSha256": "c80e386731894c6d8adb45a3bafbce7b6ab0c6f732734e7c865fe18eee63f35e",
+        "profile": "ishar1",
+        "destination": 178016,
+        "bufferSegment": 57344,
+        "decodedBytes": 26384,
+        "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+        "reads": [
+          {
+            "segment": 57344,
+            "offset": 0,
+            "requested": 8000,
+            "returned": 8000
+          },
+          {
+            "segment": 57344,
+            "offset": 0,
+            "requested": 8000,
+            "returned": 3218
+          }
+        ],
+        "writesPastDeclaredSize": 2,
+        "boundary": 30777,
+        "sp": 2030,
+        "closed": {
+          "registers": {
+            "ax": 0,
+            "bx": 5,
+            "cx": 0,
+            "dx": 0,
+            "ds": 11126
+          },
+          "carry": false,
+          "endSegment": 12775
+        },
+        "root": {
+          "context": 672,
+          "entry": 24,
+          "es": 8430,
+          "rangeStart": 620,
+          "rangeLength": 17062,
+          "rangeSha256": "f7b6f1756bd0b929f2e6adb23cc9ae355e31c5334447db095de2b6f76191c765",
+          "globals": {
+            "2822": 0,
+            "2828": 588,
+            "2830": 672,
+            "3018": 12776,
+            "3022": 1,
+            "3024": 4,
+            "3032": 17682,
+            "3062": 672,
+            "3064": 8430
+          },
+          "boundary": 9735,
+          "notifications": [
+            71374
+          ],
+          "sp": 2030
+        }
+      },
+      {
+        "checkpoint": "country49-mouse0.bin",
+        "checkpointSha256": "731471b9fdafbdb6af64f4d51c801db7d32e7a3f8b5159ec063d5f752e4a4d1a",
+        "profile": "ishar1",
+        "destination": 178016,
+        "bufferSegment": 36959,
+        "decodedBytes": 26384,
+        "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+        "reads": [
+          {
+            "segment": 36959,
+            "offset": 0,
+            "requested": 8000,
+            "returned": 8000
+          },
+          {
+            "segment": 36959,
+            "offset": 0,
+            "requested": 8000,
+            "returned": 3218
+          }
+        ],
+        "writesPastDeclaredSize": 2,
+        "boundary": 30777,
+        "sp": 2030,
+        "closed": {
+          "registers": {
+            "ax": 0,
+            "bx": 5,
+            "cx": 0,
+            "dx": 0,
+            "ds": 11126
+          },
+          "carry": false,
+          "endSegment": 12775
+        },
+        "root": {
+          "context": 672,
+          "entry": 24,
+          "es": 8430,
+          "rangeStart": 620,
+          "rangeLength": 17062,
+          "rangeSha256": "f7b6f1756bd0b929f2e6adb23cc9ae355e31c5334447db095de2b6f76191c765",
+          "globals": {
+            "2822": 0,
+            "2828": 588,
+            "2830": 672,
+            "3018": 12776,
+            "3022": 1,
+            "3024": 4,
+            "3032": 17682,
+            "3062": 672,
+            "3064": 8430
+          },
+          "boundary": 9735,
+          "notifications": [
+            71374
+          ],
+          "sp": 2030
+        }
+      },
+      {
+        "checkpoint": "country49-mouse65535.bin",
+        "checkpointSha256": "81e08f45a61892202d45abcd08f106d6eeb9829dea5e3ea9abfd44f3f09cc5d6",
+        "profile": "ishar1",
+        "destination": 178016,
+        "bufferSegment": 57344,
+        "decodedBytes": 26384,
+        "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+        "reads": [
+          {
+            "segment": 57344,
+            "offset": 0,
+            "requested": 8000,
+            "returned": 8000
+          },
+          {
+            "segment": 57344,
+            "offset": 0,
+            "requested": 8000,
+            "returned": 3218
+          }
+        ],
+        "writesPastDeclaredSize": 2,
+        "boundary": 30777,
+        "sp": 2030,
+        "closed": {
+          "registers": {
+            "ax": 0,
+            "bx": 5,
+            "cx": 0,
+            "dx": 0,
+            "ds": 11126
+          },
+          "carry": false,
+          "endSegment": 12775
+        },
+        "root": {
+          "context": 672,
+          "entry": 24,
+          "es": 8430,
+          "rangeStart": 620,
+          "rangeLength": 17062,
+          "rangeSha256": "f7b6f1756bd0b929f2e6adb23cc9ae355e31c5334447db095de2b6f76191c765",
+          "globals": {
+            "2822": 0,
+            "2828": 588,
+            "2830": 672,
+            "3018": 12776,
+            "3022": 1,
+            "3024": 4,
+            "3032": 17682,
+            "3062": 672,
+            "3064": 8430
+          },
+          "boundary": 9735,
+          "notifications": [
+            71374
+          ],
+          "sp": 2030
+        }
+      }
+    ],
+    "limits": "Original startup checkpoints resumed at77F6 through A1 decode and close7839; no pointer/global resets; parser output bytes/hash, decode input AX/CX/DX/DS, B57/B14 and final AX/BX/CX/DX/DS/CF/SP checked. Explicit successful DOS reads/close; no IRQ delivered during decode. Decoder scratch/full-memory equivalence and optional --root executes native registry/graphics notifications/context and actual caller RETs to2607, checking context range, globals, ES/BX/SP; notification bodies not fully reconstructed."
+  },
+  {
+    "mainSha256": "bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95",
+    "root": true,
+    "caseCount": 2,
+    "cases": [
+      {
+        "checkpoint": "country33-mouse65535.bin",
+        "checkpointSha256": "f7cbbef559311f9db52d411af180ded9e5a6b2d09ef9781133597b6283567f96",
+        "profile": "ishar2",
+        "destination": 185008,
+        "bufferSegment": 57344,
+        "decodedBytes": 27752,
+        "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+        "reads": [
+          {
+            "segment": 57344,
+            "offset": 0,
+            "requested": 8000,
+            "returned": 8000
+          },
+          {
+            "segment": 57344,
+            "offset": 0,
+            "requested": 8000,
+            "returned": 3960
+          }
+        ],
+        "writesPastDeclaredSize": 1,
+        "boundary": 30777,
+        "sp": 2030,
+        "closed": {
+          "registers": {
+            "ax": 0,
+            "bx": 5,
+            "cx": 8,
+            "dx": 0,
+            "ds": 11563
+          },
+          "carry": false,
+          "endSegment": 13297
+        },
+        "root": {
+          "context": 672,
+          "entry": 24,
+          "es": 8430,
+          "rangeStart": 620,
+          "rangeLength": 21012,
+          "rangeSha256": "732b24e93032dd987fdf18f765147b7c5069f6bfe16bac85b4b8dea7a4597676",
+          "globals": {
+            "2822": 0,
+            "2828": 588,
+            "2830": 672,
+            "3018": 13298,
+            "3022": 1,
+            "3024": 4,
+            "3032": 21632,
+            "3062": 672,
+            "3064": 8430
+          },
+          "boundary": 9735,
+          "notifications": [
+            71374
+          ],
+          "sp": 2030
+        }
+      },
+      {
+        "checkpoint": "country49-mouse65535.bin",
+        "checkpointSha256": "236d47d282c9725935eff05dd789251579b75c341da72406891766bff3be7b6f",
+        "profile": "ishar2",
+        "destination": 185008,
+        "bufferSegment": 57344,
+        "decodedBytes": 27752,
+        "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+        "reads": [
+          {
+            "segment": 57344,
+            "offset": 0,
+            "requested": 8000,
+            "returned": 8000
+          },
+          {
+            "segment": 57344,
+            "offset": 0,
+            "requested": 8000,
+            "returned": 3960
+          }
+        ],
+        "writesPastDeclaredSize": 1,
+        "boundary": 30777,
+        "sp": 2030,
+        "closed": {
+          "registers": {
+            "ax": 0,
+            "bx": 5,
+            "cx": 8,
+            "dx": 0,
+            "ds": 11563
+          },
+          "carry": false,
+          "endSegment": 13297
+        },
+        "root": {
+          "context": 672,
+          "entry": 24,
+          "es": 8430,
+          "rangeStart": 620,
+          "rangeLength": 21012,
+          "rangeSha256": "732b24e93032dd987fdf18f765147b7c5069f6bfe16bac85b4b8dea7a4597676",
+          "globals": {
+            "2822": 0,
+            "2828": 588,
+            "2830": 672,
+            "3018": 13298,
+            "3022": 1,
+            "3024": 4,
+            "3032": 21632,
+            "3062": 672,
+            "3064": 8430
+          },
+          "boundary": 9735,
+          "notifications": [
+            71374
+          ],
+          "sp": 2030
+        }
+      }
+    ],
+    "limits": "Original startup checkpoints resumed at77F6 through A1 decode and close7839; no pointer/global resets; parser output bytes/hash, decode input AX/CX/DX/DS, B57/B14 and final AX/BX/CX/DX/DS/CF/SP checked. Explicit successful DOS reads/close; no IRQ delivered during decode. Decoder scratch/full-memory equivalence and optional --root executes native registry/graphics notifications/context and actual caller RETs to2607, checking context range, globals, ES/BX/SP; notification bodies not fully reconstructed."
+  }
+]

@@ -1,0 +1,101 @@
+{
+ "game": "ishar1",
+ "date": "2026-10-18T20:12+02:00",
+ "sha256": {
+  "start.exe": "3ea63234c97b77d88e3c18aa5d88ac10dede1f10daf2854225b88b7d948d588b",
+  "FRISE.IO": "3bd158963fdaf0f88517b03509002100159a7587c8e2486389314b8abc707e15",
+  "GEREN.IO": "60405e4537abff12c5756a79506eb555c616a91b64069451fcc11419bcb8a405",
+  "MAIN.IO": "27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b",
+  "LP1.SAV": "76cf91a104ec8675394ec82b44f7238b016d641a8e0ccf3752d117ae2980b64b",
+  "ENCA.SAV": "8003a1965ef287cd68f16ff9fb19e16e9a4927ea04366ffece7968c142815605"
+ },
+ "input": {
+  "gate": "FRISE 0x0039b food>0 && 0x15ec==0 && dirtc44==0",
+  "routine": "FRISE L_05a9d",
+  "front_row": "grid 0x364c save 3758",
+  "cooldown": "dirtc44=speed*2+5 | (speed+1)*2; countdown FRISE 0x07e42 interrupt",
+  "food": "-1 per action 0x05f3f/0x0630d",
+  "rating": "proven"
+ },
+ "player_hit": {
+  "formula": "30+2*LVL+5*(AGI*FOOD/80-AGI_t)-loc146+skill/5",
+  "blind": "0x164c->20",
+  "autohit": "0x1c3e/0x1ccc/0x1de8",
+  "addr": "0x06609",
+  "rating": "proven"
+ },
+ "player_dmg": {
+  "formula": "(bonus-ARM_t)+rnd(max(0,(STR+2-CON_t)/2))+1, >=0",
+  "bonus": "0x366e[item+59][1], bare -3",
+  "addr": "0x06721",
+  "rating": "proven"
+ },
+ "monster": {
+  "script": "GEREN 0x00920",
+  "hit": "9*T_m+3*AGI_p-AGI_m; overrides 90/10/-1",
+  "dmg": "rnd(max(0,STR_m+2-CON_p/2-ARM_p))+1 (min 1); actor50 special",
+  "cooldown": "40/(AGI_m+1)+rnd(5)",
+  "target": "first nonzero grid cell, dead removed",
+  "rng_order": [
+   "rnd100",
+   "rnd(dmax) if hit",
+   "rnd5"
+  ],
+  "rating": "proven"
+ },
+ "xp": {
+  "killer": "+50*T",
+  "others": "+20*T",
+  "T": "0x1f06[m] save 2708+i byte",
+  "addr": "0x06888/0x0689c",
+  "rating": "proven"
+ },
+ "levelup": {
+  "trigger": "XP != dirti f8 (memory), not on load",
+  "thresholds": [
+   700,
+   1700,
+   3000,
+   5000,
+   8000,
+   12000,
+   17000,
+   23000,
+   30000
+  ],
+  "cap": 31000,
+  "gains": "L_072f2 open"
+ },
+ "rng": {
+  "same_code": true,
+  "addr": "1000:6d7b",
+  "state": "ss:0x0c4e",
+  "seed": "1000:2b10 BIOS tick",
+  "in_save": false
+ },
+ "save": {
+  "fields": 107,
+  "bytes": 5216,
+  "xp": 458,
+  "hp": 468,
+  "gold_k": 478,
+  "maxhp": 488,
+  "mon_hp": 1728,
+  "mon_T": 2708,
+  "lvl": 738,
+  "str": 743,
+  "con": 748,
+  "agi": 763,
+  "food": 773,
+  "arm": 783,
+  "grid": 3758,
+  "rating": "proven"
+ },
+ "enca_check": {
+  "party_hp_per_hit": 1,
+  "xp_change": 0,
+  "food": -8,
+  "monster_hp": 0,
+  "contradictions": []
+ }
+}

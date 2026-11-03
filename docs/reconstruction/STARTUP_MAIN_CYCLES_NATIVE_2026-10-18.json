@@ -1,0 +1,6065 @@
+{
+  "requestedCycles": 50,
+  "firstFrame": true,
+  "shiftFlags": 0,
+  "findFirstCarry": null,
+  "caseCount": 2,
+  "cases": [
+    {
+      "checkpoint": "country33-mouse65535.bin",
+      "checkpointSha256": "23026d1953740080326d58161bea22be2595e8a666525c1b0175b0262c23baa5",
+      "profile": "ishar2",
+      "scheduler": {
+        "bp": 672,
+        "si": 24,
+        "bx": 0,
+        "ds": 11563,
+        "es": 8430,
+        "phase": "main",
+        "entry": 9963,
+        "stackDelta": -2,
+        "hash": "ea96819c030eedf93067b61df035bf18595d5909179d7f16f552a05a4af640be"
+      },
+      "cycles": [
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "e0e449c803a0d3857d9c6aaacaa5f1f10f80143c0c9cd5de246901d6dd1e0053"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "7b7f4da9b9c9939a09c2446ed42198c67ac0d6e9a5bd28a9817543f9ed558a35"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "7d7e8a1191331ffd10a3f3a9b950eedc96932ed94734934216475977c70bb671"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "3d5288a9d529602eee3c3fda6dba0d9fc53d5978c8174e0d9287f8720c1695af"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "3d5288a9d529602eee3c3fda6dba0d9fc53d5978c8174e0d9287f8720c1695af"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "7b7f4da9b9c9939a09c2446ed42198c67ac0d6e9a5bd28a9817543f9ed558a35"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "aa59073d1a5db61f71a542a59f9b61c5723f0b6f77fb6e318998f78102b0f0e2"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "e5ace0b60b4fe4185dbafa021f84c5f182b80756785abec022019b46fb4c32a8"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "fa477c6f206ef68ff343da460a4c50ac93a085a3fbb61775cd36ccf88aa87071"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "fa477c6f206ef68ff343da460a4c50ac93a085a3fbb61775cd36ccf88aa87071"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "aa59073d1a5db61f71a542a59f9b61c5723f0b6f77fb6e318998f78102b0f0e2"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "d04376963391acc87424fcd3f739c887270e7f0c5893ef1a89ed4e2616ad971f"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "c67639760e245964cf75860bf7c418b7510216e11272173d21e52b94bedfc513"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "696d876534d0c55585e441b0a42d0cdae2e50a7f35beb4ab1c3335e4961d64ec"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "696d876534d0c55585e441b0a42d0cdae2e50a7f35beb4ab1c3335e4961d64ec"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "d04376963391acc87424fcd3f739c887270e7f0c5893ef1a89ed4e2616ad971f"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "d15449d202b53f1616eae98ef4f86cdbb974be557451a47cf4dc899b16d8a2c6"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "fbd5d4f800efc8d5d5e6154675899b35d8620c3a42faa96e002a7a9628f4b8f5"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "9a081ee6b936b40c6892f8d3ce10bb9ff1658f5ad85066f52cfdfe8cbc7824c7"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "9a081ee6b936b40c6892f8d3ce10bb9ff1658f5ad85066f52cfdfe8cbc7824c7"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "d15449d202b53f1616eae98ef4f86cdbb974be557451a47cf4dc899b16d8a2c6"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "468fa2bd3d07400c0b89f2e94acf47c7fb14718cdfa399ae5d14868556323d7d"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "b0ac3ef8079e55e0ef1dc3dc218a03d3bc2834a3fc8cc420c8268cdd0f446090"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "833aea3d26e27a80da9cf9150177118ea8d0a80b48eae73ff7c1b5df2e625448"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "833aea3d26e27a80da9cf9150177118ea8d0a80b48eae73ff7c1b5df2e625448"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "468fa2bd3d07400c0b89f2e94acf47c7fb14718cdfa399ae5d14868556323d7d"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "a40308905dbbc1766adf378012d1e870a11a869720bcc9cf00e0dcde90c1baa7"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "ca3f130fd9a6b046b7f24fe541c722c8eb1bebe0d94f98781fdc487a187a8ed5"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "55c6c84c6b47094cbe41844160f215ef64be6d3d252999673ea9a5d271822a2e"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "55c6c84c6b47094cbe41844160f215ef64be6d3d252999673ea9a5d271822a2e"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "a40308905dbbc1766adf378012d1e870a11a869720bcc9cf00e0dcde90c1baa7"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "0bcaa96d89d432e3f1929cd1c8ea2fe0b00eefca57458a42d7523fe83ffea413"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "9e4c52d2553a06db987dc319d5a893cdc97297feb9a48f7184de98902620b6a4"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "c1363f66e19f195410d0f632d16e6382dccf618e952ad04ebe64dabd9576c4df"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "c1363f66e19f195410d0f632d16e6382dccf618e952ad04ebe64dabd9576c4df"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "0bcaa96d89d432e3f1929cd1c8ea2fe0b00eefca57458a42d7523fe83ffea413"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "d461890072bacc39d9c2759cb964719e42b33ee1c3f656b129daf5789d8de5b2"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "de199ffdc51f80757f92ab9f3004864ce26912463f8c26ad9e6cacd7a57a61ad"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "e621739a2ebbe52701c1e7514033f45e189af687e97700803507ff9c93b273c6"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "e621739a2ebbe52701c1e7514033f45e189af687e97700803507ff9c93b273c6"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "d461890072bacc39d9c2759cb964719e42b33ee1c3f656b129daf5789d8de5b2"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "1a07e3c7c7ec10201c621a925ca7376884ada6f996b0fe1d410ce78cd9fd25c2"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "0fb36e15560eb44e138141d33bef9ad25ab04581550bbe68b50cb9a010e96aa3"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "95a023d22f5f2ec079748a0ee0428827f98ac3a80681f68470b8e217827c50e5"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "95a023d22f5f2ec079748a0ee0428827f98ac3a80681f68470b8e217827c50e5"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "1a07e3c7c7ec10201c621a925ca7376884ada6f996b0fe1d410ce78cd9fd25c2"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "f5a357db250ce06a8894592294479d57f5100b2874a4ec089c205071b02704a8"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "d385cef4b3f5100c4fb10700f20d3f7dae1e0b75e10e6aac2f2dbff277a7ddb3"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "ac95178c9c64c7a6dd810b6fafcd1e5c2ab461f016bfade7dddfb94b39b720ae"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "ac95178c9c64c7a6dd810b6fafcd1e5c2ab461f016bfade7dddfb94b39b720ae"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "f5a357db250ce06a8894592294479d57f5100b2874a4ec089c205071b02704a8"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "8815cbcdb192b64bfdc4450394770bb0c80c720fdf12ba551c88867ca5ba8f49"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "c12ff77a103185c2676746c6af61fc3d05b84ecc68d73abcebe0ac819fd7c522"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "9c3d6ba306e065c626d05ea50f6d1a10fd651cad732e5e08f19b9e89f6a0d3ba"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "9c3d6ba306e065c626d05ea50f6d1a10fd651cad732e5e08f19b9e89f6a0d3ba"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "8815cbcdb192b64bfdc4450394770bb0c80c720fdf12ba551c88867ca5ba8f49"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "69df017205df7b2efddd728dc694dd406ae7896af703f1664d50b0a19cfbb0ec"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "2bac949f53a2b9699df33c1b01010fe1aab50666269718ec05bc2008cf5a3faf"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "7b0e7d26bb5b457d239a55890bc67414145c6663a21afff72dc6f2d9ca53a69a"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "7b0e7d26bb5b457d239a55890bc67414145c6663a21afff72dc6f2d9ca53a69a"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "69df017205df7b2efddd728dc694dd406ae7896af703f1664d50b0a19cfbb0ec"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "11f6185a6b3f869e617f77f868ba4a10d5bc1a3ef66f8c0fd8f1711952b664bd"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "dcdd1bb66e59e8882eb895b25cb14f7a31b579cabe2fa54ea240da05983dafb4"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "65622336ae37d1af023efa0787c863e4aaeed8ce6b0a820bc16a187cf2a94db7"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "65622336ae37d1af023efa0787c863e4aaeed8ce6b0a820bc16a187cf2a94db7"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "11f6185a6b3f869e617f77f868ba4a10d5bc1a3ef66f8c0fd8f1711952b664bd"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "f31d458cb0018ea62cdc4f2a3a64b60d5c1dc73f747f4da0726866b43289cc97"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "9340b2fcb4d36b83bcc831b00bfbb694dff8eda146f59a7a1686542e5a802c1b"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "778a902fb2adb4d6448b2ddf22296cf2fc110d0a5dda50ddd83dc206477ee75c"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "778a902fb2adb4d6448b2ddf22296cf2fc110d0a5dda50ddd83dc206477ee75c"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "f31d458cb0018ea62cdc4f2a3a64b60d5c1dc73f747f4da0726866b43289cc97"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "f5479f3d32eccb0b7001af0c110b869f3d42dc3e367f7f0cea26f4371a14d3c5"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "8d3c5975f16d49b3a7ea486cacf0245ea454d009ae5e3db8021ab04a7a726e29"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "1a2027b648994510e5bd86acfda19767a7212986bcb3bc595052c57ddadc71b6"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "1a2027b648994510e5bd86acfda19767a7212986bcb3bc595052c57ddadc71b6"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "f5479f3d32eccb0b7001af0c110b869f3d42dc3e367f7f0cea26f4371a14d3c5"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "a2d09bcb8def058593c38e5600827cfc5dcda26d75325064dc626213a2931f59"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "e61bda9a11c5c30ebcfdd7b07d69c07acf0c992279fbdc12a1c66cb717d63aac"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "eb6c91b1e98b3ae1873bde25952dd296fbff712618d09881868c7ac954d0d0be"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "eb6c91b1e98b3ae1873bde25952dd296fbff712618d09881868c7ac954d0d0be"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "a2d09bcb8def058593c38e5600827cfc5dcda26d75325064dc626213a2931f59"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "8945b8d5b22d46c61f16ac3417a4f1ad8122beae74915e2bd4ba818309f28574"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "ca1a69440f7c26e9d7a6d11561390dc90302b6783fea3274e877c07d84710577"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "f413722fef0a3dfe7bc4cc15f9c5e7e73a2c1c859f1392c7599d5daba61ed038"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "f413722fef0a3dfe7bc4cc15f9c5e7e73a2c1c859f1392c7599d5daba61ed038"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "8945b8d5b22d46c61f16ac3417a4f1ad8122beae74915e2bd4ba818309f28574"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "5ced4894bbfaff4eca4ccb9e39529d80b095e5afff2072a013b13ef17b2a38fa"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "01ab5597e3f1be82cc3f293085f3e0a898ed521d5bd20a767cfcbba775001e76"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "9748afff5c2d44c720d4e850fdde9cf828157d015724a87cb935b68b987601d8"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "9748afff5c2d44c720d4e850fdde9cf828157d015724a87cb935b68b987601d8"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "5ced4894bbfaff4eca4ccb9e39529d80b095e5afff2072a013b13ef17b2a38fa"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "ce1d61728b59ff9da5270849a712edfa581a2801a2f2d15106506e322e099b64"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "4c3ac4e6d953ae51b3e5d619bbee6e87e47b75e4d169b7b8625979c589e5b833"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "fa3c63f3e45836a3934f6d352b23b114b0489caa66d484d21961bcdba468eb27"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "fa3c63f3e45836a3934f6d352b23b114b0489caa66d484d21961bcdba468eb27"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "ce1d61728b59ff9da5270849a712edfa581a2801a2f2d15106506e322e099b64"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "2de0924eee0063631a436315ccc7600b872c397ce363b0cb3970cdc156fabf05"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "2119aaa7372b5abf8550a3ccea5f9884bab4b7643ba8cdf9c71d9a6206c0a112"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "85b0df3ddf50cee4170b7a82ba78d1a0f57ad096b02e1416ebae7479596b33c1"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "85b0df3ddf50cee4170b7a82ba78d1a0f57ad096b02e1416ebae7479596b33c1"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "2de0924eee0063631a436315ccc7600b872c397ce363b0cb3970cdc156fabf05"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "14398c4d98d63d07f0b6c0df6f597eefd18215be9cf2ac99e007ebe9bdfeec34"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "7b7eb132be192e0855c6ec1de210056562ffb6d5c494bfa71e291583cd2cbdab"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "b2be0fb6aab3ab9b6afac1bfebda5fe328e9909a3e0695c1184dd5801c392d8f"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "b2be0fb6aab3ab9b6afac1bfebda5fe328e9909a3e0695c1184dd5801c392d8f"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "14398c4d98d63d07f0b6c0df6f597eefd18215be9cf2ac99e007ebe9bdfeec34"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "99e7643127fff40bb9a65ce8d4fd16dfdeeca89b58bb4dbdd0c5b2d74b855851"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "f0eacb2409bdde353a9b11d5a74a2ffe603a28c62ba1e7b5e8a6ed40bbf61478"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "074f845d1d413b8ce0d2a128608361b3c92ea1ab78a2c4edf100f2b94dcd288c"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "074f845d1d413b8ce0d2a128608361b3c92ea1ab78a2c4edf100f2b94dcd288c"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "99e7643127fff40bb9a65ce8d4fd16dfdeeca89b58bb4dbdd0c5b2d74b855851"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "83fc782723c661a422ff6fdf94fcecf4dca2289a979cad27b28ecc185f30527b"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "b85756ce239e9aab411db63d94fbbef591ff175f6ad5d30910404e6a076f491d"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "841084bb9c4215c4868e762c2fb8943cce1576423cb18a69fe1252ff9582acac"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "841084bb9c4215c4868e762c2fb8943cce1576423cb18a69fe1252ff9582acac"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "83fc782723c661a422ff6fdf94fcecf4dca2289a979cad27b28ecc185f30527b"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "dd56cba261bce48303a59f8cb9f330771ea29862a2408d13afcf7e6a7632a33c"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "6a185b2921e0052a2089334419660bb385db5fc55931eecd012592fc069abbd6"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "9728fef67b86833ede54ad74e00a9747e426e6ff694942683f23dd44a1353c7b"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "9728fef67b86833ede54ad74e00a9747e426e6ff694942683f23dd44a1353c7b"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "dd56cba261bce48303a59f8cb9f330771ea29862a2408d13afcf7e6a7632a33c"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "bd733826b3ac4d59b8674ba9036186f630047fb46703528a1634ef214ddfba87"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "3c9defac4f84daf5a2532fa4e0bfde3c8f47669599b93a6e82c4d94e5febf3b9"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "30a963c3c7657f27451a9abd6ee6b8e2ac4efea2065ce5c535939d2633213a5e"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "30a963c3c7657f27451a9abd6ee6b8e2ac4efea2065ce5c535939d2633213a5e"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "bd733826b3ac4d59b8674ba9036186f630047fb46703528a1634ef214ddfba87"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "6a41de1fea93e5e26a8497cee9066cbdfa0cea4436c99faf7767558d638ec312"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "659cd53a4366c7838ccfc9c65c1a2ada23416fb0696bb23e9be33898a9fb05e5"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "fe613b8932719129f665a0d1a2472ae8857a8b02e489f469afdcdce293f8d007"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "fe613b8932719129f665a0d1a2472ae8857a8b02e489f469afdcdce293f8d007"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "6a41de1fea93e5e26a8497cee9066cbdfa0cea4436c99faf7767558d638ec312"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "d94371091167659c051983904f5b6b315eac2dbdd9cb0c729170b7dc54a9d71a"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "01eac71c8a82615275535f80427ced9544021bae9c4aa3144161182902390ecf"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "17ab4ef0e40572aadc21fafb74a49e7d6f33715cf5b201802e26ee08963cd01d"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "17ab4ef0e40572aadc21fafb74a49e7d6f33715cf5b201802e26ee08963cd01d"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "d94371091167659c051983904f5b6b315eac2dbdd9cb0c729170b7dc54a9d71a"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "9daa43a28dd31878584638a8c233e896430e98eec67f7d22bb8759f840e38662"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "4b1d334140714a02853d4e3400773b69045357e2aa24b6efc01dafcc59825c9d"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "7351c5af0d1e4ada6c298836a42d004244294f133f23f8254c87d7dfe2d6cb30"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "7351c5af0d1e4ada6c298836a42d004244294f133f23f8254c87d7dfe2d6cb30"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "9daa43a28dd31878584638a8c233e896430e98eec67f7d22bb8759f840e38662"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "700e028b08adc6b0aeb301a8bef372eb9c12f5c2ecf5f68d4decbee7cf27003b"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "369cc9b85f5a9a1ba48758adce2b286e5052b7109799f6d66edf024ed3755c6e"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "18199031a215b3fd3063d4a17d01d5bdddcb06a44ed43ac05faed67e18f408d8"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "18199031a215b3fd3063d4a17d01d5bdddcb06a44ed43ac05faed67e18f408d8"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "700e028b08adc6b0aeb301a8bef372eb9c12f5c2ecf5f68d4decbee7cf27003b"
+          },
+          "execution": {
+            "steps": 16,
+            "reason": null,
+            "nextOpcode": 215,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 15129,
+                "bp": 672,
+                "dx": 10,
+                "cx": 80
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "78854fc15d5a3cce8cc9e28b570247db3326b10f3f90bd57afb3fd037a444435"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 10,
+                "cx": 80
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 192,
+              "activeHead": 14,
+              "hash": "8be81adc67e03b04cd4a0b32c54405e69af18a2d6bd169ca2ec395b24fd9c8e9"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 192,
+              "activeHead": 14,
+              "hash": "74acec7d592a4ce706a7a93cc4fef6f61fa10ad29672ce7b6705eca53e9f0035"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 154
+              },
+              "phase": "object",
+              "entry": 15844,
+              "stackDelta": -20,
+              "visited": 2,
+              "hidden": 1,
+              "bx": 738,
+              "hash": "2a0011c50e0b3ecb33c804425e49893cee9d364c37ddbec7bcba22e58586400d"
+            }
+          }
+        }
+      ],
+      "videoState": {
+        "pitch": 320,
+        "destinationSegment": 40960,
+        "destinationOffset": 0
+      },
+      "continuation": {
+        "yield": {
+          "registers": {
+            "ds": 11563,
+            "es": 8430,
+            "si": 16277,
+            "bp": 672,
+            "dx": 30,
+            "cx": 16
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "ae007637ea8345128458eed550990be5255efb943e10a60196e72ace4d347ad5"
+        },
+        "callback": {
+          "steps": 7,
+          "reason": null,
+          "nextOpcode": 68
+        },
+        "callbackReturn": {
+          "registers": {
+            "ds": 11563,
+            "es": 8430,
+            "si": 256,
+            "bp": 672,
+            "dx": 0,
+            "cx": 0
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "8866a7ef0e7282e7efafc942e49eb909bd4e923a9f965815759d94de660780d1"
+        },
+        "frame": {
+          "registers": {
+            "ds": 11563,
+            "es": 8430,
+            "si": 256,
+            "bp": 672,
+            "dx": 0,
+            "cx": 0
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 2,
+          "hidden": 2,
+          "hash": "92af692678efa645f9ba2b05a538b1a695ab0c481fdf021688c0417ad831e083"
+        }
+      },
+      "fileEvents": [],
+      "steps": 139,
+      "opcodes": {
+        "70": 2,
+        "41": 114,
+        "30": 10,
+        "31": 3,
+        "20": 3,
+        "7": 2,
+        "215": 2,
+        "188": 2,
+        "66": 1
+      },
+      "reason": null,
+      "nextOpcode": 43,
+      "last": {
+        "registers": {
+          "ds": 11563,
+          "es": 8430,
+          "si": 16103,
+          "bp": 672,
+          "dx": 30,
+          "cx": 16
+        },
+        "status": "yield",
+        "opcode": 66,
+        "hash": "8f883b69dab6a5d5807cccd00d8636a22675daef1d696ad3382d3d83285500c5"
+      },
+      "boundary": 15844,
+      "sp": 2010
+    },
+    {
+      "checkpoint": "country49-mouse65535.bin",
+      "checkpointSha256": "18bba52e5b525e808a6ed97997f2d7ca2044c2282ab95492a3d83eb5c8231fba",
+      "profile": "ishar2",
+      "scheduler": {
+        "bp": 672,
+        "si": 24,
+        "bx": 0,
+        "ds": 11563,
+        "es": 8430,
+        "phase": "main",
+        "entry": 9963,
+        "stackDelta": -2,
+        "hash": "b4af132fef0cd7b06b4f4aa08e716021d015cdd41a224eafd67931701aae007f"
+      },
+      "cycles": [
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "5659f7d33b4633b513dea8a6aff90632ad07a09e9edf4632e04b3cc3cd8aa6ab"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "19360df5c8d2ed6c46cda95f8f3cddec9ba57eb8bab56a5aaa31f0f29d0b72f5"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "b2cfa6cdeb77f6e54b16aafc93e252929cbc9f4ab6e46ddadeacc3d59ddf2473"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "37d17daccf87ee5d2c6990f0f5edaba5c40790bac20bab67380509caf058f2bf"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "37d17daccf87ee5d2c6990f0f5edaba5c40790bac20bab67380509caf058f2bf"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "19360df5c8d2ed6c46cda95f8f3cddec9ba57eb8bab56a5aaa31f0f29d0b72f5"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "fb67976d9a376a602097f6db62ff5b2a0dc808f07937f12567c3e7cb7a44a342"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "4a03ed1526dae034103866a046ff641d0f35d91b7e6828af0fdc4f9acb372db2"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "035adabaa74a4cefa28171c772e346e883caf4ba7ff929e7d23662eda07922a1"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "035adabaa74a4cefa28171c772e346e883caf4ba7ff929e7d23662eda07922a1"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "fb67976d9a376a602097f6db62ff5b2a0dc808f07937f12567c3e7cb7a44a342"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "06b9d915ddfa7e0073bf77e578a69d3b41b1fa8e5f812f3fb64d9a65e94ce136"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "1d80fe1a423a071c8484cac92206f33c53c25d751f09646d8b6f08112dc9cb6f"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "566cfb1510c211b8e27204320581883f978d25ac221788fb5bf28a52c0871f1b"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "566cfb1510c211b8e27204320581883f978d25ac221788fb5bf28a52c0871f1b"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "06b9d915ddfa7e0073bf77e578a69d3b41b1fa8e5f812f3fb64d9a65e94ce136"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "d611a9f438c0e6b9e7be1a9f9d83c71d2e2ba998c472d17264923c20d85aa7f2"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "0ac4d1b0cdcacc7fa0431d110ac18a325ce779b827f4fff4a220fb13a2c292d3"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "5b315e1aa885e8e2e395bdad95460664007066505816bb74efe3ec4f5df730e8"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "5b315e1aa885e8e2e395bdad95460664007066505816bb74efe3ec4f5df730e8"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "d611a9f438c0e6b9e7be1a9f9d83c71d2e2ba998c472d17264923c20d85aa7f2"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "bcda3bdb85c36dd47322fa0a000a37bff3d972c0ace738e721d211587dc5d6e3"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "5a5bab08dfc57996c2659d61744ca9842ea72b7b950e2554b05c2242589bdd63"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "15349df4bcd826b450177e11db435f8e15a99e6e4308cb4e82fbf1159ce01e07"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "15349df4bcd826b450177e11db435f8e15a99e6e4308cb4e82fbf1159ce01e07"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "bcda3bdb85c36dd47322fa0a000a37bff3d972c0ace738e721d211587dc5d6e3"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "5ee05ef8c071223ed3a50561997de57ec6aa63cafc0e6b3171b94c20f52e2ebb"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "74026eb98f54ac85912e7add86b6334a02be6e33a0dba096ae15f9e85a0910f7"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "8b6e425e91b2aefdb3036625d726de0d46b90e75526f9c11b577c9521325bc5a"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "8b6e425e91b2aefdb3036625d726de0d46b90e75526f9c11b577c9521325bc5a"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "5ee05ef8c071223ed3a50561997de57ec6aa63cafc0e6b3171b94c20f52e2ebb"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "522cf18d5d64c7fed7ea166b03b5d60c9294b8297cbf2fa724679aad719c678a"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "07cacfbe3da28efc8cc150903d5e7518917805f0cdf985685c69e7307d00d370"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "9969b6ff652653c0b5348f5359a20e4bc3fb2c2373e80e2d967ef29cf8aa50e3"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "9969b6ff652653c0b5348f5359a20e4bc3fb2c2373e80e2d967ef29cf8aa50e3"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "522cf18d5d64c7fed7ea166b03b5d60c9294b8297cbf2fa724679aad719c678a"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "7f02786888c40be773817264a90c9e32e1653ab16bbe017e9e0acf47caaf43d8"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "81f2cbb61a088278b10d327cfaa3ba9922f8652e2f32e5ee565acaaa26479c2d"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "12130c92c88376666abdf97162e2eb1405ed3f9753be7a25bf686256466e7360"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "12130c92c88376666abdf97162e2eb1405ed3f9753be7a25bf686256466e7360"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "7f02786888c40be773817264a90c9e32e1653ab16bbe017e9e0acf47caaf43d8"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "af153f3ba4eaa71d1c7dd054ec8df6b5b7f74158e5cb2807dfab43e7f2855149"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "f459f755e71a380aa5cf02abfd2437f678863787296ce85e46c8816e19f85d75"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "1ebf129a436f98f22ad8f23f87b741b7943df0e914f881c788cfbf885402fd65"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "1ebf129a436f98f22ad8f23f87b741b7943df0e914f881c788cfbf885402fd65"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "af153f3ba4eaa71d1c7dd054ec8df6b5b7f74158e5cb2807dfab43e7f2855149"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "4ce77528756ad5d5b14d63414d538f65f1e342fa4760518b9fa14a386109926d"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "55aa2595fcfe189809a5f643e4931351d32d0f9e4f10eedab246256225bfce93"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "7ae3906bcf6b24a6ee25553c1e929e25ec3c2418c057df1da45694c35dafd329"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "7ae3906bcf6b24a6ee25553c1e929e25ec3c2418c057df1da45694c35dafd329"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "4ce77528756ad5d5b14d63414d538f65f1e342fa4760518b9fa14a386109926d"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "7368902e6476bb222ee37d4f27f8cc4966a39be2c066eaebda8b4b833acf967f"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "49b0238752f108082373a86cd78631363b367c655a764567bed926356bf63351"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "46da5394406419261e9348f28b9b498e7a6f32cb532f79cd76fb085bf155cafd"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "46da5394406419261e9348f28b9b498e7a6f32cb532f79cd76fb085bf155cafd"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "7368902e6476bb222ee37d4f27f8cc4966a39be2c066eaebda8b4b833acf967f"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "235df374980d2c718085b23f54e5148c7fa0a04e8291dd1695134b68c1f931e3"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "dd90dc735f3733d7806fa94415323bbb45d46df5613aad6d13e6b1e78034e823"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "f5b152227ecf1341bea570be263bcb66f11c2ca6b3ba5e6bdcf232e89f4abc3a"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "f5b152227ecf1341bea570be263bcb66f11c2ca6b3ba5e6bdcf232e89f4abc3a"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "235df374980d2c718085b23f54e5148c7fa0a04e8291dd1695134b68c1f931e3"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "a82e3434176f8277e9d23a5e12775a3eec04fa07a5e4b6d6c0eeabb75197661e"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "68c3ea936ab6e3fd7d7a1b332523f304e39775081e716743f6c02525dbfca483"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "e9676d8fbb8d78683c053260485e658e2518ba68ab0a6f01e431fdf202ded16c"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "e9676d8fbb8d78683c053260485e658e2518ba68ab0a6f01e431fdf202ded16c"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "a82e3434176f8277e9d23a5e12775a3eec04fa07a5e4b6d6c0eeabb75197661e"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "ce84af28380c1545b13f2aaaa808ef7d52c8f79bd0f706daba0a2b391095268e"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "717fc06422eda1815282869d6a15d6de3a93c4f8a499ea15c675318feba2115f"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "dc7311b1f292b973d59cb4a4fd454debf2db09640f02df0588b29a252aec83ec"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "dc7311b1f292b973d59cb4a4fd454debf2db09640f02df0588b29a252aec83ec"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "ce84af28380c1545b13f2aaaa808ef7d52c8f79bd0f706daba0a2b391095268e"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "fc1665522eaf1d8c5ecf6477a373d6f62eae10b7723ff2f435cf10306ac677a8"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "a7d703b2cfdd45d7db74abf596def37b87e1a7a0fb1645f2846deeb4534d8274"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "8fb545ab6a2a46281f0685b155bb69c4e191d1eec5c601a1984760ee8404a28f"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "8fb545ab6a2a46281f0685b155bb69c4e191d1eec5c601a1984760ee8404a28f"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "fc1665522eaf1d8c5ecf6477a373d6f62eae10b7723ff2f435cf10306ac677a8"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "5f26baf29c420d931c6d15835dbfdbd4e745d5e3fce45798b292eedf1eecf16a"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "bd211ed03feeb38dd4faab60f63ec3c543aad6c91d886c00a29763c3fba3fcaf"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "6ad6e0bc84fe3db450264f1fe4307b2a530adabd93cb09a85880df093e72c1df"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "6ad6e0bc84fe3db450264f1fe4307b2a530adabd93cb09a85880df093e72c1df"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "5f26baf29c420d931c6d15835dbfdbd4e745d5e3fce45798b292eedf1eecf16a"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "1e48a714a52050501bc63d8fa506decc1d93bc2518ef44c2b9d025fadd61ba50"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "5c7dc0571431c3e2fd1d1946bafb965c67cac9bb3838438108750196f8f7a58d"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "a088b4b99ab2cdaab424d7ac590a585c327e77f81be69d863e651cf7f4ba7886"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "a088b4b99ab2cdaab424d7ac590a585c327e77f81be69d863e651cf7f4ba7886"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "1e48a714a52050501bc63d8fa506decc1d93bc2518ef44c2b9d025fadd61ba50"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "c176ac69c6b1bdac0769b65e1fa68e03156c8f8c8a65bb54da0bfd461a8c5fbd"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "34f421fae1681e6f4a60f603ae4ea903fdfdc783faa5fc22cc3246b808b90fd1"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "19655dde96971c3da443826c858b123f5f520676e9348f3749b061ae680b9e37"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "19655dde96971c3da443826c858b123f5f520676e9348f3749b061ae680b9e37"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "c176ac69c6b1bdac0769b65e1fa68e03156c8f8c8a65bb54da0bfd461a8c5fbd"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "c3c84f8920fffa73157862eef3f584ed880d7d1ac530642e052c58fbefc8f7c6"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "37ee89e4540b9ee2ab9fc17fe214d8d1ceb452e273ecc80fc433828716d8099e"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "b86d83c7389fdf94058fcfdf299e9a29fe776e2d992c81fd121b6f7d74834327"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "b86d83c7389fdf94058fcfdf299e9a29fe776e2d992c81fd121b6f7d74834327"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "c3c84f8920fffa73157862eef3f584ed880d7d1ac530642e052c58fbefc8f7c6"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "999b2d59e2cdaa0aef1f64fb71a92c4c7e3e1238c81591b34d95c0622b3f1364"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "b974e8e1f3c9d6fd22751b5e8661200bb8f8b8dc2447d6fd479dc2ebfc87c9b2"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "61eb02ba54541cdea7976a7f0dfa85bec41921ac6c3f4df2425d923badc42be8"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "61eb02ba54541cdea7976a7f0dfa85bec41921ac6c3f4df2425d923badc42be8"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "999b2d59e2cdaa0aef1f64fb71a92c4c7e3e1238c81591b34d95c0622b3f1364"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "35fc707ef7b29761cfd50f0bf9267cd39f5aae3178ed0d04f96c5fcdea9576b8"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "9d185977dde430a92c60547c90980409d9a505737da7706a39bf7125ef7306e9"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "f1273ec1872b5c30c5a9304da66a1d23cef229926d364b0032b80eec8d5d9986"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "f1273ec1872b5c30c5a9304da66a1d23cef229926d364b0032b80eec8d5d9986"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "35fc707ef7b29761cfd50f0bf9267cd39f5aae3178ed0d04f96c5fcdea9576b8"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "1ce790c5521a73bb4b4c74afb9bbd8c523496b4e30913f9ea05de36a15521f37"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "ccafe24210150998ceff44270fdd17b00ddfcfe45ced5214a8bf251a46c286fd"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "cb60344595906718d1f853a52e1c4cba766109d5f3fc551b99dbccdf9bffbe5d"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "cb60344595906718d1f853a52e1c4cba766109d5f3fc551b99dbccdf9bffbe5d"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "1ce790c5521a73bb4b4c74afb9bbd8c523496b4e30913f9ea05de36a15521f37"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "03bd8ec12c8311863ccd91c60ab0a7d7c0add5b2a95a064ebc25ca58c755536a"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "9ffa9fb35585621c2f74c4e61878b6948285afe3e2ac5b8d74a7036443455abd"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "f40c28b33773a735a7256e4a7b68989dc1316d6b78f6a711ad0a8e2fa12a6984"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "f40c28b33773a735a7256e4a7b68989dc1316d6b78f6a711ad0a8e2fa12a6984"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "03bd8ec12c8311863ccd91c60ab0a7d7c0add5b2a95a064ebc25ca58c755536a"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "9eac3e22bec13ca781f24f4575916f27417a5c969dc5bfd5621b824a82dcdbf1"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "a4698761981ea4037ce95bad9e6792be5e5f8d5016a35b32fa8f90477ccc6155"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "9e326c25af0678c65202cb635869801978e15d8ab0b403656b8b0478d8c8889f"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "9e326c25af0678c65202cb635869801978e15d8ab0b403656b8b0478d8c8889f"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "9eac3e22bec13ca781f24f4575916f27417a5c969dc5bfd5621b824a82dcdbf1"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "4e80d47e41e836b611433973b9efe411e33c92132666861d40a5e20c0c7f1904"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "4ec65c3e7c861e7f59e7cdbac2ec73440d744f9a15ec0e843f1e53e85627b2eb"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "6ba9745b7d153d8b74808268576f5f259e22ddba479bc06aa4724057d5330d32"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "6ba9745b7d153d8b74808268576f5f259e22ddba479bc06aa4724057d5330d32"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "4e80d47e41e836b611433973b9efe411e33c92132666861d40a5e20c0c7f1904"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "003d6f27a5fc0e22fef6c32a73d73ae819da3b3110be26c3df377bfe69a7f8e8"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "a09a83f1ce56a4c5bfa29b43c2ec14824baa200c759676dd959b10df5d3572d8"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "8c59671748b0bfdaefb5f0e804667ab948fd150ea7e4b88bb978cd766cd4a2e2"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "8c59671748b0bfdaefb5f0e804667ab948fd150ea7e4b88bb978cd766cd4a2e2"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "003d6f27a5fc0e22fef6c32a73d73ae819da3b3110be26c3df377bfe69a7f8e8"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "f5cf55b6740826646b058cdade31ba778f3b6899e0307cad1079e01e5986bfc8"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "01d5575a30e16f1ef9102aae20f612ca1672d47df99d39e07e2f34b01de7058d"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "2d96eea3caa9d3913dcffa45ecc13829d78301005dc8853c7c9414958dc617b9"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "2d96eea3caa9d3913dcffa45ecc13829d78301005dc8853c7c9414958dc617b9"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "f5cf55b6740826646b058cdade31ba778f3b6899e0307cad1079e01e5986bfc8"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "c453c4cfb45f7ce148f40b9e1b86dd9f985bfaae494ee707d849c318258757e2"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "67343aa5452b4df5efb8f2c40ed199a492403ee2012b6835fb111c9bd9408cee"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "9ad99a2f352a695f667d67eca4232ddd413940a97720f0702d9dccbea1fc1d8d"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "9ad99a2f352a695f667d67eca4232ddd413940a97720f0702d9dccbea1fc1d8d"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "c453c4cfb45f7ce148f40b9e1b86dd9f985bfaae494ee707d849c318258757e2"
+          },
+          "execution": {
+            "steps": 2,
+            "reason": null,
+            "nextOpcode": 43,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "b7407c0b35b0f8b4902d197a9a2274b0ca156c8c6fe64b53f4a3d548000098df"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "e34cd88cbb8cfc68a22b9acef2fb336b76ee36a48093e099dc7a31bf8341b8fe"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 0,
+              "activeHead": 14,
+              "hash": "34fe6599d972600215f4f9f8a82e49147a5e702750748ea16b277fc3ad2bc85b"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "return",
+              "entry": 9804,
+              "stackDelta": 0,
+              "visited": 2,
+              "hidden": 2,
+              "hash": "34fe6599d972600215f4f9f8a82e49147a5e702750748ea16b277fc3ad2bc85b"
+            }
+          }
+        },
+        {
+          "context": {
+            "registers": {
+              "ds": 11563,
+              "es": 8430,
+              "si": 16103,
+              "bp": 672,
+              "dx": 0,
+              "cx": 0
+            },
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "b7407c0b35b0f8b4902d197a9a2274b0ca156c8c6fe64b53f4a3d548000098df"
+          },
+          "execution": {
+            "steps": 16,
+            "reason": null,
+            "nextOpcode": 215,
+            "last": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 15129,
+                "bp": 672,
+                "dx": 10,
+                "cx": 80
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "62c8057f11c3e07a6979cfbd70b21a382c97c7ae040196186c15bde7b1ad8da9"
+            }
+          },
+          "continuation": {
+            "yield": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 16277,
+                "bp": 672,
+                "dx": 10,
+                "cx": 80
+              },
+              "phase": "callback",
+              "entry": 9963,
+              "stackDelta": -2,
+              "delta": null,
+              "visited": 0,
+              "contextHead": 192,
+              "activeHead": 14,
+              "hash": "6935b54828e72633e6403bf49a5fc0ea3410c1d9c89c6a14da29af209b93b7e5"
+            },
+            "callback": {
+              "steps": 7,
+              "reason": null,
+              "nextOpcode": 68
+            },
+            "callbackReturn": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 0
+              },
+              "phase": "frame",
+              "entry": 9801,
+              "stackDelta": 0,
+              "delta": [
+                0,
+                0,
+                0
+              ],
+              "visited": 0,
+              "contextHead": 192,
+              "activeHead": 14,
+              "hash": "426d825737b17bb19e582f362804e7c9bb8d7b1378708758dac5a525ce80c3a6"
+            },
+            "frame": {
+              "registers": {
+                "ds": 11563,
+                "es": 8430,
+                "si": 256,
+                "bp": 672,
+                "dx": 0,
+                "cx": 154
+              },
+              "phase": "object",
+              "entry": 15844,
+              "stackDelta": -20,
+              "visited": 2,
+              "hidden": 1,
+              "bx": 738,
+              "hash": "c5d32b7a93e33e8f9d6abc9cbbfe989c52524b18694b6e501790da7e8e05dee4"
+            }
+          }
+        }
+      ],
+      "videoState": {
+        "pitch": 320,
+        "destinationSegment": 40960,
+        "destinationOffset": 0
+      },
+      "continuation": {
+        "yield": {
+          "registers": {
+            "ds": 11563,
+            "es": 8430,
+            "si": 16277,
+            "bp": 672,
+            "dx": 30,
+            "cx": 16
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "c267c22a3cd5c66f4340fce35a41cd7c5bf35df5c6bf161e38d78bd5b975d7ce"
+        },
+        "callback": {
+          "steps": 7,
+          "reason": null,
+          "nextOpcode": 68
+        },
+        "callbackReturn": {
+          "registers": {
+            "ds": 11563,
+            "es": 8430,
+            "si": 256,
+            "bp": 672,
+            "dx": 0,
+            "cx": 0
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "90022be02ad9472013ec4e3a3d716ec639d178ef86cd2cabaa4b3a7e6863c15f"
+        },
+        "frame": {
+          "registers": {
+            "ds": 11563,
+            "es": 8430,
+            "si": 256,
+            "bp": 672,
+            "dx": 0,
+            "cx": 0
+          },
+          "phase": "return",
+          "entry": 9804,
+          "stackDelta": 0,
+          "visited": 2,
+          "hidden": 2,
+          "hash": "96ff0efd7ec6cfd14e48e74e838722a87289f2793da502a7238b8a0ee83e8fa0"
+        }
+      },
+      "fileEvents": [],
+      "steps": 139,
+      "opcodes": {
+        "70": 2,
+        "41": 114,
+        "30": 10,
+        "31": 3,
+        "20": 3,
+        "7": 2,
+        "215": 2,
+        "188": 2,
+        "66": 1
+      },
+      "reason": null,
+      "nextOpcode": 43,
+      "last": {
+        "registers": {
+          "ds": 11563,
+          "es": 8430,
+          "si": 16103,
+          "bp": 672,
+          "dx": 30,
+          "cx": 16
+        },
+        "status": "yield",
+        "opcode": 66,
+        "hash": "63068c4344dd6d68e8a097dff0a4061785c2608c9dc754b93a9e8296d039da8d"
+      },
+      "boundary": 15844,
+      "sp": 2010
+    }
+  ],
+  "stackMask": "07A8..07ED active CPU scratch; saved startup registers07EE..07FF compared",
+  "limits": "Authenticated native startup-root checkpoints resumed2607 without resetting state; shared-memory scheduler and supported physical opcodes compared after every step, full1MiB except explicit stack scratch and DS/ES/SI/BP/DX/CX/SP. No IRQs delivered; optional explicit DOS FindFirst carry and drive-selection replies, no DTA writes or filesystem access; stops at yield or first unsupported opcode, not complete game/frame."
+}

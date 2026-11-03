@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {openOriginalDosFile} from '../src/lib/ishar/original-dos-file-open.ts';
+const globals=new Uint8Array(65536),before=globals.slice(),input={ax:0xa00,bx:0x1234,cx:0x2345,dx:0x100,ds:0x4000},snapshot={...input};
+const opened=openOriginalDosFile(globals,input,r=>r.operation==='find-first'?{ax:0,carry:false}:{ax:5,carry:false});
+assert.deepEqual(opened.events.map(e=>e.operation),['find-first','open']);assert.equal(opened.registers.ax,0);assert.equal(opened.registers.cx,0);assert.deepEqual(input,snapshot);assert.deepEqual(globals,before);
+const seek=openOriginalDosFile(globals,{...input,ax:0x800},r=>{if(r.operation==='seek'){assert.equal(r.bx,0x1234);assert.equal(r.cx,0x2345);assert.equal(r.dx,0x100);return{ax:12,dx:34,carry:false};}return{ax:5,carry:false};});assert.equal(seek.registers.ax,0x800);assert.equal(seek.registers.dx,34);assert.equal(seek.memory[0xbbe],5);
+const created=openOriginalDosFile(globals,{...input,ax:0x200},r=>r.operation==='find-first'?{ax:18,carry:true}:{ax:6,carry:false});assert.deepEqual(created.events.map(e=>e.operation),['find-first','create']);assert.equal(created.registers.ax,6);assert.equal(created.memory[0x28a5],0);assert.equal(created.stackDelta,2);
+const createError=openOriginalDosFile(globals,{...input,ax:0x200},r=>r.operation==='find-first'?{ax:18,carry:true}:{ax:5,carry:true});assert.equal(createError.error,8);assert.equal(createError.memory[0xbbe],5);assert.equal(createError.registers.ax,8);assert.equal(createError.stackDelta,-2);
+assert.throws(()=>openOriginalDosFile(globals,input,()=>({ax:-1,carry:true})),/response/);assert.deepEqual(globals,before);
+console.log('DOS open wrapper: AX mode clobber, unmodified seek registers, create/error stack boundaries, preserved inputs and invalid DOS reply rejection passed.');

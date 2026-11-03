@@ -93,3 +93,1018 @@ A previous 60-byte `Cont1.fic` claim conflicts with the supplied DOS corpora, wh
 - regression fixtures are synthetic or metadata-only, never copyrighted originals
 - UI exposes the new verified knowledge
 - docs and GitHub are updated in the same checkpoint
+
+
+## 2026-09-26 — Dungeon-crawler runtime decision
+
+User feedback on the first runnable slice: the end-to-end workflow worked as planned, but the runtime felt like a text adventure rather than a dungeon crawler. Treat this as a product correction, not cosmetic polish.
+
+### Runtime direction
+
+The authored 1.0 runtime is a **grid-based first-person dungeon crawler**. Room text, quest text and logs are supporting UI only. The primary play surface must be visual dungeon navigation.
+
+Implemented on `workbench/playable-slice` after that feedback:
+
+- authored locations have integer X/Y dungeon coordinates
+- project has a starting facing direction
+- validation rejects overlapping cells, diagonal/non-adjacent links and one-way links
+- Adventure Builder shows a live dungeon grid
+- Playtest renders a perspective corridor/room view from the grid
+- player turns left/right and steps forward/back relative to facing
+- WASD and arrow-key controls
+- side passages and blocking walls are rendered from topology
+- active encounters appear directly in the viewport
+- five-slot party HUD scaffold is visible below the viewport
+- room/quest/inventory/log text moved to secondary sidebar UI
+- starter adventure expanded into a small multi-turn dungeon with a branch, encounter and ending
+
+### Near-term crawler work
+
+1. verify the new crawler build with user playtest
+2. replace placeholder geometry with a stronger Ishar-like visual language without shipping original assets
+3. add doors, blocked/locked transitions and interaction targets
+4. expand party to multiple authored members and combat selection
+5. add map/event authoring on top of the grid
+6. preserve original-game format research as a separate compatibility/import track
+
+
+## 2026-09-26 — External asset pipeline checkpoint
+
+Work continued on `workbench/playable-slice` following the crawler-first decision.
+
+Implemented:
+
+- generic `ishar-ck-asset-pack` manifest v1
+- semantic image roles for viewport/background, floor/ceiling, perspective walls/openings, doors, encounters, items and portraits
+- depth-specific layers (0–3)
+- optional `targetId` mapping for authored encounters/items
+- multiple named tilesets per pack
+- Asset Lab route with local ZIP/folder import and image previews
+- browser-only Blob URLs; original graphics are never added to project JSON or Git
+- project stores only expected `assetPackId`; dungeon locations may store `tilesetId`
+- Playtest overlays imported image layers over the existing SVG crawler fallback
+- Adventure Builder can assign imported tilesets per dungeon cell
+- sparse packs are valid: missing images fall back to procedural SVG geometry
+- `ASSET_PACK.md` documents the boundary and manifest schema
+
+Verification strategy: GitHub Actions must pass typecheck, production build and smoke test on every checkpoint.
+
+Next asset work:
+
+1. add door/blocked transition data to authored world model and render door roles
+2. add per-character portrait assets to the five-slot HUD
+3. test a hand-authored external pack with real image files
+4. begin Ishar-specific source-file mapping from user-owned local corpus; do not claim extraction semantics until verified
+
+
+## 2026-09-26 — Door runtime checkpoint
+
+Added authored doors as explicit transitions between adjacent dungeon cells.
+
+- doors may start open or closed
+- doors may require an authored item ID as a key
+- closed doors block movement while preserving the underlying room link
+- the first-person ray stops at a closed door
+- asset packs can render `door.front.closed` and `door.front.open`; a procedural door is used as fallback
+- playtest exposes an Open action for the door in front of the party
+- starter dungeon now uses the crypt rune to open the sealed route into the sanctum
+- Adventure Builder has door authoring and project validation checks door endpoints/key references
+
+This establishes the world-state hook required for Ishar-style door graphics and later switch/quest-controlled transitions.
+
+
+## 2026-09-26 — Synthetic asset-pack smoke path
+
+Asset Lab now has a generated `CK Demo Layers` pack. It creates temporary SVG Blob assets entirely in-browser and exercises the same runtime mapping path as imported external packs. This gives a zero-corpus smoke test:
+
+1. open Asset Lab
+2. click **Demo-Pack laden**
+3. open Playtest
+4. verify background/wall/door/enemy/item image layers appear
+5. collect the crypt rune, defeat the guardian, open the sealed sanctum door, reach the ending
+
+No generated demo image is committed as a binary asset; the SVG strings exist only as test scaffolding in code.
+
+
+## 2026-09-26 — Ishar asset source mapping scaffold
+
+Asset Lab now consumes the existing File Lab inventory through `mapIsharAssetSources()`.
+
+Important evidence boundary:
+
+- packed non-text/system `.IO` files are only **possible** graphics containers
+- `.FIC` remains map/data-oriented and is not promoted to graphics
+- unknown resources stay unknown
+- old-packer resources can be routed toward the existing decoder
+- A1/new-packer resources remain blocked until decoding is reproducible
+
+The intended compatibility architecture is now explicit:
+
+`user-owned Ishar files -> audited extractor -> generic asset-pack manifest + local images -> crawler runtime`
+
+This keeps proprietary binary knowledge out of the runtime and prevents speculative format assumptions from contaminating the authoring model.
+
+
+## 2026-09-26 — Builder topology UX correction
+
+User test found two blocking authoring gaps: rooms/doors could not be deleted, and the generic room-add action only stacked rooms vertically, making practical branch construction awkward.
+
+Fixed on `workbench/playable-slice`:
+
+- doors now have an explicit delete action
+- rooms now have an explicit delete action; the final remaining room cannot be deleted
+- deleting a room removes inbound/outbound exit references and any doors attached to that room
+- deleting the current start room automatically moves the start to the first remaining room
+- generic vertical room creation was removed from the header
+- each room now has N/O/S/W topology controls
+- pressing a direction into an empty cell creates a new room there and creates a bidirectional connection automatically
+- pressing toward an existing unlinked room creates a bidirectional connection
+- pressing toward an existing linked room disconnects it and removes any door on that edge
+- new adjacent rooms inherit the source room's tileset ID
+- raw comma-separated exit editing remains available as an advanced escape hatch
+
+This makes T-junctions, crossroads, loops and side branches first-class builder operations instead of requiring manual X/Y plus exit-ID editing.
+
+
+## 2026-09-26 — Playtest freeze + builder focus fix
+
+User test exposed two concrete usability defects.
+
+Playtest:
+- reaching an ending cell no longer disables movement or door interaction
+- completion is now a status/message, not a hard runtime freeze
+- keyboard movement now refreshes when `openDoors` changes, avoiding stale door-state closures after opening a door
+
+Builder:
+- the map now has an explicit selected-room focus
+- rooms are clickable in the live map and visibly highlighted
+- all N/O/S/W create/connect/disconnect operations are relative only to the selected room
+- existing neighbor navigation ("Auswählen") is separate from topology mutation ("Verbinden/Trennen")
+- creating an adjacent room automatically selects the new room
+- manual X/Y editing is demoted to an advanced section to reduce accidental topology corruption
+- room list cards can explicitly select the corresponding map cell
+
+This replaces the ambiguous per-card topology controls that made it easy to edit the wrong room.
+
+
+## 2026-09-26 — Guided Ishar ZIP import
+
+Asset onboarding was changed from manifest-first to archive-first after user feedback.
+
+New default flow in Asset Lab:
+
+1. user selects one local Ishar ZIP
+2. archive is inventoried and the detected game is inferred from known corpus signatures
+3. File Lab inventory is populated automatically
+4. Silmarils containers are classified
+5. old-packer resources (0x80/0x81) are automatically decoded for inspection
+6. uncompressed/decoded bytes are scanned for embedded PNG/JPEG/GIF/BMP/WebP images
+7. direct standard images are collected
+8. only filename patterns with a clear semantic match are auto-assigned to runtime roles (background, door, encounter, item, portrait, floor/ceiling/front/side wall)
+9. uncertain images remain unassigned and appear in the import report
+10. A1/new-packer resources remain explicitly blocked until a verified decoder exists
+
+Manual manifest ZIP/folder import remains available under **Expertenmodus**.
+
+Important: this is an automatic ingestion/orchestration path, not yet a claim that proprietary Ishar raw bitmap formats are decoded. The architecture is now ready for those decoders: future format support can improve the same one-ZIP workflow without changing user interaction.
+
+
+## 2026-09-26 — Safer test-build packaging
+
+Chrome flagged the downloadable test ZIP as potentially harmful. Inspection confirmed the artifact contained executable helper scripts (`START_TEST_BUILD.cmd` and `START_TEST_BUILD.sh`).
+
+Packaging was changed so CI test artifacts no longer include executable launch scripts. The artifact now contains:
+
+- `dist/`
+- `package.json`
+- `package-lock.json`
+- `scripts/serve-build.mjs`
+- `README_TEST_BUILD.txt`
+
+The README contains manual Node/PowerShell startup instructions. This reduces browser/AV risk heuristics without bypassing or weakening security controls. Do not tell users to disable Safe Browsing or antivirus to obtain a build.
+
+
+## 2026-09-26 — DOS A1/New-Packer decoder checkpoint
+
+User's real Ishar 2 auto-import report identified the decisive blocker: 141 of 152 candidate resource containers were recognized as A1/New-Packer and therefore skipped.
+
+Implemented:
+
+- bounded DOS/Little-Endian A1 bitstream decoder in `silm-pack.ts`
+- six-byte vs 22-byte MAIN header handling
+- eight-byte A1 dictionary validation
+- zero-lookahead behavior reproduced in an explicitly bounded buffer
+- literal-run and backreference bounds checks; corrupt streams fail closed
+- DOS signature is preferred when byte 3 is a known packer marker, reducing endian ambiguity
+- Auto Import now reports Old-Packer and A1 decode counts separately plus actual decode failures
+- A1 resources are fed into the same downstream asset scanner instead of being categorically blocked
+- two synthetic regression fixtures (normal module + MAIN module) generated with the independently recovered legacy codec and checked byte-for-byte in CI
+- CI now runs `npm run test:a1` before the production build
+
+Reference provenance: the recovered legacy Workbench codec cites maestun/alis `src/unpack.c` (MIT); the implementation was cross-checked against that upstream algorithm. No original Ishar bytes are committed.
+
+Expected next real-corpus signal: the previous `141 A1 blocked` count should become a large `A1 entpackt` count. Standard embedded PNG/JPEG/BMP scanning may still find few images because ALIS uses proprietary indexed bitmap resources; the next layer is ALIS resource-table image extraction.
+
+
+## 2026-09-26 — ALIS indexed-image extraction scaffold
+
+Built the next stage after A1 decoding using the public MIT-licensed `skruug/silm-extract` resource-table model as a reference.
+
+Implemented a bounded DOS ALIS image reader:
+
+- locates the graphics resource table from the unpacked script header
+- validates table count/pointers before following them
+- finds the active 16- or 256-color palette
+- supports DOS indexed image resource headers `0x00/0x02`, `0x10/0x12`, and `0x14/0x16`
+- decodes 4-bit packed nibbles, palette-offset 4-bit pixels and raw 8-bit pixels
+- preserves transparent-index metadata where the format supplies it
+- caps dimensions/table counts and rejects out-of-range resource payloads
+- converts extracted indexed images to browser PNGs locally through Canvas
+- Asset Lab now shows an extracted-original-graphics gallery, including unassigned images
+- strong filename category matches can be catalogued automatically; ambiguous images remain previews and do not silently replace runtime walls/enemies/items
+- browser memory guard: max 1,500 ALIS previews / 64M pixels per import
+
+This changes the next user test substantially: the same Ishar 2 ZIP should now report both A1 decode success and ALIS image counts/previews. Exact semantic mapping from original resource IDs to authored runtime roles remains a separate evidence step.
+
+
+## 2026-09-26 — Automatic default dungeon textures
+
+Real Ishar 2 corpus test succeeded at the extraction layer: 141/141 A1 resources decoded, 120 ALIS graphics tables found and 2,244 proprietary indexed images extracted. User correctly noted that extraction alone is not enough: a fresh ZIP import should visibly change Playtest without manual mapping.
+
+Implemented an explicit **auto-default tileset** stage:
+
+- scores ALIS images by source filename context, dimensions/aspect and entity-negative keywords
+- selects a coherent preferred dungeon/decor source where possible
+- automatically chooses defaults for:
+  - wall.front
+  - wall.left
+  - wall.right
+  - surface.floor
+  - surface.ceiling
+  - door.front.closed
+  - viewport.background when a sufficiently strong sky/background candidate exists
+- wall/floor/ceiling defaults use a new `renderMode: "texture"` and are tiled/clipped into the procedural perspective polygons instead of being stretched across the whole viewport
+- auto door textures are clipped into the front door rectangle
+- default candidates are processed before the preview memory budget, so a selected runtime texture cannot be skipped just because 1,500 other images were discovered first
+- default entries are ordered before other inferred tileset entries so runtime lookup chooses them deterministically
+- Asset Lab reports the exact source file + ALIS entry + confidence/reason for every default role
+- weak matches are labeled `possible`, strong matches `probable`; the heuristic remains inspectable rather than pretending semantic certainty
+
+Expected user-visible behavior: after selecting the same Ishar 2 ZIP, Playtest should immediately show imported Ishar-derived wall/floor/ceiling textures and, when a candidate is found, a door texture. The next test should report whether the selected sources visually correspond to actual dungeon art; those concrete source IDs can then be promoted into Ishar-2-specific mappings.
+
+
+## 2026-09-26 — Verified Ishar drawspace profiles + stricter texture selection
+
+User screenshots confirmed that original Ishar 2 ALIS graphics now render in the crawler. They also exposed two concrete problems: the first automatic wall choice was an ornamental vertical sprite repeated as a texture, and the viewport still used the generic 640×400/16:10 construction profile.
+
+Verified DOS dimensions were introduced as explicit render profiles:
+
+- Ishar 1: 320×200 screen, active 3D drawspace 256×126
+- Ishar 2: 320×200 screen, active 3D drawspace 256×113
+- DOS pixel-aspect metadata: vertical pixel factor 1.2
+- imported manifests now carry `renderProfileId`, native drawspace size and pixel-aspect metadata
+- Playtest display aspect and native ALIS texture scaling derive from the imported profile
+- normalized SVG geometry remains resolution-independent, so authored rooms do not need per-game coordinates
+
+Default dungeon texture ranking was tightened after the screenshot evidence:
+
+- transparency ratio, palette variety, aspect ratio and opposite-edge continuity are measured from indexed ALIS pixels
+- repeatable opaque square-ish resources score higher as wall textures
+- UI/entity source contexts are strongly penalized
+- floor/ceiling only diverge from the wall texture when their source context is explicit; otherwise a coherent stone base is preferred to unrelated guesses
+- door scoring now requires a stronger portal/tall-sprite signal
+- full drawspace-sized images receive a strong background score
+- assignment reasons now include score and source dimensions
+
+Next validation target: import the same Ishar 2 ZIP and compare the reported default source IDs plus the resulting Playtest screenshot. Confirmed source IDs should then become deterministic Ishar-2 mappings rather than remaining heuristic.
+
+
+## 2026-09-26 — Ishar-style Playtest shell + texture-first dungeon import
+
+User supplied an Ishar 2 UI reference and reported that the previous build showed a constant background and incorrect door art instead of a coherent wall/floor/ceiling dungeon.
+
+Product correction implemented:
+
+### Playtest layout
+- Playtest now follows the original Ishar information hierarchy rather than a generic editor layout:
+  - large first-person dungeon viewport on the left
+  - room plaque, minimap and movement pad on the right
+  - five party cards across the bottom
+  - quest/inventory/log moved below the primary game surface
+- minimap is derived directly from authored grid coordinates and highlights current room/facing
+- party strip is ready for later imported portraits but keeps safe placeholders today
+
+### Dungeon texture import
+- default auto-selection now prefers a coherent group of opaque, near-square, repeatable ALIS images from the same source container
+- wall/floor/ceiling are selected from that same texture group instead of unrelated global best guesses
+- automatic full-screen background selection is disabled for normal interior resources; only explicit sky/background filenames can become viewport backgrounds
+- automatic door selection now requires explicit door/portal source context; tall shape alone is no longer enough
+- extracted asset cards now expose one-click in-session remapping:
+  - Basis = same image for wall/floor/ceiling
+  - Wand
+  - Boden
+  - Decke
+- manual quick remapping does not require a manifest or re-import and is intended to accelerate identification of the actual Ishar brickwall/brickfloor/brickroof entries
+
+Next verification:
+1. re-import the same Ishar 2 ZIP
+2. confirm no generic constant background masks the perspective
+3. inspect the auto-selected texture set
+4. if necessary, click the correct extracted brick textures as Basis/Wand/Boden/Decke
+5. record the exact sourcePath + ALIS entry IDs and promote them to deterministic Ishar 2 mappings
+
+
+## 2026-09-26 — Palette recovery, ALIS composites and per-room surface overrides
+
+User reported that all extracted assets appeared grayscale and asked whether Ishar walls are single textures or layered resources.
+
+Verified against the public ALIS interpreter/source:
+
+- ALIS palette resources (`0xFE`) are dynamic and can be partial 8-bit updates with an explicit palette offset.
+- The previous extractor only accepted full-looking palette entries and therefore fell back to the grayscale default far too often.
+- DOS 4-bit palette decoding masks R/B to 3 bits and scales all RGB components to VGA-style 0..224 steps.
+- ALIS composite resources (`0xFF`) explicitly reference multiple child graphics with X/Y/Z offsets and optional horizontal flip. So layered visual construction is a real engine feature.
+- Separately, the DOS 3D renderer has a dedicated terrain texture path (`bartra_dos`) with texture pointers, width masks, height/subtile and darkness lookup. Therefore "wall texture" is not necessarily just a normal sprite-table image.
+
+Implemented:
+
+- palette timeline reconstruction across each ALIS resource table
+- support for partial 8-bit palette updates with palette offset
+- corrected DOS 4-bit palette channel decoding
+- best global colorful palette fallback for images whose local resource table contains no usable palette
+- composite resource metadata extraction/counting
+- Asset Lab report now shows recovered palette and composite counts
+- `AuthoredLocation` can store independent `wallAssetId`, `floorAssetId`, and `ceilingAssetId`
+- Adventure Builder exposes per-room dropdowns for plausible ALIS surface candidates with thumbnail preview
+- new adjacent rooms inherit the source room's chosen surface overrides
+- Playtest uses per-room surface overrides ahead of the pack default for wall/floor/ceiling
+
+Interpretation boundary:
+
+The editor dropdown currently exposes **plausible extracted surface images**, not a proven original-Ishar "wall definition" table. Exact original wall/floor/ceiling semantics likely live partly in the ALIS terrain/scene data rather than the normal sprite resource table. Decoding that terrain type table is the next compatibility step.
+
+Next validation:
+
+1. re-import the same Ishar 2 ZIP
+2. verify whether extracted previews are now colored
+3. note palette/composite counts
+4. in Adventure Builder select a known good brick image independently for Wand/Boden/Decke and verify it persists per room
+5. continue reverse-engineering the scene terrain texture table so original wall assignments can become deterministic instead of manually selected
+
+
+## 2026-09-26 — Missing Ishar dungeon geometry traced to ALIS terrain formats
+
+User reported that wall/floor/ceiling candidates were effectively absent from imported thumbnails and that the Playtest often showed only a background. Several previews were also plain red.
+
+Root cause found in the public ALIS interpreter:
+
+- Opcode `ctexmap` (0xE8 in the Ishar-era interpreter) resolves terrain texture resources through `adresdes`.
+- The terrain renderer explicitly supports DOS bitmap formats `0x1C` / `0x1E` with an 8-byte full header.
+- The previous browser extractor only accepted `0x00/02`, `0x10/12`, and `0x14/16`.
+- Therefore the primary ALIS terrain texture class was silently excluded from Asset Lab and default surface selection.
+- `0x18/0x1A` native 8-bit sprite formats were also previously omitted and are now decoded.
+
+Implementation:
+
+- `AlisIndexedImage` now classifies resources as `sprite` or `terrain`.
+- Added `terrain8` decoder for `0x1C/0x1E`:
+  - width = mask + 1
+  - height = mask + 1
+  - pixel payload begins at full header +8
+  - palette index 0 remains opaque for terrain previews because the terrain renderer may use it as a real color.
+- Added `0x18/0x1A` 8-bit bitmap support.
+- Auto-import reports a dedicated terrain texture count.
+- Real terrain resources are forced ahead of the browser preview budget and sorted before sprites.
+- Dungeon default selection gives a strong priority to true terrain resources.
+- Ishar 1/2 auto-import no longer auto-assigns a fullscreen viewport background; interior geometry must remain visible.
+- Nearly single-color images are flagged as potential masks/material helpers and are excluded from automatic surface choice.
+- Asset Lab visually distinguishes:
+  - Terrain 0x1C/0x1E
+  - normal ALIS sprites
+  - palette provenance
+  - flat-color/mask suspects
+- Adventure Builder now offers true terrain resources first for per-room Wall/Floor/Ceiling overrides. Sprite assets are only offered if no terrain resources were found.
+
+Remaining compatibility work:
+
+- `ctexmap` gives the authoritative terrain-slot-to-resource assignment at runtime. A static script decoder for those calls would let the editor label original terrain/material slots instead of showing only resource IDs.
+- Plain-red assets are not assumed to be broken anymore; many may be masks/material helpers or rely on runtime palette state. They remain visible for diagnostics but are not used as surface defaults.
+
+
+## 2026-09-26 — Terrain absence confirmed; add hard format diagnostics
+
+User clarified that terrain textures were never listed in Asset Lab. This corrects the previous assumption that 0x1C/0x1E extraction had already surfaced them.
+
+New evidence:
+
+- The older recovered Workbench does not claim terrain textures either; its tested graphics reader only supports normal ALIS bitmap resource types 0x10/0x12/0x14/0x16.
+- Its palette work is stronger than the current browser heuristic:
+  - STAGE.IO / resource 4 is the verified shared VGA base palette.
+  - A module-local scene palette overlays only its declared index range.
+  - When several local palettes exist, the old Workbench chooses the nearest resource index as an initial scene-palette guess.
+- Therefore plain-red/incorrect-color previews were partly caused by our previous "most colorful global palette" fallback.
+
+Implemented:
+
+- every ALIS graphics table now records a raw format histogram, not just formats we know how to decode
+- Asset Lab shows counts for all seen resource headers (for example 0x10, 0x14, 0x1C, 0x1E, 0xFE, 0xFF)
+- this makes the next test decisive:
+  - if 0x1C/0x1E counts are non-zero but Terrain stays zero, our terrain decoder/bounds are wrong
+  - if 0x1C/0x1E counts are zero, the original Ishar terrain data is outside the graphics-resource tables currently scanned and ctexmap/runtime data must be reconstructed directly
+- known Ishar 1/2 imports no longer fabricate wall/floor/ceiling defaults from ordinary sprites when no true terrain resource was extracted; SVG geometry remains visible instead
+- palette resolution now follows the recovered Workbench model:
+  - prefer STAGE.IO / ALIS #4 as shared base palette
+  - choose nearest local module palette and overlay only its declared index range
+  - fall back to the previous global-palette heuristic only when the verified STAGE base is unavailable
+- Asset Lab reports whether STAGE.IO/#4 was found and how many images received local palette overlays
+
+Do not claim that 0x1C/0x1E are present in the user's Ishar 2 archive until the new format histogram confirms it.
+
+
+## 2026-09-26 — Composite preview path after terrain correction
+
+Further review of the recovered legacy Workbench changed the investigation priority:
+
+- Its verified Ishar tile preview system does not model a visible cave/city field as one texture.
+- For known Ishar 1 scene modules (for example MCAVE.IO and VILLE.IO), one map field resolves to several graphic resource IDs plus mirrored variants.
+- This strongly supports the user's earlier observation that visible walls/decor can be assembled from multiple sprite resources rather than represented by one seamless wall bitmap.
+- Therefore the absence of obvious wall/floor/ceiling thumbnails is not proof that the data is missing; some geometry may only become recognizable after resource composition and script draw ordering.
+
+Implemented now:
+
+- ALIS 0xFF composite resources are recursively expanded into their child image resources.
+- Child X/Y/Z offsets and horizontal-flip metadata are honored in a bounded browser canvas renderer.
+- Nested composites are supported with recursion/cycle limits.
+- Up to 500 composite resources per import are rendered as PNG previews.
+- Asset Lab sorts composites ahead of ordinary sprites and labels them separately.
+- Composite previews are diagnostic only; they are not treated as repeatable surface textures yet.
+
+This runs in parallel with the new raw-format histogram. The next real Ishar 2 import can now answer two separate questions:
+1. Do the currently scanned resource tables contain 0x1C/0x1E at all?
+2. Do 0xFF composite previews reconstruct recognizable cave/wall/decor assemblies even if no terrain texture class is present?
+
+
+## 2026-09-26 — Import regression correction: Ishar 1 detection, visible fallback, palette context
+
+User test + 30-page Asset Lab screenshot exposed three regressions/incorrect assumptions in the previous build.
+
+### Confirmed from real Ishar 2 import
+
+- 187 files
+- 141 A1 resources decoded
+- 2,244 ALIS bitmap resources
+- 161 palette resources
+- 1,629 composite resources
+- 500 composite previews generated
+- raw format histogram: 0x00=125, 0x01=84, 0x10=1851, 0x12=9, 0x14=238, 0x16=21, 0xFE=161, 0xFF=1630
+- no 0x1C/0x1E entries at all in the scanned graphics tables
+- many sprites/objects/enemies are correctly colored, while several scene/composite families are strongly red-dominant
+
+This invalidates the earlier assumption that missing 0x1C/0x1E "terrain textures" were the primary blocker for Ishar 1/2 scene geometry. The active compatibility target is now normal bitmap resources + script/composite scene assembly.
+
+### Recovered Ishar 1 Workbench evidence
+
+The older verified Workbench confirms:
+
+- visible Ishar 1 resources use 0x10/0x12/0x14/0x16 plus 0xFF composites
+- STAGE.IO / resource #4 is the verified Ishar 1 shared VGA scene palette
+- module-local partial palettes overlay that shared palette
+- cave/city tile previews are built from multiple resource IDs and mirrored variants, not one seamless wall texture
+- the verified Ishar 1 corpus contains IMP2.SAV with 5,216 bytes; therefore the filename IMP2.SAV is NOT evidence of Ishar 2
+- Ishar 1 corpus signatures include CONT*.FIC = 4,860 bytes, EN1.FIC = 3,640 bytes, saves = 5,216 bytes
+
+### Implemented fixes
+
+Game detection:
+- replaced first-match filename detection with weighted verified corpus signatures
+- archive/folder name is only one signal
+- IMP2.SAV is classified by size, not name
+- Ishar 1: CONT=4860, EN1=3640, SAV=5216
+- Ishar 2: CONT=10800, EN1=6050, SAV=8359
+- ties return unknown instead of guessing
+
+Bitmap semantics:
+- corrected transparency: 0x10 and 0x14 carry transparent indices; 0x12 and 0x16 do not
+
+Palette resolution:
+- Ishar 1 uses verified STAGE.IO/#4 + nearest local partial palette
+- Ishar 2 is resolved separately; broad (>=128-color) palettes are preferred as base
+- DJCOL/COL/PAL sources receive priority only among plausible broad bases
+- Ishar 2 local palettes are applied only when they precede the image resource, instead of choosing an arbitrary nearest future palette
+- strongly red-dominant images are marked "palette-suspect"
+- for red-dominant Ishar 2 scene modules (DJ*, FDJ*, PCAVE, FOND), COL/PAL candidates are tested conservatively and only accepted if red dominance improves substantially
+- report exposes palette base, confidence, remaining palette suspects, and scene palette repairs
+
+Runtime regression:
+- known Ishar imports no longer put uncertain filename-based wall/floor/ceiling/background guesses into the runtime tileset
+- Playtest always retains a visible procedural brick/stone wall/floor/ceiling fallback
+- imported entity placement is scaled to the active native drawspace instead of using stale 640x400 coordinates
+- one safe original encounter and item image are automatically bound as generic Playtest fallbacks when available, so ZIP import still produces an immediate visible original-asset change without inventing dungeon geometry
+
+### Current architecture boundary
+
+Do NOT model original Ishar dungeon scenes as one seamless wall/floor/ceiling bitmap unless later evidence proves it for a specific scene.
+
+The strongest verified model is now:
+
+map/scene field -> script branch -> multiple ALIS resources / composites / mirrored draws -> perspective placement
+
+For Ishar 1, tile-previews.json from the recovered Workbench already contains verified branch/resource/draw lists for RPLAINE.IO, PLAINE.IO, FORET.IO, MCAVE.IO and VILLE.IO. The next renderer milestone should consume that evidence rather than continue texture guessing.
+
+For Ishar 2, DJ1.IO / DJ2.IO / related modules are the next scene-script targets. The real screenshot shows large composites near the native drawspace (for example 192x102 and 201x113), so scene reconstruction should focus on script draw ordering/placement and palette state.
+
+
+## 2026-09-26 — Visible version/build identity on Overview
+
+User requested an immediately visible way to identify which downloaded test ZIP is currently running.
+
+Implemented:
+
+- Overview now displays a compact build stamp directly below the product title.
+- The stamp shows:
+  - semantic/application version from `package.json` (`__APP_VERSION__`)
+  - exact short build commit (`__BUILD_SHA__`)
+- Vite injects both values at build time.
+- GitHub Actions automatically provides `GITHUB_SHA`, so every CI artifact identifies its exact source commit without manual editing.
+- Local builds fall back to `BUILD_SHA` when supplied, otherwise `local`.
+- Current package version remains `0.1.0-recovery`; this can be bumped deliberately at product milestones while the commit suffix continues to distinguish every test build.
+
+Expected Overview label example:
+
+`Version 0.1.0-recovery · Build 545c35f`
+
+This should be used in future bug reports/tests so screenshots and user feedback can always be mapped back to one exact repository state.
+
+
+## 2026-09-26 — Verified Ishar 2 key distance sprites
+
+User manually identified a non-red Ishar 2 OBJET.IO key sprite family and clarified that items use three distance sprites in the 3D view.
+
+Verified user mapping:
+
+- OBJET.IO #69 = key, near
+- OBJET.IO #70 = key, medium
+- OBJET.IO #71 = key, far
+- OBJET.IO #72 = second key family, near
+- OBJET.IO #73 = second key family, medium
+- OBJET.IO #74 = second key family, far
+- OBJET.IO #75 / #76 = large key views
+- OBJET.IO #121 = key ring
+
+Implemented:
+
+- authored items now support independent near/mid/far imported asset IDs
+- Adventure Builder exposes three item sprite selectors: current room / one room / two rooms
+- Playtest scans visible rooms forward up to depth 2 and renders the appropriate item distance sprite
+- closed doors stop distant item visibility because the existing room traversal stops at the door
+- item pickup remains restricted to the current room
+- Ishar 2 semantic fallback for authored items whose name/description contains “Schlüssel” or “key” uses #69/#70/#71 automatically
+- arbitrary OBJET.IO sprites are no longer used as generic authored-item fallbacks; unknown items keep the neutral fallback instead of displaying unrelated grass/weapon/etc.
+- verified key resources are annotated in Asset Lab and labeled in the item sprite selectors
+
+Important interpretation:
+
+The #69/#70/#71 trio is now treated as a verified distance set, not three separate unrelated items. The #72/#73/#74 trio is recorded as a second verified key set but is not auto-selected for the demo key until its exact key subtype is known.
+
+
+## 2026-09-26 — Distance-set pipeline wired into Asset Lab, Builder and Playtest
+
+Context from user verification:
+
+- Ishar 2 object sprites can be stored as ascending ALIS resource IDs for perspective distance:
+  - lower ID = nearer/larger view
+  - next ID = middle-distance view
+  - next ID = farther/smaller view
+- User specifically verified the mushroom family OBJET.IO #232/#233/#234 as near/mid/far.
+- Existing verified key families remain:
+  - #69/#70/#71 = key family 1, near/mid/far
+  - #72/#73/#74 = key family 2, near/mid/far
+
+Implemented on `workbench/playable-slice`:
+
+- Added `src/lib/ishar/distance-sets.ts`.
+- Added explicit verified Ishar 2 OBJET.IO distance sets for 69–71, 72–74 and 232–234.
+- Added a conservative heuristic for additional OBJET.IO triples:
+  - same source file
+  - consecutive ALIS IDs
+  - sprite resources only
+  - bounded dimensions
+  - visible non-transparent footprint decreases at both transitions
+  - heuristic scope is intentionally limited to OBJET.IO so scene/composite sequences are not misclassified.
+- Asset preview metadata now carries:
+  - `distanceSetId`
+  - `distanceSetLabel`
+  - `distanceRole` = near/mid/far
+  - `distanceConfidence` = verified/heuristic
+- Auto-import report now counts total, verified and heuristic distance sets.
+- Asset Lab displays the detected set label, role and confidence on each member.
+- Adventure Builder can take any selected member and apply the complete detected near/mid/far set to an authored item with one button.
+- Playtest now resolves missing distance sprites from siblings in the same detected set before using semantic fallbacks. This prevents stretching one selected sprite across all depths when a proper family is known.
+
+Important safety/evidence boundary:
+
+- Consecutive IDs alone are not considered enough.
+- The automatic heuristic currently applies only to OBJET.IO sprite triples with a clearly shrinking visible footprint.
+- Known user-verified families override heuristic detection.
+- Scene resources, 0xFF composites, doors and enemies are NOT automatically grouped by this rule yet. They should only adopt it after matching evidence is found.
+
+Validation:
+
+- Code-bearing commit `501ce941473f5f98f6bb9f7fe69cb0e3efd83acb` passed both repository CI workflows.
+- Playable Slice CI passed typecheck, A1 fixtures, production build, production-server smoke test and artifact packaging.
+- The later handoff/NEXT_STEPS commits are documentation-only; their automatically triggered runs may still be queued while this handoff is written.
+
+Next implementation target:
+
+1. Re-import the real Ishar 2 archive and inspect the new Distanzsets counters/cards.
+2. Confirm #232/#233/#234 render in the expected near/mid/far order in Playtest.
+3. Inspect other OBJET.IO heuristic triples for false positives and promote only manually verified families to the explicit table.
+4. Search enemy-bearing resources for the same storage convention, but do not generalize automatically until at least one enemy family is verified.
+5. Extend the same evidence-driven model to doors/special props only after verified examples exist.
+
+
+## 2026-09-26 — Adventure Builder freeze when opening Ishar 2 surface selectors
+
+User-reported regression:
+
+- after importing the real Ishar 2 archive, opening a Wall/Floor/Ceiling asset selector in Adventure Builder could freeze the browser/application
+- the command window also printed TanStack Router's warning that `__root__` had no configured not-found component
+
+Root cause analysis:
+
+- Ishar 2 auto-import can expose well over one thousand ALIS previews
+- when no verified terrain resources exist, Adventure Builder previously used essentially the entire ALIS fallback pool as `textureCandidates`
+- the same full candidate list was rendered into three native HTML `<select>` controls (wall/floor/ceiling)
+- this created thousands of long native option rows and could stall Chromium/Windows when a selector was opened
+- 0xFF composites and palette-suspect images were also unnecessarily eligible for the surface fallback list
+- the TanStack not-found warning was not the primary freeze mechanism, but the router had no explicit not-found fallback and therefore emitted noisy diagnostics when an unmatched route occurred
+
+Implemented fix:
+
+- surface candidates now exclude:
+  - ALIS composites
+  - flat-color assets
+  - palette-suspect assets
+- added one search field for the three room-surface selectors
+- search matches asset path, known-use label and internal ID
+- each native selector is hard-bounded to 72 visible choices
+- the currently selected asset remains visible even if it lies outside the current search/result window
+- the UI explicitly reports when only the first 72 matches are being shown and asks the author to narrow the search
+- examples such as `DJ1.IO`, `STAGE.IO` or `ALIS #123` can be entered directly
+- added matching compact CSS for the search control
+- configured a router-level `defaultNotFoundComponent`, removing the previous generic TanStack warning path
+
+Validation:
+
+- freeze-fix code commit `68beda6346bf2a27e34724ed2cd7b216cb275773` passed both CI workflows, including typecheck and the full Playable Slice production build/smoke pipeline
+- router fallback and styling were committed immediately afterward; verify the newest head CI before distributing the next test build
+
+Regression test for the next user build:
+
+1. import the real Ishar 2 archive
+2. open Adventure Builder
+3. click the Wall, Floor and Ceiling selectors repeatedly
+4. confirm the UI remains responsive
+5. search for a resource by filename or ALIS number and select it
+6. enter Playtest and confirm the selected texture renders without route errors
+
+## 2026-09-26 — Local Git development and reproducible installation
+
+Cloned `workbench/playable-slice` at `f5350e5` into the `repository` subdirectory
+of the existing Codex workspace. The parent directory is a downloaded test build,
+not a Git checkout. Run all Git/npm commands from `repository`. The desktop's
+saved project still points at the parent folder; opening `repository` as its own
+project is a remaining manual desktop action. Source access works in this chat.
+
+Completed checkpoint:
+- Added the missing package-lock.json. A clean npm ci previously failed.
+- Switched Playable Slice CI from npm install to npm ci.
+- Documented local development, production startup and the manual regression gate.
+- Kept the route tree regenerated by the installed TanStack toolchain; no routes
+  were added or removed. Typecheck passes after regeneration.
+
+Local evidence (Windows, Node 24.21.0, npm 11.19.0):
+- npm ci --no-audit --no-fund: PASS (139 packages).
+- npm run typecheck: PASS, including after production route generation.
+- npm run test:a1: PASS (2 synthetic decoder fixtures).
+- npm run build: PASS (client and SSR, Vite 8.3.1).
+- Production HTTP smoke: PASS, GET / returns 200 with Ishar marker.
+- Test server for this session: http://127.0.0.1:4175.
+- Build stamp is f5350e5, the upstream source checkpoint before these setup edits.
+
+Limits / next handoff:
+- No new original-game semantics verified; heuristics and unknowns stay unchanged.
+- No original corpus data added to Git. No remote push performed.
+- Browser responsiveness and visual correctness are not proven by HTTP smoke.
+- Next manual test: import Ishar 2, repeatedly open wall/floor/ceiling selectors,
+  search and select a resource, verify the room in Playtest. Confirm mushroom
+  #232/#233/#234 near/mid/far ordering. Record build stamp and exact resource IDs.
+- Build 1.0 remains unfinished; this checkpoint establishes local reproducibility.
+
+## 2026-09-26 — Red assets fixed in local production build
+
+Priority requested by user: stop unrelated feature work and resolve red assets.
+Root cause and corpus/script evidence are detailed in AUDIT.md.
+
+Changes:
+- Introduced palette-resolution.ts for Ishar 2 scene/module palette relationships.
+- Replaced MAIN #11 scene fallback with an explicitly labeled daylight preview.
+- Applied actor palettes even when stored after their images, preserving bank bounds.
+- Removed the speculative COL/PAL red-minimization repair function.
+- Added per-bitmap palette provenance labels; red diagnostic no longer claims error.
+- Added synthetic regression tests and a CI gate (npm run test:palettes).
+- No original assets, archives, decoded payloads or screenshots added to Git.
+
+Verification: typecheck, A1 tests, palette regressions and production build pass.
+Real corpus: old resolver 1,416 red suspects; corrected resolver 18. Those 18 were
+visually reviewed and include genuinely red fire/blood/effect assets. Actual
+Asset Lab import: 2,244 bitmaps, 500 composite previews, no packed decode errors.
+Browser-checked DJ1 composite walls now show stone details and correct scene colors.
+Local production server: http://127.0.0.1:4175, build stamp palette (BUILD_SHA is
+sliced to seven characters). The current loaded session has the corrected import.
+
+Remaining scope is original runtime lighting/scene emulation, not the solid-red
+import bug: generic first-local/daylight previews remain labeled as preview policy.
+Do not promote all palette contexts to verified original runtime states.
+
+Commits use a command-local agent identity (Codex <codex@localhost>), because no
+user Git identity is configured and the user requested no further interruptions.
+No persistent user identity configuration and no remote push are performed.
+
+## 2026-09-26 — User-confirmed dungeon asset worklist
+
+User confirmed that the assets no longer appear red, then supplied a Desktop
+note identifying dungeon geometry/decor. Read the note without modifying it.
+Recorded its 77 exact resource IDs and preview dimensions in
+[DUNGEON_ASSET_EVIDENCE.md](DUNGEON_ASSET_EVIDENCE.md): 58 DJ1.IO and 19 DJ2.IO
+composites. Checked all IDs against the original local resource tables: every
+listed ID exists as an ALIS 0xFF composite. Category identification is user-confirmed;
+per-ID role, distance, placement, draw order and mirroring remain unverified.
+Next: use this bounded worklist for script-backed scene reconstruction. Do not
+convert the user's collective category confirmation into speculative wall roles.
+This checkpoint changes documentation only; no runtime or build output changed.
+
+## 2026-09-26 — Automatic dungeon scene loading milestone
+
+Implemented 24 runtime wall layers: DJ1 #47–50 (mirrored sides), #59–62 (fronts), DJ2 #35–38 and #47–50, four depths per role. These bypass the diagnostic gallery budget. DJ1 becomes the default when present; DJ2 is available as a separate tileset. Paired scene palettes remain active. Side openings suppress solid imported walls.
+
+Evidence: resource-family expressions were inspected in local unpacked scripts: DJ1 cputnat at 0x19b5 uses 47+depth, cxputat at 0x1a2e mirrors it; front-family expression 59+depth at 0x196e. DJ2 equivalents at 0x124e / 0x12c7 and 0x1207. ALIS reference commit 19a95afdc07b45d997467806d4dd1bf83c5f8076, src/image.c sprite centering and src/render3d.c X/Z projection informed the reconstruction. Nested mirror transforms now negate child X. Runtime composites project centered X/Z; gallery previews retain their older diagnostic layout.
+
+Evidence boundary: family indices and composite records are inspected facts. Assigning wall roles, interpreting the camera and fitting cropped images to CK perspective frames is a reconstruction, NOT pixel-perfect verified Ishar behavior. This milestone does not place every one of the user's 77 decor candidates. Floor/ceiling, door panels, extra wall variants and loose decor remain unresolved/fallback. Do not call a door-frame composite a closed door.
+
+Local persistence: IndexedDB stores decoded PNG Blobs plus pack metadata, creates fresh object URLs on startup, preserves manual pack updates, and clears on unload. Revision guards prevent a stale restore overwriting a later selection; serialized writes prevent stale saves winning. Cache failures leave the current in-memory pack usable and expose a status message.
+
+Optional local server boot source: set ISHAR_LOCAL_ZIP to a local ZIP path before running scripts/serve-build.mjs. Only the loopback 127.0.0.1 server serves the exact configured source at /__local/ishar-source; no path parameter, no CORS, cross-site requests rejected. Empty cache triggers automatic import on startup. Without this option, import once through Asset Lab. Pack unload clears the cache; with a configured boot source the next page load imports again. Browser storage is per origin/profile and can be evicted. Original assets and test screenshots stay outside Git.
+
+Validation: npm run typecheck, test:a1, test:palettes, test:scenes and production build pass. Real Ishar2.zip loaded on page startup: 187 files, 3 tilesets, 284 layers, 24 dungeon walls, 2002 discovered previews, 0 missing entries. Direct navigation to /playtest restored the pack from browser cache and showed original ornamented side walls plus front wall. User-visible movement log reached Vorhalle; open side branches remained visible. Local preview runs on port 4175 with D:\Downloads\Ishar2.zip configured. Commit uses command-local Codex identity (repository has no user identity); no push.
+
+Next: reconstruct original camera/screen parameters, scene variants and decor placement conditions before increasing automatic assignments. Add dedicated cache race/quota regression tests; current cache restore was checked in the real browser. Keep manual source overrides authoritative.
+
+## 2026-09-26 — Wall transition correction and catalog clarification
+
+User screenshots exposed gaps/stepped silhouettes: source side sprites have asymmetric transparency and empty padding columns (DJ1 #48 child1 has entirely transparent last column; #50 child3 has several). Mapping the full rectangle to a CK perspective band preserved that padding as a gap. Added wall-fitting.ts: exclude fully transparent columns, remap each visible vertical span to the shared near/far frame boundaries, nearest-neighbor sampling. This is explicitly a CK camera adaptation, not recovered original projection. Source pixel files and diagnostic gallery previews are unchanged; texture motifs between separately authored distance levels can still differ.
+
+Cache sceneLayoutVersion 2 upgrades only auto-generated DJ1/DJ2 wall IDs, preserving user-authored rooms, overrides and other assets; upgraded pack goes through the serialized store writer. Fresh imports use the same fitter. No original game bytes committed.
+
+Compared indexed child-image bytes for all eight DJ1/DJ2 pairs (47–50/35–38 and 59–62/47–50): all differ. Same dimensions do not imply duplicates. Runtime-assigned composites sort ahead of the other composite entries; these were not second copies added to the catalog. Gallery labels now distinguish active wall composites from component-based previews. Single bitmap resources remain separately catalogued for provenance.
+
+Validation: typecheck, A1 fixtures, palette regressions, scene assignment and new mirrored near/far boundary tests, production build pass. Real cached pack migrated on /playtest; screenshot shows continuous fitted wall silhouettes without the former transparent strips. Exact original camera, doors, floor/ceiling and remaining decor stay open tasks.
+
+## 2026-09-26 — FDJ surfaces and door surrounds
+
+Added ALIS 0x01 opaque palette-index rectangles (bounded width/height+1). Evidence: ALIS reference image.c draw switch uses bitmap[1] as draw_rect color; local FDJ1 #1 header 01 01 ff 00 50 00 and FDJ2 #2 header 01 01 ff 00 5d 00. FDJ1 #3 references floor #0 and solid #1; FDJ2 #3 references floor #0 and solid #2. FDJ1 #0 is a 256x42 stone floor; FDJ2 #0 a 256x34 checkerboard floor. These are perspective strips, not repeatable tiles. Both floor and solid ceiling/background color are now explicit scene surface entries. Projection to the lower/upper CK viewport half remains a reconstruction.
+
+Added DJ1 #63–66 / DJ2 #51–54 as open door surrounds at depths 0–3, using centered X/Z composites without wall silhouette fitting (which would destroy the aperture). Closed doors draw a procedural wooden placeholder leaf behind the original frame; this is NOT a verified original leaf. Open doors show the corridor through the aperture. Depth groups now render far to near so near doorframes occlude distant walls. Absolute floor/ceiling images are clipped to each depth polygon, preserving continuous perspective without overwriting foreground walls.
+
+Cache sceneLayoutVersion 3: with the configured local ZIP, load new scene layers into the existing cached tilesets, retaining existing role/depth assignments, project edits and overrides. Revoke unused reimport URLs. Without a configured source, an older pack needs a ZIP reimport to acquire these additional assets; existing cached walls remain usable. The old pack is displayed while upgrading. Original asset bytes and local contact sheets remain outside Git.
+
+Validation: typecheck; A1 fixtures; palette regressions; scene tests including solid rectangle pixels, opaque alpha semantics, truncated header rejection, open-frame role and perspective boundaries; production build. Browser verifies real cached-pack upgrade with stone floor and dark ceiling. Isolated fixture uses actual exported DungeonViewport plus cached pack, no user-project mutations: closed door stops at one segment, open door shows four segments and corridor through the original arch. The separate fixture was temporary. Original leaf animation and exact original camera remain open.
+
+## 2026-09-26 — Native dungeon placement replaces silhouette fitting
+
+User correctly reported a wavy frieze and wrong ceiling/door geometry. The previous per-column silhouette fitter only aligned outer edges, distorting internal art. It is now bypassed for fresh DJ1/DJ2 scene imports. Native images retain their pixel dimensions and transparent padding; no independent resizing/warping of distance sprites.
+
+New evidence: DJ1 code 0x2270/0x2284/0x2297/0x22aa and DJ2 corresponding tail code set word var0x12 to signed -42, -25, -12, -7 for the first four distance tiers. Both modules have byte-identical tail sequences for this projection. ALIS centers against the stored width/height (actual decoded dimension minus one), so centering was also off by one for even dimensions. Apply parent Z before placement. Screen origin (127,65) is reconstructed from exact bitmap joins, not yet independently verified against a captured original frame. E.g. DJ1 front depth1 has upper center piece rows0..27, lower rows28..80, sides span x82..97 and158..173. Front frame bounds in source pixels: [32,0,224,102], [82,0,174,81], [98,0,158,75], [106,0,150,71]. FDJ1 floor stays at y71 with height42; FDJ2 at y79 with height34. A fabricated sloped ceiling band above the walls is no longer drawn. Solid scene background fills exposed areas behind native geometry.
+
+Cache revision4 reimports configured local original source and replaces only generated layer IDs; authored overrides and project rooms remain. Legacy/non-native tilesets retain CK projection. Without configured source, old caches require reimport to receive native coordinates. Legacy fitter remains only for old cache migration fallback and is not used for revision4 scenes.
+
+Validation: long isolated corridor shows four native wall distances without the previous downward frieze wave. Closed original arch+placeholder leaf renders one depth, open arch passes view to four depths. Fixture does not modify user project. Native seam/centering tests added; typecheck, A1, palette, scene tests and production build passed. Ceiling interpretation/source origin remain documented reconstruction; the procedural closed wooden leaf is still NOT original Ishar door artwork.
+
+## 2026-09-26 — Side passages and missing door assets
+
+User confirmed the previous wall/ceiling progress and identified the next two
+gaps: missing original door graphics in the catalogue and missing side-passage
+graphics in the corridor. DJ1 composite #73–76 were inspected as progressively
+smaller arch/column images and assigned to `opening.right` depths 0–3, mirrored
+for `opening.left`. The native placement uses the existing centered script X/Z
+projection. Role, mirroring and topology gating are reconstruction; the archive
+does not yet prove the exact original door/passage logic. The redundant black
+aperture polygon and bright synthetic outline were removed/suppressed for
+native passage art, then checked in an isolated corridor fixture.
+
+The apparent DJ1 #114–116 door leaves were a false lead. Component inspection
+and browser rendering show hanging lamps on chains; DJ1 #117–119 are related.
+DJ2 #77–80 are stained glass. The assignment to `door.front.closed` was removed
+and regression tests guard against these misclassifications. The open original
+frames remain DJ1 #63–66 / DJ2 #51–54. Closed doors still use the procedural
+wooden leaf because no original leaf has been established. Search remaining
+module tables and scripted drawing paths next; never label a candidate as an
+original door merely because it fits the aperture.
+
+Cache layout version 7 reimports the local ZIP and refreshes generated layers,
+composite catalogue metadata and preview URLs, preserving manually selected
+roles and the user's authored project. `npm run typecheck`, `npm run test:a1`,
+`npm run test:palettes`, `npm run test:scenes`, and `npm run build` are the
+validation commands. Original DOS asset bytes and temporary visual fixtures
+stay outside Git.
+
+All five commands passed. Browser validation used the real cached Ishar 2 pack:
+four `opening.right` layers loaded, no `door.front.closed` layer remained, and
+the gallery labels DJ1 #73 as reconstructed passage and #114 as a hanging lamp.
+The isolated corridor rendered side arches on both sides; its closed-door view
+rendered the original frame over the procedural wooden leaf with no lamp overlay.
+The loopback production preview remains on port 4175 with `ISHAR_LOCAL_ZIP`.
+
+## 2026-09-26 — Playthrough visual-reference checkpoint
+
+The user's 30-part Ishar 2 playthrough is now available as a reference. At part 22, 1:00, the original game shows an open skull-topped passage. The skull/fangs match the locally decoded `DJ2.IO #26` (32 × 31, FDJ2 #1), which is a child of the already imported `DJ2.IO #51` front-opening composite. This raises confidence in the existing `door.front.open` artwork assignment. Video frames do not prove the exact original placement algorithm, and the dark center is an aperture, not evidence of a closed leaf. At part 19, 8:02, the original brown corridor shows floor and side-wall convergence but no independently identifiable door bitmap. Exact links and evidence limits are in DUNGEON_ASSET_EVIDENCE.md.
+
+## 2026-09-27 — closed-door visual checkpoint
+
+Two actual closed states are now visible in the supplied playthroughs. [Part 31 at 0:10](https://www.youtube.com/watch?v=FOFb6Nt0mE8&t=10s) shows a vertically slatted, dark double door under the brown carved arch. The arch visibly matches raw `DJ1.IO #25/#26/#27`, which are children of the already imported open surround composite `#63` (smaller #64–66 correspond to distance variants). [Part 22 at 3:33](https://www.youtube.com/watch?v=umlygu421CA&t=213s) and [3:40](https://www.youtube.com/watch?v=umlygu421CA&t=220s) show a barred/grille gate in the grey skull dungeon. These frames establish two visual silhouettes, not the underlying leaf bitmap, original animation, palette pixels, or camera parameters.
+
+Resource audit: all `DJ1.IO` table entries are accounted for (124 total; 66 indexed images and 58 composites) and all `DJ2.IO` entries likewise (118 total; 68 indexed images and 50 composites). The raw and composed visual sheets contain the arch/skull surrounds, but no matching closed leaf. Additional viewed sheets from DJCAT, DJDEC, DJTRAP, DJFONT, MAIN, FRISE, VJAIL, VPORT, VARCHE, VARCADE, DJCOL and FOND1 likewise show no match. These are scoped inspections, not proof of procedural original rendering. Original `.IO` files remain in `E:\Spiele\Ishar2`; temporary contact sheets and scripts remain outside Git at `D:\Downloads\ishar-construction-kit-playable-slice (2)`. Do not commit original game data or video captures.
+
+Playtest change: when no explicit `door.front.closed` asset exists, the CK now draws a vertically planked DJ1-style arched leaf or a DJ2-style barred grille behind the original open surround. The placeholder is still procedural and is superseded by a real mapped closed-door asset. The prior generic flat rectangle and knob were removed. The implementation is in `src/routes/playtest.tsx`; evidence and limitations are in `DUNGEON_ASSET_EVIDENCE.md`. Typecheck, A1 fixtures, palette regressions, dungeon scene tests and production build all passed. Browser verification walked the local auto-imported Ishar 2 pack to Nordgang: the new DJ1 leaf renders inside the original carved arch and still blocks forward traversal. The build server on port 4175 was restarted after the build so its SSR manifest and static asset hashes match; the local ZIP endpoint and automatic asset load returned 200/loaded. The next task is tracing the original ALIS door draw calls or a yet-uninspected resource, then replacing the fallback only with provenance-backed pixels.
+
+No runtime mapping changed in this checkpoint. The closed procedural wooden leaf remains clearly a placeholder. Next: locate a frame with an unmistakably closed dungeon door, inspect the remaining resource families and script draw paths for a matching bitmap/animation, and promote it only after both visual and archive evidence agree. Original game data, decoded comparison images and video captures remain outside Git.
+
+Validation after the documentation update: `npm run typecheck`, `npm run test:a1`, `npm run test:palettes`, `npm run test:scenes` and `npm run build` all passed. The preview and authored project were not changed.
+
+## 2026-09-27 — Asset library, room blocks, outdoor scenes and side branches
+
+User priorities: wall-free overworld levels, rooms rather than only corridors, correct the see-through side branches, and bring house, original UI and font graphics into the library. The local Ishar 2 ZIP is the runtime source; no copyrighted game bytes were added to Git.
+
+The auto-import cache is now layout version 8. On startup with `ISHAR_LOCAL_ZIP`, it refreshes discovered previews while preserving the authored game and manual mappings. Asset Lab no longer stops after the first 240 graphics: it has group filters, text search and 120-item pages. Browser check of the real ZIP on port 4175 found 2,139 displayed previews, including 84 in Häuser (`VHOUSE1/2.IO`), 104 in Original-UI (`FRISE.IO` and pointer), and 111 in Schriftzeichen (`MAIN.IO`). `DJFONT.IO` is chandelier/lamp art, not a font. The MAIN glyph-to-character encoding is not established; those sprites are catalogued but not used to render text. Composite previews remain assembled assets, not tileable materials.
+
+The Builder can turn a free northwest anchor into a rectangular 2×2–5×5 connected room block. Occupied targets fail before mutation; internal cardinal exits are bidirectional; group membership suppresses internal side walls in the Playtest. The Builder also offers an Außenwelt scene type with no corridor walls and an optional house/facade sprite. New adjacent cells from an outdoor cell inherit outdoor type; new adjacent cells from a room start as corridors unless deliberately incorporated into a block. Browser-tested a 2×2 block in an isolated port-4176 origin: field count rose 7→10 and validation stayed OK. An outdoor start with `VHOUSE1.IO #0` visibly rendered its stone house facade against an open sky/ground. The room and outdoor views are CK-authored approximations, not verified original Ishar projection or overworld layout.
+
+Native DJ1/DJ2 side openings are topology-gated. To address the near-black void through a side branch, Playtest now places a depth-matched front-wall sprite inside an inset clipped aperture, with a dark floor recess, over the branch; the native arch remains around it. Browser inspection of the user's unchanged local project on 4175 shows wall art within the left branch instead of a full-height black strip. This is a geometric rendering heuristic, not proof that the original game uses that sprite or a specific background there. Further comparison with original gameplay frames and branch-at-distance cases is needed.
+
+The party strip now loads original `FRISE.IO #36` action and `#1` life graphics when available. It remains a partial UI reconstruction; original HUD positions, interactions and `MAIN.IO` glyph mapping need more evidence. Video reference: [part 31 at 0:10](https://www.youtube.com/watch?v=FOFb6Nt0mE8&t=10s). Closed door leaves remain procedural placeholders despite confirmed visual silhouettes.
+
+Validation for this checkpoint: `npm run typecheck`, `npm run test:a1`, `npm run test:palettes`, `npm run test:scenes`, `npm run test:world`, `npm run build`. Browser inspected the rebuilt local server with the real cached pack and a separate-origin builder test. Port 4175 was restarted after the last production build. Do not commit the original ZIP, local audit contact sheets or browser-generated previews.
+
+## 2026-09-27 — Multi-level maps, usable HUD and passage cleanup
+
+The authored game now has `levels` and `portals`. Legacy project JSON is normalized into `level-1` without moving or losing existing locations. Coordinate lookup, cardinal movement, room-block collision checks and validation are level-scoped, so the same X/Y can occur on several levels. A Builder level has name, Dungeon/House/Overworld kind, and a tileset (asset set); individual cell overrides remain. Creating a level adds its entrance at 0,0 and a bidirectional portal from the selected cell. Portals can also be added/removed manually and appear as usable transitions in Playtest. The minimap shows the current level only. Validation rejects unknown or same-level portal targets and cross-level cardinal exits. Tested in a separate browser origin with three levels: the original dungeon, an outdoor level, and a DJ2 dungeon sharing coordinates; transitions and the grey DJ2 wall/floor art rendered correctly. The real user project on 4175 was read for rendering only.
+
+Removed the artificial black side-opening polygon and its synthetic frame. Native DJ1 passage sprites remain topology-gated, and the depth-matched wall backing is clipped into their apertures. The added fake recess floor wedge is gone. Room side boundaries now use the same imported passage art scaled to the room projection; grouped room cells omit their shared walls, and an external forward exit receives the imported open doorway arch. This materially reduces the CK "window" appearance, but exact original positioning and continuity at every depth are still unverified. No new source role was promoted from heuristic to verified.
+
+The five-slot party HUD now has working portrait/action buttons. The menu opens Actions, Character, Inventory, Map and Quest panels; Actions invokes combat, opening a facing door, taking visible items and level transitions as applicable. Builder can add up to five members. Each member has independent playtest HP; the selected living member attacks and receives counterattacks. `FRISE.IO` sprites remain visual source pieces and the MAIN glyph mapping is still unknown. This is a functional CK HUD inspired by the video, not a complete reproduction of Ishar 2's original control scheme, commands or typography.
+
+New `test:world` assertions cover legacy migration, independent coordinates, cross-level validation and portals. Browser verification in the isolated origin showed a two-member battle updating the selected member from 18 to 15 HP after an enemy hit, the interactive map panel, outdoor travel and the per-level DJ2 asset set. Run typecheck, A1, palette, scenes, world and production build for this checkpoint; restart the loopback preview after building so SSR hashes match. Original ZIP, decoded assets and contact sheets stay outside Git.
+
+## 2026-09-27 — Native room perspective and visible HUD controls
+
+Compared [part 19 at 8:02](https://www.youtube.com/watch?v=Hyqt3vIr7X8&t=482s), [part 31 at 0:10](https://www.youtube.com/watch?v=FOFb6Nt0mE8&t=10s), and [part 22 at 3:33](https://www.youtube.com/watch?v=umlygu421CA&t=213s) with the local playtest. The original corridor has a continuous floor and stable upper wall line; the videos show the DJ1/DJ2 arches and a five-member action/life strip with right-hand commands. They do not reveal the exact room draw sequence, original closed-leaf bytes or all HUD semantics.
+
+DJ1/DJ2 rooms now use the same source-coordinate camera and four distance tiers as corridors. A room changes the wall topology, not sprite scale: native front walls, side openings and door surrounds are no longer stretched into the guessed room trapezoids. A room/corridor boundary draws the native arch in either travel direction. Side-branch backing is placed behind its arch. The full-width FDJ floor is rendered once behind native walls rather than clipped into repeated wedges, removing black floor triangles in an isolated 2×2 room. An internal side opening receives a one-frame-shifted, clipped adjacent front-wall graphic instead of a black strip. This lateral fill is a CK heuristic and is not a verified original Ishar room projection.
+
+The five game-menu tabs and panels moved into the right control area, immediately visible beside movement. Actions, character, inventory, map and quests respond there; inventory items can be selected for descriptions and held keys can open their matching facing door. Pickup is directly available in the same control area. Original FRISE action/life graphics remain. Other FRISE icon meanings, the MAIN glyph map, original equipment/magic/stat interfaces and closed-door leaves remain unresolved.
+
+Found a persisted-project hydration bug: Playtest initially showed the starter entrance even when the Builder's saved entrance differed. Start field/direction, character roster HP and initial door state now sync when authored values load or change, without resetting ordinary movement. In the separate 4176 origin, the saved `Verfallenes Tor 2/1` south-facing start appeared automatically after reload. The real 4175 project was not edited. Typecheck, A1, palette, scene, world and production build checks passed; 4175 preview was restarted against the current build and local ZIP. Original game data and comparison captures stay outside Git.
+
+## 2026-09-27 — Continuous multi-cell rooms
+
+The previous renderer hid the immediate side wall for a same-group neighbor but unconditionally painted an adjacent front wall at *every* depth. In a 4×4 room this created false internal wall rows; merely suppressing them exposed black lateral areas because only one sightline was rendered. `roomViewEdges` now scans each same-group row to the actual left/right perimeter and identifies only the lateral cells whose forward edge is a wall. Native DJ1/DJ2 room rendering projects the perimeter side sprite outward by the cell offset and places front sprites only along the far boundary. The shared ceiling/floor remains a single surface. A 4×4 Builder room was created in the isolated 4176 origin, viewed from (1,3) north and (1,2) north/east: the inner 16 cells were open, with textured perimeter and a continuous back wall. The user's 4175 project was not edited.
+
+The geometry is a CK reconstruction, not an observed original Ishar wide-room draw path. It handles contiguous authored room groups. A doorway on a distant lateral perimeter and nonrectangular rooms still need separate projection/evidence work. `test:world` now checks every cell/facing of a 4×4 square: no internal side or front seam, and walls only at the outer offset. Typecheck, world/scene tests and production build passed for the implementation.
+
+## 2026-09-27 — Legacy manually joined rooms
+
+The user's live 4175 Playtest showed `Neuer Raum` facing west with a room viewport and a walkable room cell ahead, yet both depth layers still contained fallback side walls and no perimeter/front extensions. Unlike Builder-created room blocks, the older manually joined rooms have no shared `roomGroupId`; `roomViewEdges` required a truthy group id and therefore treated them as separate corridors. It now treats connected room cells with the same missing group id as one continuous area. The Builder's `+ Raum` action now preserves the source room scene kind and group id even on a dungeon level, so future manual extensions remain open rooms.
+
+An isolated 4176 House-level 2×2 map was assembled from four manual `+ Raum` cells without a group id, with all four internal edges connected. Looking east from (0,1) showed no internal side wall; the far row used two adjacent front-wall sprites. Moving to (1,1), turning west and looking back showed the same continuous front frieze. `test:world` covers an ungrouped 2×2 and all facings of an ungrouped 4×4 room. The live user tab was inspected and its playtest location restored; the user project was not modified. Typecheck, A1, palette, scene, world and production build checks passed. The 4175 preview was restarted with the new build and local ZIP. This validates CK topology, not the original game's wide-room composition.
+
+## 2026-09-27 — Mixed room groups in the user's 2×2 area
+
+The user's screenshot from the far-left 2×2 area showed a right-side pillar/wall despite an adjacent room on the minimap and an abruptly ending front wall. In the live 4175 project at minimap coordinate `(17,107)`, the east neighbor `(35,107)` and north-east cell `(35,89)` were present and connected. Moving east and back confirmed the east cell was a room, not a corridor. Both native depth layers nevertheless drew `dungeon-wall side-right` with no lateral front extension. The cause was a *different explicit* `roomGroupId` across the connection: the prior fix covered matching or missing IDs only.
+
+An ordinary open connection between two room cells now shares a floor surface regardless of authoring group ID. An authored door or explicit different tileset still marks a boundary. The same rule controls side-wall suppression, lateral back-wall continuation and forward arch placement. After rebuilding/restarting 4175, the live tab was reloaded and navigated back to `(17,107)` facing north. The screenshot comparison shows no right interior wall; two front sprites continue the brick/frieze wall to the right edge. The active map panel, position and facing were restored. `test:world` covers adjacent room cells with different group IDs and keeps authored doors as boundaries. This remains a CK room-composition rule, not a verified original Ishar layout routine.
+
+## 2026-09-27 — Recessed side passage beside the room
+
+The next user screenshot showed the same multi-cell room at minimap `(35,107)` facing north. The front wall now continues correctly, but the right passage at depth 1 looked like a large, brick-textured vertical door leaf. The renderer always stretched a depth-2 `wall.front` bitmap across the entire clipped side aperture (`107 × 296` CK units at this position), regardless of whether the perpendicular branch continued. That distorted the bricks and put an apparent wall immediately inside a walkable side passage.
+
+`renderSidePassage` now checks whether the side neighbor connects one cell farther in the same direction. For a continuing branch it keeps the native `opening.right`/mirrored `opening.left` column in front, draws a dark recessed opening with a sloped lower edge, and places a depth-3 front bitmap farther into the passage at its source-derived size. For a one-cell dead end it retains a depth-2 front bitmap, also at its native size rather than stretching it into the aperture. The native room front wall and side wall topology are unchanged. The branch-depth projection and recess shading are CK heuristics; the original Ishar side-corridor draw sequence is still unverified.
+
+Browser comparison on the real 4175 project used the same route from `Verfallenes Tor` to `(35,107)` north. The previous large brown/brick slab no longer hides the right arch; the passage shows a smaller distant stone wall, a dark opening and continuous floor beneath. No authored map or asset mapping was changed. The production preview uses the local `Ishar2.zip` outside Git. Typecheck, A1, palette, scene, world tests and production build passed. The preview was restarted after the final build so its SSR manifest matches.
+
+## 2026-09-27 — Side-facing niche at the 2×2 room entrance
+
+The latest live screenshot at the far-left 2×2 room showed a dark, unframed wedge on the right while facing north from `location-18` (-3,4). Builder topology confirms that the front room cell `location-13` (-3,3) has an east exit to corridor `location-12` (-2,3). That edge is traversable and has no authored door; the user’s proposed intervening impassable grid cell is a plausible hypothesis about original Ishar maps, not evidence to alter this project’s authored graph.
+
+The local DJ1 table places composite #71 (raw #10 + #35, 48×81) at the same script position as the isolated depth-1 column #74; #72 (raw #11 + #36, 32×76) similarly matches the depth-2 column #75. Their decoded bitmaps contain a side-facing stone niche with dark wall backing. A trial that assigned opaque DJ1 #67–70 / DJ2 #55–58 as generic openings concealed the passage and was discarded. A direct browser comparison of #71 at the reported camera position instead shows a recessed, masonry-framed side niche.
+
+DJ1 #71/#72 are now imported as `opening.room.right` depth 1/2 and mirrored left variants. `DungeonViewport` chooses them only at a room/corridor boundary or another nonshared room edge; ordinary side branches keep #73–76. DJ2 has no corresponding mapped room-niche family and retains its existing generic opening. The import layout version is 11 so an older cached asset pack upgrades automatically. DOM source markers on SVG layers and the viewport layout version aid future browser inspection. In the live 4175 project, the corrected room view rendered `DJ1.IO#scene-71` at depth 1; restarting at the entrance rendered `DJ1.IO#scene-74` at the depth-1 corridor branch. The user’s map/project topology was not edited. Typecheck, A1, palettes, scene and world tests, and production build passed. The source coordinates and bitmap contents are inspected facts; using #71/#72 specifically for room boundaries is a CK reconstruction, not a verified original Ishar draw rule.
+
+## 2026-09-28 — Swamp outdoor test slice
+
+The user rejected the DJ1 #71 side niche in the 2×2 room as the wrong texture. **That issue remains open.** Do not present #71/#72 as the verified side-door appearance or alter the authored room/corridor graph solely from the proposed original wall-cell hypothesis. The user supplied a working distinction between three Ishar 2 dungeon looks: Akeers Island (current art), a simpler brown dungeon, and a grey/gold final dungeon. This is user-provided context; exact archive-module mapping remains to be proved.
+
+The current priority moved to an open swamp scene. Visual inspection of locally decoded `FOND1.IO`, `PLAINE1.IO`, `ARBO.IO` and `FORET1.IO` showed sky/ground strips, grass, trees and root/trunk distance variants. The exact original swamp draw sequence and area palette are **not** recovered. The CK swamp preset therefore uses these original pixels with authored projection and leaves movement governed by reciprocal map exits. Import layout version 12 forces the small set needed by the preset through the preview budget; older cached packs reimport them from the local ZIP while preserving authored game data.
+
+Builder now has a `Sumpf-Testgebiet anlegen` action. It creates a separate 5×5 outdoor level with all 25 cells connected and a portal from the selected cell, plus a biome selector for outdoor levels and a per-cell plant/house picker. The normal outdoor renderer remains available for other levels. In the isolated 4176 browser origin, the action produced 25 cells with validation `OK`. The Playtest rendered `FOND1 #1/#0`, `FORET1`, `PLAINE1`, `ARBO` and moved east from `Sumpf-Eingang` to `Sumpf 4,5` through visible vegetation. The DOM reported scene layout 12. No copyrighted source images were committed, and the main user project on 4175 was not edited for this isolated test. Typecheck, A1/palette/scene/world tests, and production build passed.
+
+Next: compare the CK swamp composition with original Ishar 2 outdoor frames and trace the `FOND1/PLAINE1`, `FARBO/ARBO` script placement and palette transitions. In particular, current sky/ground placement, plant distribution and distance offsets are toolkit heuristics. Return to the rejected DJ1 #71 side-door texture only with direct original draw evidence or a matching gameplay frame.
+
+## 2026-09-28 — Swamp vegetation and perspective correction
+
+The user confirmed swamp movement, but the first screenshot showed detached turquoise crowns, bare trunks, floating/cropped plants and a hard green foreground strip. I compared the 4176 view with the supplied [Ishar 2 04 gameplay clip](https://www.youtube.com/watch?v=Xf3QzHE4byM&list=PLC698061B3F758948&index=5), including its opening Irvan's Island battle view: pale/orange fog, continuous low grass, rooted bare trees and no turquoise tree clouds in that area. A later frame of the same clip shows sparse vegetation against fog. The clip is visual evidence for this area, not an exact screen-coordinate specification.
+
+The original resource tables confirm `FORET1.IO` #24–37 and `PLAINE1.IO` #21–39 are ALIS composites. `FORET1` #24–26 and #31–33 join multiple root/tree-foot layers; #27–30 and #34–37 are distance-specific trunks. `PLAINE1` #21 and #28 join vertically staggered vegetation, while nearby entries are smaller complete plants. The previous renderer selected raw component images and an unrelated `ARBO` #69–72 turquoise foliage family; this explains the cut tops/feet and disconnected crowns. The original indexed pixels and child references are extracted facts. The camera placement and pairing of the near `ARBO` bark with `FORET1` feet remain CK heuristics.
+
+The importer now prioritizes the relevant outdoor composites within its preview budget and renders their x/z child offsets before generating the PNG previews. Layout version 16 upgrades cached local packs from `Ishar2.zip` while preserving authored project data; on upgrade it replaces old FORET1/PLAINE1 composite URLs with correctly assembled previews. The renderer uses complete tree and plant resources, stable grid-based depth spacing, anchored feet, a continuous tinted `FOND1` terrain/sky transition, and scattered native plant composites. It no longer stretches a `PLAINE1` foreground strip across the viewport. The near bare-tree stem uses `ARBO` #0/#1 with `FORET1` roots. In the isolated 4176 Playtest, DOM source markers showed these original resource families and layout version 16. A visual pass caught an oversized near root and it was narrowed for the final build. The `4176` project remains the disposable 5×5 test; no 4175 authored map data was changed. The exact original draw order, time-of-day palette, and swamp density still require direct script reconstruction, so this remains a visual approximation rather than a verified reproduction.
+
+## 2026-09-28 — Irvan swamp terrain correction from five comparison frames
+
+The user supplied three Irvan's Island swamp frames, one CK frame, and one Thorm's Island frame. This directly exposed a wrong CK composition: the large brown `ARBO.IO` #0/#1 bark panels resemble the Thorm forest screenshot, while Irvan's swamp has fog, pale bare trees, grass across most of the walkable ground, and gray water only in places. `FOND1.IO` #0 is a water-like 256×32 strip, not a suitable full-ground layer. `PLAINE1.IO` #92–95 are original grass-distance sprites; `FORET1.IO` contains the pale bare-tree distance variants. The identification of original pixels is verified by extraction and screenshot comparison; the grid placement is still a CK heuristic. Close bare trunks can legitimately extend past the top of the 256×113 view, but distant branching silhouettes should remain visible.
+
+The swamp renderer no longer uses `ARBO` panels or paints `FOND1 #0` across every ground pixel. It lays `PLAINE1 #92–95` grass over a graded green base, draws `FOND1 #0` only for cells authored as water, and uses `FORET1` at native source-to-viewport scale rather than one arbitrary enlargement for all distances. `outdoorSurface` is now an explicit per-cell `grass`/`water` property. The new 5×5 preset has two water cells, omits their reciprocal exits, and keeps its grassy route connected. The Builder can change a cell's surface, marks water on its map, and removes exits, doors and portals when turning a field into water. It rejects a water start and cannot reconnect water; validation detects invalid imported water links/start/portals. The Playtest minimap distinguishes water and movement into it logs a water-specific barrier message.
+
+Production build and typecheck passed. A1, palette, dungeon scene and world tests passed; world tests include water movement and validation. Both local preview servers were restarted after build. In the isolated `4176` browser project, I marked `Sumpf 1,3` as water, started at adjacent `Sumpf 1,4` facing north, confirmed the rendered water, and pressed forward: location stayed put and the log reported the barrier. DOM source inspection found zero `ARBO.IO` scene images and one `FOND1 #0` water image. The main `4175` authored project was not edited. The current `4176` test is intentionally parked at this water-view case. The water shoreline shape, grass tiling, and precise original camera placement remain visual approximations, not verified original Ishar draw logic.
+
+## 2026-09-28 — Water coverage and fixed swamp-tree anchors
+
+Five new CK screenshots showed two remaining visual errors. A blocked water cell appeared as a narrow, sharply bounded trapezoid rather than occupying its lateral field and fading into grass. A large tree seemed to jump between unrelated cells as the player turned and walked around it. The prior renderer did select trees based on **camera depth and lateral slot**, so the same cell could gain or lose a tree when viewed from another angle; this was a real CK projection bug, separate from any unknown original ALIS placement algorithm.
+
+`src/lib/ishar/swamp-view.ts` now assigns each outdoor grass cell a deterministic feature and subcell world point based only on authored coordinates. The renderer projects that same point into each facing and camera position, selects the appropriate `FORET1` near/mid/far family from distance, and retains the cell ID on the SVG image for inspection. A tree beside the player remains clipped at the viewport edge instead of vanishing at depth zero. The `visibleOutdoorCells` result still governs water and low-growth sampling. Water extents now cover the whole visible width for a blocked cell directly ahead and reach the appropriate screen edge for side cells. Nested depth and side masks fade `FOND1 #0` into the grass rather than drawing an exposed polygon boundary. These positions and masks are CK heuristics; source pixels are original decoded assets.
+
+The `4176` Playtest was inspected from the water-facing bank, from one tile south facing west, and from the adjacent tile east facing north. The same tree cell `level-6-swamp-0-3` was observed as `FORET1 #25` at the right edge up close and `FORET1 #34` farther left after moving east, with fixed world coordinates; moving into its own tile keeps a clipped root visible. The water view now spans left and right edges with a blended front edge, while forward movement remains blocked. `scripts/check-world-builder.mjs` asserts the anchor, projected lateral shifts, same-cell edge visibility, and water extents. The 4175 authored project data was not edited. Exact original sprite positions, occlusion and shoreline shapes remain unverified.
+
+## 2026-09-28 — Tree turn consistency and grounded plants
+
+The user confirmed the water rendering and supplied two views from `Sumpf 1,1` (west and south) plus an Irvan gameplay comparison. In the CK views, the same nearby tree changed from a large clipped root to a cluster of much smaller trees when turning in place. The cause was distance-family selection from forward camera depth: rotating changed that depth without changing the player's actual distance from the tree. Low plant clusters were also generated from camera-relative visible depth/lateral slots, so their positions and sizes could change on turning.
+
+`projectSwampFeature` now computes radial world-space distance and uses it for the `FORET1`/`PLAINE1` distance band. Screen position and ground-foot perspective still use forward and lateral camera coordinates. `swampGroundFeatureForCell` gives the low `PLAINE1` clusters fixed subcell points, and both tree and plant scaling now keep mid/far sprites more legible. The water surface, masks, terrain and authored map are unchanged. These placements and size factors remain CK reconstruction heuristics; the supplied original frame supports a large foreground root, substantial pale trees behind it, and dense reeds, but does not specify exact ALIS coordinates.
+
+Browser verification used the disposable 4176 swamp level at `Sumpf 1,1`: turning from west to south kept cell `level-6-swamp-0-1` on `FORET1 #32` at SVG width 320 in both views; only its projected X position changed. Its grounded `PLAINE1 #22` cluster likewise kept width 96. The screenshots are saved beside the repository as `swamp-tree-west-fixed.png` and `swamp-tree-south-fixed.png`. The 4175 authored project data was not edited. Typecheck, A1/palette/scene/world tests and production build passed; both production preview servers were restarted. The original swamp renderer's precise draw order, near clipping, and vegetation densities are still unverified.
+
+## 2026-09-28 — Original tree-series distance sizes and map reference
+
+The user found the tree distance sizes still inconsistent and linked an Ishar 2 walkthrough with hand-drawn dungeon maps. Reinspection of the decoded `FORET1.IO` contact sheet showed two contiguous source tree families, #24–30 and #31–37. Our four-band renderer had mixed these families and boosted far sprites by 12–40% beyond their native dimensions. `swampTreeAssetIndex` now selects #25/#26/#28/#30 or #32/#33/#35/#37 within one family, and trees render at source dimensions scaled only to the 640×400 viewport. The fixed world-space anchors, vegetation placement, water masks and authored map were not changed.
+
+On the disposable 4176 level, `Sumpf 1,1` facing south shows the near `FORET1 #32` tree at width 320, intermediate #26/#28 trees at widths 200/120, and the most distant #37 at width 40. A browser screenshot of the final build is saved beside the repository as `swamp-tree-native-distance.png`; the production preview servers were restarted after build. Typecheck, A1/palette/scene/world tests and production build passed. The original draw coordinates and exact threshold values are still unverified.
+
+The linked [Ollivision Akeers map](https://www.ollivision.de/kl/i/gfx/pic7.gif) visibly uses whole hatched graph-paper cells for solid wall regions. `AUDIT.md` records this as secondary support for cell-based walls, without treating a hand-drawn map as original game data or changing the currently authored CK room graph.
+
+## 2026-09-28 — Same-cell tree visibility and cut-top trunks
+
+The user compared `Sumpf 1,1` facing south with `Sumpf 1,2` facing north and observed that the prominent tree almost disappeared after crossing into its own field. `projectSwampFeature` had a special case that pushed any same-cell tree to X=-130/770 regardless of its actual subcell point. The exact #32 tree was still in the DOM but only 30 pixels of its 320-pixel width remained visible in the reported north view. The special case now projects the actual signed lateral offset, including when the tree is slightly behind the camera, and retains a wide near-field factor so bank-edge trees stay peripheral.
+
+In the `Sumpf 4,2` west screenshot, #26/#33 middle-distance trees showed their source bitmap's flat, cropped trunk tops below the viewport border. `swampTreeDisplayHeight` now extends cut-top near/middle images vertically so their top is at or above Y=-8, keeping the foot anchored; full-crown far trees keep their native height. These camera and vertical adjustments are CK heuristics, not recovered original Ishar transforms. Water masks and authored map data were not edited.
+
+Browser verification on a separate 4176 test tab reproduced both locations in the final production build. `Sumpf 1,2` north now places the same #32 tree at X=403.75, width=320, Y=-8, leaving 236 pixels visible instead of 30. At `Sumpf 4,2` west, all visible #26/#33 trunks begin at Y=-8 instead of 10–58 pixels below the top. Screenshots are saved beside the repository as `swamp-tree-opposite-final.png` and `swamp-tree-clipping-final.png`. The separate test tab was closed; the user's Playtest tab and authored project data were left intact. Typecheck, A1/palette/scene/world tests and production build passed, and both preview servers were restarted.
+
+## 2026-09-28 — Tree anchors at shared field corners and cell centers
+
+The latest user comparison follows `Sumpf 2,2` west to `Sumpf 2,3` west. Inspection of the live SVG showed that a near tree could change how much of its root was visible as its former fractional subcell offset and a cell-ID-specific near projection interacted. Tree anchors are now deterministic grid points: selected trees occupy the north-west vertex of their owning interior cell, and the others occupy its center. One cell owns each corner tree, preventing duplicate sprites at a shared vertex. Plants retain their existing subcell placement. A tree at a vertex projects from its actual world point for all four surrounding camera cells; a center tree projects from the four cardinal neighbors. The special near projection is based on geometric distance, not ownership, and does not draw a tree behind the camera. The treatment of a passable center-tree cell was revised in the following correction.
+
+For the reported pair, tree `level-6-swamp-1-2` is fixed at world point `(0.5, 1.5)`. In this revision it used `FORET1 #25` at 440 display pixels in both views, spanning X=-180…260 from `Sumpf 2,2` west and X=380…820 from `Sumpf 2,3` west. The same root moved from the left edge to the right edge while retaining its width. Browser screenshots from this revision are saved beside the repository as `swamp-corner-tree-2-2.png` and `swamp-corner-tree-2-3.png`. World regression checks cover the exact pair, all four cells around another vertex tree, and all four cardinal neighbors of a center tree. Typecheck, A1/palette/scene/world tests and production build passed. Both preview servers were restarted, and the user's 4175 authored project was not edited.
+
+The anchor choice, corner distribution and projection factor are CK visual heuristics. Original `FORET1` pixels and source dimensions are verified, but the original Ishar placement and occlusion algorithm has not been recovered. A large tree at the viewport edge is intentionally clipped by the camera; another nearer tree can also occlude a farther center tree. Further comparisons should use the same tree from multiple original Irvan camera positions rather than treating one still frame as a coordinate specification.
+
+## 2026-09-28 — Side tree coverage and repeated-sprite correction
+
+The user's five new screenshots exposed two separate regressions. At `Sumpf 2,4` north, the center tree on neighboring `Sumpf 1,4` was mostly outside the left side of the viewport under ordinary lateral projection. At `Sumpf 1,4`, that same tree occupied the exact camera point; the previous special case drew one large root straight ahead for north, east, south and west, making one passable tree resemble four repeated nearby trees. The test preset also had eight trees, including adjacent cells assigned the same `FORET1` family.
+
+The renderer now omits an on-point center billboard and gives a tree in a directly adjacent side field a symmetric near position at X-center 200 or 440. On the 640-pixel view, the `Sumpf 1,4` tree seen from `Sumpf 2,4` north is `FORET1 #25`, width 440, X=-20: 420 pixels of its source width remain inside the view. The 4176 browser test showed no own-cell tree image through all four rotations at `Sumpf 1,4`. The deterministic 5×5 preset now has seven large trees; a formerly clustered tree is low vegetation, and adjacent large trees are assigned different original near/far families. There are only two verified `FORET1` tree series in this asset group, so this changes frequency and placement rather than inventing a new tree graphic.
+
+The earlier corner-tree invariant still holds after reassignment: `level-6-swamp-1-2` uses `FORET1 #32`, width 320, at X=-120 in `Sumpf 2,2` west and X=440 in `Sumpf 2,3` west. The two final browser views are saved beside the repository as `swamp-tree-1-4-revised.png` and `swamp-tree-2-4-revised.png`. The user-facing 4176 test project and 4175 authored dungeon data were not edited; only rendering code and the deterministic test-scenery rule changed. Typecheck, A1/palette/scene/world tests, and production build passed; both preview servers were restarted. World tests assert no repeated own-cell billboard, side visibility, distinct adjacent tree families, four-view vertex projection and four cardinal neighbor views of a centered tree. All density, anchor and lateral positions remain CK visual heuristics; the original ALIS placement code is still unverified.
+
+## 2026-09-28 — Playable character sheet from Ishar 2 menu evidence
+
+The user chose the interface as the next milestone. At about [10:00 in the supplied Ishar 2 playthrough](https://www.youtube.com/watch?v=T8xhKR4Gz98&t=600s), the character sheet occupies the main scene rectangle while the right-hand navigation controls and five-member strip remain present. The original view places identity/statistics to the left and character-specific item slots/equipment to the right. This was checked against the [Ishar 2 manual](https://mocagh.org/miscgame/ishar2-manual.pdf): the name opens a character sheet, each character has nine item boxes, and objects can be passed to another character. The video and manual are evidence for layout and interactions, not a specification for every stat or equipment rule.
+
+The CK Playtest now opens an in-viewport character sheet by clicking a party member's name; clicking a portrait opens that member's baggage. The sheet keeps the party strip and movement controls visible, shows current/max HP and attack, and reserves a 3×3 grid of nine slots for that member. Picking up a room item assigns it to the selected living member, refuses a tenth item, and displays a selectable description. A selected item can be handed to another member with space; a carried key can be used on the matching facing door. The footer lists the owner of each collected item. Restart clears the ownership state. Existing authored projects still load because new character details (`race`, `profession`, `level`, `experience`, `physical`, `psychic`, `alignment`) are optional; Builder exposes these in a collapsible editor per member.
+
+Verification: typecheck, world tests, scene tests and production build passed. On a separate 4175 Playtest tab, the default dungeon route reached the crypt, took the Runenstein, showed it as slot 1/9, fought the guardian and used the key to open its door. On a disposable 4177 project, a second member was created, its Volk/Beruf/Level were authored and appeared in Playtest, and the Runenstein was handed from Aramir to Figur 2; the recipient's sheet showed 1/9 and the footer updated its owner. The original 4175 authored project was not edited. The current sheet is a functional CK adaptation: original equipment slots, spell/command pages, bitmap type, portrait artwork and exact panel pixels still need asset semantics and implementation. Do not describe it as a complete original Ishar 2 HUD.
+
+## 2026-09-28 — Mouse pickup from ground to portrait
+
+The current-cell item in the first-person scene is now an interactive SVG target, whether it uses a discovered original item bitmap, a mapped generic item graphic, or the procedural fallback. Clicking it selects the ground object and highlights eligible party portraits. A left click on a living member's portrait takes that item into the member's personal inventory and opens that character's sheet. The existing `Aufnehmen` command remains as an alternative direct pickup. Items at depths 1–2 remain visible but are not selectable from afar. Pickup checks current-cell ownership, combat state, defeat and the recipient's nine-slot capacity; a failed pickup leaves the object on the ground. Turning, moving and restarting clear an unfinished selection.
+
+Browser QA used the disposable 4177 project, with two party members and the Runenstein at the starting Alte Krypta. A coordinate mouse click on the visible floor graphic set the selected state and showed the portrait instruction; clicking Figur 2's portrait put the Runenstein in slot 1/9, removed the ground target and listed Figur 2 as owner. A second run clicked the pedestal graphic directly, then rotated right; the selection and portrait cues cleared. The user-owned 4175 project was not edited. Typecheck, world tests and production build passed for the change.
+
+## 2026-09-28 — Ground-item click follow-up
+
+The user reported the mouse pickup still did not work. Inspection of both already-open 4175 browser tabs showed stale client bundles: one predated the character sheet entirely, and the other had the sheet but no interactive SVG ground-item target. A fresh tab loaded the current build and successfully selected the Runenstein by coordinate mouse click, then put it in Aramir's slot 1/9 by clicking the portrait. The existing user tabs were not reloaded, preserving their runtime positions. The fresh tab was walked from the entrance through the crypt, guardian and locked door to the Sonnenheiligtum to verify the specific Sonnenschlüssel graphic rather than only the fallback Runenstein.
+
+The imported Sonnenschlüssel bitmap is visually tiny. Its first exact-pixel click did work, but that was too easy to miss. `renderDiscoveredItemAtDepth` now adds a transparent minimum 64×52 SVG hit region around current-cell imported items, without resizing or moving the original pixels. Browser geometry and a coordinate click in that region away from the key pixels confirmed selection; a portrait click then moved the Sonnenschlüssel into Aramir's second item slot and removed it from the floor. Typecheck, dungeon scene tests and production build passed. This change cannot update JavaScript already loaded in older browser tabs; reopen/reload or use the prepared fresh 4175 tab. A future build-version notice would make stale tabs easier to identify without silently resetting Playtest state.
+
+## 2026-09-28 — Object held at cursor and direct portrait transfer
+
+The ground-item selection now represents an object in hand. Clicking the scene graphic or pickup command hides it at its original floor position and displays its bitmap at the mouse pointer; the very small 16×4 source key is enlarged with pixelated sampling for a usable cursor image. The original floor hit target remains active, so another left click there puts the item back. Escape and the pickup command can also return it. Movement and turning pause while holding an object so its original location remains unambiguous. A left click on a living character portrait assigns it directly to that member's inventory without opening the inventory sheet. All pickup paths use this two-choice state; no inventory item can be dropped back to the floor.
+
+On an isolated 4177 Playtest, the Runenstein disappeared from the scene when lifted, followed the pointer, returned on a second click at its original position, and then transferred to a member. The default dungeon route was walked to the Sonnenheiligtum: the imported Sonnenschlüssel likewise followed the pointer, returned to the floor, and then transferred to Figur 2. After portrait transfer the first-person view remained open, the inventory count increased, and the floor target disappeared. Typecheck, scene/world tests and production build passed. The 4175 authored project was not edited.
