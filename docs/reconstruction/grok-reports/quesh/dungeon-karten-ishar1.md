@@ -43,3 +43,39 @@ cell = lambda x, y: (b[x*90+y] ^ 0x80) - 0x80
 
 ## 7. Offen
 - Bedeutung der positiven Werte und der Sonderwände; ob Zonen 2–5 neben 12–15 genutzt werden; ob ein Save die CONTn.FIC ersetzt.
+
+## Nachtrag 2026-11-03 (2): Zellwerte → Renderer/Trigger
+Höhlenrenderer ist **MCAVE.IO**: Zelle lesen in L_004b7 (0x004c7/0x004d8), Switch bei 0x0055f über −82..−80 und 10..85. Zusatzmodule COLCAVE (34..45) und INCAVE (78..81); beide lädt MAIN. Trigger für Eingänge: GERDEP schickt Nachricht 17 an MAIN (0x00330, Fall 17 → loc 0x425b, L_03542).
+Ein Wert ≥ 10 beschreibt die **Wandflächen einer begehbaren Zelle**; negative Zellen werden in der Höhle nicht gezeichnet. Das korrigiert die alte Zeile „−99, −50..−52 Fels (suspected)“ im Abschnitt 3: Das Zeichnen ist jetzt belegt (known); dass es Fels ist, bleibt suspected.
+
+| Wert | Renderer | Klick | Trigger | Stufe |
+|---|---|---|---|---|
+| < 0 außer −80..−82 | Höhlenrenderer: kein Bild (MCAVE-Switch 0x0055f hat keinen Fall); Wände werden als Flächen der begehbaren Nachbarzelle gezeichnet | – | nicht begehbar (GERDEP L_011c3) | known |
+| −99, −50..−52 | massiver Fels / Wandinneres; nur über das Fehlen eines Falls belegt | – | – | known (kein Render), Name suspected |
+| −1..−25 (Zonen <10) | Außenwelt-Eingang; der Außenrenderer ist nicht ausgewertet | Laufen vorwärts (dirb11=1) gegen die Zelle | GERDEP 0x00cd0–0x00f1e: send n=1,0,17,k → MAIN 0x00330 Fall 17 → loc 0x425b=k, L_03542: k=1 taverne/itaverne.IO (0x036c6), k=2 marchand.IO (0x0381c, Tabelle 0x3fd6), k=3 stage.IO (0x038c6, Tabelle 0x4178), k=4 intmais.IO (0x0396d, Tabelle 0x41b8); Gebäude-Nr. aus Tabelle[x,y,zone] → loc 0x425c | known (Wert→k je Blick in GERDEP) |
+| −12 | Sonderfall in GERDEP 0x00e02: Prüfung eines Gruppenmitglieds mit 0x3908==27, ENCONT-Eintrag (live 0x0e, 0x3f06) | Laufen vorwärts | Ereignis mit Figur 27 | suspected |
+| −40..−43, −8, −10, −16, −19 (Zonen ≥10) | Eingang aus der Höhle; zusätzlich Bedingung an die eigene Zelle (35/36/37/40/57/76) | Laufen vorwärts | GERDEP L_00f3e: send 17,k (k=1..4 wie oben) | known |
+| −80, −81, −82 | Treppe/Übergang: Wandbilder plus Sprite 241 (MCAVE L_02c4a/L_02b80/L_02d14) | Laufen auf die Zelle | GERDEP L_0101c ff.: feste Zielposition/Zone (z. B. −80 in Zone 15 → (36,26)) | known |
+| 0..9 | Boden ohne Wandfläche (kein MCAVE-Fall) | – | – | known |
+| 10..13 | Gang: zwei parallele Seitenwände (10/11 entlang y, 12/13 entlang x); Stirnfläche Sprite 27 (L_030c3), Spiegelung über Wert%2 | – | – | known (Render), Namen suspected |
+| 14..21 | eine Wandfläche; Seite aus Wert und Blick (Sprites dirw 0x28/0x2a = 15/21 mittig bzw. 43/37 seitlich, je + Tiefe) | – | – | known |
+| 22..29 | Ecke: zwei Wandflächen + Stirnfläche | – | – | known |
+| 30..33 | Sackgasse: drei Flächen | – | – | known |
+| 34..45 | Säule/Pfeiler: MCAVE L_02e95–L_03094 (Sprites 49..79), zusätzlich COLCAVE cswitch2 0x005a6 (Ziele ab L_005c8) | – | – | known (Render), Name suspected |
+| 46..53 | Tür Typ 1: Türblatt Sprite 126 (L_03101), Rahmen 144 (L_03353/L_033aa); Türkante m%4 | Klick-/Schlüssellogik siehe tuer-hebel-trigger-ishar1 | Tür d über 0x3c00/0x3c34, Zustand 0x3b64 | known |
+| 54..57 | Tür Typ 2: 132 / Rahmen 150 | wie oben | wie oben | known |
+| 58..61 | Tür Typ 3: 138 / Rahmen 156 | wie oben | wie oben | known |
+| 62..65 | Tür Typ 4: 181/171 (L_03171/L_031b9), Rahmen 21 (L_0355d) | wie oben | wie oben | known (Render), Typname suspected |
+| 66..69 | Hebel: MCAVE L_03607/L_0368d/L_03713, Wandfläche 201/207 (dirw 0x2c/0x2e), Hebel 213/219 (L_03718/L_0375a) | frontal bei Tiefe 0 (PCAVE) | 0x3b98[k] | known |
+| 70..77 | Wandfläche mit Variante (eine Seite, Sprite dirw 0x2a) | – | – | known (Render), Bedeutung suspected |
+| 78..81 | Wand + Objekt Sprite 228; INCAVE 0x005da legt Sprite 12+Tiefe darüber | – | – | known (Render), Bedeutung unknown |
+| 82..85 | Tür Typ 5: 234 (L_03151), Rahmen 144 | wie Türen | wie Türen | known |
+| 100..110 | nur CONT3/CONT4 (Außenzonen), kein Höhlenfall | – | – | unknown (Außenrenderer) |
+
+Testfälle:
+- **R1:** Zone 15, (20,52), Blick 3 → Tür 10 frontal (Rahmen 144 + Türblatt). (suspected)
+- **R2:** (20,53), Blick 1 → dieselbe Tür von hinten. (suspected)
+- **R3:** −99 vor der Party → keine eigene Grafik. (known)
+- **R4:** Außenzone, −1..−25 voraus, vorwärts → Taverne, Händler, Gilde oder Haus wird geladen. (known)
+- **R5:** Zone 15, auf −80 laufen → (36,26). (known)
+Offen: Außenrenderer der Zonen 1..6 und die Werte 100..110; welche Bilddatei zu welcher Sprite-Nummer gehört.
