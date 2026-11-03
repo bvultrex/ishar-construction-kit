@@ -1,5 +1,7 @@
 # HOTH Abnahme 18.10.2026: Zeitgesteuerte Tür 28 (Karte 7)
 
+> Bereinigte Fassung (2026-11-03): Positionen, Klickkoordinaten, Pixelzahlen, Spielzeiten, sha-Werte und Rohwerte aus Saves stehen in `private/bereinigung/HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.privat.md`.
+
 Ersteller: Hoth (Grok Bot, Executor). Zeit: 20:08–20:33 MESZ. Grundlage: Quesh-Addendum 19:5x in `quesh/hebel-tuer-trigger-ishar2.md` (suspected). Private Belege: `codex-support/hoth/private/tuer28/`.
 Offset-Notation: **ab 0** wie save_layout und Quesh, **cmp** = `cmp -l` (ab 1). Uhrzeiten des Spiels als Stunde:Ticks.
 
@@ -28,55 +30,55 @@ Offset-Notation: **ab 0** wie save_layout und Quesh, **cmp** = `cmp -l` (ab 1). 
 - Rast oder Schlaf habe ich nicht verwendet. Die Debugtaste „a“ (+200 Ticks, MAIN 0x0412b) habe ich bewusst nicht benutzt.
 
 ## 3. Ort und Patches
-- CONT7 Zeile 6:
-  - c8 A = −5 / B = −57 (PPSAC)
-  - c9 A = 43 / B = −121
-  - c10 A = 10
-  - **c11 A = 43 / B = 88 → Tür 28 (Türblatt)**
-  - c12 A = 20, Gang nach r5/r7
-- Standort **r6 c12, Blick 1 (−col)**: Tür 28 ist eine Zelle voraus.
-- Zone 52: Die Marken r8 c13 = −92 und r7 c15 = −92 ergeben 52. Nach Queshs Liste ist das DJ1. Positionsprüfung: walkable.
-- **HOTZ0** = Kopie von HOTK753 (sha 27b4b7d6…1aed: Karte 7, 14:510, Tür 28 = 1, 0x449a[69] = 12, Objekt 6 ≠ 0). Patch `in/z1.json`.
+- CONT7 Zeile [Pos.]:
+  - [Pos.] A/B [privat] (PPSAC)
+  - [Pos.] A/B [privat]
+  - [Pos.] A/B [privat]
+  - **[Pos.] A/B [privat] → Tür 28 (Türblatt)**
+  - [Pos.] A/B [privat], Gang nach [Pos.]/[Pos.]
+- Standort **[Pos.], Blick [privat]**: Tür 28 ist eine Zelle voraus.
+- Zone 52: Die Marken [Pos.] = −92 und [Pos.] = −92 ergeben 52. Nach Queshs Liste ist das DJ1. Positionsprüfung: walkable.
+- **HOTZ0** = Kopie von HOTK753 (sha [privat]: Karte 7, [Spielzeit], Tür 28 = 1, 0x449a[69] = 12, Objekt 6 ≠ 0). Patch `in/z1.json`.
   - `cmp -l HOTK753 HOTZ0` (cmp oktal → ab 0 dezimal):
-    - 4: 14→6 = ab 0 Byte 3 (Zeile 12→6)
-    - 6: 10→14 = Byte 5 (Spalte 8→12)
-    - 8: 2→1 = Byte 7 (Blick 2→1)
-    - 20: 65→64 = Byte 19 (Zone 53→52)
-    - 46: 16→3 = Byte 45 (Stunde 14→3)
-    - 49/50: 1/376 → 2/60 = Byte 48/49 (Ticks 510→560)
-- **HOTZ1N** = Kopie von HOTZ1 (Spielergebnis, Tür 28 = 0). Patch `in/z2.json`: Stunde 7→0 (cmp 46: 7→0) und Ticks 251→560 (cmp 49/50: 0/373 → 2/60).
+    - Diff: ab 0 Byte 3 (Zeile geändert)
+    - Diff: Byte 5 (Spalte geändert)
+    - Diff: Byte 7 (Blick geändert)
+    - Diff: Byte 19 (Zone geändert)
+    - Diff: Byte 45 (Stunde geändert)
+    - 49/50: [Werte privat] = Byte 48/49 (Ticks geändert)
+- **HOTZ1N** = Kopie von HOTZ1 (Spielergebnis, Tür 28 = 0). Patch `in/z2.json`: Stunde geändert (cmp [cmp privat]) und Ticks geändert (cmp 49/50: [Werte privat]).
   - Damit ist der Ausgangszustand „Tür zu“ vom Spiel selbst erzeugt, nicht ins Blaue gepatcht.
 - Bedingung für Actor 69 (GERDEP 0x00497): 0x2c4e[6] ≠ 0. Im Save liegt das ab 0 bei Byte 742 und ist überall 1.
 
 ## 4. Ablauf und Ergebnis
 | Slot (neu) | Uhr h:Ticks | 7409 Tür 28 (cmp 7410) | 6850 = 0x449a[69] (cmp 6851) | Phase 91/93 | Bild |
 |---|---|---|---|---|---|
-| HOTZ0 (Patch) | 3:560 | 1 | 12 | 1/1 | Bogen offen, Figur dahinter (`04`, `zoom1.png` links) |
-| **HOTZ1** | 7:251 | **0** | **0** | 2/2 | ab der HUD-Stunde 4 Tür zu, Holzgitter (`05`–`10`, `zoom1.png` rechts) |
-| HOTZ1N (Patch) | 0:560 | 0 | 0 | 2/2 | zu (`24`) |
-| **HOTZ2** | 1:519 | **1** | 0 | 3/3 | offen ab HUD 1 (`25`) |
-| **HOTZ3B** | 3:52 | 1 | **12** | 3/3 | offen (`46`, `47`) |
-| **HOTZ4** | 5:437 | **0** | **0** | 3/3 | Tür nicht im Blick (nach einem Fehlklick Zeile 7, Blick auf die Wand), nur Byte-Beleg |
+| HOTZ0 (Patch) | [Spielzeit] | 1 | 12 | 1/1 | Bogen offen, Figur dahinter (`04`, `zoom1.png` links) |
+| **HOTZ1** | [Spielzeit] | **0** | **0** | 2/2 | ab der HUD-Stunde 4 Tür zu, Holzgitter (`05`–`10`, `zoom1.png` rechts) |
+| HOTZ1N (Patch) | [Spielzeit] | 0 | 0 | 2/2 | zu (`24`) |
+| **HOTZ2** | [Spielzeit] | **1** | 0 | 3/3 | offen ab HUD 1 (`25`) |
+| **HOTZ3B** | [Spielzeit] | 1 | **12** | 3/3 | offen (`46`, `47`) |
+| **HOTZ4** | [Spielzeit] | **0** | **0** | 3/3 | Tür nicht im Blick (nach einem Fehlklick Zeile [Pos.], Blick auf die Wand), nur Byte-Beleg |
 
 **cmp -l der Spiel-Saves (ab 0 / cmp):**
 - **HOTZ0→HOTZ1:**
-  - 45/46: 3→7 (Stunde); 48/49 und 49/50 (Ticks)
-  - 91/92 und 93/94: 1→2 (Phase)
-  - **3220/3221: 0→1** (main:0x35ce + 179, Bedeutung unbekannt)
-  - **6850/6851: 12→0**, **7409/7410: 1→0**
-- **HOTZ1N→HOTZ2:** 45/46: 0→1; 49/50 (Ticks); 91/92 und 93/94: 2→3; **7409/7410: 0→1**. Sonst nichts.
-- **HOTZ2→HOTZ3B:** 45/46: 1→3; 48/49 und 49/50 (Ticks); **6850/6851: 0→12**. Sonst nichts.
-- **HOTZ2→HOTZ4:** 3/4: 6→7 (Zeile, Fehlklick nach dem gescheiterten Speichern); 45/46: 1→5; Ticks; **7409/7410: 1→0**. Der Actor blieb 0, weil die Zwischenstufe 12 nicht gespeichert wurde.
+  - 45/[cmp privat]; 48/49 und 49/50 (Ticks)
+  - 91/92 und 93/[cmp privat]
+  - **3220/[cmp privat]** (main:0x35ce + 179, Bedeutung unbekannt)
+  - **6850/[cmp privat]**, **7409/[cmp privat]**
+- **HOTZ1N→HOTZ2:** 45/[cmp privat]; 49/50 (Ticks); 91/92 und 93/[cmp privat]; **7409/[cmp privat]**. Sonst nichts.
+- **HOTZ2→HOTZ3B:** 45/[cmp privat]; 48/49 und 49/50 (Ticks); **6850/[cmp privat]**. Sonst nichts.
+- **HOTZ2→HOTZ4:** 3/[cmp privat]; 45/[cmp privat]; Ticks; **7409/[cmp privat]**. Der Actor blieb 0, weil die Zwischenstufe 12 nicht gespeichert wurde.
 - Schaltertabelle (ab 0 7431+) in keinem Diff verändert.
 
 **Neuladen in frischen Sessions (Bilddiff):**
 
 | Save | gegen GRIMZEL (Laden gegriffen) | gegen das Bild vor dem Speichern | Inhalt |
 |---|---|---|---|
-| HOTZ2 | 43 485 px | 156 px | offen |
-| HOTZ1 | 43 515 px | 35 px | zu |
-| HOTZ3B | – | 3 596 px (Uhr- und Animationsstand, `m4.png`) | offen |
-| HOTZ4 | 43 679 px | 2 736 px | Wandblick |
+| HOTZ2 | [px] | [px] | offen |
+| HOTZ1 | [px] | [px] | zu |
+| HOTZ3B | – | [px] (Uhr- und Animationsstand, `m4.png`) | offen |
+| HOTZ4 | [px] | [px] | Wandblick |
 
 **Speicherproblem (Beobachtung):**
 - Zwei Speicherversuche um Stunde 2 schlugen fehl: HOTZ3 entstand nicht, HOTZ3B erst verspätet um 3:52. Das Diskmenü öffnete sich nicht sofort.
@@ -85,20 +87,20 @@ Offset-Notation: **ab 0** wie save_layout und Quesh, **cmp** = `cmp -l` (ab 1). 
 
 ## 5. Urteile
 - **Uhr-Offsets:** Stunde 44–45, Tag 46–47, Ticks 48–49 (ab 0): **known** (save_layout plus Laufzeit). Der Grenzwert 0x4fcc steht nicht im Save; ob 600 oder 1000 gilt, ist unknown.
-- **Tür 28 = 0x4aa4[28] = ab 0 7409 (cmp 7410), Karte 7 r6 c11:** **known.** Öffnet sich beim Wechsel auf Stunde 1 (0→1, sichtbar offen) und schließt sich beim Wechsel auf Stunde 4 (1→0, sichtbar zu). Beides übersteht Speichern und Laden.
+- **Tür 28 = 0x4aa4[28] = ab 0 7409 (cmp 7410), Karte 7 [Pos.]:** **known.** Öffnet sich beim Wechsel auf Stunde 1 (0→1, sichtbar offen) und schließt sich beim Wechsel auf Stunde 4 (1→0, sichtbar zu). Beides übersteht Speichern und Laden.
 - **Actor 69 (0x449a[69] = ab 0 6850, cmp 6851):**
-  - Byte-Verhalten **known:** 0→12 zwischen 1 und 3 Uhr, 12→0 über 4 Uhr. Der exakte Zeitpunkt 2:00 ist nicht eigens gespeichert, passt aber zum Bytecode.
+  - Byte-Verhalten **known:** 0→1 beim Wechsel auf 1 Uhr, 1→0 beim Wechsel auf 4 Uhr. Der exakte Zeitpunkt ist nicht eigens gespeichert, passt aber zum Bytecode.
   - **Sichtbarkeit: nicht belegt.** 12 ist nach Queshs Lesart die Szene 12 (Karte 3), nicht das Gefängnis.
   - Die Figur hinter dem Bogen ist bei 1 Uhr (Actor 0) und bei 3 Uhr (Actor 12) gleich, gehört also **nicht** zu Actor 69.
 - **CONT:** unverändert (siehe 6).
 
 ## 6. CONT und Saves
-- CONT1–4, 6 und 7 sind byte-gleich mit dem Original. CONT5 hat nur die 2 Mod-Bytes (sha 56e0771f…224b7b). Alle CONT-mtimes stehen weiter auf 1767222000.
+- CONT1–4, 6 und 7 sind byte-gleich mit dem Original. CONT5 hat nur die 2 Mod-Bytes (sha [privat]). Alle CONT-mtimes stehen weiter auf 1767222000.
 - Abweichende mtimes haben nur die neuen HOTZ1 (20:16:30), HOTZ2 (20:19:36), HOTZ4 (20:23:00) und HOTZ3B (20:25:52), dazu das Verzeichnis „Ishar 2 - Lösung“ (Kopier-mtime).
 - sha256 von 311 Originalen und 435 Saves: vorher und nachher identisch. Nichts überschrieben.
 
 ## 7. Offen / Vorschläge
-- Actor 69 sichtbar prüfen: Karte 3, Szene 12 (z. B. nahe S1, r7 c31) zwischen 2 und 4 Uhr.
+- Actor 69 sichtbar prüfen: Karte 3, Szene 12 (z. B. nahe S1, [Pos.]) zwischen 2 und 4 Uhr.
 - Byte 3220 (main:0x35ce + 179) 0→1 beim Lauf über 4–7 Uhr statisch klären.
 - Den aktiven Wert von 0x4fcc ermitteln, etwa per feinerer Messung der Ticks pro Sekunde.
 
@@ -108,6 +110,6 @@ Offset-Notation: **ab 0** wie save_layout und Quesh, **cmp** = `cmp -l` (ab 1). 
 ## Nachtrag 18.10.2026 21:0x (suspected, Quelle: Quesh `zeit-ishar2.md`, von mir nicht nachgeprüft)
 - Byte 3180 (ab 0) ist die **Blickrichtung von Actor 69**: Tabelle 0x35ce, Save 3041 + 2·id, Low-Byte.
 - Byte 3220 ist entsprechend die Blickrichtung von **Actor 89**.
-- Eine Stunde hat **1000 Durchläufe** (0x4fcc, DOS-Version). Das passt zu meinem Wert 2:957 in HOTB1 (< 1000).
+- Eine Stunde hat **1000 Durchläufe** (0x4fcc, DOS-Version). Das passt zu meinem Wert [Spielzeit] in HOTB1 (< 1000).
 - **Eine Zeitsperre beim Speichern gibt es nicht.** Das deckt sich mit meinem Befund: Die Fehlschläge kamen vom offen gebliebenen Diskmenü.
-- Umgesetzt: `private/xpgold/savenew.sh` und `private/actor69/savenew2.sh` klicken nach jedem Speichern auf (266,12), um das Diskmenü zu schließen. Sicherung der alten Fassung: `savenew.sh.bak-20261018`.
+- Umgesetzt: `private/xpgold/savenew.sh` und `private/actor69/savenew2.sh` klicken nach jedem Speichern auf ([Klick]), um das Diskmenü zu schließen. Sicherung der alten Fassung: `savenew.sh.bak-20261018`.
