@@ -51,4 +51,21 @@ Ergänzung zu SH10: die Byte-483-Änderung beim Speichern ist dieselbe Gebühr.
 |---|---|---|
 | SH13, SH14 | original-merchants.ts subtractOriginalPrice (auf die Käuferspalte angewandt) | passt; Spaltenwahl x/64 und Stapel +1 fehlen im Kit |
 | SG01–SG04 | – | fehlt (keine Ishar-1-Speichergebühr) |
-Probe gesamt jetzt 70/246.
+Probe gesamt jetzt 70/247.
+
+## Nachtrag: Verteilungsregel der Speichergebühr, Ishar-2-Speichern, Probe-Hinweis
+
+**Hinweis zur Probe:** `probe-kit-against-fixtures.mjs` braucht den IO.IO-Pfad als zweites Argument. Ohne ihn fallen 12 Ishar-2-Zeilen weg, die Probe meldet dann 58/235 statt 68/235 (älterer Stand). Aktuell mit Pfad: 70/247.
+
+**Ishar 1, Verteilung (SG03, SG05 jetzt known):** Zwei Patch-Kopien eines normalen Saves, Gold per BE16-Patch gesetzt, Aufteilung vorher vorhergesagt, dann im Original gespeichert:
+
+| Lauf | Form | Vorhersage | Ergebnis |
+|---|---|---|---|
+| A | alle fünf über dem Anteil | jede Figur zahlt 200 | exakt so |
+| B | Slot 0 ohne Gold, eine Figur unter dem Anteil, zwei spätere mit genug | Durchgang 1 je min(200, Gold), Rest geht ganz an die erste Figur in Slotfolge mit Gold ≥ Rest | exakt so (nicht an die letzte, obwohl sie auch genug hatte) |
+
+Sonst änderte sich nur das Gold. Urteil: Queshs Regel (L_00cf8) ist bestätigt. Rohwerte und sha256 stehen in `private/save_patches.md`.
+
+**Gruppengröße (SG04 bleibt suspected):** Nicht getestet. Das Klassenbyte −1 kommt nur in einem Fall vor (Taverne, unbelegt). Ob das allein „belegt“ für die Gebührenroutine festlegt, ist nicht gesichert, deshalb habe ich es nicht gepatcht.
+
+**Ishar 2, Speichern:** Ein normales Save geladen, ohne weitere Aktion in einen neuen Slot gespeichert. Gold (Tausender 1006+2c, Rest 1026+2c) blieb bei allen fünf Figuren gleich. Urteil: Speichern kostet in Ishar 2 kein Gold (known für diesen Lauf). Die übrigen Byte-Diffs liegen außerhalb der Goldfelder.

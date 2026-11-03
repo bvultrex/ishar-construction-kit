@@ -17,7 +17,7 @@ Eigene Conf-Kopien (cycles=fixed 25000), Ishar 1 auf :98, Ishar 2 auf :96; je Se
 | Rasse kausal, Shop-Kauf | erledigt, siehe HOTH_FIXTURES_ISHAR1_SAVEMAP.md und HOTH_FIXTURES_ISHAR1_SHOP_PARTY.md (Nachtrag) | known |
 
 ## Fixtures
-MK01–MK10 (Ishar 1), MK21–MK28 (Ishar 2), alle Eingabewerte synthetisch, in `contract-fixtures.json` (248 Vektoren in der Datei = Gesamtzahl, Stand Nachtrag). Checker: alle grün (monster-ki-ishar1 3/0 known, 7/0 suspected; ishar2 3/0, 5/0). Audit: 0 Treffer. Kit-Probe: 70/246 (Stand Nachtrag) (235 = Probe-Zeilen, nicht Vektoren: die Probe prüft manche Vektoren feldweise in mehreren Zeilen und lässt andere aus); MK25 passt (`save-actors.ts readActorSave`), alle anderen MK fehlen im Kit (keine Monster-KI).
+MK01–MK10 (Ishar 1), MK21–MK28 (Ishar 2), alle Eingabewerte synthetisch, in `contract-fixtures.json` (249 Vektoren in der Datei = Gesamtzahl, Stand Nachtrag). Checker: alle grün (monster-ki-ishar1 3/0 known, 7/0 suspected; ishar2 3/0, 5/0). Audit: 0 Treffer. Kit-Probe: 70/247 (Stand Nachtrag) (235 = Probe-Zeilen, nicht Vektoren: die Probe prüft manche Vektoren feldweise in mehreren Zeilen und lässt andere aus); MK25 passt (`save-actors.ts readActorSave`), alle anderen MK fehlen im Kit (keine Monster-KI).
 
 ## T5c: Hebel im Save (Ishar 1, Nachtrag 2026-11-03)
 Quelle: Quesh dungeon-karten-ishar1.md (T5c) mit Präzisierung: auf der Hebelzelle stehen, Blick zum Hebel. Position per Patch auf Kopien (genehmigt), je frische Session, ein Klick auf den Hebel im Bild, Speichern in neuen Slot. Positionen und Werte nur in private/save_patches.md.
@@ -28,4 +28,4 @@ Quelle: Quesh dungeon-karten-ishar1.md (T5c) mit Präzisierung: auf der Hebelzel
 | Hebel ohne Formeltür | Nur das Hebel-Byte ändert sich (beim T5c-Hebel beobachtet) | suspected als Regel (LV03) |
 | Sonstige Diffs | Nur Speichergebühr; keine Zeit-/Positionsänderung außerhalb der Bereiche | known |
 | Sprite-Indizes 213/219 | nicht direkt messbar (Renderer), nur Save-Vergleich | offen |
-Kit-Probe: LV01–LV03 fehlen (kein Ishar-1-Tür/Hebel-Layout; door-mechanics.ts nutzt Ishar-2-Offsets). MK29/MK30 fehlen (keine Monster-KI). Vektoren jetzt 248, Checker grün, Audit 0.
+Kit-Probe: LV01–LV03 fehlen (kein Ishar-1-Tür/Hebel-Layout; door-mechanics.ts nutzt Ishar-2-Offsets). MK29/MK30 fehlen (keine Monster-KI). Vektoren jetzt 249, Checker grün, Audit 0.
