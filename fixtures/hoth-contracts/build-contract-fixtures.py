@@ -49,10 +49,10 @@ v('P08',C,'suspected',SRC_P,
 # ---------------- 2 mechanics (Ishar 2) ----------------
 C='mechanics-ishar2'
 for i,(b,mp,exp,st,src) in enumerate([
-  (65,5,{'kind':'door','index':5},'known',H+'HEBEL_TUER.md (Rahmen Tür 5, B=65 r40 c31)'),
+  (65,5,{'kind':'door','index':5},'known',H+'HEBEL_TUER.md (Rahmen Tür 5, B=65)'),
   (66,5,{'kind':'door','index':6},'known',H+'HEBEL_TUER_2.md (Tür 6 per Hebel 6)'),
   (68,5,{'kind':'door','index':8},'known',H+'TUER8.md (Gitter Tür 8)'),
-  (88,7,{'kind':'door','index':28},'known',H+'TUER28_ZEIT.md (map 7 r6 c11)'),
+  (88,7,{'kind':'door','index':28},'known',H+'TUER28_ZEIT.md (map 7)'),
   (-16,5,{'kind':'lever','index':6},'known',H+'HEBEL_TUER_2.md (Hebel 6 -> 7437 und 7387)'),
   (61,5,{'kind':'door','index':1},'suspected',Q+'hebel-tuer-trigger-ishar2.md; kit cont-grid.ts doorNumber'),
   (109,5,{'kind':'door','index':49},'suspected',Q+'hebel-tuer-trigger-ishar2.md'),
@@ -73,12 +73,12 @@ v('M17',C,'known',H+'HEBEL_TUER.md (Rahmen Tür 5, Klick 128,70)',
   {'save':[],'ops':[{'op':'frame','d':5}]},{'changes':{'7386':1}})
 v('M18',C,'known',H+'TUER8.md Teil 2 (zweiter Rahmenklick ohne Wirkung)',
   {'save':[by(7386,1)],'ops':[{'op':'frame','d':5}]},{'changes':{}},'nur öffnen')
-KEYPOS={'map':5,'row':61,'col':15,'facing':2,'cellA':78}
-v('M19',C,'known',H+'TUER8.md (Schlüsselloch r61 c15 Blick 2, Klick 129,72)',
+KEYPOS={'map':5,'row':44,'col':27,'facing':1,'cellA':78}
+v('M19',C,'known',H+'TUER8.md (Schlüsselloch, Klick 129,72)',
   {'save':[be(1054,0xffef)],'pos':KEYPOS,'ops':[{'op':'keyhole','held':-17}]},{'changes':{'7389':1},'keyConsumed':False},'Schlüssel -17 = FF EF; 1054/55 bleiben FF EF')
 v('M20',C,'known',H+'TUER8.md (Schlüssel auf Gitterflügel ohne Wirkung)',
-  {'save':[],'pos':dict(KEYPOS,row=53,col=16,facing=3,cellA=0),'ops':[{'op':'keyOnLeaf','held':-17}]},{'changes':{}})
-v('M21',C,'suspected',Q+'hebel-tuer-trigger-ishar2.md Addendum (Form nur auf dem Feld mit Blick 2)',
+  {'save':[],'pos':dict(KEYPOS,row=38,col=12,facing=3,cellA=0),'ops':[{'op':'keyOnLeaf','held':-17}]},{'changes':{}})
+v('M21',C,'suspected',Q+'hebel-tuer-trigger-ishar2.md Addendum (Form nur auf dem Feld mit richtiger Blickrichtung)',
   {'save':[],'pos':dict(KEYPOS,facing=3),'ops':[{'op':'keyhole','held':-17}]},{'changes':{}},'falsche Blickrichtung: keine Form, nicht im Original getestet')
 v('M22',C,'suspected','door-mechanics.ts useOnDoorForm (SOURIS 0x00a5d)',
   {'save':[],'pos':KEYPOS,'ops':[{'op':'keyhole','held':-21}]},{'changes':{}},'anderer Gegenstand am Schlüsselloch von Tür 8')
@@ -91,7 +91,7 @@ for i,(h0,h1,a0,o6,a1,st) in enumerate([(1,2,0,1,12,'known'),(2,3,12,1,12,'known
 for i,(h,p,st) in enumerate([(1,3,'known'),(6,2,'known'),(7,2,'known'),(8,1,'known'),(12,1,'suspected'),(19,1,'suspected'),(20,2,'suspected'),(22,3,'suspected')]):
     v('M%02d'%(33+i),C,st,(H+'TUER28_ZEIT.md / ACTOR69.md (Saves Wort @90/92)') if st=='known' else Q+'zeit-ishar2.md (Phase 0x519f)',{'dayPhaseHour':h},{'phase':p})
 v('M41',C,'known',H+'TUER28_ZEIT.md (Uhr: Stunde @44, Tag @46, Ticks @48, BE16)',{'clockOffsets':True},{'hour':44,'day':46,'ticks':48})
-v('M42',C,'suspected',Q+'zeit-ishar2.md (0x4fcc = 1000, DOS); MAIN 0x03faa ff. (eigene Lesung); beobachtet max. 957',
+v('M42',C,'suspected',Q+'zeit-ishar2.md (0x4fcc = 1000, DOS); MAIN 0x03faa ff. (eigene Lesung); eigene Beobachtung < 1000',
   {'save':[be(44,0),be(46,3),be(48,998)],'ops':[{'op':'ticks','n':3}]},{'hour':1,'day':3,'ticks':1})
 v('M43',C,'suspected',Q+'zeit-ishar2.md',
   {'save':[be(44,23),be(46,3),be(48,999)],'ops':[{'op':'ticks','n':1}]},{'hour':0,'day':4,'ticks':0},'Tageswechsel')
@@ -108,7 +108,7 @@ v('M47',C,'known',SR+' (HOTSR1 frisch geladen: offen; Laden ist kein Schritt)',
 v('M48',C,'suspected','GERDEP 0x013d5-0x01407 (eigene Listing-Lesung; Türen 9/17 und Kontaktliste nicht im Original getestet)',
   {'save':[by(7390,1),by(7398,1),by(7576,91),by(7577,92),by(7578,93),by(7387,1)],'ops':[{'op':'step'}]},
   {'changes':{'7390':0,'7398':0,'7576':0,'7577':0,'7578':0}},'L_013af setzt auch 0x4b80[0..2] = 0; Tür 6 bleibt')
-v('M49',C,'known',H+'STEP_RESET.md (Nachtrag 2026-11-03 Hoth, private/stepreset4) HOT5A -> Klick Rahmen -> HOT5B (7386 0->1); HOT5E (Kopie HOT5B, ticks 0) -> TL -> HOT5F: 7386 1->0, Blick 3->2, h6; Gegenprobe Laden HOT5E -> HOT5D: 7386 = 1; GERDEP 0x0083a/0x0096b cjsr L_013af ohne Bedingung',
+v('M49',C,'known',H+'STEP_RESET.md (Nachtrag 2026-11-03 Hoth, private/stepreset4) HOT5A -> Klick Rahmen -> HOT5B (7386 0->1); HOT5E (Kopie HOT5B, ticks 0) -> TL -> HOT5F: 7386 offen->zu, Blick geändert; Gegenprobe Laden HOT5E -> HOT5D: 7386 = 1; GERDEP 0x0083a/0x0096b cjsr L_013af ohne Bedingung',
   {'save':[by(7386,1)],'ops':[{'op':'turn'}]},{'changes':{'7386':0}},'Korrigiert 2026-11-03: Drehen (TL Fall 4 L_007e2, TR Fall 8 L_00913) ruft L_013af, Tür 5 fällt zu')
 v('M58',C,'suspected','GERDEP 0x0066a (L_013af beim Schritt nur bei odirb(0x16)==1); HOTSR3 Vorwärts gegen geschlossene Tür 5 blockiert',
   {'save':[by(7386,1)],'ops':[{'op':'blockedStep'}]},{'changes':{}},'Abgespalten aus altem M49: blockierter Schritt setzt nicht zurück (offene Tür im Original nicht blockiert getestet)')
@@ -195,18 +195,18 @@ v('K112',C,'unknown',S1+' L_072f2',{'f':'levelGains'},{'unknown':True},'Stat/HP-
 # ---------------- 4 save fields (Ishar 2) ----------------
 C='savefields-ishar2'
 SX=H+'XP_GOLD.md'
-v('S01',C,'known',SX+' (Gold 1006+2c / 1026+2c, pro Charakter; HOTGLD 12/345)',{'save':[be(1006,12),be(1026,345)],'read':'gold','char':0},{'value':12345})
-v('S02',C,'known',SX+' (Referenz Bragl 132/345)',{'save':[be(1008,132),be(1028,345)],'read':'gold','char':1},{'value':132345})
-v('S03',C,'known',SX+' (pro Charakter, keine Gruppensumme)',{'save':[be(1008,132),be(1028,345)],'read':'gold','char':0},{'value':0})
+v('S01',C,'known',SX+' (Gold 1006+2c / 1026+2c, pro Charakter; synthetische Werte)',{'save':[be(1006,21),be(1026,456)],'read':'gold','char':0},{'value':21456})
+v('S02',C,'known',SX+' (Charakter 1, synthetische Werte)',{'save':[be(1008,243),be(1028,518)],'read':'gold','char':1},{'value':243518})
+v('S03',C,'known',SX+' (pro Charakter, keine Gruppensumme)',{'save':[be(1008,243),be(1028,518)],'read':'gold','char':0},{'value':0})
 v('S04',C,'known',SX+' (Schreiben)',{'save':[],'write':'gold','char':4,'value':7008},{'changes':{'1015':7,'1035':8}},'Tausender 1014/15, Rest 1034/35')
-v('S05',C,'known',SX+' (XP 986+2c, Anzeige x100)',{'save':[be(986,620)],'read':'xpDisplay','char':0},{'value':62000})
-v('S06',C,'known',SX,{'save':[be(986+6,539)],'read':'xpDisplay','char':3},{'value':53900})
-v('S07',C,'known',SX+' (Level 1291+c Byte)',{'save':[by(1293,7)],'read':'level','char':2},{'value':7})
-v('S08',C,'known',SX+' (HP 996+2c; Vitalität 87)',{'save':[be(996,87)],'read':'hp','char':0},{'value':87})
+v('S05',C,'known',SX+' (XP 986+2c, Anzeige x100)',{'save':[be(986,410)],'read':'xpDisplay','char':0},{'value':41000})
+v('S06',C,'known',SX,{'save':[be(986+6,318)],'read':'xpDisplay','char':3},{'value':31800})
+v('S07',C,'known',SX+' (Level 1291+c Byte)',{'save':[by(1293,5)],'read':'level','char':2},{'value':5})
+v('S08',C,'known',SX+' (HP 996+2c; synthetischer Wert)',{'save':[be(996,53)],'read':'hp','char':0},{'value':53})
 v('S09',C,'suspected',Q+'pickup-contract-ishar2.md (0x2f0e = 1336+c, Byte)',{'save':[by(1337,12)],'read':'armour','char':1},{'value':12})
-v('S10',C,'known',H+'TUER8.md / CONT_WRITEBACK_2.md (Kopf: Reihe 2, Spalte 4, Blick 6, Karte 8, Zone 18; BE16)',
-  {'save':[be(2,61),be(4,15),be(6,2),be(8,5),be(18,36)],'read':'header'},{'value':{'row':61,'col':15,'facing':2,'map':5,'zone':36}})
-v('S11',C,'known',H+'TUER28_ZEIT.md (Uhr)',{'save':[be(44,13),be(46,2),be(48,957)],'read':'clock'},{'value':{'hour':13,'day':2,'ticks':957}})
+v('S10',C,'known',H+'TUER8.md / CONT_WRITEBACK_2.md (Kopf: Reihe 2, Spalte 4, Blick 6, Karte 8, Zone 18; BE16; synthetische Werte)',
+  {'save':[be(2,40),be(4,22),be(6,1),be(8,5),be(18,36)],'read':'header'},{'value':{'row':40,'col':22,'facing':1,'map':5,'zone':36}})
+v('S11',C,'known',H+'TUER28_ZEIT.md (Uhr)',{'save':[be(44,11),be(46,3),be(48,812)],'read':'clock'},{'value':{'hour':11,'day':3,'ticks':812}})
 v('S12',C,'known',SX+' Punkt 7 (HOTXC2 vs HOTXPC: nur 49/50 cmp = 48/49 ab0)',
   {'diffOffsets':[48,49]},{'roundtripOk':True})
 v('S13',C,'known',H+'CONT_WRITEBACK_2.md (HOTTU1 vs GRIMZEL: nur 45, 49/50 cmp)',{'diffOffsets':[44,48,49]},{'roundtripOk':True})
@@ -224,15 +224,15 @@ def r100(seed,n):
     return out
 def rnd(r,n): return (r*n)>>16
 v('I01',C,'known','FRISE 0x02cee-0x02d0c (Hoth-Lesung: loc136 -= dirb5c+5; <0 -> 0; -> 0x16b4[dirb11])',
-  {'op':'cost','M':72,'sl':0},{'mental':67})
+  {'op':'cost','M':64,'sl':0},{'mental':59})
 v('I02',C,'known','FRISE 0x02cee (Untergrenze 0)',{'op':'cost','M':3,'sl':9},{'mental':0})
-v('I03',C,'suspected',MQ+' R3/R5 T1 (sl(28)=T[28]=0 -> 72-5); FRISE 0x02337 dirb5c = 0x4010[dirb5d]',
-  {'op':'castCost','s':28,'M':72},{'mental':67},'61 wäre lvl(s) statt sl(s) (R3 off-by-one widerlegt)')
-v('I04',C,'suspected',MQ+' R9 T2 (sl(30)=9)',{'op':'castCost','s':30,'M':72},{'mental':58})
-v('I05',C,'suspected',MQ+' R9 T3 (sl(23)=4)',{'op':'castCost','s':23,'M':75},{'mental':66})
+v('I03',C,'suspected',MQ+' R3/R5 T1 (sl(28)=T[28]=0 -> M-5; synthetisch M=64); FRISE 0x02337 dirb5c = 0x4010[dirb5d]',
+  {'op':'castCost','s':28,'M':64},{'mental':59},'53 wäre lvl(s) statt sl(s) (R3 off-by-one widerlegt)')
+v('I04',C,'suspected',MQ+' R9 T2 (sl(30)=9)',{'op':'castCost','s':30,'M':64},{'mental':50})
+v('I05',C,'suspected',MQ+' R9 T3 (sl(23)=4)',{'op':'castCost','s':23,'M':70},{'mental':61})
 v('I06',C,'known','FRISE 0x02413 (rnd(100) < 8*loc134 + loc136; loc134=0x167c[c], loc136=0x16b4[c] bei 0x02314/0x0231f)',
-  {'op':'friendlyThreshold','L':8,'M':72},{'threshold':136})
-v('I07',C,'known','FRISE 0x02515 (rnd(100) < loc136 - 3*(dirb5c - loc134))',{'op':'hostileThreshold','L':10,'M':75,'sl':4},{'threshold':93})
+  {'op':'friendlyThreshold','L':6,'M':64},{'threshold':112})
+v('I07',C,'known','FRISE 0x02515 (rnd(100) < loc136 - 3*(dirb5c - loc134))',{'op':'hostileThreshold','L':9,'M':70,'sl':4},{'threshold':85})
 v('I08',C,'known','FRISE 0x02515 (negativ möglich)',{'op':'hostileThreshold','L':1,'M':10,'sl':10},{'threshold':-17})
 seed=0x1234; rs=r100(seed,3); hp=10
 for r in rs: hp=min(14,hp+rnd(r,2*2+2)+1)
@@ -242,9 +242,9 @@ v('I10',C,'suspected',MQ+' R5 Schadenszauber (L+sl, kein RNG, keine Rüstung)',{
 v('I11',C,'suspected',MQ+' R5 (Spell 32 gegen Actor != 39: 300/60)',{'op':'damage','s':32,'L':10,'actor':63,'item40':False},{'dmg':5})
 v('I12',C,'suspected',MQ+' R5 (Actor 39 + Item 40: x4)',{'op':'damage','s':32,'L':10,'actor':39,'item40':True},{'dmg':1200})
 v('I13',C,'suspected',MQ+' R5 Lightning (D=floor((L+sl)/2), D -= ARM kumulativ)',{'op':'lightning','L':10,'arm':[2,3,10]},{'dmg':[5,2,0]})
-v('I14',C,'suspected',MQ+' R3 Protection 3 (s=5: 10000*(s-4)+floor(5ML/4))',{'op':'protection','s':5,'L':8,'M':72},{'timer':10720})
-v('I15',C,'suspected',MQ+' R3 Mental shield (floor(5ML/4))',{'op':'timer54','L':8,'M':72},{'timer':720})
-v('I16',C,'suspected',MQ+' R3 Sleep/Blindness/Binding/Confusion (floor(ML/4))',{'op':'actorTimer','L':8,'M':72},{'timer':144})
+v('I14',C,'suspected',MQ+' R3 Protection 3 (s=5: 10000*(s-4)+floor(5ML/4))',{'op':'protection','s':5,'L':6,'M':64},{'timer':10480})
+v('I15',C,'suspected',MQ+' R3 Mental shield (floor(5ML/4))',{'op':'timer54','L':6,'M':64},{'timer':480})
+v('I16',C,'suspected',MQ+' R3 Sleep/Blindness/Binding/Confusion (floor(ML/4))',{'op':'actorTimer','L':6,'M':64},{'timer':96})
 v('I17',C,'known','STAGE 0x005e6 (0x3f12 = 3*T[s-1], Tausender) ; Werte T: '+MQ+' R3',{'op':'price','lvl':6},{'goldK':18})
 v('I18',C,'suspected',MQ+' R4 Preis aus Tabelle (s=28: lvl 6)',{'op':'priceSpell','s':28},{'goldK':18})
 v('I19',C,'suspected',MQ+' R4 Lernwurf rnd(13)+lvl < WIS (Klassen 0,2,5) sonst INT; STAGE 0x007ea',
@@ -293,15 +293,15 @@ def split(P,g):
     return g
 v('TV04',C,'suspected',SQ+' V3 Zahlung: Anteil floor(P/n) (L_00b6e), Rest in Durchgang 2',{'op':'pay','P':900,'units':[1000,100,5000]},{'units':split(900,[1000,100,5000])})
 v('TV05',C,'known','ITAVERNE 0x005e4-0x00629 (Essen: HP>0; >60 -> 100 sonst +40, Kappe 100)',{'op':'eat','food':[61,60,0,100,95],'hp':[5,5,5,0,5]},{'food':[100,100,40,100,100]})
-v('TV06',C,'known','ITAVERNE 0x0064b-0x006bd (Schlaf: Nahrung +15 Kappe 100; MENTAL >50 -> 100 sonst +50; HP += (max-HP)/5, osub(opile) = Stapel - acc wie 0x00661); Zahlen LP1 aus '+SQ+' T4',
-  {'op':'sleep','food':[96,100,67,44,83],'mental':[100,92,67,40,75],'hp':[10,131,0,50,62],'maxHp':[34,134,40,50,62]},
-  {'food':[100,100,67,59,98],'mental':[100,100,67,90,100],'hp':[14,131,0,50,62]},'c2 HP 0: unverändert (Bedingung 0x0064b)')
+v('TV06',C,'known','ITAVERNE 0x0064b-0x006bd (Schlaf: Nahrung +15 Kappe 100; MENTAL >50 -> 100 sonst +50; HP += (max-HP)/5, osub(opile) = Stapel - acc wie 0x00661); Struktur wie '+SQ+' T4, synthetische Werte',
+  {'op':'sleep','food':[95,100,66,43,82],'mental':[100,91,66,41,74],'hp':[10,121,0,48,60],'maxHp':[35,124,40,48,60]},
+  {'food':[100,100,66,58,97],'mental':[100,100,66,91,100],'hp':[15,121,0,48,60]},'c2 HP 0: unverändert (Bedingung 0x0064b)')
 v('TV07',C,'suspected',SQ+' V5 Verlassen: rnd(3)==0 (ITAVERNE 0x006e7) und npc in {21,28,15,10}',{'op':'leave','npc':[3,21,30,-1,-1],'r3':0,'rel':None,'items':[[-30,0],[-60,-25],[-40,0]]},{'leaver':1,'items':[[0,0],[-60,-25],[0,0]]},'Andere verlieren ersten Gegenstand mit -57 < Code < -19 in Plätzen 0..8')
 v('TV08',C,'suspected',SQ+' V5/T4 kein Verlassen, wenn jede Zeile eine Relation > -2 hat',{'op':'leave','npc':[3,2,30,29,1],'r3':1,'rel':[[0,0,0,0,0]]*5,'items':[]},{'leaver':None})
 v('TV09',C,'suspected',SQ+' V1 Tabelle 0x3f94',{'op':'tavernAt','cells':[[33,18,1],[35,77,14],[22,10,4]]},{'tavern':[2,11,9]})
 v('TV10',C,'suspected',SQ+' V6 Anwerbe-Raster k=(x-1)/64, +4 bei Skript-y < 136',{'op':'hireClick','pts':[[1,140],[130,140],[130,100]]},{'k':[0,2,6]})
 C='party-ishar1'
-v('PA01',C,'known',OWN+': Klasse 728+c, Level 738+c, MENTAL 768+c (cmp 771 72->67, c=3), Größe 5216; Charakterbögen',{'op':'offsets','c':3},{'class':731,'level':741,'mental':771,'size':5216})
+v('PA01',C,'known',OWN+': Klasse 728+c, Level 738+c, MENTAL 768+c (cmp 771 gesunken, c=3), Größe 5216; Charakterbögen',{'op':'offsets','c':3},{'class':731,'level':741,'mental':771,'size':5216})
 v('PA02',C,'suspected',PQ+' P1 (HP 468+2c, maxHP 488+2c, Nahrung 773+c, npc 4028+c, rel 4003+5i+j, Raster 3758+5r+col)',{'op':'offsets','c':3,'i':1,'j':3,'row':2,'col':4},{'hp':474,'maxHp':494,'food':776,'npc':4031,'rel':4011,'grid':3772})
 v('PA03',C,'known',OWN+': Klassenbytes [1,17,18,6,9] = Bogenanzeige',{'op':'className','cls':[1,17,18,6,9]},{'name':['Krieger','Finsterer Ritter','Okkulter Mönch','Zauberer','Priester']})
 v('PA04',C,'suspected',PQ+' P2 lebend = class != -1 und HP > 0',{'op':'living','cls':[1,-1,6,9,2],'hp':[5,9,0,3,1]},{'living':[0,3,4]})
@@ -326,7 +326,7 @@ CS=[0,1,2,3,4]
 v('SM01',C,'known',OWN2+': alle geprüften Ishar-1-Saves 5216 Bytes',{'op':'size'},{'size':5216})
 v('SM02',C,'known',OWN2+'; HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md: Klasse 728+c = Bogen',{'op':'offsets','fields':['class'],'c':CS},smo(['class'],CS))
 v('SM03',C,'known',OWN2+'; Abnahme 11-03: Level 738+c',{'op':'offsets','fields':['level'],'c':CS},smo(['level'],CS))
-v('SM04',C,'known',OWN2+'; Abnahme 11-03: MENTAL/psychic 768+c (cmp 771 72->67, c=3)',{'op':'offsets','fields':['mental'],'c':CS},smo(['mental'],CS))
+v('SM04',C,'known',OWN2+'; Abnahme 11-03: MENTAL/psychic 768+c (cmp 771 gesunken, c=3)',{'op':'offsets','fields':['mental'],'c':CS},smo(['mental'],CS))
 v('SM05',C,'known',OWN2+': Rasse 733+c = Bögen (Anzeige-Korrelation, keine Rassenänderung per Spielaktion)',
   {'op':'race','save':[by(733,5),by(734,2),by(735,4),by(736,1),by(737,3)]},{'offsets':[733,734,735,736,737],'race':['Echsenmensch','Elf','Ork','Mensch','Zwerg']})
 v('SM06',C,'known',OWN2+': Regel Gold = 1000*W(478+2c) + W(3993+2c) (Anzeige im eigenen Lauf bestätigt; synthetische Werte). Korrektur zu Quesh: 478 = Tausender, 3993 = Rest (Quesh-Namen vertauscht)',

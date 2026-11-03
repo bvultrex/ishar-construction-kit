@@ -427,7 +427,7 @@
    "id": "M01",
    "contract": "mechanics-ishar2",
    "status": "known",
-   "source": "HOTH_ABNAHME_2026-10-18_HEBEL_TUER.md (Rahmen Tür 5, B=65 r40 c31)",
+   "source": "HOTH_ABNAHME_2026-10-18_HEBEL_TUER.md (Rahmen Tür 5, B=65)",
    "input": {
     "decodeB": 65,
     "map": 5
@@ -469,7 +469,7 @@
    "id": "M04",
    "contract": "mechanics-ishar2",
    "status": "known",
-   "source": "HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md (map 7 r6 c11)",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER28_ZEIT.md (map 7)",
    "input": {
     "decodeB": 88,
     "map": 7
@@ -758,7 +758,7 @@
    "id": "M19",
    "contract": "mechanics-ishar2",
    "status": "known",
-   "source": "HOTH_ABNAHME_2026-10-18_TUER8.md (Schlüsselloch r61 c15 Blick 2, Klick 129,72)",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER8.md (Schlüsselloch, Klick 129,72)",
    "input": {
     "save": [
      {
@@ -772,9 +772,9 @@
     ],
     "pos": {
      "map": 5,
-     "row": 61,
-     "col": 15,
-     "facing": 2,
+     "row": 44,
+     "col": 27,
+     "facing": 1,
      "cellA": 78
     },
     "ops": [
@@ -806,8 +806,8 @@
     ],
     "pos": {
      "map": 5,
-     "row": 53,
-     "col": 16,
+     "row": 38,
+     "col": 12,
      "facing": 3,
      "cellA": 0
     },
@@ -826,7 +826,7 @@
    "id": "M21",
    "contract": "mechanics-ishar2",
    "status": "suspected",
-   "source": "quesh/hebel-tuer-trigger-ishar2.md Addendum (Form nur auf dem Feld mit Blick 2)",
+   "source": "quesh/hebel-tuer-trigger-ishar2.md Addendum (Form nur auf dem Feld mit richtiger Blickrichtung)",
    "input": {
     "save": [
      {
@@ -836,8 +836,8 @@
     ],
     "pos": {
      "map": 5,
-     "row": 61,
-     "col": 15,
+     "row": 44,
+     "col": 27,
      "facing": 3,
      "cellA": 78
     },
@@ -867,9 +867,9 @@
     ],
     "pos": {
      "map": 5,
-     "row": 61,
-     "col": 15,
-     "facing": 2,
+     "row": 44,
+     "col": 27,
+     "facing": 1,
      "cellA": 78
     },
     "ops": [
@@ -1324,7 +1324,7 @@
    "id": "M42",
    "contract": "mechanics-ishar2",
    "status": "suspected",
-   "source": "quesh/zeit-ishar2.md (0x4fcc = 1000, DOS); MAIN 0x03faa ff. (eigene Lesung); beobachtet max. 957",
+   "source": "quesh/zeit-ishar2.md (0x4fcc = 1000, DOS); MAIN 0x03faa ff. (eigene Lesung); eigene Beobachtung < 1000",
    "input": {
     "save": [
      {
@@ -1586,7 +1586,7 @@
    "id": "M49",
    "contract": "mechanics-ishar2",
    "status": "known",
-   "source": "HOTH_ABNAHME_2026-10-18_STEP_RESET.md (Nachtrag 2026-11-03 Hoth, private/stepreset4) HOT5A -> Klick Rahmen -> HOT5B (7386 0->1); HOT5E (Kopie HOT5B, ticks 0) -> TL -> HOT5F: 7386 1->0, Blick 3->2, h6; Gegenprobe Laden HOT5E -> HOT5D: 7386 = 1; GERDEP 0x0083a/0x0096b cjsr L_013af ohne Bedingung",
+   "source": "HOTH_ABNAHME_2026-10-18_STEP_RESET.md (Nachtrag 2026-11-03 Hoth, private/stepreset4) HOT5A -> Klick Rahmen -> HOT5B (7386 0->1); HOT5E (Kopie HOT5B, ticks 0) -> TL -> HOT5F: 7386 offen->zu, Blick geändert; Gegenprobe Laden HOT5E -> HOT5D: 7386 = 1; GERDEP 0x0083a/0x0096b cjsr L_013af ohne Bedingung",
    "input": {
     "save": [
      {
@@ -2534,7 +2534,7 @@
    "id": "S01",
    "contract": "savefields-ishar2",
    "status": "known",
-   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md (Gold 1006+2c / 1026+2c, pro Charakter; HOTGLD 12/345)",
+   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md (Gold 1006+2c / 1026+2c, pro Charakter; synthetische Werte)",
    "input": {
     "save": [
      {
@@ -2543,25 +2543,25 @@
      },
      {
       "offset": 1006,
-      "be16": 12
+      "be16": 21
      },
      {
       "offset": 1026,
-      "be16": 345
+      "be16": 456
      }
     ],
     "read": "gold",
     "char": 0
    },
    "expected": {
-    "value": 12345
+    "value": 21456
    }
   },
   {
    "id": "S02",
    "contract": "savefields-ishar2",
    "status": "known",
-   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md (Referenz Bragl 132/345)",
+   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md (Charakter 1, synthetische Werte)",
    "input": {
     "save": [
      {
@@ -2570,18 +2570,18 @@
      },
      {
       "offset": 1008,
-      "be16": 132
+      "be16": 243
      },
      {
       "offset": 1028,
-      "be16": 345
+      "be16": 518
      }
     ],
     "read": "gold",
     "char": 1
    },
    "expected": {
-    "value": 132345
+    "value": 243518
    }
   },
   {
@@ -2597,11 +2597,11 @@
      },
      {
       "offset": 1008,
-      "be16": 132
+      "be16": 243
      },
      {
       "offset": 1028,
-      "be16": 345
+      "be16": 518
      }
     ],
     "read": "gold",
@@ -2648,14 +2648,14 @@
      },
      {
       "offset": 986,
-      "be16": 620
+      "be16": 410
      }
     ],
     "read": "xpDisplay",
     "char": 0
    },
    "expected": {
-    "value": 62000
+    "value": 41000
    }
   },
   {
@@ -2671,14 +2671,14 @@
      },
      {
       "offset": 992,
-      "be16": 539
+      "be16": 318
      }
     ],
     "read": "xpDisplay",
     "char": 3
    },
    "expected": {
-    "value": 53900
+    "value": 31800
    }
   },
   {
@@ -2694,21 +2694,21 @@
      },
      {
       "offset": 1293,
-      "u8": 7
+      "u8": 5
      }
     ],
     "read": "level",
     "char": 2
    },
    "expected": {
-    "value": 7
+    "value": 5
    }
   },
   {
    "id": "S08",
    "contract": "savefields-ishar2",
    "status": "known",
-   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md (HP 996+2c; Vitalität 87)",
+   "source": "HOTH_ABNAHME_2026-10-18_XP_GOLD.md (HP 996+2c; synthetischer Wert)",
    "input": {
     "save": [
      {
@@ -2717,14 +2717,14 @@
      },
      {
       "offset": 996,
-      "be16": 87
+      "be16": 53
      }
     ],
     "read": "hp",
     "char": 0
    },
    "expected": {
-    "value": 87
+    "value": 53
    }
   },
   {
@@ -2754,7 +2754,7 @@
    "id": "S10",
    "contract": "savefields-ishar2",
    "status": "known",
-   "source": "HOTH_ABNAHME_2026-10-18_TUER8.md / CONT_WRITEBACK_2.md (Kopf: Reihe 2, Spalte 4, Blick 6, Karte 8, Zone 18; BE16)",
+   "source": "HOTH_ABNAHME_2026-10-18_TUER8.md / CONT_WRITEBACK_2.md (Kopf: Reihe 2, Spalte 4, Blick 6, Karte 8, Zone 18; BE16; synthetische Werte)",
    "input": {
     "save": [
      {
@@ -2763,15 +2763,15 @@
      },
      {
       "offset": 2,
-      "be16": 61
+      "be16": 40
      },
      {
       "offset": 4,
-      "be16": 15
+      "be16": 22
      },
      {
       "offset": 6,
-      "be16": 2
+      "be16": 1
      },
      {
       "offset": 8,
@@ -2786,9 +2786,9 @@
    },
    "expected": {
     "value": {
-     "row": 61,
-     "col": 15,
-     "facing": 2,
+     "row": 40,
+     "col": 22,
+     "facing": 1,
      "map": 5,
      "zone": 36
     }
@@ -2807,24 +2807,24 @@
      },
      {
       "offset": 44,
-      "be16": 13
+      "be16": 11
      },
      {
       "offset": 46,
-      "be16": 2
+      "be16": 3
      },
      {
       "offset": 48,
-      "be16": 957
+      "be16": 812
      }
     ],
     "read": "clock"
    },
    "expected": {
     "value": {
-     "hour": 13,
-     "day": 2,
-     "ticks": 957
+     "hour": 11,
+     "day": 3,
+     "ticks": 812
     }
    }
   },
@@ -2914,11 +2914,11 @@
    "source": "FRISE 0x02cee-0x02d0c (Hoth-Lesung: loc136 -= dirb5c+5; <0 -> 0; -> 0x16b4[dirb11])",
    "input": {
     "op": "cost",
-    "M": 72,
+    "M": 64,
     "sl": 0
    },
    "expected": {
-    "mental": 67
+    "mental": 59
    }
   },
   {
@@ -2939,16 +2939,16 @@
    "id": "I03",
    "contract": "magic-ishar1",
    "status": "suspected",
-   "source": "quesh/magic-contract-ishar1.md R3/R5 T1 (sl(28)=T[28]=0 -> 72-5); FRISE 0x02337 dirb5c = 0x4010[dirb5d]",
+   "source": "quesh/magic-contract-ishar1.md R3/R5 T1 (sl(28)=T[28]=0 -> M-5; synthetisch M=64); FRISE 0x02337 dirb5c = 0x4010[dirb5d]",
    "input": {
     "op": "castCost",
     "s": 28,
-    "M": 72
+    "M": 64
    },
    "expected": {
-    "mental": 67
+    "mental": 59
    },
-   "note": "61 wäre lvl(s) statt sl(s) (R3 off-by-one widerlegt)"
+   "note": "53 wäre lvl(s) statt sl(s) (R3 off-by-one widerlegt)"
   },
   {
    "id": "I04",
@@ -2958,10 +2958,10 @@
    "input": {
     "op": "castCost",
     "s": 30,
-    "M": 72
+    "M": 64
    },
    "expected": {
-    "mental": 58
+    "mental": 50
    }
   },
   {
@@ -2972,10 +2972,10 @@
    "input": {
     "op": "castCost",
     "s": 23,
-    "M": 75
+    "M": 70
    },
    "expected": {
-    "mental": 66
+    "mental": 61
    }
   },
   {
@@ -2985,11 +2985,11 @@
    "source": "FRISE 0x02413 (rnd(100) < 8*loc134 + loc136; loc134=0x167c[c], loc136=0x16b4[c] bei 0x02314/0x0231f)",
    "input": {
     "op": "friendlyThreshold",
-    "L": 8,
-    "M": 72
+    "L": 6,
+    "M": 64
    },
    "expected": {
-    "threshold": 136
+    "threshold": 112
    }
   },
   {
@@ -2999,12 +2999,12 @@
    "source": "FRISE 0x02515 (rnd(100) < loc136 - 3*(dirb5c - loc134))",
    "input": {
     "op": "hostileThreshold",
-    "L": 10,
-    "M": 75,
+    "L": 9,
+    "M": 70,
     "sl": 4
    },
    "expected": {
-    "threshold": 93
+    "threshold": 85
    }
   },
   {
@@ -3118,11 +3118,11 @@
    "input": {
     "op": "protection",
     "s": 5,
-    "L": 8,
-    "M": 72
+    "L": 6,
+    "M": 64
    },
    "expected": {
-    "timer": 10720
+    "timer": 10480
    }
   },
   {
@@ -3132,11 +3132,11 @@
    "source": "quesh/magic-contract-ishar1.md R3 Mental shield (floor(5ML/4))",
    "input": {
     "op": "timer54",
-    "L": 8,
-    "M": 72
+    "L": 6,
+    "M": 64
    },
    "expected": {
-    "timer": 720
+    "timer": 480
    }
   },
   {
@@ -3146,11 +3146,11 @@
    "source": "quesh/magic-contract-ishar1.md R3 Sleep/Blindness/Binding/Confusion (floor(ML/4))",
    "input": {
     "op": "actorTimer",
-    "L": 8,
-    "M": 72
+    "L": 6,
+    "M": 64
    },
    "expected": {
-    "timer": 144
+    "timer": 96
    }
   },
   {
@@ -3904,59 +3904,59 @@
    "id": "TV06",
    "contract": "tavern-ishar1",
    "status": "known",
-   "source": "ITAVERNE 0x0064b-0x006bd (Schlaf: Nahrung +15 Kappe 100; MENTAL >50 -> 100 sonst +50; HP += (max-HP)/5, osub(opile) = Stapel - acc wie 0x00661); Zahlen LP1 aus quesh/shop-tavern-contract-ishar1.md T4",
+   "source": "ITAVERNE 0x0064b-0x006bd (Schlaf: Nahrung +15 Kappe 100; MENTAL >50 -> 100 sonst +50; HP += (max-HP)/5, osub(opile) = Stapel - acc wie 0x00661); Struktur wie quesh/shop-tavern-contract-ishar1.md T4, synthetische Werte",
    "input": {
     "op": "sleep",
     "food": [
-     96,
+     95,
      100,
-     67,
-     44,
-     83
+     66,
+     43,
+     82
     ],
     "mental": [
      100,
-     92,
-     67,
-     40,
-     75
+     91,
+     66,
+     41,
+     74
     ],
     "hp": [
      10,
-     131,
+     121,
      0,
-     50,
-     62
+     48,
+     60
     ],
     "maxHp": [
-     34,
-     134,
+     35,
+     124,
      40,
-     50,
-     62
+     48,
+     60
     ]
    },
    "expected": {
     "food": [
      100,
      100,
-     67,
-     59,
-     98
+     66,
+     58,
+     97
     ],
     "mental": [
      100,
      100,
-     67,
-     90,
+     66,
+     91,
      100
     ],
     "hp": [
-     14,
-     131,
+     15,
+     121,
      0,
-     50,
-     62
+     48,
+     60
     ]
    },
    "note": "c2 HP 0: unverändert (Bedingung 0x0064b)"
@@ -4136,7 +4136,7 @@
    "id": "PA01",
    "contract": "party-ishar1",
    "status": "known",
-   "source": "HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md (eigener Lauf, Details private/ishar1save): Klasse 728+c, Level 738+c, MENTAL 768+c (cmp 771 72->67, c=3), Größe 5216; Charakterbögen",
+   "source": "HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md (eigener Lauf, Details private/ishar1save): Klasse 728+c, Level 738+c, MENTAL 768+c (cmp 771 gesunken, c=3), Größe 5216; Charakterbögen",
    "input": {
     "op": "offsets",
     "c": 3
@@ -4542,7 +4542,7 @@
    "id": "SM04",
    "contract": "savemap-ishar1",
    "status": "known",
-   "source": "HOTH_FIXTURES_ISHAR1_SAVEMAP.md (eigene Läufe, Details private/savemap); Abnahme 11-03: MENTAL/psychic 768+c (cmp 771 72->67, c=3)",
+   "source": "HOTH_FIXTURES_ISHAR1_SAVEMAP.md (eigene Läufe, Details private/savemap); Abnahme 11-03: MENTAL/psychic 768+c (cmp 771 gesunken, c=3)",
    "input": {
     "op": "offsets",
     "fields": [

@@ -55,7 +55,7 @@ function mech(v) {
   for (const op of i.ops) {
     if (op.op === 'lever') { b[L.sw + op.k] ^= 1; b[L.door + op.k] ^= 1; }
     else if (op.op === 'frame') { b[L.door + op.d] = 1; }
-    else if (op.op === 'keyhole') { const p = i.pos; if (p.map === 5 && p.row === 61 && p.col === 15 && p.facing === 2 && op.held === -17) b[L.door + 8] = 1; res.keyConsumed = false; }
+    else if (op.op === 'keyhole') { const p = i.pos; if (p.map === 5 && p.row === 44 && p.col === 27 && p.facing === 1 && op.held === -17) b[L.door + 8] = 1; res.keyConsumed = false; }
     else if (op.op === 'keyOnLeaf') { /* leaf has no form: nothing */ }
     else if (op.op === 'step') { for (const d of [5, 9, 17]) b[L.door + d] = 0; for (let k = 0; k < 3; k++) b[L.contact + k] = 0; } // GERDEP L_013af
     else if (op.op === 'turn') { for (const d of [5, 9, 17]) b[L.door + d] = 0; } // GERDEP 0x0083a/0x0096b L_013af; M49/M52/M54 beobachtet; Kontaktliste bleibt (M57, Neueintrag vermutet)
