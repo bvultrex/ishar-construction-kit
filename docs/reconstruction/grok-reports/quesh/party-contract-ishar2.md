@@ -236,7 +236,7 @@ Relative Erwartung: Stimme je Mitglied = 10 − rel[a][t]. Mehrheit dagegen → 
 | D | Grid layout and scan orders | proven |
 | → `private/party-contract-ishar2-savewerte.md` SW-15 |  |  |
 | → `private/party-contract-ishar2-savewerte.md` SW-16 |  |  |
-| — | START.SAV history (orc Dhrurhn admitted despite negative affinity to Zubaran/Fandhir) | open (earlier party composition unknown; not a contradiction) |
+| — | START.SAV history (an orc was admitted despite negative affinity; names → private/party-contract-ishar2-savewerte.md SW-B2) | open (earlier party composition unknown; not a contradiction) |
 | — | Contradictions | none found |
 
 ## Limits
@@ -274,7 +274,7 @@ Use of weapon skills (known, formula): attack recovery delay
 
 ### O3. Grimzel → Grimz
 Chain:
-1. **known** SOURIS 0x0086c–0x008b8: dropping the held object 0x2d16 (ids 2..7 exclusive: `>1 and <7`) on a target with material 69 stores it in the first free 0x50ae[k] (k 0..4). AFFOBJ 0x00360 draws them. SASCHA2 0x50ae = 2,6,5,4,3 ⇒ all five objects 2..6 placed.
+1. **known** SOURIS 0x0086c–0x008b8: dropping the held object 0x2d16 (ids 2..7 exclusive: `>1 and <7`) on a target with material 69 stores it in the first free 0x50ae[k] (k 0..4). AFFOBJ 0x00360 draws them. Save check: 0x50ae[0..4] all ≠ 0 ⇒ all five objects 2..6 placed (values → private/party-contract-ishar2-savewerte.md SW-B3).
 2. **known** DRUIDE4 0x00096–0x000fb (only while 0x50b4 == 0): polls until all five 0x50ae ≠ 0, then requires a party slot with 0x2fa2 == 51 (HP not checked here); else keeps waiting. Then: MESSAGEE code 23 (spell text "wilgelindildong"), 0x50b4 ← 1 (saved; one-shot), cutscene L_00176 (0x4fba = 1 during, clears 0x2c4e[2..6], wakes AFFOBJ).
 3. **known** PP11/PP12 are the 51/52 portrait scenes from MAIN msg 17 (PEOPLE1 sends 51, POURS1 sends 52 once via 0x4fbc). PP12 gives item 31 to the first living slot's first empty inventory cell (0x2d8e[s][k] ← −31). Not the swap.
 4. **known** only writer of an actor id into 0x2fa2 is FRISE 0x01570 (recruit, after L_02151). Recruit of 52 requires a living slot with id 51 (L_01240, else message 13) and < 5 living members (0x014f7), target slot = first slot with HP == 0.

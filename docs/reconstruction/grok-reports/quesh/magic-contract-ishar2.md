@@ -1,7 +1,7 @@
 # Magic system contract, Ishar 2 DOS (spell list, learning, casting, effects, timers, save)
 
 ## Handoff header
-- **Base commit:** bvultrex/ishar-construction-kit `bb42748` (bb427487ecce407124b5d98df50a8ca9627cbd60), branch `workbench/playable-slice`, clone `/workspace/ishar/clones/quesh` (read-only, nothing committed or pushed). Reviewed code state 319819c.
+- **Base commit:** bvultrex/ishar-construction-kit `bb42748` (bb427487ecce), branch `workbench/playable-slice`, clone `/workspace/ishar/clones/quesh` (read-only, nothing committed or pushed). Reviewed code state 319819c.
 - **Question:** the full contract for the Ishar 2 magic system: (a) spell list, (b) learning/buying, (c) casting, (d) effects and timers, (e) save persistence, (f) reproducible test sequences.
 - **Method:** static only. I used ALIS listings from `decompile/alis/disasm.py` (`decompile/alis/listings/ishar2/*.IO.asm`), the start.exe unpacked segment 1000 (capstone, for the mouse handler), the manual `ishar2-manual.pdf` (pdftotext, spell chapter), and 257 unique original 8359-byte saves (948 files) from Alderaan's and Hoth's work dirs. Private dump scripts and output are in `private/magic/`.
 - **Commands:** `rg`/`awk` over the listings, `sha256sum` over the originals, `private/magic/spells_dump.py` (checks the learning rule on every save), `private/magic/pairs.py` (looks for before/after cast pairs; none found), and the PIL HUD check on `alderaan/private/shots/ishar2/enc_fwd.png`.
@@ -332,7 +332,7 @@ Relative Erwartung: MP sinkt um die Kosten; jedes getroffene Ziel verliert HP na
 - Frame rates of the FRISE interrupt and the EATT loop (seconds per timer unit) are a **hypothesis**.
 - The screen-y flip and its 1-px offset are a **hypothesis**.
 - Spell names come from the manual (**hypothesis**). Spell 12 contradicts the manual.
-- Not traced: BUSTE −101 (Metamorphosis visual); the doors behind materials 66/67 (Magic key); the 0x2e62 writer; the full meaning of the 0x418c marker and the 0x45e8 "undead" flag; the killer-XP slot for spell kills; and MP 54 → 67.
+- Not traced: BUSTE −101 (Metamorphosis visual); the doors behind materials 66/67 (Magic key); the 0x2e62 writer; the full meaning of the 0x418c marker and the 0x45e8 "undead" flag; the killer-XP slot for spell kills; and an unexplained MP rise (values → private/magic-contract-ishar2-savewerte.md SW-B2).
 
 ## Next step
 1. Alderaan/Hoth run T1 (deterministic, no RNG) and T2 (deterministic), then T3. Report the A → B diffs and a frame count for the icon lifetime in T1.
