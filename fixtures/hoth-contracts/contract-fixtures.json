@@ -3538,12 +3538,12 @@
    "id": "SH03",
    "contract": "shop-ishar1",
    "status": "known",
-   "source": "MARCHAND L_0062f 0x00640-0x0067c (Hoth-Lesung: Einheiten - pu, Borgen aus Tausendern); Zahlen wie quesh/shop-tavern-contract-ishar1.md T1",
+   "source": "MARCHAND L_0062f 0x00640-0x0067c (Hoth-Lesung: Einheiten - pu, Borgen aus Tausendern); Struktur wie quesh/shop-tavern-contract-ishar1.md T1, synthetische Werte",
    "input": {
     "op": "pay",
     "gold": [
-     18,
-     434
+     5,
+     123
     ],
     "price": [
      1,
@@ -3552,8 +3552,8 @@
    },
    "expected": {
     "gold": [
-     17,
-     334
+     4,
+     23
     ]
    }
   },
@@ -3708,7 +3708,7 @@
    "id": "SH10",
    "contract": "shop-ishar1",
    "status": "known",
-   "source": "HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md (HOA/HOB, private/ishar1save): Speichern kostet 1000 GS, cmp HOA->HOB Byte 483 (Gold-Tausender c2 Low-Byte, 478+2c+1)",
+   "source": "HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md (eigener Lauf, Details private/ishar1save): Speichern kostet 1000 GS, cmp vorher->nachher Byte 483 (Gold-Tausender c2 Low-Byte, 478+2c+1)",
    "input": {
     "op": "goldOffset",
     "c": 2
@@ -4136,7 +4136,7 @@
    "id": "PA01",
    "contract": "party-ishar1",
    "status": "known",
-   "source": "HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md (HOA/HOB, private/ishar1save): Klasse 728+c, Level 738+c, MENTAL 768+c (cmp 771 72->67, c=3), Größe 5216; Charakterbögen",
+   "source": "HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md (eigener Lauf, Details private/ishar1save): Klasse 728+c, Level 738+c, MENTAL 768+c (cmp 771 72->67, c=3), Größe 5216; Charakterbögen",
    "input": {
     "op": "offsets",
     "c": 3
@@ -4174,7 +4174,7 @@
    "id": "PA03",
    "contract": "party-ishar1",
    "status": "known",
-   "source": "HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md (HOA/HOB, private/ishar1save): Klassenbytes [1,17,18,6,9] = Bogenanzeige",
+   "source": "HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md (eigener Lauf, Details private/ishar1save): Klassenbytes [1,17,18,6,9] = Bogenanzeige",
    "input": {
     "op": "className",
     "cls": [
@@ -4469,6 +4469,1698 @@
      -2
     ]
    }
+  },
+  {
+   "id": "SM01",
+   "contract": "savemap-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_ISHAR1_SAVEMAP.md (eigene Läufe, Details private/savemap): alle geprüften Ishar-1-Saves 5216 Bytes",
+   "input": {
+    "op": "size"
+   },
+   "expected": {
+    "size": 5216
+   }
+  },
+  {
+   "id": "SM02",
+   "contract": "savemap-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_ISHAR1_SAVEMAP.md (eigene Läufe, Details private/savemap); HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md: Klasse 728+c = Bogen",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "class"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "class": [
+     728,
+     729,
+     730,
+     731,
+     732
+    ]
+   }
+  },
+  {
+   "id": "SM03",
+   "contract": "savemap-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_ISHAR1_SAVEMAP.md (eigene Läufe, Details private/savemap); Abnahme 11-03: Level 738+c",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "level"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "level": [
+     738,
+     739,
+     740,
+     741,
+     742
+    ]
+   }
+  },
+  {
+   "id": "SM04",
+   "contract": "savemap-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_ISHAR1_SAVEMAP.md (eigene Läufe, Details private/savemap); Abnahme 11-03: MENTAL/psychic 768+c (cmp 771 72->67, c=3)",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "mental"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "mental": [
+     768,
+     769,
+     770,
+     771,
+     772
+    ]
+   }
+  },
+  {
+   "id": "SM05",
+   "contract": "savemap-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_ISHAR1_SAVEMAP.md (eigene Läufe, Details private/savemap): Rasse 733+c = Bögen (Anzeige-Korrelation, keine Rassenänderung per Spielaktion)",
+   "input": {
+    "op": "race",
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 733,
+      "u8": 5
+     },
+     {
+      "offset": 734,
+      "u8": 2
+     },
+     {
+      "offset": 735,
+      "u8": 4
+     },
+     {
+      "offset": 736,
+      "u8": 1
+     },
+     {
+      "offset": 737,
+      "u8": 3
+     }
+    ]
+   },
+   "expected": {
+    "offsets": [
+     733,
+     734,
+     735,
+     736,
+     737
+    ],
+    "race": [
+     "Echsenmensch",
+     "Elf",
+     "Ork",
+     "Mensch",
+     "Zwerg"
+    ]
+   }
+  },
+  {
+   "id": "SM06",
+   "contract": "savemap-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_ISHAR1_SAVEMAP.md (eigene Läufe, Details private/savemap): Regel Gold = 1000*W(478+2c) + W(3993+2c) (Anzeige im eigenen Lauf bestätigt; synthetische Werte). Korrektur zu Quesh: 478 = Tausender, 3993 = Rest (Quesh-Namen vertauscht)",
+   "input": {
+    "op": "gold",
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 482,
+      "be16": 5
+     },
+     {
+      "offset": 3997,
+      "be16": 123
+     }
+    ]
+   },
+   "expected": {
+    "goldK": [
+     0,
+     0,
+     5,
+     0,
+     0
+    ],
+    "goldU": [
+     0,
+     0,
+     123,
+     0,
+     0
+    ],
+    "gold": [
+     0,
+     0,
+     5123,
+     0,
+     0
+    ],
+    "total": 5123
+   }
+  },
+  {
+   "id": "SM07",
+   "contract": "savemap-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_ISHAR1_SAVEMAP.md (eigene Läufe, Details private/savemap): Spielaktion GEBE GELD -> Aufteilen (c2) + Speichern (1000 GS): nur Tausender 478+2c und Rest 3993+2c ändern sich (synthetische Werte, Gesamt 25123)",
+   "input": {
+    "op": "gold",
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 478,
+      "be16": 4
+     },
+     {
+      "offset": 480,
+      "be16": 4
+     },
+     {
+      "offset": 482,
+      "be16": 4
+     },
+     {
+      "offset": 484,
+      "be16": 4
+     },
+     {
+      "offset": 486,
+      "be16": 4
+     },
+     {
+      "offset": 3993,
+      "be16": 825
+     },
+     {
+      "offset": 3995,
+      "be16": 825
+     },
+     {
+      "offset": 3997,
+      "be16": 825
+     },
+     {
+      "offset": 3999,
+      "be16": 824
+     },
+     {
+      "offset": 4001,
+      "be16": 824
+     }
+    ]
+   },
+   "expected": {
+    "goldK": [
+     4,
+     4,
+     4,
+     4,
+     4
+    ],
+    "goldU": [
+     825,
+     825,
+     825,
+     824,
+     824
+    ],
+    "gold": [
+     4825,
+     4825,
+     4825,
+     4824,
+     4824
+    ],
+    "total": 24123
+   }
+  },
+  {
+   "id": "SM08",
+   "contract": "savemap-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_ISHAR1_SAVEMAP.md (eigene Läufe, Details private/savemap): Speichern kostet 1000 GS: nur Low-Byte des Tausender-Worts ändert sich um 1, Rest unverändert (synthetische Werte)",
+   "input": {
+    "op": "gold",
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 482,
+      "be16": 4
+     },
+     {
+      "offset": 3997,
+      "be16": 123
+     }
+    ]
+   },
+   "expected": {
+    "gold": [
+     0,
+     0,
+     4123,
+     0,
+     0
+    ],
+    "total": 4123
+   }
+  },
+  {
+   "id": "SM09",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "HOTH_FIXTURES_ISHAR1_SAVEMAP.md (eigene Läufe, Details private/savemap): Aufteilen (FRISE L_05511) gleich auf Lebende, Rest an die ersten; Speicherkosten 1000 gleich auf 5 verteilt (nur Endzustand beobachtet; synthetische Werte)",
+   "input": {
+    "op": "splitSave",
+    "total": 25123,
+    "n": 5,
+    "cost": 1000
+   },
+   "expected": {
+    "afterSplit": [
+     5025,
+     5025,
+     5025,
+     5024,
+     5024
+    ],
+    "afterSave": [
+     4825,
+     4825,
+     4825,
+     4824,
+     4824
+    ]
+   }
+  },
+  {
+   "id": "SM10",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.xp",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "xp"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "xp": [
+     458,
+     460,
+     462,
+     464,
+     466
+    ]
+   }
+  },
+  {
+   "id": "SM11",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.hp",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "hp"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "hp": [
+     468,
+     470,
+     472,
+     474,
+     476
+    ]
+   }
+  },
+  {
+   "id": "SM12",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.hpMax",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "hpMax"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "hpMax": [
+     488,
+     490,
+     492,
+     494,
+     496
+    ]
+   }
+  },
+  {
+   "id": "SM13",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.str",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "str"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "str": [
+     743,
+     744,
+     745,
+     746,
+     747
+    ]
+   }
+  },
+  {
+   "id": "SM14",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.con",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "con"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "con": [
+     748,
+     749,
+     750,
+     751,
+     752
+    ]
+   }
+  },
+  {
+   "id": "SM15",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.wis",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "wis"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "wis": [
+     753,
+     754,
+     755,
+     756,
+     757
+    ]
+   }
+  },
+  {
+   "id": "SM16",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.int",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "int"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "int": [
+     758,
+     759,
+     760,
+     761,
+     762
+    ]
+   }
+  },
+  {
+   "id": "SM17",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.agi",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "agi"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "agi": [
+     763,
+     764,
+     765,
+     766,
+     767
+    ]
+   }
+  },
+  {
+   "id": "SM18",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.physical",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "physical"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "physical": [
+     773,
+     774,
+     775,
+     776,
+     777
+    ]
+   }
+  },
+  {
+   "id": "SM19",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.temper (Quesh selbst: suspected)",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "temper"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "temper": [
+     778,
+     779,
+     780,
+     781,
+     782
+    ]
+   }
+  },
+  {
+   "id": "SM20",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.armor",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "armor"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "armor": [
+     783,
+     784,
+     785,
+     786,
+     787
+    ]
+   }
+  },
+  {
+   "id": "SM21",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.npc",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "npc"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "npc": [
+     4028,
+     4029,
+     4030,
+     4031,
+     4032
+    ]
+   }
+  },
+  {
+   "id": "SM22",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.rune",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "rune"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "rune": [
+     5021,
+     5022,
+     5023,
+     5024,
+     5025
+    ]
+   }
+  },
+  {
+   "id": "SM23",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.skillOneHand",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "skillOneHand"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "skillOneHand": [
+     4738,
+     4739,
+     4740,
+     4741,
+     4742
+    ]
+   }
+  },
+  {
+   "id": "SM24",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.skillTwoHand",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "skillTwoHand"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "skillTwoHand": [
+     4743,
+     4744,
+     4745,
+     4746,
+     4747
+    ]
+   }
+  },
+  {
+   "id": "SM25",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.skillThrow",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "skillThrow"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "skillThrow": [
+     4748,
+     4749,
+     4750,
+     4751,
+     4752
+    ]
+   }
+  },
+  {
+   "id": "SM26",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.skillShoot",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "skillShoot"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "skillShoot": [
+     4753,
+     4754,
+     4755,
+     4756,
+     4757
+    ]
+   }
+  },
+  {
+   "id": "SM27",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.skillLockpick",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "skillLockpick"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "skillLockpick": [
+     4758,
+     4759,
+     4760,
+     4761,
+     4762
+    ]
+   }
+  },
+  {
+   "id": "SM28",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.skillOrientation",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "skillOrientation"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "skillOrientation": [
+     4763,
+     4764,
+     4765,
+     4766,
+     4767
+    ]
+   }
+  },
+  {
+   "id": "SM29",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.skillFirstAid",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "skillFirstAid"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "skillFirstAid": [
+     4768,
+     4769,
+     4770,
+     4771,
+     4772
+    ]
+   }
+  },
+  {
+   "id": "SM30",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md fields.skillLanguages",
+   "input": {
+    "op": "offsets",
+    "fields": [
+     "skillLanguages"
+    ],
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "skillLanguages": [
+     4773,
+     4774,
+     4775,
+     4776,
+     4777
+    ]
+   }
+  },
+  {
+   "id": "SM31",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md inventory base 498, 26 je Charakter, 2 je Slot (0-8 Rucksack, 9/10 Hände, 11 Rüstung, 12 Helm)",
+   "input": {
+    "op": "inv",
+    "pts": [
+     [
+      0,
+      0
+     ],
+     [
+      2,
+      3
+     ],
+     [
+      4,
+      12
+     ]
+    ]
+   },
+   "expected": {
+    "offset": [
+     498,
+     556,
+     626
+    ]
+   }
+  },
+  {
+   "id": "SM32",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md.md Zauberbuch 788+20c+k",
+   "input": {
+    "op": "spell",
+    "pts": [
+     [
+      0,
+      0
+     ],
+     [
+      3,
+      7
+     ],
+     [
+      4,
+      19
+     ]
+    ]
+   },
+   "expected": {
+    "offset": [
+     788,
+     855,
+     887
+    ]
+   }
+  },
+  {
+   "id": "SM33",
+   "contract": "savemap-ishar1",
+   "status": "suspected",
+   "source": "quesh/save-map-ishar1.json/.md.md Name 418+8c (8 Zeichen)",
+   "input": {
+    "op": "name",
+    "c": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "expected": {
+    "offset": [
+     418,
+     426,
+     434,
+     442,
+     450
+    ]
+   }
+  },
+  {
+   "id": "SM34",
+   "contract": "savemap-ishar1",
+   "status": "known",
+   "source": "Auftrag: Offsets 7386/7576 gehören zu Ishar 2; jedes Ishar-1-Feld liegt < 5216",
+   "input": {
+    "op": "bounds",
+    "offsets": [
+     7386,
+     7576
+    ]
+   },
+   "expected": {
+    "ishar1": [
+     false,
+     false
+    ],
+    "allFieldsInside": true
+   }
+  },
+  {
+   "id": "MK01",
+   "contract": "monster-ki-ishar1",
+   "status": "suspected",
+   "source": "quesh/monster-ki-ishar1.json/.md (EDPLT/GERDEP/MAIN)",
+   "input": {
+    "op": "chase",
+    "m": [
+     25,
+     54
+    ],
+    "party": [
+     20,
+     53
+    ],
+    "h": -4
+   },
+   "expected": {
+    "chase": false
+   },
+   "note": "M1: Abstand 5 > |h| 4 -> keine Verfolgung"
+  },
+  {
+   "id": "MK02",
+   "contract": "monster-ki-ishar1",
+   "status": "suspected",
+   "source": "quesh/monster-ki-ishar1.json/.md (EDPLT/GERDEP/MAIN)",
+   "input": {
+    "op": "chase",
+    "m": [
+     24,
+     54
+    ],
+    "party": [
+     20,
+     53
+    ],
+    "h": -4
+   },
+   "expected": {
+    "chase": true
+   },
+   "note": "M2: Abstand 4 -> Verfolgung"
+  },
+  {
+   "id": "MK03",
+   "contract": "monster-ki-ishar1",
+   "status": "suspected",
+   "source": "quesh/monster-ki-ishar1.json/.md (EDPLT/GERDEP/MAIN)",
+   "input": {
+    "op": "chase",
+    "m": [
+     24,
+     54
+    ],
+    "party": [
+     20,
+     53
+    ],
+    "h": -1
+   },
+   "expected": {
+    "chase": false
+   },
+   "note": "h=-1 außerhalb [-30,-2]"
+  },
+  {
+   "id": "MK04",
+   "contract": "monster-ki-ishar1",
+   "status": "suspected",
+   "source": "quesh/monster-ki-ishar1.json/.md (EDPLT/GERDEP/MAIN)",
+   "input": {
+    "op": "chase",
+    "m": [
+     24,
+     54
+    ],
+    "party": [
+     20,
+     53
+    ],
+    "h": -41
+   },
+   "expected": {
+    "chase": true
+   },
+   "note": "Sonderhaltung -41"
+  },
+  {
+   "id": "MK05",
+   "contract": "monster-ki-ishar1",
+   "status": "suspected",
+   "source": "quesh/monster-ki-ishar1.json/.md (EDPLT/GERDEP/MAIN) 8-Nachbar-Suche, erster gewinnt",
+   "input": {
+    "op": "step",
+    "m": [
+     24,
+     54
+    ],
+    "target": [
+     21,
+     53
+    ],
+    "home": [
+     25,
+     54
+    ],
+    "h": -4
+   },
+   "expected": {
+    "pos": [
+     23,
+     53
+    ]
+   },
+   "note": "Leine |neu-heim|<|h|; Karte als frei angenommen"
+  },
+  {
+   "id": "MK06",
+   "contract": "monster-ki-ishar1",
+   "status": "suspected",
+   "source": "quesh/monster-ki-ishar1.json/.md (EDPLT/GERDEP/MAIN)",
+   "input": {
+    "op": "step",
+    "m": [
+     24,
+     54
+    ],
+    "target": [
+     21,
+     53
+    ],
+    "home": [
+     25,
+     54
+    ],
+    "h": -2
+   },
+   "expected": {
+    "pos": [
+     24,
+     53
+    ]
+   },
+   "note": "Leine 2 blockiert Westschritt"
+  },
+  {
+   "id": "MK07",
+   "contract": "monster-ki-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_MONSTER_KI.md (eigene Läufe 03.11.2026) §I1: Felder x/y/HP/Haltung/Zone werden für die Akteure 60..69 gemeinsam gelöscht",
+   "input": {
+    "op": "offsets",
+    "i": [
+     60,
+     64,
+     69
+    ]
+   },
+   "expected": {
+    "x": [
+     1568,
+     1576,
+     1586
+    ],
+    "y": [
+     1708,
+     1716,
+     1726
+    ],
+    "hp": [
+     1848,
+     1856,
+     1866
+    ],
+    "stance": [
+     3748,
+     3752,
+     3757
+    ],
+    "zone": [
+     4093,
+     4097,
+     4102
+    ]
+   }
+  },
+  {
+   "id": "MK08",
+   "contract": "monster-ki-ishar1",
+   "status": "suspected",
+   "source": "quesh/monster-ki-ishar1.json/.md (EDPLT/GERDEP/MAIN)",
+   "input": {
+    "op": "offsets",
+    "i": [
+     60
+    ]
+   },
+   "expected": {
+    "type": [
+     2698
+    ],
+    "chased": [
+     4163
+    ],
+    "homeX": [
+     4841
+    ],
+    "homeY": [
+     4911
+    ],
+    "contact": [
+     4778,
+     4779,
+     4780
+    ]
+   }
+  },
+  {
+   "id": "MK09",
+   "contract": "monster-ki-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_MONSTER_KI.md (eigene Läufe 03.11.2026) §I1 (a): Laden + sofort Speichern in zwei frischen Sessions: Akteure unverändert, beide Saves byte-gleich",
+   "input": {
+    "op": "afterLoad",
+    "zoneHasEntries": true,
+    "sync": true
+   },
+   "expected": {
+    "actorsChanged": false,
+    "sessionsEqual": true
+   }
+  },
+  {
+   "id": "MK10",
+   "contract": "monster-ki-ishar1",
+   "status": "known",
+   "source": "HOTH_FIXTURES_MONSTER_KI.md (eigene Läufe 03.11.2026) §I1 (a): ein Schritt mit Kartenwechsel löscht die Wandermonster 60..69 (x/y/HP/Haltung/Zone -> 0); Ergebnis in zwei Sessions byte-gleich",
+   "input": {
+    "op": "wanderReset",
+    "save": [
+     {
+      "offset": 0,
+      "be16": 2
+     },
+     {
+      "offset": 1568,
+      "be16": 30
+     },
+     {
+      "offset": 1570,
+      "be16": 30
+     },
+     {
+      "offset": 1572,
+      "be16": 30
+     },
+     {
+      "offset": 1574,
+      "be16": 30
+     },
+     {
+      "offset": 1576,
+      "be16": 30
+     },
+     {
+      "offset": 1578,
+      "be16": 30
+     },
+     {
+      "offset": 1580,
+      "be16": 30
+     },
+     {
+      "offset": 1582,
+      "be16": 30
+     },
+     {
+      "offset": 1584,
+      "be16": 30
+     },
+     {
+      "offset": 1586,
+      "be16": 30
+     },
+     {
+      "offset": 1708,
+      "be16": 40
+     },
+     {
+      "offset": 1710,
+      "be16": 40
+     },
+     {
+      "offset": 1712,
+      "be16": 40
+     },
+     {
+      "offset": 1714,
+      "be16": 40
+     },
+     {
+      "offset": 1716,
+      "be16": 40
+     },
+     {
+      "offset": 1718,
+      "be16": 40
+     },
+     {
+      "offset": 1720,
+      "be16": 40
+     },
+     {
+      "offset": 1722,
+      "be16": 40
+     },
+     {
+      "offset": 1724,
+      "be16": 40
+     },
+     {
+      "offset": 1726,
+      "be16": 40
+     },
+     {
+      "offset": 1854,
+      "be16": 7
+     },
+     {
+      "offset": 1856,
+      "be16": 7
+     },
+     {
+      "offset": 1858,
+      "be16": 7
+     },
+     {
+      "offset": 1860,
+      "be16": 7
+     },
+     {
+      "offset": 1862,
+      "be16": 7
+     },
+     {
+      "offset": 1864,
+      "be16": 7
+     },
+     {
+      "offset": 3748,
+      "u8": 250
+     },
+     {
+      "offset": 3749,
+      "u8": 250
+     },
+     {
+      "offset": 3750,
+      "u8": 250
+     },
+     {
+      "offset": 3751,
+      "u8": 250
+     },
+     {
+      "offset": 3752,
+      "u8": 250
+     },
+     {
+      "offset": 3753,
+      "u8": 250
+     },
+     {
+      "offset": 3754,
+      "u8": 250
+     },
+     {
+      "offset": 3755,
+      "u8": 250
+     },
+     {
+      "offset": 3756,
+      "u8": 250
+     },
+     {
+      "offset": 3757,
+      "u8": 250
+     },
+     {
+      "offset": 4093,
+      "u8": 12
+     },
+     {
+      "offset": 4094,
+      "u8": 12
+     },
+     {
+      "offset": 4095,
+      "u8": 12
+     },
+     {
+      "offset": 4096,
+      "u8": 12
+     },
+     {
+      "offset": 4097,
+      "u8": 12
+     },
+     {
+      "offset": 4098,
+      "u8": 12
+     },
+     {
+      "offset": 4099,
+      "u8": 12
+     },
+     {
+      "offset": 4100,
+      "u8": 12
+     },
+     {
+      "offset": 4101,
+      "u8": 12
+     },
+     {
+      "offset": 4102,
+      "u8": 12
+     }
+    ],
+    "entries": 0
+   },
+   "expected": {
+    "changes": {
+     "1569": 0,
+     "1571": 0,
+     "1573": 0,
+     "1575": 0,
+     "1577": 0,
+     "1579": 0,
+     "1581": 0,
+     "1583": 0,
+     "1585": 0,
+     "1587": 0,
+     "1709": 0,
+     "1711": 0,
+     "1713": 0,
+     "1715": 0,
+     "1717": 0,
+     "1719": 0,
+     "1721": 0,
+     "1723": 0,
+     "1725": 0,
+     "1727": 0,
+     "1855": 0,
+     "1857": 0,
+     "1859": 0,
+     "1861": 0,
+     "1863": 0,
+     "1865": 0,
+     "3748": 0,
+     "3749": 0,
+     "3750": 0,
+     "3751": 0,
+     "3752": 0,
+     "3753": 0,
+     "3754": 0,
+     "3755": 0,
+     "3756": 0,
+     "3757": 0,
+     "4093": 0,
+     "4094": 0,
+     "4095": 0,
+     "4096": 0,
+     "4097": 0,
+     "4098": 0,
+     "4099": 0,
+     "4100": 0,
+     "4101": 0,
+     "4102": 0
+    }
+   },
+   "note": "synthetische Werte; Neuerzeugung bei Einträgen > 0 nicht beobachtet"
+  },
+  {
+   "id": "MK21",
+   "contract": "monster-ki-ishar2",
+   "status": "suspected",
+   "source": "quesh/monster-ki-ishar2.json/.md (EDPLT/GERDEP/MAIN)",
+   "input": {
+    "op": "chase",
+    "m": [
+     25,
+     54
+    ],
+    "party": [
+     20,
+     53
+    ],
+    "h": -4
+   },
+   "expected": {
+    "chase": false
+   },
+   "note": "N1"
+  },
+  {
+   "id": "MK22",
+   "contract": "monster-ki-ishar2",
+   "status": "suspected",
+   "source": "quesh/monster-ki-ishar2.json/.md (EDPLT/GERDEP/MAIN)",
+   "input": {
+    "op": "chase",
+    "m": [
+     24,
+     54
+    ],
+    "party": [
+     20,
+     53
+    ],
+    "h": -4
+   },
+   "expected": {
+    "chase": true
+   },
+   "note": "N2"
+  },
+  {
+   "id": "MK23",
+   "contract": "monster-ki-ishar2",
+   "status": "suspected",
+   "source": "quesh/monster-ki-ishar2.json/.md (EDPLT/GERDEP/MAIN)",
+   "input": {
+    "op": "chase",
+    "m": [
+     30,
+     54
+    ],
+    "party": [
+     20,
+     53
+    ],
+    "h": 9
+   },
+   "expected": {
+    "chase": false
+   },
+   "note": "h=9 Sonderhaltung, |dx|=10 > 9"
+  },
+  {
+   "id": "MK24",
+   "contract": "monster-ki-ishar2",
+   "status": "suspected",
+   "source": "quesh/monster-ki-ishar2.json/.md (EDPLT/GERDEP/MAIN)",
+   "input": {
+    "op": "step",
+    "m": [
+     24,
+     54
+    ],
+    "target": [
+     21,
+     53
+    ],
+    "home": [
+     25,
+     54
+    ],
+    "h": -4
+   },
+   "expected": {
+    "pos": [
+     23,
+     53
+    ],
+    "cooldown": 2
+   }
+  },
+  {
+   "id": "MK25",
+   "contract": "monster-ki-ishar2",
+   "status": "known",
+   "source": "HOTH_FIXTURES_MONSTER_KI.md (eigene Läufe 03.11.2026) §I2: beim Neuerzeugen nach dem Laden ändern sich genau diese Felder der Akteure 90+",
+   "input": {
+    "op": "offsets",
+    "i": [
+     90,
+     104
+    ]
+   },
+   "expected": {
+    "x": [
+     2781,
+     2809
+    ],
+    "y": [
+     3001,
+     3029
+    ],
+    "facing": [
+     3221,
+     3249
+    ],
+    "hp": [
+     3441,
+     3469
+    ],
+    "zone": [
+     6871,
+     6885
+    ]
+   }
+  },
+  {
+   "id": "MK26",
+   "contract": "monster-ki-ishar2",
+   "status": "known",
+   "source": "HOTH_FIXTURES_MONSTER_KI.md (eigene Läufe 03.11.2026) §I2 (b): Laden in einer Zone mit Wandermonstern -> Akteure 90..104 neu erzeugt (Zone 0->Z, HP 0->>0, Kontaktliste belegt); zwei frische Sessions: gleiche Positionen, andere HP/Werte",
+   "input": {
+    "op": "afterLoad",
+    "zoneHasEntries": true,
+    "sync": false
+   },
+   "expected": {
+    "actorsChanged": true,
+    "sessionsEqual": false
+   }
+  },
+  {
+   "id": "MK27",
+   "contract": "monster-ki-ishar2",
+   "status": "known",
+   "source": "HOTH_FIXTURES_MONSTER_KI.md (eigene Läufe 03.11.2026) §I2 (b): Zonenwechsel 36->35->36 (beide ohne Wandermonster): Akteure 90+ bleiben leer, keine Änderung",
+   "input": {
+    "op": "zoneChange",
+    "entries": 0,
+    "before": "empty"
+   },
+   "expected": {
+    "actorsChanged": false
+   }
+  },
+  {
+   "id": "MK28",
+   "contract": "monster-ki-ishar2",
+   "status": "suspected",
+   "source": "quesh/monster-ki-ishar2.json/.md (EDPLT/GERDEP/MAIN) Kontaktliste Slotfolge 1,0,2",
+   "input": {
+    "op": "contactOrder",
+    "arrivals": [
+     91,
+     92,
+     93
+    ]
+   },
+   "expected": {
+    "contact": [
+     92,
+     91,
+     93
+    ]
+   },
+   "note": "Ankunftsreihenfolge synthetisch"
   }
  ]
 }
