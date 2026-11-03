@@ -3,7 +3,7 @@
 ## Handoff header
 - **Base commit:** `bb42748` (read-only clone, nothing committed/pushed). Static analysis only.
 - **Question:** party slot model, save offsets, recruiting (vote), dismissing, killing a member, relation matrix updates, leaving at the tavern, grid placement; reproducible tests.
-- **Method:** FRISE.IO 0x00a76, 0x00d7f, 0x01148–0x01c9b, L_03543; ITAVERNE.IO 0x006e7–0x008ba and L_008bb; MAIN cfwriteb list; S1/LP1 byte dumps.
+- *(Savewerte → `private/party-contract-ishar1-savewerte.md`, SW-1)*
 - **Result:** P1–P7, tests T1–T4.
 - **Limits:** what menu cell maps to dismiss/kill (FRISE table dirtc 0x4e) was not dumped; NPC-side base tables 0x1e76/0x1ebe/0x206e/0x379c/0x3eb2 not dumped; the dialog that starts a recruit (NPC dialog contract) skipped as agreed.
 - **Next step:** dump dirtc 0x4e to get the menu click for dismiss/kill, then run T1/T2.
@@ -13,17 +13,17 @@ Evidence levels: **known** = read in code, **suspected** = plausible, not closed
 ## SHA-256
 | File | SHA-256 |
 |---|---|
-| FRISE.IO | 3bd158963fdaf0f88517b03509002100159a7587c8e2486389314b8abc707e15 |
-| ITAVERNE.IO | f3bed78c5fb97360e1ac2dd46dc4f50052762ebbf2251af5049d02608086e808 |
-| BUSTE.IO | 883f807a2b3bc791ff45c4b34c54a0a4fda40012e8eb0dbd1892b97cbb8924a1 |
-| MAIN.IO | 27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b |
-| PARAM.IO | f42ea12ceffa6b879aeb88f074a81f8e9fed39f92a11f625d7c815b9b7594afd |
-| S1.SAV / LP1.SAV | 92023f2b51e34f74f191068d07922a4b1afa28cff1bd04423d98e4505a463f7f / 76cf91a104ec8675394ec82b44f7238b016d641a8e0ccf3752d117ae2980b64b |
+| FRISE.IO | 3bd158963fda… |
+| ITAVERNE.IO | f3bed78c5fb9… |
+| BUSTE.IO | 883f807a2b3b… |
+| MAIN.IO | 27c5834de005… |
+| PARAM.IO | f42ea12ceffa… |
+| S1.SAV / LP1.SAV | 92023f2b51e3… / 76cf91a104ec… |
 
 ## P1. Slot model and save offsets — known
 5 slots c = 0..4. Per slot: class 0x1664 (728+c, −1 = empty), 0x166c (733+c, attribute used in relations; name **unknown**), HP 0x1542 (468+2c), maxHP 0x155a (488+2c), gold 0x154e/0x3770 (478+2c / 3993+2c), items 0x1568 (498+26c+2k), MENTAL 768+c, food 773+c, 0x16cc (778+c, relation attribute, name **unknown**), **npc id 0x3908 (4028+c, −1 = none)**, **relations 0x377e[i][j] (4003+5i+j, signed byte)**, **grid 0x364c[5][5] (3758+5row+col, value c+1, 0 = empty)**, 0x41e4 (save 20, word: npc 27 flag), NPC HP 0x1b22[npc] (1728+2npc).
-- S1: npc [24,26,7,22,16], class [1,17,18,6,9], all HP = max. LP1: npc [3,2,30,29,1].
-- Index order rel[i][j] = row i: **suspected** (consistent with symmetric writes in P3; S1 matrix is not symmetric, so row/col matters).
+- *(Savewerte → `private/party-contract-ishar1-savewerte.md`, SW-2)*
+- *(Savewerte → `private/party-contract-ishar1-savewerte.md`, SW-3)*
 
 ## P2. Who is "in the party" — known
 Living = class ≠ −1 and HP > 0. Counts and votes use living members only; tavern price splits over class ≠ −1 (dead included).
@@ -59,14 +59,25 @@ See shop-tavern V5: rnd(3) == 0 → first member with npc ∈ {21,28,15,10}; els
 ## Tests (Alderaan/Hoth)
 Shared: load, save A, act, save B, diff (save cost 1000 GS on c2 byte 483).
 ### T1 (deterministic, suspected): S1 dismiss c4 (npc 16) by c0
-Votes rel[j][4], j = 0..3: −2, 1, 4, −5 → yes 2, no 2 → **accepted**. Expect: 476/477 → 0 (HP 77 → 0), 732 → FF, 4032 → FF, 486/487 and 4001/4002 stay 0. Grid 3771 (value 5): **unknown** (L_06dbe). Click path: ACTION c0 (16,132) → menu cell for case 4 (**unknown**, dirtc 0x4e) → portrait c4 (288,160).
-If rel is column-major instead (P1 suspected), votes rel[4][j] = −2, 1, 6, −5 → same outcome, so T1 does not decide the index order.
+
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/party-contract-ishar1-savewerte.md`, SW-4.*
+
+Relative Erwartung: Abstimmung: ja ≥ nein → angenommen. Danach HP des Entlassenen → 0, npc → −1 (FF), Klasse → −1 (FF), Gold bleibt 0.
+
 ### T2 (deterministic, suspected): S1 kill c3 (npc 22) by c0
-After: rel[1][0] = −2 & rel[1][3] = −9 → +1 → −1; rel[2][0] = −1 & rel[2][3] = −7 → +1 → 0; rel[4][0] = −2 & rel[4][3] = −5 → +1 → −1. Expect 4008 FE→FF, 4013 FF→00, 4023 FE→FF; 474/475 → 0; 4031 → FF; grid 3765 (value 4) → 0; class 731 stays 06. No chain kill. Decides the index order: column-major would read A = rel[0][j], giving different deltas (4004 −2→?, see P5).
+
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/party-contract-ishar1-savewerte.md`, SW-5.*
+
+Relative Erwartung: Kein Votum; Ziel aus dem Raster entfernt, HP → 0. Beziehungswerte der übrigen Mitglieder ändern sich nach der Regel in P4 (je ±1).
+
 ### T3 (deterministic once inside, suspected): LP1 sleep → no leaver
-See shop-tavern T4 (all LP1 rows have a value > −2; no special npc) → 4028..4032 unchanged.
+
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/party-contract-ishar1-savewerte.md`, SW-6.*
+
+Relative Erwartung: Beim Schlafen verlässt niemand die Party (Bedingungen aus shop-tavern V5 nicht erfüllt); Effekte wie shop-tavern V4.
+
 ### T4 (suspected): tavern hire
-At tavern t with a free/dead slot and a candidate 0x3f18[t][k] ≠ −1: click (64(k mod 4)+32, row) → vote P3 → on accept 5046+8t+k → FF, 4028+c → n, MENTAL 768+c = 100, rel row/col c rewritten. S1/LP1 have no free slot: needs a save with a dead/dismissed member (e.g. after T1). Route **unknown**.
+*(Savewerte → `private/party-contract-ishar1-savewerte.md`, SW-7)*
 
 ## Addendum 2026-11-03: action menu table dirtc 0x4e and click sequences
 
@@ -94,8 +105,16 @@ Source: FRISE L_00c23–L_00d1a (fill), 0x00d41/0x00d4d (hit test), switch 0x00d
 - Opening the menu: ACTION icon of the actor c at (64c+16, 132) (from the main contract). **suspected** pixel position, the rule x/64 is known.
 
 ### T1 as clicks (S1, dismiss c4 by c0)
-1. Load S1, wait for 3D view. 2. Click (16,132) → menu opens (EXIT text at the bottom right). 3. Click (40,173) DISMISS. 4. Click (288,160) portrait c4. 5. If a yes/no box appears: the click window is script y 56..70, x 116..139 or 187..210 → screen (127,136) or (198,136); first press (127,136) (yes, **suspected**). 6. Save to a free slot, diff with S1: bytes 476/477 → 0, 732 = FF, 4032 = FF.
+
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/party-contract-ishar1-savewerte.md`, SW-8.*
+
+Relative Erwartung: Klickfolge zu T1; Sollwerte wie T1.
+
 ### T2 as clicks (S1, kill c3 by c0)
-1. Load S1. 2. (16,132). 3. (40,163) KILL. 4. (224,160) portrait c3. 5. Save, diff: 4008 FE→FF, 4013 FF→00, 4023 FE→FF, 474/475 → 0, 4031 → FF, 3765 04→00, 731 stays 06. Revenge kills (manual) can change more slots, so check only these bytes as a minimum.
+
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/party-contract-ishar1-savewerte.md`, SW-9.*
+
+Relative Erwartung: Klickfolge zu T2; Sollwerte wie T2.
+
 ### T3 (new, Alderaan) menu hit test
 Open the menu, move over each cell in the table above: the highlight box (sprite 71) has to appear exactly at the expected cell; (200,183) shows no highlight.

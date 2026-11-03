@@ -2,11 +2,11 @@
  "base_commit": "bb42748",
  "code": "319819c",
  "sha256": {
-  "AFFOBJ.IO": "40b882fbadff3ea452c76a2af3fdbba9d2b3e4c62d0f19dd838c41f0d5ebdf1e",
-  "OBJET.IO": "51ec1fdf24bea52fd07cfc5bf01fa46c6ae7b75bbccb93433d6d0c66b0d99e08",
-  "SOURIS.IO": "78df7c73f880466303867b63dd5e20897777802b0595c64935b9f4462354f9d3",
-  "FRISE.IO": "27117c124caf904a31568f5c58f615946083dd3429c02ade1dc1e17552cc2b64",
-  "START.SAV": "e685cd6902575392a9fe445e649863885f75832ed28657a5f6faf612c6305555"
+  "AFFOBJ.IO": "40b882fbadff…",
+  "OBJET.IO": "51ec1fdf24be…",
+  "SOURIS.IO": "78df7c73f880…",
+  "FRISE.IO": "27117c124caf…",
+  "START.SAV": "→ private/pickup-contract-ishar2-savewerte.json#/sha256/START.SAV"
  },
  "routines": [
   {
@@ -175,7 +175,7 @@
   }
  ],
  "reference": {
-  "save": "START.SAV patched: 0x2ac3=12,0x2b8d=12,0x2c57=1,0x50d1=2",
+  "save": "→ private/pickup-contract-ishar2-savewerte.json#/reference/save",
   "click_pick": [
    128,
    113
@@ -223,8 +223,8 @@
   "obj9_obj10": 0,
   "variantC": {
    "save": "codex-support/quesh/private/PICK25.SAV",
-   "sha256": "78d3fbdb51aaf7ac053e2804bd9d4e5957302b763391012ef695a0224f2309ca",
-   "patch_of": "PICK9.SAV c306cfc7",
+   "sha256": "78d3fbdb51aa…",
+   "patch_of": "→ private/pickup-contract-ishar2-savewerte.json#/addendum_2026_10_18_armour/variantC/patch_of",
    "bytes": {
     "1056": "0xFF",
     "1057": "0xE7",
@@ -236,7 +236,7 @@
     "(50,168) pick -> save pick25a: 1336 4->0, 1056/57 00 00",
     "(50,168) drop -> save pick25b: 1336 0->4, 1056/57 FF E7"
    ],
-   "alt": "CH1N.SAV: c1 slot10 -25 -> c0 slot9; 1337 16->12, 1336 0->4 (=CH2N); needs c1/slot9 coordinates"
+   "alt": "→ private/pickup-contract-ishar2-savewerte.json#/addendum_2026_10_18_armour/variantC/alt"
   }
  }
 }

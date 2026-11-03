@@ -7,23 +7,23 @@
   "rg over decompile/alis/listings/ishar2/*.asm",
   "python3 private/party-decode.py <SAV>",
   "python3 private/rel-check.py",
-  "python3 private/savediff.py A.SAV B.SAV",
+  "→ private/party-contract-ishar2-savewerte.json#/commands/3",
   "sha256sum"
  ],
  "sha256": {
-  "FRISE.IO": "27117c124caf904a",
-  "PARAM.IO": "d06a65de13628470",
-  "TAVERNE.IO": "ea315973f2187950",
-  "MESSAGEE.IO": "7ef08cd36e37d6a5",
-  "SOURIS.IO": "78df7c73f8804663",
-  "MAIN.IO": "bfab5e9175931dbb",
-  "IO.IO": "0df1f34cf2519341",
-  "EAFF.IO": "6ab9102e2566617a",
-  "DRUIDE4.IO": "6b66d1ed23c301e6",
-  "START.SAV": "e685cd6902575392a9fe445e649863885f75832ed28657a5f6faf612c6305555",
-  "GRIMZEL.SAV": "4b42d32b6a682bb71cd112d7a30d172114bf13117c63ad5d5fee76e57884d3bf",
-  "GRIMZ.SAV": "f901acf37abc91b34191c591f0f0a77e097d2801ed58e2b6c29cc8535b3b2630",
-  "SASCHA2.SAV": "35205bbf8271c90e50a0baa315893b9708bf7c62a2efadaad6675e98a2a8e624"
+  "FRISE.IO": "27117c124caf",
+  "PARAM.IO": "d06a65de1362",
+  "TAVERNE.IO": "ea315973f218",
+  "MESSAGEE.IO": "7ef08cd36e37",
+  "SOURIS.IO": "78df7c73f880",
+  "MAIN.IO": "bfab5e917593",
+  "IO.IO": "0df1f34cf251",
+  "EAFF.IO": "6ab9102e2566",
+  "DRUIDE4.IO": "6b66d1ed23c3",
+  "START.SAV": "→ private/party-contract-ishar2-savewerte.json#/sha256/START.SAV",
+  "GRIMZEL.SAV": "→ private/party-contract-ishar2-savewerte.json#/sha256/GRIMZEL.SAV",
+  "GRIMZ.SAV": "→ private/party-contract-ishar2-savewerte.json#/sha256/GRIMZ.SAV",
+  "SASCHA2.SAV": "→ private/party-contract-ishar2-savewerte.json#/sha256/SASCHA2.SAV"
  },
  "semantics": {
   "opile": "popped operand",
@@ -332,7 +332,7 @@
      ]
     },
     "other_classes": "stale dirb6c..72 (quirk)",
-    "save_check": "GRIMZ (class5) and SASCHA2 (class19) exact"
+    "save_check": "→ private/party-contract-ishar2-savewerte.json#/routines/8/skills/save_check"
    },
    "after": [
     "0x2fa2[n]=id",
@@ -509,307 +509,7 @@
    "0x2d16"
   ]
  },
- "reference": {
-  "E2": {
-   "save": "GRIMZEL.SAV",
-   "start": "map5 zone36 row53 col16 facing3; Grimzel id51 at row53 col17 (one ahead)",
-   "steps": [
-    [
-     "load GRIMZEL",
-     "Grimzel sprite ahead"
-    ],
-    [
-     "click (72,131)",
-     "menu of slot 1"
-    ],
-    [
-     "click (48,150)",
-     "expel target pick"
-    ],
-    [
-     "click (32,170)",
-     "vote: Bragl for, Noegh against(-4), Brom for, Molgo for -> granted"
-    ],
-    [
-     "click (127,136)",
-     "slot 0 empty"
-    ],
-    [
-     "click (72,131) then (16,150)",
-     "recruit target pick"
-    ],
-    [
-     "click Grimzel sprite (~128,90, screenshot first)",
-     "sheet: lvl4 STR3 CON5 AGI2 INT15"
-    ],
-    [
-     "click (127,136)",
-     "vote 4x for -> admitted"
-    ],
-    [
-     "click (127,136)",
-     "Grimzel in slot 0, NPC gone"
-    ],
-    [
-     "save PARTY1",
-     ""
-    ]
-   ],
-   "expected_diff": [
-    [
-     936,
-     945,
-     "name -> Grimzel"
-    ],
-    [
-     986,
-     987,
-     "539->0"
-    ],
-    [
-     996,
-     997,
-     "87->14"
-    ],
-    [
-     1016,
-     1017,
-     "87->14"
-    ],
-    [
-     1036,
-     1065,
-     "->0"
-    ],
-    [
-     1291,
-     1291,
-     "13->4"
-    ],
-    [
-     1296,
-     1296,
-     "6->3"
-    ],
-    [
-     1301,
-     1301,
-     "6->5"
-    ],
-    [
-     1306,
-     1306,
-     "17->16"
-    ],
-    [
-     1311,
-     1311,
-     "16->15"
-    ],
-    [
-     1316,
-     1316,
-     "11->2"
-    ],
-    [
-     1321,
-     1321,
-     "0->100"
-    ],
-    [
-     1326,
-     1326,
-     "70->100"
-    ],
-    [
-     1341,
-     1367,
-     "->0"
-    ],
-    [
-     7899,
-     7925,
-     "->0"
-    ],
-    [
-     1476,
-     1476,
-     "39->51"
-    ],
-    [
-     3363,
-     3364,
-     "14->0"
-    ],
-    [
-     7114,
-     7114,
-     "1->0"
-    ],
-    [
-     7125,
-     7125,
-     "0->1"
-    ],
-    [
-     7363,
-     7363,
-     "-28->0"
-    ],
-    [
-     7367,
-     7367,
-     "-28->0"
-    ],
-    [
-     7369,
-     7369,
-     "5->0"
-    ],
-    [
-     7373,
-     7373,
-     "5->0"
-    ],
-    [
-     7370,
-     7370,
-     "38->28"
-    ],
-    [
-     7378,
-     7378,
-     "38->28"
-    ],
-    [
-     7357,
-     7357,
-     "0->-4"
-    ],
-    [
-     7361,
-     7361,
-     "0->-4"
-    ],
-    [
-     7359,
-     7359,
-     "0->29"
-    ],
-    [
-     7371,
-     7371,
-     "0->29"
-    ],
-    [
-     7360,
-     7360,
-     "0->14"
-    ],
-    [
-     7376,
-     7376,
-     "0->14"
-    ],
-    [
-     7546,
-     7546,
-     "29->20"
-    ],
-    [
-     7551,
-     7551,
-     "25->16"
-    ],
-    [
-     7556,
-     7556,
-     "26->17"
-    ],
-    [
-     7561,
-     7561,
-     "24->15"
-    ],
-    [
-     7566,
-     7566,
-     "31->22"
-    ],
-    [
-     7571,
-     7571,
-     "86->85"
-    ],
-    [
-     7729,
-     7729,
-     "56->55"
-    ]
-   ],
-   "unchanged": "class 1276, race 1281, align 1331, armour 1336, 0x4fd4 111, gold, 0x4b88/0x4c7e/0x5068 slot0 (already 0), other slots",
-   "varies": "clock 44..49",
-   "cross_check": "12 rel bytes and 7 skill bytes identical in GRIMZ.SAV (user continuation); GRIMZ grid differs (later manual edit, hypothesis)"
-  },
-  "E3_refused": {
-   "save": "START.SAV",
-   "steps": [
-    "(8,131)",
-    "(48,150)",
-    "(288,170)"
-   ],
-   "votes": {
-    "0": -31,
-    "1": -8,
-    "2": 24,
-    "3": -10
-   },
-   "result": "refused 1:3, no save change"
-  },
-  "E3_granted": {
-   "save": "START.SAV",
-   "steps": [
-    "(8,131)",
-    "(48,150)",
-    "(160,170)",
-    "(127,136)"
-   ],
-   "votes": {
-    "0": 10,
-    "1": 10,
-    "3": 10,
-    "4": 24
-   },
-   "result": "granted 4:0, no penalty",
-   "expected_diff": [
-    [
-     1000,
-     1001,
-     "60->0"
-    ],
-    [
-     1278,
-     1278,
-     "3->-1"
-    ],
-    [
-     1478,
-     1478,
-     "41->-1"
-    ],
-    [
-     7125,
-     7125,
-     "3->0"
-    ],
-    [
-     8036,
-     8036,
-     "-1->0"
-    ]
-   ]
-  }
- },
+ "reference": "→ private/party-contract-ishar2-savewerte.json#/reference",
  "hypotheses": [
   "0x4fd4 = female flag",
   "screen_y = 199 - y_up",
@@ -818,7 +518,7 @@
   "GRIMZ grid = manual edit after recruit"
  ],
  "open": [
-  "Grimzel->Grimz in-place swap trigger (DRUIDE4 0x50b4 / msg +0x0d=23)",
+  "→ private/party-contract-ishar2-savewerte.json#/open/0",
   "menu option 5",
   "meaning of skills 0x4b38/40/48/50/58, 0x4c76",
   "class 13/14 stale skills at runtime",
@@ -888,7 +588,7 @@
    "T1 map option5 no diff",
    "T2 perception speaker + 0x4f18",
    "T3 weapon delay",
-   "T4 GRIMZ.SAV ritual vs SASCHA2 diff",
+   "→ private/party-contract-ishar2-savewerte.json#/addendum_2026_11_03_open_points/tests/3",
    "T5 lock-picking success rate"
   ],
   "md_section": "Addendum 2026-11-03"

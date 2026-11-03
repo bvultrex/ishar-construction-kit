@@ -5,28 +5,28 @@
 |---|---|
 | Base commit | bvultrex/ishar-construction-kit `bb42748` (branch workbench/playable-slice, clone `clones/quesh`, read-only; nothing committed) |
 | Question | What exactly happens when the party admits or dismisses a member (vote, affinity, alignment, RNG, threshold, consequences), how the formation grid 0x49e6 works, which save bytes change, and how to reproduce it on the original EXE |
-| Commands | `rg` over `decompile/alis/listings/ishar2/*.asm`; `python3 codex-support/quesh/private/party-decode.py <SAV>` (party/grid/rel decoder); `python3 private/rel-check.py` (relation formula vs. all saves); `python3 private/savediff.py A.SAV B.SAV` (field-labelled diff); `sha256sum` |
+| → `private/party-contract-ishar2-savewerte.md` SW-1 |  |
 | Main addresses | FRISE L_00f74 (menu), L_01fa1 (target pick), L_01213/L_01240 (recruit), 0x01446 (admission vote), L_019ec (tally), L_018b3 (OK/cancel), L_0194b (losers' penalty), L_02151 (copy actor → slot), L_01a94 (expel), L_00c12 + L_05f26 (remove member), L_01b88 (murder), L_01dd1 (cure), L_05be5 / L_0595d (grid); PARAM 0x01f6b (affinity table 0x4c42), PARAM 0x020ba–0x023cc (tavern lists 0x4ca0); TAVERNE 0x009d6–0x00ad8 (offer), 0x00818 (leaver/thief); EAFF 0x00079 (NPC visibility) |
-| Result | Fully deterministic team vote (**no RNG**), threshold `yes ≥ no`. Affinity = `A[race_a][race_b] − 3·|align_a − align_b|`. Confirmed byte-exactly by the user's own save pair GRIMZEL→GRIMZ (expel + recruit: 12 relation bytes and 7 skill bytes predicted exactly). |
-| Limits | Static analysis plus save consistency. No DOSBox run. Pixel coordinates are derived from listing comparisons (see R1). The Grimzel→Grimz swap path is not traced (open). |
+| → `private/party-contract-ishar2-savewerte.md` SW-2 |  |  |  |
+| → `private/party-contract-ishar2-savewerte.md` SW-3 |  |
 | Next step | Alderaan/Hoth: run the reference sequence in §E on GRIMZEL.SAV and compare with the expected diff table. Codex: wire the vote/penalty/copy rules into the VM as listed in the JSON (`routines`). |
 
 SHA-256 (originals in `originals/ishar2/Ishar2/`):
 | File | SHA-256 |
 |---|---|
-| FRISE.IO | 27117c124caf904a… |
-| PARAM.IO | d06a65de13628470… |
-| TAVERNE.IO | ea315973f2187950… |
-| MESSAGEE.IO | 7ef08cd36e37d6a5… |
-| SOURIS.IO | 78df7c73f8804663… |
-| MAIN.IO | bfab5e9175931dbb… |
-| IO.IO | 0df1f34cf2519341… |
-| EAFF.IO | 6ab9102e2566617a… |
-| DRUIDE4.IO | 6b66d1ed23c301e6… |
-| START.SAV | e685cd6902575392a9fe445e649863885f75832ed28657a5f6faf612c6305555 |
-| GRIMZEL.SAV | 4b42d32b6a682bb71cd112d7a30d172114bf13117c63ad5d5fee76e57884d3bf |
-| GRIMZ.SAV | f901acf37abc91b34191c591f0f0a77e097d2801ed58e2b6c29cc8535b3b2630 |
-| SASCHA2.SAV | 35205bbf8271c90e50a0baa315893b9708bf7c62a2efadaad6675e98a2a8e624 |
+| FRISE.IO | 27117c124caf… |
+| PARAM.IO | d06a65de1362… |
+| TAVERNE.IO | ea315973f218… |
+| MESSAGEE.IO | 7ef08cd36e37… |
+| SOURIS.IO | 78df7c73f880… |
+| MAIN.IO | bfab5e917593… |
+| IO.IO | 0df1f34cf251… |
+| EAFF.IO | 6ab9102e2566… |
+| DRUIDE4.IO | 6b66d1ed23c3… |
+| START.SAV | e685cd690257… |
+| GRIMZEL.SAV | 4b42d32b6a68… |
+| GRIMZ.SAV | f901acf37abc… |
+| SASCHA2.SAV | 35205bbf8271… |
 
 Notes:
 - Expression semantics: `opushacc … op(opile)` = popped operand (maestun opile), so `x opushacc y osub(z) oabs omul(3) osub(opile)` = `x − 3·|y − z|`.
@@ -60,7 +60,7 @@ Notes:
 - World NPC: needs `loc102 == 1` (material) and `0x4f4c[id] ≠ 0` with id = entity byte +0x0d.
 - Tavern: TAVERNE offers `0x4ca0[tavern][k]` (8 per tavern; 2×4 grid, k = (x−1)/64, +4 for the lower row, y_up 75..135; exit y_up 63..71, x > 287 or right click). Clicking sends `csend 24, id` to FRISE (type 6) → msg 24 → loc 0x0178 = id, dirb69 = 1, L_01240 (skips the material/0x4f4c check). On acceptance TAVERNE sets that list entry to −1.
 - NPC visibility (EAFF 0x00079): only ids ≥ 50 can stand in the world, and only if `0x449a[id] == zone (0x4ef2)` and `0x36ac[id] > 0`. Ids 0..49 are tavern-only (0x449a = 0).
-- Special case id 52 (Grimz): needs a living slot with id 51 (Grimzel); otherwise message 13 ("where is my daughter") and abort.
+- *(Savewerte → `private/party-contract-ishar2-savewerte.md`, SW-4)*
 - Team complete: `dirb44` = number of slots with class ≠ −1 and HP > 0; if ≥ 5 → message −10 and abort (after the vote rows are computed).
 - **No gold cost**, no item cost (no write to 0x2d68/0x2d80 on this path).
 - Candidate sheet (name, level, STR, CON, AGI, INT, …). OK = x 116..139, y_up 56..70; Cancel = x 187..210 (same band) or right click.
@@ -130,7 +130,7 @@ then L_00e31 (cohesion average, display only). Quirk: `v[]` (FRISE dirtc 0x4a) i
    | 7 | 30 | 50 | 45 | 60 | 63 | 62 | 80 |
    | 11 | 20 | 15 | 50 | 40 | 12 | 12 | 15 |
    | 15 | 2 | 20 | 80 | 13 | 12 | 12 | 15 |
-   Classes 13, 14 and others skip the switch → the seven skills get **stale** FRISE dirb6c..72 values from the previous recruit (original quirk). Save check: Grimzel (class 5, AGI 2, INT 15) → 22/55/85/20/16/17/15, and Grimz (class 19, AGI 8, INT 18) → 28/58/88/26/22/23/21. Both match GRIMZ.SAV and SASCHA2.SAV exactly. **proven**
+   *(Savewerte → `private/party-contract-ishar2-savewerte.md`, SW-5)*
 4. XP 0x2d50 is **not** written. It is 0 for a slot freed by L_05f26, so the forced level check gives level(0) = 1, which is not > old: no level-up, no RNG. If a slot still carries XP (see R16), the check can raise the level once (one HP gain `rnd(T4b0c[race]) + max(0,(CON−8)/2)`, combat contract R5).
 5. 0x2fa2[n] = id. If dirb69 == 0 (world NPC): `ckill` the clicked entity, then **0x36ac[id] = 0** (actor HP zeroed; EAFF never shows it again).
 6. L_0194b (R6), new relations (R8), name drawn.
@@ -142,7 +142,7 @@ Used by an accepted expulsion and by corpse cleanup:
 - HP 0x2d5c = 0, 0x2fa2 = −1, class 0x2e9e = −1, gold 0x2d68 = 0x2d80 = 0 (gold is lost), portrait erased.
 - L_05f26: 0x4f0a = 0 (not saved), 0x5068[n] = 0, 0x4c7e[n] = 0, XP 0x2d50 = 0, 0x2e4a / 0x2e92 / 0x2e26 / 0x2e86 / 0x2fb6 [n] = 0; first grid cell == n+1 cleared (col-outer/row-inner scan); held-item cursor 0x2d16 == −(n+1) → 0; 0x4b88[n][0..9] = 0; `csend −101` to loc 0x019e; `csend 22` to 0x13/0x90; L_05be5 (front-row recompute).
 - **Not** cleared: name, stats, inventory 0x2d8e (kept in the save, overwritten by the next recruit), relations row/column (overwritten by the next recruit).
-- The expelled actor never returns: 0x36ac[id] stays 0 from its own recruitment, and nothing re-adds it to 0x4ca0 (only PARAM writes tavern lists, at new game; PARAM 0x023b5 removes current members). Consistent with the saves: Fandhir (17) is still in tavern list 0 in S.SAV/LEVELING.SAV (timeline where he is not in the party) and gone from it in START.SAV (recruited).
+- *(Savewerte → `private/party-contract-ishar2-savewerte.md`, SW-6)*
 - Dead members: L_05e20 draws the dead portrait and calls L_05f26 (XP zeroed); if all are dead → `csend 18` (game over). L_00ae1: when the party position changes, every slot with HP ≤ 0 and class ≠ −1 → L_00c12 (corpse removed, gold lost).
 
 ### R11. Leaving on its own (TAVERNE, after a room rest, dirb12 ≠ 2) — proven (static)
@@ -152,7 +152,7 @@ Used by an accepted expulsion and by corpse cleanup:
 - RNG: exactly one `rnd(3)` per rest.
 
 ### R12. Murder (L_01b88, menu option 3, no vote) — proven (static)
-- Victim HP = 0 → L_05e20. If the victim's id is 51 (Grimzel): after 3 frames the killer's HP = 0 too.
+- *(Savewerte → `private/party-contract-ishar2-savewerte.md`, SW-7)*
 - For each living a ≠ killer, with K = rel[a][killer], V = rel[a][victim], both directions: K > 50 & V ≤ 50 → +30; K > 50 & V > 50 → −20; K ≤ 50 & V ≤ 50 → +10; K ≤ 50 & V > 50 → −40, and then if rel[a][killer] < 30 → **revenge**: a murders the killer (the loop restarts at L_01b9e with the new pair; the remaining members of the first loop are not updated). Clamp 0..100 (L_01d4c). No RNG.
 
 ### R13. Cure (L_01dd1) — proven (static)
@@ -178,7 +178,7 @@ Used by an accepted expulsion and by corpse cleanup:
 | Revive (msg 32 → L_00d89) | first empty cell, col-outer/row-inner, row 0 first |
 | Editor (L_0595d) | F-key code 1 or 0x4f10 == 12; mini-map cell at x = 263 + 12·col, y_up = 129 + 11·row; a click picks a member (0x2d16 = −value), the next click drops or swaps |
 | Enemy targeting | EATT takes the first non-zero cell from the attacking side (combat contract A3) |
-| Quirk | duplicate values occur in originals (FINALE/LP2/LP3, SASCHA2 has two cells = 1). The editor allows it; rules must not assume uniqueness |
+| → `private/party-contract-ishar2-savewerte.md` SW-8 |  |
 
 ---
 
@@ -205,82 +205,37 @@ Used by an accepted expulsion and by corpse cleanup:
 Not saved: 0x4c42 (affinity), 0x4f0a, FRISE dirtc 0x4a (votes), dirti 0xf6, dirb86, 0x2d16.
 
 ### E2. Reference sequence 1: expel + recruit on GRIMZEL.SAV (for Alderaan/Hoth, DOSBox-X, original EXE)
-**Why this save:** it is Sascha's own save. The next save in that timeline (GRIMZ.SAV) shows exactly this expel + recruit, among other later play, so the relation and skill bytes can be cross-checked. Start state: map 5, zone 36, party row 53 / col 16, facing 3; Grimzel (id 51, 0x36ac = 14, zone 36) stands at row 53 / col 17, **one cell straight ahead**. Party: 0 Eliandr (39), 1 Bragl (38), 2 Noegh (45), 3 Brom (13), 4 Molgo (22), all alive.
 
-Use your own copy of the game directory (never the originals or Hoth's active one). Same DOSBox pitfalls as in pickup-contract-ishar2.md (focus, keypad digits, release Alt, mousemove before click).
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/party-contract-ishar2-savewerte.md`, SW-9.*
 
-| # | Input (screen coords, 320×200) | Expected observable result | Basis |
-|---|---|---|---|
-| 1 | Load GRIMZEL | Grimzel's sprite one cell ahead | EAFF 0x00079 |
-| 2 | Left-click Bragl's menu icon **(72, 131)** (slot 1, icon 0) | 5-button menu at the top-left of the portrait strip (x 0..159) | R1 |
-| 3 | Left-click option 2 "expel" **(48, 150)** | target-pick mode | R1 |
-| 4 | Left-click Eliandr's portrait **(32, 170)** | Vote panel: Bragl **for** (10), Noegh **against** (10 − 14 = −4), Brom **for** (10), Molgo **for** (10) → 3 : 1 → **expulsion granted** (−9) | R7/R5 |
-| 5 | Left-click OK **(127, 136)** | Eliandr's portrait becomes empty | R10 |
-| 6 | Left-click Bragl's menu icon **(72, 131)**, then option 1 "recruit" **(16, 150)** | target-pick mode | R1 |
-| 7 | Left-click Grimzel's sprite (centre of the viewport sprite; screenshot first, approx. (128, 90)) | Candidate sheet: Grimzel, level 4, STR 3, CON 5, AGI 2, INT 15 | R2/R3 (hit: hypothesis) |
-| 8 | Left-click OK **(127, 136)** | Vote: all four **for** (forced 10 for id 51) → **member admitted** (−12) | R4 |
-| 9 | Left-click OK **(127, 136)** | Grimzel's portrait in slot 0; the NPC sprite disappears | R9 |
-| 10 | Save as `PARTY1` | — | — |
-
-**Expected diff PARTY1 vs GRIMZEL.SAV** (party-relevant bytes; plus clock fields 44–49, which vary):
-| Save offset | Field | Before → after | Rule |
-|---|---|---|---|
-| 936–945 | name slot 0 | Eliandr → Grimzel string (copy of 0x2fc4[51], file 2011–2020) | R9 |
-| 986–987 | XP slot 0 | 539 → **0** | R10 (L_05f26); not rewritten by R9 |
-| 996–997 / 1016–1017 | HP / max HP slot 0 | 87 / 87 → **14 / 14** | R9 |
-| 1036–1065 | inventory slot 0 | → all 0 | R9 |
-| 1276 / 1281 | class / race | 5 / 1 → 5 / 1 (unchanged; was −1 between steps 5 and 9) | R10, R9 |
-| 1291 | level | 13 → **4** | R9 (no level-up, XP 0) |
-| 1296 / 1301 / 1306 / 1311 / 1316 | STR / CON / 0x2ece / INT / AGI | 6/6/17/16/11 → **3/5/16/15/2** | R9 |
-| 1321 / 1326 | 0x2eee / food | → 100 / 100 | R9 |
-| 1331 / 1336 | alignment / armour | 8 / 0 → 8 / 0 | R9 |
-| 1341–1367, 7899–7925 | 0x2f18 / 0x4fde slot 0 | → all 0 | R9 |
-| 1476 | actor id slot 0 | 39 → **51** | R9 |
-| 111 | 0x4fd4 slot 0 | 1 → 1 | R9 |
-| 3363–3364 | 0x36ac[51] | 14 → **0** | R9 |
-| 7114 / 7125 | grid [0][3] / [2][4] | 1 → 0 / 0 → **1** | R10 / R9 |
-| 7363, 7367 | rel[1][2], rel[2][1] | −28 → **0** (−38 clamped) | R6 |
-| 7369, 7373 | rel[2][3], rel[3][2] | 5 → **0** (clamped) | R6 |
-| 7370, 7378 | rel[2][4], rel[4][2] | 38 → **28** | R6 |
-| 7357, 7361 | rel[0][1], rel[1][0] | 0 → **−4** (50 − 3·18) | R8 |
-| 7359, 7371 | rel[0][3], rel[3][0] | 0 → **29** (50 − 3·7) | R8 |
-| 7360, 7376 | rel[0][4], rel[4][0] | 0 → **14** (20 − 3·2) | R8 |
-| 7356, 7358, 7366 | rel[0][0], [0][2], [2][0] | 50, 14, 14 unchanged (formula gives the same values as for Eliandr) | R8 |
-| 7546 / 7551 / 7556 / 7561 / 7566 / 7571 / 7729 | skills slot 0 | 29/25/26/24/31/86/56 → **20/16/17/15/22/85/55** | R9 (class 5 row) |
-| 7579–7588, 7734, 8034 | 0x4b88[0][*], 0x4c7e[0], 0x5068[0] | already 0 → 0 (unchanged) | R10 |
-| 1006–1007, 1026–1027 | gold slot 0 | 0 → 0 (unchanged; R10 zeroes it, R9 copies 0x378a/0x3868[51] = 0) | R10/R9 |
-Nothing else should change: the other slots' stats, tavern lists, and 0x449a/0x4f4c stay. Variance: the step 4 vote assumes FRISE's stale v[0] is 0 at a fresh load (R6). If it were non-zero, extra −10 penalties would hit row/column 0, which R8 overwrites anyway, so the expected bytes do not depend on it.
-
-**Cross-check already done (static):** the 12 relation bytes and the 7 skill bytes above appear with exactly these values in GRIMZ.SAV (the user's own continuation). GRIMZ also differs in level/HP/XP/food/grid from later play: there the grid has Grimzel at [1][3] and Molgo at [0][3], presumably after a manual formation edit (**hypothesis**; the recruit rule predicts [2][4]).
+Relative Erwartung: Entlassener Slot: XP → 0, Gold → 0 (R10). Neuer Slot übernimmt Werte aus den Akteurtabellen (R9). Beziehungswerte werden nach R6/R8 neu gesetzt und auf den Gültigkeitsbereich geclampt.
 
 ### E3. Reference sequence 2: refused and granted expulsions on START.SAV
-START: map 1, row 11, col 12, facing 2. Party 0 Zubaran (33, human, align 3), 1 Fandhir (17, elf, 4), 2 Dhrurhn (41, orc, −8), 3 Unknown (7, human, −10), 4 Yornh (16, human, 0); grid row 4 = 1..5; rel row 4 = [41, 18, −14, 20, 50], column 2 = [0, 0, 50, 0, −14].
-- **Refused:** Zubaran's menu (8, 131) → option 2 (48, 150) → Yornh's portrait (288, 170). Votes `10 − rel[a][4]`: Zubaran −31 against, Fandhir −8 against, Dhrurhn +24 for, Unknown −10 against → 1 : 3 → **expulsion refused** (−8). **Save diff: none** (except clock). No penalty on refusal.
-- **Granted:** Zubaran's menu → option 2 → Dhrurhn's portrait (160, 170). Votes `10 − rel[a][2]`: +10, +10, +10 (Unknown), +24 (Yornh) → 4 : 0 → granted → OK (127, 136). No against-voters → no penalty. Expected diff: 1000–1001 HP 60 → 0; 1278 class 3 → −1; 1478 id 41 → −1; gold slot 2 (1010–1011 / 1030–1031) already 0; XP 990–991 already 0; 7125 grid [2][4] 3 → 0; 8036 0x5068[2] −1 → 0; 7599–7608 0x4b88[2][*] stay 0; 7736 stays 0. Name, stats, inventory, relations unchanged.
-- **Then a tavern recruit** fills slot 2 (first HP == 0 slot). The tavern location on map 1 is not derived here (**open**). The diff pattern equals E2's recruit part with n = 2.
 
----
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/party-contract-ishar2-savewerte.md`, SW-10.*
+
+Relative Erwartung: Stimme je Mitglied = 10 − rel[a][t]. Mehrheit dagegen → abgelehnt (keine Änderung); Mehrheit dafür → Entlassung nach R10; danach füllt ein Tavernen-Rekrut den ersten Slot mit HP == 0.
 
 ## Findings summary
 | # | Finding | Rating |
 |---|---|---|
 | R1 | Menu, icon bands, option mapping | proven (pixel edges: hypothesis) |
 | R2 | Target pick (portrait slot = x/64) | proven; NPC sprite hit material = hypothesis |
-| R3 | Recruit gates, no cost, Grimz needs Grimzel, team complete at 5 | proven |
-| R4 | Vote value = A[r][r'] − 3·|Δalign|, 51/52 forced 10 | proven (static + saves + GRIMZ) |
+| → `private/party-contract-ishar2-savewerte.md` SW-11 |  |  |
+| → `private/party-contract-ishar2-savewerte.md` SW-12 |  |  |  |  |
 | R5 | Threshold yes ≥ no, ties pass, neutral ignored, no RNG | proven |
-| R6 | Losers' −10 penalty, clamp ≥ 0, stale-vote quirk | proven (exact in GRIMZ); stale initial value = hypothesis |
+| → `private/party-contract-ishar2-savewerte.md` SW-13 |  |  |
 | R7 | Expel vote 10 − rel | proven |
 | R8 | New relations (unclamped) | proven |
-| R9 | Actor → slot copy, skill table, actor HP zeroed | proven (GRIMZ, SASCHA2 exact) |
+| → `private/party-contract-ishar2-savewerte.md` SW-14 |  |  |
 | R10 | Removal clears; gold lost; never returns | proven |
 | R11 | Tavern thief rnd(3) / leaver rule | proven (static only) |
 | R12 | Murder relation table and revenge | proven (static only) |
 | R13 | Cure rnd(100), rnd(5)+1 | proven (static only) |
 | R14 | Cohesion display only | proven |
 | D | Grid layout and scan orders | proven |
-| — | 0x4fd4 = female flag | hypothesis (0x4f4c == 2 exactly for female names; Grimzel = "daughter"; flips 1 → 0 on Grimzel → Grimz) |
-| — | Grimzel → Grimz in-place swap (SASCHA2: slot 0 keeps XP 259 and level 9, gets class 19 skills) | **open**: L_02151 evidently ran on Grimzel's living slot without L_05f26. The trigger (DRUIDE4 0x50b4 / message entity +0x0d = 23) is not traced |
+| → `private/party-contract-ishar2-savewerte.md` SW-15 |  |  |
+| → `private/party-contract-ishar2-savewerte.md` SW-16 |  |  |
 | — | START.SAV history (orc Dhrurhn admitted despite negative affinity to Zubaran/Fandhir) | open (earlier party composition unknown; not a contradiction) |
 | — | Contradictions | none found |
 
@@ -292,7 +247,7 @@ START: map 1, row 11, col 12, facing 2. Party 0 Zubaran (33, human, align 3), 1 
 ## Next step
 1. Alderaan/Hoth: run E2 (and E3 refused/granted) on copies, save PARTY1/EXP1, and diff against the tables above.
 2. Codex: the VM needs `ctstform`/`cmatent` for the NPC click (already needed for pickup). The rules in the JSON `routines` are directly testable against PARTY1.
-3. Optional: trace DRUIDE4 → Grimz swap; locate the map-1 tavern for a tavern-recruit sequence.
+3. *(Savewerte → `private/party-contract-ishar2-savewerte.md`, SW-17)*
 
 ---
 
@@ -323,13 +278,13 @@ Chain:
 2. **known** DRUIDE4 0x00096–0x000fb (only while 0x50b4 == 0): polls until all five 0x50ae ≠ 0, then requires a party slot with 0x2fa2 == 51 (HP not checked here); else keeps waiting. Then: MESSAGEE code 23 (spell text "wilgelindildong"), 0x50b4 ← 1 (saved; one-shot), cutscene L_00176 (0x4fba = 1 during, clears 0x2c4e[2..6], wakes AFFOBJ).
 3. **known** PP11/PP12 are the 51/52 portrait scenes from MAIN msg 17 (PEOPLE1 sends 51, POURS1 sends 52 once via 0x4fbc). PP12 gives item 31 to the first living slot's first empty inventory cell (0x2d8e[s][k] ← −31). Not the swap.
 4. **known** only writer of an actor id into 0x2fa2 is FRISE 0x01570 (recruit, after L_02151). Recruit of 52 requires a living slot with id 51 (L_01240, else message 13) and < 5 living members (0x014f7), target slot = first slot with HP == 0.
-5. **unknown / contradiction:** SASCHA2 shows 52 in Grimzel's former slot 0 with XP/level kept and HP 45 = 36 + 9. The recruit path writes HP ← 0x36ac[52] (36) and a new slot. Neither DRUIDE4 nor MESSAGEE writes slot data. Either a code path outside the decompiled listings (e.g. map/other overlay) did it, or SASCHA2 is not a direct successor of GRIMZ. **suspected:** the 5-object ritual (0x50ae + 0x50b4) is the trigger; slot mechanics unresolved. Do not implement a swap rule beyond "suspected" until T4 below is run.
+5. *(Savewerte → `private/party-contract-ishar2-savewerte.md`, SW-18)*
 
 ### Test cases (Alderaan/Hoth, DOSBox original, same click coordinates as above)
 Diff tool: `private/savediff.py A.SAV B.SAV`. Save to a new slot each time; never overwrite originals (work on copies).
 
-- **T1 map (option 5)**: load SASCHA.SAV → click menu icon slot 0 (8,131) → option 5 (144,150). Expected: map screen, world frozen (no monster movement). Leave map, save as T1.SAV. Expected diff vs a save made immediately before: no party/0x50ae/0x50b4 fields changed. **known**.
+- *(Savewerte → `private/party-contract-ishar2-savewerte.md`, SW-19)*
 - **T2 perception speaker**: on any save with ≥2 living members, note 0x4c76 per slot (savediff dump). Trigger a not-yet-seen message 1..49 (one with 0x4f18[code] == 0). Expected: the line begins with the name of the highest-perception living slot, ties → higher slot number. After saving, 0x4f18[code] 0 → 1. Variant: kill or empty that slot and repeat with a different unseen code → next-best speaker. **known**.
 - **T3 weapon skill speed**: same character, same weapon; compare attack recovery with 1-handed vs 2-handed weapons (classes from 0x4a08). Expected delay ∝ base·25/skill + 2, scaled by 0x4fcc/120. Measure frames between attacks in DOSBox (capture). **known formula, unverified timing**.
-- **T4 Grimz ritual**: load GRIMZ.SAV (map 4, zone 59, row 53, col 44, facing 3). Place objects 2..6 one by one on the material-69 surface (altar). Expected after the 5th object: MESSAGEE text "wilgelindildong", cutscene, 0x50b4 0 → 1, 0x50ae = order of placement. Then save as T4.SAV, `savediff GRIMZ.SAV T4.SAV` and compare with `savediff GRIMZ.SAV SASCHA2.SAV`. Decision rule: slot-0 id 51 → 52 with XP kept ⇒ swap is part of the ritual (upgrade O3.5 to known and trace the writer). Otherwise ⇒ the swap comes from elsewhere. Negative control: same with Grimzel expelled first (GRIMZEL.SAV E2 sequence) ⇒ nothing happens, 0x50b4 stays 0. **suspected**.
+- *(Savewerte → `private/party-contract-ishar2-savewerte.md`, SW-20)*
 - **T5 lock-picking**: two characters with different 0x4b58 try the same locked door/chest repeatedly (≥20 tries each, from the same save). If the success rates are equal ⇒ the skill is decorative. **unknown**.
