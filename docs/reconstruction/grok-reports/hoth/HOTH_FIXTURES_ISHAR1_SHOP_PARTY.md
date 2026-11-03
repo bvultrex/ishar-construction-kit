@@ -1,10 +1,10 @@
 # Hoth: Abnahme-Fixtures Ishar 1 Shop/Taverne/Party (2026-11-03, CET)
 
-Quelle: Quesh shop-tavern-contract-ishar1.md, party-contract-ishar1.md; eigene Lesung ITAVERNE/MARCHAND; eigener Save-Diff HOA/HOB (Bericht HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md). Kein DOSBox-Lauf. Keine Originalbytes (Audit: 0 Treffer).
+Quelle: Quesh shop-tavern-contract-ishar1.md, party-contract-ishar1.md; eigene Lesung ITAVERNE/MARCHAND; eigener Save-Diff (Namen privat) (Bericht HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md). Kein DOSBox-Lauf. Keine Originalbytes (Audit: 0 Treffer).
 
 ## Umfang
 33 neue Vektoren (insgesamt 185): shop-ishar1 12 (4 known), tavern-ishar1 10 (4 known), party-ishar1 11 (2 known). Checker-Referenzmodell: alle grün. Das ist nur Selbstkonsistenz und kein Gesamt-Grün.
-known nur mit eigenem Beleg: SH03/SH04 (MARCHAND 0x00640–0x0067c Borgen), SH07 (0x006bf Bereich −66..−57), SH10 (HOA→HOB Byte 483), TV01/TV02 (ITAVERNE 0x0017f/0x00194/0x001a5), TV05 (0x005e4–0x00629), TV06 (0x0064b–0x006bd), PA01 (728+c/738+c/768+c/5216), PA03 (Klassenbytes = Bögen).
+known nur mit eigenem Beleg: SH03/SH04 (MARCHAND 0x00640–0x0067c Borgen), SH07 (0x006bf Bereich −66..−57), SH10 (Speichern: Byte 483), TV01/TV02 (ITAVERNE 0x0017f/0x00194/0x001a5), TV05 (0x005e4–0x00629), TV06 (0x0064b–0x006bd), PA01 (728+c/738+c/768+c/5216), PA03 (Klassenbytes = Bögen).
 
 ## Kit-Probe (Hauptergebnis): Abweichungen
 | Vektor | Kit | Ist | Soll |
