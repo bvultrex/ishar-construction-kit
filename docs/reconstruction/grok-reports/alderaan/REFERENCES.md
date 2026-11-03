@@ -3,13 +3,13 @@
 Status: 2026-10-18 21:15, Europe/Berlin. **Ishar 2 hit-chance sample (§20, 240 swings, run 20:37–20:58 CEST): consistent with the contract formula for c0 and c1 overall; one sub-group flag (c1 vs guard 92).** **Ishar 2 has complete references for all four cases:** floor pickup (§8), NPC via tavern listen (§9), shop buy SHOPB (§10; SHOPA kept as a noted double buy), tavern meal MEALB (§11), enemy encounter ENCB (§12; blow-by-blow replay check of the combat contract in §12.8) and **item transfer between characters XFERA/XFERB (§18, run 20:31–20:34 CEST)**. **Ishar 1 has references for all four cases (run 19:31–19:38 CEST in `private/work/ishar1`):** NPC = trainer interaction NPCA (§13), item transfer ITEMA (§14), shop buy SHOPA (§15) and encounter ENCA (§16, unpatched), **plus floor drop/pickup FLRA/FLRB (§17, run 20:28–20:29 CEST)**. Selling does not exist in either original (known, §10 / §15). Open gaps: Ishar 1 tavern NPC (not reachable from S1); Ishar 2 row 1b MARIN: not reachable from LP3 (verified, §19.5); the interaction is known only from the script (no handler); Ishar 2 floor drop of negative items is impossible by code (§18.6). Images and saves live only under `private/`, and nothing here is in git. **Save-value rule (2026-11-03):** concrete values from saves (HP, gold, XP, MENTAL/MP, food, stats, party/actor positions, save hashes > 12 chars, character/NPC names) live in `private/REFERENCES-savewerte.md` under anchors `SW-<section>-<letter>` / `SW-N-<n>` (names); this file keeps offsets, formulas, transitions and verdicts.
 
 ## 1. Base commit and game profile
-- Handoff: `docs/reconstruction/GROK_COLLABORATION_HANDOFF_2026-10-18.md`, blob in commit `bb427487ecce407124b5d98df50a8ca9627cbd60`, verified code state `319819c83d8dfe30675bba3ad8a51b43c3afc871`. Read through the GitHub connector; the local repo does not have this commit and was not changed.
+- Handoff: `docs/reconstruction/GROK_COLLABORATION_HANDOFF_2026-10-18.md`, blob in commit `bb427487ecce…` (full: private SW-H12-35), verified code state `319819c83d8d…` (full: private SW-H12-36). Read through the GitHub connector; the local repo does not have this commit and was not changed.
 - Working copies (byte-identical to `/workspace/ishar/originals`, checked with `diff -rq`): `private/work/ishar1`, `private/work/ishar2`. Full hash lists: `private/sha256_ishar1.txt`, `private/sha256_ishar2.txt`.
 
 | Game | start.exe SHA-256 | MAIN.IO SHA-256 | START.STP |
 |---|---|---|---|
-| Ishar 1 | `3ea63234c97b` | `27c5834de005` | d4eb29e4… (same in both games) |
-| Ishar 2 | `5e35e58d2d13` | `bfab5e917593` | d4eb29e4… |
+| Ishar 1 | `3ea63234c97b…` (full: private SW-H12-1) | `27c5834de005…` (full: private SW-H12-2) | d4eb29e4… (same in both games) |
+| Ishar 2 | `5e35e58d2d13…` (full: private SW-H12-3) | `bfab5e917593…` (full: private SW-H12-4) | d4eb29e4… |
 
 - Edition and language are not determined (as in the handoff). On start, Ishar 2 asks "1 English / 2 Français / 3 Deutsch". **Always press 3 (Deutsch)**, as in the earlier runs (alis_shots BOOT: Keypad_3).
 - Emulator: DOSBox-X 2025.02.01 SDL2 (Debian package; same version as the K75/K81 runs). Configs: `private/dosbox-ishar1.conf`, `private/dosbox-ishar2.conf` (autolock=false, scaler=none, aspect=false, cycles=fixed 25000 since the 16:30 lag fix (was max 80 %), nosound). Launch: `private/run.sh ishar1|ishar2`. A smoke test on Xvfb :98 reached the Silmarils logo (Ishar 1) and the language menu (Ishar 2).
@@ -83,10 +83,10 @@ Original references for: (1) reach an NPC and interact, (2) pick up/drop an item
 
 ## 5. Per-case plan (Result = pending)
 
-| # | Game | Case | Start save (SHA-256, first 16 chars) | Map/zone, position, facing | Target (evidence) | Planned input | Expected (hypothesis) | Result |
+| # | Game | Case | Start save (SHA-256, first 12 chars) | Map/zone, position, facing | Target (evidence) | Planned input | Expected (hypothesis) | Result |
 |---|---|---|---|---|---|---|---|---|
 | 1 | Ishar 2 | NPC | S.SAV (`49c2bb82ca24…` (full: private SW-5-t)) | Map 3 Zach, scene 10, (see private SW-5-a) | Red messenger PEOPLE1 (actor 94, type 64) (see private SW-5-b). Same figure as K3N000–003 (K86) | Load S → turn left (266,30) once → facing O → figure 1 cell ahead → click the figure (≈128,80) → then try the action icons (F1–F5) for talk | Figure visible (sprite #8+d per EAFF). Interaction response **open**: PEOPLE1 0x00038 reacts to message 40 only in scene 3 | **messenger: not possible** (actor 94 has 0x4f4c = 0, known). **Replaced by the tavern reference, done 18:21 CEST, see §9** |
-| 1m | Ishar 2 | Tavern meal (NPC service) | S.SAV (`49c2bb82ca24…` (full: private SW-5-u)) | as row 1 | Tavern t = 2 at (17,55), button 2 "Essen" | turn left 2× → forward → Essen → ok → close message → exit | −580 gold, food 100 | **done: MEALB (18:44–18:45 CEST), §11.** MEALA (no ok) kept as the negative case |
+| 1m | Ishar 2 | Tavern meal (NPC service) | S.SAV (`49c2bb82ca24…` (full: private SW-5-u)) | as row 1 | Tavern t = 2 at (17,55), button 2 "Essen" | turn left 2× → forward → Essen → ok → close message → exit | gold cost and food refill (see private SW-C2-1) | **done: MEALB (18:44–18:45 CEST), §11.** MEALA (no ok) kept as the negative case |
 | 1b | Ishar 2 | NPC (alternative) | LP3.SAV (`e82bcf3e2830…` (full: private SW-5-v)) | Map 3, scene 23, (see private SW-5-c). Verified: the views match CONT3 around this cell exactly | Sailor MARIN (actor 55, type 12, (see private SW-5-d)scene 23) (see private SW-5-e), 3 cells toward compass W, behind the tavern cell r4 c55 | All four directions tried (20:34, 21:01, 21:10): N and S blocked (A = −1), W = tavern menu (no step), E = map exit (B = −125 → (see private SW-5-f), MARA) | **Known (script):** MARIN.IO has no click or message-40 handler, so no dialogue. **Verified:** he cannot be reached or seen from LP3 (the start cell is a closed pocket). **Unknown:** his in-game appearance; no known save is on his pier | **not reachable from LP3, closed as "script-only" (§19.5).** No boat-trigger cell in scene 23 |
 | 1 | Ishar 1 | NPC (trainer "stage"; tavern as fallback) | S1.SAV (`92023f2b51e3…` (full: private SW-5-w)) | Zone 1 (CONT1), (see private SW-5-g) | Training entrance A = −43 at (31,18) (table 0x4178 entry (31,18,zone 1,#10)) | Turn right 2× (4→1→2) → forward → (see private SW-5-h) → turn right 1× (2→3) → forward → message 17 parameter 3 → stage.IO → select a character / training dialogue | Training screen (MAIN 0x038c6) | **done: NPCA (19:32–19:33 CEST), §13.** Trainer dialogue up to the price, EXIT without paying. The tavern fallback is not reachable from S1 (§6) |
 | **2a (FIRST)** | Ishar 2 | Floor pickup → backpack / hand (Quesh contract `quesh/pickup-contract-ishar2.md`) | **PICK9.SAV**, a labelled toolkit patch of START.SAV (`c306cfc7c77d…` (full: private SW-5-x); source START `e685cd690257…` (full: private SW-5-y); 4 bytes: file 345/545/745/8048 = 12/12/1/2) | Map 1, (see private SW-5-i); object 9 on r12 c12 | Object 9 one cell ahead (sprite OBJET res 115) | Load PICK9 → click (128,113) → A: portrait 1 (32,170), or B: hands icon of char 0 then slot 10 (50,168) → save as a NEW name PICK9A/PICK9B | Pickup clears 345/545/745 (8048 stays 2); A: c0 slot 0 = 9 (file 1037); B: c0 slot 10 = 9 (file 1057); armour 0x2f0e unchanged (armour(9)=0); hit box x 116..141 / y 104..123 (hypothesis, to be bisected). Check: `private/pickup_diff.py`, plan `private/pickup_plan.md` | **done (A 16:50, B 17:06, edges 17:50, armour C2 R/T/U 18:05–18:08 CEST): all checklist bytes confirmed, armour rule confirmed, edges measured (y 1 px higher); open: slot-9 swap, pointer hotspot (§8)** |
@@ -94,8 +94,8 @@ Original references for: (1) reach an NPC and interact, (2) pick up/drop an item
 | 2 | Ishar 1 | Item | S1.SAV | as above | Inventory of the active character (manual p. 6/11: "click on item"; "drop" on the sheet destroys the item) | Sheet via the name → move an item to another face (transfer). To place it on the floor: click into the 3D view with the item (suspected) → pick it up again | Transfer known from the manual; floor drop in Ishar 1 **not confirmed in code** | **done (transfer only): ITEMA (19:33–19:34 CEST), §14.** Key c0 slot 7 → c3 slot 0. **Floor drop/pickup: done, FLRA/FLRB (20:28–20:29 CEST), §17** (SOURIS L_0076a / 0x00451, floor tables 0x1382/0x1404/0x1486) |
 | 3 | Ishar 2 | Shop | S.SAV | Map 3, (see private SW-5-j) | Cell (17,57): A = −5, B = −18 → shop 1 (marchand.IO) | Load S → forward (287,26) → shop screen → "Buy", choose item, click character → "Sell" | marchand.IO with shop number 1 (MAIN 0x0326a) | **done: SHOPB (18:43–18:44 CEST) = one rope, −700, c0 slot 0 = −41, §10.** SHOPA (2 ropes) kept as a noted double buy. **Sell: does not exist in the original (known, MARCHAND has no gold-increase or slot-clear path, §10)** |
 | 3 | Ishar 1 | Shop | S1.SAV | Zone 1, (see private SW-5-k) | Shop #1 at (31,16), table 0x3fd6 | Turn right 2× (4→1→2) → forward → (see private SW-5-l) → turn left 1× (2→1) → forward → message 17 parameter 2 → marchand.IO, shop #1 → buy/sell | Shop (MAIN 0x0381c, PARAM 0x02456 table) | **done: SHOPA (19:34–19:36 CEST), §15.** „WURFDOLCH (+1)“ 1 100 GS to c2 slot 3. **Sell: does not exist (known, §15)** |
-| 4 | Ishar 2 | Enemy encounter | LEVELING.SAV (`dac7e0a405fa…` (full: private SW-5-z)) | Map 3, scene 21, (see private SW-5-m) | 5× GUARD3 (actors 90–94, (see private SW-5-n), facing 1 = directly ahead | Load → screenshot (guards visible at distance 1) → attack icon F6 (character 1) or click a guard | Guards visible (GUARD3 #13+d). Whether they are hostile is **suspected** (GUARD3 handler 21 = attack) | **done: ENCB (18:45–18:48 CEST), §12.** One forward step onto the guards' cell, 8 rounds F6/F7: actor 91 killed (see private SW-5-o), XP +3/+4/+3/+3/+3, HP c0 −51, c1 −35. Actual layout: 12 guards (actors 90–101), 3 per cell; attacks need the same cell. ENCA (no approach) kept as the negative case |
-| 4 | Ishar 1 | Enemy encounter | LP1.SAV (`76cf91a104ec…` (full: private SW-5-aa)) or IMP1.SAV (`cc4405e2ff12…` (full: private SW-5-ab)) | LP1: zone 15 (CONT5 cave), (see private SW-5-p) | LP1: 6 actors (63–68, type −4, (see private SW-5-q). IMP1: 3 actors (see private SW-5-r) | Wait in place for up to 60 s, screenshot every 10 s; then move toward the group | Encounter **not guaranteed** statically: no direct path (CONT5 x22/23 y54 = −99) | **done: ENCA (19:36–19:38 CEST), §16, unpatched.** The group (see private SW-5-s); 8 rounds ATTACK c0/c1 killed all 6 (HP→0); party HP −11/−14. XP is capped, so the proof is monster HP + party HP. Seen twice (probe + run) |
+| 4 | Ishar 2 | Enemy encounter | LEVELING.SAV (`dac7e0a405fa…` (full: private SW-5-z)) | Map 3, scene 21, (see private SW-5-m) | 5× GUARD3 (actors 90–94, (see private SW-5-n), facing 1 = directly ahead | Load → screenshot (guards visible at distance 1) → attack icon F6 (character 1) or click a guard | Guards visible (GUARD3 #13+d). Whether they are hostile is **suspected** (GUARD3 handler 21 = attack) | **done: ENCB (18:45–18:48 CEST), §12.** One forward step onto the guards' cell, 8 rounds F6/F7: actor 91 killed (see private SW-5-o), XP and HP changes (see private SW-C2-2). Actual layout: 12 guards (actors 90–101), 3 per cell; attacks need the same cell. ENCA (no approach) kept as the negative case |
+| 4 | Ishar 1 | Enemy encounter | LP1.SAV (`76cf91a104ec…` (full: private SW-5-aa)) or IMP1.SAV (`cc4405e2ff12…` (full: private SW-5-ab)) | LP1: zone 15 (CONT5 cave), (see private SW-5-p) | LP1: 6 actors (63–68, type −4, (see private SW-5-q). IMP1: 3 actors (see private SW-5-r) | Wait in place for up to 60 s, screenshot every 10 s; then move toward the group | Encounter **not guaranteed** statically: no direct path (CONT5 x22/23 y54 = −99) | **done: ENCA (19:36–19:38 CEST), §16, unpatched.** The group (see private SW-5-s); 8 rounds ATTACK c0/c1 killed all 6 (HP→0); party HP loss (see private SW-C2-3). XP is capped, so the proof is monster HP + party HP. Seen twice (probe + run) |
 
 ## 6. Limits and next step
 - Rows marked done were run in the original. Ishar 2 row 1b (MARIN) is still open: one attempt failed on a wrong position reading (§19).
@@ -111,7 +111,7 @@ None. **Proposed save patches (not applied):**
 
 ### 8.1 Base commit and game profile
 - Handoff `bb42748`, code `319819c`, routine contract `codex-support/quesh/pickup-contract-ishar2.md` (R1–R7).
-- Ishar 2 DOS, `start.exe` `5e35e58d2d13`.
+- Ishar 2 DOS, `start.exe` `5e35e58d2d13…` (full: private SW-H12-5).
 - Script hashes as in the contract (AFFOBJ/OBJET/SOURIS/FRISE/IO).
 - DOSBox-X 2025.02.01, `private/dosbox-ishar2.conf` (cycles fixed 25000, core normal, autolock=false, nosound), working copy `private/work/ishar2`. Language 3 (Deutsch).
 
@@ -149,10 +149,10 @@ Tolerated noise in `private/pickup_diff.py`, classified from the scripts:
 | 2 | click (128,113) picks it up; icon follows the mouse | confirmed | confirmed |
 | 3 | 345/545/745 → 0, **8048 stays 2** | confirmed | confirmed |
 | 4 | hit box x 116..141, y 104..123 | **x confirmed, y refuted by 1 px: measured y 103..122** (§8.5b) | – |
-| 5/6 | portrait drop → first free backpack slot (c0 slot 0, 1037 0→9) | **confirmed** | – |
+| 5/6 | portrait drop → first free backpack slot (c0 slot 0, slot word set to the item (see private SW-C2-11)) | **confirmed** | – |
 | 7 | backpack drop: armour 1336 unchanged | confirmed | – |
 | 8 | hands icon (40,131) opens the panel | – | confirmed (icon at x≈33..50) |
-| 9 | drop on slot 10 (50,168) → 1057 0→9 | – | **confirmed** |
+| 9 | drop on slot 10 (50,168) → slot-10 word set to the dropped item (see private SW-C2-4) | – | **confirmed** |
 | 10 | slot-9 swap path (FRISE 0x03012, slot 9 holds −104) | – | **open** (not tried) |
 | 11 | hand drop adds armour(code); armour(9)=0 → 1336 unchanged | – | confirmed; add/subtract rule confirmed by variant C2 (§8.5c) |
 | 16 | no other save change apart from the tolerated noise | confirmed (pickup_diff exit 0) | confirmed (exit 0) |
@@ -181,9 +181,9 @@ Nothing refuted, apart from the 1-px y offset of the hit box.
 
 | save | sha256 | inputs | bytes (vs base) | pickup_diff |
 |---|---|---|---|---|
-| PICKR | `f9ba3933b9c7…` (full: private SW-8.5c-b) | load pickq, (40,131), (50,168), (104,131), (114,168), save | vs PICKQ: 1056/57 FF E7→00 00, 1086/87 00 00→FF E7, **1336 4→0, 1337 0→4** | R exit 0 |
-| PICKT | `9e9da280230a…` (full: private SW-8.5c-c) | from the PICKR state: (114,168), (50,168), save | vs PICKR: reverse, **1336 0→4, 1337 4→0**; vs PICKQ: noise only | T exit 0 |
-| PICKU | `c60c95af775d…` (full: private SW-8.5c-d) | load pickq, (40,131), (50,168), (40,131) close, (32,170), save | vs PICKQ: 1036/37 →FF E7 (c0 backpack 0), 1056/57 →00 00, **1336 4→0**, 1337 unchanged | U exit 0 |
+| PICKR | `f9ba3933b9c7…` (full: private SW-8.5c-b) | load pickq, (40,131), (50,168), (104,131), (114,168), save | vs PICKQ: item moved between the two slots; count bytes swapped (see private SW-C2-5) | R exit 0 |
+| PICKT | `9e9da280230a…` (full: private SW-8.5c-c) | from the PICKR state: (114,168), (50,168), save | vs PICKR: reverse of PICKR (see private SW-C2-6); vs PICKQ: noise only | T exit 0 |
+| PICKU | `c60c95af775d…` (full: private SW-8.5c-d) | load pickq, (40,131), (50,168), (40,131) close, (32,170), save | vs PICKQ: item moved to c0 backpack 0, armour count cleared (see private SW-C2-12) | U exit 0 |
 | PICKS | `3ebcb89594bf…` (full: private SW-8.5c-e) | pick + drop into the same slot | clock only | S exit 0 |
 
 **Confirmed:**
@@ -211,8 +211,8 @@ Save comparisons against the original need to ignore or re-seed the EDPLT re-rol
 ## 9. Case 1 record: Ishar 2 NPC via tavern "Lauschen" (handoff 7-section format)
 
 ### 9.1 Base commit and game profile
-- Handoff `bb42748`, code `319819c` (as §1). Ishar 2 DOS, `start.exe` `5e35e58d2d13`, MAIN.IO `bfab5e917593…`.
-- Scripts involved (SHA-256, byte-identical to `/workspace/ishar/originals`): TAVERNE.IO `ea315973f218`, TEXTIND.IO `b36ded430e7d`, GERDEP.IO `58d2c57ff3eb…`, CONT3.FIC `0340856a122e…`.
+- Handoff `bb42748`, code `319819c` (as §1). Ishar 2 DOS, `start.exe` `5e35e58d2d13…` (full: private SW-H12-6), MAIN.IO `bfab5e917593…` (full: private SW-H12-37).
+- Scripts involved (SHA-256, byte-identical to `/workspace/ishar/originals`): TAVERNE.IO `ea315973f218…` (full: private SW-H12-7), TEXTIND.IO `b36ded430e7d…` (full: private SW-H12-8), GERDEP.IO `58d2c57ff3eb…` (full: private SW-H12-38), CONT3.FIC `0340856a122e…` (full: private SW-H12-39).
 - DOSBox-X 2025.02.01, `private/dosbox-ishar2.conf` (cycles fixed 25000, nosound), language 3 (Deutsch), xdotool input only, own instance. Run 2026-10-18 18:19–18:23 CEST.
 
 ### 9.2 Question
@@ -228,7 +228,7 @@ Original reaction when the party talks to NPCs. The world NPCs near S.SAV cannot
 | Inputs | disk (266,12) → LOAD (238,32) → `s` → Return → turn left (266,30) → turn left (266,30) (facing 3→2→1) → forward (287,26): the move is blocked and the tavern opens (GERDEP 0x00e74 message 17, MAIN 0x03229 `taverne.IO`) → click "Lauschen" (40,132) (bar y 127–137, button = x/80 + 1, TAVERNE 0x00093) |
 | Closing | the text scroll stays until one mouse button or key is pressed and released (TEXTIND L_02331, known). That click is consumed; it does **not** act on the menu |
 | Leave | exit stone (288,62) (TAVERNE 0x000df: x > 256, screen y < 126) |
-| Captures (private) | `shots/ishar2/c/f3.png` (tavern menu), `c/talk3.png` `9b0c2dcb3829…` (18:21:52, text scroll) |
+| Captures (private) | `shots/ishar2/c/f3.png` (tavern menu), `c/talk3.png` `9b0c2dcb3829…` (full: private SW-10.5-img) (18:21:52, text scroll) |
 
 ### 9.4 Data contract
 - TAVERNE 0x00150: button 1 spawns TEXTIND (entity 0x35) with message 100 + t = **102**, then `csleep`. TEXTIND wakes the tavern after the closing click (0x00097). No variable is written (known).
@@ -237,7 +237,7 @@ Original reaction when the party talks to NPCs. The world NPCs near S.SAV cannot
 ### 9.5 Result
 - **Message text (TEXTIND L_01b72, known; matches the capture word for word):** „Unser neues Haus ist sehr angenehm. Das Gefängnis nebenan ist kein echtes Problem, außer nachts ... manchmal um 3 Uhr morgens hört man laute Schreie, aber sonst ...“
 - It is shown as a 4-line scroll over the portraits, with button 1 "Lauschen" highlighted.
-- State: talk changes nothing. The after-save MEALA.SAV (`5844578953c7…` (full: private SW-9.5-b); talk plus the failed meal attempt, §11.5) differs from S.SAV only in clock bytes 45/49 (hour 14→17, tick) and 28 bytes of the wandering-monster re-roll of actors 90–93 (EDPLT, §8.4; actor 93 newly placed in scene 10 (see private SW-9.5-a)). Party, gold, inventory, food bytes and position are unchanged. `case_diff.py … TALK` would exit 0. CONT1–7 are unchanged.
+- State: talk changes nothing. The after-save MEALA.SAV (`5844578953c7…` (full: private SW-9.5-b); talk plus the failed meal attempt, §11.5) differs from S.SAV only in clock bytes 45/49 (clock advanced (see private SW-C2-24)) and 28 bytes of the wandering-monster re-roll of actors 90–93 (EDPLT, §8.4; actor 93 newly placed in scene 10 (see private SW-9.5-a)). Party, gold, inventory, food bytes and position are unchanged. `case_diff.py … TALK` would exit 0. CONT1–7 are unchanged.
 
 ### 9.6 Limits
 - This is the tavern "listen" dialogue (rumour text of tavern t = 2), not a world-actor conversation. A world NPC needs Act icon 1 on a recruitable actor (plan case 1B, LPD, still open).
@@ -249,8 +249,8 @@ None.
 ## 10. Case 3 record: Ishar 2 shop buy (reference SHOPB; handoff 7-section format)
 
 ### 10.1 Base commit and game profile
-- Handoff `bb42748`, code `319819c` (as §1). Ishar 2 DOS, `start.exe` `5e35e58d2d13`, MAIN.IO `bfab5e917593`.
-- MARCHAND.IO `a5b84f95b8b5`, GERDEP.IO `58d2c57ff3eb`, CONT3.FIC `0340856a122e` (all byte-identical to the originals).
+- Handoff `bb42748`, code `319819c` (as §1). Ishar 2 DOS, `start.exe` `5e35e58d2d13…` (full: private SW-H12-9), MAIN.IO `bfab5e917593…` (full: private SW-H12-10).
+- MARCHAND.IO `a5b84f95b8b5…` (full: private SW-H12-11), GERDEP.IO `58d2c57ff3eb…` (full: private SW-H12-12), CONT3.FIC `0340856a122e…` (full: private SW-H12-13) (all byte-identical to the originals).
 - DOSBox-X 2025.02.01, `private/dosbox-ishar2.conf`, language 3 (Deutsch), xdotool input only, own instance. Run 2026-10-18 18:43–18:44 CEST (log `private/run_cases_ishar2_redo.md`).
 
 ### 10.2 Question
@@ -278,7 +278,7 @@ Original behaviour of entering a shop and buying exactly one item (rope, 700 po)
 | file offset | before → after | meaning | class |
 |---|---|---|---|
 | 7 | 03 → 01 | facing 0x2ab6, 3 → 1: reversal on leaving the building (MAIN 0x0346f–0x034a0, 1↔3, 2↔4) | known |
-| 45, 48/49 | 0E → 10, 01 FE → 00 96 | hour 0x4fc6 14 → 16, tick 0x4fca (clock) | known |
+| 45, 48/49 | clock values (see private SW-C2-25) | hour 0x4fc6 advanced, tick 0x4fca (clock) | known |
 | 1007 | (see private SW-10.5-a) | known |
 | 1026/27 | (see private SW-10.5-b) | known |
 | 1036/37 | 00 00 → FF D7 | c0 backpack slot 0 = −41 (rope) | known |
@@ -286,7 +286,7 @@ Original behaviour of entering a shop and buying exactly one item (rope, 700 po)
 
 - (see private SW-10.5-c) (−700). Other characters unchanged.
 - `case_diff.py S.SAV SHOPB.SAV SHOP --char 0 --code -41 --price 700`: all checks OK, `tolerated: facing reversal (MAIN 0x0346f) offsets [7]: facing 3 -> 1`, no unexpected offsets, CONT1–7 unchanged, **exit 0**.
-- **SHOPA (noted double buy, 18:23–18:25 CEST):** SHOPA.SAV `0c4a99a81df6…` (full: private SW-10.5-f). The operator did rope → portrait twice, so two complete purchases: (see private SW-10.5-d) (−1 400), slots 0 and 1 = −41, byte 7 3 → 1, clock 45/49. Exact 10-byte diff: 7 03→01, 45 0E→11, 49 FE→72, (see private SW-10.5-e), 1036/37 and 1038/39 00 00→FF D7. `case_diff` SHOP exits 1 (deviation: −1400, 2 slots), as it should.
+- **SHOPA (noted double buy, 18:23–18:25 CEST):** SHOPA.SAV `0c4a99a81df6…` (full: private SW-10.5-f). The operator did rope → portrait twice, so two complete purchases: (see private SW-10.5-d) (price (see private SW-C2-13)), slots 0 and 1 = −41, byte 7 3 → 1, clock 45/49. Exact 10-byte diff: 7 03→01, 45 0E→11, 49 FE→72, (see private SW-10.5-e), 1036/37 and 1038/39 00 00→FF D7. `case_diff` SHOP exits 1 (deviation: −1400, 2 slots), as it should.
 
 ### 10.6 Limits
 - One item type (rope, non-stack) in shop #1. Stack items (bread −50, 0x4bd4 counts) are not covered (`case_diff` SHOPS, untested).
@@ -298,7 +298,7 @@ None for the game. Tooling: `private/case_diff.py` now tolerates the building-ex
 ## 11. Ishar 2 tavern meal record (reference MEALB; handoff 7-section format)
 
 ### 11.1 Base commit and game profile
-- As §10.1, plus TAVERNE.IO `ea315973f218`, TEXTIND.IO `b36ded430e7d`. Run 18:44–18:45 CEST.
+- As §10.1, plus TAVERNE.IO `ea315973f218…` (full: private SW-H12-14), TEXTIND.IO `b36ded430e7d…` (full: private SW-H12-15). Run 18:44–18:45 CEST.
 
 ### 11.2 Question
 Original behaviour of the tavern meal (button 2 "Essen"): price, confirmation, payment, food effect.
@@ -325,13 +325,13 @@ Original behaviour of the tavern meal (button 2 "Essen"): price, confirmation, p
 **Exact diff MEALB vs S.SAV (11 bytes, complete):**
 | file offset | before → after | meaning | class |
 |---|---|---|---|
-| 45, 48/49 | 0E → 11, 01 FE → 03 11 | hour 0x4fc6 14 → 17 (+1 by the meal, rest clock ticking), tick 0x4fca | known |
+| 45, 48/49 | clock values (see private SW-C2-26) | hour 0x4fc6 advanced (+1 by the meal, rest clock ticking), tick 0x4fca | known |
 | 1007 | (see private SW-11.5-a) | known |
 | 1026/27 | (see private SW-11.5-b) | known |
 | 1326–1330 | (see private SW-11.5-c) (all > 60) | known |
 
-- (see private SW-11.5-d) (−580)**; c1–c4 hold no gold, so c0 paid everything. No re-roll bytes appeared in this run (why the EDPLT re-roll left no trace here is unknown; the RNG outcome may have matched). Byte 7 unchanged (turned 3→1, exit reversed 1→3).
-- `case_diff.py S.SAV MEALB.SAV MEAL --tavern 2`: total −580 OK, hour 14→17, no unexpected offsets, CONT unchanged, **exit 0**.
+- (see private SW-11.5-d) (price (see private SW-C2-14))**; c1–c4 hold no gold, so c0 paid everything. No re-roll bytes appeared in this run (why the EDPLT re-roll left no trace here is unknown; the RNG outcome may have matched). Byte 7 unchanged (turned 3→1, exit reversed 1→3).
+- `case_diff.py S.SAV MEALB.SAV MEAL --tavern 2`: total price OK (see private SW-C2-15), clock advanced, no unexpected offsets, CONT unchanged, **exit 0**.
 - **MEALA (negative case):** MEALA.SAV `5844578953c7…` (full: private SW-11.5-e). "Essen" was clicked while the "Lauschen" scroll was still open; the click only closed it. No payment, no food change (clock + 28 re-roll bytes only, §9.5).
 
 ### 11.6 Limits
@@ -345,7 +345,7 @@ None.
 ## 12. Ishar 2 enemy encounter record (reference ENCB; handoff 7-section format)
 
 ### 12.1 Base commit and game profile
-- As §10.1, plus EATT.IO `d5ef72a5b25e`, FRISE.IO `27117c124caf`, SOURIS.IO `78df7c73f880`, GUARD3.IO `267b32ea6391`, EDPLT.IO `2f6156c6a2ae`. Run 18:45–18:48 CEST.
+- As §10.1, plus EATT.IO `d5ef72a5b25e…` (full: private SW-H12-16), FRISE.IO `27117c124caf…` (full: private SW-H12-17), SOURIS.IO `78df7c73f880…` (full: private SW-H12-18), GUARD3.IO `267b32ea6391…` (full: private SW-H12-19), EDPLT.IO `2f6156c6a2ae…` (full: private SW-H12-40). Run 18:45–18:48 CEST.
 
 ### 12.2 Question
 Original behaviour of a melee encounter: approach, attack input, damage taken, kill and XP.
@@ -372,9 +372,9 @@ Original behaviour of a melee encounter: approach, attack input, damage taken, k
 **Exact diff ENCB vs LEVELING (78 bytes, complete):**
 | file offset | before → after | meaning | class |
 |---|---|---|---|
-| 45, 49 | 14 → 17, 6F → D9 | hour 20 → 23, tick (clock) | known |
+| 45, 49 | clock values (see private SW-C2-27) | hour 0x4fc6 advanced, tick (clock) | known |
 | 91, 93 | 02 → 03 | day phase 0x519f/0x51a0 evening → night | known |
-| 987/989/991/993/995 | +3/+4/+3/+3/+3 | XP 0x2d50 c0–c4 (kill XP goes to all five) | known |
+| 987/989/991/993/995 | kill XP per character (see private SW-C2-16) | XP 0x2d50 c0–c4 (kill XP goes to all five) | known |
 | 997 | (see private SW-12.5-a) (−51) | known |
 | 999 | (see private SW-12.5-b) (−35) | known |
 | 1326/1327 | (see private SW-12.5-c): swings | known (that c0 shows 7, not 8, is unknown: a press during recovery or regeneration) |
@@ -383,8 +383,8 @@ Original behaviour of a melee encounter: approach, attack input, damage taken, k
 | 64 other bytes 3442–6221 | various | actors 90/92/94–101: HP 0x36ac and stat blocks 0x3d9e/0x3e0e/0x3e7e/0x3eee/0x3f5e/0x41fc; EDPLT re-roll after load (hits on surviving guards cannot be separated from the re-roll) | known mechanism, RNG outcome |
 
 - Party position and facing (bytes 2–7) unchanged: forward then Back.
-- `case_diff.py LEVELING.SAV ENCB.SAV ENC`: combat proof OK (XP [3,4,3,3,3], HP [−51,−35,0,0,0]), "actor 91 left scene/died (see private SW-12.5-e)", no unexpected offsets, CONT unchanged, **exit 0**.
-- **ENCA (negative case):** ENCA.SAV `88b7442c3fbd…` (full: private SW-12.5-f), no approach step. F6/F7 swung 8× each (food −8) but hit nothing and took no hits: the guards were one cell ahead. Diff: clock, day phase, 1326/1327, 66 re-roll bytes.
+- `case_diff.py LEVELING.SAV ENCB.SAV ENC`: combat proof OK (XP gain and HP loss (see private SW-C2-17)), "actor 91 left scene/died (see private SW-12.5-e)", no unexpected offsets, CONT unchanged, **exit 0**.
+- **ENCA (negative case):** ENCA.SAV `88b7442c3fbd…` (full: private SW-12.5-f), no approach step. F6/F7 swung 8× each (food spent per swing (see private SW-C2-7)) but hit nothing and took no hits: the guards were one cell ahead. Diff: clock, day phase, 1326/1327, 66 re-roll bytes.
 
 ### 12.6 Limits
 - One guard group, melee via keys only. The mouse attack icons (right panel, I ≈ (267,83), II ≈ (277,111)) are suspected, not used.
@@ -441,7 +441,7 @@ Checked against `quesh/combat-contract-ishar2.md` (SHA-256 `6e8de6fa…10ae`) an
 | Back (ENCYJ) | – | – | 2 / 1 | −2 / −1 | 0 |
 | **total** | 8 swings: 6 hits, 2 misses | 8 swings: 4 hits, 4 misses | **54 / 33** | **−54 / −33** | +4 / +2 ×4 |
 
-Absolute actor-91 HP, party HP and food per step: see private SW-12.8-h. Totals relative: food −8 / −8.
+Absolute actor-91 HP, party HP and food per step: see private SW-12.8-h. Food totals (see private SW-C2-8).
 
 - Every guard splash number equals the save HP change of actor 91 (or 90 in r7) for that round. The c0 hits (7, 4, 7, 5, 17) lie within the contract range 2–21; the c1 hits (17, 3, 14, 3) lie within 1–20.
 - Hits on c2–c4: none (their HP is unchanged).
@@ -469,10 +469,10 @@ Absolute actor-91 HP, party HP and food per step: see private SW-12.8-h. Totals 
 
 | prediction | verdict | evidence |
 |---|---|---|
-| Each guard hit costs exactly 1 HP (so HP loss = hit count) | **confirmed** | 87/87 portrait splashes show „1“. Per step, splashes = save HP loss in all 10 intervals (total 54/33 = −54/−33). Script: dmax clamps to 0, so dmg = 1. For ENCB this means 51 hits on c0 and 35 on c1 (inferred; ENCB has no video) |
+| Each guard hit costs exactly 1 HP (so HP loss = hit count) | **confirmed** | 87/87 portrait splashes show „1“. Per step, splashes = save HP loss in all 10 intervals (totals (see private SW-C2-18)). Script: dmax clamps to 0, so dmg = 1. For ENCB this means 51 hits on c0 and 35 on c1 (inferred; ENCB has no video) |
 | Food −1 per party swing | **confirmed** | 8 + 8 swings → −8/−8, hits and misses alike (c0 6/2, c1 4/4). The contract's R2.5 wording "on a miss" is too narrow: the code takes 1 food on every swing. ENCB's c0 −7 after 8 F6 presses means one press gave no swing (cause unknown) |
 | Killer +4 XP, everyone else +3 | **the fixed numbers are contradicted for this replay (+4 / +2); the contract's formula is confirmed** | Here killer c0 +4 and c1–c4 +2 (see private SW-12.8-g). The values depend on the re-rolled victim level, read at 5021 + id after load |
-| Kill writes 0x36ac = 0, 0x449a = 0, 0x4b80[slot] = 0 | **confirmed** | ENCYH 3443/3444 → 0, 6872 21 → 0, 7576 91 → 0 |
+| Kill writes 0x36ac = 0, 0x449a = 0, 0x4b80[slot] = 0 | **confirmed** | ENCYH: all three fields cleared (see private SW-C2-19) |
 | Player damage ranges c0 2–21, c1 1–20 | **consistent** (small sample) | 7, 4, 7, 5, 17 / 17, 3, 14, 3 |
 | Hit chance c0 ≈ 88 %, c1 ≈ 57 % | **unknown** (sample too small; r8 had no target in slot 0) | Observed 6/8 and 4/8 |
 | Monster hit chance (c0 always, c1 74 %) | **unknown** (attempts are not visible; only hits are) | Guard hits c0 54, c1 33 over the same time |
@@ -485,11 +485,11 @@ Absolute actor-91 HP, party HP and food per step: see private SW-12.8-h. Totals 
 ## 13. Ishar 1 NPC record: trainer interaction (reference NPCA; handoff 7-section format)
 
 ### 13.1 Base commit and game profile
-- Handoff/commit as §1. Ishar 1, start.exe `3ea63234c97b`, MAIN.IO `27c5834de005`. Scripts:
-  - STAGE.IO `1b5f4b5ce722`
-  - GERDEP.IO `8b3f93c1acf8`
-  - SOSD.IO `c3aa7a31d4d8`
-  - CONT1.FIC `5303c1ccc760`
+- Handoff/commit as §1. Ishar 1, start.exe `3ea63234c97b…` (full: private SW-H12-20), MAIN.IO `27c5834de005…` (full: private SW-H12-21). Scripts:
+  - STAGE.IO `1b5f4b5ce722…` (full: private SW-H12-41)
+  - GERDEP.IO `8b3f93c1acf8…` (full: private SW-H12-22)
+  - SOSD.IO `c3aa7a31d4d8…` (full: private SW-H12-42)
+  - CONT1.FIC `5303c1ccc760…` (full: private SW-H12-43)
 - Run in `private/work/ishar1` with the German version (Keypad 3), DOSBox-X 2025.02.01 with cycles fixed at 25000. Log `private/run_cases_ishar1.md`, captures `private/shots/ishar1/c/10_…24_*`. Run 19:32:21–19:33:50 CEST.
 - The .SAV mtimes come from the emulated DOS clock, which runs 0.5–2 min ahead of the box clock (known from the mtimes vs the log).
 
@@ -530,7 +530,7 @@ None.
 ## 14. Ishar 1 item record: transfer between inventories (reference ITEMA; handoff 7-section format)
 
 ### 14.1 Base commit and game profile
-- As §13.1, plus FRISE.IO `3bd158963fda` and SOURIS.IO `2bbc1362e2f8`. Captures `shots/ishar1/c/30_…39_*`. Run 19:33:50–19:34:52 CEST.
+- As §13.1, plus FRISE.IO `3bd158963fda…` (full: private SW-H12-23) and SOURIS.IO `2bbc1362e2f8…` (full: private SW-H12-24). Captures `shots/ishar1/c/30_…39_*`. Run 19:33:50–19:34:52 CEST.
 
 ### 14.2 Question
 Move an item from one character's inventory to another's. Floor pickup/drop is in the plan as well.
@@ -553,7 +553,7 @@ Move an item from one character's inventory to another's. Floor pickup/drop is i
 |---|---|---|---|
 | 483 | (see private SW-14.5-a) (save cost) | known |
 | 513 | 0C → 00 | c0 slot 7: key (code 12) removed | known |
-| 577 | 00 → 0C | c3 slot 0: key added (first free slot) | known |
+| 577 | empty → key code (see private SW-C2-20) | c3 slot 0: key added (first free slot) | known |
 
 - `case_diff_i1.py S1.SAV ITEMA.SAV ITEM --mode transfer (see private SW-14.5-b)` → exit 0 (item count 39 → 39, multiset unchanged, CONT identical).
 
@@ -566,7 +566,7 @@ None.
 ## 15. Ishar 1 shop record: buy (reference SHOPA; handoff 7-section format)
 
 ### 15.1 Base commit and game profile
-- As §13.1, plus MARCHAND.IO `77db63b52c23` and PARAM.IO `f42ea12ceffa`. Captures `shots/ishar1/c/40_…54_*`. Run 19:34:52–19:36:18 CEST.
+- As §13.1, plus MARCHAND.IO `77db63b52c23…` (full: private SW-H12-25) and PARAM.IO `f42ea12ceffa…` (full: private SW-H12-44). Captures `shots/ishar1/c/40_…54_*`. Run 19:34:52–19:36:18 CEST.
 
 ### 15.2 Question
 Enter a shop, buy one item and, if possible, sell one.
@@ -610,7 +610,7 @@ None.
 ## 16. Ishar 1 enemy encounter record (reference ENCA; handoff 7-section format)
 
 ### 16.1 Base commit and game profile
-- As §13.1, plus FRISE.IO (§14.1), ENCONT.IO `5746e6a7169a`, GEREN.IO `60405e4537ab` and CONT5.FIC `c41354257bd2`. Captures `shots/ishar1/c/60_…72_*` (`68_round1…8`). Run 19:36:18–19:38:15 CEST. **Unpatched.**
+- As §13.1, plus FRISE.IO (§14.1), ENCONT.IO `5746e6a7169a…` (full: private SW-H12-26), GEREN.IO `60405e4537ab…` (full: private SW-H12-45) and CONT5.FIC `c41354257bd2…` (full: private SW-H12-46). Captures `shots/ishar1/c/60_…72_*` (`68_round1…8`). Run 19:36:18–19:38:15 CEST. **Unpatched.**
 
 ### 16.2 Question
 Original behaviour of a melee encounter in Ishar 1: approach, attack, damage taken, kill.
@@ -648,7 +648,7 @@ Original behaviour of a melee encounter in Ishar 1: approach, attack, damage tak
 | 1715–1725 (odd) | (see private SW-16.5-j) | known |
 | 1855–1865 (odd) | (see private SW-16.5-k) | actors 63–68 HP → 0 (all six killed) | known |
 
-- `case_diff_i1.py LP1.SAV ENCA.SAV ENC` → exit 0: party XP Δ [0,0,0,0,0] (cap), party HP Δ [−11,−14,0,0,0], 6 kills, gold −1 000, CONT identical.
+- `case_diff_i1.py LP1.SAV ENCA.SAV ENC` → exit 0: XP unchanged (cap), party HP loss, 6 kills, save fee (see private SW-C2-9), CONT identical.
 - Actor zone (4033+i) stays 15; dead actors are not removed from the zone in the save (known, unlike Ishar 2 §12).
 
 ### 16.6 Limits
@@ -662,7 +662,7 @@ None. P1 stays a proposal only (§7).
 ## 17. Ishar 1 floor record: drop and pick up again (references FLRA/FLRB; handoff 7-section format)
 
 ### 17.1 Base commit and game profile
-- As §13.1, plus SOURIS.IO `2bbc1362e2f8`, AFFOBJ.IO `abe105fad328`, FRISE.IO `3bd158963fda`. Working copy `private/work/ishar1`. Run 20:26:27–20:29:45 CEST, log `private/run_cases_open.md`, captures `private/shots/ishar1/floor/`. The same sequence was rehearsed headless at 20:14–20:21 CEST in a separate scratch copy, with byte-identical results.
+- As §13.1, plus SOURIS.IO `2bbc1362e2f8…` (full: private SW-H12-27), AFFOBJ.IO `abe105fad328…` (full: private SW-H12-47), FRISE.IO `3bd158963fda…` (full: private SW-H12-28). Working copy `private/work/ishar1`. Run 20:26:27–20:29:45 CEST, log `private/run_cases_open.md`, captures `private/shots/ishar1/floor/`. The same sequence was rehearsed headless at 20:14–20:21 CEST in a separate scratch copy, with byte-identical results.
 
 ### 17.2 Question
 Put an item from an inventory onto the floor, then pick it up again into an inventory.
@@ -691,7 +691,7 @@ Put an item from an inventory onto the floor, then pick it up again into an inve
 | 513 | 0C → 00 | c0 slot 7: key removed | known |
 | 483 | (see private SW-17.5-b) (save cost) | known |
 
-**Exact diff FLRA → FLRB (5 bytes, complete):** 46/174/302 → 00 (floor entry cleared); 499 00 → 0C (c0 slot 0 = key, first free slot); (see private SW-17.5-c) (save cost).
+**Exact diff FLRA → FLRB (5 bytes, complete):** 46/174/302 → 00 (floor entry cleared); c0 slot-0 word empty → key code (see private SW-C2-21) (c0 slot 0 = key, first free slot); (see private SW-17.5-c) (save cost).
 - `case_diff_i1.py S1.SAV FLRA.SAV FLOOR --mode drop --item 12 (see private SW-17.5-d)` → exit 0.
 - `case_diff_i1.py FLRA.SAV FLRB.SAV FLOOR --mode pick --item 12` → exit 0. The base hash shows "unknown" because FLRA is new. CONT files are identical to the originals.
 - The operator run and the scratch rehearsal produced the same two hashes.
@@ -706,7 +706,7 @@ None.
 ## 18. Ishar 2 item record: transfer between characters (references XFERA/XFERB; handoff 7-section format)
 
 ### 18.1 Base commit and game profile
-- As §8.1 (FRISE.IO `27117c124caf`, SOURIS.IO `78df7c73f880`). Working copy `private/work/ishar2`. Run 20:30:04–20:34:05 CEST, log `private/run_cases_open.md`, captures `private/shots/ishar2/xfer/`.
+- As §8.1 (FRISE.IO `27117c124caf…` (full: private SW-H12-29), SOURIS.IO `78df7c73f880…` (full: private SW-H12-30)). Working copy `private/work/ishar2`. Run 20:30:04–20:34:05 CEST, log `private/run_cases_open.md`, captures `private/shots/ishar2/xfer/`.
 
 ### 18.2 Question
 Move an item from one character to another, from an unpatched base. The PICKQ/PICKR/PICKT moves in §8.5c came from toolkit-patched bases.
@@ -728,8 +728,8 @@ Move an item from one character to another, from an unpatched base. The PICKQ/PI
 ### 18.5 Result
 | save | case bytes vs LEVELING | other changes | case_diff |
 |---|---|---|---|
-| XFERA | 1146/1147 FF E7 → 00 00 (c3 slot 10); 1174/1175 00 00 → FF E7 (c4 slot 9); (see private SW-18.5-a) | 5 clock bytes, 66 actor re-roll/AI bytes (tolerated noise, 77 bytes in total) | `XFER --src 3,10 --dst 4,9 --code -25 --armour 4` → exit 0 |
-| XFERB | 1146/1147 FF E7 → 00 00; 1158/1159 00 00 → FF E7 (c4 backpack slot 1); (see private SW-18.5-b) | 3 clock bytes, no re-roll bytes (8 bytes in total) | `XFER --src 3,10 --dst 4,1 --code -25 --armour 4` → exit 0 |
+| XFERA | item moved c3 slot 10 → c4 slot 9 (see private SW-C2-22); (see private SW-18.5-a) | 5 clock bytes, 66 actor re-roll/AI bytes (tolerated noise, 77 bytes in total) | `XFER --src 3,10 --dst 4,9 --code -25 --armour 4` → exit 0 |
+| XFERB | item moved c3 slot 10 → c4 backpack slot 1 (see private SW-C2-23); (see private SW-18.5-b) | 3 clock bytes, no re-roll bytes (8 bytes in total) | `XFER --src 3,10 --dst 4,1 --code -25 --armour 4` → exit 0 |
 - CONT files are identical to the originals; no non-SAV file changed.
 
 ### 18.6 Limits
@@ -795,7 +795,7 @@ None.
 ## 20. Ishar 2 hit-chance sample: player melee vs the contract formula (handoff 7-section format)
 
 ### 20.1 Base commit and game profile
-- As §12.1. Contract checked: `codex-support/quesh/combat-contract-ishar2.md` `a3310c98e8b5` (updated since §12.8; the hit formula R2.3 is unchanged). Tools `private/tools/enc_count.py`, `private/tools/hit_eval.py` (kill-blow handling extended in this run).
+- As §12.1. Contract checked: `codex-support/quesh/combat-contract-ishar2.md` `a3310c98e8b5…` (full: private SW-H12-31) (updated since §12.8; the hit formula R2.3 is unchanged). Tools `private/tools/enc_count.py`, `private/tools/hit_eval.py` (kill-blow handling extended in this run).
 - Run 20:37:38–20:58:47 CEST, log `private/run_hit_sample.md`, videos `private/shots/ishar2/hit/batch_a..l.mkv`, per-batch outputs `hit/count_x/`, per-swing table `hit/hit_swings.csv`.
 
 ### 20.2 Question
@@ -863,7 +863,7 @@ None. Suggested follow-up: 100 c1 swings against slot 2 only (kill slots 0/1 fir
 ### 21.1 Base commit and game profile
 - As §1 / §12.1: Ishar 2, Deutsch (KP_3), DOSBox-X 2025.02.01.
 - Run 2026-11-03 12:20–12:31 CET. Log: `private/run_magic_party_i2.md`. Captures: `private/shots/ishar2/magic/`.
-- Contract checked: `codex-support/quesh/magic-contract-ishar2.md` `0d80d798d23d` (read-only).
+- Contract checked: `codex-support/quesh/magic-contract-ishar2.md` `0d80d798d23d…` (full: private SW-H12-32) (read-only).
 - Check tool: `private/case_diff.py` `b02c3988…d290`.
 - Re-verified 2026-11-03:
   - All save SHA-256 in the log match (sha256sum -c, 0 failures).
@@ -933,7 +933,7 @@ Common steps:
 
 ### 22.1 Base commit and game profile
 - As §21.1. Run 12:31–12:37 CET, two fresh boots. Captures: `private/shots/ishar2/party/`.
-- Contract: `codex-support/quesh/party-contract-ishar2.md` `7bb0a7dec2f2` (read-only).
+- Contract: `codex-support/quesh/party-contract-ishar2.md` `7bb0a7dec2f2…` (full: private SW-H12-33) (read-only).
 
 ### 22.2 Question
 Do the contract's E2 and E3 reference sequences produce the predicted votes, texts and bytes? Specifically:
@@ -967,7 +967,7 @@ Game texts (German, verbatim from the captures/log):
 |---|---|---|
 | E2a vote 3:1, [name SW-N-3] the only "against" (see private SW-22.5-e) | as predicted, „akzeptiert“ | **proven** |
 | E2a expel clearing (R10): id 1476 → FF, HP 0, class FF, grid 7114 → 0, penalty on [name SW-N-3]'s relations | as predicted (case-allowed bytes 997, 1276, 1476, 7114, 7363/7367/7369/7370/7373/7378) | **proven** |
-| **XP 986/987 (see private SW-22.5-f), attributed to R10 (expel, L_05f26)** in the cumulative GRIMZEL → PARTY1 table | zeroed already at E2a (PEAA → PEAB: (see private SW-22.5-g)) | **proven, the contract is right**. The row sits in the E2 cumulative table, but its rule is R10 = expel. The deviation was in my plan's E2a check list, which omitted it; it now passes with `--word 986=0`. It also matches E3's "XP 990–991 already 0" |
+| **XP 986/987 (see private SW-22.5-f), attributed to R10 (expel, L_05f26)** in the cumulative GRIMZEL → PARTY1 table | zeroed already at E2a (PEAA → PEAB: (see private SW-22.5-g)) | **proven, the contract is right**. The row sits in the E2 cumulative table, but its rule is R10 = expel. The deviation was in my plan's E2a check list, which omitted it; it now passes with `--word 986=0`. It also matches E3's "XP 990–991 already zeroed" (see private SW-C2-10) |
 | E2b sheet: (see private SW-22.5-h) | as predicted | **proven** (sprite hit at (128,90): proven for this position) |
 | E2b vote 4:0 (forced 10 for id 51) | 4:0 „Mitglied aufgenommen“ | **proven** |
 | E2b copy (R9): (see private SW-22.5-i), id 51, 3363 → 0, grid 7125 → 1, relation rows R8, (see private SW-22.5-j), inventory/0x4fde zeroed | all as predicted (PEAB → PEAC, 0 unexpected) | **proven** |
@@ -995,7 +995,7 @@ Game texts (German, verbatim from the captures/log):
 ### 23.1 Base commit and game profile
 - Ishar 1, Deutsch (KP_3), DOSBox-X; run 2026-11-03 12:38–12:45 CET.
 - Log: `private/run_magic_i1.md`. Captures: `private/shots/ishar1/magic/` (98 files).
-- Contract checked: `quesh/magic-contract-ishar1.md` `6ae893f708ad` (read-only).
+- Contract checked: `quesh/magic-contract-ishar1.md` `6ae893f708ad…` (full: private SW-H12-34) (read-only).
 - Base saves are letter copies: SONE (= S1, 92023f2b…) and LPONE (= LP1, 76cf91a1…), listed in `private/letter_copies_sha256.txt`.
 - Re-verified 2026-11-03 12:47 CET:
   - All six save hashes match the log.
@@ -1058,6 +1058,18 @@ Do the R9 predictions T1–T3 hold? These are:
 - Quesh: correct the T3 expectation in magic-contract-ishar1 (owner: Quesh; not edited here).
 - Optional: T3b on LPONE, Fireball on actor 65 or 66 → (see private SW-23.7-a). Check: `case_diff_i1.py MTFA.SAV <B> CAST --char 4 --cost 9 --dmg 14 --ids 65`.
 
+## Addendum 1 (2026-11-03 12:50–13:05 CET), reconstructed from run logs (private/run_quesh_addendum.md, cases_quesh_addendum_plan.md §1–2)
+*No REFERENCES section existed in any backup (before_* checked); this is reconstructed from run logs, not re-run.*
+- QF-T2 (item 9 to the lord, unpatched, from PICKNINE): **STOPPED / open**. Walked map 1 (saves QFPA..QFPH); CONT1 has no zone markers leading to scene 3 (only scene-change codes B = −50/−2/−1/−23/−26). Entering the door cell gave the audience text with flag 0 only (text and lord's name: private SW-A1-a). QFPI saved, offset 21 = 0. Superseded by Addendum 3 (still open).
+- T4 Grimz ritual (from GRIMZRIT): **STOPPED / open**. No druid sprite in 4 facings + 1 step; backpack slot clicks picked nothing; only RITA saved. Superseded by Addendum 3 (PROVEN unpatched).
+
+## Addendum 2 (2026-11-03 13:11–13:29 CET), reconstructed from run logs (private/run_quesh_addendum2.md)
+*Reconstructed from run logs, not re-run.*
+- T4 ritual retry: **STOPPED** — no character sheet opened via portrait clicks (later found: sheet opens but does not redraw; see Addendum 3).
+- QF-T2 groundwork: saves QFPJ..QFPN written (route toward scene 3; QFPN later used for QF-T2 in Addendum 3).
+- QF-T4 (with patch, QFLB..QFLE): load attempts 13:25–13:27 wrote QFMB..QFME, but the box rebooted ~13:23 and DOSBox-X was missing, so these runs are **not valid evidence**; QF-T4 was re-run and PROVEN (with patch) in Addendum 3.
+- T5 lock-picking: not run here (see Addendum 3).
+
 ## Addendum 3 (2026-11-03, run log private/run_quesh_addendum3.md)
 - QF-T4 (byte 21 survives save/load): PROVEN (with patch). QFLB..QFLE -> QFMB..QFME, offset 21 stays 1/2/3/4, header [x,y,face,map,scene]=(see private SW-A3-a) unchanged; diffs only clock/world ticks.
 - T5 lock-picking door 29: plan location CONTRADICTED (map 3 (6,55) is town scene 23, not DJ1 decor; PCAVE lock entity cannot spawn; walked through unblocked in SASCHA (d29=1) and LCKBASE (d29=0); lock click LCKH->LCKI leaves 0x4aa4[29]=0). Runtime success rate OPEN. "0x4b58 has no gameplay read" remains known (code).
@@ -1069,4 +1081,35 @@ Do the R9 predictions T1–T3 hold? These are:
 ## Addendum 4: Ishar 1 door/lever contract (quesh/tuer-hebel-trigger-ishar1.md), run log private/run_door_lever_i1.md
 - T7 new-game init: **PROVEN (unpatched)**. Fresh new game saved: door bytes 4613+d = 1 exactly for d ∈ {25,27,28,30,33,34,36,38}, all others 0; lever bytes 4663+k all 0.
 - T5 no reset on step/turn: **PROVEN (unpatched)**. LPONE → LPSTEP via many forward steps and turns (position and facing changed; values in private log): bytes 4613..4712 unchanged (0/100).
-- T1, T2, T3, T6: OPEN (not yet run). T4: OPEN (needs a save patch, not allowed).
+- T1 lever pair: **BLOCKED (unpatched)**. On the route from LPONE toward lever 2 a monster group blocks the corridor and attacks; passing needs a fight action (forbidden). Not saved.
+- T6 item on door 2: **BLOCKED**. LPONE has no item code 3 in any inventory slot or on the floor, so the precondition is missing; no patch approved for T6.
+- T2, T3 (from LPTWO, after a DOSBox reboot): **OPEN (not run)**. LPTWO's party is far from levers 14 and 13 (distance: private SW-A4-a); Ishar 1 dungeon maps are not decoded (not in CONT1..6.FIC), so the route is unknown and fight-free reachability could not be established.
+- T4 closed door blocks step: **PROVEN (with patch)**. Patched copy LPDZ = LPONE with one byte, 4623 (door 10) 1 → 0 (private/save_patches.md). From the cell north of door 10 facing 3: first step onto the door-10 cell succeeds, second step (onto the next cell south) is blocked; the door is drawn closed. Unpatched control (door 10 = 1): the same step passes. **Correction to the contract row:** the blocked transition is from the door-10 cell itself onto y+1, not from (20,52) onto the door cell.
+
+### Addendum 4b (2026-11-03 ~14:35–15:00 CET): patched retries (freigegeben); all results "with patch"
+- Copies (bytes in private/save_patches.md): LPLA, LPLB (from LPTWO: party pos/facing next to lever 14 / 13), LPIA (from LPONE: item 3 in a backpack slot + pos next to door 2), LPMA (from LPONE: pos past the monster group). Positions: private SW-A4-b.
+- T1 (LPMA): **BLOCKED (with patch)**. The monster group is again directly in front and attacks after load; no fight → abandoned, not saved.
+- T2 (LPLA): **OPEN / anomaly (with patch)**. View shows a closed door with a wall plate; clicking the plate removed it, and the save diff shows only the fee bytes plus one unexplained byte 2117 (raw change see private SW-H12-2117). No lever byte changed. After reloading LPLA the plate was still not drawn (unknown). Forward was blocked.
+- T3 (LPLB) and T6 (LPIA): **OPEN (with patch)**. No lever or door at depth 0/1 in the patched facing; no interaction possible.
+- Unpatched lever-state control: not run, because no lever toggled.
+- **Suspected cause:** the contract's "frontal at depth 0" may mean the party's own cell (as in the Ishar 2 combat forms), and/or the coordinate/facing convention differs from the save x/y words. Quesh needs to confirm which cell and facing make a lever clickable before any further patch.
+- **Open/caveat (CONT write-back check, no game run):** CONT1..6.FIC in every Ishar 1 working folder (own work/ishar1, which DOSBox mounts, plus probe_i1, and Hoth's i1 folders, read-only) are byte-identical to the originals, so the write-back (L_0444e) did not alter any map. T4/T5/T7/T1/T6 and floor/§17 were not influenced by CONT. CONT layout per Quesh: index = x·90+y. The map with zone 15 doors/levers is CONT5, and lever 13 and doors 12–15/21–23 are in CONT2. Open: (1) LPLB placed the party at a CONT5 wall cell (lever 13 lives in CONT2), and LPIA placed it at a wall cell next to door 2 (door 2 runs E–W). This makes the T2/T3 "nothing clickable" results unreliable. (2) The plate disappearance in LPLA and byte 2117 are NOT CONT write-back, because CONT is unchanged after the click; the state lives in the save. Details: private/run_door_lever_i1.md §CONT.
+- **Own-cell retries (2026-11-03 ~14:45–15:05 CET, with patch; position/facing patched to the lever/door cell per Quesh; every target cell checked against CONT and none is a wall; bytes in private/save_patches.md):**
+  - T2 lever 14: **PROVEN with patch.** On the lever's own cell, facing 1, the lever is drawn on the wall; clicking it flips 4677 0→1 and swaps T28/T29 (4641/4642).
+  - T3 lever 13: **PROVEN with patch** (zone patched to 12, the CONT2 map). On the lever's own cell, facing 4, clicking gives 4676 0→2, 4636 0→1, and 4635 and 4634 to 0, matching the contract.
+  - T6 door 2: **BLOCKED.** Door 2 is already open in the source save (precondition 0 not met), and item 3 could not be picked up or dragged in the portrait grid.
+  - T1 levers 2/4: **BLOCKED.** The monster group stands right in front of the lever cell and attacks immediately; I reloaded without saving and did not fight. No walkable cell non-adjacent to the monsters was usable.
+  - Controls (no lever/door bytes changed): the same click with another facing, and the same click on the unpatched save.
+  - Byte 2117 changes in every save (volatile word of actor 54), so the earlier reading of 2117 as plate state is withdrawn.
+  - Facing differs from "value mod 4": lever 14 (68) and lever 13 (66) were clickable at facing 1 and 4. Open for Quesh.
+- **T6 door 2 (2026-11-03 ~14:59–15:10 CET, with patch; door-2 byte set to 0, then item 3 written into an empty backpack slot; bytes in private/save_patches.md):**
+  - With the door byte at 0, door 2 is **drawn closed** (a wooden door instead of the open archway).
+  - The forward step from the door cell is **blocked**. In the unpatched control (door open) the step passes.
+  - Using item 3: the item was picked up from the backpack grid and clicked on the door plate. It disappeared from the cursor and the grid, but the door stayed drawn closed. Afterwards the UI did not respond and no save could be written, so the result is **unverified (open)**.
+  - It is also not confirmed that the white icon is item code 3.
+- **Quesh corrections (static):**
+  - Facing rule: material 66→4, 67→2, 68→1, 69→3. This matches T2/T3 and replaces the earlier "value mod 4" mismatch note.
+  - 0x0080 and 0x234a are RAM buffers, not file offsets.
+  - Byte 2117 lies in the area at 0x1c3e, a per-actor hold/paralysis countdown. The plate reading is withdrawn.
+- **T6b retry (2026-11-03, with patch, LPNO):** rebooted, LPNO loaded at (29,24) facing 2, bag grid opened (268,58), item (288,85) picked up, grid-close click (268,58) did NOT close the grid while the item was held, plate click (188,68) with item → no door change on screen; save attempt LPNS → no file written (UI hang, same as first attempt). Item use on the plate remains **unverified**. Shots nr1–nr5.
+- **T6c hand route (2026-11-03 ~15:15 CET, with patch, LPNO):** rebooted, LPNO loaded, portrait (30,160) hands grid opened (not the fight icon 80,160), bag grid opened (268,58), item click (288,85), drop on hand slot (50,168): no visible change; subsequent close clicks (268,58)/(30,160) also unchanged over ~10 s → UI frozen. No save attempted/written, so no case_diff, byte 4615 / slot 505 not checkable. **T6-item: OPEN** (auf Anweisung: keine weiteren erzwungenen Versuche). Shots nh1–nh4.
