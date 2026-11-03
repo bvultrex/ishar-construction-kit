@@ -988,5 +988,70 @@ Game texts (German, verbatim from the captures/log):
 - After the admission vote, a single OK returns to the view.
 - No save patches.
 
-## 23. Ishar 1 magic records (SONE / LPONE; T1–T3): reserved, the run is in progress
-(To be filled in from the Ishar 1 run log. Plan: `private/cases_magic_party_plan.md` §3. Saves MTDA/MTDB, MTEA/MTEB, MTFA/MTFB.)
+## 23. Ishar 1 magic records: T1 Mental shield / T2 rune Regeneration / T3 Fireball (references MTDA–MTFB; handoff 7-section format)
+
+### 23.1 Base commit and game profile
+- Ishar 1, Deutsch (KP_3), DOSBox-X; run 2026-11-03 12:38–12:45 CET.
+- Log: `private/run_magic_i1.md`. Captures: `private/shots/ishar1/magic/` (98 files).
+- Contract checked: `quesh/magic-contract-ishar1.md` `6ae893f708adcaca697f35c2f5344cd686cce77017146e0797544961f8fbe9bc` (read-only).
+- Base saves are letter copies: SONE (= S1, 92023f2b…) and LPONE (= LP1, 76cf91a1…), listed in `private/letter_copies_sha256.txt`.
+- Re-verified 2026-11-03 12:47 CET:
+  - All six save hashes match the log.
+  - MTEA == MTDA (6334711f…), so reloading the base is deterministic.
+  - CONT unchanged.
+  - The `case_diff_i1.py` reruns give the same exit codes as the log (0 / 0 / 1).
+
+### 23.2 Question
+Do the R9 predictions T1–T3 hold? These are:
+- the cost formula `max(0, M − (sl+5))` and the R3 off-by-one;
+- the timer and icon bytes;
+- the rune is not consumed;
+- Fireball damage `L + sl` with no RNG.
+
+### 23.3 Reproducible input
+- Load: disk (309,56) → LOAD (160,155) → name → Return.
+- Save: disk (309,56) → SPIEL SICHERN (160,146) → OK (272,157) → name → Return. Each save costs 1000 GS.
+
+| ref | base | clicks between save A and save B | saves (SHA-256 prefix) |
+|---|---|---|---|
+| T1 | SONE | (208,132) ACTION c3 → (40,193) CAST SPELL → (40,163) spell 28 → (32,160) c0 | MTDA 6334711f, MTDB 366db16e |
+| T2 | SONE | (224,160) portrait c3 → (199,168) rune → (96,160) c1 | MTEA 6334711f, MTEB 24438aeb |
+| T3 | LPONE | turn left (266,101) ×2 → forward (289,82) → turn right (310,101) → forward; save A; then (272,132) ACTION c4 → (40,193) → (40,163) FEUERBALL → (120,80) monster | MTFA e446d34c, MTFB bc6751e6 |
+
+### 23.4 Observed (verbatim German texts)
+- Spell list texts:
+  - T1: "BRENNENDE HÄNDE 1", "REGENERIERUNG 7", "GEISTIGES SCHILD 6", "RUNEN SCHREIBEN", "EXIT".
+  - T3: "BINDUNG 5", "REGENERIERUNG", "FEUERBALL 3", "GEISTIGES SCHILD 6".
+- T1: MENTAL 771 72 → 67; word 698 = 554 (the timer is running); 4921 = 0x1C; c2 gold −1000 (byte 483, the save fee). No other changes.
+- T2: 771 72 → 58; 4185/4186 in 1..720; 4931 = 0x1E; rune byte 5024 stays 30; c1 HP 137 unchanged. No other changes.
+- T3:
+  - 772 75 → 66.
+  - Only actor 68 changed (HP 12 → 0, at 1865); actors 63–67 unchanged.
+  - Party HP: Targhan (469) 132 → 119 and c1 (471) 130 → 109, from monster melee during the walk and the cast.
+  - Byte 479 −1 = c0 thousands of gold (0x154e) = the 1000 GS fee for save B. In LPONE, c0 holds all the gold.
+  - XP unchanged; 31000 each, at the cap.
+
+### 23.5 Evaluation against the contract
+- **proven**:
+  - T1 cost 5: sl(28)+5, so the R3 off-by-one holds; 61 would have contradicted it.
+  - Icon 28 and the 720 timer.
+  - T2 cost 14; icon 30; the rune is not consumed; rune casting works with no class check.
+  - Fireball cost 9 = sl(23)+5 (4+5).
+  - Deterministic reload.
+- **contradicted**: "all monsters of the group take 14" (the expectation for 63–68). The code agrees with the run that Fireball hits ONE actor:
+  - FRISE L_02676 → L_02d80 → L_02de6 reads the actor id from the single picked entity, `ohimb(0x015e,0x0d)`.
+  - It makes one roll, one `HP 0x1b22[a] −= L+sl` and one ckill.
+  - There is no loop over actors. Only Lightning (L_02f66) is an area spell.
+  - So the contract's T3 text was wrong; R6 itself ("damage spells … actor") is right.
+- **consistent, not exact**: damage 14. HP 12 → 0 fits 12 − 14 ≤ 0, but this one sample does not measure the exact amount.
+- **explained**: the 479 change is the save fee and not part of the spell. Party HP 469/471 is melee damage.
+
+### 23.6 Open
+- Exact damage value: needs a target with HP > 14, e.g. a re-run on 65/66 (15 HP), which predicts 15 → 1.
+- The hit-roll rate (93 %): one sample only.
+- Timer expiry after about 720 passes: not observed.
+
+### 23.7 Next step
+- Codex: keep single-target damage for 14/17/18/19/23/31/32 and area damage only for Lightning.
+- Quesh: correct the T3 expectation in magic-contract-ishar1 (owner: Quesh; not edited here).
+- Optional: T3b on LPONE, Fireball on actor 65 or 66 → expect HP 15 → 1. Check: `case_diff_i1.py MTFA.SAV <B> CAST --char 4 --cost 9 --dmg 14 --ids 65`.

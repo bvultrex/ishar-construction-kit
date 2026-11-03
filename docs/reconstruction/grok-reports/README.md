@@ -45,3 +45,6 @@ Basis: `workbench/playable-slice` @ `bb42748` (Code-Stand `319819c`). Belegstatu
 | Alderaan | [REFERENCES.md](alderaan/REFERENCES.md) | Nachtrag 7: Originalreferenzen aktualisiert | siehe Bericht; nicht integriert |
 | Quesh | [npc-dialog-contract-ishar1.md](quesh/npc-dialog-contract-ishar1.md) / [.json](quesh/npc-dialog-contract-ishar1.json) | Nachtrag 7: NPC-Dialog-Vertrag Ishar 1 | statisch; known/suspected je Punkt siehe Bericht; nicht integriert |
 | Quesh | [hebel-tuer-trigger-ishar2.md](quesh/hebel-tuer-trigger-ishar2.md), [party-contract-ishar1.md](quesh/party-contract-ishar1.md) / [.json](quesh/party-contract-ishar1.json) | Nachtrag 7: aktualisierte Fassungen (3.11.) | siehe Bericht; nicht integriert |
+| Hoth | [HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md](hoth/HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md) | Nachtrag 8: Abnahme Ishar-1-Save (3.11.) | known/suspected siehe Bericht; nicht integriert |
+| Hoth | [STEP_RESET](hoth/HOTH_ABNAHME_2026-10-18_STEP_RESET.md), [FIXTURES](hoth/HOTH_FIXTURES_2026-10-18.md), [FIXTURES_ISHAR1_MAGIE](hoth/HOTH_FIXTURES_ISHAR1_MAGIE.md) | Nachtrag 8: aktualisierte Fassungen (3.11.) | siehe Bericht; nicht integriert |
+| Alderaan | [REFERENCES.md](alderaan/REFERENCES.md) | Nachtrag 8: Originalreferenzen aktualisiert | siehe Bericht; nicht integriert |

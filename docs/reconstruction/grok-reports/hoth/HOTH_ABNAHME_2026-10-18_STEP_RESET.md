@@ -138,3 +138,6 @@ Door cells (CONT layer B): door 9 = map 5 r50 c22 (A=70, frame like door 5); doo
 Mechanism for turn closing 9/17: unknown. In the GERDEP listing the only writers to 0x4aa4+9/+17 are 0x013fd/0x01407 in L_013af, and the click toggle 0x01590/0x0159e (index odirb(0x36)). A turn does not clear the contact list (HOTKB), so L_013af is probably not called on turns; another path (other script, or the toggle with 0x36 = door in view) is suspected. Door 5 on turn: not tested (M49 stays suspected for door 5). Hour change confounded the first attempts (HOT17C/HOT17F crossed h8->h9/10), they are not used as evidence.
 
 Kit: door-mechanics.ts afterStep matches steps for 9/17 (M50/M53). Deviations: no turn hook (M52 Ist {} / Soll 7398=0; M54 Ist {} / Soll 7390=0) and no contact-list reset (M56 Ist {} / Soll 7577=0). Fixtures M50-M57 added; checker reference model: turn clears doors 9/17, keeps contacts.
+
+## Nachtrag 2026-11-03 13:00 CET (Hoth, private/stepreset4)
+Drehen ruft L_013af (0x0083a TL, 0x0096b TR, unbedingt). HOT5E -> TL -> HOT5F: Tür 5 1->0; Laden HOT5E -> HOT5D: bleibt 1. Frühere Aussage „L_013af läuft vermutlich nicht beim Drehen“ ist widerlegt. Kontakte beim Drehen: Neueintrag vermutet (suspected). Tür 9 regulär weiter nicht geöffnet. Details HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md.
