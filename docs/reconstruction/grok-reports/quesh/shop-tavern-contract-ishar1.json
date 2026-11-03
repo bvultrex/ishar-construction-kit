@@ -522,11 +522,8 @@
    "evidence": "known",
    "clicks": "→ private/shop-tavern-contract-ishar1-savewerte.json#/tests/0/clicks",
    "diff": {
-    "3": "1E->1F",
-    "7": "[Savewert entfernt]",
-    "483": "[Savewert entfernt]",
-    "556-557": "->FF CA",
-    "3998": "B2->4E"
+    "regel": "Gold sinkt um Preis (3997-3998/483), Gegenstand in Slot (556-557), Stückzähler +qty; Kopf-Bytes 3/7 ändern sich",
+    "werte": "→ private/shop-tavern-contract-ishar1-savewerte.md SW-B2"
    }
   },
   {
@@ -536,7 +533,7 @@
    "evidence": "suspected",
    "clicks": "as T1, slot0 (165,20) instead of dagger",
    "diff": {
-    "3997-3998": "[Savewert entfernt]",
+    "3997-3998": "sinkt um Preis (Werte → private SW-B2)",
     "c2 item slot": "0xFFC7",
     "5000": "+5"
    }
