@@ -78,6 +78,33 @@ for (const v of fx.vectors.filter((x) => x.contract.startsWith('combat'))) if (v
   const sz = smap.ISHAR1_SAVE.minLength; rec('I31.size', 'save-maps.ts ISHAR1_SAVE.minLength', sz <= 5216, `minLength ${sz} <= 5216 (keine Größe 5216 im Kit)`);
   for (const x of fx.vectors.filter((y) => y.contract === 'magic-ishar1' && y.id !== 'I31')) rec(x.id, `(keine Ishar-1-Magie im Kit: ${x.input.op})`, false, 'fehlt');
 }
+// shop/tavern/party Ishar 1 (Hoth 2026-11-03): kit has Ishar-2 commerce, generic gold arithmetic and ISHAR1_SAVE field map only.
+{
+  const om = await imp('original-merchants.ts'), ng = await imp('original-npc-gold.ts'), se = await imp('original-shop-entry.ts');
+  const smap = await imp('save-maps.ts'), F = smap.ISHAR1_SAVE.fields;
+  for (const id of ['SH03', 'SH04', 'SH05', 'SH06']) { const v = byId[id], i = v.input;
+    const a = om.subtractOriginalPrice(i.gold, i.price); rec(id + '.m', 'original-merchants.ts subtractOriginalPrice', eq(a, v.expected.gold), `bekommen ${JSON.stringify(a)} erwartet ${JSON.stringify(v.expected.gold)}`);
+    const d = ng.debitOriginalGold(i.gold, i.price); const g = d.insufficient ? null : d.gold; rec(id + '.n', 'original-npc-gold.ts debitOriginalGold', eq(g, v.expected.gold), `bekommen ${JSON.stringify(d)} erwartet ${JSON.stringify(v.expected.gold)}`); }
+  { const v = byId.SH07, src = readFileSync(join(kit, 'src/lib/ishar/original-commerce.ts'), 'utf8'); const m = src.match(/(-?\d+)\s*<=\s*\w+\s*&&\s*\w+\s*<=\s*(-?\d+)/) || src.match(/>=\s*(-?\d+)[^;]*<=\s*(-?\d+)/);
+    const lo = m ? +m[1] : null, hi = m ? +m[2] : null; const got = v.input.items.map((x) => lo !== null && x >= lo && x <= hi);
+    rec('SH07', 'original-commerce.ts Stapelbereich (Quelltext gelesen)', eq(got, v.expected.stackable), `Kit-Bereich ${lo}..${hi} -> ${JSON.stringify(got)}, erwartet -66..-57 -> ${JSON.stringify(v.expected.stackable)}`); }
+  { const O = oc.ORIGINAL_COMMERCE_OFFSETS, v10 = byId.SH10, v11 = byId.SH11, v09 = byId.SH09;
+    rec('SH10', 'original-commerce.ts ORIGINAL_COMMERCE_OFFSETS.goldThousands (+2c)', O.goldThousands + 2 * 2 === v10.expected.goldK, `bekommen ${O.goldThousands + 4} erwartet ${v10.expected.goldK} (Ishar-2-Layout)`);
+    rec('SH10.s', 'save-maps.ts ISHAR1_SAVE.fields.gold', F.gold && F.gold.offset === v10.expected.goldKLow, `bekommen ${F.gold?.offset} (1 Feld, u8) erwartet Tausender c2 Low ${v10.expected.goldKLow}`);
+    rec('SH11.u', 'ORIGINAL_COMMERCE_OFFSETS.goldRemainder (+2c)', O.goldRemainder + 4 === v11.expected.goldU, `bekommen ${O.goldRemainder + 4} erwartet ${v11.expected.goldU}`);
+    rec('SH11.i', 'ORIGINAL_COMMERCE_OFFSETS.inventory', false, `Kit ${O.inventory} (Ishar 2), erwartet Basis 498, c2 k3 -> ${v11.expected.item}`);
+    rec('SH09', 'ORIGINAL_COMMERCE_OFFSETS.stacks', false, `Kit ${O.stacks} (Ishar 2), erwartet 4971+10c+(item+66) -> ${v09.expected.offset}`); }
+  { const v = byId.SH01, got = v.input.cells.map(([x, y, z]) => se.originalShopEntry(z)); rec('SH01', 'original-shop-entry.ts originalShopEntry (Layer-B-Wert, nicht (x,y,zone))', false, `anderes Modell; mit zone als Wert: ${JSON.stringify(got)}; erwartet Läden ${JSON.stringify(v.expected.shop)}`); }
+  for (const id of ['SH02', 'SH08', 'SH12']) rec(id, `(kein Ishar-1-Händler im Kit: ${byId[id].input.op})`, false, 'fehlt');
+  for (const x of fx.vectors.filter((y) => y.contract === 'tavern-ishar1')) rec(x.id, `(keine Ishar-1-Taverne im Kit: ${x.input.op})`, false, 'fehlt');
+  { const v = byId.PA01, c = 3, at = (f) => (f ? f.offset + (f.stride ?? 0) * c : undefined);
+    rec('PA01.class', '(kein Klassenfeld in ISHAR1_SAVE)', false, `fehlt, erwartet ${v.expected.class}`);
+    for (const [k, kf] of [['level', 'level'], ['mental', 'psychic']]) { const got = at(F[kf]); rec(`PA01.${k}`, `save-maps.ts ISHAR1_SAVE.fields.${kf}`, got === v.expected[k], `bekommen ${got} erwartet ${v.expected[k]}`); }
+    const sz = smap.ISHAR1_SAVE.minLength; rec('PA01.size', 'save-maps.ts ISHAR1_SAVE.minLength', sz <= 5216, `minLength ${sz} <= 5216`);
+    const w = byId.PA02; const hp = at(F.hp); rec('PA02.hp', 'save-maps.ts ISHAR1_SAVE.fields.hp', hp === w.expected.hp, `bekommen ${hp} erwartet ${w.expected.hp}`);
+    for (const k of ['maxHp', 'food', 'npc', 'rel', 'grid']) rec(`PA02.${k}`, '(kein Feld in ISHAR1_SAVE)', false, `fehlt, erwartet ${w.expected[k]}`); }
+  for (const x of fx.vectors.filter((y) => y.contract === 'party-ishar1' && !['PA01', 'PA02'].includes(y.id))) rec(x.id, `(keine Ishar-1-Party im Kit: ${x.input.op})`, false, 'fehlt');
+}
 const ok = rows.filter((r) => r.ok).length;
 for (const r of rows) console.log(`${r.ok ? 'PASST ' : 'NEIN  '} ${r.id.padEnd(5)} ${r.fn}${r.note ? '  — ' + r.note : ''}`);
 console.log(`\nKit: ${kit}\nPasst: ${ok}/${rows.length}`);

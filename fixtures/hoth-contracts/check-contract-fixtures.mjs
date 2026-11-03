@@ -160,7 +160,55 @@ function magic1(v) {
   }
   throw new Error('op ' + i.op);
 }
-const MODELS = { 'magic-ishar1': magic1, 'pickup-ishar2': (v) => (v.input.armourCodes ? pickupArmour(v) : pickup(v)), 'mechanics-ishar2': mech, rng: rngVec, 'combat-ishar2': combat2, 'combat-ishar1': combat1, 'savefields-ishar2': savefields };
+
+// ---------- shop/tavern/party Ishar 1 (Quesh, Hoth 2026-11-03) ----------
+const SHOPS = { '31,16,1': 1, '29,69,14': 7, '19,6,4': 6, '17,52,1': 0, '38,50,1': 2, '24,71,13': 3, '25,80,13': 4, '35,72,13': 5, '36,75,14': 8 };
+const P57 = { 0: [0, 320], 1: [0, 380], 3: [0, 400], 7: [0, 410] };
+const TAV = { '18,56,1': 0, '29,16,1': 1, '33,18,1': 2, '39,55,1': 3, '22,76,13': 4, '24,70,13': 5, '32,77,13': 6, '35,73,13': 7, '44,75,13': 8, '22,10,4': 9, '35,77,14': 11, '38,79,14': 12 };
+function shop1(v) { const i = v.input;
+  switch (i.op) {
+    case 'shopAt': return { shop: i.cells.map((c) => SHOPS[c.join()] ?? null) };
+    case 'price': return { price: i.shops.map((s) => P57[s]) };
+    case 'pay': { const [k, u] = i.gold, [pk, pu] = i.price; if (pk > k || (pk === k && pu > u)) return { gold: null, refused: true };
+      let t = 1000 * (k - pk) + (u - pu); return { gold: [Math.floor(t / 1000), t % 1000], refused: false }; }
+    case 'stackable': return { stackable: i.items.map((x) => x >= -66 && x <= -57) };
+    case 'stackAdd': return { count: i.items.map(([it, n, q]) => Math.min(it === -57 ? 5 : it === -58 ? 20 : 10, n + q)) };
+    case 'stackOffset': return { offset: 4971 + 10 * i.c + (i.item + 66) };
+    case 'goldOffset': return { goldK: 478 + 2 * i.c, goldKLow: 479 + 2 * i.c, goldU: 3993 + 2 * i.c, item: 498 + 26 * i.c + 2 * (i.k ?? 0) };
+    case 'flags': return { sell: false, stockSaved: false };
+  } throw new Error('op ' + i.op); }
+function tavern1(v) { const i = v.input;
+  switch (i.op) {
+    case 'price': return { eat: i.t.map((t) => 500 + 40 * t), sleep: i.t.map((t) => 900 + 80 * t) };
+    case 'split': return { k: i.P.map((p) => (p > 1000 ? [1, p - 1000] : [0, p])) };
+    case 'afford': return { ok: i.members.filter((m) => m[0] !== -1).reduce((a, m) => a + m[1], 0) >= i.P };
+    case 'pay': { const g = i.units.slice(), sh = Math.floor(i.P / g.length); let R = i.P;
+      g.forEach((x, n) => { const p = Math.min(sh, x); g[n] -= p; R -= p; }); for (let n = 0; n < g.length && R; n++) { const p = Math.min(R, g[n]); g[n] -= p; R -= p; } return { units: g }; }
+    case 'eat': return { food: i.food.map((f, n) => (i.hp[n] > 0 ? (f > 60 ? 100 : Math.min(100, f + 40)) : f)) };
+    case 'sleep': return { food: i.food.map((f, n) => (i.hp[n] > 0 ? Math.min(100, f + 15) : f)), mental: i.mental.map((m, n) => (i.hp[n] > 0 ? (m > 50 ? 100 : Math.min(100, m + 50)) : m)),
+      hp: i.hp.map((h, n) => (h > 0 ? h + Math.trunc((i.maxHp[n] - h) / 5) : h)) };
+    case 'leave': { let L = null; if (i.r3 === 0) { const j = i.npc.findIndex((x) => [21, 28, 15, 10].includes(x)); if (j >= 0) L = j; }
+      if (L === null && i.rel) { for (let a = 0; a < i.npc.length && L === null; a++) if (i.npc[a] !== -1 && !i.npc.some((x, b) => b !== a && x !== -1 && i.rel[a][b] > -2)) L = a; }
+      if (L === null) return { leaver: null };
+      return { leaver: L, items: i.items.map((s, j) => { if (j === L) return s; const t = s.slice(); const q = t.findIndex((c) => c > -57 && c < -19); if (q >= 0) t[q] = 0; return t; }) }; }
+    case 'tavernAt': return { tavern: i.cells.map((c) => TAV[c.join()] ?? null) };
+    case 'hireClick': return { k: i.pts.map(([x, y]) => Math.trunc((x - 1) / 64) + (y < 136 ? 4 : 0)) };
+  } throw new Error('op ' + i.op); }
+const CLS1 = { 1: 'Krieger', 17: 'Finsterer Ritter', 18: 'Okkulter Mönch', 6: 'Zauberer', 9: 'Priester' };
+function party1(v) { const i = v.input;
+  switch (i.op) {
+    case 'offsets': return { class: 728 + i.c, level: 738 + i.c, mental: 768 + i.c, size: 5216, hp: 468 + 2 * i.c, maxHp: 488 + 2 * i.c, food: 773 + i.c, npc: 4028 + i.c,
+      rel: i.i === undefined ? undefined : 4003 + 5 * i.i + i.j, grid: i.row === undefined ? undefined : 3758 + 5 * i.row + i.col };
+    case 'className': return { name: i.cls.map((c) => CLS1[c]) };
+    case 'living': return { living: i.cls.map((c, n) => (c !== -1 && i.hp[n] > 0 ? n : -1)).filter((n) => n >= 0) };
+    case 'vote': return { accept: i.v.map((vs) => vs.filter((x) => x > 0).length >= vs.filter((x) => x < 0).length) };
+    case 'recruitSlot': return { slot: i.hp.indexOf(0) };
+    case 'gridPlace': { for (let r = 4; r >= 0; r--) for (let c = 0; c < 5; c++) if (!i.grid[r][c]) return { cell: [r, c] }; return { cell: null }; }
+    case 'dismiss': { const y = i.votes.filter((x) => x > 0).length, n = i.votes.filter((x) => x < 0).length; return { m: y >= n ? { hp: 0, npc: -1, cls: -1, gold: [0, 0] } : i.m }; }
+    case 'killRel': { const out = [], ch = []; i.AT.forEach(([A, T], n) => { let r = i.rel[n]; if (A > 0) r += T <= 0 ? 2 : -1; else r += T <= 0 ? 1 : -2; out.push(r); ch.push(A <= 0 && T > 0 && r < -2); }); return { rel: out, chain: ch }; }
+    case 'voteValue': return { v: i.x.map(([t1, t2, a, b]) => t1 - 2 + 2 * t2 - Math.abs(a - b)) };
+  } throw new Error('op ' + i.op); }
+const MODELS = { 'shop-ishar1': shop1, 'tavern-ishar1': tavern1, 'party-ishar1': party1, 'magic-ishar1': magic1, 'pickup-ishar2': (v) => (v.input.armourCodes ? pickupArmour(v) : pickup(v)), 'mechanics-ishar2': mech, rng: rngVec, 'combat-ishar2': combat2, 'combat-ishar1': combat1, 'savefields-ishar2': savefields };
 // ---------- compare ----------
 const norm = (x) => JSON.stringify(x, (k, val) => (val && typeof val === 'object' && !Array.isArray(val) ? Object.fromEntries(Object.entries(val).map(([kk, vv]) => [String(kk), vv]).sort(([p], [q]) => (p < q ? -1 : 1))) : val));
 const subset = (exp, got) => Object.keys(exp).every((k) => norm(exp[k]) === norm(got[k]));

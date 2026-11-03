@@ -259,6 +259,60 @@ v('I32',C,'suspected',MQ+' R6 Actor-Timer: nur der erste != 0 (Bindung, Schlaf, 
 v('I33',C,'suspected',MQ+' R6 Actor 39/50 immun',{'op':'actorTimers','t':[4,5,3,2],'actor':39},{'t':[0,0,0,0]})
 v('I34',C,'suspected',MQ+' R5 Kosten auch bei Fehlwurf; nicht bei Abbruch (außer 16)',{'op':'paid','cases':['miss','cancel','cancel16','dead']},{'paid':[True,False,True,False]})
 
+# ---------------- shop/tavern/party Ishar 1 (Quesh shop-tavern-contract-ishar1.md, party-contract-ishar1.md; Hoth 2026-11-03) ----------------
+SQ=Q+'shop-tavern-contract-ishar1.md'; PQ=Q+'party-contract-ishar1.md'; OWN='HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md (HOA/HOB, private/ishar1save)'
+C='shop-ishar1'
+v('SH01',C,'suspected',SQ+' S1; MAIN Tabelle 0x3fd6 (x,y,zone) -> Laden',{'op':'shopAt','cells':[[31,16,1],[29,69,14],[19,6,4],[30,16,1]]},{'shop':[1,7,6,None]})
+v('SH02',C,'suspected',SQ+' S2 (Preis von -57 je Laden 0/1/3/7)',{'op':'price','item':-57,'shops':[0,1,3,7]},{'price':[[0,320],[0,380],[0,400],[0,410]]})
+def pay(k,u,pk,pu):
+    if pk>k or (pk==k and pu>u): return None
+    u-=pu; k-=pk
+    if u<0: k-=1; u+=1000
+    return [k,u]
+v('SH03',C,'known','MARCHAND L_0062f 0x00640-0x0067c (Hoth-Lesung: Einheiten - pu, Borgen aus Tausendern); Zahlen wie '+SQ+' T1',{'op':'pay','gold':[18,434],'price':[1,100]},{'gold':pay(18,434,1,100)})
+v('SH04',C,'known','MARCHAND 0x00640-0x0067c (Borgen)',{'op':'pay','gold':[2,100],'price':[0,380]},{'gold':pay(2,100,0,380)})
+v('SH05',C,'suspected',SQ+' S4.3 Ablehnung (nur Gold des gewählten Mitglieds, Meldung -21 MARCHAND 0x0053f)',{'op':'pay','gold':[1,99],'price':[1,100]},{'gold':None,'refused':True})
+v('SH06',C,'suspected',SQ+' S4.3 Gleichstand',{'op':'pay','gold':[1,100],'price':[1,100]},{'gold':[0,0]})
+v('SH07',C,'known','MARCHAND 0x006bf (Hoth-Lesung: stapelbar = -66 <= Code <= -57)',{'op':'stackable','items':[-67,-66,-60,-57,-56,-49]},{'stackable':[False,True,True,True,False,False]})
+v('SH08',C,'suspected',SQ+' S4.6 Kappen -57 -> 5, -58 -> 20, sonst 10; Menge 0x403a (MARCHAND 0x007e8/0x0080a)',{'op':'stackAdd','items':[[-57,0,5],[-58,0,20],[-60,9,1],[-57,4,5]]},{'count':[5,20,10,5]})
+v('SH09',C,'suspected',SQ+' S5/T2 Zähler 0x3e22[c][item+66] Save 4971+10c+(item+66)',{'op':'stackOffset','c':2,'item':-57},{'offset':5000})
+v('SH10',C,'known',OWN+': Speichern kostet 1000 GS, cmp HOA->HOB Byte 483 (Gold-Tausender c2 Low-Byte, 478+2c+1)',{'op':'goldOffset','c':2},{'goldK':482,'goldKLow':483})
+v('SH11',C,'suspected',SQ+' S5 (Einheiten 3993+2c, Gegenstände 498+26c+2k; SHOPA-Diff Alderaan 3998, 556/557)',{'op':'goldOffset','c':2,'k':3},{'goldU':3997,'item':556})
+v('SH12',C,'suspected',SQ+' S4 kein Verkauf, Vorrat unbegrenzt (Tabelle bei jedem Eintritt neu)',{'op':'flags'},{'sell':False,'stockSaved':False})
+C='tavern-ishar1'
+v('TV01',C,'known','ITAVERNE 0x0017f (dirb18==3: 900+80t) / 0x00194 (500+40t) -> 0x3f10',{'op':'price','t':[0,5,12],'kind':['eat','sleep']},{'eat':[500,700,980],'sleep':[900,1300,1860]})
+v('TV02',C,'known','ITAVERNE 0x001a5-0x001ca (P > 1000 -> 0x3f12=1, 0x3f10=P-1000; sonst 0x3f12=0)',{'op':'split','P':[980,1000,1001,1860]},{'k':[[0,980],[0,1000],[1,1],[1,860]]})
+v('TV03',C,'suspected',SQ+' V3 Bezahlbarkeit = Summe aller Mitglieder (class != -1, auch tote); Schleife ITAVERNE 0x001e4 (Hoth gesehen)',{'op':'afford','P':900,'members':[[0,500,10],[0,300,0],[-1,5000,0],[1,100,5]]},{'ok':True})
+def split(P,g):
+    g=g[:]; n=len(g); sh=P//n; R=P
+    for i in range(n):
+        x=min(sh,g[i]); g[i]-=x; R-=x
+    for i in range(n):
+        if R==0: break
+        x=min(R,g[i]); g[i]-=x; R-=x
+    return g
+v('TV04',C,'suspected',SQ+' V3 Zahlung: Anteil floor(P/n) (L_00b6e), Rest in Durchgang 2',{'op':'pay','P':900,'units':[1000,100,5000]},{'units':split(900,[1000,100,5000])})
+v('TV05',C,'known','ITAVERNE 0x005e4-0x00629 (Essen: HP>0; >60 -> 100 sonst +40, Kappe 100)',{'op':'eat','food':[61,60,0,100,95],'hp':[5,5,5,0,5]},{'food':[100,100,40,100,100]})
+v('TV06',C,'known','ITAVERNE 0x0064b-0x006bd (Schlaf: Nahrung +15 Kappe 100; MENTAL >50 -> 100 sonst +50; HP += (max-HP)/5, osub(opile) = Stapel - acc wie 0x00661); Zahlen LP1 aus '+SQ+' T4',
+  {'op':'sleep','food':[96,100,67,44,83],'mental':[100,92,67,40,75],'hp':[10,131,0,50,62],'maxHp':[34,134,40,50,62]},
+  {'food':[100,100,67,59,98],'mental':[100,100,67,90,100],'hp':[14,131,0,50,62]},'c2 HP 0: unverändert (Bedingung 0x0064b)')
+v('TV07',C,'suspected',SQ+' V5 Verlassen: rnd(3)==0 (ITAVERNE 0x006e7) und npc in {21,28,15,10}',{'op':'leave','npc':[3,21,30,-1,-1],'r3':0,'rel':None,'items':[[-30,0],[-60,-25],[-40,0]]},{'leaver':1,'items':[[0,0],[-60,-25],[0,0]]},'Andere verlieren ersten Gegenstand mit -57 < Code < -19 in Plätzen 0..8')
+v('TV08',C,'suspected',SQ+' V5/T4 kein Verlassen, wenn jede Zeile eine Relation > -2 hat',{'op':'leave','npc':[3,2,30,29,1],'r3':1,'rel':[[0,0,0,0,0]]*5,'items':[]},{'leaver':None})
+v('TV09',C,'suspected',SQ+' V1 Tabelle 0x3f94',{'op':'tavernAt','cells':[[33,18,1],[35,77,14],[22,10,4]]},{'tavern':[2,11,9]})
+v('TV10',C,'suspected',SQ+' V6 Anwerbe-Raster k=(x-1)/64, +4 bei Skript-y < 136',{'op':'hireClick','pts':[[1,140],[130,140],[130,100]]},{'k':[0,2,6]})
+C='party-ishar1'
+v('PA01',C,'known',OWN+': Klasse 728+c, Level 738+c, MENTAL 768+c (cmp 771 72->67, c=3), Größe 5216; Charakterbögen',{'op':'offsets','c':3},{'class':731,'level':741,'mental':771,'size':5216})
+v('PA02',C,'suspected',PQ+' P1 (HP 468+2c, maxHP 488+2c, Nahrung 773+c, npc 4028+c, rel 4003+5i+j, Raster 3758+5r+col)',{'op':'offsets','c':3,'i':1,'j':3,'row':2,'col':4},{'hp':474,'maxHp':494,'food':776,'npc':4031,'rel':4011,'grid':3772})
+v('PA03',C,'known',OWN+': Klassenbytes [1,17,18,6,9] = Bogenanzeige',{'op':'className','cls':[1,17,18,6,9]},{'name':['Krieger','Finsterer Ritter','Okkulter Mönch','Zauberer','Priester']})
+v('PA04',C,'suspected',PQ+' P2 lebend = class != -1 und HP > 0',{'op':'living','cls':[1,-1,6,9,2],'hp':[5,9,0,3,1]},{'living':[0,3,4]})
+v('PA05',C,'suspected',PQ+' P3.2 angenommen wenn ja >= nein (FRISE 0x01327)',{'op':'vote','v':[[1,0,-1],[-1,-1,2],[0,0],[-3]]},{'accept':[True,False,True,False]})
+v('PA06',C,'suspected',PQ+' P3.3 Platz = erstes c mit HP == 0',{'op':'recruitSlot','hp':[5,0,7,0,0]},{'slot':1})
+v('PA07',C,'suspected',PQ+' P3.5 Raster: erste freie Zelle, Zeilen 4->0, Spalten 0->4',{'op':'gridPlace','grid':[[0]*5,[0]*5,[0]*5,[0]*5,[1,2,0,3,0]],'c':4},{'cell':[4,2]})
+v('PA08',C,'suspected',PQ+' P4 Entlassen (L_00a76): HP 0, npc -1, class -1, Gold 0',{'op':'dismiss','votes':[1,-1,0],'m':{'hp':20,'npc':7,'cls':6,'gold':[3,50]}},{'m':{'hp':0,'npc':-1,'cls':-1,'gold':[0,0]}})
+v('PA09',C,'suspected',PQ+' P5 Töten: Relationstabelle (FRISE L_0199c)',{'op':'killRel','AT':[[1,0],[1,1],[0,0],[0,1]],'rel':[5,5,5,5]},{'rel':[7,4,6,3]})
+v('PA10',C,'suspected',PQ+' P5 Kette: A<=0, T>0, A-2 < -2 -> j tötet a',{'op':'killRel','AT':[[-1,1]],'rel':[-1]},{'rel':[-3],'chain':[True]})
+v('PA11',C,'suspected',PQ+' P3.2 Stimme v = t379c - 2 + 2*t3eb2 - |a16cc - b206e|',{'op':'voteValue','x':[[3,1,10,8],[1,0,4,9],[2,-1,5,5]]},{'v':[1,-6,-2]})
+
 out={'schema':'hoth-contract-fixtures/1','created':'2026-10-18','author':'Hoth (Grok Bot executor)',
  'notes':['Offsets ab 0 (cmp -l = ab0+1).','Saves = 8359 Nullbytes, Formatmarke Wort@0 = 2, plus die gelisteten künstlichen Felder (be16 = Big-Endian-Wort, u8 = Byte). Keine Originalbytes.',
  'status: known = eigener Beleg im Original-Lauf (Bericht); suspected = Fremdbefund (Quesh/Alderaan) oder Annahme; unknown = offen, wird nur gezählt.',
