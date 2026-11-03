@@ -1,0 +1,130 @@
+{
+ "game": "ishar1",
+ "date": "2026-11-03",
+ "base": "bb42748",
+ "evidence_levels": [
+  "known",
+  "suspected",
+  "unknown"
+ ],
+ "sha256": {
+  "FRISE.IO": "3bd158963fdaf0f88517b03509002100159a7587c8e2486389314b8abc707e15",
+  "ITAVERNE.IO": "f3bed78c5fb97360e1ac2dd46dc4f50052762ebbf2251af5049d02608086e808",
+  "BUSTE.IO": "883f807a2b3bc791ff45c4b34c54a0a4fda40012e8eb0dbd1892b97cbb8924a1",
+  "MAIN.IO": "27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b",
+  "PARAM.IO": "f42ea12ceffa6b879aeb88f074a81f8e9fed39f92a11f625d7c815b9b7594afd",
+  "S1.SAV": "92023f2b51e34f74f191068d07922a4b1afa28cff1bd04423d98e4505a463f7f",
+  "LP1.SAV": "76cf91a104ec8675394ec82b44f7238b016d641a8e0ccf3752d117ae2980b64b"
+ },
+ "slots": {
+  "class": "728+c",
+  "attr_166c": "733+c",
+  "hp": "468+2c",
+  "maxhp": "488+2c",
+  "gold": "478+2c/3993+2c",
+  "items": "498+26c+2k",
+  "mental": "768+c",
+  "food": "773+c",
+  "attr_16cc": "778+c",
+  "npc": "4028+c",
+  "rel": "4003+5i+j",
+  "grid": "3758+5r+col (c+1)",
+  "npc27_flag": "20 (0x41e4)",
+  "evidence": "known",
+  "rel_index_order": "suspected"
+ },
+ "recruit": {
+  "addr": "FRISE L_01148",
+  "cond": "living<5",
+  "vote": "0x379c[cls_j][0x1e76[n]]-2+2*0x3eb2[0x166c_j-1][0x1ebe[n]-1]-|0x16cc_j-0x206e[n]|; yes>=no",
+  "slot": "first HP==0",
+  "effects": "L_03543 copy stats, 3 spells, MENTAL 100; npc set; 0x1b22[n]=0; rel symmetric recompute; grid first empty rows4->0; 0x3ead=1 if n!=27",
+  "evidence": "known",
+  "trigger": "suspected"
+ },
+ "dismiss": {
+  "addr": "L_0176c (menu case 4)",
+  "vote": "rel[j][t] for living j!=t; yes>=no",
+  "effects": "HP0,npc-1,class-1,gold 0; L_06dbe unknown",
+  "evidence": "known"
+ },
+ "kill": {
+  "addr": "L_0199c (menu case 3)",
+  "effects": "grid clear, HP0, npc-1, class kept",
+  "rel_update": {
+   "A>0,T<=0": 2,
+   "A>0,T>0": -1,
+   "A<=0,T<=0": 1,
+   "A<=0,T>0": "-2; <-2 -> j kills a (chain)"
+  },
+  "evidence": "known"
+ },
+ "case9": {
+  "addr": "L_01be5",
+  "evidence": "suspected",
+  "meaning": "unknown"
+ },
+ "tavern_leave": {
+  "see": "shop-tavern-contract-ishar1 V5",
+  "evidence": "known"
+ },
+ "menu_cell_mapping": {
+  "table": "FRISE dirtc 0x4e",
+  "evidence": "unknown"
+ },
+ "tests": [
+  {
+   "id": "T1",
+   "save": "S1",
+   "action": "dismiss c4 by c0",
+   "votes": [
+    -2,
+    1,
+    4,
+    -5
+   ],
+   "result": "accepted",
+   "diff": {
+    "476-477": "->0",
+    "732": "FF",
+    "4032": "FF"
+   },
+   "grid": "unknown",
+   "evidence": "suspected"
+  },
+  {
+   "id": "T2",
+   "save": "S1",
+   "action": "kill c3 by c0",
+   "diff": {
+    "4008": "FE->FF",
+    "4013": "FF->00",
+    "4023": "FE->FF",
+    "474-475": "->0",
+    "4031": "FF",
+    "3765": "04->00",
+    "731": "stays 06"
+   },
+   "decides": "rel index order",
+   "evidence": "suspected"
+  },
+  {
+   "id": "T3",
+   "save": "LP1",
+   "action": "tavern sleep",
+   "diff": "4028..4032 unchanged",
+   "evidence": "suspected"
+  },
+  {
+   "id": "T4",
+   "action": "tavern hire after T1",
+   "diff": {
+    "5046+8t+k": "FF",
+    "4028+c": "n",
+    "768+c": 100
+   },
+   "route": "unknown",
+   "evidence": "suspected"
+  }
+ ]
+}
