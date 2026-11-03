@@ -181,12 +181,12 @@ npm run save:main -- patch IO.IO START.SAV writes.json PICK9.SAV
 **Expected save diff vs PICK9.SAV:**
 | file offset | MAIN | before → after | note |
 |---|---|---|---|
-| 345 | 0x2aba+9 | 12 → 0 | R3 |
-| 545 | 0x2b84+9 | 12 → 0 | R3 |
-| 745 | 0x2c4e+9 | 1 → 0 | R3 |
-| 8048 | 0x50c8+9 | 2 → 2 | not cleared by pickup (proven) |
-| A: 1036–1037 | 0x2d8e c0 s0 | 00 00 → 00 09 | R6 |
-| B: 1056–1057 | 0x2d8e c0 s10 | 00 00 → 00 09 | R7 |
+| 345 | 0x2aba+9 | → 0 | R3 |
+| 545 | 0x2b84+9 | → 0 | R3 |
+| 745 | 0x2c4e+9 | → 0 | R3 |
+| 8048 | 0x50c8+9 | unverändert | not cleared by pickup (proven) |
+| A: 1036–1037 | 0x2d8e c0 s0 | 0 → Item-ID 9 | R6 |
+| B: 1056–1057 | 0x2d8e c0 s10 | 0 → Item-ID 9 | R7 |
 | 1336 | 0x2f0e c0 | unchanged | armour(9) = 0 |
 | 45/48/49 | 0x4fc6/0x4fca | vary | clock (Hoth, K87) |
 
@@ -233,8 +233,8 @@ Base bb42748, static only. FRISE.IO listing (Ishar 2).
   3. Click slot 10 (50,168): the item lifts onto the cursor.
   4. Disk → SAVE → `pick25a`. Expected: Rüstungsbyte 1336 sinkt um den Rüstungswert des Gegenstands, 1056/57 → 00 00 (Werte: private).
   5. Click slot 10 (50,168) again: drop.
-  6. SAVE → `pick25b`. Expected: 1336 0→4, 1056/57 = FF E7.
-  - If saving while the cursor is holding the item is refused, skip step 4 and only check the A→B round trip (4 → 4), plus the screenshot of the armour display.
+  6. SAVE → `pick25b`. Expected: 1336 steigt um den Rüstungswert, 1056/57 = Item-Code des Gegenstands (Werte → private SW-B2).
+  - If saving while the cursor is holding the item is refused, skip step 4 and only check the A→B round trip (1336 unverändert), plus the screenshot of the armour display.
 - *(Savewerte → `private/pickup-contract-ishar2-savewerte.md`, SW-4)*
   - *(Savewerte → `private/pickup-contract-ishar2-savewerte.md`, SW-5)*
   - Expected: Rüstungsbytes 1336/1337 verschieben sich um den Rüstungswert des Gegenstands (Werte: private). This equals Hoth's CH2N (5ba27aa6…).

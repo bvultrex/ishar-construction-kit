@@ -97,13 +97,13 @@
       "save": "S1",
       "action": "kill c3 by c0",
       "diff": {
-        "4008": "FE->FF",
-        "4013": "FF->00",
-        "4023": "FE->FF",
+        "4008": "->FF (Ausgangswert → private SW-B2)",
+        "4013": "->00 (Ausgangswert → private SW-B2)",
+        "4023": "->FF (Ausgangswert → private SW-B2)",
         "474-475": "->0",
         "4031": "FF",
-        "3765": "04->00",
-        "731": "stays 06"
+        "3765": "->00 (Ausgangswert → private SW-B2)",
+        "731": "unverändert"
       },
       "decides": "rel index order",
       "evidence": "suspected"
@@ -354,13 +354,13 @@
           ]
         ],
         "expect": {
-          "4008": "FE->FF",
-          "4013": "FF->00",
-          "4023": "FE->FF",
+          "4008": "->FF (Ausgangswert → private SW-B2)",
+          "4013": "->00 (Ausgangswert → private SW-B2)",
+          "4023": "->FF (Ausgangswert → private SW-B2)",
           "474-475": "0",
           "4031": "FF",
-          "3765": "04->00",
-          "731": "06"
+          "3765": "->00 (Ausgangswert → private SW-B2)",
+          "731": "unverändert"
         }
       },
       "T3": {

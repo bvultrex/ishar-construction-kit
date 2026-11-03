@@ -51,5 +51,30 @@
   "N4",
   "N5",
   "N6"
- ]
+ ],
+ "nachtrag_2026-11-03_tabelle_4d88": {
+  "tabelle": "0x4d88",
+  "eintraege": 114,
+  "format": "3 Byte (r,c,Zone)",
+  "quelle": "PARAM.IO 0x0278e..0x03b14 (342 Stores, dirw 0x0e 0..113)",
+  "korrigiert": "vorher 120 – falsch",
+  "beleg": "known",
+  "karte6_wanderzonen": {
+   "zonen": [
+    44,
+    47,
+    48,
+    58
+   ],
+   "beleg": "suspected"
+  },
+  "cont_format_ishar2": {
+   "spalten": 60,
+   "zeilen": 180,
+   "A": "file[r*60+c]",
+   "B": "file[5400+r*60+c]",
+   "gegenprobe": "CONT5 r44c23=-76, r40c29=-74",
+   "beleg": "known"
+  }
+ }
 }

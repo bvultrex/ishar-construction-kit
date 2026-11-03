@@ -52,8 +52,15 @@ Zielwahl über das Formationsgitter `0x49e6[5][5]` (Save 7111), von der Angriffs
 | N2 | wie N1, Abstand 4 | 2 Ticks | ein Schritt, danach Cooldown 2. Doppelt so träge wie Ishar 1 bei gleicher Fenstergröße/Taktung (suspected) |
 | N3 | Monster hinter geschlossener Tür (0x4aa4=0), `0x2d18 > 4` | warten | Monster bleibt stehen. Mit Patch Tür=1 läuft es durch. |
 | → `private/monster-ki-ishar2-savewerte.md` SW-1 |  |  |  |
-| N5 | Monster in 0x4b80 | töten | nur der eigene Slot = 0 (combat-contract: 7576 91→0) |
+| N5 | Monster in 0x4b80 | töten | nur der eigene Slot = 0 (combat-contract: Byte 7576 → 0; Werte → private/monster-ki-ishar2-savewerte.md SW-B2) |
 | N6 | Zone mit Wandermonstern (Eintrag in 0x4d88) | speichern, laden, Akteure 90+ vergleichen | **Hoth/Alderaan:** Unterschiede belegen das Neuwürfeln. Gleiche Werte belegen einen Sync, und dieser Vertrag muss korrigiert werden. |
 
 ## 8. Offen
 - Die Bedeutung von `0x2d18` (Kartentyp?), Haltung 9, `0x35ce` und `0x47a4`, die Struktur der Tabelle `0x4d88` sowie die Wanderbewegung ohne Party-Sichtkontakt (EAFF nicht vollständig gelesen).
+
+## Nachtrag 2026-11-03 (Tabelle 0x4d88, CONT-Format)
+- **known:** PARAM.IO 0x0278e..0x03b14 (nicht nur ..0x03a64) schreibt 342 Bytes in `0x4d88` = **114 Einträge** à 3 Byte (r, c, Zone). Index `dirw 0x0e` startet bei 0, 113× `cadd 1`. Bis 0x03a64 sind es 110 Einträge, der Rest folgt bis 0x03b14. Die frühere Angabe „120“ ist falsch.
+- **known (statisch):** Zonenwerte der Tabelle umfassen u. a. 44 (4×), 47 (7×), 48 (3×), 58 (5×) sowie negative Werte (−5/−10/−54).
+- **suspected (Auftrag/Hoth, nicht selbst gegen Karte 6 geprüft):** Auf Karte 6 wandern nur Monster in den Zonen 44/47/48/58.
+- **known (Korrektur CONT-Format Ishar 2):** 60 Spalten × 180 Zeilen; A(r,c) = file[r·60+c], B(r,c) = file[5400+r·60+c]. Gegenprobe CONT5: r44c23 = −76, r40c29 = −74.
+- Nächster Test: Zuordnung Zonen → Karte 6 per Save (Akteure 90+ in Zone 44/47/48/58) bestätigen.
