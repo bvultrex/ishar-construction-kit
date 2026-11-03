@@ -80,7 +80,7 @@ A routine contract for player melee, monster melee, death/XP, level-up and RNG, 
   - **HP 0x2d5c[slot] −= dmg**, clamped ≥ 0. 0x4b1a[slot][0..4] = 0.
 - **Cooldown:** `dirti20[id] = (0x4fcc/480)·(40/(AGI_m+1))`. **proven** (formula)
 - *(Savewerte → `private/combat-contract-ishar2-savewerte.md`, SW-6)*
-  - So HP loss = number of hits: c0 −51, c1 −35. **hypothesis** (number of hits not counted); a clear testable prediction.
+  - So HP loss = number of hits (values → private/combat-contract-ishar2-savewerte.md SW-B1). **hypothesis** (number of hits not counted); a clear testable prediction.
 
 ## R4. Death, XP, loot (FRISE 0x0578e–0x0595b)
 - **If 0x36ac[id] ≤ 0:**
@@ -107,11 +107,11 @@ A routine contract for player melee, monster melee, death/XP, level-up and RNG, 
 - **ENCB:**
   | Character | XP | 3·XP/10 | Level formula | Stored level | Result |
   |---|---|---|---|---|---|
-  | c0 | [Wert aus Original-Save entfernt; nur lokal in private/] |
-  | c1 | [Wert aus Original-Save entfernt; nur lokal in private/] |
-  | c2 | [Wert aus Original-Save entfernt; nur lokal in private/] |
-  | c3 | [Wert aus Original-Save entfernt; nur lokal in private/] |
-  | c4 | [Wert aus Original-Save entfernt; nur lokal in private/] |
+  | c0 | 1600 | 480 | 22 | 22 | no change |
+  | c1 | 1468 | 440 | 21 | 21 | no change |
+  | c2 | 1209 | 362 | 19 | 19 | no change |
+  | c3 | 31 | — | 3 | 7 | not higher → no change |
+  | c4 | 16 | — | 2 | 6 | not higher → no change |
   **No level-up and no RNG call.** ✓ ENCB levels unchanged.
 
 ## R6. RNG

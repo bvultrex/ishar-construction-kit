@@ -259,7 +259,7 @@
     ]
    ],
    "expect": {
-    "771": "72->58",
+    "771": "sinkt um Zauberkosten (→ private/magic-contract-ishar1-savewerte.md SW-B1)",
     "4185-4186": "~720 minus elapsed",
     "4931": "0x1E",
     "5024": "stays 30"
@@ -289,7 +289,7 @@
    "expect": {
     "p_hit": "93%",
     "dmg": 14,
-    "772": "75->66 hit or miss"
+    "772": "sinkt um Zauberkosten, Treffer oder Fehlschuss (→ private/magic-contract-ishar1-savewerte.md SW-B1)"
    },
    "evidence": "suspected"
   }

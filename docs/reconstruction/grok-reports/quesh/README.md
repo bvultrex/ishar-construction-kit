@@ -1,6 +1,6 @@
 # Quesh: NPC/actor/item data flow (READ-ONLY analysis), 2026-10-18
 
-- **Base commit:** clone `/workspace/ishar/clones/quesh` from `https://github.com/bvultrex/ishar-construction-kit`, branch `workbench/playable-slice`, HEAD `bb42748` (handoff). The reviewed code state is `319819c83d8dfe30675bba3ad8a51b43c3afc871`, and both commits are present. Nothing changed, committed or pushed.
+- **Base commit:** clone `/workspace/ishar/clones/quesh` from `https://github.com/bvultrex/ishar-construction-kit`, branch `workbench/playable-slice`, HEAD `bb42748` (handoff). The reviewed code state is `319819c83d8d`, and both commits are present. Nothing changed, committed or pushed.
 - **Profiles:** local DOS originals in `/workspace/ishar/originals` (read only).
   - Ishar 1 `start.exe` `3ea63234…988b`, MAIN.IO `27c5834d…06c5`.
   - Ishar 2 `start.exe` `5e35e58d…adf9`, MAIN.IO `bfab5e91…db95`.
