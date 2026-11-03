@@ -36,3 +36,6 @@ Plausibilitätsblick, nur gelesen und nicht in die Fixtures übernommen, auf S1.
 - Checker grün: ja, aber nur Selbstkonsistenz von Python und JS. Das belegt nicht das Originalspiel.
 - Kit deckt Ishar-1-Magie ab: nein (33 Vektoren fehlen, 2 Offsets weichen ab).
 - Offen (nicht geprüft): Laufzeitbeleg für T1/T2/T3, Werte T, Bedeutung von Item 40, T[36].
+
+## Nachtrag 2026-11-03
+Laufbeleg Save: MENTAL 768+c, Level 738+c, Class 728+c known (HOA/HOB); Kit-ISHAR1_SAVE psychic 0x2e9/level 0x3e2 widerlegt.

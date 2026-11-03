@@ -87,3 +87,6 @@ The probe fits 48 of 84 cases. The 36 non-fitting cases are all "missing", not "
 5. Clock limit of 1000 and the pause condition 0x2ab7 only come from Quesh. Day phase at hours 9–21 has not been observed by me.
 6. maxHP 1016 is still open (from XP_GOLD), so there is no vector for it.
 7. The fixture expected values come partly from Python formulas from the same source contract. The reference model is a second implementation, but it is not independent of the contract. The mutation test only proves the checker is strict.
+
+## Nachtrag 2026-11-03 (Commit 3f3c7b3)
+M49 korrigiert: turn -> {7386:0} known (HOT5F). M58 neu: blockedStep -> {} suspected. M48/M52/M54/M56 = Kit-Lücken (kein Turn-Hook, keine Kontaktliste), Fixtures richtig. Checker grün, Audit 0, Probe 57/136.
