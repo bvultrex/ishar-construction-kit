@@ -14,20 +14,20 @@ Ratings: **proven** = read in code (and checked against saves where stated). **h
 ## SHA-256 (originals/ishar2/Ishar2)
 | File | SHA-256 prefix |
 |---|---|
-| GESORT.IO (spell module, id 7) | 71f842f2a804d80a… |
-| FRISE.IO (HUD/party, id 6) | 27117c124caf904a… |
-| PARAM.IO (init/spell table) | d06a65de13628470… |
-| EATT.IO (actors, monster casting) | d5ef72a5b25eabb5… |
-| MAIN.IO | bfab5e9175931dbb… |
-| SOURIS.IO (mouse) | 78df7c73f8804663… |
-| PPECHAP.IO (timescale scene, id 0x72) | 8d1c67dcccb139e3… |
-| TAVERNE.IO | ea315973f2187950… |
-| MARCHAND.IO | a5b84f95b8b50f1c… |
-| MESSAGEE.IO / MESSAGED.IO | 7ef08cd36e37d6a5… / 94f80de429cc6284… |
-| BUSTE.IO (id 0x13) | 8e6ff516cf14c472… |
+| GESORT.IO (spell module, id 7) | 71f842f2a804… |
+| FRISE.IO (HUD/party, id 6) | 27117c124caf… |
+| PARAM.IO (init/spell table) | d06a65de1362… |
+| EATT.IO (actors, monster casting) | d5ef72a5b25e… |
+| MAIN.IO | bfab5e917593… |
+| SOURIS.IO (mouse) | 78df7c73f880… |
+| PPECHAP.IO (timescale scene, id 0x72) | 8d1c67dcccb1… |
+| TAVERNE.IO | ea315973f218… |
+| MARCHAND.IO | a5b84f95b8b5… |
+| MESSAGEE.IO / MESSAGED.IO | 7ef08cd36e37… / 94f80de429cc… |
+| BUSTE.IO (id 0x13) | 8e6ff516cf14… |
 | start.exe | 5e35e58d…adf9 |
-| START.SAV | e685cd6902575392… |
-| LEVELING.SAV | dac7e0a405fa442a… |
+| START.SAV | e685cd690257… |
+| LEVELING.SAV | dac7e0a405fa… |
 
 Conventions:
 - `op(opile)` = popped OP acc. `ornd n` = (r·n)>>16, giving 0..n−1. The RNG is start.exe 1000:6d7b and always advances, even for rnd(0).
@@ -60,7 +60,7 @@ Conventions:
   - FRISE L_00b20 0x00b94 sets −1 for every class not in {0, 5, 6, 9, 13, 16, 18, 19}, which hides the red-dot magic icon.
   - FRISE 0x05f30 sets 0 otherwise.
   - **proven**
-- An MP restore of 54 → 67 seen between two unrelated saves is unexplained. Different save points are involved. **open**
+- An MP restore (values: private) seen between two unrelated saves is unexplained. Different save points are involved. **open**
 
 ## R2. Classes (MESSAGEE 0x01fe0) and spell access
 Class names by id:
@@ -310,58 +310,22 @@ Shared procedure:
 - Expected noise: the clock bytes (45/49) only.
 
 ### T1: START.SAV (e685cd69…), Physical protection on the warrior
-The party:
 
-| Slot | Class | Level | Spells (id, power) |
-|---|---|---|---|
-| C0 | Warrior | 5 | – |
-| C1 | Archer | 5 | – |
-| C2 | Barbarian | 6 | – |
-| C3 | Occult monk | 4 | INT 19, MP 100: (2,1) (3,1) (24,2) |
-| C4 | Priest | 4 | WIS 19, MP 100: (1,2) (2,1) |
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/magic-contract-ishar2-savewerte.md`, SW-2.*
 
-Clicks:
-1. (248,131): opens C3's spell panel; icons for 2, 3 and 24 appear in the top row of portrait IV.
-2. (200,145): slot 0 = spell 2; the cursor changes to the target cursor.
-3. (32,160): target C0.
-
-Expected (**hypothesis = prediction from proven code**):
-- C3's MP display goes 100 → **97**.
-- Status icon 2 appears for C0 and **disappears after about 300 frames (about 13 s)**.
-- Save B, if taken within about 10 s:
-  - 1324 = 97 (0x61);
-  - 1216/1217 = 0x001E (30) minus the elapsed tenths of passes, so between 1 and 30;
-  - one byte in 7579..7588 = 2.
-- Save C, taken after more than 20 s: 1216/1217 = 0, the icon byte is 0 again, and 1324 stays 97.
-- Optional follow-up: (216,145) spell 3, then (96,160) target C1. Expected 0x2e7a[1] at 1248/1249 = 30, icon 3 on C1 and MP 1324 = 94.
-- **No RNG** is involved, so T1 is deterministic.
+Relative Erwartung: MP des Zaubernden sinkt um die Kosten nach L_00f3b; Schutzwert beim Ziel gesetzt (R6).
 
 ### T2: LEVELING.SAV (dac7e0a4…), Healing (deterministic)
-- Party state: C4 Scholar, level 6, MP 100, spells (1,2) (2,2) (6,1) (21,1). C0 has HP 235/240.
-- Clicks:
-  1. (312,131): opens C4's panel.
-  2. (264,145): slot 0 = Healing.
-  3. (32,160): target C0.
-- Expected:
-  - 6 × (rnd(6) + 1) ≥ 6 > 5 missing, so **C0 HP = 240** exactly (save 996/997 = 0x00F0).
-  - **C4 MP = 94** (save 1325).
-  - Six RNG draws. **hypothesis-prediction**
+
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/magic-contract-ishar2-savewerte.md`, SW-3.*
+
+Relative Erwartung: MP des Zaubernden sinkt um die Kosten (z. B. 3·Stärke nach L_00f3b); HP des Ziels steigt laut Heilformel, gedeckelt bei max HP.
 
 ### T3: LEVELING.SAV, Lightning on the guard group (RNG)
-- C2 Magician, level 19, INT 17, MP 100.
-- Page 0 holds 2, 3, 5, 6, 7, 11, 14, 15, 16. Page 1 holds 18, 19, 20, 22, 24(p7), **25(p4)**, 26, 27, 28. Page 2 holds 29.
-- The party is at (65,12), zone 21. The hostile guards (race 33, ARM 0x418c = 0) are actors 90–92 at (65,11), 93–95 at (65,10), 96–98 at (65,9) and 99–101 at (64,8).
-- Clicks (no target needed):
-  1. (184,131): opens C2's panel.
-  2. (184,160): next page.
-  3. (168,160): page 1 slot 5 = Lightning.
-- Expected:
-  - **C2 MP 100 → 88** (save 1323).
-  - **Actors 90–95** (|Δcol| ≤ 2) lose the **same** amount D = ⌊6·s/4⌋, where s = rnd(10) + rnd(8) ∈ 0..16. So D ∈ {0, 1, 3, 4, 6, 7, 9, 10, 12, 13, 15, 16, 18, 19, 21, 22, 24}. Their HP is at 3261 + 2id.
-  - **Actors 96–101 are unchanged** (Δcol = 3 / 4).
-  - Nobody dies (guard HP is 72+).
-  - The guards' sleep words 4141 + 2id stay 0.
-- A variant is Fireball: page 1 slot 4 → (152,160), then click a guard sprite. One guard loses an **even** amount 2·s (0..32), and MP goes to 79.
+
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/magic-contract-ishar2-savewerte.md`, SW-4.*
+
+Relative Erwartung: MP sinkt um die Kosten; jedes getroffene Ziel verliert HP nach der Schadensformel (L_00f11, RNG).
 
 ## Limits
 - Static only. No game run. All save diffs in R9 are predictions.

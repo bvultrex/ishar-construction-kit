@@ -1,0 +1,81 @@
+{
+ "spiel": "Ishar 1",
+ "akteure": {
+  "anzahl": 70,
+  "monster_ab": 28,
+  "save": {
+   "x": "1448+2i",
+   "y": "1588+2i",
+   "hp": "1728+2i",
+   "typ": "2638+i",
+   "haltung": "3688+i",
+   "zone": "4033+i",
+   "verfolgt": "4103+i",
+   "heim_x": "4781+i",
+   "heim_y": "4851+i",
+   "kontakt": "4778..4780"
+  }
+ },
+ "scheduler": {
+  "fenster": 5,
+  "start": 28
+ },
+ "bewegung": {
+  "bedingung": "-30<=h<=-2 oder h==-41, |dx|,|dy|<=|h|",
+  "ziel": "Zelle vor Party",
+  "nachbarn_dx": [
+   0,
+   -1,
+   -1,
+   -1,
+   0,
+   1,
+   1,
+   1
+  ],
+  "nachbarn_dy": [
+   -1,
+   -1,
+   0,
+   1,
+   1,
+   1,
+   0,
+   -1
+  ],
+  "cooldown": 1,
+  "leine": "|neu-heim|<|h|",
+  "x_bereich": "3<x<50",
+  "tueren": "nicht geprueft (suspected)",
+  "rng": null
+ },
+ "kontaktliste": {
+  "var": "0x3d54",
+  "slotfolge": [
+   1,
+   0,
+   2
+  ],
+  "leeren": "Schritt (GERDEP L_016a1)",
+  "tod": "keine Leerung"
+ },
+ "drehen": "erster 0x3958!=0 -> 0, ENCONT wecken",
+ "angriff": {
+  "nachbarschaft": "orthogonal/gleiche Zelle",
+  "cooldown": "40/(AGI+1)+rnd(5)",
+  "rng_extra": "rnd(100)<50 bei 0x3ad6>0"
+ },
+ "wandermonster": {
+  "akteure": "60..69",
+  "trigger": "0x3eac!=0x422f",
+  "nach_laden": "kein Neuwuerfeln (MAIN 0x04c51 sync) known"
+ },
+ "tests": [
+  "M1",
+  "M2",
+  "M3",
+  "M4",
+  "M5",
+  "M6"
+ ]
+}

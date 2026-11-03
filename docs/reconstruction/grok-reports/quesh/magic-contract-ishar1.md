@@ -14,16 +14,16 @@ Ratings: **proven** = read in code (and checked against saves where stated). **h
 ## SHA-256 prefixes (originals/ishar1/Ishar1)
 | File | SHA-256 prefix |
 |---|---|
-| FRISE.IO (HUD, action menu, casting, timers; id 4) | 3bd158963fdaf0f8 |
-| STAGE.IO (trainer; id 0x36) | 1b5f4b5ce7222aa7 |
-| PARAM.IO (init, spell-level table 0x4010) | f42ea12ceffa6b87 |
-| GEREN.IO (actor manager, actor timers, monster spells) | 60405e4537abff12 |
-| SOURIS.IO (mouse, 3-D pick) | 2bbc1362e2f84c51 |
-| MESSAGEE.IO (English texts: names, menus) | 1b6a76f2c931e4dd |
-| MAIN.IO (save list, building dispatch) | 27c5834de005afc9 |
-| ITAVERNE.IO (sleep: mental restore) | f3bed78c5fb97360 |
-| start.exe | 3ea63234c97b77d8 |
-| S1.SAV / LP1.SAV | 92023f2b51e34f74 / 76cf91a104ec8675 |
+| FRISE.IO (HUD, action menu, casting, timers; id 4) | 3bd158963fda |
+| STAGE.IO (trainer; id 0x36) | 1b5f4b5ce722 |
+| PARAM.IO (init, spell-level table 0x4010) | f42ea12ceffa |
+| GEREN.IO (actor manager, actor timers, monster spells) | 60405e4537ab |
+| SOURIS.IO (mouse, 3-D pick) | 2bbc1362e2f8 |
+| MESSAGEE.IO (English texts: names, menus) | 1b6a76f2c931 |
+| MAIN.IO (save list, building dispatch) | 27c5834de005 |
+| ITAVERNE.IO (sleep: mental restore) | f3bed78c5fb9 |
+| start.exe | 3ea63234c97b |
+| S1.SAV / LP1.SAV | 92023f2b51e3 / 76cf91a104ec |
 
 Conventions: `op(opile)` = popped OP acc. `rnd(n)` = (r·n)>>16 ∈ 0..n−1, start.exe 1000:6d7b, always advances. Words big-endian, element i at off+2i. c/t = party slot 0..4 (caster/target), a = actor id, s = spell id, L = caster level 0x167c[c], M = caster MENTAL 0x16b4[c] at cast start.
 
@@ -85,7 +85,7 @@ Names: MESSAGEE L_01d0e (number in the name = intended level). `lvl(s) = T[s−1
 - **Price = 3000·lvl(s)** gold (0x3f12 = 3·lvl thousands, 0x3f10 = 0 units). Paid **from the chosen character only**: refused (message −21) if 1000·gold_k + gold_u < price (compare 0x00747 on 0x154e/0x3770). Subtraction with borrow L_009cf. **proven**
 - **Success roll after payment:** `rnd(13) + lvl(s) < WIS` (classes 0, 2, 5; 0x1694) or `< INT` (all others; 0x169c). Fail → message −49, **gold is kept by the trainer**. **proven**
 - Success → L_0085f: first empty slot of 0x16de[c][0..9]; if slot 9 is occupied the player picks a slot to overwrite (L_008a7). **proven**
-- Recruits bring 3 spells: FRISE 0x03697 copies 0x221e[npc][0..2] → 0x16de[slot][0..2] and clears 3..9 (explains e.g. a witch with 25/32 in LP.SAV). **proven** (code), consistent with all 14 saves (every spell set is either trainable for the class or within the first 3 slots).
+- *(Savewerte → `private/magic-contract-ishar1-savewerte.md`, SW-1)*
 
 ## R5. Casting (FRISE)
 ### Input path
@@ -148,24 +148,25 @@ All offsets **proven** (MAIN cfwriteb list).
 - Rune: portrait (64c+32,160) then (64c+7,168).
 
 ## R9. Reproducible tests
-Shared: load as Alderaan (`s1`: disk (309,56) → LOAD (160,155) → name → Return). Take save A immediately (costs 1000 GS from c2: byte 483 −1), do the clicks, take save B. Diff A→B (private/savediff-style on the Ishar 1 layout).
+*(Savewerte → `private/magic-contract-ishar1-savewerte.md`, SW-2)*
 
-### T1 (deterministic): S1, Mental shield by c3 (Wizard, L 8, MENTAL 72, spells 18/30/28) on c0
-1. (208,132) ACTION c3 → menu with CAST SPELL.
-2. (40,193) CAST SPELL → list: 18 (y143), 30 (y153), 28 (y163).
-3. (40,163) MENTAL SHIELD → target cursor.
-4. (32,160) target c0.
-Expected (prediction from proven code): roll `rnd(100) < 8·8+72 = 136` always succeeds (1 RNG draw). **771: 0x48 → 0x43** (72 → 67, cost sl(28)+5 = 0+5; if the game used lvl(s) it would be 61 = 0x3D, which would **contradict** R3). **698/699 = 0x02D0 (720)** minus the FRISE passes until the save (1..720). **4921 = 0x1C** (icon 28) while the timer runs; icon and timer 0 after ~720 passes. Only other diff: 483 (save cost).
+### T1 (deterministic): S1, Mental shield by c3 on c0
 
-### T2 (deterministic): S1, rune Regeneration (c3 rune 0x3ee6 = 30 in S1, byte 5024)
-1. (224,160) portrait c3 → hands panel.
-2. (199,168) rune icon → target cursor.
-3. (96,160) target c1.
-Expected: 771: 72 → **58** (sl(30) = 9, cost 14); **4185/4186 = 720 − elapsed** (0x39ae[1]); 4931 = 0x1E (icon 30); c1 HP stays 137 (already max). 5024 stays 30 (rune not consumed).
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/magic-contract-ishar1-savewerte.md`, SW-3.*
 
-### T3 (RNG): LP1 encounter (Alderaan ENCA route), Fireball by c4 (Wizard L10, MENTAL 75; list 26/30/23/28)
-After reaching (21,52) with the group visible: (272,132) ACTION c4 → (40,193) → FIREBALL at (40,163) → click a monster sprite.
-Expected: hit with p = 93 % (`rnd(100) < 75 − 3·(4−10)`), **dmg exactly 14** (L+sl(23) = 10+4, no RNG), monster HP at 1728+2a − 14 (floor 0; 63/64/67/68 die, 65/66 keep 1). 772: 75 → **66** on hit or miss. XP capped (no change).
+Relative Erwartung: Erfolg ist sicher, wenn 8·L + MENTAL ≥ 100 (ein RNG-Zug). MENTAL des Zaubernden sinkt um die Kosten sl(s)+5 (R2). Status-Icon beim Ziel gesetzt.
+
+### T2 (deterministic): S1, rune Regeneration
+
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/magic-contract-ishar1-savewerte.md`, SW-4.*
+
+Relative Erwartung: Runenwert 0x3ee6 (5021+c) wirkt wie in den Runenregeln beschrieben; außer den dort genannten Offsets ändert sich nichts.
+
+### T3 (RNG): LP1 encounter (Alderaan ENCA route), Fireball by c4
+
+*Ausgangszustand, Ablauf und konkrete Sollwerte: `private/magic-contract-ishar1-savewerte.md`, SW-5.*
+
+Relative Erwartung: MENTAL sinkt um die Kosten; Schaden je Ziel = L + sl(s), ohne Schadens-RNG und ohne Rüstung; RNG nur beim Erfolgswurf.
 
 ## Limits
 - Static only; all diffs are predictions. Timer seconds depend on the FRISE interrupt rate (hypothesis). Meaning of item 40, of 0x22f2 = −10 (Repulse) and the visible Charm result are open. T[36] value open (0 assumed).

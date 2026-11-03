@@ -2,20 +2,20 @@
  "base": "bb42748",
  "game": "ishar2-dos",
  "files": {
-  "GESORT.IO": "71f842f2a804d80a",
-  "FRISE.IO": "27117c124caf904a",
-  "PARAM.IO": "d06a65de13628470",
-  "EATT.IO": "d5ef72a5b25eabb5",
-  "MAIN.IO": "bfab5e9175931dbb",
-  "SOURIS.IO": "78df7c73f8804663",
-  "PPECHAP.IO": "8d1c67dcccb139e3",
-  "TAVERNE.IO": "ea315973f2187950",
-  "MARCHAND.IO": "a5b84f95b8b50f1c",
-  "MESSAGEE.IO": "7ef08cd36e37d6a5",
-  "MESSAGED.IO": "94f80de429cc6284",
-  "BUSTE.IO": "8e6ff516cf14c472",
-  "START.SAV": "e685cd6902575392",
-  "LEVELING.SAV": "dac7e0a405fa442a"
+  "GESORT.IO": "71f842f2a804",
+  "FRISE.IO": "27117c124caf",
+  "PARAM.IO": "d06a65de1362",
+  "EATT.IO": "d5ef72a5b25e",
+  "MAIN.IO": "bfab5e917593",
+  "SOURIS.IO": "78df7c73f880",
+  "PPECHAP.IO": "8d1c67dcccb1",
+  "TAVERNE.IO": "ea315973f218",
+  "MARCHAND.IO": "a5b84f95b8b5",
+  "MESSAGEE.IO": "7ef08cd36e37",
+  "MESSAGED.IO": "94f80de429cc",
+  "BUSTE.IO": "8e6ff516cf14",
+  "START.SAV": "→ private/magic-contract-ishar2-savewerte.json#/files/START.SAV",
+  "LEVELING.SAV": "→ private/magic-contract-ishar2-savewerte.json#/files/LEVELING.SAV"
  },
  "semantics": "op(opile)=popped OP acc; ornd n=(n*r)>>16; rng start.exe 1000:6d7b, always advances",
  "mp": {
@@ -527,7 +527,7 @@
     ]
    ],
    "expect": {
-    "1324": "100->97",
+    "1324": "[Savewert entfernt]",
     "1216-1217": "1..30 if saved <10s, 0 after >20s",
     "7579-7588": "one byte=2 while active",
     "icon_life": "~300 frames"
@@ -568,8 +568,8 @@
     ]
    ],
    "expect": {
-    "996-997": "235->240",
-    "1325": "100->94"
+    "996-997": "[Savewert entfernt]",
+    "1325": "[Savewert entfernt]"
    },
    "rng": 6,
    "rating": "hypothesis (prediction, deterministic)"
@@ -591,7 +591,7 @@
     ]
    ],
    "expect": {
-    "1323": "100->88",
+    "1323": "[Savewert entfernt]",
     "actors_90_95": "same HP loss D=floor(6s/4), s 0..16",
     "actors_96_101": "unchanged"
    },
@@ -625,7 +625,7 @@
   "materials 66/67 doors",
   "0x2e62 writer",
   "BUSTE -101 visual",
-  "MP 54->67 unexplained",
+  "MP change [Savewert entfernt] unexplained",
   "no runtime cast diff"
  ]
 }
