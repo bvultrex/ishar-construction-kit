@@ -12,28 +12,33 @@
 2. Bytes 0..33: 17 BE16-Wörter; Byte-Variablen werden sign-extended gespeichert (z. B. 0x41e6 = −1 → `ff ff`).
 3. Danach Struct-of-Arrays: je Feld 5 (Party) bzw. 70 (Akteure) Einträge hintereinander. Wort-Arrays (`ti`) BE16, Byte-Arrays (`tc`) 1 Byte. Darum gilt in FieldSpec `stride = size`.
 4. Die bisherigen ISHAR1_SAVE-Offsets (0x2d5 hp, 0x2df gold, 0x2e9 psychic, 0x3e2 level, 0x3e7…0x400 Attribute) sind **widerlegt**: 0x2d5 = Low-Byte von Gift 0x1658[3]; 0x2df = Rasse c2; 0x2e9 = Stärke c2; 0x3e2…0x400 liegen im NPC-Namensblock 0x1746. Ersetzen.
-5. *(Savewerte → `private/save-map-ishar1-savewerte.md`, SW-1)*
+5. **(korrigiert)** Gesamtgold = `goldThousands` (478+2c, 0x154e)·1000 + `gold` (3993+2c, 0x3770, Rest 0..999). Beispielwerte: `private/save-map-ishar1-savewerte.md` SW-1.
 6. Hoths Offsets 7386/7576 (Teil 2/3) liegen jenseits 5216 → gehören zu Ishar 2, nicht in diese Map.
+
+## Korrigierter Befund (2026-11-03)
+- **Gold vertauscht:** 478+2c (`main 0x154e`) = **Tausender**, 3993+2c (`main 0x3770`) = **Rest 0..999**; Gesamtgold = 0x154e·1000 + 0x3770. known, Beleg: Hoth `HOTH_FIXTURES_ISHAR1_SAVEMAP.md` SM06–SM08 (Anzeige, HOA→HOB, Spielaktion HSM1).
+- **Ursache:** Der Code ist eindeutig, der Fehler entstand beim Übertrag. STAGE 0x0079e lädt `0x154e[c]` nach `dirw 0x14`, 0x007a8 `0x3770[c]` nach `dirw 0x16`. L_009cf vergleicht zuerst `dirw 0x14` (höherwertiger Teil), addiert `dirw 0x16 div 1000` auf 0x14, rechnet 0x16 mod 1000 und borgt −1 von 0x14. Damit ist 0x14 = 0x154e der Tausenderteil. shop-tavern-contract-ishar1 hatte das schon richtig („thousands 0x154e … units 0x3770“); in der Save-Map-Zusammenfassung wurden die Bezeichnungen vertauscht und nicht erneut gegen STAGE geprüft.
+- Klasse 728+c, Level 738+c, MENTAL 768+c: known, durch Hoths Abnahme bestätigt (SM02–SM04).
 
 ## Party-Felder (für `fields`)
 | id | Offset (c = 0..4) | Größe | Variable | Bereich | Beleg |
 |---|---|---|---|---|---|
 | xp | 458+2c | BE16 | 0x1536 | 0..32767 | known (FRISE 0x076bf) |
 | hp | 468+2c | BE16 | 0x1542 | 0..hpMax | known (VITALITY) |
-| gold | 478+2c | BE16 | 0x154e | 0..999 | known |
+| goldThousands | 478+2c | BE16 | 0x154e | Tausender | known (Hoth SM06–SM08) |
 | hpMax | 488+2c | BE16 | 0x155a | | known |
 | Inventar | 498+26c+2k | BE16 | 0x1568 | Item-Code | known (Basis), Slot 11/12 suspected |
-| class | 728+c | u8 | 0x1664 | 0..18, 255 leer | known |
+| class | 728+c | u8 | 0x1664 | 0..18, 255 leer | known (auch Hoth SM02) |
 | race | 733+c | u8 | 0x166c | 1..5 | known |
-| level | 738+c | u8 | 0x167c | 1..10 | known |
+| level | 738+c | u8 | 0x167c | 1..10 | known (auch Hoth SM03) |
 | strength / constitution / wisdom / intelligence / agility | 743/748/753/758/763 +c | u8 | 0x1684/0x168c/0x1694/0x169c/0x16a4 | | known (FRISE 0x07764ff) |
-| psychic (MENTAL) | 768+c | u8 | 0x16b4 | 0..100 | known |
+| psychic (MENTAL) | 768+c | u8 | 0x16b4 | 0..100 | known (auch Hoth SM04) |
 | physical (Sättigung) | 773+c | u8 | 0x16bc | 0..100 | known |
 | temper | 778+c | u8 | 0x16cc | | suspected |
 | armor | 783+c | u8 | 0x16d4 | | known |
 | Zauberbuch | 788+20c+k | u8 | 0x16de | | known |
 | npcId | 4028+c | u8 | 0x3908 | 0..69, 255 | known |
-| goldThousands | 3993+2c | BE16 | 0x3770 | | known |
+| gold | 3993+2c | BE16 | 0x3770 | 0..999 (Rest) | known (Hoth SM06–SM08) |
 | Skills 1H/2H/Werfen/Schießen/Schlösser/Orientierung/Erste Hilfe/Sprachen | 4738/4743/…/4773 +c | u8 | 0x3d0c…0x3d44 (Schritt 8) | 0..100 | known (MESSAGEE SKILLS-Seite 0x004b4) |
 | rune | 5021+c | u8 | 0x3ee6 | | known |
 | Name | 418+8c | char[8] | 0x150c | ASCII, NUL | known |
@@ -93,7 +98,7 @@ Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UM
 | 418 | 40 | none | `main 0x150c` | 5x8 | Namen Party: 5 × 8 Bytes ASCII, NUL-gepolstert (FRISE 0x0768a druckt) | ASCII | PARAM:11 FRISE:1 | FRISE:5 TEXTIND:3 TEXTIN:3 TEXTINE:3 TEXTINI:3 MESSAGEI:2 | known |
 | 458 | 10 | be | `main 0x1536` | 5 | Erfahrung: XP je Charakter (FRISE 0x076bf), Kill +50·T/+20·T | 0..32767 | FRISE:5 PARAM:1 | FRISE:17 | known |
 | 468 | 10 | be | `main 0x1542` | 5 | Vitalität: aktuelle HP (FRISE 0x076e7), 0 = tot | 0..maxHp | FRISE:13 PARAM:3 GERDEP:2 ITAVERNE:2 INTMAIS:1 GEREN:1 | FRISE:38 GERDEP:5 GEREN:4 ITAVERNE:3 SOURIS:1 PARAM:1 | known |
-| 478 | 10 | be | `main 0x154e` | 5 | Gold (Einer): Gold mod 1000; mit 0x3770 = Tausender; Borgen L_009cf | 0..999 | FRISE:9 SOS:4 INTMAIS:4 SOSD:4 ITAVERNE:4 SOSE:4 | FRISE:16 STAGE:6 SOS:5 INTMAIS:5 SOSD:5 ITAVERNE:5 | known |
+| 478 | 10 | be | `main 0x154e` | 5 | Gold (Tausender): Gold div 1000; Gesamt = 0x154e·1000 + 0x3770 (korrigiert, Hoth SM06–SM08) | 0.. | FRISE:9 SOS:4 INTMAIS:4 SOSD:4 ITAVERNE:4 SOSE:4 | FRISE:16 STAGE:6 SOS:5 INTMAIS:5 SOSD:5 ITAVERNE:5 | known |
 | 488 | 10 | be | `main 0x155a` | 5 | Vitalität max.: maximale HP | 1..32767 | PARAM:3 FRISE:2 | FRISE:7 ITAVERNE:1 | known |
 | 498 | 130 | be | `main 0x1568` | 5x13 | Inventar: 5 × 13 Wörter (Rucksack + Hände [9]/[10] + Rüstung/Helm), Item-Codes | -32768..32767 | PARAM:37 FRISE:19 MARCHAND:1 ITAVERNE:1 | FRISE:40 MARCHAND:2 ITAVERNE:2 GEREN:1 PCAVE:1 | known |
 | 628 | 10 | be | `main 0x15ec` | 5 | Effekt-Timer 0x15ec: Zaubereffekt-Timer (magic-contract) | 0.. | FRISE:2 GEREN:1 PARAM:1 | FRISE:3 GEREN:2 GERDEP:1 | known |
@@ -144,7 +149,7 @@ Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UM
 | 3758 | 25 | none | `main 0x364c` | 25 | Formation 5×5: Wert = Slot+1, 0 leer | 0..5 | FRISE:7 PARAM:7 GEREN:1 | FRISE:13 GEREN:9 | known |
 | 3783 | 140 | be | `main 0x369a` | 70 | Akteur Wort 0x369a: 70 Wörter |  | DPLT:2 FRISE:1 | FRISE:3 PARAM:1 | unknown |
 | 3923 | 70 | none | `main 0x3728` | 70 | Akteur Modus-Kopie: 70 Bytes = 0x22f2 Kopie |  | GEREN:4 FRISE:3 | GEREN:4 | known |
-| 3993 | 10 | be | `main 0x3770` | 5 | Gold (Tausender): Gold div 1000 | 0.. | FRISE:9 SOS:4 INTMAIS:4 SOSD:4 ITAVERNE:4 SOSE:4 | FRISE:15 SOS:5 INTMAIS:5 SOSD:5 ITAVERNE:5 SOSE:5 | known |
+| 3993 | 10 | be | `main 0x3770` | 5 | Gold (Rest/Einer): Gold mod 1000 (korrigiert, Hoth SM06–SM08) | 0..999 | FRISE:9 SOS:4 INTMAIS:4 SOSD:4 ITAVERNE:4 SOSE:4 | FRISE:15 SOS:5 INTMAIS:5 SOSD:5 ITAVERNE:5 SOSE:5 | known |
 | 4003 | 25 | none | `main 0x377e` | 25 | Beziehungen 5×5: Freundschaft zwischen Party-Slots | -128..127 | FRISE:8 PARAM:1 | FRISE:11 TEXTIND:2 TEXTIN:2 TEXTINE:2 TEXTINI:2 GERDEP:1 | known |
 | 4028 | 5 | none | `main 0x3908` | 5 | NPC-Index je Slot: Akteur-Index (0..69) je Party-Slot, −1 leer | 0..69,255 | PARAM:16 FRISE:3 INTMAIS:1 ITAVERNE:1 | GERDEP:11 ITAVERNE:9 BUSTE:6 TEXTIND:5 FRISE:5 TEXTIN:5 | known |
 | 4033 | 70 | none | `main 0x3910` | 70 | Akteur Zone: 70 Bytes; MAIN beim Zonenwechsel |  | MAIN:31 DPLT:2 | FRISE:4 ENCONT:4 GEREN:2 SOURIS:1 GERDEP:1 DPLT:1 | known |

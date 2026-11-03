@@ -21,7 +21,7 @@ Evidence levels: **known** = read in code, **suspected** = plausible, not closed
 | S1.SAV / LP1.SAV | 92023f2b51e3… / 76cf91a104ec… |
 
 ## P1. Slot model and save offsets — known
-5 slots c = 0..4. Per slot: class 0x1664 (728+c, −1 = empty), 0x166c (733+c, attribute used in relations; name **unknown**), HP 0x1542 (468+2c), maxHP 0x155a (488+2c), gold 0x154e/0x3770 (478+2c / 3993+2c), items 0x1568 (498+26c+2k), MENTAL 768+c, food 773+c, 0x16cc (778+c, relation attribute, name **unknown**), **npc id 0x3908 (4028+c, −1 = none)**, **relations 0x377e[i][j] (4003+5i+j, signed byte)**, **grid 0x364c[5][5] (3758+5row+col, value c+1, 0 = empty)**, 0x41e4 (save 20, word: npc 27 flag), NPC HP 0x1b22[npc] (1728+2npc).
+5 slots c = 0..4. Per slot: class 0x1664 (728+c, −1 = empty), 0x166c (733+c, attribute used in relations; name **unknown**), HP 0x1542 (468+2c), maxHP 0x155a (488+2c), gold thousands 0x154e (478+2c) / units 0..999 0x3770 (3993+2c), Gesamt = Tausender·1000 + Rest (known, Hoth SM06–SM08), items 0x1568 (498+26c+2k), MENTAL 768+c, food 773+c, 0x16cc (778+c, relation attribute, name **unknown**), **npc id 0x3908 (4028+c, −1 = none)**, **relations 0x377e[i][j] (4003+5i+j, signed byte)**, **grid 0x364c[5][5] (3758+5row+col, value c+1, 0 = empty)**, 0x41e4 (save 20, word: npc 27 flag), NPC HP 0x1b22[npc] (1728+2npc).
 - *(Savewerte → `private/party-contract-ishar1-savewerte.md`, SW-2)*
 - *(Savewerte → `private/party-contract-ishar1-savewerte.md`, SW-3)*
 
@@ -38,7 +38,7 @@ Living = class ≠ −1 and HP > 0. Counts and votes use living members only; ta
 - Trigger: tavern hire sends message 24 (**suspected** to reach L_01148); world NPC dialog: skipped (NPC dialog contract).
 
 ## P4. Dismiss (action menu case 4 → L_0176c) — known
-Actor a = dirb 0x11, target t = dirb 0x13 (alive, t ≠ a). Votes of every living j ≠ t: v_j = rel[j][t]; yes ≥ no → L_00a76: **HP = 0, npc = −1, class = −1, gold k/u = 0 (gold is lost)**, portrait erased, L_06dbe (grid/items: **unknown**). npc 27 → 0x41e4 = 2. Else message, nothing changes.
+Actor a = dirb 0x11, target t = dirb 0x13 (alive, t ≠ a). Votes of every living j ≠ t: v_j = rel[j][t]; yes ≥ no → L_00a76: **HP = 0, npc = −1, class = −1, gold Tausender/Rest = 0 (gold is lost)**, portrait erased, L_06dbe (grid/items: **unknown**). npc 27 → 0x41e4 = 2. Else message, nothing changes.
 
 ## P5. Kill a member (action menu case 3 → L_0199c) — known
 No vote. t removed from the grid (cell = 0), HP = 0; npc 27 → 0x41e4 = −1; npc = −1; L_06c57 (body/items: **unknown**). Then for every living j ≠ a: with A = rel[j][a], T = rel[j][t]:

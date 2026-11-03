@@ -9,7 +9,7 @@
  "notes": [
   "Layout aus MAIN cfwritev 0x4816–0x4a1c / cfreadv 0x4a43–0x4c49 abgeleitet (known).",
   "Struct-of-Arrays: je Feld 5 Einträge hintereinander, stride = Elementgröße.",
-  "Gold = goldThousands·1000 + gold.",
+  "Gold = goldThousands(478+2c, 0x154e)·1000 + gold(3993+2c, 0x3770) – korrigiert 2026-11-03 nach Hoth.",
   "Klassennamen nach MESSAGED (DE); ISHAR2_CLASSES gilt NICHT für Ishar 1.",
   "Geprüft gegen 23 eindeutige Ishar-1-Saves, keine Bereichsverletzung."
  ],
@@ -69,28 +69,10 @@
    "tooltip": "Erfahrungspunkte"
   },
   {
-   "id": "gold",
-   "label": "Gold (Einer)",
-   "labelEn": "Gold (units)",
-   "offset": 478,
-   "size": 2,
-   "stride": 2,
-   "unit": "u16",
-   "min": 0,
-   "max": 999,
-   "confidence": "confirmed",
-   "evidence": {
-    "kind": "known",
-    "summary": "main 0x154e[c] = Gold mod 1000",
-    "source": "L_009cf Borgen aus 0x3770"
-   },
-   "tooltip": "Gesamtgold = goldThousands·1000 + gold"
-  },
-  {
    "id": "goldThousands",
    "label": "Gold (Tausender)",
    "labelEn": "Gold (thousands)",
-   "offset": 3993,
+   "offset": 478,
    "size": 2,
    "stride": 2,
    "unit": "u16",
@@ -99,10 +81,28 @@
    "confidence": "confirmed",
    "evidence": {
     "kind": "known",
-    "summary": "main 0x3770[c] = Gold div 1000",
-    "source": "L_009cf"
+    "summary": "main 0x154e[c] = Gold div 1000 (STAGE 0x0079e → dirw 0x14, Übertrag in L_009cf)",
+    "source": "Hoth HOTH_FIXTURES_ISHAR1_SAVEMAP.md SM06–SM08 (Anzeige, HOA→HOB, Spielaktion HSM1)"
    },
-   "tooltip": "Tausenderteil des Goldes"
+   "tooltip": "Tausenderteil; Gesamtgold = goldThousands·1000 + gold"
+  },
+  {
+   "id": "gold",
+   "label": "Gold (Rest/Einer)",
+   "labelEn": "Gold (units)",
+   "offset": 3993,
+   "size": 2,
+   "stride": 2,
+   "unit": "u16",
+   "min": 0,
+   "max": 999,
+   "confidence": "confirmed",
+   "evidence": {
+    "kind": "known",
+    "summary": "main 0x3770[c] = Gold mod 1000 (STAGE 0x007a8 → dirw 0x16, mod 1000 in L_009cf)",
+    "source": "Hoth HOTH_FIXTURES_ISHAR1_SAVEMAP.md SM06–SM08 (Anzeige, HOA→HOB, Spielaktion HSM1)"
+   },
+   "tooltip": "Rest 0..999; Gesamtgold = goldThousands·1000 + gold"
   },
   {
    "id": "level",
@@ -118,7 +118,7 @@
    "evidence": {
     "kind": "known",
     "summary": "main 0x167c[c]",
-    "source": "FRISE 0x07697 (LEVEL)"
+    "source": "FRISE 0x07697 (LEVEL); bestätigt durch Hoth-Abnahme 2026-11-03 (SM02/SM03/SM04)"
    },
    "tooltip": "Charakterstufe"
   },
@@ -226,7 +226,7 @@
    "evidence": {
     "kind": "known",
     "summary": "main 0x16b4[c]",
-    "source": "FRISE 0x07735 (MENTAL); Hoth HOA→HOB 771 [Savewert entfernt]"
+    "source": "FRISE 0x07735 (MENTAL); Hoth HOA→HOB 771 [Savewert entfernt]; bestätigt durch Hoth-Abnahme 2026-11-03 (SM02/SM03/SM04)"
    },
    "tooltip": "Psi-/Mentalenergie"
   },
@@ -299,7 +299,7 @@
    "evidence": {
     "kind": "known",
     "summary": "main 0x1664[c]; 255 = leer",
-    "source": "MESSAGE* L_01bcd"
+    "source": "MESSAGE* L_01bcd; bestätigt durch Hoth-Abnahme 2026-11-03 (SM02/SM03/SM04)"
    },
    "tooltip": "Klassen-ID"
   },
@@ -1033,10 +1033,10 @@
    "elem": "s16",
    "stride": 2,
    "layout": "5",
-   "id": "goldUnits",
-   "label": "Gold (Einer)",
-   "meaning": "Gold mod 1000; mit 0x3770 = Tausender; Borgen L_009cf",
-   "range": "0..999",
+   "id": "goldThousands",
+   "label": "Gold (Tausender)",
+   "meaning": "Gold div 1000; Gesamt = 0x154e·1000 + 0x3770 (korrigiert, Hoth SM06–SM08)",
+   "range": "0..",
    "writers": "FRISE:9 SOS:4 INTMAIS:4 SOSD:4 ITAVERNE:4 SOSE:4",
    "readers": "FRISE:16 STAGE:6 SOS:5 INTMAIS:5 SOSD:5 ITAVERNE:5",
    "evidence": "known"
@@ -1849,10 +1849,10 @@
    "elem": "s16",
    "stride": 2,
    "layout": "5",
-   "id": "goldThousands",
-   "label": "Gold (Tausender)",
-   "meaning": "Gold div 1000",
-   "range": "0..",
+   "id": "gold",
+   "label": "Gold (Rest/Einer)",
+   "meaning": "Gold mod 1000 (korrigiert, Hoth SM06–SM08)",
+   "range": "0..999",
    "writers": "FRISE:9 SOS:4 INTMAIS:4 SOSD:4 ITAVERNE:4 SOSE:4",
    "readers": "FRISE:15 SOS:5 INTMAIS:5 SOSD:5 ITAVERNE:5 SOSE:5",
    "evidence": "known"
@@ -2457,5 +2457,19 @@
    "MONACO"
   ]
  },
- "validation": "→ private/save-map-ishar1-savewerte.json#/validation"
+ "validation": "→ private/save-map-ishar1-savewerte.json#/validation",
+ "corrections": [
+  {
+   "date": "2026-11-03",
+   "befund": "Gold-Benennung vertauscht",
+   "korrektur": "478+2c (0x154e) = Tausender, 3993+2c (0x3770) = Rest 0..999",
+   "ursache": "Code war korrekt gelesen (shop-tavern-contract: 0x154e = Tausender); beim Übertrag in die Save-Map wurden die Labels vertauscht. STAGE 0x0079e lädt 0x154e nach dirw 0x14 (höherwertiger Teil: Vergleich zuerst, erhält +div 1000 bzw. −1 Borgen), 0x007a8 lädt 0x3770 nach dirw 0x16 (mod 1000).",
+   "beleg": "Hoth HOTH_FIXTURES_ISHAR1_SAVEMAP.md SM06–SM08 (Anzeige, HOA→HOB, Spielaktion HSM1)"
+  },
+  {
+   "date": "2026-11-03",
+   "befund": "class/level/psychic auf known",
+   "beleg": "Hoth SM02–SM04"
+  }
+ ]
 }
