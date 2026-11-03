@@ -1,13 +1,13 @@
 # Routine contract: Ishar 2 ground pickup → cursor → party/hand slot (map 1, objects 9/10)
 
 - **Base commit:** `bb42748` (handoff), reviewed code `319819c`. Read-only; nothing committed.
-- **Profile:** Ishar 2 DOS, `start.exe` `5e35e58d2d133dadeed4b233b7f962f9c941c3d635feb9d3a067a63c340dadf9`.
+- **Profile:** Ishar 2 DOS, `start.exe` `5e35e58d2d13…`.
 - **Script hashes (SHA-256, packed originals):**
-  - AFFOBJ.IO `40b882fbadff3ea452c76a2af3fdbba9d2b3e4c62d0f19dd838c41f0d5ebdf1e`
-  - OBJET.IO `51ec1fdf24bea52fd07cfc5bf01fa46c6ae7b75bbccb93433d6d0c66b0d99e08`
-  - SOURIS.IO `78df7c73f880466303867b63dd5e20897777802b0595c64935b9f4462354f9d3`
-  - FRISE.IO `27117c124caf904a31568f5c58f615946083dd3429c02ade1dc1e17552cc2b64`
-  - IO.IO `0df1f34cf2519341ef20825d49c7f1e7ff204878814db744f7e5cb58ce6b5918`
+  - AFFOBJ.IO `40b882fbadff…`
+  - OBJET.IO `51ec1fdf24be…`
+  - SOURIS.IO `78df7c73f880…`
+  - FRISE.IO `27117c124caf…`
+  - IO.IO `0df1f34cf251…`
 - **Question:** close the static gaps of the smallest end-to-end flow: (1) hit rectangle, (2) held-at-cursor state, (3) FRISE drop into a slot plus the armour recompute.
 - **Method:** static only. Local ALIS listings (`decompile/alis/listings/ishar2/*.asm`); form tables decoded with the kit's `readDosAlisForms` (`npx tsx`, read-only); `ctstform`/`clipform` semantics from the separate C reference maestun/alis `opcodes.c:3911, 1862` (reference, not DOS code). Save offsets come from the IO.IO derivation (`private/ishar2-save-layout-derived.json`).
 - **Evidence words:**
@@ -148,13 +148,13 @@ There is no screen rectangle test. The pickup is an ALIS **form collision**. Whi
 
   The two values in brackets were not read; see the listing at those addresses (**open**). Objects 9/10 → 0 (no armour change).
 - **Pick up from a hand** (0x02c0f–0x02ca1): `clive` a cursor OBJET (mode 1), 0x2d16 = slot code, 0x2fc0 = handle; same armour condition → **T2f0e[c] −= armour**.
-- **Cross-check (Hoth's charsaves CH1N→CH2N, original EXE):** item −25 moved from Bragl's (char 1) hand to Eliandr's (char 0) hand. Save 0x2f0e changed slot0 0→4 and slot1 16→12. That is exactly armour(−25) = 4, subtracted on pickup and added on drop. **proven** (contract and original agree).
+- *(Savewerte → `private/pickup-contract-ishar2-savewerte.md`, SW-1)*
 - **Open:** occupied-slot swap path from 0x03012 (not read); the meaning of T4bbc / L_03b98.
 
 ---
 
 ## Reference input sequence (for Alderaan/Hoth, DOSBox-X, original EXE)
-**Save:** no existing save has object 9 or 10 lying on map 1 (checked all saves in `ishar2-quesh`, `ishar2-auto`, `charsaves`, originals: T2c4e[9/10] = 0 everywhere, and no inventory holds 9/10). Use a **labelled patched copy** of START.SAV (SHA-256 `e685cd6902575392a9fe445e649863885f75832ed28657a5f6faf612c6305555`; map 1, row 11, col 12, facing 2 = E). Make it with the kit CLI, which only writes mapped fields:
+*(Savewerte → `private/pickup-contract-ishar2-savewerte.md`, SW-2)*
 ```
 # writes.json (toolkit format): object 9 one cell ahead (row 12, col 12), map 1, facing 2
 [{"address":10947,"width":1,"value":12},   # 0x2ac3 = T2aba+9  (file 345)
@@ -222,7 +222,7 @@ Base bb42748, static only. FRISE.IO listing (Ishar 2).
 - **Contract status:** confirmed; table completed; offset formula clarified (+c).
 
 ### Variant C recommendation (visible change, item −25 = 4)
-- **Start save:** `codex-support/quesh/private/PICK25.SAV` sha256 `78d3fbdb51aaf7ac053e2804bd9d4e5957302b763391012ef695a0224f2309ca`. This is a labelled toolkit patch of Alderaan's PICK9.SAV (c306cfc7…), 3 bytes:
+- *(Savewerte → `private/pickup-contract-ishar2-savewerte.md`, SW-3)*
   - file 1056/1057 = FF E7: c0 slot 10 = −25 (MAIN 0x2d8e + 2·10)
   - file 1336 = 04: c0 armour consistent with the item already held
   - Slot 9 still holds −104 (armour 0), and object 9 is still on the ground (irrelevant here).
@@ -231,13 +231,13 @@ Base bb42748, static only. FRISE.IO listing (Ishar 2).
   1. Load `pick25`.
   2. Hands icon c0 (40,131).
   3. Click slot 10 (50,168): the item lifts onto the cursor.
-  4. Disk → SAVE → `pick25a`. Expected: 1336 4→0, 1056/57 → 00 00.
+  4. Disk → SAVE → `pick25a`. Expected: Rüstungsbyte 1336 sinkt um den Rüstungswert des Gegenstands, 1056/57 → 00 00 (Werte: private).
   5. Click slot 10 (50,168) again: drop.
   6. SAVE → `pick25b`. Expected: 1336 0→4, 1056/57 = FF E7.
   - If saving while the cursor is holding the item is refused, skip step 4 and only check the A→B round trip (4 → 4), plus the screenshot of the armour display.
-- **Unpatched alternative (original save):** `decompile/charsaves/CH1N.SAV` (4d0219fe…).
-  - Move Bragl's (c1) −25 from slot 10 into Eliandr's (c0) empty slot 9.
-  - Expected: 1337 16→12, 1336 0→4. This equals Hoth's CH2N (5ba27aa6…).
+- *(Savewerte → `private/pickup-contract-ishar2-savewerte.md`, SW-4)*
+  - *(Savewerte → `private/pickup-contract-ishar2-savewerte.md`, SW-5)*
+  - Expected: Rüstungsbytes 1336/1337 verschieben sich um den Rüstungswert des Gegenstands (Werte: private). This equals Hoth's CH2N (5ba27aa6…).
   - It needs the not-yet-measured c1 hands icon and c0 slot-9 coordinates; calibrate those first.
 - Tolerated noise as in §8.4 (clock, day phase, monster re-roll).
 

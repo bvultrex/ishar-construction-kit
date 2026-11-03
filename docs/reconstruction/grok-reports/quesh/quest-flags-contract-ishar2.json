@@ -239,78 +239,7 @@
    }
   }
  },
- "observed": {
-  "START,START2,START3,TEST,TEST2,LP": [
-   0,
-   1,
-   0,
-   0,
-   0,
-   0,
-   0,
-   0
-  ],
-  "S,S1": [
-   4,
-   1,
-   0,
-   0,
-   1,
-   0,
-   0,
-   0
-  ],
-  "S2": [
-   4,
-   -1,
-   1,
-   0,
-   2,
-   1,
-   0,
-   0
-  ],
-  "SASCHA,SASCHA2,GRIMZ,GRIMZEL,LP4": [
-   4,
-   2,
-   1,
-   0,
-   3,
-   1,
-   0,
-   1
-  ],
-  "LP2,LP3,FINALE": [
-   4,
-   2,
-   1,
-   0,
-   3,
-   1,
-   1,
-   1
-  ],
-  "LEVELING": [
-   4,
-   2,
-   2,
-   0,
-   3,
-   1,
-   1,
-   1
-  ],
-  "_order": [
-   "0x4f13",
-   "0x4fbd",
-   "0x4fbe",
-   "0x4fc0",
-   "0x4fc1",
-   "0x4fc4",
-   "0x4fc5",
-   "0x50a5"
-  ]
- },
+ "observed": "→ private/quest-flags-contract-ishar2-savewerte.json#/observed",
  "tests": [
   {
    "id": "QF-T0",
@@ -347,7 +276,7 @@
   {
    "id": "QF-T4",
    "who": "Hoth",
-   "action": "patch off21 0..4 on copy of S.SAV, load, save",
+   "action": "→ private/quest-flags-contract-ishar2-savewerte.json#/tests/4/action",
    "expect": "round trip unchanged",
    "evidence": "suspected"
   }

@@ -11,8 +11,7 @@
   "Struct-of-Arrays: je Feld 5 Einträge hintereinander, stride = Elementgröße.",
   "Gold = goldThousands·1000 + gold.",
   "Klassennamen nach MESSAGED (DE); ISHAR2_CLASSES gilt NICHT für Ishar 1.",
-  "Geprüft gegen 23 eindeutige Ishar-1-Saves, keine Bereichsverletzung.",
-  "validation (Werte je Original-Save) für das Repo entfernt; nur lokal."
+  "Geprüft gegen 23 eindeutige Ishar-1-Saves, keine Bereichsverletzung."
  ],
  "fields": [
   {
@@ -227,7 +226,7 @@
    "evidence": {
     "kind": "known",
     "summary": "main 0x16b4[c]",
-    "source": "FRISE 0x07735 (MENTAL); Hoth-Beobachtung (Werte nur lokal)"
+    "source": "FRISE 0x07735 (MENTAL); Hoth HOA→HOB 771 [Savewert entfernt]"
    },
    "tooltip": "Psi-/Mentalenergie"
   },
@@ -860,7 +859,7 @@
    "layout": null,
    "id": "scene41e6",
    "label": "Ort/Szenen-ID",
-   "meaning": "GERDEP setzt 30..44, MAIN-Switch 30..; −1 = keiner (S1)",
+   "meaning": "→ private/save-map-ishar1-savewerte.json#/byteMap/12/meaning",
    "range": "-1..63",
    "writers": "GERDEP:34 MAIN:7",
    "readers": "MAIN:13 DPLT:6 GERDEP:1 AFFOBJ:1",
@@ -1196,7 +1195,7 @@
    "layout": "5",
    "id": "mentalShield",
    "label": "Mentalschild-Timer",
-   "meaning": "Icon 28 (Hoth-Beobachtung; Wert nur lokal)",
+   "meaning": "Icon 28 (Hoth HOA→HOB 698/699 [Savewert entfernt])",
    "range": "0..",
    "writers": "FRISE:2 PARAM:1",
    "readers": "GEREN:4 FRISE:2",
@@ -1372,7 +1371,7 @@
    "layout": "5",
    "id": "mental",
    "label": "Mental (Psi-Energie)",
-   "meaning": "FRISE 0x07735 MENTAL, Hoth 771 72→67",
+   "meaning": "FRISE 0x07735 MENTAL, Hoth 771 [Savewert entfernt]",
    "range": "0..100",
    "writers": "FRISE:3 ITAVERNE:3 PARAM:2",
    "readers": "FRISE:9 ITAVERNE:2",
@@ -2457,5 +2456,6 @@
    "CAVALIERE",
    "MONACO"
   ]
- }
+ },
+ "validation": "→ private/save-map-ishar1-savewerte.json#/validation"
 }
