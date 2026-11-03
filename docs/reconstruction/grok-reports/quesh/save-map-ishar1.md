@@ -108,7 +108,7 @@ Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UM
 | 668 | 10 | be | `main 0x161c` | 5 | Schutz-Timer mit Stufe: 10000·Stufe + Timer, Icon 4 | 0.. | FRISE:4 PARAM:1 | FRISE:3 GEREN:2 | known |
 | 678 | 10 | be | `main 0x1628` | 5 | Effekt-Timer 0x1628: Icon 27 | 0.. | FRISE:3 PARAM:1 | FRISE:2 GEREN:2 | known |
 | 688 | 10 | be | `main 0x1634` | 5 | ungenutzt 0x1634: kein Leser/Schreiber in Skripten gefunden | 0 |  |  | unknown |
-| 698 | 10 | be | `main 0x1640` | 5 | Mentalschild-Timer: Icon 28 (Hoth HOA→HOB 698/699 [Savewert entfernt]) | 0.. | FRISE:2 PARAM:1 | GEREN:4 FRISE:2 | known |
+| 698 | 10 | be | `main 0x1640` | 5 | Mentalschild-Timer: Icon 28 (Hoth HOA→HOB: 698/699 = 0x01BC) | 0.. | FRISE:2 PARAM:1 | GEREN:4 FRISE:2 | known |
 | 708 | 10 | be | `main 0x164c` | 5 | Blindheit: ≠0 → Trefferchance 20 | 0.. | FRISE:3 GEREN:1 PARAM:1 | FRISE:3 GERDEP:1 | known |
 | 718 | 10 | be | `main 0x1658` | 5 | Gift-Stärke: HP −= Wert pro Gifttick | 0.. | FRISE:4 INTMAIS:1 PARAM:1 | FRISE:3 | known |
 | 728 | 5 | none | `main 0x1664` | 5 | Klasse: Klassen-ID 0..18, 255/−1 = leerer Slot (MESSAGE* 0x01bcd) | 0..18,255 | PARAM:17 FRISE:2 INTMAIS:1 ITAVERNE:1 | FRISE:32 ITAVERNE:5 STAGE:4 SOS:3 INTMAIS:3 SOSD:3 | known |
@@ -129,7 +129,7 @@ Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UM
 | 1588 | 140 | be | `main 0x1a06` | 70 | Akteur Y: 70 Wörter |  | DPLT:6 | ENCONT:6 FRISE:5 GEREN:5 DPLT:2 SOURIS:1 GERDEP:1 | suspected |
 | 1728 | 140 | be | `main 0x1b22` | 70 | Akteur HP: 70 Wörter, ≤0 = tot |  | FRISE:5 DPLT:2 GEREN:2 | FRISE:8 GEREN:4 ENCONT:4 GERDEP:1 DPLT:1 PARAM:1 | known |
 | 1868 | 140 | be | `main 0x1bb0` | 70 | Akteur Gold: 70 Wörter, beim Rekrutieren → 0x154e |  | FRISE:1 | FRISE:3 PARAM:1 | known |
-| 2008 | 140 | be | `main 0x1c3e` | 70 | Akteur Effekt (Halt): 70 Wörter, ⌊ML/4⌋ |  | GEREN:3 FRISE:1 | GEREN:2 FRISE:1 | known |
+| 2008 | 140 | be | `main 0x1c3e` | 70 | Akteur Effekt (Halt): 70 Wörter, ⌊ML/4⌋ (Korrektur 2026-11-03) |  | GEREN:3 FRISE:1 | GEREN:2 FRISE:1 | suspected |
 | 2148 | 140 | be | `main 0x1ccc` | 70 | Akteur Schlaf: 70 Wörter |  | FRISE:3 GEREN:3 | GEREN:2 FRISE:1 DPLT:1 | known |
 | 2288 | 140 | be | `main 0x1d5a` | 70 | Akteur Inversion: 70 Wörter |  | GEREN:3 FRISE:2 | FRISE:1 GEREN:1 | known |
 | 2428 | 140 | be | `main 0x1de8` | 70 | Akteur Blindheit: 70 Wörter |  | GEREN:3 FRISE:1 | GEREN:2 FRISE:1 | known |
@@ -188,9 +188,9 @@ Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UM
 
 ## Abgleich mit allen Ishar-1-Saves
 *(Savewerte → `private/save-map-ishar1-savewerte.md`, SW-3)*
-- **Ergebnis: keine Bereichsverletzung.** Abweichungen nur in Lücken: MTDB 0x1634[0] ≠ 0 [Savewert entfernt] → Kandidat für einen bisher ungefundenen Zugriff (suspected Engine-intern).
+- **Ergebnis: keine Bereichsverletzung.** Abweichungen nur in Lücken: MTDB 0x1634[0] = 0x022a (sonst 0) → Kandidat für einen bisher ungefundenen Zugriff (suspected Engine-intern).
 - *(Savewerte → `private/save-map-ishar1-savewerte.md`, SW-4)*
-- HOB: 698/699 [Savewert entfernt] liegt in 0x1640[0] (Mentalschild), nicht in einer Lücke.
+- HOB: 698/699 = 0x01BC liegt in 0x1640[0] (Mentalschild), nicht in einer Lücke.
 - Details pro Save: `validation` in JSON.
 
 ## Testfälle (Alderaan/Hoth)
@@ -201,4 +201,15 @@ Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UM
 5. MENTAL: HOA→HOB 771 sinkt um die Zauberkosten (0x16b4[3]).
 6. Skills: Charakterbogen-Seite SKILLS im Spiel vs. Bytes 4738+5k+c.
 7. Inventar Slot 11/12: Rüstung/Helm an- und ablegen (offen, suspected).
-8. Lücke 0x1634: MTDB-Erzeugungsschritte reproduzieren, Wert erklären.
+8. Lücke 0x1634: MTDB-Erzeugungsschritte reproduzieren, Wert 0x022a erklären.
+
+## Korrektur 2026-11-03: Feld 2008..2147 (`main 0x1c3e`)
+- Das Label „Akteur Effekt (Halt)“ ist von known auf **suspected** herabgestuft.
+- Byte 2117 = Akteur 54, Low-Byte (BE). Alderaan hat beobachtet: Beim Klick vor Hebel 14 wird es von ≠0 auf 0 gesetzt, und ein Schild verschwindet. Vermutlich ist das der Zustand des Schilds (suspected).
+- Schreiber laut grep:
+  - FRISE 0x02a32: setzt ⌊…/4⌋, Halt-Zauber.
+  - GEREN 0x003c3/0x003d2: Countdown −1, solange der Wert >0 ist.
+  - GEREN 0x003dc/0x003e6: setzt Akteur 39 und Akteur 50 fest auf 0.
+  - MAIN 0x04913/0x04b40: Save schreiben/laden.
+  - In PCAVE und SOURIS gibt es keine Treffer.
+- Schreiber für Akteur 54: **unknown**. Der GEREN-Countdown käme als Ursache in Frage (suspected).
