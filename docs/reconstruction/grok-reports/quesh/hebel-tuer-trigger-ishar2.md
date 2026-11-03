@@ -305,3 +305,60 @@ Static (GERDEP.IO.asm / CONT5/6, read only). Evidence levels: known / suspected 
   6. Then TL → 7390 = 0 (turn reset); B → 7390 = 0.
 
   If 4. fails: also TR+TL on c22 (forces a facing-change spawn), then click again. If it still fails: unknown (check DJ2 0x015cb/0x019b8 for zone of r50 c22).
+
+### Addendum 2026-11-03, part 2 (quesh, 13:04): why door 9 shows no frame in HOT9L/HOT9Q
+
+**Correction (contradicted):** the test sequence in part 1 (r50 c22, facing 3, click (128,70)) is incomplete. The decor module that draws the cell, chosen by zone, was missing. Hoth's result (HOT9L/HOT9Q 7390 = 0, no frame) is consistent with the code.
+
+**Save diff** (private/savediff.py, saves in hoth/private/stepreset3/work-20261103):
+- HOT5A (working door-5 case) → HOT9P: only row 40→50, col 31→21, and **zone 0x4ef2 (save off 18..19) 33→36**. Facing 3 is unchanged.
+- HOT9P → HOT9L: col 21→22, 0x4fca, 0x50c8[23]. 7390 stays 0.
+- HOT5A → HOT5B (frame click works): 0x4aa4[5] 0→1.
+
+So the only relevant difference is **zone 36 instead of 33**.
+
+**Spawn chain (known, static):**
+1. MAIN 0x01c96 `cswitch2 0x4ef2` picks the decor module:
+   - zone 33/34 → L_01d78 `dj1.IO`
+   - zone 35/50 → L_01d91 `dj2.IO`
+   - **zone 36/51 → L_01d5b `djcat.IO`**
+2. DJ1 0x004b8 / DJ2 0x004b6 `cswitch2 odirb(0x1e)` (= layer A): A = 70 → L_0079a (DJ1) / L_00798 (DJ2). This sets face 1f = 10, then **1f = 4**.
+   - Face 4 (DJ1 L_00d0f, DJ2 L_00ac5):
+     - facing 3 → L_021a7 (DJ1) / L_01979 (DJ2) directly;
+     - facing 1 and depth > 0 → depth −1 (0x00d67 / 0x00b1d), then the same spawn;
+     - facing 2/4 → only side wall, no spawn.
+   - So A = 70 is the frame type "front face 4" (known). It is the same type as door 5 (r40 c31, A = 70).
+3. DJ1 L_021a7 0x021a7–0x0222f (DJ2 L_01979 0x01979–0x019f9):
+   - Only if dirb1d == 0 (depth 0; dirb1d = (depth+1)·99/100, L_0223f / L_01a09).
+   - B = 0x159c[r,c] with 60 < B < 110 (DJ2: B > 50).
+   - d = B − 60, and **0x4aa4[d] == 0**.
+   - Then `clive 0x0043` (PCAVE) with +0c = 36, +0d = d, **+09 = 1 (DJ1) / 2 (DJ2)**.
+4. PCAVE init 0x0004d–0x001b9: dirb0e = y/110 (depth 0 → 0).
+   - 09 = 1 → `cforme 1` (0x00193);
+   - 09 = 2 → `cforme 2` (0x001b6);
+   - 09 = 0 (leaf) → no form, except doors 8/29/30.
+5. Click: SOURIS 0x0069a, material 65 → 0x006c9 `csend 19` → PCAVE L_00282 → L_00385 → **0x0039a 0x4aa4[d] = 1**.
+6. **DJCAT (zone 36)** spawns PCAVE only with +09 = 0 (0x0167e/0x016b0, 0x016e4/0x01716). That is a leaf without a form, so **nothing is clickable**. DJCAT has no A = 70 frame path. This is the cause of HOT9B/F/L/Q. Known statically; it matches Hoth's image (no frame).
+
+**Which zone is really at r50 c22 (suspected):**
+- Zone markers near the door: r44 c23 B = −76 → 36, and r44 c24 B = −75 → 35 (GERDEP 0x01694, zone = |B| − 40).
+- The hall r46–56 c23–31, from which the door-9 niche (r50 c20–22, lever cell c19) is reached, connects north via c26 into row 44 **east of the marker pair**. So going east sets 35 = DJ2.
+- All K5T*.SAV in dosbox/ishar2 have zone 36 wherever they stand, so they are teleport/test saves and not evidence of the in-game zone.
+- Statically, door 9 can therefore only be reached in DJ2 (zone 35) or DJ1. DJ2 gives `cforme 2`. **Which material form 2 carries is unknown.** If it is 65, the click opens; if not, door 9 has no click path in DJ2 either.
+
+**Other writers of 0x4aa4[9] (checked again):**
+- GERDEP 0x013fd: = 0.
+- GERDEP 0x01590/0x0159e: index 0x507c[i][1], no entry 9.
+- PCAVE 0x0032a/0x00357 (leaf, A = 70 has none).
+- PCAVE lever path 0x00477/0x00485: k = 9 requires B = −19. The only B = −19 is CONT3 r22 c54, and that cell has A = −5, which is not a lever A code (58/60/62/64), so it is not spawned.
+- DJ1 0x01832/0x0183f: indices 27+dirb21 / 25+dirb21, which never give 9 for dirb21 ≥ 0.
+- No scripted event with a constant 9 was found.
+- → **The frame click (PCAVE 0x0039a) remains the only open path** (known statically). Lever 10 (r50 c19, A = 60, B = −20) only opens door 10, not 9.
+
+**Test for Hoth (copies only, slots HOT9S…):**
+1. HOT9S = copy of HOT9P (r50 c21 f3, 7390 = 0), **zone off 18..19 set to 35** (word-BE 0x0023). Load → F (to c22) → look: is there a frame image? → click (128,70) → save HOT9T.
+   - Expected with form 2 = material 65: 7390 0→1.
+   - Frame visible but no change: form 2 is not 65. Then try a click grid around (128,70).
+2. Control: same with **zone 33** (DJ1, as in the door-5 case) → HOT9U/HOT9V. Expected 7390 0→1, because it is the same chain as door 5.
+3. Alternative spot: r50 **c23 facing 1** (from the hall, door cell one ahead; facing-1 branch with depth −1), zone 35 → click.
+4. Check the real zone: walk from the hall entrance r44 c26 via c26 south to r50 c23, then save. Expected zone 35 (suspected). If it is 36, door 9 is not reachable from this side (DJCAT); then check the entry via r44 c23 (west, 36) too.

@@ -141,3 +141,17 @@ Kit: door-mechanics.ts afterStep matches steps for 9/17 (M50/M53). Deviations: n
 
 ## Nachtrag 2026-11-03 13:00 CET (Hoth, private/stepreset4)
 Drehen ruft L_013af (0x0083a TL, 0x0096b TR, unbedingt). HOT5E -> TL -> HOT5F: Tür 5 1->0; Laden HOT5E -> HOT5D: bleibt 1. Frühere Aussage „L_013af läuft vermutlich nicht beim Drehen“ ist widerlegt. Kontakte beim Drehen: Neueintrag vermutet (suspected). Tür 9 regulär weiter nicht geöffnet. Details HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md.
+
+## Nachtrag 2026-11-03 13:15 CET (Hoth): Rahmen-Auslöser Tür 9, nur statisch
+- Erzeuger des Rahmens ist nicht PCAVE selbst, sondern das Dungeon-Zeichenskript: DJ1 L_021a7 (0x021a7–0x0222f). Bedingungen: Tiefe odirb(0x1d) == 0 (0x021a7; Zelle der Party bzw. per Tiefenabzug 0x00c2c die Nachbarzelle), B in 61..109 → d = B−60 (0x021d5/0x021e9), 0x4aa4[d] == 0 (0x021ee), dann clive PCAVE (0x021fd), +0x0d = d, +0x09 = 1 (0x0222f). Wandfläche aus A 70–77 → Fläche 1–4, also blickabhängig (A=70 bei Tür 5 und 9 gleich).
+- PCAVE erzeugt die Klickform nur für +0x09 == 1 bei Tiefe 0: 0x0017f–0x00196 `cforme 1` (Bild 40). Ein Türblatt (+0x09 = 0) bekommt keine Form außer Tür 29 (cforme 4, 0x0012e) und Tür 30 (cforme 5, 0x0016c).
+- DJCAT spawnt PCAVE nur bei 0x0167e/0x016e4 und schreibt nie +0x09 (kein `shimb(..,0x0009)` in DJCAT.IO.asm; DJ1 schreibt 0x09 bei 0x01fce/0x02034 = 0 und 0x0222f = 1). Also in einem DJCAT-Bereich nie eine Rahmenform. Kein Flag oder Objekt beteiligt.
+- Gegenüberstellung (Save-Header, zone@18):
+  | Save | Karte | r/c | Blick | Zone | Tür |
+  |---|---|---|---|---|---|
+  | HOT5A/HOT5B (funktioniert) | 5 | 40/31 | 3 | 33 (DJ1) | 5 |
+  | K5T026, HOT9P | 5 | 50/21 | 3 | 36 | 9 = 0 |
+  | HOT9L, HOT9Q, HOT9R | 5 | 50/22 | 3 | 36 | 9 = 0 |
+  Zone 36 ist laut Queshs Tabelle (hebel-tuer-trigger-ishar2.md) DJCAT; die Zuordnung Zone→Skript habe ich nicht selbst im Code gelesen (suspected). Bild ohne Rahmen in HOT9L/Q passt dazu.
+- Urteil: Ursache für „Klick tut nichts“ ist mit hoher Wahrscheinlichkeit die Zone 36 (DJCAT), nicht Blick oder Position. Status suspected bis zum Lauf.
+- Vorgeschlagene Teststelle (nicht gelaufen): HOT9S = Kopie HOT9R (Karte 5, r50 c22, Blick 3, ticks 0), Patch Offset 18–19 = 00 21 (Zone 33, DJ1), sonst nichts. Laden → Bild prüfen (Rahmen sichtbar?) → Klick (128,70) → Speichern HOT9T. Erwartet 7390 0→1. Gegenprobe: danach TL → HOT9U, 7390 = 0 (Drehen, L_013af). Alternative ohne Patch: c22 aus der Richtung betreten, deren Zonenmarker (B −70..−99, Zone = |B|−40) eine DJ1-Zone setzt; dafür die Marker um r50 c20–c24 in CONT5 auslesen.
