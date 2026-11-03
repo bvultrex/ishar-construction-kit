@@ -208,7 +208,46 @@ function party1(v) { const i = v.input;
     case 'killRel': { const out = [], ch = []; i.AT.forEach(([A, T], n) => { let r = i.rel[n]; if (A > 0) r += T <= 0 ? 2 : -1; else r += T <= 0 ? 1 : -2; out.push(r); ch.push(A <= 0 && T > 0 && r < -2); }); return { rel: out, chain: ch }; }
     case 'voteValue': return { v: i.x.map(([t1, t2, a, b]) => t1 - 2 + 2 * t2 - Math.abs(a - b)) };
   } throw new Error('op ' + i.op); }
-const MODELS = { 'shop-ishar1': shop1, 'tavern-ishar1': tavern1, 'party-ishar1': party1, 'magic-ishar1': magic1, 'pickup-ishar2': (v) => (v.input.armourCodes ? pickupArmour(v) : pickup(v)), 'mechanics-ishar2': mech, rng: rngVec, 'combat-ishar2': combat2, 'combat-ishar1': combat1, 'savefields-ishar2': savefields };
+
+const SM1 = { xp: [458, 2], hp: [468, 2], goldK: [478, 2], hpMax: [488, 2], class: [728, 1], race: [733, 1], level: [738, 1], str: [743, 1], con: [748, 1], wis: [753, 1], int: [758, 1], agi: [763, 1],
+  mental: [768, 1], physical: [773, 1], temper: [778, 1], armor: [783, 1], goldU: [3993, 2], npc: [4028, 1], rune: [5021, 1] };
+['OneHand', 'TwoHand', 'Throw', 'Shoot', 'Lockpick', 'Orientation', 'FirstAid', 'Languages'].forEach((k, n) => (SM1['skill' + k] = [4738 + 5 * n, 1]));
+const RACE1 = { 1: 'Mensch', 2: 'Elfe', 3: 'Zwerg', 4: 'Ork', 5: 'Echsenmensch' }; RACE1[2] = 'Elf';
+function savemap1(v) { const i = v.input; const b = new Uint8Array(5216); for (const f of i.save ?? []) { if ('be16' in f) { b[f.offset] = f.be16 >> 8; b[f.offset + 1] = f.be16 & 255; } else b[f.offset] = f.u8; }
+  const w = (o) => (b[o] << 8) | b[o + 1];
+  switch (i.op) {
+    case 'size': return { size: b.length };
+    case 'offsets': return Object.fromEntries(i.fields.map((f) => [f, i.c.map((c) => SM1[f][0] + SM1[f][1] * c)]));
+    case 'race': { const o = [0, 1, 2, 3, 4].map((c) => SM1.race[0] + c); return { offsets: o, race: o.map((x) => RACE1[b[x]]) }; }
+    case 'gold': { const K = [0, 1, 2, 3, 4].map((c) => w(478 + 2 * c)), U = [0, 1, 2, 3, 4].map((c) => w(3993 + 2 * c)), g = K.map((k, n) => 1000 * k + U[n]); return { goldK: K, goldU: U, gold: g, total: g.reduce((a, x) => a + x, 0) }; }
+    case 'splitSave': { const q = Math.floor(i.total / i.n), r = i.total % i.n, a = Array.from({ length: i.n }, (_, n) => q + (n < r ? 1 : 0)); return { afterSplit: a, afterSave: a.map((x) => x - i.cost / i.n) }; }
+    case 'inv': return { offset: i.pts.map(([c, k]) => 498 + 26 * c + 2 * k) };
+    case 'spell': return { offset: i.pts.map(([c, k]) => 788 + 20 * c + k) };
+    case 'name': return { offset: i.c.map((c) => 418 + 8 * c) };
+    case 'bounds': return { ishar1: i.offsets.map((o) => o < 5216), allFieldsInside: Object.values(SM1).every(([o, s]) => o + 4 * s + s <= 5216) };
+  } throw new Error('op ' + i.op); }
+
+// ---------- monster-ki Ishar 1/2 (Quesh monster-ki-ishar{1,2}, Hoth 2026-11-03) ----------
+function monsterKi(v) {
+  const i = v.input, two = v.contract === 'monster-ki-ishar2', hS = two ? 9 : -41, xMax = two ? 85 : 50;
+  const DX = [0, -1, -1, -1, 0, 1, 1, 1], DY = [-1, -1, 0, 1, 1, 1, 0, -1];
+  switch (i.op) {
+    case 'chase': { const h = i.h; return { chase: ((h >= -30 && h <= -2) || h === hS) && Math.abs(i.m[0] - i.party[0]) <= Math.abs(h) && Math.abs(i.m[1] - i.party[1]) <= Math.abs(h) }; }
+    case 'step': { let best = i.m, bd = Infinity; for (let k = 0; k < 8; k++) { const x = i.m[0] + DX[k], y = i.m[1] + DY[k];
+        if (Math.abs(x - i.home[0]) >= Math.abs(i.h) || Math.abs(y - i.home[1]) >= Math.abs(i.h) || x <= 3 || x >= xMax) continue;
+        const d = (x - i.target[0]) ** 2 + (y - i.target[1]) ** 2; if (d < bd) { bd = d; best = [x, y]; } }
+      return two ? { pos: best, cooldown: 2 } : { pos: best }; }
+    case 'offsets': return two ? { x: i.i.map((n) => 2601 + 2 * n), y: i.i.map((n) => 2821 + 2 * n), facing: i.i.map((n) => 3041 + 2 * n), hp: i.i.map((n) => 3261 + 2 * n), zone: i.i.map((n) => 6781 + n) }
+      : { x: i.i.map((n) => 1448 + 2 * n), y: i.i.map((n) => 1588 + 2 * n), hp: i.i.map((n) => 1728 + 2 * n), stance: i.i.map((n) => 3688 + n), zone: i.i.map((n) => 4033 + n),
+          type: i.i.map((n) => 2638 + n), chased: i.i.map((n) => 4103 + n), homeX: i.i.map((n) => 4781 + n), homeY: i.i.map((n) => 4851 + n), contact: [4778, 4779, 4780] };
+    case 'afterLoad': { const reroll = i.zoneHasEntries && !i.sync; return { actorsChanged: reroll, sessionsEqual: !reroll }; }
+    case 'zoneChange': return { actorsChanged: i.entries > 0 };
+    case 'wanderReset': { const b = new Uint8Array(8359); for (const f of i.save) if ('be16' in f) { b[f.offset] = f.be16 >> 8; b[f.offset + 1] = f.be16 & 255; } else b[f.offset] = f.u8;
+      const a = b.slice(); for (let n = 60; n < 70; n++) { for (const o of [1448, 1588, 1728]) { b[o + 2 * n] = 0; b[o + 2 * n + 1] = 0; } b[3688 + n] = 0; b[4033 + n] = 0; }
+      const ch = {}; for (let k = 0; k < a.length; k++) if (a[k] !== b[k]) ch[k] = b[k]; return { changes: ch }; }
+    case 'contactOrder': { const c = [0, 0, 0]; [1, 0, 2].forEach((slot, k) => (c[slot] = i.arrivals[k])); return { contact: c }; }
+  } throw new Error('op ' + i.op); }
+const MODELS = { 'monster-ki-ishar1': monsterKi, 'monster-ki-ishar2': monsterKi, 'savemap-ishar1': savemap1, 'shop-ishar1': shop1, 'tavern-ishar1': tavern1, 'party-ishar1': party1, 'magic-ishar1': magic1, 'pickup-ishar2': (v) => (v.input.armourCodes ? pickupArmour(v) : pickup(v)), 'mechanics-ishar2': mech, rng: rngVec, 'combat-ishar2': combat2, 'combat-ishar1': combat1, 'savefields-ishar2': savefields };
 // ---------- compare ----------
 const norm = (x) => JSON.stringify(x, (k, val) => (val && typeof val === 'object' && !Array.isArray(val) ? Object.fromEntries(Object.entries(val).map(([kk, vv]) => [String(kk), vv]).sort(([p], [q]) => (p < q ? -1 : 1))) : val));
 const subset = (exp, got) => Object.keys(exp).every((k) => norm(exp[k]) === norm(got[k]));

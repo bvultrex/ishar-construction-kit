@@ -260,7 +260,7 @@ v('I33',C,'suspected',MQ+' R6 Actor 39/50 immun',{'op':'actorTimers','t':[4,5,3,
 v('I34',C,'suspected',MQ+' R5 Kosten auch bei Fehlwurf; nicht bei Abbruch (außer 16)',{'op':'paid','cases':['miss','cancel','cancel16','dead']},{'paid':[True,False,True,False]})
 
 # ---------------- shop/tavern/party Ishar 1 (Quesh shop-tavern-contract-ishar1.md, party-contract-ishar1.md; Hoth 2026-11-03) ----------------
-SQ=Q+'shop-tavern-contract-ishar1.md'; PQ=Q+'party-contract-ishar1.md'; OWN='HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md (HOA/HOB, private/ishar1save)'
+SQ=Q+'shop-tavern-contract-ishar1.md'; PQ=Q+'party-contract-ishar1.md'; OWN='HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md (eigener Lauf, Details private/ishar1save)'
 C='shop-ishar1'
 v('SH01',C,'suspected',SQ+' S1; MAIN Tabelle 0x3fd6 (x,y,zone) -> Laden',{'op':'shopAt','cells':[[31,16,1],[29,69,14],[19,6,4],[30,16,1]]},{'shop':[1,7,6,None]})
 v('SH02',C,'suspected',SQ+' S2 (Preis von -57 je Laden 0/1/3/7)',{'op':'price','item':-57,'shops':[0,1,3,7]},{'price':[[0,320],[0,380],[0,400],[0,410]]})
@@ -269,14 +269,14 @@ def pay(k,u,pk,pu):
     u-=pu; k-=pk
     if u<0: k-=1; u+=1000
     return [k,u]
-v('SH03',C,'known','MARCHAND L_0062f 0x00640-0x0067c (Hoth-Lesung: Einheiten - pu, Borgen aus Tausendern); Zahlen wie '+SQ+' T1',{'op':'pay','gold':[18,434],'price':[1,100]},{'gold':pay(18,434,1,100)})
+v('SH03',C,'known','MARCHAND L_0062f 0x00640-0x0067c (Hoth-Lesung: Einheiten - pu, Borgen aus Tausendern); Struktur wie '+SQ+' T1, synthetische Werte',{'op':'pay','gold':[5,123],'price':[1,100]},{'gold':pay(5,123,1,100)})
 v('SH04',C,'known','MARCHAND 0x00640-0x0067c (Borgen)',{'op':'pay','gold':[2,100],'price':[0,380]},{'gold':pay(2,100,0,380)})
 v('SH05',C,'suspected',SQ+' S4.3 Ablehnung (nur Gold des gewählten Mitglieds, Meldung -21 MARCHAND 0x0053f)',{'op':'pay','gold':[1,99],'price':[1,100]},{'gold':None,'refused':True})
 v('SH06',C,'suspected',SQ+' S4.3 Gleichstand',{'op':'pay','gold':[1,100],'price':[1,100]},{'gold':[0,0]})
 v('SH07',C,'known','MARCHAND 0x006bf (Hoth-Lesung: stapelbar = -66 <= Code <= -57)',{'op':'stackable','items':[-67,-66,-60,-57,-56,-49]},{'stackable':[False,True,True,True,False,False]})
 v('SH08',C,'suspected',SQ+' S4.6 Kappen -57 -> 5, -58 -> 20, sonst 10; Menge 0x403a (MARCHAND 0x007e8/0x0080a)',{'op':'stackAdd','items':[[-57,0,5],[-58,0,20],[-60,9,1],[-57,4,5]]},{'count':[5,20,10,5]})
 v('SH09',C,'suspected',SQ+' S5/T2 Zähler 0x3e22[c][item+66] Save 4971+10c+(item+66)',{'op':'stackOffset','c':2,'item':-57},{'offset':5000})
-v('SH10',C,'known',OWN+': Speichern kostet 1000 GS, cmp HOA->HOB Byte 483 (Gold-Tausender c2 Low-Byte, 478+2c+1)',{'op':'goldOffset','c':2},{'goldK':482,'goldKLow':483})
+v('SH10',C,'known',OWN+': Speichern kostet 1000 GS, cmp vorher->nachher Byte 483 (Gold-Tausender c2 Low-Byte, 478+2c+1)',{'op':'goldOffset','c':2},{'goldK':482,'goldKLow':483})
 v('SH11',C,'suspected',SQ+' S5 (Einheiten 3993+2c, Gegenstände 498+26c+2k; SHOPA-Diff Alderaan 3998, 556/557)',{'op':'goldOffset','c':2,'k':3},{'goldU':3997,'item':556})
 v('SH12',C,'suspected',SQ+' S4 kein Verkauf, Vorrat unbegrenzt (Tabelle bei jedem Eintritt neu)',{'op':'flags'},{'sell':False,'stockSaved':False})
 C='tavern-ishar1'
@@ -312,6 +312,74 @@ v('PA08',C,'suspected',PQ+' P4 Entlassen (L_00a76): HP 0, npc -1, class -1, Gold
 v('PA09',C,'suspected',PQ+' P5 Töten: Relationstabelle (FRISE L_0199c)',{'op':'killRel','AT':[[1,0],[1,1],[0,0],[0,1]],'rel':[5,5,5,5]},{'rel':[7,4,6,3]})
 v('PA10',C,'suspected',PQ+' P5 Kette: A<=0, T>0, A-2 < -2 -> j tötet a',{'op':'killRel','AT':[[-1,1]],'rel':[-1]},{'rel':[-3],'chain':[True]})
 v('PA11',C,'suspected',PQ+' P3.2 Stimme v = t379c - 2 + 2*t3eb2 - |a16cc - b206e|',{'op':'voteValue','x':[[3,1,10,8],[1,0,4,9],[2,-1,5,5]]},{'v':[1,-6,-2]})
+
+# ---------------- savemap-ishar1 (Hoth 2026-11-03, Quesh save-map-ishar1.json/.md) ----------------
+C='savemap-ishar1'
+QM=Q+'save-map-ishar1.json/.md'
+OWN2='HOTH_FIXTURES_ISHAR1_SAVEMAP.md (eigene Läufe, Details private/savemap)'
+SM_BASE={'xp':(458,2),'hp':(468,2),'goldK':(478,2),'hpMax':(488,2),'class':(728,1),'race':(733,1),'level':(738,1),
+ 'str':(743,1),'con':(748,1),'wis':(753,1),'int':(758,1),'agi':(763,1),'mental':(768,1),'physical':(773,1),'temper':(778,1),'armor':(783,1),
+ 'goldU':(3993,2),'npc':(4028,1),'rune':(5021,1),'skillOneHand':(4738,1),'skillTwoHand':(4743,1),'skillThrow':(4748,1),'skillShoot':(4753,1),
+ 'skillLockpick':(4758,1),'skillOrientation':(4763,1),'skillFirstAid':(4768,1),'skillLanguages':(4773,1)}
+def smo(fs,cs): return {f:[SM_BASE[f][0]+SM_BASE[f][1]*c for c in cs] for f in fs}
+CS=[0,1,2,3,4]
+v('SM01',C,'known',OWN2+': alle geprüften Ishar-1-Saves 5216 Bytes',{'op':'size'},{'size':5216})
+v('SM02',C,'known',OWN2+'; HOTH_ABNAHME_2026-11-03_ISHAR1_SAVE.md: Klasse 728+c = Bogen',{'op':'offsets','fields':['class'],'c':CS},smo(['class'],CS))
+v('SM03',C,'known',OWN2+'; Abnahme 11-03: Level 738+c',{'op':'offsets','fields':['level'],'c':CS},smo(['level'],CS))
+v('SM04',C,'known',OWN2+'; Abnahme 11-03: MENTAL/psychic 768+c (cmp 771 72->67, c=3)',{'op':'offsets','fields':['mental'],'c':CS},smo(['mental'],CS))
+v('SM05',C,'known',OWN2+': Rasse 733+c = Bögen (Anzeige-Korrelation, keine Rassenänderung per Spielaktion)',
+  {'op':'race','save':[by(733,5),by(734,2),by(735,4),by(736,1),by(737,3)]},{'offsets':[733,734,735,736,737],'race':['Echsenmensch','Elf','Ork','Mensch','Zwerg']})
+v('SM06',C,'known',OWN2+': Regel Gold = 1000*W(478+2c) + W(3993+2c) (Anzeige im eigenen Lauf bestätigt; synthetische Werte). Korrektur zu Quesh: 478 = Tausender, 3993 = Rest (Quesh-Namen vertauscht)',
+  {'op':'gold','save':[be(482,5),be(3997,123)]},{'goldK':[0,0,5,0,0],'goldU':[0,0,123,0,0],'gold':[0,0,5123,0,0],'total':5123})
+v('SM07',C,'known',OWN2+': Spielaktion GEBE GELD -> Aufteilen (c2) + Speichern (1000 GS): nur Tausender 478+2c und Rest 3993+2c ändern sich (synthetische Werte, Gesamt 25123)',
+  {'op':'gold','save':[be(478+2*c,4) for c in CS]+[be(3993+2*c,825) for c in CS[:3]]+[be(3993+2*c,824) for c in CS[3:]]},{'goldK':[4,4,4,4,4],'goldU':[825,825,825,824,824],'gold':[4825,4825,4825,4824,4824],'total':24123})
+v('SM08',C,'known',OWN2+': Speichern kostet 1000 GS: nur Low-Byte des Tausender-Worts ändert sich um 1, Rest unverändert (synthetische Werte)',
+  {'op':'gold','save':[be(482,4),be(3997,123)]},{'gold':[0,0,4123,0,0],'total':4123})
+v('SM09',C,'suspected',OWN2+': Aufteilen (FRISE L_05511) gleich auf Lebende, Rest an die ersten; Speicherkosten 1000 gleich auf 5 verteilt (nur Endzustand beobachtet; synthetische Werte)',
+  {'op':'splitSave','total':25123,'n':5,'cost':1000},{'afterSplit':[5025,5025,5025,5024,5024],'afterSave':[4825,4825,4825,4824,4824]})
+SUSP=['xp','hp','hpMax','str','con','wis','int','agi','physical','temper','armor','npc','rune','skillOneHand','skillTwoHand','skillThrow','skillShoot','skillLockpick','skillOrientation','skillFirstAid','skillLanguages']
+for n,f in enumerate(SUSP):
+    v('SM%02d'%(10+n),C,'suspected',QM+' fields.'+f+(' (Quesh selbst: suspected)' if f=='temper' else ''),{'op':'offsets','fields':[f],'c':CS},smo([f],CS))
+v('SM31',C,'suspected',QM+' inventory base 498, 26 je Charakter, 2 je Slot (0-8 Rucksack, 9/10 Hände, 11 Rüstung, 12 Helm)',{'op':'inv','pts':[[0,0],[2,3],[4,12]]},{'offset':[498+26*c+2*k for c,k in [[0,0],[2,3],[4,12]]]})
+v('SM32',C,'suspected',QM+'.md Zauberbuch 788+20c+k',{'op':'spell','pts':[[0,0],[3,7],[4,19]]},{'offset':[788,855,887]})
+v('SM33',C,'suspected',QM+'.md Name 418+8c (8 Zeichen)',{'op':'name','c':CS},{'offset':[418,426,434,442,450]})
+v('SM34',C,'known','Auftrag: Offsets 7386/7576 gehören zu Ishar 2; jedes Ishar-1-Feld liegt < 5216',{'op':'bounds','offsets':[7386,7576]},{'ishar1':[False,False],'allFieldsInside':True})
+
+# ---------------- monster-ki Ishar 1/2 (Quesh monster-ki-ishar{1,2}.*, Hoth 2026-11-03) ----------------
+QK1=Q+'monster-ki-ishar1.json/.md (EDPLT/GERDEP/MAIN)'; QK2=Q+'monster-ki-ishar2.json/.md (EDPLT/GERDEP/MAIN)'; OWNK='HOTH_FIXTURES_MONSTER_KI.md (eigene Läufe 03.11.2026)'
+NB=[(0,-1),(-1,-1),(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1)]
+def chase(g,m,party,h):
+    okh=(-30<=h<=-2) or h==g['hSpecial']
+    return okh and abs(m[0]-party[0])<=abs(h) and abs(m[1]-party[1])<=abs(h)
+def step(g,m,t,home,h):
+    best=None;bd=None
+    for dx,dy in NB:
+        n=(m[0]+dx,m[1]+dy)
+        if not(abs(n[0]-home[0])<abs(h) and abs(n[1]-home[1])<abs(h) and 3<n[0]<g['xMax']): continue
+        d=(n[0]-t[0])**2+(n[1]-t[1])**2
+        if bd is None or d<bd: best,bd=n,d
+    return list(best) if best else list(m)
+G1={'hSpecial':-41,'xMax':50}; G2={'hSpecial':9,'xMax':85}
+C='monster-ki-ishar1'
+for id,m,party,h,st,nt in [('MK01',[25,54],[20,53],-4,'suspected','M1: Abstand 5 > |h| 4 -> keine Verfolgung'),('MK02',[24,54],[20,53],-4,'suspected','M2: Abstand 4 -> Verfolgung'),('MK03',[24,54],[20,53],-1,'suspected','h=-1 außerhalb [-30,-2]'),('MK04',[24,54],[20,53],-41,'suspected','Sonderhaltung -41')]:
+    v(id,C,st,QK1,{'op':'chase','m':m,'party':party,'h':h},{'chase':chase(G1,m,party,h)},nt)
+v('MK05',C,'suspected',QK1+' 8-Nachbar-Suche, erster gewinnt',{'op':'step','m':[24,54],'target':[21,53],'home':[25,54],'h':-4},{'pos':step(G1,[24,54],[21,53],[25,54],-4)},'Leine |neu-heim|<|h|; Karte als frei angenommen')
+v('MK06',C,'suspected',QK1,{'op':'step','m':[24,54],'target':[21,53],'home':[25,54],'h':-2},{'pos':step(G1,[24,54],[21,53],[25,54],-2)},'Leine 2 blockiert Westschritt')
+v('MK07',C,'known',OWNK+' §I1: Felder x/y/HP/Haltung/Zone werden für die Akteure 60..69 gemeinsam gelöscht',{'op':'offsets','i':[60,64,69]},{'x':[1568,1576,1586],'y':[1708,1716,1726],'hp':[1848,1856,1866],'stance':[3748,3752,3757],'zone':[4093,4097,4102]})
+v('MK08',C,'suspected',QK1,{'op':'offsets','i':[60]},{'type':[2698],'chased':[4163],'homeX':[4841],'homeY':[4911],'contact':[4778,4779,4780]})
+v('MK09',C,'known',OWNK+' §I1 (a): Laden + sofort Speichern in zwei frischen Sessions: Akteure unverändert, beide Saves byte-gleich',{'op':'afterLoad','zoneHasEntries':True,'sync':True},{'actorsChanged':False,'sessionsEqual':True})
+v('MK10',C,'known',OWNK+' §I1 (a): ein Schritt mit Kartenwechsel löscht die Wandermonster 60..69 (x/y/HP/Haltung/Zone -> 0); Ergebnis in zwei Sessions byte-gleich',
+  {'op':'wanderReset','save':[be(1448+2*i,30) for i in range(60,70)]+[be(1588+2*i,40) for i in range(60,70)]+[be(1728+2*i,7) for i in range(63,69)]+[by(3688+i,250) for i in range(60,70)]+[by(4033+i,12) for i in range(60,70)],'entries':0},
+  {'changes':{str(o):0 for o in sorted([1448+2*i+1 for i in range(60,70)]+[1588+2*i+1 for i in range(60,70)]+[1728+2*i+1 for i in range(63,69)]+[3688+i for i in range(60,70)]+[4033+i for i in range(60,70)])}},'synthetische Werte; Neuerzeugung bei Einträgen > 0 nicht beobachtet')
+C='monster-ki-ishar2'
+for id,m,party,h,st,nt in [('MK21',[25,54],[20,53],-4,'suspected','N1'),('MK22',[24,54],[20,53],-4,'suspected','N2'),('MK23',[30,54],[20,53],9,'suspected','h=9 Sonderhaltung, |dx|=10 > 9')]:
+    v(id,C,st,QK2,{'op':'chase','m':m,'party':party,'h':h},{'chase':chase(G2,m,party,h)},nt)
+v('MK24',C,'suspected',QK2,{'op':'step','m':[24,54],'target':[21,53],'home':[25,54],'h':-4},{'pos':step(G2,[24,54],[21,53],[25,54],-4),'cooldown':2})
+v('MK25',C,'known',OWNK+' §I2: beim Neuerzeugen nach dem Laden ändern sich genau diese Felder der Akteure 90+',{'op':'offsets','i':[90,104]},{'x':[2781,2809],'y':[3001,3029],'facing':[3221,3249],'hp':[3441,3469],'zone':[6871,6885]})
+v('MK26',C,'known',OWNK+' §I2 (b): Laden in einer Zone mit Wandermonstern -> Akteure 90..104 neu erzeugt (Zone 0->Z, HP 0->>0, Kontaktliste belegt); zwei frische Sessions: gleiche Positionen, andere HP/Werte',
+  {'op':'afterLoad','zoneHasEntries':True,'sync':False},{'actorsChanged':True,'sessionsEqual':False})
+v('MK27',C,'known',OWNK+' §I2 (b): Zonenwechsel 36->35->36 (beide ohne Wandermonster): Akteure 90+ bleiben leer, keine Änderung',{'op':'zoneChange','entries':0,'before':'empty'},{'actorsChanged':False})
+v('MK28',C,'suspected',QK2+' Kontaktliste Slotfolge 1,0,2',{'op':'contactOrder','arrivals':[91,92,93]},{'contact':[92,91,93]},'Ankunftsreihenfolge synthetisch')
 
 out={'schema':'hoth-contract-fixtures/1','created':'2026-10-18','author':'Hoth (Grok Bot executor)',
  'notes':['Offsets ab 0 (cmp -l = ab0+1).','Saves = 8359 Nullbytes, Formatmarke Wort@0 = 2, plus die gelisteten künstlichen Felder (be16 = Big-Endian-Wort, u8 = Byte). Keine Originalbytes.',

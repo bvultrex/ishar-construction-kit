@@ -105,6 +105,30 @@ for (const v of fx.vectors.filter((x) => x.contract.startsWith('combat'))) if (v
     for (const k of ['maxHp', 'food', 'npc', 'rel', 'grid']) rec(`PA02.${k}`, '(kein Feld in ISHAR1_SAVE)', false, `fehlt, erwartet ${w.expected[k]}`); }
   for (const x of fx.vectors.filter((y) => y.contract === 'party-ishar1' && !['PA01', 'PA02'].includes(y.id))) rec(x.id, `(keine Ishar-1-Party im Kit: ${x.input.op})`, false, 'fehlt');
 }
+// savemap Ishar 1 (Hoth 2026-11-03): Quesh-Map gegen save-maps.ts ISHAR1_SAVE
+{
+  const smap = await imp('save-maps.ts'), M = smap.ISHAR1_SAVE, F = M.fields;
+  const at = (f, c) => (f ? f.offset + (f.stride ?? 0) * c : undefined);
+  rec('SM01', 'save-maps.ts ISHAR1_SAVE.minLength', M.minLength === 5216, `minLength ${M.minLength}, erwartet 5216`);
+  const KF = { class: 'class', race: 'race', level: 'level', mental: 'psychic', goldK: 'gold', goldU: 'goldThousands', xp: 'xp', hp: 'hp', hpMax: 'hpMax', str: 'strength', con: 'constitution', wis: 'wisdom', int: 'intelligence', agi: 'agility', physical: 'physical', temper: 'temper', armor: 'armor', npc: 'npcId', rune: 'rune' };
+  for (const v of fx.vectors.filter((y) => y.contract === 'savemap-ishar1' && y.input.op === 'offsets')) for (const f of v.input.fields) {
+    const kf = KF[f] ?? f, got = v.input.c.map((c) => at(F[kf], c)); rec(`${v.id}.${f}`, `save-maps.ts ISHAR1_SAVE.fields.${kf}` + (F[kf] ? '' : ' (fehlt)'), eq(got, v.expected[f]), `bekommen ${JSON.stringify(got)} erwartet ${JSON.stringify(v.expected[f])}`); }
+  { const v = byId.SM05, b = new Uint8Array(5216); for (const f of v.input.save) if ('u8' in f) b[f.offset] = f.u8; const got = F.race ? [0, 1, 2, 3, 4].map((c) => smap.raceName(M, b[at(F.race, c)])) : null;
+    rec('SM05', 'save-maps.ts raceName(ISHAR1_SAVE, fields.race)', eq(got, v.expected.race), `bekommen ${JSON.stringify(got)} erwartet ${JSON.stringify(v.expected.race)}`); }
+  for (const id of ['SM06', 'SM07', 'SM08']) { const v = byId[id]; rec(id, 'save-maps.ts ISHAR1_SAVE.fields.gold/goldThousands (2 Felder, BE16, stride 2)', !!(F.gold && F.goldThousands && F.gold.offset === 3993 && F.goldThousands.offset === 478), `Kit gold @${F.gold?.offset} size ${F.gold?.size}, goldThousands ${F.goldThousands ? '@' + F.goldThousands.offset : 'fehlt'}; erwartet Tausender 478+2c, Rest 3993+2c`); }
+  rec('SM09', '(kein Aufteilen/Speicherkosten-Modell für Ishar 1 im Kit)', false, 'fehlt');
+  for (const id of ['SM31', 'SM32', 'SM33']) rec(id, `(kein Ishar-1-${byId[id].input.op}-Feld in ISHAR1_SAVE)`, false, 'fehlt');
+  { const offs = Object.values(F).map((f) => f.offset); rec('SM34', 'save-maps.ts ISHAR1_SAVE Felder < 5216 (keine Ishar-2-Offsets)', offs.every((o) => o < 5216), `max ${Math.max(...offs)}`); }
+}
+// monster-ki (Hoth 2026-11-03): save-actors.ts readActorSave gegen MK25; Rest ohne Kit-Gegenstück
+{
+  const sa = await imp('save-actors.ts'), v = byId.MK25, b = new Uint8Array(8359); b[1] = 2;
+  const put = (o, x) => { b[o] = x >> 8; b[o + 1] = x & 255; };
+  v.input.i.forEach((n, k) => { put(v.expected.x[k], 11 + k); put(v.expected.y[k], 21 + k); put(v.expected.facing[k], 3); put(v.expected.hp[k], 62 + k); b[v.expected.zone[k]] = 58; });
+  const r = sa.readActorSave(b), got = v.input.i.map((n) => r?.actors.find((a) => a.id === n)), exp = v.input.i.map((n, k) => [11 + k, 21 + k, 3, 62 + k, 58]);
+  rec('MK25', 'save-actors.ts readActorSave (row=x 2601, col=y 2821, facing 3041, hp 3261, scene 6781)', eq(got.map((a) => a && [a.row, a.col, a.facing, a.hp, a.scene]), exp), `bekommen ${JSON.stringify(got.map((a) => a && [a.row, a.col, a.facing, a.hp, a.scene]))}`);
+  for (const x of fx.vectors.filter((y) => y.contract.startsWith('monster-ki') && y.id !== 'MK25')) rec(x.id, `(keine Monster-KI im Kit: ${x.input.op})`, false, 'fehlt');
+}
 const ok = rows.filter((r) => r.ok).length;
 for (const r of rows) console.log(`${r.ok ? 'PASST ' : 'NEIN  '} ${r.id.padEnd(5)} ${r.fn}${r.note ? '  — ' + r.note : ''}`);
 console.log(`\nKit: ${kit}\nPasst: ${ok}/${rows.length}`);
