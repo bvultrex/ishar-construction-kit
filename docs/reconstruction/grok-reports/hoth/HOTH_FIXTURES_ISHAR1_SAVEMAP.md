@@ -17,7 +17,7 @@ Quelle: `quesh/save-map-ishar1.json/.md`. Alles aus Queshs Map ist **suspected**
 | Klasse 728+c | known | Bögen (SM02) |
 | Level 738+c | known | SM03 |
 | MENTAL 768+c | known | SM04 |
-| Rasse 733+c | known (kausal) | 5 von 5 Bögen (SM05). Kausaltest 2026-11-03: Patch einer Kopie von LP1 (RACEX), Bogen von Figur 0 wechselt von „Menschlich“ zu „Eidechse“. |
+| Rasse 733+c | known (kausal) | 5 von 5 Bögen (SM05). Kausaltest 2026-11-03: Patch einer Kopie von LP1 (RACEX), Bogen von Figur 0 zeigt danach die gepatchte Rasse (Werte privat). |
 | Gold 478+2c = **Tausender** | known | Anzeige + Spielaktion (SM06–SM08, Vektoren synthetisch) |
 | Gold 3993+2c = **Rest 0..999** | known | dito |
 | Gold-Benennung bei Quesh | **Korrektur** | Quesh: `gold`=478, `goldThousands`=3993 – vertauscht. |

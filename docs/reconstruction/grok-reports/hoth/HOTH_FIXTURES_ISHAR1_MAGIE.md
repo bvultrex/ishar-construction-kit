@@ -1,5 +1,7 @@
 # HOTH – Ishar-1-Magie-Fixtures (3.11.2026, CET)
 
+> Bereinigte Fassung (2026-11-03): Positionen, Pixelzahlen, Spielzeiten, sha-Werte und Rohwerte aus Saves stehen in `private/bereinigung/HOTH_FIXTURES_ISHAR1_MAGIE.privat.md`.
+
 Quelle: `quesh/magic-contract-ishar1.md`. Neuer Vertrag `magic-ishar1` mit 34 Vektoren (I01–I34) in `fixtures/contract-fixtures.json`; Datei jetzt 151 Vektoren. Commit d073f89 auf `grok/hoth-contract-fixtures` (lokal, nicht gepusht; Clone danach wieder auf 319819c detached).
 
 ## Methode
@@ -25,9 +27,10 @@ Gesamt 56/134 passt (vorher 55/95; neu dazu nur I31.size).
 | I01–I30, I32–I34 | – | **fehlt** | keine Ishar-1-Magie im Kit (Kosten, Würfe, Heilung, Schaden, Lightning, Timer, Preis, Lernwurf, Klassenregeln, Schlaf, Zauberklassen, Bezahlregel) |
 
 Plausibilitätsblick, nur gelesen und nicht in die Fixtures übernommen, auf S1.SAV:
-- An 768+c steht 100,100,100,72,100. Das passt zu T1 (c3 = 72).
-- An 738+c steht 10,10,10,8,8. Das sind plausible Level.
-- Das Kit-Feld 0x3e2+c liefert 79,77,0,0,0, das Kit-Feld 0x2e9+c liefert 10,10,12,18,20. Beides ist für Level bzw. MENTAL unplausibel.
+- Die Werte an 768+c passen zu T1 (Charakter 3 weicht ab).
+- Die Werte an 738+c sind plausible Level.
+- Die Werte der Kit-Felder 0x3e2+c und 0x2e9+c sind für Level bzw. MENTAL unplausibel.
+- Konkrete Werte siehe private Fassung.
 - Daraus folgt: Die DEBUG-Cheat-Map ist für die DOS-Saves mit 5216 B wahrscheinlich falsch. Bewiesen ist das erst mit einem Original-Lauf (T1).
 - Nebenbefund: ISHAR1_SAVE nutzt ISHAR2_CLASSES. Die Ishar-1-Klassen-IDs (z. B. 6 Wizard, 18 Occult monk) habe ich nicht gegengeprüft.
 
