@@ -1,0 +1,201 @@
+{
+ "base_commit": "bb42748",
+ "code": "319819c",
+ "evidence_levels": [
+  "known",
+  "suspected",
+  "unknown"
+ ],
+ "contract": "dialog-text-contract-ishar2",
+ "sha256": {
+  "TEXTIN.IO": "e0c8293e19017f3e90f4c0b2d812b5a9a85052673be9acc18df3f686c1a65a6c",
+  "TEXTINE.IO": "a8f9dc4b7be0c4b5034e284f8af2699693dcd16bcda5704f89dc42f411a2e1c6",
+  "TEXTIND.IO": "b36ded430e7d183ad29be627679aaf8823aeae5cb056394253dec118f048465d",
+  "MAIN.IO": "bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95",
+  "PP11.IO": "5e7672ecc83dd8712ebc9718d66c4f5a4825d1d2e3f1f1d02ca74ce5e3c09423",
+  "MARCHAND.IO": "a5b84f95b8b50f1c68fc8e6c368a67742f9f96a67ca033d6e72ee4d7c4673529"
+ },
+ "routines": [
+  {
+   "id": "D1",
+   "script": "MAIN.IO",
+   "pc": "0x02960",
+   "evidence": "known",
+   "rule": "loc 0x51c1: 1->textine, 2->textind, else textin; init -1 @0x00304",
+   "open": {
+    "setter_of_0x51c1": "unknown",
+    "same_entity_type_0x35": "suspected"
+   }
+  },
+  {
+   "id": "D2",
+   "script": "TEXTIN.IO",
+   "pc": [
+    "0x00063",
+    "0x00083"
+   ],
+   "evidence": "known",
+   "call": "clive 0x0035 -> h; h+0x0c=code; h+0x09=37; opt h+0x0d",
+   "dispatch": {
+    ">124": "L_03604 list page (126 adds Exit)",
+    "<0": "L_0250d -> switch 0x02555 or 0x02dfc",
+    "else": "switch 0x000c6"
+   },
+   "families": {
+    "0x000c6": {
+     "cases": 26,
+     "lines_fr": 167,
+     "maxlen": 47
+    },
+    "0x02555": {
+     "cases": 16,
+     "lines_fr": 40,
+     "maxlen": 45
+    },
+    "0x02dfc": {
+     "cases": 103,
+     "lines_fr": 146,
+     "maxlen": 28
+    }
+   },
+   "callers": {
+    "PP11": [
+     1,
+     2
+    ],
+    "PP12": [
+     3
+    ],
+    "PP3BAN": [
+     12,
+     -50,
+     -51,
+     -52
+    ],
+    "PP3MN": [
+     10,
+     14,
+     16,
+     17
+    ],
+    "PP3TB": [
+     11,
+     13,
+     18
+    ],
+    "PP2I": [
+     23,
+     "78+x"
+    ],
+    "PPSAC": [
+     24
+    ],
+    "TAVERNE": [
+     -10,
+     "-20-x",
+     "-22-x",
+     -29,
+     -31,
+     "100+x"
+    ],
+    "MARCHAND": [
+     -21,
+     -40,
+     -41,
+     -42,
+     -43,
+     "var(+0x0d=33)"
+    ]
+   }
+  },
+  {
+   "id": "D3",
+   "script": "TEXTIN.IO",
+   "pc": [
+    "0x02399",
+    "0x0248a"
+   ],
+   "evidence": "known",
+   "max_lines": 4,
+   "y_by_n": {
+    "1": [
+     39
+    ],
+    "2": [
+     47,
+     31
+    ],
+    "3": [
+     51,
+     39,
+     27
+    ],
+    "4": [
+     54,
+     44,
+     34,
+     24
+    ]
+   },
+   "y_print": "tc[i]-5+dirb28",
+   "x": "159-3*len",
+   "font": [
+    33,
+    18,
+    6,
+    9,
+    119
+   ],
+   "y_up": "suspected"
+  },
+  {
+   "id": "D3b",
+   "script": "TEXTIN.IO",
+   "pc": [
+    "0x0248b",
+    "0x0250c"
+   ],
+   "evidence": "known",
+   "dismiss": "sleep types 6,7; wait idle; wait button-or-key; wait release; erase 4 slots",
+   "freeze_game": "suspected"
+  },
+  {
+   "id": "D4",
+   "evidence": "known",
+   "rule": "most cases: one 4-line page selected by a state flag; codes 13/19/20 inline multi-page",
+   "page_counts": "suspected"
+  }
+ ],
+ "tests": [
+  {
+   "id": "DT-1",
+   "who": "Alderaan",
+   "setup": "save in front of merchant (MARCHAND code -40)",
+   "expect": "left edge = 159-3*len +-1; blocks until press+release"
+  },
+  {
+   "id": "DT-2",
+   "who": "Alderaan",
+   "setup": "save with 0x4f13=1 entering audience (QF-1)",
+   "expect": "1 page of 4 lines, 1 click; save off 21 = 2"
+  },
+  {
+   "id": "DT-3",
+   "who": "Hoth",
+   "expect": "EN/DE same page count",
+   "evidence": "unknown"
+  },
+  {
+   "id": "DT-4",
+   "who": "Codex/Hoth",
+   "cmd": "python3 private/dialog/textcases.py",
+   "expect": {
+    "TEXTIN": [
+     26,
+     16,
+     103
+    ]
+   }
+  }
+ ]
+}

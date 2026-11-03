@@ -1,0 +1,355 @@
+{
+ "base_commit": "bb42748",
+ "code": "319819c",
+ "evidence_levels": [
+  "known",
+  "suspected",
+  "unknown"
+ ],
+ "contract": "quest-flags-contract-ishar2",
+ "storage": "MAIN byte, saved as BE16 word at file offset (low byte at +1); IO.IO 0x00ac5-0x00b29 / 0x00e1c-0x00e80",
+ "tool": "flagcheck-ishar2.py",
+ "flags": {
+  "0x4f13": {
+   "off": 20,
+   "writers": [
+    [
+     "PP11",
+     "0x00038",
+     1
+    ],
+    [
+     "TEXTIN",
+     "0x003af",
+     2
+    ],
+    [
+     "TEXTIN",
+     "0x0056e",
+     4
+    ],
+    [
+     "SOURIS",
+     "0x00c81",
+     3
+    ],
+    [
+     "TEXTINE",
+     "0x00377",
+     2
+    ],
+    [
+     "TEXTINE",
+     "0x00513",
+     4
+    ],
+    [
+     "TEXTIND",
+     "0x00395",
+     2
+    ],
+    [
+     "TEXTIND",
+     "0x00546",
+     4
+    ]
+   ],
+   "meaning": "Gordbnoeuf chain",
+   "evidence_writes": "known",
+   "evidence_meaning": "suspected"
+  },
+  "0x4fbd": {
+   "off": 26,
+   "writers": [
+    [
+     "MAIN",
+     "0x006c6",
+     1
+    ],
+    [
+     "MAIN",
+     "0x01039",
+     -1
+    ],
+    [
+     "PARAM",
+     "0x00f52",
+     1
+    ],
+    [
+     "PP3MN",
+     "0x00041",
+     0
+    ],
+    [
+     "PP3TB",
+     "0x000cd",
+     2
+    ],
+    [
+     "TEXTIN",
+     "0x007f7",
+     2
+    ],
+    [
+     "TEXTIN",
+     "0x008e0",
+     3
+    ],
+    [
+     "TEXTIN",
+     "0x009c7",
+     2
+    ]
+   ],
+   "meaning": "unknown"
+  },
+  "0x4fbe": {
+   "off": 28,
+   "writers": [
+    [
+     "TEXTIN",
+     "0x00db5",
+     1
+    ],
+    [
+     "TEXTIN",
+     "0x00f11",
+     2
+    ],
+    [
+     "TEXTIN",
+     "0x00fd8",
+     1
+    ]
+   ],
+   "meaning": "unknown"
+  },
+  "0x4fc0": {
+   "off": 32,
+   "writers": [
+    [
+     "PP3TB",
+     "0x0002b",
+     0
+    ],
+    [
+     "SOURIS",
+     "0x00ca3",
+     1
+    ]
+   ],
+   "meaning": "item -15 delivered on material 101",
+   "evidence_meaning": "suspected"
+  },
+  "0x4fc1": {
+   "off": 34,
+   "writers": [
+    [
+     "MAIN",
+     "0x01026",
+     "+1"
+    ],
+    [
+     "MAIN",
+     "0x01050",
+     "clamp 3"
+    ]
+   ],
+   "meaning": "counter",
+   "evidence_meaning": "unknown"
+  },
+  "0x4fc4": {
+   "off": 40,
+   "writers": [
+    [
+     "TEXTIN",
+     "0x00dbb",
+     1
+    ],
+    [
+     "SOURIS",
+     "0x00e4d",
+     1
+    ]
+   ],
+   "readers": [
+    "MAP 0x00077",
+    "MAP 0x001c6",
+    "MAP 0x002a2",
+    "MAP 0x0042e"
+   ],
+   "meaning": "map gate",
+   "evidence_meaning": "suspected"
+  },
+  "0x4fc5": {
+   "off": 42,
+   "writers": [
+    [
+     "PP3MN",
+     "0x00037",
+     1
+    ],
+    [
+     "SOURIS",
+     "0x00e53",
+     1
+    ]
+   ],
+   "readers": [
+    "MAP",
+    "TEXTIN 0x01189",
+    "PP3MN 0x001ba"
+   ],
+   "meaning": "map gate",
+   "evidence_meaning": "suspected"
+  },
+  "0x50a5": {
+   "off": 70,
+   "writers": [
+    [
+     "TEXTIN",
+     "0x0134e",
+     1
+    ]
+   ],
+   "meaning": "one-shot code 23",
+   "evidence": "known"
+  }
+ },
+ "chains": {
+  "QF-1": {
+   "evidence": "known",
+   "steps": [
+    "MAIN 0x02ec6 scene -50 -> PP11 +0x0d=0 (audience); 51 -> PP11 +0x0d=1 + 0x4aa0=1 (arrest)",
+    "arrest: 0x4f13=1, TEXTIN 1",
+    "audience: cforme 0 material 100 origin [93,0,174] extent [60,1,-94]; TEXTIN 2",
+    "TEXTIN 2: 0 text;1 ->2;2 text;3 OLBAR+ ->4;4 text",
+    "SOURIS 0x00c74: held id 9 dropped on material 100 -> 0x4f13=3"
+   ],
+   "scene_sender": "unknown",
+   "hit_box_game": {
+    "if_0x4aa0_1": [
+     93,
+     153,
+     25,
+     119
+    ],
+    "evidence": "suspected"
+   }
+  }
+ },
+ "observed": {
+  "START,START2,START3,TEST,TEST2,LP": [
+   0,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "S,S1": [
+   4,
+   1,
+   0,
+   0,
+   1,
+   0,
+   0,
+   0
+  ],
+  "S2": [
+   4,
+   -1,
+   1,
+   0,
+   2,
+   1,
+   0,
+   0
+  ],
+  "SASCHA,SASCHA2,GRIMZ,GRIMZEL,LP4": [
+   4,
+   2,
+   1,
+   0,
+   3,
+   1,
+   0,
+   1
+  ],
+  "LP2,LP3,FINALE": [
+   4,
+   2,
+   1,
+   0,
+   3,
+   1,
+   1,
+   1
+  ],
+  "LEVELING": [
+   4,
+   2,
+   2,
+   0,
+   3,
+   1,
+   1,
+   1
+  ],
+  "_order": [
+   "0x4f13",
+   "0x4fbd",
+   "0x4fbe",
+   "0x4fc0",
+   "0x4fc1",
+   "0x4fc4",
+   "0x4fc5",
+   "0x50a5"
+  ]
+ },
+ "tests": [
+  {
+   "id": "QF-T0",
+   "who": "Hoth",
+   "cmd": "python3 flagcheck-ishar2.py <orig.SAV>",
+   "expect": "table 'observed'",
+   "evidence": "known"
+  },
+  {
+   "id": "QF-T1",
+   "who": "Alderaan",
+   "from": "START.SAV",
+   "action": "play until arrest scene; save QF1A",
+   "expect_diff": {
+    "21": "0->1 (or 2)"
+   },
+   "record": "map/row/col off 2-9"
+  },
+  {
+   "id": "QF-T2",
+   "who": "Alderaan",
+   "from": "audience, 0x4f13=2, object 9 held (PICK9 flow or labelled patch off21=2)",
+   "action": "drop at (123,72); bracket (90,72),(156,72)",
+   "expect": "OLBAR appears; save off21=4; item 9 gone",
+   "evidence": "suspected"
+  },
+  {
+   "id": "QF-T3",
+   "who": "Hoth",
+   "action": "drop item !=9 on same spot",
+   "expect": "0x4f13 unchanged",
+   "evidence": "suspected"
+  },
+  {
+   "id": "QF-T4",
+   "who": "Hoth",
+   "action": "patch off21 0..4 on copy of S.SAV, load, save",
+   "expect": "round trip unchanged",
+   "evidence": "suspected"
+  }
+ ]
+}
