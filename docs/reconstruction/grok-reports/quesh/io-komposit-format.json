@@ -1,0 +1,116 @@
+{
+ "titel": "ALIS-.IO-Ressourcen (Ishar 1 DOS, v20/21): Tabelle, Bitmap und Komposit 0xFF",
+ "stand": "2026-11-03",
+ "quelle": "Nachbau ext/alis/src/image.c putin() Z.1439–1565, picture_v10 Z.1383; image_draw_16.c Z.116–160, image.c Z.2444–2475. Der Code der Original-EXE ist nicht disassembliert (suspected, bezogen auf die EXE).",
+ "tabelle": {
+  "header": "entpacktes Bild (alis_unpack.load_script), Dword LE @14 = p",
+  "p": "u32 off, u16 anzahl; Tabelle beginnt bei p+off",
+  "eintrag_i": "u32 LE an a=Tabelle+4·i; Ressource bei a + Wert (relativ zum Eintrag, image.c Z.1470)",
+  "stufe": "known (Code), geprüft an 15 Dateien"
+ },
+ "typbyte": {
+  "0xFE": "Palette (topalette/dos_putin_palette)",
+  ">0x80 (0xFF)": "Komposit",
+  "0x10": "4 bpp, transparent (Index 0)",
+  "0x12": "4 bpp, deckend",
+  "0x14": "8 bpp, transparent",
+  "0x16": "8 bpp, deckend",
+  "0x00/0x01": "vorhanden, Bedeutung unknown"
+ },
+ "komposit": {
+  "byte0": "0xFF",
+  "byte1": "n = Anzahl Teile (u8)",
+  "teil_k (8 Byte ab 2+8k, LE)": {
+   "+0 s16": "Teil-Ressourcenindex; Bit15 = horizontal spiegeln (invert_x ^= 1), Index = Wert & 0x7FFF",
+   "+2 s16": "dx (bei gespiegeltem Elternteil negiert)",
+   "+4 s16": "dy",
+   "+6 s16": "dz (Tiefe/Sortierung)"
+  },
+  "semantik": "Teile rekursiv (Teil kann wieder Komposit sein); Position = Elternposition + d; danach Rücksetzen; fmuldes=1 → alle Teile in derselben Sprite-Kette",
+  "stufe": "known (Code), Endianness LE an Daten geprüft"
+ },
+ "bitmap": {
+  "+0": "Typ",
+  "+1": "unbenutzt/Flags (unknown)",
+  "+2 u16": "Breite−1",
+  "+4 u16": "Höhe−1",
+  "+6 u8": "Palettenoffset (4 bpp)",
+  "+7": "unknown",
+  "+8": "Pixel: 4 bpp = (Breite>>1) Byte je Zeile, hohes Nibble zuerst; 8 bpp = Breite Byte je Zeile",
+  "stufe": "known (Code), Export visuell geprüft (Steinwände, Säule, Hebel)"
+ },
+ "tests": [
+  {
+   "datei": "MCAVE.IO",
+   "idx": 12,
+   "typ": "bitmap",
+   "sha1_kopf_prefix": "b58bdbe2",
+   "fmt": "0x10",
+   "w": 32,
+   "h": 51,
+   "sha1_pixel_prefix": "a0c78e43"
+  },
+  {
+   "datei": "MCAVE.IO",
+   "idx": 126,
+   "typ": "komposit",
+   "sha1_kopf_prefix": "9b1e19ae",
+   "n": 9,
+   "teile_gespiegelt": 3
+  },
+  {
+   "datei": "MCAVE.IO",
+   "idx": 144,
+   "typ": "komposit",
+   "sha1_kopf_prefix": "cc7d2660",
+   "n": 3,
+   "teile_gespiegelt": 0
+  },
+  {
+   "datei": "MCAVE.IO",
+   "idx": 201,
+   "typ": "komposit",
+   "sha1_kopf_prefix": "5abefabd",
+   "n": 1,
+   "teile_gespiegelt": 0
+  },
+  {
+   "datei": "MCAVE.IO",
+   "idx": 228,
+   "typ": "komposit",
+   "sha1_kopf_prefix": "69af530b",
+   "n": 10,
+   "teile_gespiegelt": 4
+  },
+  {
+   "datei": "MCAVE.IO",
+   "idx": 241,
+   "typ": "komposit",
+   "sha1_kopf_prefix": "253a470d",
+   "n": 1,
+   "teile_gespiegelt": 0
+  },
+  {
+   "datei": "PCAVE.IO",
+   "idx": 8,
+   "typ": "komposit",
+   "sha1_kopf_prefix": "86cf3878",
+   "n": 3,
+   "teile_gespiegelt": 0
+  },
+  {
+   "datei": "PCAVE.IO",
+   "idx": 9,
+   "typ": "komposit",
+   "sha1_kopf_prefix": "5bda8534",
+   "n": 1,
+   "teile_gespiegelt": 0
+  },
+  {
+   "id": "T-refs",
+   "pruefung": "In 15 Dateien (MCAVE, PCAVE und 13 Außenmodule) zeigt kein Komposit-Teil über die Ressourcenanzahl hinaus",
+   "ergebnis": "0 Fehlverweise"
+  }
+ ],
+ "werkzeug": "private/io-komposit-export.py DATEI.IO [idx…] [--png] → private/io-export/<MODUL>/"
+}

@@ -67,3 +67,4 @@ Basis: `workbench/playable-slice` @ `bb42748` (Code-Stand `319819c`). Belegstatu
 | Hoth | [HOTH_FIXTURES_ISHAR1_SAVEMAP.md](hoth/HOTH_FIXTURES_ISHAR1_SAVEMAP.md) | Nachtrag 16: Rasse 733+c kausal belegt (5464f5a) | siehe Bericht; nicht integriert |
 | Quesh | [save-map-ishar1.md](quesh/save-map-ishar1.md) | Nachtrag 16: aktualisierte Fassung (Gold Tausender/Rest korrigiert); JSON vorerst nicht aktualisiert | siehe Bericht; nicht integriert |
 | Quesh | [dungeon-karten-ishar1.md](quesh/dungeon-karten-ishar1.md) / [.json](quesh/dungeon-karten-ishar1.json) | Nachtrag 16: Außenrenderer, Sprite-Ressourcen, Außenmodule je Zone (Nachträge 3/4) | siehe Bericht; nicht integriert |
+| Quesh | [io-komposit-format.md](quesh/io-komposit-format.md) / [.json](quesh/io-komposit-format.json) | Nachtrag 17: ALIS-.IO-Ressourcen Ishar 1 (Tabelle, Bitmap, Komposit 0xFF; nur Struktur und SHA1-Präfixe, Bilder nur privat) | siehe Bericht; nicht integriert |
