@@ -1,576 +1,599 @@
 {
- "game": "ishar1",
- "date": "2026-11-03",
- "base": "bb42748",
- "sha256": {
-  "MARCHAND.IO": "77db63b52c23…",
-  "ITAVERNE.IO": "f3bed78c5fb9…",
-  "MAIN.IO": "27c5834de005…",
-  "PARAM.IO": "f42ea12ceffa…",
-  "S1.SAV": "→ private/shop-tavern-contract-ishar1-savewerte.json#/sha256/S1.SAV",
-  "LP1.SAV": "→ private/shop-tavern-contract-ishar1-savewerte.json#/sha256/LP1.SAV"
- },
- "evidence_levels": [
-  "known",
-  "suspected",
-  "unknown"
- ],
- "shop": {
-  "entry": {
-   "table": "0x3fd6",
-   "cells": [
-    [
-     17,
-     52,
-     1,
-     0
-    ],
-    [
-     31,
-     16,
-     1,
-     1
-    ],
-    [
-     38,
-     50,
-     1,
-     2
-    ],
-    [
-     24,
-     71,
-     13,
-     3
-    ],
-    [
-     25,
-     80,
-     13,
-     4
-    ],
-    [
-     35,
-     72,
-     13,
-     5
-    ],
-    [
-     19,
-     6,
-     4,
-     6
-    ],
-    [
-     29,
-     69,
-     14,
-     7
-    ],
-    [
-     36,
-     75,
-     14,
-     8
-    ]
-   ],
-   "evidence": "known"
+  "game": "ishar1",
+  "date": "2026-11-03",
+  "base": "bb42748",
+  "sha256": {
+    "MARCHAND.IO": "77db63b52c23…",
+    "ITAVERNE.IO": "f3bed78c5fb9…",
+    "MAIN.IO": "27c5834de005…",
+    "PARAM.IO": "f42ea12ceffa…",
+    "S1.SAV": "→ private/shop-tavern-contract-ishar1-savewerte.json#/sha256/S1.SAV",
+    "LP1.SAV": "→ private/shop-tavern-contract-ishar1-savewerte.json#/sha256/LP1.SAV"
   },
-  "inventory": {
-   "format": "item,price_k,price_u,qty(default 1)",
-   "shops": {
-    "s0": [
-     [
-      -57,
-      0,
-      320,
-      5
-     ],
-     [
-      -50,
-      0,
-      900
-     ],
-     [
-      -25,
-      1,
-      800
-     ],
-     [
-      -35,
-      1,
-      200
-     ],
-     [
-      -60,
-      0,
-      500
-     ],
-     [
-      -62,
-      0,
-      300
-     ]
-    ],
-    "s1": "→ private/shop-tavern-contract-ishar1-savewerte.json#/shop/inventory/shops/s1",
-    "s2": [
-     [
-      -58,
-      0,
-      300,
-      20
-     ],
-     [
-      -55,
-      2,
-      500
-     ],
-     [
-      -36,
-      1,
-      800
-     ],
-     [
-      -64,
-      0,
-      800
-     ],
-     [
-      -45,
-      3,
-      200
-     ]
-    ],
-    "s3": [
-     [
-      -57,
-      0,
-      400,
-      5
-     ],
-     [
-      -60,
-      0,
-      600
-     ],
-     [
-      -62,
-      0,
-      400
-     ],
-     [
-      -63,
-      0,
-      800
-     ],
-     [
-      -64,
-      0,
-      950
-     ],
-     [
-      -66,
-      1,
-      500
-     ]
-    ],
-    "s4": [
-     [
-      -40,
-      2,
-      500
-     ],
-     [
-      -41,
-      4,
-      900
-     ],
-     [
-      -45,
-      3,
-      800
-     ],
-     [
-      -44,
-      4,
-      200
-     ],
-     [
-      -47,
-      6,
-      0
-     ],
-     [
-      -58,
-      0,
-      650,
-      20
-     ],
-     [
-      -48,
-      1,
-      600
-     ],
-     [
-      -49,
-      7,
-      500
-     ],
-     [
-      -54,
-      1,
-      300
-     ]
-    ],
-    "s5": [
-     [
-      -25,
-      2,
-      0
-     ],
-     [
-      -26,
-      3,
-      700
-     ],
-     [
-      -28,
-      8,
-      0
-     ],
-     [
-      -55,
-      2,
-      800
-     ],
-     [
-      -35,
-      1,
-      500
-     ],
-     [
-      -38,
-      2,
-      600
-     ]
-    ],
-    "s6": [
-     [
-      -56,
-      5,
-      0
-     ],
-     [
-      -26,
-      7,
-      0
-     ],
-     [
-      -48,
-      1,
-      800
-     ],
-     [
-      -58,
-      0,
-      700,
-      20
-     ],
-     [
-      -54,
-      1,
-      250
-     ],
-     [
-      -66,
-      1,
-      300
-     ],
-     [
-      -41,
-      5,
-      100
-     ]
-    ],
-    "s7": [
-     [
-      -57,
-      0,
-      410,
-      5
-     ],
-     [
-      -60,
-      0,
-      680
-     ],
-     [
-      -62,
-      0,
-      500
-     ],
-     [
-      -63,
-      0,
-      900
-     ],
-     [
-      -64,
-      0,
-      990
-     ]
-    ],
-    "s8": [
-     [
-      -27,
-      19,
-      990
-     ],
-     [
-      -53,
-      8,
-      500
-     ],
-     [
-      -42,
-      9,
-      500
-     ],
-     [
-      -58,
-      0,
-      650,
-      20
-     ],
-     [
-      -47,
-      6,
-      500
-     ],
-     [
-      -51,
-      2,
-      500
-     ],
-     [
-      -37,
-      7,
-      500
-     ]
-    ]
-   },
-   "unlimited_stock": true,
-   "evidence": "known"
+  "evidence_levels": [
+    "known",
+    "suspected",
+    "unknown"
+  ],
+  "shop": {
+    "entry": {
+      "table": "0x3fd6",
+      "cells": [
+        [
+          17,
+          52,
+          1,
+          0
+        ],
+        [
+          31,
+          16,
+          1,
+          1
+        ],
+        [
+          38,
+          50,
+          1,
+          2
+        ],
+        [
+          24,
+          71,
+          13,
+          3
+        ],
+        [
+          25,
+          80,
+          13,
+          4
+        ],
+        [
+          35,
+          72,
+          13,
+          5
+        ],
+        [
+          19,
+          6,
+          4,
+          6
+        ],
+        [
+          29,
+          69,
+          14,
+          7
+        ],
+        [
+          36,
+          75,
+          14,
+          8
+        ]
+      ],
+      "evidence": "known"
+    },
+    "inventory": {
+      "format": "item,price_k,price_u,qty(default 1)",
+      "shops": {
+        "s0": [
+          [
+            -57,
+            0,
+            320,
+            5
+          ],
+          [
+            -50,
+            0,
+            900
+          ],
+          [
+            -25,
+            1,
+            800
+          ],
+          [
+            -35,
+            1,
+            200
+          ],
+          [
+            -60,
+            0,
+            500
+          ],
+          [
+            -62,
+            0,
+            300
+          ]
+        ],
+        "s1": "→ private/shop-tavern-contract-ishar1-savewerte.json#/shop/inventory/shops/s1",
+        "s2": [
+          [
+            -58,
+            0,
+            300,
+            20
+          ],
+          [
+            -55,
+            2,
+            500
+          ],
+          [
+            -36,
+            1,
+            800
+          ],
+          [
+            -64,
+            0,
+            800
+          ],
+          [
+            -45,
+            3,
+            200
+          ]
+        ],
+        "s3": [
+          [
+            -57,
+            0,
+            400,
+            5
+          ],
+          [
+            -60,
+            0,
+            600
+          ],
+          [
+            -62,
+            0,
+            400
+          ],
+          [
+            -63,
+            0,
+            800
+          ],
+          [
+            -64,
+            0,
+            950
+          ],
+          [
+            -66,
+            1,
+            500
+          ]
+        ],
+        "s4": [
+          [
+            -40,
+            2,
+            500
+          ],
+          [
+            -41,
+            4,
+            900
+          ],
+          [
+            -45,
+            3,
+            800
+          ],
+          [
+            -44,
+            4,
+            200
+          ],
+          [
+            -47,
+            6,
+            0
+          ],
+          [
+            -58,
+            0,
+            650,
+            20
+          ],
+          [
+            -48,
+            1,
+            600
+          ],
+          [
+            -49,
+            7,
+            500
+          ],
+          [
+            -54,
+            1,
+            300
+          ]
+        ],
+        "s5": [
+          [
+            -25,
+            2,
+            0
+          ],
+          [
+            -26,
+            3,
+            700
+          ],
+          [
+            -28,
+            8,
+            0
+          ],
+          [
+            -55,
+            2,
+            800
+          ],
+          [
+            -35,
+            1,
+            500
+          ],
+          [
+            -38,
+            2,
+            600
+          ]
+        ],
+        "s6": [
+          [
+            -56,
+            5,
+            0
+          ],
+          [
+            -26,
+            7,
+            0
+          ],
+          [
+            -48,
+            1,
+            800
+          ],
+          [
+            -58,
+            0,
+            700,
+            20
+          ],
+          [
+            -54,
+            1,
+            250
+          ],
+          [
+            -66,
+            1,
+            300
+          ],
+          [
+            -41,
+            5,
+            100
+          ]
+        ],
+        "s7": [
+          [
+            -57,
+            0,
+            410,
+            5
+          ],
+          [
+            -60,
+            0,
+            680
+          ],
+          [
+            -62,
+            0,
+            500
+          ],
+          [
+            -63,
+            0,
+            900
+          ],
+          [
+            -64,
+            0,
+            990
+          ]
+        ],
+        "s8": [
+          [
+            -27,
+            19,
+            990
+          ],
+          [
+            -53,
+            8,
+            500
+          ],
+          [
+            -42,
+            9,
+            500
+          ],
+          [
+            -58,
+            0,
+            650,
+            20
+          ],
+          [
+            -47,
+            6,
+            500
+          ],
+          [
+            -51,
+            2,
+            500
+          ],
+          [
+            -37,
+            7,
+            500
+          ]
+        ]
+      },
+      "unlimited_stock": true,
+      "evidence": "known"
+    },
+    "input": {
+      "grid": "x=148+36*(i%3), script_y=164-42*(i/3)",
+      "exit": [
+        288,
+        112
+      ],
+      "prompt_msgs": {
+        "-40": "buy?",
+        "-41": "choose"
+      },
+      "evidence": "known",
+      "coord_flip": "suspected"
+    },
+    "buy": {
+      "gold_check": "chosen member only: refuse (-21) if pk>gk or pk==gk && pu>gu",
+      "slot": "stack merge slots 0..10 for -66..-57 else first free 0..8; full -> -43 no charge",
+      "payment": "L_0062f borrow",
+      "stack_counter": "0x3e22 save 4971+10c+(item+66), caps -57:5 -58:20 else 10",
+      "selling": "none",
+      "evidence": "known"
+    },
+    "save": {
+      "gold_k": "478+2c",
+      "gold_u": "3993+2c",
+      "items": "498+26c+2k",
+      "stacks": "4971+10c+j",
+      "evidence": "known"
+    }
   },
-  "input": {
-   "grid": "x=148+36*(i%3), script_y=164-42*(i/3)",
-   "exit": [
-    288,
-    112
-   ],
-   "prompt_msgs": {
-    "-40": "buy?",
-    "-41": "choose"
-   },
-   "evidence": "known",
-   "coord_flip": "suspected"
+  "tavern": {
+    "entry": {
+      "table": "0x3f94",
+      "cells": [
+        [
+          18,
+          56,
+          1,
+          0
+        ],
+        [
+          29,
+          16,
+          1,
+          1
+        ],
+        [
+          33,
+          18,
+          1,
+          2
+        ],
+        [
+          39,
+          55,
+          1,
+          3
+        ],
+        [
+          22,
+          76,
+          13,
+          4
+        ],
+        [
+          24,
+          70,
+          13,
+          5
+        ],
+        [
+          32,
+          77,
+          13,
+          6
+        ],
+        [
+          35,
+          73,
+          13,
+          7
+        ],
+        [
+          44,
+          75,
+          13,
+          8
+        ],
+        [
+          22,
+          10,
+          4,
+          9
+        ],
+        [
+          35,
+          77,
+          14,
+          11
+        ],
+        [
+          38,
+          79,
+          14,
+          12
+        ]
+      ],
+      "script_select": "itaverne.IO if 0x4232!=0 else taverne.IO",
+      "evidence": "known",
+      "0x4232_meaning": "suspected (machine/version flag)",
+      "taverne.IO": "unknown",
+      "stale_0x425c": "suspected"
+    },
+    "menu": {
+      "dirb18": {
+        "-1": "leave",
+        "1": "message 100+t",
+        "2": "eat",
+        "3": "sleep",
+        "4": "hire"
+      },
+      "code": "known",
+      "labels": "suspected",
+      "click_mapping": "unknown"
+    },
+    "price": {
+      "eat": "500+40t units",
+      "sleep": "900+80t units",
+      "check": "sum of all members' gold >= P else -21",
+      "split": "share=floor(P/n) pass1, remainder pass2; total -P",
+      "evidence": "known"
+    },
+    "effects": {
+      "eat": "food 0x16bc(773+c): >60->100 else +40 cap 100",
+      "sleep": "food +15 cap100; MENTAL >50->100 else +50; HP += floor((maxHP-HP)/5)",
+      "only_alive": true,
+      "evidence": "known",
+      "clock": "unknown"
+    },
+    "leave_event": {
+      "after": "sleep only",
+      "rule": "rnd(3)==0: first npc id in {21,28,15,10}; else first member with no rel[i][j]>-2; needs another member; others lose first item -57<code<-19 in slots 0..8; leaver 0x1664=1,HP=0,0x3908=-1,msg -29",
+      "evidence": "known",
+      "0x1664=1_meaning": "unknown"
+    },
+    "hire": {
+      "list": "0x3f18[t][8] save 5046+8t+k",
+      "click": "k=(x-1)/64 +4 if script_y<136",
+      "accept": "FRISE msg 24 -> 0x3ead=1 -> entry -1",
+      "evidence": "known",
+      "frise_link": "suspected"
+    }
   },
-  "buy": {
-   "gold_check": "chosen member only: refuse (-21) if pk>gk or pk==gk && pu>gu",
-   "slot": "stack merge slots 0..10 for -66..-57 else first free 0..8; full -> -43 no charge",
-   "payment": "L_0062f borrow",
-   "stack_counter": "0x3e22 save 4971+10c+(item+66), caps -57:5 -58:20 else 10",
-   "selling": "none",
-   "evidence": "known"
-  },
-  "save": {
-   "gold_k": "478+2c",
-   "gold_u": "3993+2c",
-   "items": "498+26c+2k",
-   "stacks": "4971+10c+j",
-   "evidence": "known"
-  }
- },
- "tavern": {
-  "entry": {
-   "table": "0x3f94",
-   "cells": [
-    [
-     18,
-     56,
-     1,
-     0
-    ],
-    [
-     29,
-     16,
-     1,
-     1
-    ],
-    [
-     33,
-     18,
-     1,
-     2
-    ],
-    [
-     39,
-     55,
-     1,
-     3
-    ],
-    [
-     22,
-     76,
-     13,
-     4
-    ],
-    [
-     24,
-     70,
-     13,
-     5
-    ],
-    [
-     32,
-     77,
-     13,
-     6
-    ],
-    [
-     35,
-     73,
-     13,
-     7
-    ],
-    [
-     44,
-     75,
-     13,
-     8
-    ],
-    [
-     22,
-     10,
-     4,
-     9
-    ],
-    [
-     35,
-     77,
-     14,
-     11
-    ],
-    [
-     38,
-     79,
-     14,
-     12
-    ]
-   ],
-   "script_select": "itaverne.IO if 0x4232!=0 else taverne.IO",
-   "evidence": "known",
-   "0x4232_meaning": "suspected (machine/version flag)",
-   "taverne.IO": "unknown",
-   "stale_0x425c": "suspected"
-  },
-  "menu": {
-   "dirb18": {
-    "-1": "leave",
-    "1": "message 100+t",
-    "2": "eat",
-    "3": "sleep",
-    "4": "hire"
-   },
-   "code": "known",
-   "labels": "suspected",
-   "click_mapping": "unknown"
-  },
-  "price": {
-   "eat": "500+40t units",
-   "sleep": "900+80t units",
-   "check": "sum of all members' gold >= P else -21",
-   "split": "share=floor(P/n) pass1, remainder pass2; total -P",
-   "evidence": "known"
-  },
-  "effects": {
-   "eat": "food 0x16bc(773+c): >60->100 else +40 cap 100",
-   "sleep": "food +15 cap100; MENTAL >50->100 else +50; HP += floor((maxHP-HP)/5)",
-   "only_alive": true,
-   "evidence": "known",
-   "clock": "unknown"
-  },
-  "leave_event": {
-   "after": "sleep only",
-   "rule": "rnd(3)==0: first npc id in {21,28,15,10}; else first member with no rel[i][j]>-2; needs another member; others lose first item -57<code<-19 in slots 0..8; leaver 0x1664=1,HP=0,0x3908=-1,msg -29",
-   "evidence": "known",
-   "0x1664=1_meaning": "unknown"
-  },
-  "hire": {
-   "list": "0x3f18[t][8] save 5046+8t+k",
-   "click": "k=(x-1)/64 +4 if script_y<136",
-   "accept": "FRISE msg 24 -> 0x3ead=1 -> entry -1",
-   "evidence": "known",
-   "frise_link": "suspected"
-  }
- },
- "tests": [
-  {
-   "id": "T1",
-   "save": "S1",
-   "kind": "deterministic",
-   "evidence": "known",
-   "clicks": "→ private/shop-tavern-contract-ishar1-savewerte.json#/tests/0/clicks",
-   "diff": {
-    "regel": "Gold sinkt um Preis (3997-3998/483), Gegenstand in Slot (556-557), Stückzähler +qty; Kopf-Bytes 3/7 ändern sich",
-    "werte": "→ private/shop-tavern-contract-ishar1-savewerte.md SW-B2"
-   }
-  },
-  {
-   "id": "T2",
-   "save": "S1",
-   "kind": "deterministic",
-   "evidence": "suspected",
-   "clicks": "as T1, slot0 (165,20) instead of dagger",
-   "diff": {
-    "3997-3998": "sinkt um Preis (Werte → private SW-B2)",
-    "c2 item slot": "0xFFC7",
-    "5000": "+5"
-   }
-  },
-  {
-   "id": "T3",
-   "save": "S1",
-   "kind": "deterministic",
-   "evidence": "suspected",
-   "clicks": "as T1, portrait c0 (32,160)",
-   "diff": "none except save cost (msg -21)"
-  },
-  {
-   "id": "T4",
-   "save": "LP1",
-   "kind": "deterministic once inside",
-   "evidence": "suspected",
-   "action": "sleep at tavern t",
-   "diff": {
-    "c0 gold": "-(900+80t)",
-    "773-777": "[100,100,82,59,98]",
-    "768-772": "[100,100,100,90,100]",
-    "leaver": "none"
-   },
-   "route": "unknown"
-  },
-  {
-   "id": "T5",
-   "save": "LP1",
-   "kind": "deterministic once inside",
-   "evidence": "suspected",
-   "action": "eat at tavern t",
-   "diff": {
-    "c0 gold": "-(500+40t)",
-    "773-777": "[100,100,100,84,100]"
-   },
-   "route": "unknown"
-  }
- ]
+  "tests": [
+    {
+      "id": "T1",
+      "save": "S1",
+      "kind": "deterministic",
+      "evidence": "known",
+      "clicks": "→ private/shop-tavern-contract-ishar1-savewerte.json#/tests/0/clicks",
+      "diff": {
+        "regel": "Gold sinkt um Preis (3997-3998/483), Gegenstand in Slot (556-557), Stückzähler +qty; Kopf-Bytes 3/7 ändern sich",
+        "werte": "→ private/shop-tavern-contract-ishar1-savewerte.md SW-B2"
+      }
+    },
+    {
+      "id": "T2",
+      "save": "S1",
+      "kind": "deterministic",
+      "evidence": "suspected",
+      "clicks": "as T1, slot0 (165,20) instead of dagger",
+      "diff": {
+        "3997-3998": "sinkt um Preis (Werte → private SW-B2)",
+        "c2 item slot": "0xFFC7",
+        "5000": "+5"
+      }
+    },
+    {
+      "id": "T3",
+      "save": "S1",
+      "kind": "deterministic",
+      "evidence": "suspected",
+      "clicks": "as T1, portrait c0 (32,160)",
+      "diff": "none except save cost (msg -21)"
+    },
+    {
+      "id": "T4",
+      "save": "LP1",
+      "kind": "deterministic once inside",
+      "evidence": "suspected",
+      "action": "sleep at tavern t",
+      "diff": {
+        "c0 gold": "-(900+80t)",
+        "773-777": "[100,100,82,59,98]",
+        "768-772": "[100,100,100,90,100]",
+        "leaver": "none"
+      },
+      "route": "unknown"
+    },
+    {
+      "id": "T5",
+      "save": "LP1",
+      "kind": "deterministic once inside",
+      "evidence": "suspected",
+      "action": "eat at tavern t",
+      "diff": {
+        "c0 gold": "-(500+40t)",
+        "773-777": "[100,100,100,84,100]"
+      },
+      "route": "unknown"
+    }
+  ],
+  "nachtraege": [
+    {
+      "datum": "2026-11-03T15:45+01:00",
+      "thema": "Speichergebuehr 1000 Gold",
+      "quelle": "SOS.IO L_00b5e/L_00cf8/L_00ea6 -> MAIN msg 30 L_0480e",
+      "gebuehr": {
+        "tausender_var": "main 0x3f12=1",
+        "rest_var": "main 0x3f10=0"
+      },
+      "pruefung": "Summe ueber belegte Slots 0..4 (0x1664!=-1); zu wenig -> Meldung -21, kein Abzug, kein Save",
+      "verteilung": [
+        "Anteil = 1000/n (n=belegte Slots), Durchgang 1 Slots 0..4 aufsteigend, wer zu wenig hat zahlt alles -> 0",
+        "Durchgang 2 Slots 0..4: erste Figur, die die Restgebuehr deckt, zahlt sie; sonst zahlt sie alles und es geht weiter"
+      ],
+      "borgen": "wie MARCHAND L_0062f",
+      "save_stand": "nach Gebuehr (Abzug vor csend 30)",
+      "stufe": "known (Code), Hoth bestaetigt 1000",
+      "tests": {
+        "G1": "Gesamtgold sinkt um genau 1000, Rest 0..999, Save zeigt reduzierten Stand",
+        "G2": "Gruppe <1000 -> -21, Save unveraendert"
+      }
+    }
+  ]
 }

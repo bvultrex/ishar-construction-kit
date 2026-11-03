@@ -222,3 +222,15 @@ Rassen (0x166c, Switch `odirb(0x1a)`, known): 1 HUMAIN/HUMAIN(sic)/Menschlich/UM
 - Der Index stimmt: 2008 + 2·54 + 1 = 2117 ist Akteur 54, Low-Byte. Ein Indexfehler liegt nicht vor. **known**
 - Dass das Byte vor Hebel 14 auf 0 fiel, war wahrscheinlich das normale Ablaufen des Countdowns. **suspected**
 - Das Label „Akteur Effekt (Halt)“ ist damit wieder **known** (Mechanik).
+
+## Nachtrag 2026-11-03 15:45 (Europe/Berlin): Speichergebühr 1000 Gold
+Quelle: SOS.IO (Sprachvarianten SOSD/SOSE/SOSI gleich aufgebaut), Speicherdialog L_00752 → L_008cb → MAIN Nachricht 30 → L_0480e (Schreiben). (Code known, 1000-Gold-Effekt von Hoth bestätigt)
+- **Gebühr:** `0x3f12` = 1 (Tausender), `0x3f10` = 0 (Rest), gesetzt in L_00b5e. Anzeige „TARIF POUR SAUVEGARDER : 1000 PO“, OK/EXIT.
+- **Prüfung (L_00b5e):** Für die belegten Slots c = 0..4 (`0x1664[c] ≠ −1`) werden Tausender und Rest summiert und normalisiert. Die Zahl n der Figuren steht in `dirb 0x1b`. Sind die Tausender der Gruppe < 1, erscheint Meldung −21. Dann wird abgebrochen: kein Abzug, kein Save.
+- **Verteilung (L_00cf8):**
+  - Anteil pro Figur: K_s = 1 div n und R_s = (1000·(1 mod n)) div n. Bei n = 5 sind das 200, bei n = 4 sind es 250, bei n = 3 sind es 333.
+  - Durchgang 1, Slots 0..4 aufsteigend: Jede Figur zahlt ihren Anteil per L_00ea6, mit derselben Borg-Logik wie im Shop (MARCHAND L_0062f). Reicht ihr Gold nicht, gibt sie alles ab und wird auf 0 gesetzt. Die Restgebühr (`0x3f12/0x3f10`) sinkt jeweils um den gezahlten Betrag.
+  - Durchgang 2, Slots 0..4 aufsteigend: Die erste Figur, die die ganze Restgebühr tragen kann, zahlt sie, dann endet die Routine. Andere Figuren zahlen alles und werden auf 0 gesetzt, danach geht es weiter.
+  - Beispiel: 200/800 entsteht bei n = 5, wenn eine Figur in Durchgang 1 nur ihren Anteil zahlt und eine andere in Durchgang 2 den Rest. (suspected, passt zu Hoths Beobachtung)
+- **Reihenfolge:** Erst wird abgezogen (L_00cf8), dann wird gespeichert (csend 30). Der Save enthält den Stand **nach** der Gebühr. (known)
+- **Testfall G1:** Ein Save mit gültigem Gold (Rest 0..999) wird im Spiel gespeichert. Erwartet: Die Summe Σ(K·1000+R) über die belegten Slots sinkt um genau 1000, alle R bleiben in 0..999, und die neue Save-Datei zeigt schon den reduzierten Stand. **G2:** Gruppensumme < 1000 → Meldung −21, Save-Datei unverändert.
