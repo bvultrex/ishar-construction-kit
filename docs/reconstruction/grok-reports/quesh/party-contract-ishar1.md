@@ -67,3 +67,35 @@ After: rel[1][0] = −2 & rel[1][3] = −9 → +1 → −1; rel[2][0] = −1 & r
 See shop-tavern T4 (all LP1 rows have a value > −2; no special npc) → 4028..4032 unchanged.
 ### T4 (suspected): tavern hire
 At tavern t with a free/dead slot and a candidate 0x3f18[t][k] ≠ −1: click (64(k mod 4)+32, row) → vote P3 → on accept 5046+8t+k → FF, 4028+c → n, MENTAL 768+c = 100, rel row/col c rewritten. S1/LP1 have no free slot: needs a save with a dead/dismissed member (e.g. after T1). Route **unknown**.
+
+## Addendum 2026-11-03: action menu table dirtc 0x4e and click sequences
+
+Source: FRISE L_00c23–L_00d1a (fill), 0x00d41/0x00d4d (hit test), switch 0x00d7f, highlight L_00f45. **known** unless marked otherwise.
+
+- Table layout: `dirtc 0x4e[col][row]` with col = mouse_x / 159 and row = (mouse_y_script − 1) / 10. Only col 0..1 and row 0..5 count; 0 = empty cell; the table is cleared at L_00bd4 for 0..5. Screen y = 199 − script y, so row r has its centre at screen y ≈ 193 − 10·r (script y 6+10r; highlight box drawn at script y 6+10r, x 79+159·col).
+- Cell contents (fill at 0x00c2e–0x00d1a) with the manual order (Give item, Give money, Kill, Dismiss, Recruit, Cast spell, Lockpick, Orientation, First aid) as labels:
+
+| col,row | case | target | label | click (screen x,y) | evidence |
+|---|---|---|---|---|---|
+| 0,5 | 1 | L_00db0 (char sheet, dirb20=1) | GIVE ITEM | (40,143) | known cell / suspected label |
+| 0,4 | 2 | L_00de0 (char sheet, dirb21=1 → L_052f1) | GIVE MONEY | (40,153) | known / suspected |
+| 0,3 | 3 | L_0199c | KILL | (40,163) | known |
+| 0,2 | 4 | L_0176c | DISMISS | (40,173) | known |
+| 0,1 | 5 | L_00fc0 (L_02d78 pick in 3D view) | RECRUIT | (40,183) | known cell / suspected label |
+| 0,0 | 6 or 0 | L_00e2a (spell list) | CAST SPELL; set to 6 only if class (0x1664) ∈ {0,2,5,6,9,…} (0x00ca8), else 0 = empty | (40,193) | known |
+| 1,5 | 7 | L_01ca0 (needs 0x4238==1 or dirb aa==0; entity type 6 with msg −10) | LOCKPICK | (200,143) | known cell / suspected label |
+| 1,4 | 8 | L_01eca (skill 0x3d34 < 20 check) | ORIENTATION | (200,153) | known cell / suspected label |
+| 1,3 | 9 | L_00e63 → L_01be5 | FIRST AID (item 9) | (200,163) | known cell / suspected label (fits skill+"healed once" logic) |
+| 1,2 | 10 | L_00e6b: `send n=0, 0, 25` then sleep | not in manual; message 25 to entity 0 | (200,173) | known cell / unknown meaning |
+| 1,1 | 0 | – | empty | – | known |
+| 1,0 | −1 | L_00da8 → L_00f12 close | EXIT (text printed at 0x00d04) | (200,193) | known |
+
+- Target selection for KILL/DISMISS/FIRST AID: L_02f12 (L_03163 draw, then wait). Left button with script y < 71 (screen y > 128) → target slot t = mouse_x / 64; right button → t = −1 (cancel). **known**. Click portrait at (64·t+32, 160). Checks afterwards (0x01793/0x019c3): target npc ≠ −1, HP > 0, target ≠ actor, else nothing happens. **known**
+- Opening the menu: ACTION icon of the actor c at (64c+16, 132) (from the main contract). **suspected** pixel position, the rule x/64 is known.
+
+### T1 as clicks (S1, dismiss c4 by c0)
+1. Load S1, wait for 3D view. 2. Click (16,132) → menu opens (EXIT text at the bottom right). 3. Click (40,173) DISMISS. 4. Click (288,160) portrait c4. 5. If a yes/no box appears: the click window is script y 56..70, x 116..139 or 187..210 → screen (127,136) or (198,136); first press (127,136) (yes, **suspected**). 6. Save to a free slot, diff with S1: bytes 476/477 → 0, 732 = FF, 4032 = FF.
+### T2 as clicks (S1, kill c3 by c0)
+1. Load S1. 2. (16,132). 3. (40,163) KILL. 4. (224,160) portrait c3. 5. Save, diff: 4008 FE→FF, 4013 FF→00, 4023 FE→FF, 474/475 → 0, 4031 → FF, 3765 04→00, 731 stays 06. Revenge kills (manual) can change more slots, so check only these bytes as a minimum.
+### T3 (new, Alderaan) menu hit test
+Open the menu, move over each cell in the table above: the highlight box (sprite 71) has to appear exactly at the expected cell; (200,183) shows no highlight.

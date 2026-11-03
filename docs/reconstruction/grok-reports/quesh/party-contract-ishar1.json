@@ -126,5 +126,246 @@
    "route": "unknown",
    "evidence": "suspected"
   }
- ]
+ ],
+ "addendum_2026-11-03": {
+  "source": "FRISE 0x00c23-0x00d1a fill, 0x00d41 hit test, switch 0x00d7f",
+  "hit_test": {
+   "col": "mouse_x/159",
+   "row": "(script_y-1)/10",
+   "screen_y": "193-10*row",
+   "x": {
+    "col0": 40,
+    "col1": 200
+   },
+   "evidence": "known"
+  },
+  "cells": [
+   {
+    "cell": [
+     0,
+     5
+    ],
+    "case": 1,
+    "target": "L_00db0",
+    "label": "GIVE ITEM",
+    "click": [
+     40,
+     143
+    ],
+    "label_evidence": "suspected"
+   },
+   {
+    "cell": [
+     0,
+     4
+    ],
+    "case": 2,
+    "target": "L_00de0",
+    "label": "GIVE MONEY",
+    "click": [
+     40,
+     153
+    ],
+    "label_evidence": "suspected"
+   },
+   {
+    "cell": [
+     0,
+     3
+    ],
+    "case": 3,
+    "target": "L_0199c",
+    "label": "KILL",
+    "click": [
+     40,
+     163
+    ],
+    "label_evidence": "known"
+   },
+   {
+    "cell": [
+     0,
+     2
+    ],
+    "case": 4,
+    "target": "L_0176c",
+    "label": "DISMISS",
+    "click": [
+     40,
+     173
+    ],
+    "label_evidence": "known"
+   },
+   {
+    "cell": [
+     0,
+     1
+    ],
+    "case": 5,
+    "target": "L_00fc0",
+    "label": "RECRUIT",
+    "click": [
+     40,
+     183
+    ],
+    "label_evidence": "suspected"
+   },
+   {
+    "cell": [
+     0,
+     0
+    ],
+    "case": "6 if class in caster set else 0",
+    "target": "L_00e2a",
+    "label": "CAST SPELL",
+    "click": [
+     40,
+     193
+    ],
+    "label_evidence": "known"
+   },
+   {
+    "cell": [
+     1,
+     5
+    ],
+    "case": 7,
+    "target": "L_01ca0",
+    "label": "LOCKPICK",
+    "click": [
+     200,
+     143
+    ],
+    "label_evidence": "suspected"
+   },
+   {
+    "cell": [
+     1,
+     4
+    ],
+    "case": 8,
+    "target": "L_01eca",
+    "label": "ORIENTATION",
+    "click": [
+     200,
+     153
+    ],
+    "label_evidence": "suspected"
+   },
+   {
+    "cell": [
+     1,
+     3
+    ],
+    "case": 9,
+    "target": "L_00e63->L_01be5",
+    "label": "FIRST AID",
+    "click": [
+     200,
+     163
+    ],
+    "label_evidence": "suspected"
+   },
+   {
+    "cell": [
+     1,
+     2
+    ],
+    "case": 10,
+    "target": "L_00e6b send(0,25)",
+    "label": null,
+    "click": [
+     200,
+     173
+    ],
+    "label_evidence": "unknown"
+   },
+   {
+    "cell": [
+     1,
+     1
+    ],
+    "case": 0,
+    "label": "empty"
+   },
+   {
+    "cell": [
+     1,
+     0
+    ],
+    "case": -1,
+    "target": "L_00f12",
+    "label": "EXIT",
+    "click": [
+     200,
+     193
+    ],
+    "label_evidence": "known"
+   }
+  ],
+  "target_pick": {
+   "addr": "L_02f12",
+   "rule": "left click script_y<71 -> slot=x/64; right click -> -1",
+   "click": "(64t+32,160)",
+   "evidence": "known"
+  },
+  "action_icon": {
+   "click": "(64c+16,132)",
+   "evidence": "suspected"
+  },
+  "tests": {
+   "T1": {
+    "save": "S1",
+    "clicks": [
+     [
+      16,
+      132
+     ],
+     [
+      40,
+      173
+     ],
+     [
+      288,
+      160
+     ],
+     "opt [127,136] yes-box (suspected)"
+    ],
+    "expect": {
+     "476-477": "0",
+     "732": "FF",
+     "4032": "FF"
+    }
+   },
+   "T2": {
+    "save": "S1",
+    "clicks": [
+     [
+      16,
+      132
+     ],
+     [
+      40,
+      163
+     ],
+     [
+      224,
+      160
+     ]
+    ],
+    "expect": {
+     "4008": "FE->FF",
+     "4013": "FF->00",
+     "4023": "FE->FF",
+     "474-475": "0",
+     "4031": "FF",
+     "3765": "04->00",
+     "731": "06"
+    }
+   },
+   "T3": {
+    "desc": "hover each cell, highlight sprite 71 at expected cell; (200,183) none"
+   }
+  }
+ }
 }
