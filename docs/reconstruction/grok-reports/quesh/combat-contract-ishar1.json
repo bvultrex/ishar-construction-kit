@@ -2,12 +2,12 @@
  "game": "ishar1",
  "date": "2026-10-18T20:12+02:00",
  "sha256": {
-  "start.exe": "3ea63234c97b77d88e3c18aa5d88ac10dede1f10daf2854225b88b7d948d588b",
-  "FRISE.IO": "3bd158963fdaf0f88517b03509002100159a7587c8e2486389314b8abc707e15",
-  "GEREN.IO": "60405e4537abff12c5756a79506eb555c616a91b64069451fcc11419bcb8a405",
-  "MAIN.IO": "27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b",
-  "LP1.SAV": "76cf91a104ec8675394ec82b44f7238b016d641a8e0ccf3752d117ae2980b64b",
-  "ENCA.SAV": "8003a1965ef287cd68f16ff9fb19e16e9a4927ea04366ffece7968c142815605"
+  "start.exe": "3ea63234c97b…",
+  "FRISE.IO": "3bd158963fda…",
+  "GEREN.IO": "60405e4537ab…",
+  "MAIN.IO": "27c5834de005…",
+  "LP1.SAV": "→ private/combat-contract-ishar1-savewerte.json#/sha256/LP1.SAV",
+  "ENCA.SAV": "→ private/combat-contract-ishar1-savewerte.json#/sha256/ENCA.SAV"
  },
  "input": {
   "gate": "FRISE 0x0039b food>0 && 0x15ec==0 && dirtc44==0",
@@ -161,6 +161,6 @@
   "hp_cap": "none; current HP rises with max HP",
   "conditions": "XP != dirti f8; else-if chain from lowest threshold, first prev<T<=XP wins, then f8=XP -> crossing two thresholds at once skips the higher level",
   "evidence": "proven (static); skip quirk no save evidence",
-  "save_notes": "IMP1 c0 XP5300 level5 consistent; S1 c2 XP 39530 > cap (cap only after XP change; origin open)"
+  "save_notes": "→ private/combat-contract-ishar1-savewerte.json#/addendum_2026_10_18_levelup/save_notes"
  }
 }
