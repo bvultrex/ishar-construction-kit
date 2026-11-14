@@ -4,6 +4,7 @@
   "version": "0.1.0-recovery",
   "type": "module",
   "scripts": {
+    "test:original-tavern-food": "node scripts/check-original-tavern-food.mjs",
     "test:original-equipment-transfer": "node scripts/check-original-equipment-transfer.mjs",
     "test:original-equipment-local": "node scripts/check-original-equipment-local.mjs",
     "test:original-stack-hand": "node scripts/check-original-stack-hand.mjs",
