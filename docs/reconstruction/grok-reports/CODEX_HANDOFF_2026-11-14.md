@@ -168,6 +168,21 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 - **Kit-Abweichung:** `6a3632f` nutzt das Bitmap-Rechteck des SVG-`<image>`. Ihm fehlen y 104..116, es nimmt fälschlich y 124 an, und seitlich reicht es nur bis etwa x 139.
 - **Vorschlag:** Das Rechteck aus OBJET-Form plus Objekthöhe berechnen: `128+ox ≤ x ≤ 128+ox+ex`, `77−(Z+oz+ez) ≤ y ≤ 77−(Z+oz)`. Objekt 10 (Form 16, rechnerisch x 122..134, y 101..119) ist nur abgeleitet.
 
+### 5.4f Hitbox Code 10 (Nachtrag 38, 2026-11-14)
+- Bericht: `code10-hitbox-edges.md` (Hoth). known: x 122..135, y 101..119 inklusiv (14×19), Rechteck, keine Maske.
+- Regel (known, Form 40 und 16 konsistent): x 128+ox .. 128+ox+ex; y 77−(Z+oz+ez) .. 77−(Z+oz), Z = −42. Vergleich `<=` in start.exe suspected.
+- Kit 21bc808: Objekt 9 stimmt; Objekt 10 fällt auf Bitmap-Rechteck zurück (suspected ~121..133 × 106..124). Vorschlag: {x:122, y:101, width:14, height:19} bzw. allgemein aus Form + Objekthöhe.
+
+### 5.4g I2-Shop Stapelware (Nachtrag 39, 2026-11-14)
+- Bericht: `i2-shop-stack-cases.md` (Alderaan). selector 6, Ware −50, qty 5, Preis 300, Deckel 10, Zähler 7629+20c+(Code+59). Vier Fälle known per EXE-Reload; Gold/Inventar/Stapel-Bytes identisch mit Kit.
+- Teilbündel: min(D, alt+qty), voller Preis wird trotzdem abgebucht.
+- Kit-Abweichungen (Verhalten): Nachtschließung bei Phase 0x519f = 3 (Meldung 57, MAIN 0x02e14) fehlt; Original hat einen gemeinsamen Text für Stapel/Rucksack voll; nach Ablehnung bleibt Ware in der Hand, Meldung braucht Quittierklick.
+- Offen: voller Rucksack, Stapel in der Hand, Code −49 mit Deckel 20, Offset 7577.
+
+### 5.4h Itemtransfer-Prüfung cb511ba/de424b7 (Nachtrag 40, 2026-11-14)
+- Bericht: `item-transfer-check-cb511ba.md` (Quesh), rein statisch gegen FRISE. Keine Abweichung in Nichtstapelcodes, Handtausch-Rüstungsregel und Empfängerrouting.
+- Grenzen: L_02610 (Charakterblatt) nicht im Kit (Entnahme ohne Handlungsprüfung suspected); Kit lehnt Tausch mit nicht unterstützten Altcodes ab (vorsichtiger); Freigabe nur bei T4bbc == 0 suspected.
+
 ### 5.5 Danach
 
 - Save-Map Ishar 1 komplett in `save-maps.ts`:
