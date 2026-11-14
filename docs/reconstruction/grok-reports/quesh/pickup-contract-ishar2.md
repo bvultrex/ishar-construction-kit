@@ -289,3 +289,24 @@ Basis: Kit `workbench/playable-slice` `f4cf659` (statt `319819c`). Nur statische
    - T4bbc ist transient und hält die Stapelmenge in Bewegung. Für 9/10 normalerweise 0 (suspected).
    - Ein Wert ≠ 0 bedeutet: Slot geschrieben, Cursor nicht freigegeben.
 8. **Formfehler im JSON:** R3 `hit_rect_game.10` nennt noch 135. Gültig ist 134 laut Nachtrag 2026-10-18.
+
+## Nachtrag 2026-11-14 (Europe/Berlin): Listinglücke FRISE 0x02cbb–0x02dba geschlossen (Stapelentnahme)
+Ursache der Lücke: Das Ausdrucksbudget des Disassemblers war zu klein. Mit großem Budget endet der lange Ausdruck bei 0x02d4f; FRISE.IO `27117c124caf` ist damit lückenlos dekodiert. Das ersetzt den Satz „Lücke 0x02cbb–0x02dba (nur Stapelzweig)“ im vorigen Nachtrag. Alles known (Listing).
+- **Auswahl 0x02cbb:** Ein Klick in eine Teilzone des Slots bedeutet ganzer Stapel, jeder andere Klick ein Stück.
+  - Charakterblatt: x in (148 + 24·d10, 159 + 24·d10), y_up in (116 + 28·d11, 122 + 28·d11).
+  - Handfeld: x in (26 + 64c + 24·(s mod 9), 38 + 64c + 24·(s mod 9)), 17 < y_up < 24.
+  - Dass die Zone die Zahlenanzeige ist: suspected.
+- **Ganzer Stapel 0x02d53–0x02d7e:** T4bbc[j] = T4bd4[c][j], dann T4bd4[c][j] = 0 und anschließend Slot = 0 (0x02dbb).
+- **Ein Stück 0x02d82–0x02db7:** T4bbc[j] = 1, T4bd4[c][j] −= 1.
+  - Zähler > 0 → `L_02e1b`: Slot und Icon bleiben.
+  - Sonst Slot = 0 (0x02dbb).
+- **Ziel `L_03bef` + `L_03580`:**
+  - Gleicher Code in Slots 0..10, sonst erster freier Slot 0..8.
+  - Deckel D = 20 für −49, sonst 10 (0x035a4–0x035d2).
+  - Zähler + gehalten ≤ D → Zähler += gehalten, T4bbc = 0 (0x035fb/0x03615).
+  - Sonst T4bbc −= D − Zähler und Zähler = D (0x0363e/0x0364c). **Der Rest bleibt am Cursor, nichts wird verworfen.**
+  - Freigabe nur bei allen T4bbc == 0 (0x03c9b).
+- **Adressen:**
+  - j = Code + 59.
+  - T4bd4 (MAIN `cdim` 0x0024c, Schritt 20, Byte) ↔ Save 7629 + 20c + j.
+  - T4bbc (MAIN 0x00247) ist transient und das Ishar-2-Pendant zu 0x403a aus Ishar 1.

@@ -185,6 +185,17 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 - Bericht: `item-transfer-check-cb511ba.md` (Quesh), rein statisch gegen FRISE. Keine Abweichung in Nichtstapelcodes, Handtausch-Rüstungsregel und Empfängerrouting.
 - Grenzen: L_02610 (Charakterblatt) nicht im Kit (Entnahme ohne Handlungsprüfung suspected); Kit lehnt Tausch mit nicht unterstützten Altcodes ab (vorsichtiger); Freigabe nur bei T4bbc == 0 suspected.
 
+### 5.4i Nativer Ladetest der Codex-Exportdatei (Nachtrag 41, 2026-11-14)
+- Bericht: `codex-export-native-load.md` (Hoth). START und `START.SAV-9-received.SAV` hash-gleich mit Codex' Vorgabe (Präfixe e685cd690257 / 74378c770176); Kit 64a3c4f „1 cases passed“.
+- known: Export lädt nativ, Objekt 9 im Inventar von Figur 0, nicht mehr am Boden; Neuspeicherung + Reload: 17 Bytes Diff, alle erklärt (Uhr 45/48/49, 14 Bytes Akteur-Neuwurf 90–92). Pickup-Bytes identisch zur nativen Aufnahme.
+- suspected: `--controlled-placement` setzt die Party auf die erste begehbare Zelle am Kartenrand; dort ist ein fremdes Bodensprite sichtbar (vermutlich auf einer gemeinsamen Parkposition geparkte Objekte, Wert privat).
+- Offen: reguläres Gehen ab Exportposition, nativer Load des controlled-input-Stands, `--controlled-gold`.
+
+### 5.4j Stapelweitergabe 26e290c (Nachtrag 42, 2026-11-14)
+- Bericht: `stack-transfer-check-26e290c.md` (Quesh), statisch gegen FRISE. Keine Abweichung (ganz/ein Stück, Rest am Cursor T4bbc, Quelle nur bei Zähler 0 gelöscht, Ziel gleicher Code 0..10 sonst erster freier 0..8, Deckel 20 für −49 sonst 10, Bilanz geht auf).
+- Listinglücke geschlossen (Budget 4096, Ende 0x02d4f); im Vertrag `pickup-contract-ishar2.md` per Nachtrag korrigiert.
+- Grenzen: Klickzone 0x02cbb als Zahlenanzeige suspected; Kit lehnt Weitergabe auf Handfeld ab (vorsichtiger); loc100 in L_03580 unknown.
+
 ### 5.5 Danach
 
 - Save-Map Ishar 1 komplett in `save-maps.ts`:
