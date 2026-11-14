@@ -176,8 +176,10 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 ### 5.4g I2-Shop Stapelware (Nachtrag 39, 2026-11-14)
 - Bericht: `i2-shop-stack-cases.md` (Alderaan). selector 6, Ware −50, qty 5, Preis 300, Deckel 10, Zähler 7629+20c+(Code+59). Vier Fälle known per EXE-Reload; Gold/Inventar/Stapel-Bytes identisch mit Kit.
 - Teilbündel: min(D, alt+qty), voller Preis wird trotzdem abgebucht.
-- Kit-Abweichungen (Verhalten): Nachtschließung bei Phase 0x519f = 3 (Meldung 57, MAIN 0x02e14) fehlt; Original hat einen gemeinsamen Text für Stapel/Rucksack voll; nach Ablehnung bleibt Ware in der Hand, Meldung braucht Quittierklick.
+- Kit-Abweichungen (Verhalten): Original hat einen gemeinsamen Text für Stapel/Rucksack voll; nach Ablehnung bleibt Ware in der Hand, Meldung braucht Quittierklick.
 - Offen: voller Rucksack, Stapel in der Hand, Code −49 mit Deckel 20, Offset 7577.
+
+- **Korrektur:** Der Hinweis „Nachtschließung fehlt im Kit“ war falsch; sie war bereits in `21bc808` über SAV-Phase 90/91 angeschlossen, Phase 3 ist in `64a3c4f` browsergeprüft. Offen bleibt nur die Uhrfortschreibung.
 
 ### 5.4h Itemtransfer-Prüfung cb511ba/de424b7 (Nachtrag 40, 2026-11-14)
 - Bericht: `item-transfer-check-cb511ba.md` (Quesh), rein statisch gegen FRISE. Keine Abweichung in Nichtstapelcodes, Handtausch-Rüstungsregel und Empfängerrouting.
