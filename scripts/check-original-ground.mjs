@@ -12,7 +12,9 @@ for(const [x,y,expected] of [[116,112,true],[115,112,false],[141,112,true],[142,
  const inside=x>=hit.x&&x<hit.x+hit.width&&y>=hit.y&&y<hit.y+hit.height;
  assert.equal(inside,expected,`native probe ${x}/${y}`);
 }
-assert.equal(originalGroundPickupBounds({...sprite,id:10}),null,'unmeasured object does not inherit code9 box');
+const goldHit=originalGroundPickupBounds({...sprite,id:10});assert.deepEqual(goldHit,{x:122,y:101,width:14,height:19});
+for(const [x,y,expected] of [[134,110,true],[135,110,true],[136,110,false],[121,110,false],[122,110,true],[128,100,false],[128,101,true],[128,119,true],[128,120,false],[122,101,true],[135,101,true],[135,119,true],[121,119,false],[128,121,false]])assert.equal(x>=goldHit.x&&x<goldHit.x+goldHit.width&&y>=goldHit.y&&y<goldHit.y+goldHit.height,expected,`gold native probe ${x}/${y}`);
+assert.equal(originalGroundPickupBounds({...sprite,id:11}),null);
 assert.equal(originalGroundPickupBounds({...sprite,pickable:false}),null);
 assert.equal(originalGroundPickupBounds({...sprite,x:192}),null);
 assert.equal(originalGroundSprites(bytes,{...view,col:31})[0].index,116);

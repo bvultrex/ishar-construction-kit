@@ -1,13 +1,15 @@
 import {readSaveWorldItems,worldItemViewCandidate} from './save-world-items.ts';
 import {readOriginalCarrier,ORIGINAL_COMMERCE_OFFSETS} from './original-commerce.ts';
 export interface OriginalGroundView {row:number;col:number;facing:number;map:number;scene:number}
-/** Hoth's 26 original-EXE probes, code9/CONT1, center lane/depth0 only:
- * game-frame pixels x116..141, y104..123 inclusive. Independent of sprite size
- * and opacity. Other objects/positions do not inherit unmeasured boundaries.
+/** Hoth's original-EXE probes (26 for9,24 for10), CONT1 center/depth0 only.
+ * Closed pixel intervals have width/height = extent+1, independent of bitmap.
+ * Other positions do not inherit unmeasured boundaries.
  */
 export function originalGroundPickupBounds(sprite:{id:number;pickable:boolean;x:number;y:number}){
-  return sprite.id===9&&sprite.pickable&&sprite.x===0&&sprite.y===-42
-    ? {x:116,y:104,width:26,height:20}:null;
+  if(!sprite.pickable||sprite.x!==0||sprite.y!==-42)return null;
+  if(sprite.id===9)return {x:116,y:104,width:26,height:20};
+  if(sprite.id===10)return {x:122,y:101,width:14,height:19};
+  return null;
 }
 /** AFFOBJ projection and OBJET 0x003ad/0x003db. Map 1 skips the occlusion routine.
  * Code 9 enters inventory; code 10 is converted to gold by FRISE 0032b/04825.

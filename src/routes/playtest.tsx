@@ -967,8 +967,8 @@ function PlaytestPage() {
       setOriginalHeld({id:sprite.id,before:originalSave});setOriginalSave(next);setHeldItemStart(position);setOriginalStatus(`Originalobjekt ${sprite.id} in der Hand · Fundort oder Charakterporträt anklicken.`);
     };
     return <g key={`original-${sprite.id}`} role={sprite.pickable?"button":undefined} tabIndex={sprite.pickable?0:undefined} aria-label={`Originalobjekt ${sprite.id} ${originalHeld?.id===sprite.id?"am Fundort ablegen":"aufheben"}`} onClick={e=>select({x:e.clientX,y:e.clientY})} onKeyDown={e=>{if(e.key==="Enter" || e.key===" "){e.preventDefault();select(heldItemStart);}}}>
-      <image href={asset.url} x={(VIEW_ORIGIN.x+sprite.x-(asset.width-1)/2)*640/256} y={(VIEW_ORIGIN.y-sprite.y-(asset.height-1)/2)*400/113} width={asset.width*640/256} height={asset.height*400/113} opacity={originalHeld?.id===sprite.id?0.2:1} preserveAspectRatio="none" pointerEvents={sprite.id===9?"none":undefined}/>
-      {hit && <rect data-testid="original-ground-pick-9" data-game-bounds="116,104,141,123" x={hit.x*640/256} y={(hit.y-VIEW_FRAME.clipY0)*400/113} width={hit.width*640/256} height={hit.height*400/113} fill="transparent" pointerEvents="all"/>}
+      <image href={asset.url} x={(VIEW_ORIGIN.x+sprite.x-(asset.width-1)/2)*640/256} y={(VIEW_ORIGIN.y-sprite.y-(asset.height-1)/2)*400/113} width={asset.width*640/256} height={asset.height*400/113} opacity={originalHeld?.id===sprite.id?0.2:1} preserveAspectRatio="none" pointerEvents="none"/>
+      {hit && <rect data-testid={`original-ground-pick-${sprite.id}`} data-game-bounds={`${hit.x},${hit.y},${hit.x+hit.width-1},${hit.y+hit.height-1}`} x={hit.x*640/256} y={(hit.y-VIEW_FRAME.clipY0)*400/113} width={hit.width*640/256} height={hit.height*400/113} fill="transparent" pointerEvents="all"/>}
     </g>;
   }) : null;
   // A fresh camera scene gets fresh ALIS entities, as EAFF does. The engine's
@@ -1073,7 +1073,7 @@ function PlaytestPage() {
       const {r,c}=gridCellOf(level.grid,location);
       const result=canStep(level.grid,r,c,direction,(n)=>gridDoorOpen(game,openDoors,n),direction===facing);
       if(result.kind==="event"){
-        const phase=originalSave?new DataView(originalSave.buffer,originalSave.byteOffset,originalSave.byteLength).getUint16(90,false):1;
+        const phase=originalSave?originalSave[91]!:1; // IO byte scalar MAIN519f
         const entry=result.message===17?originalShopEntry(result.value,phase):null;
         if(entry?.kind==='merchant'){setShopSelector(entry.selector);setHudPanel(null);setOriginalStatus('Ware wählen und anschließend das Charakterporträt anklicken.');return;}
         if(entry?.kind==='closed'){setLog(x=>['Der Händler ist geschlossen.',...x]);return;}

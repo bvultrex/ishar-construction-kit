@@ -4,7 +4,7 @@
 - Originalinventar aller fünf Figuren mit Rucksack und Handplätzen9/10.
 - Objekt9: vom Boden aufnehmen, zwischen Figuren und freien Händen weitergeben, wieder ablegen und als SAV-Kopie exportieren/laden.
 - Handpanel schaltet den Empfängerklick um. Geprüfte Nichtstapelcodes9, -89..-60 und -29..-25 lassen sich aus Rucksack/Händen aufnehmen und in belegten unterstützten Handfeldern tauschen. Die unterschiedlichen Original-Rüstungsregeln bleiben erhalten.
-- Stapel im Gepäck lassen sich ganz oder stückweise aufnehmen und weitergeben; Überschüsse am Zieldeckel bleiben am Cursor. Dieser neue Browserpfad ist noch nicht interaktiv abgenommen.
+- Stapel im Gepäck lassen sich ganz oder stückweise aufnehmen und weitergeben; Überschüsse am Zieldeckel bleiben am Cursor. Teilübergabe, Einzelentnahme und SAV-Reload sind im Browser geprüft.
 - Objekt10: Gold gutschreiben, Übertrag berücksichtigen und gehaltenen Beutelbetrag löschen; kein Inventareintrag.
 - SAV-Export übernimmt die aktuelle Originalposition, Blickrichtung und Szene.
 - Separater hashgeprüfter Ishar1-MAIN/SAV-Feldeditor mit Undo/Redo. Alte unbestätigte Kandidatenmap bleibt schreibgesperrt.
@@ -31,6 +31,6 @@ Die zugehörigen OBJET.IO.asm-, IO.IO.asm-, EAFF.IO.asm-, MAIN.IO.asm- und Figur
 
 ## Grenzen
 
-Dies ist ein Entwicklungsstand. Vollständiger Originalstart, alle NPCs, sämtliche Items, Stapel-Handtausch, Waffen-/Zweihandtausch und weitere Ausrüstungsregeln fehlen. Objekt9 auf CONT1 verwendet das im Original vermessene Klickrechteck; Objekt10 verwendet noch die bisherige Bildfläche. Original-Türmechanik und transiente NPC-Zustände werden nicht vollständig gespeichert. Außerhalb des belegten Umfangs keine vollständige Originalspiel-Kompatibilität annehmen.
+Dies ist ein Entwicklungsstand. Vollständiger Originalstart, alle NPCs, sämtliche Items, Stapel-Handtausch, Waffen-/Zweihandtausch und weitere Ausrüstungsregeln fehlen. Objekt9 und10 auf CONT1 verwenden die im Original vermessenen Klickrechtecke. Original-Türmechanik und transiente NPC-Zustände werden nicht vollständig gespeichert. Außerhalb des belegten Umfangs keine vollständige Originalspiel-Kompatibilität annehmen.
 
 Originalnachweise, Browserintegration und Dateiroundtrips werden getrennt geführt. Hoths Originalspielbericht bestätigt die positiven Objekt9-/Gold10-Pfade; weitere Grenzen bleiben offen. Die genaue Quellrevision und Dateihashes stehen in BUILD_MANIFEST.json.
