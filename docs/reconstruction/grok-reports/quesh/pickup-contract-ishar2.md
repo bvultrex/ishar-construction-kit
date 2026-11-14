@@ -1,13 +1,13 @@
 # Routine contract: Ishar 2 ground pickup → cursor → party/hand slot (map 1, objects 9/10)
 
 - **Base commit:** `bb42748` (handoff), reviewed code `319819c`. Read-only; nothing committed.
-- **Profile:** Ishar 2 DOS, `start.exe` `5e35e58d2d133dadeed4b233b7f962f9c941c3d635feb9d3a067a63c340dadf9`.
+- **Profile:** Ishar 2 DOS, `start.exe` `5e35e58d2d13…`.
 - **Script hashes (SHA-256, packed originals):**
-  - AFFOBJ.IO `40b882fbadff3ea452c76a2af3fdbba9d2b3e4c62d0f19dd838c41f0d5ebdf1e`
-  - OBJET.IO `51ec1fdf24bea52fd07cfc5bf01fa46c6ae7b75bbccb93433d6d0c66b0d99e08`
-  - SOURIS.IO `78df7c73f880466303867b63dd5e20897777802b0595c64935b9f4462354f9d3`
-  - FRISE.IO `27117c124caf904a31568f5c58f615946083dd3429c02ade1dc1e17552cc2b64`
-  - IO.IO `0df1f34cf2519341ef20825d49c7f1e7ff204878814db744f7e5cb58ce6b5918`
+  - AFFOBJ.IO `40b882fbadff…`
+  - OBJET.IO `51ec1fdf24be…`
+  - SOURIS.IO `78df7c73f880…`
+  - FRISE.IO `27117c124caf…`
+  - IO.IO `0df1f34cf251…`
 - **Question:** close the static gaps of the smallest end-to-end flow: (1) hit rectangle, (2) held-at-cursor state, (3) FRISE drop into a slot plus the armour recompute.
 - **Method:** static only. Local ALIS listings (`decompile/alis/listings/ishar2/*.asm`); form tables decoded with the kit's `readDosAlisForms` (`npx tsx`, read-only); `ctstform`/`clipform` semantics from the separate C reference maestun/alis `opcodes.c:3911, 1862` (reference, not DOS code). Save offsets come from the IO.IO derivation (`private/ishar2-save-layout-derived.json`).
 - **Evidence words:**
@@ -148,13 +148,13 @@ There is no screen rectangle test. The pickup is an ALIS **form collision**. Whi
 
   The two values in brackets were not read; see the listing at those addresses (**open**). Objects 9/10 → 0 (no armour change).
 - **Pick up from a hand** (0x02c0f–0x02ca1): `clive` a cursor OBJET (mode 1), 0x2d16 = slot code, 0x2fc0 = handle; same armour condition → **T2f0e[c] −= armour**.
-- **Cross-check (Hoth's charsaves CH1N→CH2N, original EXE):** item −25 moved from Bragl's (char 1) hand to Eliandr's (char 0) hand. Save 0x2f0e changed slot0 0→4 and slot1 16→12. That is exactly armour(−25) = 4, subtracted on pickup and added on drop. **proven** (contract and original agree).
+- *(Savewerte → `private/pickup-contract-ishar2-savewerte.md`, SW-1)*
 - **Open:** occupied-slot swap path from 0x03012 (not read); the meaning of T4bbc / L_03b98.
 
 ---
 
 ## Reference input sequence (for Alderaan/Hoth, DOSBox-X, original EXE)
-**Save:** no existing save has object 9 or 10 lying on map 1 (checked all saves in `ishar2-quesh`, `ishar2-auto`, `charsaves`, originals: T2c4e[9/10] = 0 everywhere, and no inventory holds 9/10). Use a **labelled patched copy** of START.SAV (SHA-256 `e685cd6902575392a9fe445e649863885f75832ed28657a5f6faf612c6305555`; map 1, row 11, col 12, facing 2 = E). Make it with the kit CLI, which only writes mapped fields:
+*(Savewerte → `private/pickup-contract-ishar2-savewerte.md`, SW-2)*
 ```
 # writes.json (toolkit format): object 9 one cell ahead (row 12, col 12), map 1, facing 2
 [{"address":10947,"width":1,"value":12},   # 0x2ac3 = T2aba+9  (file 345)
@@ -181,12 +181,12 @@ npm run save:main -- patch IO.IO START.SAV writes.json PICK9.SAV
 **Expected save diff vs PICK9.SAV:**
 | file offset | MAIN | before → after | note |
 |---|---|---|---|
-| 345 | 0x2aba+9 | 12 → 0 | R3 |
-| 545 | 0x2b84+9 | 12 → 0 | R3 |
-| 745 | 0x2c4e+9 | 1 → 0 | R3 |
-| 8048 | 0x50c8+9 | 2 → 2 | not cleared by pickup (proven) |
-| A: 1036–1037 | 0x2d8e c0 s0 | 00 00 → 00 09 | R6 |
-| B: 1056–1057 | 0x2d8e c0 s10 | 00 00 → 00 09 | R7 |
+| 345 | 0x2aba+9 | → 0 | R3 |
+| 545 | 0x2b84+9 | → 0 | R3 |
+| 745 | 0x2c4e+9 | → 0 | R3 |
+| 8048 | 0x50c8+9 | unverändert | not cleared by pickup (proven) |
+| A: 1036–1037 | 0x2d8e c0 s0 | 0 → Item-ID 9 | R6 |
+| B: 1056–1057 | 0x2d8e c0 s10 | 0 → Item-ID 9 | R7 |
 | 1336 | 0x2f0e c0 | unchanged | armour(9) = 0 |
 | 45/48/49 | 0x4fc6/0x4fca | vary | clock (Hoth, K87) |
 
@@ -222,22 +222,22 @@ Base bb42748, static only. FRISE.IO listing (Ishar 2).
 - **Contract status:** confirmed; table completed; offset formula clarified (+c).
 
 ### Variant C recommendation (visible change, item −25 = 4)
-- **Start save:** `codex-support/quesh/private/PICK25.SAV` sha256 `78d3fbdb51aaf7ac053e2804bd9d4e5957302b763391012ef695a0224f2309ca`. This is a labelled toolkit patch of Alderaan's PICK9.SAV (c306cfc7…), 3 bytes:
-  - file 1056/1057 = FF E7: c0 slot 10 = −25 (MAIN 0x2d8e + 2·10)
-  - file 1336 = 04: c0 armour consistent with the item already held
+- *(Savewerte → `private/pickup-contract-ishar2-savewerte.md`, SW-3)*
+  - file 1056/1057: c0 slot 10 = −25 (MAIN 0x2d8e + 2·10); Bytewerte privat (SW-PK2-ARM-C)
+  - file 1336: c0 armour consistent with the item already held; Bytewert privat (SW-PK2-ARM-C)
   - Slot 9 still holds −104 (armour 0), and object 9 is still on the ground (irrelevant here).
   - It reuses only the click points Alderaan already measured.
 - **Sequence:**
   1. Load `pick25`.
   2. Hands icon c0 (40,131).
   3. Click slot 10 (50,168): the item lifts onto the cursor.
-  4. Disk → SAVE → `pick25a`. Expected: 1336 4→0, 1056/57 → 00 00.
+  4. Disk → SAVE → `pick25a`. Expected: Rüstungsbyte 1336 sinkt um den Rüstungswert des Gegenstands, 1056/57 geleert (Werte: privat (SW-PK2-ARM-C)).
   5. Click slot 10 (50,168) again: drop.
-  6. SAVE → `pick25b`. Expected: 1336 0→4, 1056/57 = FF E7.
-  - If saving while the cursor is holding the item is refused, skip step 4 and only check the A→B round trip (4 → 4), plus the screenshot of the armour display.
-- **Unpatched alternative (original save):** `decompile/charsaves/CH1N.SAV` (4d0219fe…).
-  - Move Bragl's (c1) −25 from slot 10 into Eliandr's (c0) empty slot 9.
-  - Expected: 1337 16→12, 1336 0→4. This equals Hoth's CH2N (5ba27aa6…).
+  6. SAVE → `pick25b`. Expected: 1336 steigt um den Rüstungswert, 1056/57 = Item-Code des Gegenstands (Werte → private SW-B2).
+  - If saving while the cursor is holding the item is refused, skip step 4 and only check the A→B round trip (1336 unverändert), plus the screenshot of the armour display.
+- *(Savewerte → `private/pickup-contract-ishar2-savewerte.md`, SW-4)*
+  - *(Savewerte → `private/pickup-contract-ishar2-savewerte.md`, SW-5)*
+  - Expected: Rüstungsbytes 1336/1337 verschieben sich um den Rüstungswert des Gegenstands (Werte: private). This equals Hoth's CH2N (5ba27aa6…).
   - It needs the not-yet-measured c1 hands icon and c0 slot-9 coordinates; calibrate those first.
 - Tolerated noise as in §8.4 (clock, day phase, monster re-roll).
 
@@ -246,3 +246,46 @@ OBJET form 40 = origin [−12, 0, −4], extent [25, 1, 19]; form 16 = [−6, 0,
 - object 9 → mx 116..141, my 104..123 (unchanged)
 - object 10 → **mx 122..134** (previously 135), my 101..119
 The same formula reproduces Hoth's lever hit (152,58) with PCAVE form 0. proven. Details: hebel-tuer-trigger-ishar2.md, 2026-10-18 corrections.
+
+## Nachtrag 2026-11-14 (Europe/Berlin): Kit-Abgleich f4cf659, Code 10 am Porträt, Tausch, Ablage, Speichern
+Basis: Kit `workbench/playable-slice` `f4cf659` (statt `319819c`). Nur statische Arbeit. Quellen: FRISE.IO `27117c124caf`, SOURIS.IO `78df7c73f880` (Listings), Save-Offsets aus der IO.IO-Ableitung. Der Bestand bleibt stehen. Was folgt, korrigiert oder ergänzt ihn. Vollbericht: `pickup-contract-check-ishar2.md` (Nachtrag 32).
+
+1. **R6 widerlegt für Code 10 (known, Listing):**
+   - Im FRISE-Klickpfad liegt vor 0x007b1 die Prüfung bei 0x0032b. Bedingung: `0x7a == 1`, gehalten ≠ −6, `0x78 < 75` und **|0x2d16| == 10** (`oabs`).
+   - Ablauf:
+     - c = 0x76 / 64.
+     - Lebend-Prädikat wie 007C9 (0x0034d).
+     - → `L_04825`: Gold von c (Tausender T2d68[c], Einheiten T2d80[c]) += (0x4c94, 0x4c96) über `L_06865` (Übertrag > 999). Danach 0x4c94 = 0x4c96 = 0.
+     - Anschließend 0x2d16 = 0, `ckill 0x2fc0`, `cmouson` (0x0036b–0x00375).
+   - **Objekt 10 landet also über Porträt oder Handfeld nie im Gepäck. Es verschwindet** und gilt als Geldbeutel, wie −10 aus SOURIS 0x00761.
+   - Die Weltfelder waren schon beim Aufheben genullt.
+   - Ist c nicht handlungsfähig, passiert nichts, und das Objekt bleibt am Cursor.
+   - Save: 1006 + 2c, 1026 + 2c, 14–15, 16–17.
+   - Der „Variante A“-Erwartungswert gilt nur für Objekt 9.
+2. **R5 ergänzt (known):** Die Bodenablage schreibt auch **T50c8[id] = 0x2ab6** (SOURIS 0x009f0, Save 8039 + id).
+   - Zielfeld auf Karte 1: das Feld vor der Gruppe (0x008f0). Eine Begehbarkeitsprüfung gibt es hier nicht.
+   - Abbruch, das Objekt bleibt am Cursor:
+     - ein anderes Objekt mit Material 512 unter dem Cursor (0x008cf),
+     - Material 69 (0x00877; bei 9/10 ohne Wirkung),
+     - `0x4aa0 ≠ 0` (0x007b0).
+3. **R7 offen → geschlossen: Tausch bei belegtem Slot (0x03012–0x03347, known):**
+   - Slot = −125 → keine Aktion.
+   - Sonst, nur wenn alle T4bbc[0..19] == 0:
+     - neuer Cursor für den alten Code,
+     - Slot = gehaltener Code (0x0328b),
+     - T2f0e[c] += Rüstung(neu) (0x03302), 0x2d16 = alter Code, T2f0e[c] −= Rüstung(alt) (0x0333d).
+   - **Abweichung zur Ablage/Aufnahme:** Beim Tausch ist die Bedingung `code ≤ −26 AND code ≥ −29` (0x032d8/0x03313), also nur −29..−26. Bei Ablage/Aufnahme gilt die Tautologie (OR).
+   - Tauscht Objekt 9 z. B. −25 aus Handfeld 9/10 heraus, bleibt dessen Rüstung in 1336 + c stehen (known, Code).
+4. **Aufnahme aus Slot (Übergabe, known):**
+   - `L_02c0f` mit 0x2d16 == 0: Slot ≠ 0 und ≠ −125 → Cursor-OBJET, 0x2d16 = Code, Rüstung −= (Slots 9/10), danach **Slot = 0** (0x02dbb).
+   - Die Lücke 0x02cbb–0x02dba im Listing betrifft nur den Stapelzweig.
+5. **Speichern mit Item am Cursor ist im Original unmöglich (known):**
+   - Das Disk-Menü `L_05c6e` (lädt io.IO) wird nur bei 0x2d16 == 0 und 0x4aa0 == 0 geöffnet: Taste 0x002b0, Klick 0x00982.
+   - Bewegung über GERDEP `L_0055e` (0x00572) ist bei 0x2d16 ≠ 0 gesperrt (Umfang: suspected).
+6. **Code 9 als Übergabe in Szenen mit 0x4aa0 == 1 (known, Code):**
+   - SOURIS 0x00c74: Material 100 und gehalten == 9 → **0x4f13 = 3** (Save 20–21, IO.IO 0x00ac5 `cfwritev`), Freigabe.
+   - PP11 reagiert bei 0x000e9/0x000fc mit T449a[62] = 0 (Save 6905). Ob Material 100 zu PP11 gehört: suspected.
+7. **Freigabe:** Am Porträt, am Handfeld und beim Tausch nur, wenn alle T4bbc[0..19] == 0 (0x03c9b, 0x02fdb, 0x0315b).
+   - T4bbc ist transient und hält die Stapelmenge in Bewegung. Für 9/10 normalerweise 0 (suspected).
+   - Ein Wert ≠ 0 bedeutet: Slot geschrieben, Cursor nicht freigegeben.
+8. **Formfehler im JSON:** R3 `hit_rect_game.10` nennt noch 135. Gültig ist 134 laut Nachtrag 2026-10-18.
