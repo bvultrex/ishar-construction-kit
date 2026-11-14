@@ -4,7 +4,7 @@ import { doorLeafKind, DUNGEON_FRAMES as FRAMES, DUNGEON_NATIVE_FRAMES, DUNGEON_
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useRef, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { originalGroundSprites, pickOriginalGround, receiveOriginalGround } from "@/lib/ishar/original-ground-runtime";
+import { originalGroundSprites, pickOriginalGround, dropOriginalGround, receiveOriginalGround } from "@/lib/ishar/original-ground-runtime";
 import { readActorSave } from "@/lib/ishar/save-actors";
 import { patchOriginalSaveView } from "@/lib/ishar/original-save-view";
 import { readOriginalCarrier,receiveOriginalPurchase,type OriginalPurchase } from "@/lib/ishar/original-commerce";
@@ -906,7 +906,11 @@ function PlaytestPage() {
       setOriginalStatus("SAV-Kopie mit aktuellem Standort, Blickrichtung, Szene und Originalinventar exportiert. Weitere Vorschauzustände werden nicht vollständig gespeichert.");
     }catch(error){setOriginalStatus(error instanceof Error?error.message:String(error));}
   }
-  function returnOriginalGround(){if(originalHeld){setOriginalSave(originalHeld.before);setOriginalHeld(null);setOriginalStatus("Gegenstand am Fundort abgelegt.");}}
+  function returnOriginalGround(){
+    if(!originalHeld || !originalSave || !originalView)return;
+    const next=dropOriginalGround(originalSave,originalView,originalHeld.id);if(!next)return;
+    setOriginalSave(next);setOriginalHeld(null);setOriginalStatus("Gegenstand auf dem Feld vor der Gruppe abgelegt.");
+  }
   function giveOriginalGround(carrier:number){
     if(!originalHeld || !originalSave)return;
     const next=receiveOriginalGround(originalSave,originalHeld.id,carrier);

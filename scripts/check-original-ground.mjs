@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {originalGroundSprites,pickOriginalGround,receiveOriginalGround} from '../src/lib/ishar/original-ground-runtime.ts';
+import {originalGroundSprites,pickOriginalGround,dropOriginalGround,receiveOriginalGround} from '../src/lib/ishar/original-ground-runtime.ts';
 const bytes=new Uint8Array(8359),words=new DataView(bytes.buffer);
 words.setUint16(0,2);words.setInt16(996,10);bytes.fill(255,1276,1281);bytes[1276]=1;
 bytes[345]=20;bytes[545]=29;bytes[745]=1;
@@ -12,6 +12,17 @@ assert.deepEqual(originalGroundSprites(bytes,{...view,map:2}),[]);
 const picked=pickOriginalGround(bytes,view,9);
 assert.equal(bytes[345],20);assert.equal(picked[345],0);assert.equal(picked[545],0);assert.equal(picked[745],0);
 assert.deepEqual(originalGroundSprites(picked,view),[]);
+for(const id of [9,10])for(const [facing,row,col] of [[1,20,29],[2,21,30],[3,20,31],[4,19,30]]){
+ const held=picked.slice();held[336+id]=0;held[536+id]=0;held[736+id]=0;held[8039+id]=99;
+ const before=held.slice(),dropped=dropOriginalGround(held,{...view,facing},id);
+ assert.equal(dropped[336+id],row);assert.equal(dropped[536+id],col);assert.equal(dropped[736+id],1);assert.equal(dropped[8039+id],facing);
+ for(let at=0;at<held.length;at++)if(![336+id,536+id,736+id,8039+id].includes(at))assert.equal(dropped[at],held[at]);
+ assert.deepEqual(held,before);assert.equal(dropOriginalGround(dropped,{...view,facing},id),null);
+ assert.equal(dropOriginalGround(held,{...view,map:2},id),null);
+}
+assert.equal(dropOriginalGround(picked,{...view,facing:0},9),null);
+assert.equal(dropOriginalGround(picked,{...view,row:-1},9),null);
+const edge=dropOriginalGround(picked,{...view,col:0},9);assert.equal(edge[545],255,'original byte-coordinate wrap');
 const received=receiveOriginalGround(picked,9,0);
 assert.equal(new DataView(received.buffer).getInt16(1036),9);
 assert.equal(new DataView(picked.buffer).getInt16(1036),0);

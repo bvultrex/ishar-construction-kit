@@ -22,6 +22,21 @@ export function pickOriginalGround(bytes:Uint8Array,view:OriginalGroundView,id:n
   picked[336+id]=0;picked[536+id]=0;picked[736+id]=0;
   return picked;
 }
+/** SOURIS00904..009f0: supported positive objects return to the front cell on
+ * CONT1 and acquire the current facing. Caller owns the held-object state and
+ * collision gate; this does not infer a held item from an empty world slot.
+ */
+export function dropOriginalGround(bytes:Uint8Array,view:OriginalGroundView,id:number) {
+  if(![9,10].includes(id)||view.map!==1||![1,2,3,4].includes(view.facing)||
+    ![view.row,view.col].every(n=>Number.isInteger(n)&&n>=0&&n<=255))return null;
+  // Never overwrite an already placed object or silently duplicate it.
+  if(bytes.length!==8359||bytes[0]!==0||bytes[1]!==2||bytes[336+id]!==0||bytes[536+id]!==0||bytes[736+id]!==0)return null;
+  const copy=Uint8Array.from(bytes);
+  const dr=view.facing===2?1:view.facing===4?-1:0,dc=view.facing===3?1:view.facing===1?-1:0;
+  copy[336+id]=(view.row+dr)&255;copy[536+id]=(view.col+dc)&255;copy[736+id]=view.map;
+  copy[8039+id]=view.facing;
+  return copy;
+}
 /** FRISE007C9 requires signed HP>0 and a present character before portrait pickup. */
 export function receiveOriginalGround(bytes:Uint8Array,id:number,carrier:number) {
   if(![9,10].includes(id))return null;
