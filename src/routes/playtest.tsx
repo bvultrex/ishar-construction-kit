@@ -7,6 +7,7 @@ import type { ReactNode } from "react";
 import { originalGroundSprites, pickOriginalGround, dropOriginalGround, receiveOriginalGround } from "@/lib/ishar/original-ground-runtime";
 import { readActorSave } from "@/lib/ishar/save-actors";
 import { patchOriginalSaveView } from "@/lib/ishar/original-save-view";
+import { takeOriginalInventoryItem } from "@/lib/ishar/original-inventory-runtime";
 import { readOriginalCarrier,receiveOriginalPurchase,type OriginalPurchase } from "@/lib/ishar/original-commerce";
 import { readOriginalMerchants,readOriginalItemResources,type OriginalMerchant } from "@/lib/ishar/original-merchants";
 import { originalShopEntry } from "@/lib/ishar/original-shop-entry";
@@ -911,11 +912,17 @@ function PlaytestPage() {
     const next=dropOriginalGround(originalSave,originalView,originalHeld.id);if(!next)return;
     setOriginalSave(next);setOriginalHeld(null);setOriginalStatus("Gegenstand auf dem Feld vor der Gruppe abgelegt.");
   }
-  function giveOriginalGround(carrier:number){
+  function takeOriginalInventory(carrier:number,slot:number,position:{x:number;y:number}){
+    if(!originalSave || originalHeld || shopHeld || selectedGroundItemId || shopSelector!==null)return;
+    const result=takeOriginalInventoryItem(originalSave,carrier,slot);if(!result)return;
+    setOriginalHeld({id:result.id,before:originalSave});setOriginalSave(result.bytes);setHeldItemStart(position);
+    setOriginalStatus(`Objekt9 aus Charakter ${carrier+1}, Platz ${slot+1} aufgenommen. Empfänger oder freien Handplatz wählen.`);
+  }
+  function giveOriginalGround(carrier:number,handSlot?:9|10){
     if(!originalHeld || !originalSave)return;
-    const next=receiveOriginalGround(originalSave,originalHeld.id,carrier);
+    const next=receiveOriginalGround(originalSave,originalHeld.id,carrier,handSlot);
     if(!next){setOriginalStatus("Dieser Originalcharakter kann den Gegenstand nicht aufnehmen (nicht vorhanden, nicht handlungsfähig oder Gepäck voll).");return;}
-    setOriginalSave(next);setOriginalHeld(null);setOriginalStatus(originalHeld.id===10 ? `Goldfund an Charakter ${carrier+1} übertragen.` : `Originalobjekt ${originalHeld.id} liegt im Gepäck von Charakter ${carrier+1}.`);
+    setOriginalSave(next);setOriginalHeld(null);setOriginalStatus(originalHeld.id===10 ? `Goldfund an Charakter ${carrier+1} übertragen.` : `Originalobjekt ${originalHeld.id} liegt ${handSlot===undefined?'im Gepäck':`in Handplatz ${handSlot}`} von Charakter ${carrier+1}.`);
   }
   async function loadOriginalGround(file:File){
     if(shopHeld)return;
@@ -1210,12 +1217,17 @@ function PlaytestPage() {
 
     {originalStatus && <p role="status">{originalStatus}</p>}
     {originalSave && <div className="toolbar"><button disabled={!!originalHeld || !!shopHeld || !originalView || level?.grid?.game!=="ishar2"} onClick={exportOriginalSave}>Geänderten Spielstand exportieren</button><button disabled={!!originalHeld || !!shopHeld} onClick={()=>{setOriginalSave(null);setOriginalStatus("");}}>Originalspielstand schließen</button></div>}
+    {originalHeld && <button onClick={returnOriginalGround}>Gehaltenes Originalobjekt vor der Gruppe ablegen</button>}
     {originalSave && <section className="stone-card" aria-label="Originalinventar aller Charaktere">
       <h2>Originalinventar</h2><p>Gepäck aus dem geladenen Ishar-2-Spielstand. Diese Plätze sind unabhängig von der Demo-Party.</p>
       <div className="module-grid">{Array.from({length:5},(_,carrier)=>{
         const person=readOriginalCarrier(originalSave,carrier);
         return <article key={carrier}><h3>Charakter {carrier+1}{person.present?'':' · leer'}</h3>
-          {person.present && <><p>Vitalität: {person.hp} · Gold: {person.money[0]*1000+person.money[1]}</p><ol>{person.slots.slice(0,9).map((code,index)=><li key={index}>{code===0?'leer':`Objekt ${code}`}</li>)}</ol></>}
+          {person.present && <><p>Vitalität: {person.hp} · Gold: {person.money[0]*1000+person.money[1]}</p><ol>{person.slots.slice(0,11).map((code,index)=><li key={index}>
+            {index>=9?`Handplatz ${index}: `:''}{code===0?'leer':`Objekt ${code}`}
+            {code===9 && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY})}>Charakter {carrier+1}, Platz {index+1}: Objekt 9 aufnehmen</button>}
+            {originalHeld && index>=9 && <button disabled={(code!==0&&originalHeld.id!==10)||person.hp<=0} onClick={()=>giveOriginalGround(carrier,index as 9|10)}>Charakter {carrier+1}: Handplatz {index} übernehmen</button>}
+          </li>)}</ol></>}
           {originalHeld && <button disabled={!person.present||person.hp<=0} onClick={()=>giveOriginalGround(carrier)}>Charakter {carrier+1}: Bodenobjekt übernehmen</button>}
           {shopHeld && <button disabled={!person.present} onClick={()=>giveShopPurchase(carrier)}>Charakter {carrier+1}: Ware übernehmen</button>}
         </article>;

@@ -38,7 +38,7 @@ export function dropOriginalGround(bytes:Uint8Array,view:OriginalGroundView,id:n
   return copy;
 }
 /** FRISE007C9 requires signed HP>0 and a present character before portrait pickup. */
-export function receiveOriginalGround(bytes:Uint8Array,id:number,carrier:number) {
+export function receiveOriginalGround(bytes:Uint8Array,id:number,carrier:number,handSlot?:9|10) {
   if(![9,10].includes(id))return null;
   const person=readOriginalCarrier(bytes,carrier);if(!person.present||person.hp<=0)return null;
   if(id===10){
@@ -54,7 +54,10 @@ export function receiveOriginalGround(bytes:Uint8Array,id:number,carrier:number)
     words.setInt16(14,0,false);words.setInt16(16,0,false);
     return copy;
   }
-  const slot=person.slots.slice(0,9).indexOf(0);if(slot<0)return null;
+  // FRISE02f5a permits code9 in a free hand slot; armour(9)=0.
+  // Occupied-slot swaps remain a separate branch, never silently overwrite.
+  if(handSlot!==undefined&&handSlot!==9&&handSlot!==10)return null;
+  const slot=handSlot??person.slots.slice(0,9).indexOf(0);if(slot<0||person.slots[slot]!==0)return null;
   const copy=Uint8Array.from(bytes);
   new DataView(copy.buffer).setInt16(ORIGINAL_COMMERCE_OFFSETS.inventory+carrier*30+slot*2,id,false);
   return copy;

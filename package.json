@@ -4,6 +4,7 @@
   "version": "0.1.0-recovery",
   "type": "module",
   "scripts": {
+    "test:original-inventory-transfer": "node scripts/check-original-inventory-transfer.mjs",
     "test:original-save-view": "node scripts/check-original-save-view.mjs",
     "test:original-shop-roundtrip-local": "node scripts/check-original-shop-roundtrip-local.mjs",
     "test:ishar1-save-writer": "node scripts/check-ishar1-save-writer.mjs",
