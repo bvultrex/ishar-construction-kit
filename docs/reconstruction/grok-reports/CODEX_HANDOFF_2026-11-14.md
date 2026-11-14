@@ -136,6 +136,16 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 - Gold-Offsets: Tausender `478+2c`, Rest `3993+2c`, je BE16.
 - Inventar: `498+26c+2k`, int16 BE, 13 Slots.
 
+### 5.4b Korrektur Pickup Ishar 2 (Nachtrag 32, 2026-11-14)
+
+- **A1 (known, Listing):** In Ishar 2 geht Code 10 über Porträt oder Handfeld als Gold an die Figur und **nicht ins Gepäck**: Einheiten 1026+2c += Geldbeutel 16–17, Tausender 1006+2c += Geldbeutel 14–15 plus Übertrag, danach 14–17 = 0; das Objekt ist verbraucht (FRISE 0x0032b, `L_04825`/`L_06865`). Das Kit (`receiveOriginalGround`, `f4cf659`) schreibt Code 10 derzeit in 1036+30c+2s; `check-original-ground-roundtrip-local.mjs` erwartet das ebenfalls. Siehe Nachtrag 32, A1.
+- Weitere fehlende oder abweichende Writes (Nachtrag 32):
+  - **A2:** Bodenablage schreibt zusätzlich T50c8[id] = Blickrichtung (Save 8039+id); das Kit stellt den alten Snapshot wieder her.
+  - **A3:** Ablage von Code 9 auf Handfeld 9/10 (1036+30c+18/20, Rüstung +0) fehlt im Kit.
+  - **A4:** Tausch mit belegtem Slot (Rüstung nur für −29..−26 angepasst) fehlt.
+  - **A5:** Aufnahme aus einem Slot (Übergabe an andere Figur, Slot → 0, Rüstung −=) fehlt.
+  - **A6:** Code 9 auf Material 100 bei 0x4aa0 == 1 setzt 0x4f13 = 3 (Save 20–21); fehlt (außerhalb Karte 1).
+
 ### 5.5 Danach
 
 - Save-Map Ishar 1 komplett in `save-maps.ts`:
