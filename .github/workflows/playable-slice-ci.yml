@@ -37,6 +37,10 @@ jobs:
           npm run test:original-commerce
           npm run test:legacy-ishar1-write-guard
           npm run test:ishar1-save-writer
+      - name: Original mod copy regressions
+        run: |
+          npm run test:cont-mod
+          npm run test:alis-mod
       - name: Physical script and scheduler regressions
         run: |
           npm run test:dos-physical-frame

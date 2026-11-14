@@ -1,5 +1,33 @@
 # CONT-Mod-Workflow
 
+## Ergänzung: ALIS-Ressource → getrennte Spielkopie
+
+Nach einer gleich großen Imagebearbeitung aus dem vorhandenen ALIS-Editor/CLI:
+
+```powershell
+node scripts/alis-mod.mjs ishar2 E:/Spiele/Ishar2 LOGO.IO ../mods/edited-logo.image.bin ../analysis-output/my-ishar2-logo-mod
+```
+
+Für Ishar1 entsprechend `ishar1` und dessen Originalordner angeben. Das Spielprofil
+ist ausdrücklich vom Aufrufer gewählt; die vollständigen Installationshashes
+werden aufgezeichnet, daraus wird keine Version oder Ingame-Gültigkeit erfunden.
+Nur ein IO-Basisname am Installationsroot ist zulässig. Das bearbeitete Image
+wird mit dem unveränderten Containerprofil rekodiert und vollständig zurückgelesen.
+Größenänderungen sind nicht erlaubt. Das Manifest nennt Imageänderungsoffsets,
+Quell-/Zielhashes und bleibt `prepared-not-tested-in-original`.
+
+CONT- und ALIS-Export teilen nun denselben Kopierpfad. Vor Output-Erstellung
+werden Eingaben validiert; vorhandene Ziele, Quell-Unterordner, Links und bereits
+exportierte Quellen werden abgewiesen. Danach werden sämtliche Dateien kopiert
+und zurückgelesen, genau eine Ressource ersetzt und abschließend der gesamte
+Quellprofilhash erneut verglichen. Bei Quelländerung gibt es kein Erfolgsmanifest.
+Unvollständige Kopien nach Fehlern werden weiterhin nicht automatisch gelöscht.
+
+Prüfung: `npm run test:cont-mod` und `npm run test:alis-mod` laufen mit synthetischen
+Daten in CI. Private LOGO-Paletten-Arbeitskopien beider lokalen Originalprofile
+wurden ebenfalls erzeugt und zurückgelesen. Deren Ausführung und sichtbare Wirkung
+im Originalspiel sind noch offen; diese Exportprüfung schließt keine Modabnahme ab.
+
 Stand: 2026-10-17. Dies ist ein CK-Patchformat für originale Kartenbytes, kein
 angebliches Originalskriptformat. Die Prüfung bestätigt Datenintegrität, nicht
 automatisch die spielerische Gültigkeit oder eine vollständige Laufzeitrekonstruktion.
