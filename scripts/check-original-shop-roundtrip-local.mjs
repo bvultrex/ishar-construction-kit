@@ -13,6 +13,9 @@ assert.ok(process.env.ISHAR2_DIR&&process.env.ISHAR_MERCHANT_LISTING,'ISHAR2_DIR
 const root=resolve(process.env.ISHAR2_DIR),outputRoot=resolve(process.env.ISHAR_PRIVATE_OUTPUT??'../analysis-output');
 const sourceFilter=process.argv.find(arg=>arg.startsWith('--source-save='))?.slice('--source-save='.length);
 assert.ok(sourceFilter===undefined||/^[^\\/]+\.sav$/i.test(sourceFilter),'--source-save requires a SAV basename');
+const stockArg=process.argv.find(arg=>arg.startsWith('--stock-index='))?.slice('--stock-index='.length);
+assert.ok(stockArg===undefined||/^[0-5]$/.test(stockArg),'--stock-index requires 0..5');
+const stockFilter=stockArg===undefined?undefined:Number(stockArg);
 const saves=readdirSync(root).filter(n=>/\.sav$/i.test(n)&&(!sourceFilter||n.toLowerCase()===sourceFilter.toLowerCase())).sort();
 assert.ok(saves.length,'No matching source SAV');
 const inside=(base,path)=>{const r=relative(base,path);return !r||(!r.startsWith('..')&&!isAbsolute(r));};
@@ -37,6 +40,7 @@ for(const map of [1,2,3]){
     for(let carrier=0;carrier<5&&!found;carrier++){
      const person=readOriginalCarrier(original,carrier);if(!person.present)continue;
      for(let stock=0;stock<merchant.slots.length&&!found;stock++){
+      if(stockFilter!==undefined&&stock!==stockFilter)continue;
       const [objectCode,a,b,quantity]=merchant.slots[stock].fields;if(objectCode>=0||objectCode< -89)continue;
       const purchase={objectCode,price:[a,b],quantity};const received=receiveOriginalPurchase(original,purchase,carrier);if(!received.ok)continue;
       found={map,row,col,facing,event,selector:entry.selector,source:name,original,carrier,stock,purchase,contSha256:hash(cont)};

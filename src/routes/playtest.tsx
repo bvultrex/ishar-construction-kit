@@ -1237,7 +1237,7 @@ function PlaytestPage() {
         const person=readOriginalCarrier(originalSave,carrier);
         return <article key={carrier}><h3>Charakter {carrier+1}{person.present?'':' · leer'}</h3>
           {person.present && <><p>Vitalität: {person.hp} · Gold: {person.money[0]*1000+person.money[1]}</p><p>Rüstung: {person.armour}</p><button aria-expanded={originalHandPanels[carrier]??false} onClick={()=>setOriginalHandPanels(panels=>panels.map((open,index)=>index===carrier?!open:open))}>Charakter {carrier+1}: Handpanel {originalHandPanels[carrier]?'schließen':'öffnen'}</button><ol>{person.slots.slice(0,11).map((code,index)=>(index<9||originalHandPanels[carrier])&&<li key={index}>
-            {index>=9?`Handplatz ${index}: `:''}{code===0?'leer':`Objekt ${code}`}
+            {index>=9?`Handplatz ${index}: `:''}{code===0?'leer':`Objekt ${code}${code>=-59&&code<=-49?` · ${person.stacks[code+59]} Stück`:''}`}
             {simpleOriginalInventoryCode(code) && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY})}>Charakter {carrier+1}, Platz {index+1}: Objekt {code} aufnehmen</button>}
             {originalHeld && index>=9 && <button disabled={(code!==0&&!simpleOriginalInventoryCode(code)&&originalHeld.id!==10)||person.hp<=0} onClick={()=>giveOriginalGround(carrier,index as 9|10)}>Charakter {carrier+1}: Handplatz {index} {code===0||originalHeld.id===10?'übernehmen':'tauschen'}</button>}
           </li>)}</ol></>}
