@@ -7,7 +7,7 @@ import type { ReactNode } from "react";
 import { originalGroundSprites, pickOriginalGround, dropOriginalGround, receiveOriginalGround } from "@/lib/ishar/original-ground-runtime";
 import { readActorSave } from "@/lib/ishar/save-actors";
 import { patchOriginalSaveView } from "@/lib/ishar/original-save-view";
-import { takeOriginalInventoryItem, originalPortraitItemDestination } from "@/lib/ishar/original-inventory-runtime";
+import { takeOriginalInventoryItem, placeOriginalInventoryItem, simpleOriginalInventoryCode, originalPortraitItemDestination } from "@/lib/ishar/original-inventory-runtime";
 import { readOriginalCarrier,receiveOriginalPurchase,type OriginalPurchase } from "@/lib/ishar/original-commerce";
 import { readOriginalMerchants,readOriginalItemResources,type OriginalMerchant } from "@/lib/ishar/original-merchants";
 import { originalShopEntry } from "@/lib/ishar/original-shop-entry";
@@ -918,16 +918,17 @@ function PlaytestPage() {
     if(!originalSave || originalHeld || shopHeld || selectedGroundItemId || shopSelector!==null)return;
     const result=takeOriginalInventoryItem(originalSave,carrier,slot);if(!result)return;
     setOriginalHeld({id:result.id,before:originalSave});setOriginalSave(result.bytes);setHeldItemStart(position);
-    setOriginalStatus(`Objekt9 aus Charakter ${carrier+1}, Platz ${slot+1} aufgenommen. Empfänger oder freien Handplatz wählen.`);
+    setOriginalStatus(`Objekt ${result.id} aus Charakter ${carrier+1}, Platz ${slot+1} aufgenommen. Empfänger oder freien Handplatz wählen.`);
   }
   function giveOriginalGround(carrier:number,handSlot?:9|10){
     if(!originalHeld || !originalSave)return;
     if(handSlot===undefined && originalPortraitItemDestination(originalHeld.id,originalHandPanels[carrier]??false)==='hand-panel'){
       setOriginalStatus(`Handpanel von Charakter ${carrier+1} ist offen. Einen freien Handplatz wählen.`);return;
     }
-    const next=receiveOriginalGround(originalSave,originalHeld.id,carrier,handSlot);
-    if(!next){setOriginalStatus("Dieser Originalcharakter kann den Gegenstand nicht aufnehmen (nicht vorhanden, nicht handlungsfähig oder Gepäck voll).");return;}
-    setOriginalSave(next);setOriginalHeld(null);setOriginalStatus(originalHeld.id===10 ? `Goldfund an Charakter ${carrier+1} übertragen.` : `Originalobjekt ${originalHeld.id} liegt ${handSlot===undefined?'im Gepäck':`in Handplatz ${handSlot}`} von Charakter ${carrier+1}.`);
+    const result=originalHeld.id===10 ? (()=>{const bytes=receiveOriginalGround(originalSave,10,carrier,handSlot);return bytes?{bytes,held:null}:null;})() : placeOriginalInventoryItem(originalSave,originalHeld.id,carrier,handSlot);
+    if(!result){setOriginalStatus("Dieser Originalcharakter kann den Gegenstand nicht aufnehmen (nicht vorhanden, nicht handlungsfähig, Gepäck voll oder ungeklärter Tausch).");return;}
+    setOriginalSave(result.bytes);setOriginalHeld(result.held===null?null:{id:result.held,before:result.bytes});
+    setOriginalStatus(result.held!==null ? `Gegenstände getauscht. Objekt ${result.held} bleibt am Cursor.` : originalHeld.id===10 ? `Goldfund an Charakter ${carrier+1} übertragen.` : `Originalobjekt ${originalHeld.id} liegt ${handSlot===undefined?'im Gepäck':`in Handplatz ${handSlot}`} von Charakter ${carrier+1}.`);
   }
   async function loadOriginalGround(file:File){
     if(shopHeld)return;
@@ -1222,16 +1223,16 @@ function PlaytestPage() {
 
     {originalStatus && <p role="status">{originalStatus}</p>}
     {originalSave && <div className="toolbar"><button disabled={!!originalHeld || !!shopHeld || !originalView || level?.grid?.game!=="ishar2"} onClick={exportOriginalSave}>Geänderten Spielstand exportieren</button><button disabled={!!originalHeld || !!shopHeld} onClick={()=>{setOriginalSave(null);setOriginalStatus("");}}>Originalspielstand schließen</button></div>}
-    {originalHeld && <button onClick={returnOriginalGround}>Gehaltenes Originalobjekt vor der Gruppe ablegen</button>}
+    {originalHeld && [9,10].includes(originalHeld.id) && <button onClick={returnOriginalGround}>Gehaltenes Originalobjekt vor der Gruppe ablegen</button>}
     {originalSave && <section className="stone-card" aria-label="Originalinventar aller Charaktere">
       <h2>Originalinventar</h2><p>Gepäck aus dem geladenen Ishar-2-Spielstand. Diese Plätze sind unabhängig von der Demo-Party.</p>
       <div className="module-grid">{Array.from({length:5},(_,carrier)=>{
         const person=readOriginalCarrier(originalSave,carrier);
         return <article key={carrier}><h3>Charakter {carrier+1}{person.present?'':' · leer'}</h3>
-          {person.present && <><p>Vitalität: {person.hp} · Gold: {person.money[0]*1000+person.money[1]}</p><button aria-expanded={originalHandPanels[carrier]??false} onClick={()=>setOriginalHandPanels(panels=>panels.map((open,index)=>index===carrier?!open:open))}>Charakter {carrier+1}: Handpanel {originalHandPanels[carrier]?'schließen':'öffnen'}</button><ol>{person.slots.slice(0,11).map((code,index)=>(index<9||originalHandPanels[carrier])&&<li key={index}>
+          {person.present && <><p>Vitalität: {person.hp} · Gold: {person.money[0]*1000+person.money[1]}</p><p>Rüstung: {person.armour}</p><button aria-expanded={originalHandPanels[carrier]??false} onClick={()=>setOriginalHandPanels(panels=>panels.map((open,index)=>index===carrier?!open:open))}>Charakter {carrier+1}: Handpanel {originalHandPanels[carrier]?'schließen':'öffnen'}</button><ol>{person.slots.slice(0,11).map((code,index)=>(index<9||originalHandPanels[carrier])&&<li key={index}>
             {index>=9?`Handplatz ${index}: `:''}{code===0?'leer':`Objekt ${code}`}
-            {code===9 && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY})}>Charakter {carrier+1}, Platz {index+1}: Objekt 9 aufnehmen</button>}
-            {originalHeld && index>=9 && <button disabled={(code!==0&&originalHeld.id!==10)||person.hp<=0} onClick={()=>giveOriginalGround(carrier,index as 9|10)}>Charakter {carrier+1}: Handplatz {index} übernehmen</button>}
+            {simpleOriginalInventoryCode(code) && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY})}>Charakter {carrier+1}, Platz {index+1}: Objekt {code} aufnehmen</button>}
+            {originalHeld && index>=9 && <button disabled={(code!==0&&!simpleOriginalInventoryCode(code)&&originalHeld.id!==10)||person.hp<=0} onClick={()=>giveOriginalGround(carrier,index as 9|10)}>Charakter {carrier+1}: Handplatz {index} {code===0||originalHeld.id===10?'übernehmen':'tauschen'}</button>}
           </li>)}</ol></>}
           {originalHeld && <button disabled={!person.present||person.hp<=0} onClick={()=>giveOriginalGround(carrier)}>Charakter {carrier+1}: {originalPortraitItemDestination(originalHeld.id,originalHandPanels[carrier]??false)==='hand-panel'?'Handplatz wählen':'Originalobjekt übernehmen'}</button>}
           {shopHeld && <button disabled={!person.present} onClick={()=>giveShopPurchase(carrier)}>Charakter {carrier+1}: Ware übernehmen</button>}
@@ -1312,7 +1313,7 @@ function PlaytestPage() {
         })}
       </div>
 
-      {originalHeld && <HeldGroundItemCursor item={{id:`original-${originalHeld.id}`,name:`Originalobjekt ${originalHeld.id}`,description:"Originales Bodenobjekt",assetId:originalAsset(originalHeld.id===9?115:90)?.id}} pack={pack} position={heldItemStart}/>}
+      {originalHeld && <HeldGroundItemCursor item={{id:`original-${originalHeld.id}`,name:`Originalobjekt ${originalHeld.id}`,description:"Originales Bodenobjekt",assetId:originalAsset(originalHeld.id===9?115:originalHeld.id===10?90:shopResources[originalHeld.id]??-1)?.id}} pack={pack} position={heldItemStart}/>}
       {shopHeld && <HeldGroundItemCursor item={{id:`purchase-${shopHeld.objectCode}`,name:`Objekt ${shopHeld.objectCode}`,description:'Ware',assetId:shopResources[shopHeld.objectCode]===undefined?undefined:originalAsset(shopResources[shopHeld.objectCode]!)?.id}} pack={pack} position={heldItemStart}/>}
       {selectedGroundItemId && <HeldGroundItemCursor key={selectedGroundItemId} item={heldItem} pack={pack} position={heldItemStart}/>}
 

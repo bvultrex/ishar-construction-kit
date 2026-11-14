@@ -3,6 +3,7 @@
 - Steinwächter verwendet bei lokal geladenen Ishar2-Assets GOLEM1.IO Composite38 (127×91).
 - Originalinventar aller fünf Figuren mit Rucksack und Handplätzen9/10.
 - Objekt9: vom Boden aufnehmen, zwischen Figuren und freien Händen weitergeben, wieder ablegen und als SAV-Kopie exportieren/laden.
+- Handpanel schaltet den Empfängerklick um. Geprüfte Nichtstapelcodes9, -89..-60 und -29..-25 lassen sich aus Rucksack/Händen aufnehmen und in belegten unterstützten Handfeldern tauschen. Die unterschiedlichen Original-Rüstungsregeln bleiben erhalten.
 - Objekt10: Gold gutschreiben, Übertrag berücksichtigen und gehaltenen Beutelbetrag löschen; kein Inventareintrag.
 - SAV-Export übernimmt die aktuelle Originalposition, Blickrichtung und Szene.
 - Separater hashgeprüfter Ishar1-MAIN/SAV-Feldeditor mit Undo/Redo. Alte unbestätigte Kandidatenmap bleibt schreibgesperrt.
@@ -29,6 +30,6 @@ Die zugehörigen OBJET.IO.asm-, IO.IO.asm-, EAFF.IO.asm-, MAIN.IO.asm- und Figur
 
 ## Grenzen
 
-Dies ist ein Entwicklungsstand. Vollständiger Originalstart, alle NPCs, sämtliche Items, belegte Handplätze/Tausch und weitere Ausrüstungsregeln fehlen. Die Bodenobjekt-Klickfläche verwendet noch das Bild statt der originalen Formkollision. Original-Türmechanik und transiente NPC-Zustände werden nicht vollständig gespeichert. Außerhalb des belegten Umfangs keine vollständige Originalspiel-Kompatibilität annehmen.
+Dies ist ein Entwicklungsstand. Vollständiger Originalstart, alle NPCs, sämtliche Items, Stapel am Cursor, Waffen-/Zweihandtausch und weitere Ausrüstungsregeln fehlen. Die Bodenobjekt-Klickfläche verwendet noch das Bild statt der originalen Formkollision. Original-Türmechanik und transiente NPC-Zustände werden nicht vollständig gespeichert. Außerhalb des belegten Umfangs keine vollständige Originalspiel-Kompatibilität annehmen.
 
 Originalnachweise, Browserintegration und Dateiroundtrips werden getrennt geführt. Hoths Originalspielbericht bestätigt die positiven Objekt9-/Gold10-Pfade; weitere Grenzen bleiben offen. Die genaue Quellrevision und Dateihashes stehen in BUILD_MANIFEST.json.

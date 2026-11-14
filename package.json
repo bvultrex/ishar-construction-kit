@@ -4,6 +4,7 @@
   "version": "0.1.0-recovery",
   "type": "module",
   "scripts": {
+    "test:original-inventory-armour-local": "node scripts/check-original-inventory-armour-local.mjs",
     "package:test": "node scripts/package-test-build.mjs",
     "test:original-inventory-transfer": "node scripts/check-original-inventory-transfer.mjs",
     "test:original-save-view": "node scripts/check-original-save-view.mjs",
