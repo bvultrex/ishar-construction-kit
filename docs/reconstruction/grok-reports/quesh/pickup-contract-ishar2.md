@@ -352,3 +352,26 @@ Quelle: FRISE.IO `27117c124caf`, vollständige Dekodierung. Alles known (Listing
      - Ist der alte Code ein Stapel: T4bbc[alt] = T4bd4[c][alt], danach T4bd4[c][alt] = 0 (0x03212/0x0322c).
      - Ist der gehaltene Code ein Stapel, der schon in Slot 0..10 existiert: Zielslot = 0 (0x0326b; doppelten Slot unterdrücken). Sonst Zielslot = gehaltener Code (0x0328b).
      - Rüstung: Tausch-Regel mit AND (−29..−26). Danach 0x2d16 = alter Code.
+
+## Nachtrag 2026-11-14 (Europe/Berlin): Ausrüstungsplatz 12 (FRISE 0x026cf–0x02a66)
+Quelle: FRISE.IO `27117c124caf`, vollständige Dekodierung. Alles known (Listing).
+
+- **Zuordnung:**
+  - 0x026cf–0x0272c: Das Klickband setzt den Slot vorläufig (11/12/13/14).
+  - Bei gehaltenem Code überschreiben 0x027b3–0x02826 den Slot nach Codebereich. Für −89..−82 setzt 0x027d2/0x027e8 Slot 12, unabhängig vom Band.
+  - Slot 12 prüft bei 0x0294c nur −89..−82; außerhalb endet der Ablauf (cret, 0x02962), ohne Wert- oder Flagbedingungen.
+- **Speicherform:**
+  - Ablage speichert gehaltener Code + 1 (0x029b4; beim Tausch 0x02a23).
+  - Entnahme liefert gespeicherter Code − 1 (0x0275a/0x0277f; das alte Objekt beim Tausch 0x029f6/0x02a48).
+  - Das gilt für alle Slots 11..14 dieses Bereichs. Ishar 1 verwendet dagegen + 5.
+- **Rüstung:** `L_03f22` liefert den Wert anhand von 0x2d16; in −89..−82 haben nur die ungeraden Codes einen Wert ≠ 0.
+  - Entnahme: Slot = 0 (0x0278b), danach wird abgezogen (0x02798/0x0279c, csub).
+  - Ablage auf leeren Slot: Slot-Write (0x029b4), danach Addition (0x029cf/0x029d3, cadd). Anschließend 0x2d16 = 0 und der Cursor wird gelöscht.
+- **Tausch, Reihenfolge:**
+  1. Cursor löschen (0x029ec).
+  2. Neues Cursorobjekt mit gespeichertem Code − 1 (0x029f6–0x02a14).
+  3. Slot = gehaltener Code + 1 (0x02a23).
+  4. + Rüstung des gehaltenen Codes (0x02a3a/0x02a3e).
+  5. 0x2d16 = gespeicherter Code − 1 (0x02a48).
+  6. − Rüstung des alten Codes (0x02a58/0x02a5c), danach cmousoff.
+- Die Entnahme prüft keinen Codebereich; jeder gespeicherte Wert ≠ 0 wird entnommen (0x0274c).

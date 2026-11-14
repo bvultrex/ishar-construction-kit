@@ -214,6 +214,12 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 - **H1, Abweichung (known), Entscheidung bei Codex:** gehaltener Stapel auf Handfeld mit −125. Kit lehnt ab (`placeOriginalHandItem` Z. 18, Button deaktiviert). Original bucht über 0x02e2e bis zum Deckel und geht über 0x03012 nach L_03348, ohne Slot-Write und ohne Freigabe: bei vorhandenem Slot gültige Zusammenführung, sonst Zähler ohne Slot; Folgezustand des Cursors suspected. Empfehlung: mindestens die Zusammenführung bei vorhandenem Slot nachbilden.
 - Vertrag: Nachtrag „Stapel auf Handfeld, Reihenfolge der Mengenwrites“; JSON um addendum_2026_11_14_stack_gap/_twohand/_stack_hand ergänzt.
 
+### 5.4n Ausrüstungsplatz 12 (Nachtrag 46, 2026-11-14)
+- Bericht: `slot12-adapter-check-83d51c0.md` (Quesh), statisch gegen FRISE 0x026cf–0x02a66; Adapter 83d51c0/17245f4 unverändert bis 8b2a4ee. Keine Abweichung, alle Punkte known.
+- Nur −89..−82 nach Slot 12 (0x027d2/0x027e8, 0x0294c); Speicherung Code+1 (0x029b4/0x02a23), Lesen Code−1; Rüstung nach L_03f22, beim Tausch erst neu addieren (0x02a3e), dann alt abziehen (0x02a5c), Kit netto mit & 255, gleiches Ergebnisbyte; Write-Reihenfolge nur in RAM-Zwischenständen verschieden.
+- Kit strenger (keine Abweichung): alte Werte außerhalb des Bereichs abgelehnt, Routing über Slot-12-Band zu 11/13/14 gesperrt.
+- H1 aus §5.4m ist in Kit 83852b4 umgesetzt (Codex).
+
 ### 5.5 Danach
 
 - Save-Map Ishar 1 komplett in `save-maps.ts`:

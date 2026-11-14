@@ -219,7 +219,7 @@
   "guard": "(code<=-26 or code>=-29) [always true] and slot in {9,10}; drop 0x02f68 (+=, 0x02f92), hand pickup 0x02c71 (-=, 0x02c9b); slots 9/10 identical; no class restriction",
   "obj9_obj10": 0,
   "variantC": {
-   "save": "codex-support/quesh/private/PICK25.SAV",
+   "save": "privat (SW-PK2-ARM-C)",
    "sha256": "78d3fbdb51aa…",
    "patch_of": "→ private/pickup-contract-ishar2-savewerte.json#/addendum_2026_10_18_armour/variantC/patch_of",
    "bytes": {
@@ -325,6 +325,15 @@
   "ziel_leer_oder_gleich": "L_02f19: vorhandener Code 0..10 -> kein Slot-Write, sonst Slot=Code (0x02f5a); Freigabe nur alle T4bbc==0 (0x02fdb)",
   "ziel_minus125": "0x03012 -> L_03348: kein Slot-Write, keine Freigabepruefung; Buchung aus L_03580 bleibt (Zaehler ggf. ohne Slot; Cursor behaelt Code, suspected)",
   "anderer_code": "L_0315b: 0x03161 T4bbc!=0 -> kein Tausch; sonst alter Stapel 0x03212/0x0322c T4bbc[alt]=T4bd4[c][alt], T4bd4=0; 0x0326b Zielslot=0 wenn gehaltener Stapel schon in 0..10, sonst 0x0328b Slot=gehalten; Ruestung AND; 0x2d16=alt",
+  "stufe": "known (Listing)"
+ },
+ "addendum_2026_11_14_slot12": {
+  "bereich": "FRISE 0x026cf-0x02a66",
+  "zuordnung": "Klickband 0x026cf-0x0272c vorlaeufig; gehaltener Code ueberschreibt 0x027b3-0x02826; -89..-82 -> Slot 12 (0x027d2/0x027e8); 0x0294c nur -89..-82, sonst cret 0x02962; keine Wert-/Flagbedingungen",
+  "speicherform": "Ablage gehalten+1 (0x029b4, Tausch 0x02a23); Entnahme gespeichert-1 (0x0275a/0x0277f, Tausch 0x029f6/0x02a48); Ishar 1 dagegen +5",
+  "ruestung": "L_03f22 nach 0x2d16, in -89..-82 nur ungerade Codes !=0; Entnahme Slot=0 0x0278b dann csub 0x0279c; Ablage Slot-Write 0x029b4 dann cadd 0x029d3",
+  "tausch_reihenfolge": "0x029ec kill Cursor; 0x029f6-0x02a14 neues Cursorobjekt alt-1; 0x02a23 Slot=gehalten+1; 0x02a3e +Ruestung neu; 0x02a48 0x2d16=alt-1; 0x02a5c -Ruestung alt; cmousoff",
+  "entnahme_ohne_codepruefung": "0x0274c nur !=0",
   "stufe": "known (Listing)"
  }
 }
