@@ -32,3 +32,7 @@ Kein zweiter Inventarslot für einen schon vorhandenen Stapel. Mengenbilanz muss
 Noch gesondert abzuklären: Klick auf reservierten Zielplatz-125 nach frühen Mengenwrites, ungültige/mehrfach belegte Stapelzustände, Zielcode16-Umwandlung, vollständige Entity-/Cursoranzeige. Der Originalcode prüft-125 erst03012. Eine frühe UI-Sperre kann diesen Sonderfall vermeiden, ist aber kein Nachweis identischen Originalverhaltens. Keine hypothetische „Bereinigung“ solcher Zustände implementieren.
 
 Lokaler Prüfer `npm run test:original-stack-hand-contract-local` bindet die entscheidenden Aufrufe, Sprünge und Schreiboperationen an die Originalbytes. Er beweist weder eine implementierte Handweitergabe noch einen Originallauf.
+
+## Adapterstand
+
+`original-hand-runtime.ts` implementiert nun die Reihenfolge für konsistente Stapelzustände und die bisher unterstützten Nichtstapel-/Waffencodes. Das Ergebnis enthält vollständigen Cursorzustand, angenommene Menge und getrennte Tauschinformation.880 synthetische Handfälle plus gezielte Teil-/Vollübertragungen zu bestehenden Stapeln, umgekehrte Tausche, Rüstung und Zweihandreservierung bestehen. Typecheck bestanden. Reservierter Zielplatz und Effektcode16 bleiben ausgeschlossen. UI-Anschluss, Browserexport und native Handstapelprüfung stehen noch aus; die ausgelieferte Fassung788cd8e enthält diesen Adapter nicht.
