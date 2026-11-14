@@ -139,3 +139,59 @@ Quelle: SOS.IO (Sprachvarianten SOSD/SOSE/SOSI gleich aufgebaut), Speicherdialog
   - n = 3: c = 3 und c = 4 ändern sich; beide erhalten als Kette die Werte von c = 2.
   - Die Slots davor bleiben unverändert. Bei voller Gruppe ändert sich nichts.
 - **Folge für den Nachtrag 2026-11-03 16:20:** Die Default-Kopie bei 0x03724 (übrig gebliebene `dirb 0x91..0x98` des zuletzt berechneten Slots) ist damit **known** (Save-Vergleich). Dass dies in FRISE beim Laden geschieht (L_06c57 nach Cache-Neustart), bleibt **suspected**.
+
+## Nachtrag 2026-11-14 (Europe/Berlin): Stapelkauf und Ablehnung bei vollem Stapel (Alderaan STK)
+Anlass: Alderaans gespielter Fall STK (Nachtrag 30, `npc-shop-acceptance-case.md`). Quelle: MARCHAND.IO `77db63b52c23` (Listing), MAIN.IO `27c5834de005`. S4 Punkt 4/6 und T2 werden hiermit präzisiert bzw. ersetzt; der Bestand bleibt stehen.
+
+**Kaufablauf nach dem Porträtklick (c = `dirb16`), in dieser Reihenfolge (known):**
+1. **Goldprüfung 0x00500:** Preis > Gold von c → Meldung −21 (0x0053f). Es wird nichts geschrieben. Diese Prüfung kommt **vor** der Stapelprüfung.
+2. **Menge am Cursor 0x0056c** (nur Stapelcodes −66..−57): `0x403a[item+66] = qty` aus dem Sortiment (Spalte 3 von `dirti 0x28`). Die Vorbelegung ist 1 (0x00895); gesetzt wird 5 für −57 (z. B. 0x008e5) und 20 für −58 (z. B. 0x00a04). 0x403a ist transient (nicht im Save).
+3. **`dirb19 = 1` (0x00581) → L_006bf:**
+   - Stapelcode: Slots 0..10 von c nach gleichem Code durchsuchen → L_007a1, dann L_00741.
+   - Sonst bzw. ohne Treffer: erster freier Slot 0..8 → **0x0071b Slot = item** → L_007a1, dann L_00741.
+   - Kein freier Slot → Rückkehr mit `dirb19 = 1`.
+4. **L_007a1 (nur Stapelcodes):**
+   - Deckel D = 5 (−57), 20 (−58), sonst 10.
+   - Gilt Zähler + qty ≤ D, dann **0x0080a Zähler += qty** und `0x403a = 0`.
+   - Sonst: Rest = D − Zähler; `0x403a −= Rest` (0x0084c); **0x0085a Zähler = D**.
+5. **L_00741:**
+   - Nicht-Stapelcode: `dirb19 = 0`.
+   - Stapelcode: `dirb19 = 0` nur, wenn `0x403a ≠ qty`, also mindestens eine Einheit hinzukam.
+6. **`dirb19 == 1` → Meldung −43 (0x0059b):** Es folgt **keine Zahlung**; der Ablauf wartet auf den nächsten Klick (L_004a3).
+7. **Sonst Zahlung:**
+   - L_0062f, dann Gold `0x154e[c]` (0x005e2) und `0x3770[c]` (0x005ec).
+   - Danach L_005f6: `0x403a = 0`, `0x1506 = 0`, Cursor gelöscht.
+
+**Korrektur Zuwachs (known, STK bestätigt):**
+- Der Zähler steigt nicht um 1, sondern um die **Sortimentsmenge qty**, begrenzt auf D: neuer Zähler = min(D, alt + qty).
+- qty ist 5 für −57, 20 für −58 und 1 für alle übrigen Stapelcodes (−60, −62, −63, −64, −66 in den Sortimenten). Nur bei diesen übrigen entspricht der Zuwachs also +1.
+- Bei −58 in einen leeren Stapel: 0 → 20 (Zweig 0x0080a, da 0 + 20 ≤ 20). Das entspricht STK. Hinweis: STK nennt dafür den „ersten Zweig“ von L_007a1; gemeint ist 0x0080a.
+- **Teilauffüllung:** Liegt der Zähler zwischen 1 und D − 1 und gilt alt + qty > D, wird auf D aufgefüllt, aber **der volle Preis bezahlt**. Der Überschuss am Cursor wird in L_005f6 verworfen. (known, Code; nicht gespielt)
+- Bei einem neuen Slot schreibt 0x0071b den Code, bevor L_007a1 zählt. Das setzt einen Zähler 0 im leeren Stapel voraus. Ein veralteter Zähler ≥ D bei fehlendem Slot würde zu Slot-Write und −43 ohne Zahlung führen; das ist ein inkonsistenter Ausgangszustand. (suspected, Randfall)
+
+**Ablehnung bei vollem Stapel, neuer Testfall T2r (known, Code; von Alderaan aus Code abgeleitet, nicht gespielt):**
+- **Bedingung:** c trägt den Stapelcode bereits in einem Slot 0..10, der Zähler steht auf D, und das Gold reicht. Bei zu wenig Gold erscheint zuerst −21.
+- **Ablauf:**
+  - L_006bf findet den Slot.
+  - In L_007a1 ist Rest = 0: `0x403a` bleibt qty, und 0x0085a schreibt D erneut (gleicher Wert).
+  - L_00741 lässt `dirb19 = 1` stehen → **Meldung −43** (0x0059b).
+- **Erwartet im Save:**
+  - Keine Byteänderung: Slot, Zähler 4971 + 10c + j und Gold 478 + 2c / 3993 + 2c bleiben gleich.
+  - Kein Goldabzug, denn die Zahlung (0x005b2–0x005ec) wird übersprungen.
+  - Der Rücksprung nach L_004a3 schreibt nur transiente Felder.
+- Aus S1 tritt das für −57 bei jedem Mitglied ein (Alderaan, Stapel voll).
+
+**T2 angepasst, neuer Ausgangszustand T2' (Bedingung, keine Werte):**
+- Shop mit −57 im Sortiment (s0/s1/s3/s7), Mitglied c mit Klasse ≠ −1.
+- Gold von c ≥ Preis.
+- **Entweder (a):** kein −57 in den Slots 0..10 von c und ein freier Slot 0..8.
+  - Erwartet: Slot 498 + 26c + 2k (erster freier k) 0 → −57 (BE16); Zähler 4971 + 10c + 9: 0 → 5; Gold −Preis.
+- **Oder (b):** −57 vorhanden mit Zähler z < 5.
+  - Erwartet: Zähler z → 5; Gold −Preis (voll, auch bei z > 0); keine Slotänderung.
+- Ein Doppelklick erzeugt einen zweiten Kaufversuch. Nach (a) oder (b) ist der Stapel voll, dann folgt T2r (−43, keine Abbuchung).
+
+**Umrechnung Stapelzähler (known):**
+- MAIN `cdim var=0x3e22, ndim=1, Elemente 1 Byte, Innenschritt 10` (MAIN 0x00267).
+- Save-Writer `cfwriteb loc:0x3e22, 50` (MAIN 0x049f4, Rohblock).
+- RAM 0x3e22 + 10c + j ↔ **Save 4971 + 10c + j**, mit j = Code + 66 (0..9 für −66..−57), u8.
+- Das passt zur Einordnung von 0x3e22 als Stapelzähler je Figur (`save-map-ishar1`, Nachtrag 2026-11-14). Die frühere Bezeichnung „Händler-Tabelle“ in der Save-Map ist dort korrigiert.

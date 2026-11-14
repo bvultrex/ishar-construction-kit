@@ -614,6 +614,47 @@
         "default_kopie_0x03724": "known (Save-Vergleich)",
         "ort_FRISE_beim_Laden": "suspected"
       }
+    },
+    {
+      "datum": "2026-11-14",
+      "thema": "Stapelkauf und Ablehnung bei vollem Stapel (Alderaan STK)",
+      "quelle": "MARCHAND.IO 77db63b52c23 L_006bf/L_007a1/L_00741, MAIN 0x00267/0x049f4",
+      "reihenfolge": [
+        "0x00500 Goldpruefung -> -21 (vor Stapelpruefung)",
+        "0x0056c 0x403a[item+66]=qty (nur Stapelcodes, transient)",
+        "0x00581 dirb19=1, L_006bf: gleicher Code in Slots 0..10 sonst erster freier Slot 0..8 (0x0071b Slot=item)",
+        "L_007a1 Deckel 5/20/10: Zaehler+qty<=D -> 0x0080a Zaehler+=qty, sonst 0x0085a Zaehler=D",
+        "L_00741 dirb19=0 nur wenn etwas hinzukam (0x403a!=qty) bzw. Nicht-Stapelcode",
+        "dirb19==1 -> -43 (0x0059b), keine Zahlung",
+        "sonst Zahlung L_0062f, Gold 0x005e2/0x005ec, L_005f6 0x403a=0"
+      ],
+      "korrektur_zuwachs": {
+        "regel": "neuer Zaehler = min(D, alt+qty); qty = Sortimentsmenge (5 fuer -57, 20 fuer -58, sonst 1)",
+        "stk": "-58 leer -> 20 (0x0080a)",
+        "teilauffuellung": "voller Preis, Ueberschuss verworfen",
+        "stufe": "known (Code), STK gespielt"
+      },
+      "T2r": {
+        "name": "Ablehnung bei vollem Stapel",
+        "bedingung": "Code in Slot 0..10 von c, Zaehler==D, Gold reicht",
+        "pruefung": "L_00741 (0x00757) laesst dirb19=1 -> 0x0059b Meldung -43",
+        "save": "keine Byteaenderung (Slot, Zaehler, Gold)",
+        "gold": "kein Abzug (0x005b2-0x005ec uebersprungen)",
+        "stufe": "known (Code), nicht gespielt"
+      },
+      "T2_neu": {
+        "ausgang": "Shop mit -57, c Klasse!=-1, Gold>=Preis; (a) kein -57 in Slots 0..10 und freier Slot 0..8 oder (b) -57 mit Zaehler z<5",
+        "erwartung_a": "Slot 498+26c+2k 0->-57 (BE16), 4971+10c+9 0->5, Gold -Preis",
+        "erwartung_b": "4971+10c+9 z->5, Gold -Preis voll, Slot unveraendert",
+        "ersetzt": "T2 von S1 aus (tritt wegen vollem Stapel nicht ein)"
+      },
+      "umrechnung": {
+        "ram": "0x3e22+10c+j",
+        "save": "4971+10c+j",
+        "j": "Code+66",
+        "beleg": "MAIN cdim 0x00267 (Innenschritt 10), cfwriteb 0x049f4 (50 Byte Rohblock)",
+        "stufe": "known"
+      }
     }
   ]
 }
