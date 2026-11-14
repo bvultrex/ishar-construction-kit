@@ -202,6 +202,13 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 - Abgelehnte Tausche: Original gibt zuerst frei, dann Prüfung; Kit prüft zuerst. In allen Ablehnungsfällen keine Writes, keine verwaiste Reservierung. Einziger Pfad „reserviert, aber abgelehnt“: L_0315b bei T4bbc ≠ 0, mit gehaltener Waffe vermutlich unerreichbar (suspected).
 - Vertrag `quesh/pickup-contract-ishar2.md`: Nachtrag „Zweihand-Reservierung und L_03b98“.
 
+### 5.4l LOGO-Palette-6-Modtest I1/I2 (Nachtrag 44, 2026-11-14)
+- Bericht: `logo-palette6-modtest.md` (Alderaan). Modkopien via `npm run mod:logo-probe` (Kit 64a3c4f), Ziel-SHAs stimmen (I1 0c5d8f5cc9ea, I2 b33a15437d82); geändert nur LOGO.IO (Bild-Offset 20172) plus Manifest.
+- known: Original startet mit Modkopie (I2 nach Sprachwahl); zweiter Lauf identisch; 311 Originale und ORIGINALROOT vorher = nachher.
+- known: Farbe 0 wirkt nur im VGA-Rahmen (10800 px Overscan, nur mit DOSBox-X overscan=10 sichtbar), im 320×200-Bild 0 rote Pixel. Grund: Logo-Hintergründe nutzen nur Index 5, Sprites behandeln Index 0 als transparent.
+- Vorschlag (nicht umgesetzt): sichtbarer Test über tatsächlich genutzten Index, etwa 5. Entscheidung bei Codex.
+- Offen: Übergang LOGO → Spiel nicht geprüft; Kit-Feld `verification` steht weiter auf `prepared-not-tested-in-original`.
+
 ### 5.5 Danach
 
 - Save-Map Ishar 1 komplett in `save-maps.ts`:
