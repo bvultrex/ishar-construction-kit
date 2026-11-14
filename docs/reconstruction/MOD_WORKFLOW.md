@@ -28,6 +28,20 @@ Daten in CI. Private LOGO-Paletten-Arbeitskopien beider lokalen Originalprofile
 wurden ebenfalls erzeugt und zurückgelesen. Deren Ausführung und sichtbare Wirkung
 im Originalspiel sind noch offen; diese Exportprüfung schließt keine Modabnahme ab.
 
+Für einen deterministischen sichtbaren Originaltest gibt es:
+
+```powershell
+npm run mod:logo-probe -- ishar1 E:/Spiele/Ishar1 ../analysis-output/new-ishar1-logo-probe
+npm run mod:logo-probe -- ishar2 E:/Spiele/Ishar2 ../analysis-output/new-ishar2-logo-probe
+```
+
+Die Probe erwartet die tatsächlich vorhandene LOGO-Palette6. Sie schaltet nur
+den Rotkanal der ersten Palettenfarbe zwischen Maximum und Null um und verwendet
+den vollständigen geschützten ALIS-Kopieexport. Die native Abnahme muss den Start
+dieser Kopie, den sichtbaren Unterschied während der aktiven Palette6 und einen
+erneuten Lauf gegen eine unveränderte Referenz dokumentieren. Ein erfolgreicher
+CLI-Aufruf allein ist ausdrücklich keine solche Abnahme.
+
 Stand: 2026-10-17. Dies ist ein CK-Patchformat für originale Kartenbytes, kein
 angebliches Originalskriptformat. Die Prüfung bestätigt Datenintegrität, nicht
 automatisch die spielerische Gültigkeit oder eine vollständige Laufzeitrekonstruktion.

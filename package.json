@@ -4,6 +4,7 @@
   "version": "0.1.0-recovery",
   "type": "module",
   "scripts": {
+    "mod:logo-probe": "node scripts/prepare-logo-mod-probe.mjs",
     "test:original-stack-local": "node scripts/check-original-stack-local.mjs",
     "test:original-stack-transfer": "node scripts/check-original-stack-transfer.mjs",
     "test:alis-mod": "node scripts/check-alis-mod.mjs",
