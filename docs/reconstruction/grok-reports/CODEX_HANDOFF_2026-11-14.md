@@ -196,6 +196,12 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 - Listinglücke geschlossen (Budget 4096, Ende 0x02d4f); im Vertrag `pickup-contract-ishar2.md` per Nachtrag korrigiert.
 - Grenzen: Klickzone 0x02cbb als Zahlenanzeige suspected; Kit lehnt Weitergabe auf Handfeld ab (vorsichtiger); loc100 in L_03580 unknown.
 
+### 5.4k Waffenpfad 97a7367 (Nachtrag 43, 2026-11-14)
+- Bericht: `weapon-path-check-97a7367.md` (Quesh), statisch gegen FRISE 02e20/03b98. Keine Abweichung.
+- known: Waffen −116..−90 (0x02e36), Profil T4a08 27×4 Byte nur aus PARAM (0x00f58), nicht im Save; zweihändig = Feld 2 mod 10 == 2 (12 Waffen). Reservierung −125 in der anderen Hand (0x02ea1/0x02eea), belegt → Ablehnung ohne Write (0x02f0b). Freigabe L_03b98 bei Entnahme (0x02c6d) und vor jeder Handablage (0x02e32).
+- Abgelehnte Tausche: Original gibt zuerst frei, dann Prüfung; Kit prüft zuerst. In allen Ablehnungsfällen keine Writes, keine verwaiste Reservierung. Einziger Pfad „reserviert, aber abgelehnt“: L_0315b bei T4bbc ≠ 0, mit gehaltener Waffe vermutlich unerreichbar (suspected).
+- Vertrag `quesh/pickup-contract-ishar2.md`: Nachtrag „Zweihand-Reservierung und L_03b98“.
+
 ### 5.5 Danach
 
 - Save-Map Ishar 1 komplett in `save-maps.ts`:

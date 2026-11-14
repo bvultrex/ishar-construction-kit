@@ -310,3 +310,24 @@ Ursache der Lücke: Das Ausdrucksbudget des Disassemblers war zu klein. Mit gro�
   - j = Code + 59.
   - T4bd4 (MAIN `cdim` 0x0024c, Schritt 20, Byte) ↔ Save 7629 + 20c + j.
   - T4bbc (MAIN 0x00247) ist transient und das Ishar-2-Pendant zu 0x403a aus Ishar 1.
+
+## Nachtrag 2026-11-14 (Europe/Berlin): Zweihand-Reservierung und L_03b98 (offen → geschlossen)
+Quelle: FRISE.IO `27117c124caf` in vollständiger Dekodierung, PARAM.IO-Initialisierung. Alles known (Listing), außer wo anders vermerkt.
+
+**L_03b98 (Freigabe der Reservierung):**
+- Für Slot 9: Steht T2d8e[c][10] auf −125, wird es 0, und die Reservierungsgrafik wird gelöscht (0x03ba6–0x03bc5).
+- Für Slot 10 gilt dasselbe spiegelbildlich (0x03bcc–0x03beb).
+- Aufgerufen wird die Routine bei der Entnahme aus einer Hand (0x02c6d) und vor jeder Ablage auf eine Hand (0x02e32). Sie läuft **unabhängig vom gehaltenen Code** und vor allen weiteren Prüfungen.
+
+**Ablagereihenfolge bei L_02e20:**
+1. Alten Code lesen, dann `L_03580` und `L_03b98` (Freigabe).
+2. Zweihand-Prüfung 0x02e36/0x02e4c: gehalten in −116..−90 und T4a08[Code+116][2] mod 10 == 2.
+   - Zielslot 9: Ist die andere Hand 0 oder −125, wird sie auf **−125** gesetzt (0x02ea1). Sonst `cret` ohne Write, das Item bleibt.
+   - Zielslot 10: spiegelbildlich (0x02eea / 0x02f0b).
+3. Erst danach folgen Slot-Write bzw. Tausch (0x02f0c/0x03012).
+   - Wird der Tausch nach gesetzter Reservierung noch abgelehnt (nur über T4bbc ≠ 0 in `L_0315b`), bliebe −125 ohne Waffe stehen. Dass das bei gehaltener Waffe erreichbar ist: suspected nicht erreichbar.
+
+**T4a08:**
+- MAIN `cdim` 0x001ea, Schritt 4.
+- Wird nur von PARAM ab 0x00f58 geschrieben: 27 Datensätze für die Codes −116..−90, darunter 12 Zweihand-Einträge (Feld 2 mod 10 == 2).
+- Nicht im Save.
