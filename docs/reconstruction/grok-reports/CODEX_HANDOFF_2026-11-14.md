@@ -149,7 +149,9 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 ### 5.4c Originalabnahme Pickup Ishar 2 (Nachtrag 33, 2026-11-14)
 
 - **Original-EXE-Reload für Ishar 2 / Objekt 9 / CONT1 ist known (mit Patch):** Aufnahme, Ablage in Rucksack oder Hand, Speichern und Reload in der Original-EXE. Der Save-Diff ist genau 336/536/736+i → 0 und das Inventarwort 1036+30c+2s → i; der Blick 8039+i bleibt. Beim Vergleich die Uhr (44–49) und den Neuwurf der Akteure ≥ 90 tolerieren.
-- **Code 10 auf dem Porträt wird nativ verbraucht, ohne Inventarwort** (Hoth B7, zweimal reproduziert). Das bestätigt A1 aus Nachtrag 32. Was dabei im Spiel mit dem Gold passiert (`L_04825`), ist noch **offen**.
+- **Code 10 ist ein Goldbeutel (known, mit Patch; Nachtrag 34, korrigiert B7 aus Nachtrag 33):** Am Porträt gilt Einheiten 1026+2c += Wort(16–17) mit Übertrag (Summe > 999 → Tausender += Summe div 1000, Einheiten = Summe mod 1000), Tausender 1006+2c += Wort(14–15), danach 14–17 → 0. Es gibt keinen Slot-Write, das Objekt bleibt nicht in der Welt. Belegt mit HIPG (Beutelbetrag ≠ 0, Werte privat) und Reload in der Original-EXE. Damit ist **A1 aus §5.4b nativ bestätigt**. Die frühere Beobachtung „verbraucht, ohne Wirkung“ kam daher, dass der Beutel in HIPA leer war.
+  - Die Kit-Abweichung bleibt: `receiveOriginalGround(…, 10, …)` in `f4cf659` schreibt 10 in 1036+30c+2s.
+  - Objekt 10 über den Handplatz ist weiter **suspected** (nicht gespielt).
 
 ### 5.5 Danach
 
