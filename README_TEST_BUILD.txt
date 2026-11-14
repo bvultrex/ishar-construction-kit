@@ -29,4 +29,5 @@ und werden nicht in dieses Projektpaket geschrieben.
 
 BUILD
 - Branch: workbench/playable-slice
-- Stand: automatisch aus GitHub Actions erzeugt
+- Quellstand: BUILD_MANIFEST.json im lokalen Testpaket bzw. zugehoeriger CI-Commit
+- Neuerungen, Testschritte und offene Grenzen: TEST_BUILD_CHANGES.md

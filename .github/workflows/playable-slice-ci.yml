@@ -31,9 +31,9 @@ jobs:
           npm run test:items-scenes
           npm run test:npc-trading
           npm run test:save-world-items
-            npm run test:original-save-view
+          npm run test:original-save-view
           npm run test:original-ground
-            npm run test:original-inventory-transfer
+          npm run test:original-inventory-transfer
           npm run test:original-commerce
           npm run test:legacy-ishar1-write-guard
           npm run test:ishar1-save-writer
@@ -72,5 +72,6 @@ jobs:
             package-lock.json
             scripts/serve-build.mjs
             README_TEST_BUILD.txt
+            TEST_BUILD_CHANGES.md
           if-no-files-found: error
           retention-days: 14
