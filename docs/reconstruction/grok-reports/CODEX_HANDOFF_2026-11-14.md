@@ -129,9 +129,10 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 ### 5.4 Shop: Spaltenwahl und Stapelzähler Ishar 1
 
 - Nur der Käufer (Porträtspalte) zahlt, und zwar genau den angezeigten Preis (known).
-- Der Stapelzähler `4971+10c+(item+66)` steigt um 1. Im Kit steht 7629, Index item+59 (suspected/SH09).
+- Der Stapelzähler `4971+10c+(item+66)` steigt beim Kauf um die Sortimentsmenge qty, begrenzt auf den Deckel D: neuer Zähler = min(D, alt + qty). qty ist 5 für −57, 20 für −58, sonst 1. Im Kit steht 7629, Index item+59 (Offset known seit Nachtrag 31).
+  - **Korrektur 2026-11-14:** Die frühere Angabe „+1“ gilt nur für Stapelcodes mit qty = 1. Siehe Nachtrag 30 (Alderaan STK: −58 in leeren Stapel, 0 → 20) und Nachtrag 31 (Quesh, MARCHAND L_007a1). Bei vollem Stapel folgt Meldung −43 ohne Abbuchung (T2r).
 - Der Stapelbereich ist −66..−57 statt −59..−49 (known, SH07).
-- Stapelkappe: −57 → 5, −58 → 20, sonst 10 (suspected).
+- Stapelkappe: −57 → 5, −58 → 20, sonst 10 (known seit Nachtrag 31, MARCHAND L_007a1).
 - Gold-Offsets: Tausender `478+2c`, Rest `3993+2c`, je BE16.
 - Inventar: `498+26c+2k`, int16 BE, 13 Slots.
 

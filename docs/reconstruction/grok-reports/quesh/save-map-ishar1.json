@@ -2533,6 +2533,49 @@
         "default_kopie_0x03724": "known (Save-Vergleich)",
         "ort_FRISE_beim_Laden": "suspected"
       }
+    },
+    {
+      "datum": "2026-11-14",
+      "thema": "Itemablauf: Weltobjekte, Stapelzaehler, Slots 11/12, transiente Cursorfelder",
+      "quelle": "pickup-contract-check-ishar1.md (Nachtrag 31)",
+      "weltobjekte": {
+        "ram": "0x1382/0x1404/0x1486",
+        "save": "34+i / 162+i / 290+i",
+        "bedeutung": "X / Y / Zone von Weltobjekt i (i = positiver Item-Code), Zone 0 = nicht in der Welt",
+        "stufe": "known"
+      },
+      "korrektur_0x3e22": {
+        "save": "4971+10c+j",
+        "bedeutung": "Stapelzaehler je Figur, j = Code+66 (Codes -66..-57), Deckel 5/20/10",
+        "ersetzt": "Haendler-Tabelle",
+        "stufe": "known"
+      },
+      "slot_11_12": {
+        "slot11": "Codes -29..-25",
+        "slot12": "Codes -39..-35",
+        "speicherung": "Code+5 (FRISE 0x03d13/0x03d7e), Entnahme Inhalt-5",
+        "stufe": "known"
+      },
+      "0x20b8": {
+        "save": "3128+3a+n",
+        "bedeutung": "Beute je Akteur (Weltobjekt-Nummern), beim Tod in die Welt (FRISE 0x06955-0x0698d)",
+        "stufe": "known (Code)"
+      },
+      "0x3e54_0x3e56": {
+        "bedeutung": "befuellt aus Stapelcodes -66..-59 auf Code 31 (x1000/100/10/1)",
+        "stufe": "known (Code), Deutung suspected"
+      },
+      "transient": {
+        "felder": [
+          "0x1506",
+          "0x1742",
+          "0x403a"
+        ],
+        "save": "nicht gespeichert",
+        "diskmenue": "nur bei 0x1506==0 (FRISE 0x0022a/0x00913)",
+        "stufe": "known"
+      },
+      "hinweis_0x2d8e": "Inventarbasis Ishar 2; in Ishar 1 ungenutzt. Ishar 1: RAM 0x1568 <-> Save 498 (cfwriteb 130 Byte, MAIN 0x04882)"
     }
   ]
 }
