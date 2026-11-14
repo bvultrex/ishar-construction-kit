@@ -1,6 +1,6 @@
 # Aktueller Abnahmestand
 
-Stand: 14.11.2026, veröffentlichter und ausgelieferter Code1210da8, integrierte Nachträge38–40. Gesamtziel: vollständige Rekonstruktion **beider** DOS-Profile und Content-Toolkit; weiterhin offen. Diese Tabelle ist der operative Einstieg. [Projektprüfung](CURRENT_REVIEW_2026-11-14.md) enthält Anforderungen, Prozessregeln und die datierten Arbeitsnachträge; [PLAN](PLAN.md) und [COVERAGE](COVERAGE.md) behalten den vollständigen Umfang.
+Stand: 14.11.2026, veröffentlichter und ausgelieferter Code788cd8e, integrierte Nachträge38–40. Gesamtziel: vollständige Rekonstruktion **beider** DOS-Profile und Content-Toolkit; weiterhin offen. Diese Tabelle ist der operative Einstieg. [Projektprüfung](CURRENT_REVIEW_2026-11-14.md) enthält Anforderungen, Prozessregeln und die datierten Arbeitsnachträge; [PLAN](PLAN.md) und [COVERAGE](COVERAGE.md) behalten den vollständigen Umfang.
 
 „Berichtet“ bezeichnet einen Original-EXE-Lauf von Grok mit lokal verglichenem Profil und Schreibvertrag. Dessen private Rohsaves liegen hier nicht vor. Hosttests, Browser und Originalausführung ersetzen einander nicht.
 
@@ -29,6 +29,7 @@ Stand: 14.11.2026, veröffentlichter und ausgelieferter Code1210da8, integrierte
 
 ## Auslieferung und Belege
 
+- Aktuelle Testlieferung788cd8e: `../testbuild-788cd8e.zip`, SHA25601ed999a2a938c13426ee586990cee96e8bffe7a251bd62f477754f90974f067. Alle62 Nutzdateien und Manifest zwischen ZIP/Ordner byte- und hashgeprüft; keine Originaldateien enthalten. Beide Zugänge4181/4183 auf diese feste Kopie umgestellt. Acht Routen, Kennung auf der Übersichtsseite, Root-Assets und Händlerquelle je Port geprüft. CI43644116878/43644112315 sowie43644116888 erfolgreich. Enthält den geprüften Waffenpfad97a7367; native Waffenabnahme offen. Frühere Pakete bleiben erhalten. Die folgenden Liefernotizen dokumentieren den Vorgänger.
 - Letzte stabile Testlieferung: Quellcommit1210da8, Paket `../testbuild-1210da8.zip`; SHA256ed1077f6dd0f3ef434657eb1e1e88ea9f66edded7ea3010c10814c3581674731. Manifest und alle62 Nutzdateien geprüft. Nutzerzugänge4181 und4183 verwenden diese feste Kopie; frühere Pakete bleiben erhalten.
 - Beide zuletzt eingerichteten Server verwenden jetzt die unveränderliche Paketkopie1210da8. Neue Repo-Builds ersetzen ihre Dateien nicht mehr. Acht Routen/Buildkennung/Root-Assets und lokale Händlerquellen je Port geprüft; bestehende Browserseite neu laden.
 - CI1210da8:43642885087/43642890475 und43642890471 erfolgreich. Frühere CI64a3c4f und26e290c einschließlich Stapeladapter ebenfalls erfolgreich. CI3b4a5bc einschließlich gemeinsamem Modkopierer erfolgreich. Keine CI-Prüfung benötigt Originaldateien.
