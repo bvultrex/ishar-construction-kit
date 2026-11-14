@@ -53,7 +53,7 @@ Stand: 2026-11-14, 21:50–22:10 Europe/Berlin. Ishar 2 DOS, MARCHAND.IO `a5b84f
 ## 6. Abgleich mit dem Kit (`21bc808`)
 - `receiveOriginalPurchase` auf denselben Eingabesaves liefert: Fall 1 `accepted 5`, Kette `5 | 5 | full-stack`, Fall 2 `accepted 3, discarded 2`, Fall 3 `full-stack`, Fall 4 `insufficient-gold`. Die Commerce-Bytes des Kits sind in **allen** Fällen byte-identisch mit den im Spiel geschriebenen Saves. Stapel-Lage (7629 + 20c + Code + 59), Deckel 10 und Regel min(D, alt + qty) stimmen.
 - **Abweichungen (nicht byte-, sondern verhaltensseitig):**
-  1. **Nachtschließung fehlt im Kit.** Das Original öffnet Händler bei Phase 0x519f = 3 nicht (MAIN 0x02e14, Meldung 57). Im Kit gibt es keinen Bezug auf 0x519f.
+  1. ~~Nachtschließung fehlt im Kit.~~ **Korrektur (2026-11-14, Codex):** Fehlhinweis. Die Nachtschließung war bereits in Kit `21bc808` über die SAV-Phase (Offsets 90/91) angeschlossen; Phase 3 ist inzwischen auch im Browser geprüft (Kit `64a3c4f`). Die Suche nach 0x519f im Kit war zu eng. Offen bleibt nur die Uhrfortschreibung.
   2. **Meldungstexte.** Original: −21 „Du bist pleite.“, −43 „Das ist zuviel für den Rucksack.“ – derselbe Text für vollen Stapel und vollen Rucksack. Kit-UI: „Nicht genügend Gold.“, „Stapel voll.“ bzw. „Rucksack voll.“/„Gepäck voll.“.
   3. **Gehaltene Ware nach Ablehnung.** Im Original bleibt die Ware nach −21/−43 in der Hand (Rückkehr nach L_00477), die Meldung braucht einen Klick; erst das Verlassen (L_005ca) leert 0x2d16/0x4bbc. Ob das Kit die Auswahl nach einer Ablehnung hält, wurde hier nicht geprüft.
 
