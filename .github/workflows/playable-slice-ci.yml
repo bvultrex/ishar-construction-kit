@@ -26,6 +26,18 @@ jobs:
         run: npm run test:palettes
       - name: Dungeon scene regressions
         run: npm run test:scenes
+      - name: Item and NPC delivery regressions
+        run: |
+          npm run test:items-scenes
+          npm run test:npc-trading
+          npm run test:save-world-items
+          npm run test:original-ground
+          npm run test:original-commerce
+          npm run test:legacy-ishar1-write-guard
+      - name: Physical script and scheduler regressions
+        run: |
+          npm run test:dos-physical-frame
+          npm run test:native-script-diagnostic
       - name: Production build
         run: npm run build
       - name: Smoke-test production server

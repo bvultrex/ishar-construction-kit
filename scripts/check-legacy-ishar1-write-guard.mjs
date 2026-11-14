@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {deriveIshar1SaveLayout} from '../src/lib/ishar/ishar1-save-layout.ts';
 import {ISHAR1_SAVE,ISHAR2_SAVE} from '../src/lib/ishar/save-maps.ts';
-import {patchParty} from '../src/lib/ishar/save-codec.ts';
+import {patchParty,writeField} from '../src/lib/ishar/save-codec.ts';
 const bytes=new Uint8Array(5216),before=bytes.slice();
 assert.throws(()=>patchParty(bytes,ISHAR1_SAVE,'be',[]),/Kandidatenlayout/);
+assert.throws(()=>writeField(bytes,ISHAR1_SAVE,'hp',0,50,'be'),/Kandidatenlayout/);
 assert.deepEqual(bytes,before);
 assert.deepEqual(patchParty(new Uint8Array(8359),ISHAR2_SAVE,'be',[]).bytes,new Uint8Array(8359));
 if(process.env.ISHAR1_DIR){

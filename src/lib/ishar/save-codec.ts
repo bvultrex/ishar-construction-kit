@@ -61,6 +61,7 @@ export function writeField(
   value: number,
   endian: Endian,
 ): number[] {
+  if(map.id==='ishar1-sav-debug')throw new Error('Ishar-1-Kandidatenlayout ist veraltet. Schreibzugriff bleibt bis zur geprüften Engine-Abbildung gesperrt.');
   const spec = map.fields[fieldId];
   if (!spec) return [];
   if(map.game==='ishar2'&&fieldId==='gold'&&endian==='be'&&isOriginalSave(buf)) {
