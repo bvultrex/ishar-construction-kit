@@ -31,6 +31,7 @@ jobs:
           npm run test:items-scenes
           npm run test:npc-trading
           npm run test:save-world-items
+            npm run test:original-save-view
           npm run test:original-ground
           npm run test:original-commerce
           npm run test:legacy-ishar1-write-guard

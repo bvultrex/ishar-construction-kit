@@ -6,6 +6,7 @@ import { useRef, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { originalGroundSprites, pickOriginalGround, receiveOriginalGround } from "@/lib/ishar/original-ground-runtime";
 import { readActorSave } from "@/lib/ishar/save-actors";
+import { patchOriginalSaveView } from "@/lib/ishar/original-save-view";
 import { readOriginalCarrier,receiveOriginalPurchase,type OriginalPurchase } from "@/lib/ishar/original-commerce";
 import { readOriginalMerchants,readOriginalItemResources,type OriginalMerchant } from "@/lib/ishar/original-merchants";
 import { originalShopEntry } from "@/lib/ishar/original-shop-entry";
@@ -895,6 +896,16 @@ function PlaytestPage() {
     if(!result.ok){setOriginalStatus({'empty-character':'Charakterplatz ist leer.','insufficient-gold':'Nicht genügend Gold.','full-backpack':'Gepäck voll.','full-stack':'Stapel voll.'}[result.reason]);return;}
     setOriginalSave(result.bytes);setShopHeld(null);setOriginalStatus(`${result.accepted} Gegenstand übernommen${result.discarded?`; ${result.discarded} aus dem Bündel verworfen`:''}.`);
   }
+  function exportOriginalSave(){
+    if(!originalSave || originalHeld || shopHeld || !originalView || level?.grid?.game!=="ishar2")return;
+    try{
+      const bytes=patchOriginalSaveView(originalSave,originalView);
+      const url=URL.createObjectURL(new Blob([bytes.buffer as ArrayBuffer],{type:"application/octet-stream"}));
+      const a=document.createElement("a");a.href=url;a.download="ISHAR-ITEMS.SAV";a.click();
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+      setOriginalStatus("SAV-Kopie mit aktuellem Standort, Blickrichtung, Szene und Originalinventar exportiert. Weitere Vorschauzustände werden nicht vollständig gespeichert.");
+    }catch(error){setOriginalStatus(error instanceof Error?error.message:String(error));}
+  }
   function returnOriginalGround(){if(originalHeld){setOriginalSave(originalHeld.before);setOriginalHeld(null);setOriginalStatus("Gegenstand am Fundort abgelegt.");}}
   function giveOriginalGround(carrier:number){
     if(!originalHeld || !originalSave)return;
@@ -1194,7 +1205,7 @@ function PlaytestPage() {
     </header>
 
     {originalStatus && <p role="status">{originalStatus}</p>}
-    {originalSave && <div className="toolbar"><button disabled={!!originalHeld || !!shopHeld} onClick={()=>{const url=URL.createObjectURL(new Blob([Uint8Array.from(originalSave).buffer],{type:"application/octet-stream"}));const a=document.createElement("a");a.href=url;a.download="ISHAR-ITEMS.SAV";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}}>Geänderten Spielstand exportieren</button><button disabled={!!originalHeld || !!shopHeld} onClick={()=>{setOriginalSave(null);setOriginalStatus("");}}>Originalspielstand schließen</button></div>}
+    {originalSave && <div className="toolbar"><button disabled={!!originalHeld || !!shopHeld || !originalView || level?.grid?.game!=="ishar2"} onClick={exportOriginalSave}>Geänderten Spielstand exportieren</button><button disabled={!!originalHeld || !!shopHeld} onClick={()=>{setOriginalSave(null);setOriginalStatus("");}}>Originalspielstand schließen</button></div>}
     {originalSave && <section className="stone-card" aria-label="Originalinventar aller Charaktere">
       <h2>Originalinventar</h2><p>Gepäck aus dem geladenen Ishar-2-Spielstand. Diese Plätze sind unabhängig von der Demo-Party.</p>
       <div className="module-grid">{Array.from({length:5},(_,carrier)=>{

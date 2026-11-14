@@ -22,7 +22,8 @@ export function readActorSave(bytes: Uint8Array): ActorSave | null {
     // EAFF 0x00664 dispatches MAIN 0x3d2e, saved at 4911 (memory != file offset).
     hp:view.getInt16(3261+id*2,false),type:bytes[4911+id]!,scene:bytes[6781+id]!,
   });
-  return {row:word(2),col:word(4),facing:word(6),map:word(8),scene:word(18),actors};
+  // Camera fields are byte scalars serialized as signed BE16, not word values.
+  return {row:bytes[3]!,col:bytes[5]!,facing:bytes[7]!,map:bytes[9]!,scene:bytes[19]!,actors};
 }
 /** EAFF's geometric and scene gate only. Occlusion, map-specific height,
  * spawn exceptions and animation remain separate. */
