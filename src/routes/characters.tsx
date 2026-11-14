@@ -21,6 +21,7 @@ function CharacterLab() {
   const state = useKit();
   const { party, selectedSlot, setSlot, game, endian, loadDemo, setGame, setEndian, loadSave, patchCharacter } = state;
   const map = game === "ishar1" ? ISHAR1_SAVE : ISHAR2_SAVE;
+  const legacyIshar1=map.id==='ishar1-sav-debug';
   const ch = party[selectedSlot];
   const actorSave=game==="ishar2" && !state.isDemo && state.originalBytes ? readActorSave(state.originalBytes) : null;
   const worldItems=actorSave&&state.originalBytes?readSaveWorldItems(state.originalBytes):null;
@@ -42,9 +43,10 @@ function CharacterLab() {
       <div className="toolbar">
         <label className="file-button">Save öffnen<input type="file" accept=".sav" onChange={(e)=>{ const f=e.currentTarget.files?.[0]; if(f) void openSave(f); }} /></label>
         <button onClick={loadDemo}>Demo</button>
-        <button className="secondary" disabled={!state.originalBytes} onClick={exportPatched}>Patch exportieren</button>
+        <button className="secondary" disabled={!state.originalBytes || legacyIshar1} onClick={exportPatched}>Patch exportieren</button>
       </div>
     </header>
+    {legacyIshar1 && <p role="alert">Ishar 1: Die bisherige Kandidatentabelle stimmt nicht mit dem lokalen DOS-Engine-Layout überein. Die Werte sind nur eine historische Ansicht; Bearbeitung und Patch-Export sind bis zur geprüften Umstellung gesperrt.</p>}
     <OriginalSaveMainEditor/>
     <div className="control-bar">
       <label>Spiel<select value={game} onChange={(e)=>setGame(e.target.value as "ishar1"|"ishar2")}><option value="ishar1">Ishar 1</option><option value="ishar2">Ishar 2</option></select></label>
@@ -65,7 +67,7 @@ function CharacterLab() {
         </article>
         <article className="editor-panel wide">
           <h2>Werte</h2>
-          <div className="field-grid">{editable.filter(([key])=>key in map.fields).map(([key,label])=><label key={String(key)}>{label}<input type="number" min="0" value={Number(ch[key])} onChange={(e)=>patchCharacter(ch.slot,{[key]:Number(e.target.value)} as Partial<CharacterView>)}/><small>{map.fields[String(key)]?.confidence}</small></label>)}</div>
+          <div className="field-grid">{editable.filter(([key])=>key in map.fields).map(([key,label])=><label key={String(key)}>{label}<input type="number" disabled={legacyIshar1} min="0" value={Number(ch[key])} onChange={(e)=>patchCharacter(ch.slot,{[key]:Number(e.target.value)} as Partial<CharacterView>)}/><small>{map.fields[String(key)]?.confidence}</small></label>)}</div>
         </article>
       </div>}
       <p className="audit-note">Export schreibt nur bekannte gemappte Felder in eine Kopie der geladenen Datei. Unbekannte Bytes bleiben unverändert. Namen bleiben bis zur Offset-Verifikation reine Projekt-Overlays.</p>

@@ -217,6 +217,7 @@ export function patchParty(
   endian: Endian,
   party: CharacterView[],
 ): PatchResult {
+  if(map.id==='ishar1-sav-debug')throw new Error('Ishar-1-Kandidatenlayout ist veraltet. Patch-Export bleibt bis zur geprüften Engine-Abbildung gesperrt.');
   const bytes = new Uint8Array(original);
   const changedOffsets: number[] = [];
   for (const ch of party) {
