@@ -1,3 +1,33 @@
+## Continuation 2026-11-14: opcode75 record removal and team coordination
+
+Correction: the previous audio attribution was wrong. The original opcode75 dispatch points to1000:3A84, calling35CF/3AFA for graphics-record removal. Actual csound is157/0x9D (see the sound-call audit). No audio semantics should be inferred from the decimal75 boundary.
+
+Opcode75 is now connected to the physical script adapter. It consumes the group expression, searches the signed ordered context list, removes all selected-object/group matches, marks nonnegative records as retired when BF3 is zero, otherwise links them into BEC and unlinks their owner chain. BF3 is cleared on return. Invalid host list cycles fail transactionally. Native comparison `check-native-dos-record-remove.py` passes64 cases for each authenticated game capture,128 total: statuses0/1/128/255, groups0..3, forced freeing, empty list, repeated matches, head/interior owner unlink. Six script registers/SP and full physical memory are compared except the existing CPU scratch mask. Typecheck and physical-frame regression pass.
+
+Actual authenticated LOGO continuation from the random-animation checkpoint now passes73 ->75 ->66, original yield/frame selection and one explicit original IRQ with the existing controlled BIOS adapter, reaching object processing3DE4. Private report: `analysis-output/logo-remove-continuation.json`. This does not prove the following rendered frame or complete boot. Next: run this reached record-processing/render/VGA chain and then continue the actual script; audio157 remains a separate future boundary.
+
+Cupero in the Grok Bot app was explicitly asked to resume support, and confirmed dispatch to Quesh, Alderaan and Hoth. After the dispatch-table correction he confirmed immediate reassignment: Quesh verifies opcode75's graphics contract, Hoth supplies record-list fixtures, Alderaan investigates actual csound157 device paths as separate follow-up. Deliver public reports on `grok/reports-2026-10-18`, synthetic fixtures separately, no original bytes/assets/dumps, no edits to Codex core files. One completion report per bot requested, without repeated wakeup loops. Their results remain unintegrated until checked.
+
+New remote handoffs inspected: `c786e0f:HANDOFF_2026-11-03.md` and `7c1a0a2:docs/reconstruction/grok-reports/CODEX_HANDOFF_2026-11-14.md`. They report26 supplements and250 synthetic vectors, with gameplay/save/editor gaps distinct from the physical boot work. Neither entire report branch nor fixtures have been merged into this working tree.
+
+## Continuation 2026-11-14: resource-draw expressions connected
+
+Commands72/73/167 now use the existing transactional physical expression reader for each numeric argument, preserving shared memory writes and DX/CX/SI transitions. Unsupported expressions still fail without mutating the caller. The resource preparation native corpus now includes expression56/end58 wrappers for all five arguments:240 cases per engine,480 total, passed (six script registers/SP and full memory except the existing CPU scratch mask). Typecheck, physical-frame regression and diff whitespace checks passed.
+
+Authenticated actual checkpoint `startup-logo-random-animation-object-ishar1-2026-10-18/country33-mouse0.bin` (SHA-256 `440e48494203c0c72d9d6361e72f21f6cd0b2de23d83a9f7d4b2529bf6a735b4`) now completes its command73 through native record construction and script return26F7. Full memory/register comparison passes; next LOGO offset is00F0, opcode75 (graphics-record removal), at that checkpoint still unsupported. No complete animation/boot/browser claim. Private reports are `analysis-output/resource-expression-ishar1.json`, `resource-expression-ishar2.json` and `logo-expression-continuation.json`, outside Git.
+
+Reproduce from repository (Python and PYTHONPATH as documented below):
+
+```powershell
+node scripts/check-dos-physical-frame.mjs
+npm run typecheck
+# Run each profile's original capture through check-native-dos-resource-draw.py.
+# Actual continuation:
+& 'C:\Users\Hoffmann\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' scripts/check-native-dos-startup-main-script.py ../analysis-output/startup-logo-random-animation-object-ishar1-2026-10-18 --resume-script --shift-flags 0 --palette-retrace 8 --timer-platform --joystick-replies 255,255,255,255 --cycles 1
+```
+
+Historical next step: reconstruct opcode75 graphics-record removal, then compare the actual continuation (now completed below). Earlier expression56 boundary below is resolved.
+
 ## Update: original RNG connected to physical expressions
 
 Operand100/ornd at1000:6D7B now updates the actual shared SS:C4E seed in physical cstore/evaluate execution, using the original unsigned multiply-high result. Zero bounds still advance the seed. New `check-native-dos-random-expression.py`:60 complete dispatch cases per game,120 total, passed including unsigned bounds32768/65535, seed edge cases, six script registers/SP and full memory except CPU stack scratch. Typecheck passed.

@@ -1,24 +1,54 @@
+import {evaluateOriginalDosPhysicalExpression} from './original-dos-script-expression.ts';
 import type {OriginalDosPhysicalScriptRegisters} from './original-dos-physical-script.ts';
 /** 72/73/167 preamble and39F5 resource lookup, through the native type branch.
  * Follows first-child compound recursion; stops before record allocation or FE.
  * Input SI is after the opcode. Five pushed CPU words remain at this boundary.
  */
 export function prepareOriginalDosResourceDraw(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters,opcode:number,complete=false){
- if(source.length!==0x100000||![ss,...Object.values(input)].every(v=>Number.isInteger(v)&&v>=0&&v<=65535)||![-1,72,73,167].includes(opcode))throw Error('Invalid resource draw inputs');
+ if(source.length!==0x100000||![ss,...Object.values(input)].every(v=>Number.isInteger(v)&&v>=0&&v<=65535)||![-1,72,73,75,167].includes(opcode))throw Error('Invalid resource draw inputs');
  const memory=source.slice(),u=(v:number)=>v&65535;
  const address=(s:number,o:number,wide=false)=>{o=u(o);const at=s*16+o;if(wide&&o===65535||at+(wide?2:1)>memory.length)throw Error('Resource draw access outside bounded real-mode window');return at;};
  const b=(s:number,o:number,value?:number)=>{const at=address(s,o);if(value!==undefined)memory[at]=value&255;return memory[at];};
  const w=(s:number,o:number,value?:number)=>{const at=address(s,o,true);if(value!==undefined){memory[at]=value&255;memory[at+1]=(value>>>8)&255;}return memory[at]|memory[at+1]<<8;};
  const {ds,es,bp}=input;let si=input.si,dx=input.dx,cx=input.cx;
  const operand=()=>{
-  cx=dx;const tag=b(ds,si);si=u(si+1);let value:number;
-  if(tag===0){value=b(ds,si);si=u(si+1);dx=value&128?value+65280:value;return dx;}
-  if(![2,6,8,18,20,30,32].includes(tag))throw Error(`Resource draw numeric tag${tag} is not reconstructed`);
-  const short=tag===18||tag===20,raw=short?b(ds,si):w(ds,si);si=u(si+(short?1:2));
-  if(tag===2)dx=raw;
-  else{const at=u((tag>=30?w(ss,0xbf6):bp)+raw);if(tag===8||tag===20||tag===32)dx=w(es,at);else{value=b(es,at);dx=value&128?value+65280:value;}}
+  const next=evaluateOriginalDosPhysicalExpression(memory,ss,{ds,es,si,bp,dx});
+  memory.set(next.memory);si=next.si;dx=next.dx;cx=next.cx;
   return dx;
  };
+ if(opcode===75){
+  // Native3A84 ->35CF/3AFA: remove matching selected-object/group records.
+  b(ss,0xc0e,operand());const pool=w(ss,0xbea);let removed=0;
+  const signed=(value:number,bits=16)=>value&(1<<(bits-1))?value-(1<<bits):value;
+  const visited=new Set<number>();
+  while(true){
+   let previous=0,current=w(es,u(bp-24));const searched=new Set<number>();
+   if(current!==0)cx=w(es,u(bp-22));
+   while(current!==0){
+    if(searched.has(current))throw Error('Draw removal search cycle');searched.add(current);
+    const id=w(pool,u(current+2)),group=b(pool,u(current+1)),wanted=b(ss,0xc0e);
+    if(signed(cx)<signed(id)||cx===id&&signed(wanted,8)<signed(group,8)){previous=current;current=w(pool,u(current+4));continue;}
+    if(cx!==id||wanted!==group)current=0;
+    break;
+   }
+   if(current===0)break;
+   if(visited.has(current))throw Error('Draw removal cycle');visited.add(current);
+   const next=w(pool,u(current+4));if(previous===0)w(es,u(bp-24),next);else w(pool,u(previous+4),next);
+   if(b(ss,0xbf3)===0&&b(pool,current)<128)b(pool,current,1);
+   else{
+    w(pool,u(current+4),w(ss,0xbec));w(ss,0xbec,current);
+    const ownerAt=u(w(ss,0xbf6)+w(pool,u(current+2))+2);let owner=w(es,ownerAt);
+    if(owner===current)w(es,ownerAt,w(pool,u(current+6)));
+    else{
+     const chain=new Set<number>();
+     while(w(pool,u(owner+6))!==current){if(owner===0||chain.has(owner))throw Error('Draw removal owner chain invalid');chain.add(owner);owner=w(pool,u(owner+6));}
+     w(pool,u(owner+6),w(pool,u(current+6)));
+    }
+   }
+   removed++;
+  }
+  b(ss,0xbf3,0);return {memory,registers:{...input,si,dx,cx},phase:'return',entry:0x26f7,stackDelta:0,resourceOffset:0,resourceType:-1,pending:[],records:[],removed};
+ }
  if(opcode!==-1){b(ss,0xc15,0);b(ss,0xc12,b(es,u(bp-3))^(opcode===167?1:0));}
  if(opcode===73||opcode===167){for(const at of [0xc02,0xc04,0xc06])w(ss,at,operand());operand();const resource=dx;operand();cx=dx;dx=resource;w(ss,0xc0e,cx);}
  else if(opcode===72){operand();for(const at of [0xc02,0xc04,0xc06,0xc0e])w(ss,at,0);}
@@ -134,7 +164,7 @@ export function prepareOriginalDosResourceDraw(source:Uint8Array,ss:number,input
  return {memory,registers:{...input,ds:resource.segment,si,dx,cx},phase,entry,stackDelta:-10-20*pending.length,resourceOffset:resource.offset,resourceType:type,pending};
 }
 
-/** Complete normal/compound72/73 path; FE and unsupported operands fail atomically. */
+/** Complete72/73/167 drawing or75 record removal; unsupported paths fail atomically. */
 export function executeOriginalDosResourceDraw(source:Uint8Array,ss:number,input:OriginalDosPhysicalScriptRegisters,opcode:number){
  return prepareOriginalDosResourceDraw(source,ss,input,opcode,true);
 }

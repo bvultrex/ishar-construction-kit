@@ -221,6 +221,19 @@ export function assetFor(
     ?? pack.manifest.tilesets.find((candidate) => candidate.id === pack.manifest.defaultTilesetId)
     ?? pack.manifest.tilesets[0];
   const pools = [tileset?.entries ?? [], pack.manifest.shared];
+  // Authored demo choice: GOLEM1 composite38, never a generic dragon fragment.
+  // Resolve from previews too, so existing cached imports need no re-import.
+  if(role==='encounter' && targetId==='guardian'){
+    const explicit=pools.flat().find(entry=>entry.role===role && entry.targetId===targetId && (entry.depth===depth || entry.depth===undefined) && pack.urls[entry.id]);
+    if(explicit)return {entry:explicit,url:pack.urls[explicit.id]!};
+    const golem=pack.discoveredAssets?.find(asset=>asset.assetKind==='composite' && /(?:^|[\\/])GOLEM1\.IO · ALIS #38$/i.test(asset.path) && asset.width===127 && asset.height===91);
+    if(golem){
+      const width=127,height=91,viewport=pack.manifest.viewport;
+      const entry:DungeonAssetEntry={id:'demo-guardian-golem1-composite38',role:'encounter',targetId:'guardian',file:golem.path,renderMode:'layer',x:(viewport.width-width)/2,y:viewport.height-height-3,width,height};
+      return {entry,url:golem.url};
+    }
+  }
+
   for (const entries of pools) {
     const candidates = [
       entries.find((entry) => entry.role === role && entry.depth === depth && entry.targetId === targetId && pack.urls[entry.id]),

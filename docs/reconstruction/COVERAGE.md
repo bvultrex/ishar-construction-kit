@@ -1,5 +1,7 @@
 # Abdeckung und nächste Abnahmen
 
+> Aktueller Arbeitsstand und Priorisierung: [Projektprüfung 14.11.2026](CURRENT_REVIEW_2026-11-14.md). Die nachfolgenden älteren Fortsetzungsgrenzen sind historische Nachweise; aktive Reihenfolge: Itemablauf, NPC/Handel, Save-Map-Prüfung und Original-Modabnahme.
+
 Stand: 2026-10-18. Bezugsumfang: beide lokalen DOS-Profile aus
 [INVENTORY.md](INVENTORY.md), vollständige Rekonstruktion und Content-Toolkit.
 Ziel ist überprüfbare Verhaltensgleichheit, kein behaupteter binäridentischer EXE-Neubau.

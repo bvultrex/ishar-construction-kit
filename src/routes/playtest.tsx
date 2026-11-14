@@ -1195,6 +1195,17 @@ function PlaytestPage() {
 
     {originalStatus && <p role="status">{originalStatus}</p>}
     {originalSave && <div className="toolbar"><button disabled={!!originalHeld || !!shopHeld} onClick={()=>{const url=URL.createObjectURL(new Blob([Uint8Array.from(originalSave).buffer],{type:"application/octet-stream"}));const a=document.createElement("a");a.href=url;a.download="ISHAR-ITEMS.SAV";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}}>Geänderten Spielstand exportieren</button><button disabled={!!originalHeld || !!shopHeld} onClick={()=>{setOriginalSave(null);setOriginalStatus("");}}>Originalspielstand schließen</button></div>}
+    {originalSave && <section className="stone-card" aria-label="Originalinventar aller Charaktere">
+      <h2>Originalinventar</h2><p>Gepäck aus dem geladenen Ishar-2-Spielstand. Diese Plätze sind unabhängig von der Demo-Party.</p>
+      <div className="module-grid">{Array.from({length:5},(_,carrier)=>{
+        const person=readOriginalCarrier(originalSave,carrier);
+        return <article key={carrier}><h3>Charakter {carrier+1}{person.present?'':' · leer'}</h3>
+          {person.present && <><p>Gold: {person.money[0]*1000+person.money[1]}</p><ol>{person.slots.slice(0,9).map((code,index)=><li key={index}>{code===0?'leer':`Objekt ${code}`}</li>)}</ol></>}
+          {originalHeld && <button disabled={!person.present} onClick={()=>giveOriginalGround(carrier)}>Charakter {carrier+1}: Bodenobjekt übernehmen</button>}
+          {shopHeld && <button disabled={!person.present} onClick={()=>giveShopPurchase(carrier)}>Charakter {carrier+1}: Ware übernehmen</button>}
+        </article>;
+      })}</div>
+    </section>}
     <div className="ishar-play-shell">
       <div className="ishar-stage-row">
         <main className="ishar-view-panel">

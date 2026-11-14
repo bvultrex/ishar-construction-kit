@@ -1,5 +1,7 @@
 # Rekonstruktionsplan für Ishar 1 und Ishar 2
 
+> Aktueller Arbeitsstand und Priorisierung: [Projektprüfung 14.11.2026](CURRENT_REVIEW_2026-11-14.md). Die nachfolgenden älteren Fortsetzungsgrenzen sind historische Nachweise; aktive Reihenfolge: Itemablauf, NPC/Handel, Save-Map-Prüfung und Original-Modabnahme.
+
 ## Verbindlicher Umfang und Nachweis
 
 Das Gesamtziel ist die vollständige dokumentierte Rekonstruktion beider lokalen

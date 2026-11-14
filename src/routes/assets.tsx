@@ -1,3 +1,4 @@
+import {RecordRemovalPreview} from '@/components/record-removal-preview';
 import {AlisPaletteEditor} from '@/components/alis-palette-editor';
 import {AlisSoundEditor} from '@/components/alis-sound-editor';
 import {NativeScriptDiagnosticPanel} from '@/components/native-script-diagnostic';
@@ -162,6 +163,7 @@ function AssetsPage() {
       </div>
     </header>
 
+    <RecordRemovalPreview />
     <NativeScriptDiagnosticPanel />
     <AlisPaletteEditor />
     <AlisSoundEditor />
