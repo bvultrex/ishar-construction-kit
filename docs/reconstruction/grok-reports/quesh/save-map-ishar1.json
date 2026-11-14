@@ -2513,6 +2513,26 @@
         "G1": "Gesamtgold sinkt um genau 1000, Rest 0..999, Save zeigt reduzierten Stand",
         "G2": "Gruppe <1000 -> -21, Save unveraendert"
       }
+    },
+    {
+      "datum": "2026-11-14",
+      "thema": "SG06 bestaetigt; Skill-Nebeneffekt per Save-Vergleich bestaetigt",
+      "SG06": {
+        "quelle": "Hoth, synthetische Werte",
+        "fall": "n=4 (ein Slot mit Klasse 0xFF)",
+        "ergebnis": "jede der vier belegten Figuren zahlt genau 250, leerer Slot unveraendert, Gesamtgold -1000",
+        "stufe": "known",
+        "bezug": "SG04 deckt n=3 ab (334/333/333, Slot 0 zahlt den Rest)"
+      },
+      "skill_nebeneffekt": {
+        "quelle": "Save-Vergleich Hoth",
+        "formel": "4738+5f+c (f=Fertigkeitsfeld 0..7, c=Slot 0..4), bestaetigt",
+        "n4": "nur c=4 (4742+5f) aendert sich und erhaelt die Werte von c=3",
+        "n3": "c=3 und c=4 aendern sich, beide erhalten als Kette die Werte von c=2",
+        "sonst": "Slots davor unveraendert; volle Gruppe: keine Aenderung",
+        "default_kopie_0x03724": "known (Save-Vergleich)",
+        "ort_FRISE_beim_Laden": "suspected"
+      }
     }
   ]
 }

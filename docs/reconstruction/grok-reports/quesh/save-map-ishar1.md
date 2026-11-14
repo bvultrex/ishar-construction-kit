@@ -234,3 +234,18 @@ Quelle: SOS.IO (Sprachvarianten SOSD/SOSE/SOSI gleich aufgebaut), Speicherdialog
   - Beispiel: 200/800 entsteht bei n = 5, wenn eine Figur in Durchgang 1 nur ihren Anteil zahlt und eine andere in Durchgang 2 den Rest. (suspected, passt zu Hoths Beobachtung)
 - **Reihenfolge:** Erst wird abgezogen (L_00cf8), dann wird gespeichert (csend 30). Der Save enthält den Stand **nach** der Gebühr. (known)
 - **Testfall G1:** Ein Save mit gültigem Gold (Rest 0..999) wird im Spiel gespeichert. Erwartet: Die Summe Σ(K·1000+R) über die belegten Slots sinkt um genau 1000, alle R bleiben in 0..999, und die neue Save-Datei zeigt schon den reduzierten Stand. **G2:** Gruppensumme < 1000 → Meldung −21, Save-Datei unverändert.
+
+## Nachtrag 2026-11-03 16:20 (Europe/Berlin): SG04 bestätigt; Fertigkeits-Neuberechnung bei leerem Slot
+- **SG04 known (Hoth, Original):** n = 4 → je 250; n = 3 → 334/333/333, Slot 0 zahlt den Rest; der 0xFF-Slot bleibt beim Gold unverändert.
+- **Byte-Reihe 4741 + 5·i (i = 0..7):** Das ist Slot c = 3 der 8 Fertigkeitsfelder `main 0x3d0c, 0x3d14, 0x3d1c, 0x3d24, 0x3d2c, 0x3d34, 0x3d3c, 0x3d44` (je 5 Byte u8, eines pro Figur, Save 4738..4777, Index Feld·5 + c). (known)
+- **Schreiber:** FRISE L_06c57 (Aufruf 0x06bee, in der FRISE-Hauptschleife) prüft für jeden Slot, ob `0x169c[c]`/`0x16a4[c]` vom FRISE-Cache `dirtc 0x9c/0xa4` abweicht. Nach dem Laden bzw. Neustart von FRISE ist der Cache neu, die Prüfung schlägt also an. Dann folgt L_036dd: `cswitch 0x1664[c]` (Klasse 0..18) setzt `dirb 0x91..0x98` aus den Klassenbasen + 0x169c/0x16a4, und L_039a8 schreibt die 8 Fertigkeiten von Slot c. (known)
+- **Leerer Slot:** Klasse 255 hat keinen Switch-Eintrag. Der Default (0x03724) springt direkt nach L_039a8 und schreibt die **übrig gebliebenen** `dirb 0x91..0x98` des zuletzt berechneten Slots in den leeren Slot. Bei voller Gruppe ergibt die Neuberechnung dieselben Werte, deshalb ändert sich nichts. (Code known; dass die Werte vom vorigen Slot stammen: suspected, mit Save-Vergleich prüfbar)
+- **Bewertung:** Das ist eine Folge des 0xFF-Patches (Slot ohne Klasse), kein Gold- oder SOS-Effekt und kein normales Spielverhalten. SOS und MAIN L_0480e schreiben nur, was im Speicher steht. Für Gebührentests den Bereich 4738..4777 beim leeren Slot ignorieren.
+
+## Nachtrag 2026-11-14 (Europe/Berlin): SG06 bestätigt; Skill-Nebeneffekt per Save-Vergleich bestätigt
+- **SG06 known (Hoth, synthetische Werte):** Fall n = 4 (ein Slot mit Klasse 0xFF). Jede der vier belegten Figuren zahlt genau 250, der leere Slot bleibt unverändert, das Gesamtgold sinkt um 1000. SG04 deckt n = 3 ab (334/333/333, Slot 0 zahlt den Rest).
+- **Skill-Nebeneffekt (Save-Vergleich Hoth):** Die Formel 4738 + 5f + c (f = Fertigkeitsfeld 0..7, c = Slot 0..4) ist bestätigt. (known)
+  - n = 4: Nur c = 4 ändert sich (4742 + 5f) und erhält die Werte von c = 3.
+  - n = 3: c = 3 und c = 4 ändern sich; beide erhalten als Kette die Werte von c = 2.
+  - Die Slots davor bleiben unverändert. Bei voller Gruppe ändert sich nichts.
+- **Folge für den Nachtrag 2026-11-03 16:20:** Die Default-Kopie bei 0x03724 (übrig gebliebene `dirb 0x91..0x98` des zuletzt berechneten Slots) ist damit **known** (Save-Vergleich). Dass dies in FRISE beim Laden geschieht (L_06c57 nach Cache-Neustart), bleibt **suspected**.

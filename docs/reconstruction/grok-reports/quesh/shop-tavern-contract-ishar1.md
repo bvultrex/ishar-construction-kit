@@ -131,3 +131,11 @@ Quelle: SOS.IO (Sprachvarianten SOSD/SOSE/SOSI gleich aufgebaut), Speicherdialog
 - **Schreiber:** FRISE L_06c57 (Aufruf 0x06bee, in der FRISE-Hauptschleife) prüft für jeden Slot, ob `0x169c[c]`/`0x16a4[c]` vom FRISE-Cache `dirtc 0x9c/0xa4` abweicht. Nach dem Laden bzw. Neustart von FRISE ist der Cache neu, die Prüfung schlägt also an. Dann folgt L_036dd: `cswitch 0x1664[c]` (Klasse 0..18) setzt `dirb 0x91..0x98` aus den Klassenbasen + 0x169c/0x16a4, und L_039a8 schreibt die 8 Fertigkeiten von Slot c. (known)
 - **Leerer Slot:** Klasse 255 hat keinen Switch-Eintrag. Der Default (0x03724) springt direkt nach L_039a8 und schreibt die **übrig gebliebenen** `dirb 0x91..0x98` des zuletzt berechneten Slots in den leeren Slot. Bei voller Gruppe ergibt die Neuberechnung dieselben Werte, deshalb ändert sich nichts. (Code known; dass die Werte vom vorigen Slot stammen: suspected, mit Save-Vergleich prüfbar)
 - **Bewertung:** Das ist eine Folge des 0xFF-Patches (Slot ohne Klasse), kein Gold- oder SOS-Effekt und kein normales Spielverhalten. SOS und MAIN L_0480e schreiben nur, was im Speicher steht. Für Gebührentests den Bereich 4738..4777 beim leeren Slot ignorieren.
+
+## Nachtrag 2026-11-14 (Europe/Berlin): SG06 bestätigt; Skill-Nebeneffekt per Save-Vergleich bestätigt
+- **SG06 known (Hoth, synthetische Werte):** Fall n = 4 (ein Slot mit Klasse 0xFF). Jede der vier belegten Figuren zahlt genau 250, der leere Slot bleibt unverändert, das Gesamtgold sinkt um 1000. SG04 deckt n = 3 ab (334/333/333, Slot 0 zahlt den Rest).
+- **Skill-Nebeneffekt (Save-Vergleich Hoth):** Die Formel 4738 + 5f + c (f = Fertigkeitsfeld 0..7, c = Slot 0..4) ist bestätigt. (known)
+  - n = 4: Nur c = 4 ändert sich (4742 + 5f) und erhält die Werte von c = 3.
+  - n = 3: c = 3 und c = 4 ändern sich; beide erhalten als Kette die Werte von c = 2.
+  - Die Slots davor bleiben unverändert. Bei voller Gruppe ändert sich nichts.
+- **Folge für den Nachtrag 2026-11-03 16:20:** Die Default-Kopie bei 0x03724 (übrig gebliebene `dirb 0x91..0x98` des zuletzt berechneten Slots) ist damit **known** (Save-Vergleich). Dass dies in FRISE beim Laden geschieht (L_06c57 nach Cache-Neustart), bleibt **suspected**.
