@@ -95,3 +95,43 @@ Backups vorher/nachher liegen nur privat auf der Box.
 - Alle T4bbc-Writer nicht vollständig aufgezählt.
 
 Keine Save-Werte, Originalbytes oder Dumps in diesem Bericht.
+
+## Priorisierung 2026-11-14
+Geprüfter Kit-Stand: `workbench/playable-slice` HEAD `1f96371` (enthält `0066b46`, `6a3632f`, `1f96371`). Nur Lesen und Diff.
+
+Der begrenzte Pfad umfasst Codes 9/10: Aufnahme vom Boden, Rückgabe auf den Boden, Empfang über Porträt oder Handfeld.
+
+| Punkt | Status | Begründung | Kit-Stelle |
+|---|---|---|---|
+| A1 Code 10 → Gold | **erledigt** (6a3632f) | Entspricht FRISE 0x0032b/`L_04825`/`L_06865` (Details unten). | `original-ground-runtime.ts` `receiveOriginalGround` (Zweig `id===10`); Status in `playtest.tsx` `giveOriginalGround` |
+| A2 Bodenablage | **erledigt** (1f96371) | Entspricht SOURIS 0x008f0–0x009f0 (Details unten). Die Kit-Sperre gegen bereits belegte Weltfelder ist eine Schutzbedingung ohne Save-Folge. | `original-ground-runtime.ts` `dropOriginalGround`; `playtest.tsx` `returnOriginalGround` |
+| A2 Rest (Auslöser) | später | Das Original legt bei Klick irgendwo im Viewport ab, sofern kein anderes 512er-Objekt und kein Material 69 unter dem Cursor liegt (0x008cf/0x00877). Das Kit legt nur bei Klick auf das eigene Sprite oder Escape ab. Das ändert nur das Verhalten, nicht den Save. | `playtest.tsx` Ebene `originalGroundLayer`, Escape-Taste |
+| A3 Code 9 auf Handfeld 9/10 | **zwingend offen** | Gehört zum begrenzten Pfad, Details unten. | fehlt (kein Handpanel/Handfeld im Original-Pfad von `playtest.tsx`) |
+| A4 Tausch bei belegtem Slot | später | Gehört zum Handtausch. Für 9/10 ist dabei nur die AND-Rüstungsbedingung des ausgetauschten alten Codes relevant. Bis dahin muss das Kit belegte Felder sperren und darf keinen eigenen Tausch erfinden. | fehlt |
+| A5 Aufnahme aus Slot (Übergabe) | später | Übergabe zwischen Figuren; nicht Teil des begrenzten Pfads. | fehlt |
+| A6 Code 9 in Szene (0x4aa0 == 1, Material 100, 0x4f13 = 3) | später | Szenen-Pfad außerhalb der Kit-Karte 1; die Zuordnung zu PP11 ist suspected. | fehlt |
+
+**Prüfung A1 (6a3632f) gegen den Vertrag:**
+- Formel: Einheiten (1026 + 2c) += Wort 16; Tausender (1006 + 2c) += Wort 14.
+- Übertrag nur bei Einheiten > 999: Tausender += trunc(Einheiten / 1000), Einheiten mod 1000. Gerechnet wird als signed 16 Bit.
+- Danach werden die Wörter 14 und 16 auf 0 gesetzt.
+- Handlungsfähigkeit wie 0x0034d: present und HP > 0. Ist die Figur nicht handlungsfähig, kommt null zurück und das Objekt bleibt gehalten.
+- Kein Slot-Write; auch bei vollem Gepäck wird das Gold gutgeschrieben.
+- Die Bedingung y_up < 75 hat im Kit kein Koordinatengegenstück. Sie ist durch den Porträt-Button abgedeckt. Kommt ein Handfeld (A3) dazu, muss Code 10 dort denselben Goldzweig nehmen, weil im Original auch die Handfelder unter y_up < 75 liegen (known).
+
+**Prüfung A2 (1f96371) gegen den Vertrag:**
+- Zielfeld nach Blickrichtung: 1 → col − 1, 2 → row + 1, 3 → col + 1, 4 → row − 1.
+- Bytes werden modulo 256 umgebrochen.
+- T2c4e = Karte (1), T50c8 = Blickrichtung, Save 8039 + id.
+- Andere Bytes bleiben unverändert; es wird nicht mehr der alte Snapshot wiederhergestellt.
+- Bewegen ist weiter gesperrt (GERDEP 0x00572), das Feld vor der Gruppe ist also der Fundort.
+
+**A3 im Einzelnen (zwingend offen):**
+- Empfang über das Handfeld gehört ausdrücklich zum begrenzten Pfad.
+- Nötig sind:
+  - Handpanel-Zustand T4f0a[c] == 1 (transient). Ist er gesetzt, geht der Porträtklick nicht ins Gepäck (0x007e3/0x0080c).
+  - Code 9 kommt nur in ein leeres Handfeld: Slot 1036 + 30c + 18/20 = 9, Rüstung + 0 (0x02f0c/0x02f5a).
+  - Feld = −125 → keine Aktion. Feld belegt → erst mit A4.
+  - Code 10 → A1-Zweig.
+
+0066b46 (Kamera im SAV-Export) betrifft A1–A6 nicht direkt. Die Exportsperre bei gehaltenem Item bleibt bestehen und entspricht `L_05c6e` (0x2d16 == 0).
