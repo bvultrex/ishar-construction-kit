@@ -146,6 +146,11 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
   - **A5:** Aufnahme aus einem Slot (Übergabe an andere Figur, Slot → 0, Rüstung −=) fehlt.
   - **A6:** Code 9 auf Material 100 bei 0x4aa0 == 1 setzt 0x4f13 = 3 (Save 20–21); fehlt (außerhalb Karte 1).
 
+### 5.4c Originalabnahme Pickup Ishar 2 (Nachtrag 33, 2026-11-14)
+
+- **Original-EXE-Reload für Ishar 2 / Objekt 9 / CONT1 ist known (mit Patch):** Aufnahme, Ablage in Rucksack oder Hand, Speichern und Reload in der Original-EXE. Der Save-Diff ist genau 336/536/736+i → 0 und das Inventarwort 1036+30c+2s → i; der Blick 8039+i bleibt. Beim Vergleich die Uhr (44–49) und den Neuwurf der Akteure ≥ 90 tolerieren.
+- **Code 10 auf dem Porträt wird nativ verbraucht, ohne Inventarwort** (Hoth B7, zweimal reproduziert). Das bestätigt A1 aus Nachtrag 32. Was dabei im Spiel mit dem Gold passiert (`L_04825`), ist noch **offen**.
+
 ### 5.5 Danach
 
 - Save-Map Ishar 1 komplett in `save-maps.ts`:
