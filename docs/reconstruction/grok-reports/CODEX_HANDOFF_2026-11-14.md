@@ -162,6 +162,12 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
   2. Die Kit-Richtung „east“ (Code 1) bewegt im Original auf Spalte−1. Bitte prüfen.
   3. Offset 7577 (Block 0x4b80) ändert sich beim Neuspeichern; Bedeutung offen.
 
+### 5.4e Hitbox Code 9 (Nachtrag 37, 2026-11-14)
+
+- **known (Original-EXE, Eingabe mit Patch):** Die Aufnahme-Hitbox von Code 9 auf CONT1 ist ein festes Rechteck x 116..141 × y 104..123 (Spielkoordinaten, inklusiv). Sie entsteht aus OBJET-Form 40 plus Objekthöhe −42 (Formkollision, keine Bitmap-Maske).
+- **Kit-Abweichung:** `6a3632f` nutzt das Bitmap-Rechteck des SVG-`<image>`. Ihm fehlen y 104..116, es nimmt fälschlich y 124 an, und seitlich reicht es nur bis etwa x 139.
+- **Vorschlag:** Das Rechteck aus OBJET-Form plus Objekthöhe berechnen: `128+ox ≤ x ≤ 128+ox+ex`, `77−(Z+oz+ez) ≤ y ≤ 77−(Z+oz)`. Objekt 10 (Form 16, rechnerisch x 122..134, y 101..119) ist nur abgeleitet.
+
 ### 5.5 Danach
 
 - Save-Map Ishar 1 komplett in `save-maps.ts`:
