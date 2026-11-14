@@ -42,6 +42,20 @@ dieser Kopie, den sichtbaren Unterschied während der aktiven Palette6 und einen
 erneuten Lauf gegen eine unveränderte Referenz dokumentieren. Ein erfolgreicher
 CLI-Aufruf allein ist ausdrücklich keine solche Abnahme.
 
+Der Originaltest zeigte inzwischen: Farbe0 kommt im sichtbaren320×200-Bild nicht
+vor und färbt nur den optional dargestellten VGA-Rahmen. Für den Folgetest mit
+dem tatsächlich verwendeten schwarzen Hintergrundindex5 gibt es deshalb:
+
+```powershell
+npm run mod:logo-visible-probe -- ishar1 E:/Spiele/Ishar1 ../analysis-output/new-ishar1-logo5-probe
+npm run mod:logo-visible-probe -- ishar2 E:/Spiele/Ishar2 ../analysis-output/new-ishar2-logo5-probe
+```
+
+Der allgemeine Befehl akzeptiert außerdem genau ein optionales `--color=N`.
+Er weist Werte außerhalb Palette6 zurück und berichtet, wie oft der Index in den
+extrahierten LOGO-Bildern vorkommt. Das ist ein statischer Kandidatennachweis;
+sichtbare Wirkung und Originalstart bleiben weiterhin getrennte Abnahmen.
+
 Stand: 2026-10-17. Dies ist ein CK-Patchformat für originale Kartenbytes, kein
 angebliches Originalskriptformat. Die Prüfung bestätigt Datenintegrität, nicht
 automatisch die spielerische Gültigkeit oder eine vollständige Laufzeitrekonstruktion.
