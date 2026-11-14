@@ -154,6 +154,14 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
   - Die Kit-Abweichung bleibt: `receiveOriginalGround(…, 10, …)` in `f4cf659` schreibt 10 in 1036+30c+2s.
   - Objekt 10 über den Handplatz ist weiter **suspected** (nicht gespielt).
 
+### 5.4d I2-Shop-Roundtrip (Nachtrag 36, 2026-11-14)
+
+- **known (ohne Patch, Original-EXE-Reload):** Ishar 2, CONT1 selector 6, Ware −61, Preis 1800, Empfänger c0 ab `START.SAV`. Gold- und Inventarbytes (1007, 1026, 1027, 1036, 1037) stimmen mit `EXPECTED.SAV` aus `check-original-shop-roundtrip-local.mjs` überein; nach Reboot, Reload und Wiederspeichern bleiben sie unverändert.
+- Kit-Hinweise:
+  1. Das Skript wählt bei mehreren SAVs alphabetisch `FINALE.SAV` und Empfänger c1. `ISHAR2_DIR` darf nur `START.SAV` enthalten, oder die Quelldatei muss explizit gewählt werden.
+  2. Die Kit-Richtung „east“ (Code 1) bewegt im Original auf Spalte−1. Bitte prüfen.
+  3. Offset 7577 (Block 0x4b80) ändert sich beim Neuspeichern; Bedeutung offen.
+
 ### 5.5 Danach
 
 - Save-Map Ishar 1 komplett in `save-maps.ts`:
