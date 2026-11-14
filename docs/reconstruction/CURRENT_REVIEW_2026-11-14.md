@@ -16,7 +16,7 @@ Ursprüngliche Kursbewertung vor der Neupriorisierung: technische Richtung richt
 | Originalitems Ishar2 | SAV-basierte Bodenpositionen, Darstellung/Aufheben von Codes9/10 auf CONT1, Übergabe in neun Rucksackplätze, Rückgabe vor Übernahme, SAV-Kopie exportierbar | Andere Karten/Codes und Benutzen/Ausrüsten/Ablegen/Effekte nicht als Gesamtablauf belegt |
 | Eigene NPCs | Im Builder platzierbar, Grafik, ansprechbar, einfacher Dialogtext und Kaufbestand; Gold-/Bestands-/Gepäckprüfung | Kein vollständiger Dialogbaum, Original-NPC-Lebenszyklus oder Originalexport |
 | Originalfiguren Ishar2 | EAFF/Crowd-Auswahl, Save-Actor-Daten, Figurenskripte und Animation; GOLEM1/WIZARD1/AVEUGLE5/MARIN/GEANT als begrenzter CONT1-Pfad | Vorschau setzt transiente Session/Seed beim Ansichtswechsel neu auf; keine persistente vollständige KI, Wegefindung, Kampf-/Todes-/Respawnsteuerung oder allgemeine NPC-Interaktion |
-| Originalhandel Ishar2 | Händlerdaten und Shopteilpfade, Empfängerwahl, Goldabzug, Stapel-/Rucksackgrenzen, SAV-Arbeitskopie | Vollständiger Ladenbesuch, Kaufen/Verkaufen und Original-Reload als zusammenhängende Abnahme offen |
+| Originalhandel Ishar2 | Händlerdaten und Shopteilpfade, Empfängerwahl, Goldabzug, Stapel-/Rucksackgrenzen, SAV-Arbeitskopie; MARCHAND bietet ausschließlich Kaufen | Weitere Händler/Empfänger und vollständige Laden-/Dialogvarianten offen; Verkaufen existiert laut statischem und nativem Befund weder in Ishar1 noch Ishar2 |
 | Ishar1 | Format-/SAV-/Enginebausteine und neue externe Verträge | Produktanschluss deutlich hinter Ishar2; alte Save-Kandidaten dürfen nicht allein aufgrund ihrer Existenz als bestätigte Map gelten |
 | Aktuelle Enginearbeit | Physische Grafikaufträge mit Ausdrücken, Opcode75-Grafikabbau; tatsächlicher LOGO-Pfad73→75→66 bis Objektverarbeitung3DE4 verglichen | Folgendes Gesamtframe/Boot und Browseranschluss offen.75 ist kein Audio; csound ist157 |
 
@@ -35,7 +35,7 @@ Frisch ausgeführte lokale Checks: check-items-scenes, check-npc-trading, check-
 
 A. Vorhandenen Ishar2-Itempfad reproduzierbar im Browser ausführen: konkretes Originalprofil/Arbeits-SAV, CONT1 und Code9 oder10; Quelle vor/nach identisch, Aufnahme und Empfänger, voller Rucksack, kein Empfänger, keine Duplikation, Export und erneutes Laden. Danach geänderte SAV in separater Originalspielkopie prüfen. Fehlende Eingaben als fehlend ausweisen, nicht synthetisch als Originalbeleg ersetzen.
 
-B. Einen passenden originalen Händler/NPC festlegen. Darstellung→Ansprache/Shop→Ware auswählen→Empfänger→Gold/Stapel→Export/Reload. Separat festhalten, ob Dialog/Verkauf/Bewegung fehlen. Keine neue KI beginnen, bevor dieser Teilpfad geschlossen ist.
+B. Einen passenden originalen Händler/NPC festlegen. Darstellung→Ansprache/Shop→Ware auswählen→Empfänger→Gold/Stapel→Export/Reload. Dialog und Bewegung getrennt festhalten. Kein Verkaufsgate erfinden: Beide MARCHAND-Profile besitzen keinen Verkaufspfad. Keine neue KI beginnen, bevor dieser Teilpfad geschlossen ist.
 
 C. Ishar1-Save-Map aus c786e0f/neueren Grok-Verträgen mit lokalen Original-I/O-Belegen gegenprüfen. Widerlegte Kandidaten im Character Lab sperren/ersetzen, bevor weitere Schreibfunktionen darauf bauen. Diese ursprüngliche Ausgangslage ist historisch; die inzwischen ausgeführten lokalen I/O-/Sperrprüfungen sind im aktuellen Abnahmestand belegt.
 
