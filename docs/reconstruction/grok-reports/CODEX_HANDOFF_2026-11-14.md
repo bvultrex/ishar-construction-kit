@@ -145,6 +145,7 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
   - **A4:** Tausch mit belegtem Slot (Rüstung nur für −29..−26 angepasst) fehlt.
   - **A5:** Aufnahme aus einem Slot (Übergabe an andere Figur, Slot → 0, Rüstung −=) fehlt.
   - **A6:** Code 9 auf Material 100 bei 0x4aa0 == 1 setzt 0x4f13 = 3 (Save 20–21); fehlt (außerhalb Karte 1).
+- **Stand Kit (Nachtrag 35, `playable-slice` `1f96371`):** A1 erledigt in `6a3632f`, A2 erledigt in `1f96371`. Für den 9/10-Pfad ist zwingend nur noch **A3** (Handfeld) offen; A4–A6 kommen später.
 
 ### 5.4c Originalabnahme Pickup Ishar 2 (Nachtrag 33, 2026-11-14)
 
