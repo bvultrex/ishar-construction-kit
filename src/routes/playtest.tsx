@@ -911,7 +911,7 @@ function PlaytestPage() {
     if(!originalHeld || !originalSave)return;
     const next=receiveOriginalGround(originalSave,originalHeld.id,carrier);
     if(!next){setOriginalStatus("Dieser Originalcharakter kann den Gegenstand nicht aufnehmen (nicht vorhanden, nicht handlungsfähig oder Gepäck voll).");return;}
-    setOriginalSave(next);setOriginalHeld(null);setOriginalStatus(`Originalobjekt ${originalHeld.id} liegt im Gepäck von Charakter ${carrier+1}.`);
+    setOriginalSave(next);setOriginalHeld(null);setOriginalStatus(originalHeld.id===10 ? `Goldfund an Charakter ${carrier+1} übertragen.` : `Originalobjekt ${originalHeld.id} liegt im Gepäck von Charakter ${carrier+1}.`);
   }
   async function loadOriginalGround(file:File){
     if(shopHeld)return;

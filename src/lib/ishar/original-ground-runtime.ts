@@ -2,8 +2,8 @@ import {readSaveWorldItems,worldItemViewCandidate} from './save-world-items.ts';
 import {readOriginalCarrier,ORIGINAL_COMMERCE_OFFSETS} from './original-commerce.ts';
 export interface OriginalGroundView {row:number;col:number;facing:number;map:number;scene:number}
 /** AFFOBJ projection and OBJET 0x003ad/0x003db. Map 1 skips the occlusion routine.
- * These two object codes have no quest/stack conversion on pickup. Other codes
- * remain disabled until their additional script branches are ported.
+ * Code 9 enters inventory; code 10 is converted to gold by FRISE 0032b/04825.
+ * Other codes remain disabled until their additional branches are ported.
  */
 export function originalGroundSprites(bytes:Uint8Array,view:OriginalGroundView) {
   if(view.map!==1)return [];
@@ -26,6 +26,19 @@ export function pickOriginalGround(bytes:Uint8Array,view:OriginalGroundView,id:n
 export function receiveOriginalGround(bytes:Uint8Array,id:number,carrier:number) {
   if(![9,10].includes(id))return null;
   const person=readOriginalCarrier(bytes,carrier);if(!person.present||person.hp<=0)return null;
+  if(id===10){
+    // FRISE 04825 -> 06865: signed word additions, then carry only if units>999.
+    // MAIN 4c94/4c96 (SAV14/16) hold the pending gold amount. This branch runs
+    // before backpack lookup, so even a full backpack can receive the gold.
+    const copy=Uint8Array.from(bytes),words=new DataView(copy.buffer);
+    const signed=(n:number)=>(n<<16)>>16;
+    let units=signed(words.getInt16(1026+carrier*2,false)+words.getInt16(16,false));
+    let thousands=signed(words.getInt16(1006+carrier*2,false)+words.getInt16(14,false));
+    if(units>999){thousands=signed(thousands+Math.trunc(units/1000));units%=1000;}
+    words.setInt16(1026+carrier*2,units,false);words.setInt16(1006+carrier*2,thousands,false);
+    words.setInt16(14,0,false);words.setInt16(16,0,false);
+    return copy;
+  }
   const slot=person.slots.slice(0,9).indexOf(0);if(slot<0)return null;
   const copy=Uint8Array.from(bytes);
   new DataView(copy.buffer).setInt16(ORIGINAL_COMMERCE_OFFSETS.inventory+carrier*30+slot*2,id,false);
