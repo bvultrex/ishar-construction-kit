@@ -1,5 +1,12 @@
 import {readOriginalCarrier,ORIGINAL_COMMERCE_OFFSETS} from './original-commerce.ts';
 
+/** FRISE0032b precedes007e3: gold bypasses the transient T4f0a handpanel. */
+export function originalPortraitItemDestination(id:number,handPanelOpen:boolean){
+  if(id===10)return 'gold' as const;
+  if(id===9)return handPanelOpen?'hand-panel' as const:'backpack' as const;
+  return null;
+}
+
 /** FRISE02c0f/02dbb: Code9 has no stack conversion or armour contribution.
  * The caller must own an empty cursor. Other codes need their separate branches.
  * Extraction has no invented recipient-HP gate; the portrait receive gate is separate.

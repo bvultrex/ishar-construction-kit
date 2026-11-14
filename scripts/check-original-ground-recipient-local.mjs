@@ -7,6 +7,7 @@ import {deriveIshar2SaveLayout} from '../src/lib/ishar/ishar2-save-layout.ts';
 import {evaluateOriginalAlisInteger} from '../src/lib/ishar/original-alis-expression.ts';
 import {dosAlisIntegerOperandEnd} from '../src/lib/ishar/original-alis-operand-layout.ts';
 import {receiveOriginalGround} from '../src/lib/ishar/original-ground-runtime.ts';
+import {originalPortraitItemDestination} from '../src/lib/ishar/original-inventory-runtime.ts';
 const root=process.env.ISHAR2_DIR,listings=process.env.ISHAR_ACTOR_LISTINGS;assert.ok(root&&listings,'ISHAR2_DIR and ISHAR_ACTOR_LISTINGS required');
 const raw=new Uint8Array(readFileSync(join(root,'FRISE.IO')));
 assert.equal(createHash('sha256').update(raw).digest('hex'),'27117c124caf904a31568f5c58f615946083dd3429c02ade1dc1e17552cc2b64');
@@ -62,4 +63,13 @@ for(let carrier=0;carrier<5;carrier++)for(const units of [0,999,32767,-32768])fo
  goldCases++;
 }
 console.log(`${goldCases} gold receipts match FRISE signed-word arithmetic expressions, including carry, overflow and full backpacks. Listing/binary profile check, not native execution.`);
+const portrait=text.split(/\r?\n/).map(l=>l.match(/^\s*007e3\s+([\da-f]+)\s+ceval\s+(.+)$/)).find(Boolean);assert.ok(portrait);
+assert.deepEqual(Buffer.from(image.subarray(0x7e3,0x7e3+portrait[1].length/2)),Buffer.from(portrait[1],'hex'));
+assert.equal(portrait[2],'(omainw(0x2d16) oinf(oimmb(-14)) opushacc omainw(0x2d16) osup(oimmb(0)) oor(opile) opushacc odirb(0x13) omaintc(0x4f0a) odiff(oimmb(1)) oand(opile))');
+for(const panel of [false,true]){
+ const backpack=evaluateOriginalAlisInteger(portrait[2],{scan:0,read:(space,at,word)=>{if(space==='main'){assert.equal(at,0x2d16);assert.equal(word,true);return 9;}assert.equal(at,0x13);return 0;},table:(space,at,index)=>{assert.equal(space,'main');assert.equal(at,0x4f0a);assert.equal(index,0);return panel?1:0;}})!==0;
+ assert.equal(originalPortraitItemDestination(9,panel),backpack?'backpack':'hand-panel');
+ assert.equal(originalPortraitItemDestination(10,panel),'gold','FRISE0032b precedes panel routing');
+}
+console.log('Portrait handpanel routing agrees with FRISE007e3; gold retains the earlier branch independently of the panel.');
 

@@ -7,7 +7,7 @@ import type { ReactNode } from "react";
 import { originalGroundSprites, pickOriginalGround, dropOriginalGround, receiveOriginalGround } from "@/lib/ishar/original-ground-runtime";
 import { readActorSave } from "@/lib/ishar/save-actors";
 import { patchOriginalSaveView } from "@/lib/ishar/original-save-view";
-import { takeOriginalInventoryItem } from "@/lib/ishar/original-inventory-runtime";
+import { takeOriginalInventoryItem, originalPortraitItemDestination } from "@/lib/ishar/original-inventory-runtime";
 import { readOriginalCarrier,receiveOriginalPurchase,type OriginalPurchase } from "@/lib/ishar/original-commerce";
 import { readOriginalMerchants,readOriginalItemResources,type OriginalMerchant } from "@/lib/ishar/original-merchants";
 import { originalShopEntry } from "@/lib/ishar/original-shop-entry";
@@ -836,6 +836,8 @@ function PlaytestPage() {
   const [heldItemStart,setHeldItemStart]=useState({x:0,y:0});
   const [originalSave,setOriginalSave]=useState<Uint8Array|null>(null);
   const [originalHeld,setOriginalHeld]=useState<{id:number;before:Uint8Array}|null>(null);
+  // FRISE T4f0a is transient: do not serialize this presentation state to SAV.
+  const [originalHandPanels,setOriginalHandPanels]=useState<boolean[]>([false,false,false,false,false]);
   const [originalStatus,setOriginalStatus]=useState("");
   const [shopSelector,setShopSelector]=useState<number|null>(null);
   const [shopHeld,setShopHeld]=useState<OriginalPurchase|null>(null);
@@ -920,6 +922,9 @@ function PlaytestPage() {
   }
   function giveOriginalGround(carrier:number,handSlot?:9|10){
     if(!originalHeld || !originalSave)return;
+    if(handSlot===undefined && originalPortraitItemDestination(originalHeld.id,originalHandPanels[carrier]??false)==='hand-panel'){
+      setOriginalStatus(`Handpanel von Charakter ${carrier+1} ist offen. Einen freien Handplatz wählen.`);return;
+    }
     const next=receiveOriginalGround(originalSave,originalHeld.id,carrier,handSlot);
     if(!next){setOriginalStatus("Dieser Originalcharakter kann den Gegenstand nicht aufnehmen (nicht vorhanden, nicht handlungsfähig oder Gepäck voll).");return;}
     setOriginalSave(next);setOriginalHeld(null);setOriginalStatus(originalHeld.id===10 ? `Goldfund an Charakter ${carrier+1} übertragen.` : `Originalobjekt ${originalHeld.id} liegt ${handSlot===undefined?'im Gepäck':`in Handplatz ${handSlot}`} von Charakter ${carrier+1}.`);
@@ -933,7 +938,7 @@ function PlaytestPage() {
       const target=candidates.flatMap(l=>game.locations.filter(location=>location.levelId===l.id && (()=>{const c=gridCellOf(l.grid!,location);return c.r===save.row&&c.c===save.col;})())).at(-1);
       const direction=(Object.keys(FACING_CODE) as Direction[]).find(d=>FACING_CODE[d]===save.facing);
       if(!target || !direction)throw new Error("Karte oder Position des Spielstands ist im aktuellen Projekt nicht vorhanden.");
-      setOriginalSave(bytes);setOriginalHeld(null);setSelectedGroundItemId(null);setLocationId(target.id);setFacing(direction);setGridSceneType(save.scene);setHudPanel(null);
+      setOriginalSave(bytes);setOriginalHeld(null);setOriginalHandPanels([false,false,false,false,false]);setSelectedGroundItemId(null);setLocationId(target.id);setFacing(direction);setGridSceneType(save.scene);setHudPanel(null);
       setOriginalStatus("Originalspielstand geladen. Bodenobjekte 9 und 10 auf CONT1 sind angebunden; weitere Objektzweige folgen.");
     }catch(error){setOriginalStatus(error instanceof Error?error.message:String(error));}
   }
@@ -1223,12 +1228,12 @@ function PlaytestPage() {
       <div className="module-grid">{Array.from({length:5},(_,carrier)=>{
         const person=readOriginalCarrier(originalSave,carrier);
         return <article key={carrier}><h3>Charakter {carrier+1}{person.present?'':' · leer'}</h3>
-          {person.present && <><p>Vitalität: {person.hp} · Gold: {person.money[0]*1000+person.money[1]}</p><ol>{person.slots.slice(0,11).map((code,index)=><li key={index}>
+          {person.present && <><p>Vitalität: {person.hp} · Gold: {person.money[0]*1000+person.money[1]}</p><button aria-expanded={originalHandPanels[carrier]??false} onClick={()=>setOriginalHandPanels(panels=>panels.map((open,index)=>index===carrier?!open:open))}>Charakter {carrier+1}: Handpanel {originalHandPanels[carrier]?'schließen':'öffnen'}</button><ol>{person.slots.slice(0,11).map((code,index)=>(index<9||originalHandPanels[carrier])&&<li key={index}>
             {index>=9?`Handplatz ${index}: `:''}{code===0?'leer':`Objekt ${code}`}
             {code===9 && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY})}>Charakter {carrier+1}, Platz {index+1}: Objekt 9 aufnehmen</button>}
             {originalHeld && index>=9 && <button disabled={(code!==0&&originalHeld.id!==10)||person.hp<=0} onClick={()=>giveOriginalGround(carrier,index as 9|10)}>Charakter {carrier+1}: Handplatz {index} übernehmen</button>}
           </li>)}</ol></>}
-          {originalHeld && <button disabled={!person.present||person.hp<=0} onClick={()=>giveOriginalGround(carrier)}>Charakter {carrier+1}: Bodenobjekt übernehmen</button>}
+          {originalHeld && <button disabled={!person.present||person.hp<=0} onClick={()=>giveOriginalGround(carrier)}>Charakter {carrier+1}: {originalPortraitItemDestination(originalHeld.id,originalHandPanels[carrier]??false)==='hand-panel'?'Handplatz wählen':'Originalobjekt übernehmen'}</button>}
           {shopHeld && <button disabled={!person.present} onClick={()=>giveShopPurchase(carrier)}>Charakter {carrier+1}: Ware übernehmen</button>}
         </article>;
       })}</div>
