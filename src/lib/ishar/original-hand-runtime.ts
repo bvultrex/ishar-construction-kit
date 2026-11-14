@@ -6,8 +6,9 @@ export interface OriginalHeldItem {id:number;quantity?:number}
 const limit=(id:number)=>id===-49?20:10;
 const swapArmour=(id:number)=>id>=-29&&id<=-26?originalItemArmour(id):0;
 
-/** FRISE02e20..03348. Supported inventory codes; reserved target/effect16
- * and malformed stack states remain outside this adapter's accepted inputs.
+/** FRISE02e20..03348. Supported inventory codes; effect16 and malformed stack
+ * states remain outside this adapter's accepted inputs. A reserved target keeps
+ * its slot and cursor but still receives the original's early stack write.
  * A partial quantity transfer can succeed without exchanging the slot.
  */
 export function placeOriginalHandItem(bytes:Uint8Array,held:OriginalHeldItem,carrier:number,slot:9|10,profile?:OriginalWeaponProfile){
@@ -15,7 +16,7 @@ export function placeOriginalHandItem(bytes:Uint8Array,held:OriginalHeldItem,car
  const incomingStack=originalStackCode(id),oldStack=old!==undefined&&originalStackCode(old);
  if(!person.present||person.hp<=0||(slot!==9&&slot!==10)||old===undefined)return null;
  if(!incomingStack&&!transferableOriginalInventoryCode(id))return null;
- if(old!==0&&!oldStack&&!transferableOriginalInventoryCode(old))return null;
+ if(old!==0&&old!==-125&&!oldStack&&!transferableOriginalInventoryCode(old))return null;
  if(incomingStack?(!Number.isInteger(held.quantity)||held.quantity!<1||held.quantity!>limit(id)):held.quantity!==undefined)return null;
  if(!incomingStack&&!oldStack){
   const result=placeOriginalInventoryItem(bytes,id,carrier,slot,profile);
@@ -39,6 +40,9 @@ export function placeOriginalHandItem(bytes:Uint8Array,held:OriginalHeldItem,car
   copy[offsets.stacks+carrier*20+id+59]=count+accepted;
  }
  if(two||person.slots[other]===-125)writeSlot(other,two?-125:0);
+ // 03012 -> 03348: a clicked two-hand reservation receives the early quantity
+ // write but neither changes its slot nor releases the cursor, even at zero rest.
+ if(old===-125&&incomingStack)return {bytes:copy,held:{id,quantity:remaining},accepted,swapped:false};
  const existing=incomingStack&&person.slots.slice(0,11).includes(id);
  if(old===0||old===id&&incomingStack){
   if(!existing)writeSlot(slot,id);
