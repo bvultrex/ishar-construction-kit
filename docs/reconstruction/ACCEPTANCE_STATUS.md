@@ -1,6 +1,6 @@
 # Aktueller Abnahmestand
 
-Stand: 14.11.2026, veröffentlichter Code64a3c4f und integrierte Nachträge38–40. Gesamtziel: vollständige Rekonstruktion **beider** DOS-Profile und Content-Toolkit; weiterhin offen. Diese Tabelle ist der operative Einstieg. [Projektprüfung](CURRENT_REVIEW_2026-11-14.md) enthält Anforderungen, Prozessregeln und die datierten Arbeitsnachträge; [PLAN](PLAN.md) und [COVERAGE](COVERAGE.md) behalten den vollständigen Umfang.
+Stand: 14.11.2026, veröffentlichter und ausgelieferter Code1210da8, integrierte Nachträge38–40. Gesamtziel: vollständige Rekonstruktion **beider** DOS-Profile und Content-Toolkit; weiterhin offen. Diese Tabelle ist der operative Einstieg. [Projektprüfung](CURRENT_REVIEW_2026-11-14.md) enthält Anforderungen, Prozessregeln und die datierten Arbeitsnachträge; [PLAN](PLAN.md) und [COVERAGE](COVERAGE.md) behalten den vollständigen Umfang.
 
 „Berichtet“ bezeichnet einen Original-EXE-Lauf von Grok mit lokal verglichenem Profil und Schreibvertrag. Dessen private Rohsaves liegen hier nicht vor. Hosttests, Browser und Originalausführung ersetzen einander nicht.
 
@@ -26,9 +26,9 @@ Stand: 14.11.2026, veröffentlichter Code64a3c4f und integrierte Nachträge38–
 
 ## Auslieferung und Belege
 
-- Letzte stabile Testlieferung: Quellcommitb6dae48, Paket `../testbuild-b6dae48.zip`; Manifest und alle62 Nutzdateien geprüft. Der zuletzt eingerichtete Nutzerzugang4183 verwendet diese feste Kopie. Spätere Änderungen bis64a3c4f sind noch keine neue stabile Testlieferung.
-- Entwicklungszugang4181: zuletzt aus Repo-dist eingerichtet, Stapelweitergabe einschließlich Browser-/SAV-Abnahme implementiert. Aktueller Serverprozess muss vor erneutem Build gezielt beendet bzw. nach dem Build neu gestartet werden; die feste Nutzerkopie bleibt davon unabhängig.
-- CI64a3c4f:43642519263/43642524132 und43642524215 erfolgreich. CI26e290c einschließlich Stapeladapter ebenfalls erfolgreich. CI3b4a5bc einschließlich gemeinsamem Modkopierer erfolgreich. Keine CI-Prüfung benötigt Originaldateien.
+- Letzte stabile Testlieferung: Quellcommit1210da8, Paket `../testbuild-1210da8.zip`; SHA256ed1077f6dd0f3ef434657eb1e1e88ea9f66edded7ea3010c10814c3581674731. Manifest und alle62 Nutzdateien geprüft. Nutzerzugänge4181 und4183 verwenden diese feste Kopie; frühere Pakete bleiben erhalten.
+- Beide zuletzt eingerichteten Server verwenden jetzt die unveränderliche Paketkopie1210da8. Neue Repo-Builds ersetzen ihre Dateien nicht mehr. Acht Routen/Buildkennung/Root-Assets und lokale Händlerquellen je Port geprüft; bestehende Browserseite neu laden.
+- CI1210da8:43642885087/43642890475 und43642890471 erfolgreich. Frühere CI64a3c4f und26e290c einschließlich Stapeladapter ebenfalls erfolgreich. CI3b4a5bc einschließlich gemeinsamem Modkopierer erfolgreich. Keine CI-Prüfung benötigt Originaldateien.
 - Private lokale Nachweise stehen ausschließlich unter `../analysis-output/`; genaue Fallordner und Grenzen im [Arbeitsjournal](CURRENT_REVIEW_2026-11-14.md). Originale, SAVs, Listings und native Rohbelege werden nicht eingecheckt.
 
 ## Rest des Gesamtziels
