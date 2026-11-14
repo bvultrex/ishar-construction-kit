@@ -220,6 +220,13 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 - Kit strenger (keine Abweichung): alte Werte außerhalb des Bereichs abgelehnt, Routing über Slot-12-Band zu 11/13/14 gesperrt.
 - H1 aus §5.4m ist in Kit 83852b4 umgesetzt (Codex).
 
+### 5.4o Stapel-Handadapter nativ (Nachtrag 47, 2026-11-14)
+- Bericht: `hand-stack-native-check.md` (Hoth). Beide Kernfälle in Ishar 2 nativ wie vom Kit erwartet; Inventar- und Zählerbytes identisch zur Erwartungsdatei (323f0fc0bd9f = Codex' Browserexport), sonst nur Uhr und Akteur-Neuwurf 90–92 (known). Mengenbilanz geht auf, keine Duplikation; Reload in neuer Session ohne unbekannte Bytes.
+- Hinweis Lesart: „dritte Figur“ und „viertes Gepäck“ sind im Kit-Generator beide Figur 3 (die vierte Figur); geprüft wurde die Generator-Lesart.
+- B2 (known): Linksklick auf einen Stapel hebt im Original nur eine Einheit; ganzer Stapel nur über Tausch an den Cursor. Kit-Aufnahme nicht geprüft; falls das Kit den ganzen Stapel per Klick nimmt, weicht es ab.
+- B3 (known): Bei offenem Charakterblatt öffnet der Disk-Knopf kein Speichermenü.
+- Offen: Kit-Stapelaufnahme; Fälle −125, Zielcode 16, Teilübernahme bis Deckel 20, Nicht-Stapel gegen Stapel im Rucksack; Rucksack-Tausch nur beobachtet (suspected).
+
 ### 5.5 Danach
 
 - Save-Map Ishar 1 komplett in `save-maps.ts`:
