@@ -303,5 +303,28 @@
   },
   "korrektur_hit_rect_10": "mx 122..134 (Nachtrag 2026-10-18); R3 hit_rect_game.10 nennt veraltet 135",
   "bericht": "pickup-contract-check-ishar2.md (Nachtrag 32)"
+ },
+ "addendum_2026_11_14_stack_gap": {
+  "luecke": "FRISE 0x02cbb-0x02dba geschlossen (Ausdrucksbudget); Ausdruck endet 0x02d4f",
+  "auswahl": "0x02cbb Teilzone -> ganzer Stapel, sonst ein Stueck (Zonenbedeutung suspected)",
+  "ganz": "0x02d53-0x02d7e T4bbc[j]=T4bd4[c][j], T4bd4[c][j]=0, Slot=0 (0x02dbb)",
+  "einzeln": "0x02d82-0x02db7 T4bbc[j]=1, T4bd4[c][j]-=1; >0 -> L_02e1b Slot bleibt, sonst Slot=0",
+  "ziel": "L_03bef gleicher Code 0..10 sonst frei 0..8; L_03580 D=20 fuer -49 sonst 10; Rest bleibt in T4bbc (kein Verwurf); Freigabe nur alle T4bbc==0 (0x03c9b)",
+  "adressen": "j=Code+59; T4bd4 Save 7629+20c+j (Byte); T4bbc transient",
+  "stufe": "known (Listing)"
+ },
+ "addendum_2026_11_14_twohand": {
+  "L_03b98": "Slot 9: T2d8e[c][10]==-125 -> 0 (0x03ba6-0x03bc5); Slot 10 spiegelbildlich (0x03bcc-0x03beb); aufgerufen bei Entnahme 0x02c6d und vor Handablage 0x02e32, unabhaengig vom Code",
+  "reihenfolge": "L_02e20: alter Code -> L_03580 -> L_03b98 -> Zweihandpruefung 0x02e36/0x02e4c (-116..-90, T4a08[code+116][2] mod 10 == 2) -> andere Hand 0/-125 -> -125 (0x02ea1/0x02eea), sonst cret ohne Write -> Slot-Write/Tausch (0x02f0c/0x03012)",
+  "rest_risiko": "Tausch-Ablehnung nach Reservierung nur ueber T4bbc!=0 (L_0315b); bei gehaltener Waffe vermutlich unerreichbar (suspected)",
+  "T4a08": "MAIN cdim 0x001ea Schritt 4; nur PARAM ab 0x00f58; 27 Saetze (-116..-90), 12 Zweihand; nicht im Save",
+  "stufe": "known (Listing)"
+ },
+ "addendum_2026_11_14_stack_hand": {
+  "reihenfolge": "L_02e20: 0x02e2e L_03580 bucht gehaltenen Stapel sofort in T4bd4[c][j] (Save 7629+20c+j, Deckel), Ueberhang in T4bbc; nur alter Code 16 ausgenommen (0x03596); 0x02e32 L_03b98 vor allen Pruefungen",
+  "ziel_leer_oder_gleich": "L_02f19: vorhandener Code 0..10 -> kein Slot-Write, sonst Slot=Code (0x02f5a); Freigabe nur alle T4bbc==0 (0x02fdb)",
+  "ziel_minus125": "0x03012 -> L_03348: kein Slot-Write, keine Freigabepruefung; Buchung aus L_03580 bleibt (Zaehler ggf. ohne Slot; Cursor behaelt Code, suspected)",
+  "anderer_code": "L_0315b: 0x03161 T4bbc!=0 -> kein Tausch; sonst alter Stapel 0x03212/0x0322c T4bbc[alt]=T4bd4[c][alt], T4bd4=0; 0x0326b Zielslot=0 wenn gehaltener Stapel schon in 0..10, sonst 0x0328b Slot=gehalten; Ruestung AND; 0x2d16=alt",
+  "stufe": "known (Listing)"
  }
 }

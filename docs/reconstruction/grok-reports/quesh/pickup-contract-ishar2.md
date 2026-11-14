@@ -331,3 +331,24 @@ Quelle: FRISE.IO `27117c124caf` in vollständiger Dekodierung, PARAM.IO-Initiali
 - MAIN `cdim` 0x001ea, Schritt 4.
 - Wird nur von PARAM ab 0x00f58 geschrieben: 27 Datensätze für die Codes −116..−90, darunter 12 Zweihand-Einträge (Feld 2 mod 10 == 2).
 - Nicht im Save.
+
+## Nachtrag 2026-11-14 (Europe/Berlin): Stapel auf Handfeld, Reihenfolge der Mengenwrites in L_02e20
+Quelle: FRISE.IO `27117c124caf`, vollständige Dekodierung. Alles known (Listing), außer wo anders vermerkt.
+
+1. **0x02e2e `L_03580` läuft vor allen Zielprüfungen.**
+   - Der gehaltene Stapel wird sofort in den figurweiten Zähler T4bd4[c][j] (Save 7629 + 20c + j) gebucht, mit Deckel D. Ein Überhang bleibt in T4bbc.
+   - Das gilt unabhängig davon, was im Zielslot liegt. Ausgenommen ist nur ein alter Code 16 (0x03596).
+2. **0x02e32 `L_03b98`:** gibt eine −125-Reservierung der anderen Hand frei, ebenfalls vor allen Prüfungen.
+3. **Ziel leer, oder Ziel = gleicher Stapel** (0x02f0c/0x03035 → `L_02f19`):
+   - Gibt es den Code schon in Slot 0..10, wird kein Slot geschrieben.
+   - Sonst Slot = Code (0x02f5a).
+   - Freigabe nur, wenn alle T4bbc == 0 (0x02fdb).
+4. **Ziel = −125** (0x03012 → `L_03348`): Es folgt kein Slot-Write und **keine Freigabeprüfung**. Die Buchung aus Punkt 1 bleibt aber bestehen.
+   - Existiert der Code in keinem Slot, steht der Zähler ohne Slot da.
+   - Der Cursor behält den Code, auch wenn T4bbc dann 0 ist (Folgezustand suspected).
+5. **Anderer Zielcode** → `L_0315b`:
+   - **0x03161:** Ist irgendein T4bbc ≠ 0, endet der Ablauf ohne Tausch (`L_03348`). Der Zähler ist schon gebucht, Slot und alter Code bleiben.
+   - Sonst: neuer Cursor für den alten Code.
+     - Ist der alte Code ein Stapel: T4bbc[alt] = T4bd4[c][alt], danach T4bd4[c][alt] = 0 (0x03212/0x0322c).
+     - Ist der gehaltene Code ein Stapel, der schon in Slot 0..10 existiert: Zielslot = 0 (0x0326b; doppelten Slot unterdrücken). Sonst Zielslot = gehaltener Code (0x0328b).
+     - Rüstung: Tausch-Regel mit AND (−29..−26). Danach 0x2d16 = alter Code.

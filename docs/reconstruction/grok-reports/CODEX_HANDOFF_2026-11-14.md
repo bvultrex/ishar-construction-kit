@@ -209,6 +209,11 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 - Vorschlag (nicht umgesetzt): sichtbarer Test über tatsächlich genutzten Index, etwa 5. Entscheidung bei Codex.
 - Offen: Übergang LOGO → Spiel nicht geprüft; Kit-Feld `verification` steht weiter auf `prepared-not-tested-in-original`.
 
+### 5.4m Stapel-Handadapter c3df950 (Nachtrag 45, 2026-11-14)
+- Bericht: `hand-runtime-check-c3df950.md` (Quesh), statisch gegen FRISE 02e20–03348/03580. Beide Kernfälle liefern im Original dasselbe Ergebnis wie im Kit (known); Restblockade 0x03161, alter Stapel 0x03212/0x0322c, Doppelslot-Unterdrückung 0x0326b, Sentinel-Freigabe L_03b98 und AND-Rüstungsregel passen. Die frühe Buchung (0x02e2e) liegt im Kit hinter den Prüfungen, mit gleichem Ergebnis außer H1.
+- **H1, Abweichung (known), Entscheidung bei Codex:** gehaltener Stapel auf Handfeld mit −125. Kit lehnt ab (`placeOriginalHandItem` Z. 18, Button deaktiviert). Original bucht über 0x02e2e bis zum Deckel und geht über 0x03012 nach L_03348, ohne Slot-Write und ohne Freigabe: bei vorhandenem Slot gültige Zusammenführung, sonst Zähler ohne Slot; Folgezustand des Cursors suspected. Empfehlung: mindestens die Zusammenführung bei vorhandenem Slot nachbilden.
+- Vertrag: Nachtrag „Stapel auf Handfeld, Reihenfolge der Mengenwrites“; JSON um addendum_2026_11_14_stack_gap/_twohand/_stack_hand ergänzt.
+
 ### 5.5 Danach
 
 - Save-Map Ishar 1 komplett in `save-maps.ts`:
