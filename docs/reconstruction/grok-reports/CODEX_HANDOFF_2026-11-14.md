@@ -227,6 +227,15 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 - B3 (known): Bei offenem Charakterblatt öffnet der Disk-Knopf kein Speichermenü.
 - Offen: Kit-Stapelaufnahme; Fälle −125, Zielcode 16, Teilübernahme bis Deckel 20, Nicht-Stapel gegen Stapel im Rucksack; Rucksack-Tausch nur beobachtet (suspected).
 
+### 5.4p TAVERNE-Zahlungsvertrag Ishar 2 (Nachtrag 48, 2026-11-14)
+- Bericht: `taverne-payment-contract.md` (Quesh), statisch, TAVERNE.IO ea315973f218 (= Hash des Kit-Prüfers), fünf synthetische Fälle. Ishar 1 hat nur ITAVERNE.IO.
+- Zahlung (known): belegte Figuren (Klasse ≠ −1) c = 0..4, Anteil ⌊Preis/n⌋ (L_00bff). Pass 1 (0x004b8–0x00574): Anteil zahlen oder alles (0/0). Pass 2 (0x0057c–0x00628): erste Figur, die den Rest deckt, zahlt ihn; davor zahlen alle alles. Borgen über L_00b6f.
+- Preis (known): t = |B| − 1, Taverne nur bei 0 < |B| < 16; Preis = 500 + 40t (0x001ae).
+- Zu wenig Gesamtgold (known): Meldung −21 (0x00239/0x0025d), Abbruch, kein Save-Write.
+- Write-Reihenfolge (known): Stunde Save 44, Tick Save 48, Essensnachricht, Gold Pass 1 dann Pass 2 (Tausender 1006+2c, dann Einheiten 1026+2c), danach Nahrung 1326+c nur bei HP > 0.
+- **Kit-Abweichungen:** `original-tavern.ts` Z. 10 prüft beim Essen die Klasse statt HP > 0 (eine belegte Figur mit HP ≤ 0 zahlt mit, isst aber nicht, known). Nahrung > 127: Original liest signed (+40-Zweig), Kit nimmt 100-Zweig (Vorkommen unknown).
+- Grenzen: Division mit Abschneiden gegen 0 suspected; nativ belegt nur Einzelzahler t = 2.
+
 ### 5.5 Danach
 
 - Save-Map Ishar 1 komplett in `save-maps.ts`:
