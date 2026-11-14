@@ -1,6 +1,6 @@
 # Ishar2: Stapel in Handplätzen
 
-Arbeitsstand14.11.2026, lokale FRISE.IO SHA25627117c124caf904a31568f5c58f615946083dd3429c02ade1dc1e17552cc2b64. Statischer Kontrollflussbefund, noch keine native Handstapelabnahme. Die bisherige Portraitweitergabe allein deckt diesen Pfad nicht ab.
+Arbeitsstand14.11.2026, lokale FRISE.IO SHA25627117c124caf904a31568f5c58f615946083dd3429c02ade1dc1e17552cc2b64. Statischer Kontrollflussbefund und native Abnahme der zwei Browserkernfälle. Die bisherige Portraitweitergabe allein deckt diesen Pfad nicht ab.
 
 ## Reihenfolge
 
@@ -39,4 +39,6 @@ Lokaler Prüfer `npm run test:original-stack-hand-contract-local` bindet die ent
 
 Browserprüfung40c8ae2: gehalten-50×6 auf Zielstapel8 bei belegter Hand9 übernimmt2, lässt Hand9 unverändert und hält4 am Cursor; Rest an dritte Figur. Danach tauscht Code9 gegen Handstapel-49×20; der alte Stapel bleibt mit Menge20 am Cursor und wird an eine weitere Figur übergeben. Export SHA323f0fc0bd9f521a520ef9bb57b2c81c6e2fc38aa97b7b26da770f4b7a1326de entspricht der unabhängig erzeugten Erwartungsdatei vollständig; Reload zeigt Stapel10, Rest4, beide Code9-Hände und-49×20 erneut. Privater Beleg: `../analysis-output/stack-hand-browser-2026-11-14/browser-check.json`.
 
-H1-Browserprüfung83852b4: Figur2 besitzt-50×9 und einen reservierten Handplatz-125; gehalten-50×3 übernimmt trotz Sentinel genau1, lässt-125 unverändert und hält2 am Cursor. Der Rest geht an Figur3. Export SHA759205d40941c60ea2bbb026b436af9a4096a0ecfd3f7172f9c760d102b0fb47 ist bytegleich zur separat erzeugten Erwartungsdatei; Reload zeigt10/2 und die Reservierung erneut. Privater Beleg: `../analysis-output/reserved-stack-browser-2026-11-14/browser-check.json`. Native Handstapelprüfung steht aus.
+H1-Browserprüfung83852b4: Figur2 besitzt-50×9 und einen reservierten Handplatz-125; gehalten-50×3 übernimmt trotz Sentinel genau1, lässt-125 unverändert und hält2 am Cursor. Der Rest geht an Figur3. Export SHA759205d40941c60ea2bbb026b436af9a4096a0ecfd3f7172f9c760d102b0fb47 ist bytegleich zur separat erzeugten Erwartungsdatei; Reload zeigt10/2 und die Reservierung erneut. Privater Beleg: `../analysis-output/reserved-stack-browser-2026-11-14/browser-check.json`.
+
+Hoths nativer Nachtrag47 bestätigt die beiden Kernfälle: Teilübernahme-50 von8 auf10 mit Rest4 sowie Tausch von Code9 gegen-49×20 enden in allen Inventar- und Zählerbytes wie die Kit-Erwartung; Reload verändert keine dieser Bytes. Ein leerer Cursor nimmt im Original per einfachem Klick nur eine Einheit aus einem Stapel. Der ganze Stapel gelangt erst durch Tausch mit einem gehaltenen Nichtstapel an den Cursor. Die Browserbedienung verwendet deshalb für leeren Cursor nur noch Einzelentnahme; die bereits geprüfte Ganzstapel-Tauschlogik bleibt bestehen. Reservierung-125, Effektcode16 und weitere Sonderfälle wurden in diesem Originallauf nicht gespielt. Bericht: [hand-stack-native-check.md](grok-reports/hand-stack-native-check.md).
