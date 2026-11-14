@@ -5,6 +5,7 @@
 - Objekt9: vom Boden aufnehmen, zwischen Figuren und freien Händen weitergeben, wieder ablegen und als SAV-Kopie exportieren/laden.
 - Handpanel schaltet den Empfängerklick um. Geprüfte Nichtstapelcodes9, -89..-60 und -29..-25 lassen sich aus Rucksack/Händen aufnehmen und in belegten unterstützten Handfeldern tauschen. Die unterschiedlichen Original-Rüstungsregeln bleiben erhalten.
 - Stapel im Gepäck lassen sich ganz oder stückweise aufnehmen und weitergeben; Überschüsse am Zieldeckel bleiben am Cursor. Teilübergabe, Einzelentnahme und SAV-Reload sind im Browser geprüft.
+- Waffen -116..-90 lassen sich im Gepäck weitergeben. Für Handablage im Originalinventar die eigene Ishar2-PARAM.IO laden: Zweihandwaffen reservieren die Gegenhand; Entnahme und Handtausch lösen die alte Reservierung. Eine belegte Gegenhand verhindert die Ablage. Browserprüfung mit Zweihandwaffe, Export/Reload und Rückgabe bestanden.
 - Objekt10: Gold gutschreiben, Übertrag berücksichtigen und gehaltenen Beutelbetrag löschen; kein Inventareintrag.
 - SAV-Export übernimmt die aktuelle Originalposition, Blickrichtung und Szene.
 - Separater hashgeprüfter Ishar1-MAIN/SAV-Feldeditor mit Undo/Redo. Alte unbestätigte Kandidatenmap bleibt schreibgesperrt.
@@ -17,6 +18,7 @@
 4. Für ein vorhandenes Objekt9 auf CONT1: aufnehmen, Empfänger wählen, im Originalinventar erneut aufnehmen, an einen freien Handplatz einer anderen Figur geben und wieder ins Gepäck übernehmen.
 5. SAV-Kopie exportieren und erneut laden. Ausgangsslot muss leer, Zielslot belegt sein. Mit Objekt am Cursor sind Export, Neustart und Laden gesperrt.
 6. Für den Rohfeldeditor im Character Lab Spielprofil wählen, eigene MAIN.IO (Ishar1) beziehungsweise IO.IO (Ishar2) prüfen und eine SAV-Kopie öffnen. Einzelne Feldänderung, Undo/Redo, Export und Reload prüfen.
+7. Für Waffen im Originalinventar „Waffenprofile laden (PARAM.IO)“ verwenden. Eine vorhandene Waffe aufnehmen, Handpanel der Zielfigur öffnen und einen verfügbaren Handplatz wählen. Bei Zweihandwaffen zeigt der andere Platz die Reservierung. Export/Reload prüfen; danach die Waffe entnehmen und ins Gepäck zurückgeben. Bei voller Gegenhand bleibt die entsprechende Ablage gesperrt.
 
 ## Lokale Originalhändler
 
@@ -31,6 +33,6 @@ Die zugehörigen OBJET.IO.asm-, IO.IO.asm-, EAFF.IO.asm-, MAIN.IO.asm- und Figur
 
 ## Grenzen
 
-Dies ist ein Entwicklungsstand. Vollständiger Originalstart, alle NPCs, sämtliche Items, Stapel-Handtausch, Waffen-/Zweihandtausch und weitere Ausrüstungsregeln fehlen. Objekt9 und10 auf CONT1 verwenden die im Original vermessenen Klickrechtecke. Original-Türmechanik und transiente NPC-Zustände werden nicht vollständig gespeichert. Außerhalb des belegten Umfangs keine vollständige Originalspiel-Kompatibilität annehmen.
+Dies ist ein Entwicklungsstand. Vollständiger Originalstart, alle NPCs, sämtliche Items, Stapel-Handtausch und weitere Ausrüstungsregeln fehlen. Waffen-Handablage und Tausch sind anhand der lokalen Skripte und Hosttests angebunden; der Zweihand-Export/Reload ist im Browser geprüft, eine native Waffenabnahme steht aus. Objekt9 und10 auf CONT1 verwenden die im Original vermessenen Klickrechtecke. Original-Türmechanik und transiente NPC-Zustände werden nicht vollständig gespeichert. Außerhalb des belegten Umfangs keine vollständige Originalspiel-Kompatibilität annehmen.
 
 Originalnachweise, Browserintegration und Dateiroundtrips werden getrennt geführt. Hoths Originalspielbericht bestätigt die positiven Objekt9-/Gold10-Pfade; weitere Grenzen bleiben offen. Die genaue Quellrevision und Dateihashes stehen in BUILD_MANIFEST.json.
