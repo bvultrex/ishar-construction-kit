@@ -64,3 +64,11 @@ Browserabnahme: mit explizit lokal konfiguriertem Listingbundle INPUT.SAV gelade
 Lokaler Server auf4181 ist nun mit ISHAR_MERCHANT_LISTING für die vorhandenen lokalen Ishar2-Listings konfiguriert. Dieser optionale Nur-Loopback-Zugang liefert vorhandene Händler-/Objekt-/Figurenskripte; sie werden nicht in Git oder Testpakete eingebettet.
 
 CI-Prozess angepasst: Die reguläre Pipeline prüft nun zusätzlich Iteminstanzen, NPC-Käufe, Original-Bodenobjekte, Originalhandel, gespeicherte Weltobjekte und die Ishar1-Schreibsperre; physische Frame-/Skriptdiagnose läuft ebenfalls vor dem Build. Diese quellenfreien Regressionen benötigen keine Originaldaten. Die Ishar1-Sperre gilt auch für den direkten Feldwriter, nicht nur für den Party-Export. Native/Original- und Browserabnahmen bleiben ergänzende separate Belege.
+
+## Arbeitsnachtrag: belegter Ishar1-SAV-Feldeditor
+
+Die separate Original-Save-Werkzeugansicht unterstützt jetzt beide Profile: Ishar1 nach Hashprüfung der lokalen MAIN.IO, Ishar2 wie bisher nach IO.IO. Der neue Ishar1-Writer adressiert ausschließlich die107 aus übereinstimmenden Lese-/Schreibsequenzen abgeleiteten Speicherbereiche. Byte-Scalarwerte liegen als BE16 vor; nur bei geänderter Nutzbyte wird das hohe Byte vorzeichenerweitert. Unveränderte Felder einschließlich abweichender hoher Bytes bleiben byteidentisch. Blockdaten bleiben rohe Bytes ohne erfundene Semantik.
+
+`check-ishar1-save-writer.mjs`: synthetische Byte-/Wort-/Block-/Fehlerfälle und mit ISHAR1_DIR alle8 lokalen Saves bestanden; vollständiger gemappter No-op byteidentisch und856 gezielte Feldänderungen erhalten sämtliche anderen Bytes. Der alte Kandidateneditor bleibt gesperrt. Der neue Editor bietet Feld-/Bytewahl, Undo/Redo, SAV-Kopie und Änderungsbericht mit Profil-/Quell-/Zielhash; dies ist struktureller I/O-Nachweis, noch kein Ingame-Nachweis und keine vollständige benannte Charaktermap.
+
+Ishar1-Browserabnahme: lokale MAIN.IO hashgeprüft, FINALE.SAV als Arbeitskopie geladen, alle107 Bereiche angeboten. Byte MAIN1543/SAV469 gezielt geändert, Undo/Redo geprüft, exportiert und erneut im Editor geladen. Genau das erwartete Byte ist geändert; alle anderen Bytes der Exportdatei entsprechen der Quelle. Alter Kandidatenexport bleibt gesperrt. Private Metadaten: analysis-output/ishar1-save-editor-browser-2026-11-14.json. Original-EXE-Ausführung bleibt offen.

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test:original-shop-roundtrip-local": "node scripts/check-original-shop-roundtrip-local.mjs",
+    "test:ishar1-save-writer": "node scripts/check-ishar1-save-writer.mjs",
     "test:legacy-ishar1-write-guard": "node scripts/check-legacy-ishar1-write-guard.mjs",
     "test:original-ground-roundtrip-local": "node scripts/check-original-ground-roundtrip-local.mjs",
     "test:original-combat-expressions-local": "node scripts/check-original-combat-expressions-local.mjs",

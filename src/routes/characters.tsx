@@ -46,8 +46,8 @@ function CharacterLab() {
         <button className="secondary" disabled={!state.originalBytes || legacyIshar1} onClick={exportPatched}>Patch exportieren</button>
       </div>
     </header>
-    {legacyIshar1 && <p role="alert">Ishar 1: Die bisherige Kandidatentabelle stimmt nicht mit dem lokalen DOS-Engine-Layout überein. Die Werte sind nur eine historische Ansicht; Bearbeitung und Patch-Export sind bis zur geprüften Umstellung gesperrt.</p>}
-    <OriginalSaveMainEditor/>
+    {legacyIshar1 && <p role="alert">Ishar 1: Die bisherige Kandidatentabelle stimmt nicht mit dem lokalen DOS-Engine-Layout überein. Die Kandidatenwerte sind nur eine historische Ansicht; deren Bearbeitung und Patch-Export bleiben gesperrt. Das separate Werkzeug für belegte MAIN-Felder darunter benötigt die originale MAIN.IO.</p>}
+    <OriginalSaveMainEditor key={game} game={game==='ishar1'?'ishar1':'ishar2'}/>
     <div className="control-bar">
       <label>Spiel<select value={game} onChange={(e)=>setGame(e.target.value as "ishar1"|"ishar2")}><option value="ishar1">Ishar 1</option><option value="ishar2">Ishar 2</option></select></label>
       <label>Endian<select value={endian} onChange={(e)=>setEndian(e.target.value as "be"|"le")}><option value="be">Big endian</option><option value="le">Little endian</option></select></label>

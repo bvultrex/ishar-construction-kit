@@ -34,6 +34,7 @@ jobs:
           npm run test:original-ground
           npm run test:original-commerce
           npm run test:legacy-ishar1-write-guard
+          npm run test:ishar1-save-writer
       - name: Physical script and scheduler regressions
         run: |
           npm run test:dos-physical-frame

@@ -40,3 +40,38 @@ export function inspectIshar1Save(bytes:Uint8Array,layout:Ishar1SaveLayout){
  const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
  return layout.fields.map(field=>({...field,value:field.storage==='be16'?view.getUint16(field.fileOffset,false):bytes.slice(field.fileOffset,field.fileOffset+field.fileBytes)}));
 }
+
+/** MAIN data bytes normalized to saved big-endian word order, not CPU RAM. */
+function savedByteMap(layout:Ishar1SaveLayout){
+ if(layout.game!=='ishar1'||layout.mainSha256!==ISHAR1_MAIN_SHA256||layout.size!==5216||layout.fields.length!==107)throw Error('Unsupported Ishar-1 save layout');
+ const map=new Map<number,{offset:number;scalarOffset?:number}>();let end=0;
+ for(const field of layout.fields){
+  const scalar=field.storage==='be16';
+  if(![field.fileOffset,field.fileBytes,field.memoryAddress,field.memoryBytes].every(Number.isInteger)||field.fileOffset!==end||field.memoryBytes<1||field.memoryAddress<0||field.memoryAddress+field.memoryBytes>65536||field.fileOffset+field.fileBytes>5216||
+   (scalar?field.fileBytes!==2||![1,2].includes(field.memoryBytes):field.storage!=='opaque'||field.fileBytes!==field.memoryBytes))throw Error('Invalid Ishar-1 save layout range/storage');
+  end+=field.fileBytes;
+  for(let i=0;i<field.memoryBytes;i++){
+   const address=field.memoryAddress+i;if(map.has(address))throw Error('Ambiguous Ishar-1 saved address');
+   map.set(address,{offset:field.fileOffset+(scalar&&field.memoryBytes===1?1:i),scalarOffset:scalar&&field.memoryBytes===1?field.fileOffset:undefined});
+  }
+ }
+ if(end!==5216)throw Error('Incomplete Ishar-1 save layout');return map;
+}
+export function readIshar1SavedMain(bytes:Uint8Array,layout:Ishar1SaveLayout):Map<number,number>{
+ if(bytes.length!==5216)throw Error('Ishar-1 save size mismatch');
+ return new Map([...savedByteMap(layout)].map(([address,target])=>[address,bytes[target.offset]!]));
+}
+/** Surgical writes into a private SAV copy. Unmapped/transient addresses fail. */
+export function patchIshar1SavedMain(bytes:Uint8Array,layout:Ishar1SaveLayout,writes:readonly {address:number;width:1|2;value:number}[]):Uint8Array{
+ if(bytes.length!==5216)throw Error('Ishar-1 save size mismatch');
+ const map=savedByteMap(layout),copy=bytes.slice();
+ for(const write of writes){
+  if(!write||!Number.isInteger(write.address)||![1,2].includes(write.width)||!Number.isInteger(write.value)||write.value<-(write.width===1?128:32768)||write.value>(write.width===1?255:65535))throw Error('Invalid Ishar-1 saved write');
+  for(let i=0;i<write.width;i++){
+   const target=map.get(write.address+i);if(!target)throw Error('Unsaved Ishar-1 address');
+   const value=(write.value>>>((write.width-1-i)*8))&255;
+   if(copy[target.offset]!==value){copy[target.offset]=value;if(target.scalarOffset!==undefined)copy[target.scalarOffset]=value>=128?255:0;}
+  }
+ }
+ return copy;
+}
