@@ -41,6 +41,6 @@ for(const [incoming,old,expectedArmour] of [[9,-25,20],[9,-29,14],[-25,9,20],[-2
 const armourSource=base.slice();armourSource[1336]=2;new DataView(armourSource.buffer).setInt16(1056,-25);
 assert.equal(takeOriginalInventoryItem(armourSource,0,10).bytes[1336],254,'byte subtraction wraps without clamping');
 const blocked=base.slice();new DataView(blocked.buffer).setInt16(1056,-125);assert.equal(placeOriginalInventoryItem(blocked,9,0,10),null);
-new DataView(blocked.buffer).setInt16(1056,-104);assert.equal(placeOriginalInventoryItem(blocked,9,0,10),null,'weapons require the separate two-hand branch');
+new DataView(blocked.buffer).setInt16(1056,-104);assert.equal(placeOriginalInventoryItem(blocked,9,0,10).held,-104,'weapon can be swapped onto the cursor');
 new DataView(blocked.buffer).setInt16(1056,-49);assert.equal(placeOriginalInventoryItem(blocked,9,0,10),null,'stacks require separate cursor quantities');
 console.log(`${cases} code9 inventory/hand transfer paths preserve one item and all unrelated bytes; unsupported objects, busy hands and invalid/dead recipients rejected.`);
