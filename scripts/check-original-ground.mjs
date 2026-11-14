@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {originalGroundSprites,pickOriginalGround,receiveOriginalGround} from '../src/lib/ishar/original-ground-runtime.ts';
 const bytes=new Uint8Array(8359),words=new DataView(bytes.buffer);
-words.setUint16(0,2);bytes.fill(255,1276,1281);bytes[1276]=1;
+words.setUint16(0,2);words.setInt16(996,10);bytes.fill(255,1276,1281);bytes[1276]=1;
 bytes[345]=20;bytes[545]=29;bytes[745]=1;
 const view={row:20,col:30,facing:1,map:1,scene:99};
 assert.deepEqual(originalGroundSprites(bytes,view),[{id:9,index:115,x:0,y:-42,z:89,pickable:true}]);
@@ -16,6 +16,11 @@ const received=receiveOriginalGround(picked,9,0);
 assert.equal(new DataView(received.buffer).getInt16(1036),9);
 assert.equal(new DataView(picked.buffer).getInt16(1036),0);
 assert.equal(receiveOriginalGround(picked,9,1),null);
+for(const hp of [0,-1,-32768]){
+ const dead=picked.slice();new DataView(dead.buffer).setInt16(996,hp,false);const before=dead.slice();
+ assert.equal(receiveOriginalGround(dead,9,0),null);assert.deepEqual(dead,before);
+}
+const framed=new Uint8Array(8380);framed.set(picked,7);assert.deepEqual(receiveOriginalGround(framed.subarray(7,8366),9,0),receiveOriginalGround(picked,9,0));
 for(let slot=0;slot<9;slot++)new DataView(picked.buffer).setInt16(1036+slot*2,-1);
 assert.equal(receiveOriginalGround(picked,9,0),null);
 assert.equal(receiveOriginalGround(bytes,11,0),null);

@@ -1,7 +1,7 @@
 import { subtractOriginalPrice } from './original-merchants.ts';
 
 /** IO.IO sequential save loader; MAIN dimensions: inventory stride 30, stacks stride 20. */
-export const ORIGINAL_COMMERCE_OFFSETS={goldThousands:1006,goldRemainder:1026,inventory:1036,classes:1276,stacks:7629} as const;
+export const ORIGINAL_COMMERCE_OFFSETS= {hitPoints:996,goldThousands:1006,goldRemainder:1026,inventory:1036,classes:1276,stacks:7629} as const;
 export interface OriginalPurchase { objectCode:number; price:[number,number]; quantity:number }
 export function isOriginalSave(bytes:Uint8Array) {
   return bytes.length===8359 && new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength).getUint16(0,false)===2;
@@ -9,7 +9,7 @@ export function isOriginalSave(bytes:Uint8Array) {
 export function readOriginalCarrier(bytes:Uint8Array,carrier:number) {
   if(!isOriginalSave(bytes)||!Number.isInteger(carrier)||carrier<0||carrier>=5) throw new Error('Ungültiger Originalsave oder Charakter.');
   const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength),o=ORIGINAL_COMMERCE_OFFSETS;
-  return {present:bytes[o.classes+carrier]!==255,
+  return {present:bytes[o.classes+carrier]!==255,hp:view.getInt16(o.hitPoints+carrier*2,false),
     money:[view.getUint16(o.goldThousands+carrier*2,false),view.getUint16(o.goldRemainder+carrier*2,false)] as [number,number],
     slots:Array.from({length:15},(_,i)=>view.getInt16(o.inventory+carrier*30+i*2,false)),
     stacks:Array.from(bytes.subarray(o.stacks+carrier*20,o.stacks+carrier*20+20))};

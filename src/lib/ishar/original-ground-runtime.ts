@@ -22,9 +22,10 @@ export function pickOriginalGround(bytes:Uint8Array,view:OriginalGroundView,id:n
   picked[336+id]=0;picked[536+id]=0;picked[736+id]=0;
   return picked;
 }
+/** FRISE007C9 requires signed HP>0 and a present character before portrait pickup. */
 export function receiveOriginalGround(bytes:Uint8Array,id:number,carrier:number) {
   if(![9,10].includes(id))return null;
-  const person=readOriginalCarrier(bytes,carrier);if(!person.present)return null;
+  const person=readOriginalCarrier(bytes,carrier);if(!person.present||person.hp<=0)return null;
   const slot=person.slots.slice(0,9).indexOf(0);if(slot<0)return null;
   const copy=Uint8Array.from(bytes);
   new DataView(copy.buffer).setInt16(ORIGINAL_COMMERCE_OFFSETS.inventory+carrier*30+slot*2,id,false);

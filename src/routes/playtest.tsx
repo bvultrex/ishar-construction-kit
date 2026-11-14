@@ -899,7 +899,7 @@ function PlaytestPage() {
   function giveOriginalGround(carrier:number){
     if(!originalHeld || !originalSave)return;
     const next=receiveOriginalGround(originalSave,originalHeld.id,carrier);
-    if(!next){setOriginalStatus("Dieser Originalcharakter kann den Gegenstand nicht aufnehmen (nicht vorhanden oder Gepäck voll).");return;}
+    if(!next){setOriginalStatus("Dieser Originalcharakter kann den Gegenstand nicht aufnehmen (nicht vorhanden, nicht handlungsfähig oder Gepäck voll).");return;}
     setOriginalSave(next);setOriginalHeld(null);setOriginalStatus(`Originalobjekt ${originalHeld.id} liegt im Gepäck von Charakter ${carrier+1}.`);
   }
   async function loadOriginalGround(file:File){
@@ -1200,8 +1200,8 @@ function PlaytestPage() {
       <div className="module-grid">{Array.from({length:5},(_,carrier)=>{
         const person=readOriginalCarrier(originalSave,carrier);
         return <article key={carrier}><h3>Charakter {carrier+1}{person.present?'':' · leer'}</h3>
-          {person.present && <><p>Gold: {person.money[0]*1000+person.money[1]}</p><ol>{person.slots.slice(0,9).map((code,index)=><li key={index}>{code===0?'leer':`Objekt ${code}`}</li>)}</ol></>}
-          {originalHeld && <button disabled={!person.present} onClick={()=>giveOriginalGround(carrier)}>Charakter {carrier+1}: Bodenobjekt übernehmen</button>}
+          {person.present && <><p>Vitalität: {person.hp} · Gold: {person.money[0]*1000+person.money[1]}</p><ol>{person.slots.slice(0,9).map((code,index)=><li key={index}>{code===0?'leer':`Objekt ${code}`}</li>)}</ol></>}
+          {originalHeld && <button disabled={!person.present||person.hp<=0} onClick={()=>giveOriginalGround(carrier)}>Charakter {carrier+1}: Bodenobjekt übernehmen</button>}
           {shopHeld && <button disabled={!person.present} onClick={()=>giveShopPurchase(carrier)}>Charakter {carrier+1}: Ware übernehmen</button>}
         </article>;
       })}</div>
@@ -1273,7 +1273,7 @@ function PlaytestPage() {
           const ratio=member ? Math.max(0,Math.min(100,Math.round(currentHp/maxHp*100))) : 0;
           return <article className={member ? `ishar-party-card ${selectedPartyIndex===index ? "selected" : ""}` : "ishar-party-card empty"} key={member?.id ?? `empty-${index}`}>
             <button className={`ishar-action-tab ${originalActionBar ? "original-hud-sprite" : ""}`} disabled={!member} aria-label={`${member?.name ?? `Slot ${index+1}`} Aktionen`} onClick={()=>{setSelectedPartyIndex(index);toggleHud("actions");}}>{originalActionBar ? <img src={originalActionBar} alt=""/> : member ? "ACTION" : "—"}</button>
-            <button className={`ishar-portrait${(selectedGroundItemId || shopHeld) && member && currentHp>0 ? " pickup-target" : ""}`} disabled={(originalHeld || shopHeld) && originalSave ? !readOriginalCarrier(originalSave,index).present : !member || (!!selectedGroundItemId && currentHp<=0)} aria-label={shopHeld ? `Charakter ${index+1}: Ware übernehmen` : selectedGroundItemId && member ? `${member.name}: Gegenstand aufnehmen` : `${member?.name ?? `Slot ${index+1}`} Gepäck ansehen`} onClick={()=>{setSelectedPartyIndex(index);if(shopHeld){giveShopPurchase(index);}else if(originalHeld){giveOriginalGround(index);}else if(selectedGroundItemId){takeItem(selectedGroundItemId,member?.id);}else{setSelectedItemId(null);setHudPanel("inventory");}}}>{member ? member.name.slice(0,1).toUpperCase() : ""}</button>
+            <button className={`ishar-portrait${(selectedGroundItemId || shopHeld) && member && currentHp>0 ? " pickup-target" : ""}`} disabled={(originalHeld || shopHeld) && originalSave ? (!readOriginalCarrier(originalSave,index).present || (!!originalHeld&&readOriginalCarrier(originalSave,index).hp<=0)) : !member || (!!selectedGroundItemId && currentHp<=0)} aria-label={shopHeld ? `Charakter ${index+1}: Ware übernehmen` : selectedGroundItemId && member ? `${member.name}: Gegenstand aufnehmen` : `${member?.name ?? `Slot ${index+1}`} Gepäck ansehen`} onClick={()=>{setSelectedPartyIndex(index);if(shopHeld){giveShopPurchase(index);}else if(originalHeld){giveOriginalGround(index);}else if(selectedGroundItemId){takeItem(selectedGroundItemId,member?.id);}else{setSelectedItemId(null);setHudPanel("inventory");}}}>{member ? member.name.slice(0,1).toUpperCase() : ""}</button>
             <button className="ishar-party-name" disabled={!member} onClick={()=>{setSelectedPartyIndex(index);setSelectedItemId(null);setHudPanel("character");}}>{member?.name ?? `Slot ${index+1}`}</button>
             <div className={`ishar-life-row ${originalLifeBar ? "original-life-sprite" : ""}`}>{originalLifeBar ? <img src={originalLifeBar} alt="Leben"/> : <span>LIFE</span>}<div className="ishar-life-track"><i style={{width:`${ratio}%`}}/></div></div>
           </article>;

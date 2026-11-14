@@ -31,7 +31,7 @@ for(const name of readdirSync(root).filter(name=>/\.sav$/i.test(name))){
   assert.ok(originalGroundSprites(source,view).some(sprite=>sprite.id===item.id&&sprite.pickable));
   const picked=pickOriginalGround(source,view,item.id);assert.ok(picked);
   assert.ok(!originalGroundSprites(picked,view).some(sprite=>sprite.id===item.id));
-  const carrier=Array.from({length:5},(_,i)=>i).find(i=>{const person=readOriginalCarrier(source,i);return person.present&&person.slots.slice(0,9).includes(0);});
+  const carrier=Array.from({length:5},(_,i)=>i).find(i=>{const person=readOriginalCarrier(source,i);return person.present&&person.hp>0&&person.slots.slice(0,9).includes(0);});
   if(carrier===undefined)continue;
   const slot=readOriginalCarrier(source,carrier).slots.slice(0,9).indexOf(0);
   const received=receiveOriginalGround(picked,item.id,carrier);assert.ok(received);
