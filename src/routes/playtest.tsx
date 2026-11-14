@@ -10,6 +10,7 @@ import { patchOriginalSaveView } from "@/lib/ishar/original-save-view";
 import {takeOriginalStackItem,receiveOriginalStackItem,originalStackCode} from "@/lib/ishar/original-stack-runtime";
 import { takeOriginalInventoryItem, placeOriginalInventoryItem, transferableOriginalInventoryCode, originalPortraitItemDestination } from "@/lib/ishar/original-inventory-runtime";
 import {readOriginalWeaponProfile,type OriginalWeaponProfile} from "@/lib/ishar/original-weapon-profile";
+import {placeOriginalHandItem} from "@/lib/ishar/original-hand-runtime";
 import { readOriginalCarrier,receiveOriginalPurchase,type OriginalPurchase } from "@/lib/ishar/original-commerce";
 import { readOriginalMerchants,readOriginalItemResources,type OriginalMerchant } from "@/lib/ishar/original-merchants";
 import { originalShopEntry } from "@/lib/ishar/original-shop-entry";
@@ -931,8 +932,16 @@ function PlaytestPage() {
   }
   function giveOriginalGround(carrier:number,handSlot?:9|10){
     if(!originalHeld || !originalSave)return;
+    if(handSlot!==undefined&&originalHeld.id!==10){
+      const result=placeOriginalHandItem(originalSave,originalHeld,carrier,handSlot,originalWeapons??undefined);
+      if(!result){setOriginalStatus("Dieser Handplatz kann den Gegenstand nicht übernehmen.");return;}
+      setOriginalSave(result.bytes);setOriginalHeld(result.held?{...result.held,before:result.bytes}:null);
+      setOriginalStatus(`${result.accepted?`${result.accepted} Stück übernommen. `:''}${result.swapped?'Handgegenstände getauscht. ':''}${result.held?`Objekt ${result.held.id}${result.held.quantity!==undefined?` · ${result.held.quantity} Stück`:''} bleibt am Cursor.`:'Gegenstand übernommen.'}`);return;
+    }
+    if(handSlot===undefined && originalPortraitItemDestination(originalHeld.id,originalHandPanels[carrier]??false)==='hand-panel'){
+      setOriginalStatus(`Handpanel von Charakter ${carrier+1} ist offen. Einen Handplatz wählen.`);return;
+    }
     if(originalHeld.quantity!==undefined){
-      if(handSlot!==undefined || originalHandPanels[carrier]){setOriginalStatus("Stapel über das Gepäck weitergeben: Handpanel schließen.");return;}
       const result=receiveOriginalStackItem(originalSave,originalHeld.id,originalHeld.quantity,carrier);
       if(!result){setOriginalStatus("Stapel nicht übernommen: Empfänger nicht handlungsfähig, Gepäck oder Stapel voll.");return;}
       setOriginalSave(result.bytes);setOriginalHeld(result.remaining?{id:originalHeld.id,before:result.bytes,quantity:result.remaining}:null);
@@ -1253,7 +1262,7 @@ function PlaytestPage() {
             {index>=9?`Handplatz ${index}: `:''}{code===0?'leer':code===-125?'für Zweihandwaffe reserviert':`Objekt ${code}${code>=-59&&code<=-49?` · ${person.stacks[code+59]} Stück`:''}`}
             {(transferableOriginalInventoryCode(code)||originalStackCode(code)) && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY})}>Charakter {carrier+1}, Platz {index+1}: Objekt {code} aufnehmen</button>}
             {originalStackCode(code) && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY},true)}>Charakter {carrier+1}, Platz {index+1}: Ein Stück aufnehmen</button>}
-            {originalHeld && index>=9 && <button disabled={originalHeld.quantity!==undefined||(originalHeld.id!==10&&!placeOriginalInventoryItem(originalSave,originalHeld.id,carrier,index as 9|10,originalWeapons??undefined))||person.hp<=0} onClick={()=>giveOriginalGround(carrier,index as 9|10)}>Charakter {carrier+1}: Handplatz {index} {code===0||originalHeld.id===10?'übernehmen':'tauschen'}</button>}
+            {originalHeld && index>=9 && <button disabled={(originalHeld.id!==10&&!placeOriginalHandItem(originalSave,originalHeld,carrier,index as 9|10,originalWeapons??undefined))||person.hp<=0} onClick={()=>giveOriginalGround(carrier,index as 9|10)}>Charakter {carrier+1}: Handplatz {index} {code===0||originalHeld.id===10?'übernehmen':originalHeld.quantity!==undefined?'übergeben':'tauschen'}</button>}
           </li>)}</ol></>}
           {originalHeld && <button disabled={!person.present||person.hp<=0} onClick={()=>giveOriginalGround(carrier)}>Charakter {carrier+1}: {originalPortraitItemDestination(originalHeld.id,originalHandPanels[carrier]??false)==='hand-panel'?'Handplatz wählen':'Originalobjekt übernehmen'}</button>}
           {shopHeld && <button disabled={!person.present} onClick={()=>giveShopPurchase(carrier)}>Charakter {carrier+1}: Ware übernehmen</button>}
