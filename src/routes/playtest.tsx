@@ -1265,7 +1265,7 @@ function PlaytestPage() {
       <div className="module-grid">{Array.from({length:5},(_,carrier)=>{
         const person=readOriginalCarrier(originalSave,carrier);
         return <article key={carrier}><h3>Charakter {carrier+1}{person.present?'':' · leer'}</h3>
-          {person.present && <><p>Vitalität: {person.hp} · Gold: {person.money[0]*1000+person.money[1]}</p><p>Rüstung: {person.armour}</p><button aria-expanded={originalHandPanels[carrier]??false} onClick={()=>setOriginalHandPanels(panels=>panels.map((open,index)=>index===carrier?!open:open))}>Charakter {carrier+1}: Hand-/Ausrüstungspanel {originalHandPanels[carrier]?'schließen':'öffnen'}</button><ol>{person.slots.map((code,index)=>{
+          {person.present && <><p>Vitalität: {person.hp} · Gold: {person.money[0]*1000+person.money[1]}</p><p>Nahrung: {person.food} · Rüstung: {person.armour}</p><button aria-expanded={originalHandPanels[carrier]??false} onClick={()=>setOriginalHandPanels(panels=>panels.map((open,index)=>index===carrier?!open:open))}>Charakter {carrier+1}: Hand-/Ausrüstungspanel {originalHandPanels[carrier]?'schließen':'öffnen'}</button><ol>{person.slots.map((code,index)=>{
             if(index>=9&&!originalHandPanels[carrier]||index===11||index>=13)return null;const shown=index===12&&code!==0?code-1:code;
             return <li key={index}>
             {index===9||index===10?`Handplatz ${index}: `:index===12?'Ausrüstungsplatz 12: ':''}{code===0?'leer':code===-125?'für Zweihandwaffe reserviert':`Objekt ${shown}${index!==12&&code>=-59&&code<=-49?` · ${person.stacks[code+59]} Stück`:''}`}

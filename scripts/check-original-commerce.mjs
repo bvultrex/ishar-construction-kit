@@ -4,12 +4,13 @@ import {readOriginalCarrier,receiveOriginalPurchase,ORIGINAL_COMMERCE_OFFSETS as
 import {readField,writeField} from '../src/lib/ishar/save-codec.ts';
 import {ISHAR2_SAVE} from '../src/lib/ishar/save-maps.ts';
 const bytes=new Uint8Array(8359),v=new DataView(bytes.buffer);
-v.setUint16(0,2);v.setUint16(o.goldThousands,2);
+v.setUint16(0,2);v.setUint16(o.goldThousands,2);bytes[o.food]=73;
 const before=bytes.slice();
 assert.equal(readField(bytes,ISHAR2_SAVE,'gold',0,'be'),2000);
 const goldCopy=bytes.slice();
 assert.deepEqual(writeField(goldCopy,ISHAR2_SAVE,'gold',0,123456,'be'),[1006,1007,1026,1027]);
 assert.deepEqual(readOriginalCarrier(goldCopy,0).money,[123,456]);
+assert.equal(readOriginalCarrier(goldCopy,0).food,73);
 assert.equal(readField(goldCopy,ISHAR2_SAVE,'gold',0,'be'),123456);
 let result=receiveOriginalPurchase(bytes,{objectCode:-61,price:[1,800],quantity:1},0);
 assert.ok(result.ok);assert.deepEqual(readOriginalCarrier(result.bytes,0).money,[0,200]);
@@ -31,6 +32,6 @@ const wrapped=new Uint8Array(8370);wrapped.set(before,7);
 assert.deepEqual(readOriginalCarrier(wrapped.subarray(7,8366),0),readOriginalCarrier(before,0));
 if(process.env.ISHAR2_DIR) {
  const original=readFileSync(`${process.env.ISHAR2_DIR}/START.SAV`);
- for(let i=0;i<5;i++) assert.equal(readOriginalCarrier(original,i).slots.length,15);
+ for(let i=0;i<5;i++){const person=readOriginalCarrier(original,i);assert.equal(person.slots.length,15);assert.ok(person.food>=0&&person.food<=100);}
 }
 console.log('Original recipient payment, nine backpack slots, stacks, partial bundles and immutable save patch passed.');
