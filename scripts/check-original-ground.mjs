@@ -1,10 +1,20 @@
 import assert from 'node:assert/strict';
-import {originalGroundSprites,pickOriginalGround,dropOriginalGround,receiveOriginalGround} from '../src/lib/ishar/original-ground-runtime.ts';
+import {originalGroundSprites,originalGroundPickupBounds,pickOriginalGround,dropOriginalGround,receiveOriginalGround} from '../src/lib/ishar/original-ground-runtime.ts';
 const bytes=new Uint8Array(8359),words=new DataView(bytes.buffer);
 words.setUint16(0,2);words.setInt16(996,10);bytes.fill(255,1276,1281);bytes[1276]=1;
 bytes[345]=20;bytes[545]=29;bytes[745]=1;
 const view={row:20,col:30,facing:1,map:1,scene:99};
 assert.deepEqual(originalGroundSprites(bytes,view),[{id:9,index:115,x:0,y:-42,z:89,pickable:true}]);
+const sprite=originalGroundSprites(bytes,view)[0],hit=originalGroundPickupBounds(sprite);
+assert.deepEqual(hit,{x:116,y:104,width:26,height:20});
+// Measured native edges, transparent corners, and an opaque non-hitting pixel.
+for(const [x,y,expected] of [[116,112,true],[115,112,false],[141,112,true],[142,112,false],[128,104,true],[128,103,false],[128,102,false],[128,123,true],[128,124,false],[116,104,true],[141,104,true],[116,123,true],[141,123,true],[115,104,false],[142,123,false],[128,112,true],[128,105,true]]){
+ const inside=x>=hit.x&&x<hit.x+hit.width&&y>=hit.y&&y<hit.y+hit.height;
+ assert.equal(inside,expected,`native probe ${x}/${y}`);
+}
+assert.equal(originalGroundPickupBounds({...sprite,id:10}),null,'unmeasured object does not inherit code9 box');
+assert.equal(originalGroundPickupBounds({...sprite,pickable:false}),null);
+assert.equal(originalGroundPickupBounds({...sprite,x:192}),null);
 assert.equal(originalGroundSprites(bytes,{...view,col:31})[0].index,116);
 assert.equal(originalGroundSprites(bytes,{...view,col:32})[0].index,117);
 assert.equal(pickOriginalGround(bytes,{...view,col:31},9),null);

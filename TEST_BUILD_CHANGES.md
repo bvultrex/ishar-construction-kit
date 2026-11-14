@@ -30,6 +30,6 @@ Die zugehörigen OBJET.IO.asm-, IO.IO.asm-, EAFF.IO.asm-, MAIN.IO.asm- und Figur
 
 ## Grenzen
 
-Dies ist ein Entwicklungsstand. Vollständiger Originalstart, alle NPCs, sämtliche Items, Stapel am Cursor, Waffen-/Zweihandtausch und weitere Ausrüstungsregeln fehlen. Die Bodenobjekt-Klickfläche verwendet noch das Bild statt der originalen Formkollision. Original-Türmechanik und transiente NPC-Zustände werden nicht vollständig gespeichert. Außerhalb des belegten Umfangs keine vollständige Originalspiel-Kompatibilität annehmen.
+Dies ist ein Entwicklungsstand. Vollständiger Originalstart, alle NPCs, sämtliche Items, Stapel am Cursor, Waffen-/Zweihandtausch und weitere Ausrüstungsregeln fehlen. Objekt9 auf CONT1 verwendet das im Original vermessene Klickrechteck; Objekt10 verwendet noch die bisherige Bildfläche. Original-Türmechanik und transiente NPC-Zustände werden nicht vollständig gespeichert. Außerhalb des belegten Umfangs keine vollständige Originalspiel-Kompatibilität annehmen.
 
 Originalnachweise, Browserintegration und Dateiroundtrips werden getrennt geführt. Hoths Originalspielbericht bestätigt die positiven Objekt9-/Gold10-Pfade; weitere Grenzen bleiben offen. Die genaue Quellrevision und Dateihashes stehen in BUILD_MANIFEST.json.

@@ -11,6 +11,10 @@ import {originalShopEntry} from '../src/lib/ishar/original-shop-entry.ts';
 import {deriveIshar2SaveLayout,readIshar2SavedMain} from '../src/lib/ishar/ishar2-save-layout.ts';
 assert.ok(process.env.ISHAR2_DIR&&process.env.ISHAR_MERCHANT_LISTING,'ISHAR2_DIR and ISHAR_MERCHANT_LISTING required');
 const root=resolve(process.env.ISHAR2_DIR),outputRoot=resolve(process.env.ISHAR_PRIVATE_OUTPUT??'../analysis-output');
+const sourceFilter=process.argv.find(arg=>arg.startsWith('--source-save='))?.slice('--source-save='.length);
+assert.ok(sourceFilter===undefined||/^[^\\/]+\.sav$/i.test(sourceFilter),'--source-save requires a SAV basename');
+const saves=readdirSync(root).filter(n=>/\.sav$/i.test(n)&&(!sourceFilter||n.toLowerCase()===sourceFilter.toLowerCase())).sort();
+assert.ok(saves.length,'No matching source SAV');
 const inside=(base,path)=>{const r=relative(base,path);return !r||(!r.startsWith('..')&&!isAbsolute(r));};
 assert.ok(!inside(root,outputRoot)&&!inside(resolve('.'),outputRoot),'Private output must be outside repository/originals');
 const hash=data=>createHash('sha256').update(data).digest('hex');
@@ -28,7 +32,7 @@ for(const map of [1,2,3]){
    const event=canStep(parsed.grid,row,col,facing,()=>false,true);if(event.kind!=='event'||event.message!==17)continue;
    const entry=originalShopEntry(event.value,1);if(entry?.kind!=='merchant')continue;
    const merchant=merchants.find(m=>m.selector===entry.selector);if(!merchant)continue;
-   for(const name of readdirSync(root).filter(n=>/\.sav$/i.test(n))){
+   for(const name of saves){
     const original=new Uint8Array(readFileSync(join(root,name)));if(!isOriginalSave(original)||new DataView(original.buffer).getUint16(90,false)===3)continue;
     for(let carrier=0;carrier<5&&!found;carrier++){
      const person=readOriginalCarrier(original,carrier);if(!person.present)continue;

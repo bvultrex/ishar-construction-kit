@@ -4,7 +4,7 @@ import { doorLeafKind, DUNGEON_FRAMES as FRAMES, DUNGEON_NATIVE_FRAMES, DUNGEON_
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useRef, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { originalGroundSprites, pickOriginalGround, dropOriginalGround, receiveOriginalGround } from "@/lib/ishar/original-ground-runtime";
+import { originalGroundSprites, originalGroundPickupBounds, pickOriginalGround, dropOriginalGround, receiveOriginalGround } from "@/lib/ishar/original-ground-runtime";
 import { readActorSave } from "@/lib/ishar/save-actors";
 import { patchOriginalSaveView } from "@/lib/ishar/original-save-view";
 import { takeOriginalInventoryItem, placeOriginalInventoryItem, simpleOriginalInventoryCode, originalPortraitItemDestination } from "@/lib/ishar/original-inventory-runtime";
@@ -23,7 +23,7 @@ import { visibleOutdoorCells } from "@/lib/ishar/outdoor-view";
 import { projectSwampFeature, swampFeatureForCell, swampGroundFeatureForCell, swampTreeAssetIndex, swampTreeDisplayHeight, swampWaterExtent } from "@/lib/ishar/swamp-view";
 import { validateGame } from "@/lib/ishar/project-validation";
 import { canStep, edgeViewGrid, expandGridLevels, gridCellOf, gridDoorId, gridDoorNumber, sceneTriggerAt, trapAt, trapDamage } from "@/lib/ishar/cont-grid";
-import { gridViewSprites, sceneTypeAt, scriptAt, type GridScript, spriteTargetId, VIEW_CLIP, VIEW_ORIGIN } from "@/lib/ishar/grid-view";
+import { gridViewSprites, sceneTypeAt, scriptAt, type GridScript, spriteTargetId, VIEW_CLIP, VIEW_ORIGIN, VIEW_FRAME } from "@/lib/ishar/grid-view";
 import { outdoorView, isOutdoorMap } from "@/lib/ishar/outdoor-grid-view";
 import { inferIrvanScene, irvanSceneAfterStep } from "@/lib/ishar/scene-state";
 import { instantiateLocationItems, inventoryHasDefinition } from "@/lib/ishar/item-instances";
@@ -899,6 +899,11 @@ function PlaytestPage() {
     if(!result.ok){setOriginalStatus({'empty-character':'Charakterplatz ist leer.','insufficient-gold':'Nicht genügend Gold.','full-backpack':'Gepäck voll.','full-stack':'Stapel voll.'}[result.reason]);return;}
     setOriginalSave(result.bytes);setShopHeld(null);setOriginalStatus(`${result.accepted} Gegenstand übernommen${result.discarded?`; ${result.discarded} aus dem Bündel verworfen`:''}.`);
   }
+  function leaveOriginalShop(){
+    if(shopSelector===null || shopHeld)return;
+    // MAIN0346f: leaving the original shop reverses 1<->3 and 2<->4.
+    setShopSelector(null);setFacing(value=>turnBack(value));
+  }
   function exportOriginalSave(){
     if(!originalSave || originalHeld || shopHeld || !originalView || level?.grid?.game!=="ishar2")return;
     try{
@@ -945,6 +950,7 @@ function PlaytestPage() {
   }
   const originalGroundLayer=originalSave && originalView ? originalGroundSprites(originalHeld?.before??originalSave,originalView).map(sprite=>{
     const asset=originalAsset(sprite.index);if(!asset?.width || !asset.height)return null;
+    const hit=originalGroundPickupBounds(sprite);
     const select=(position:{x:number;y:number})=>{
       if(!sprite.pickable || selectedGroundItemId || defeated || !encounterDone)return;
       if(originalHeld){if(originalHeld.id===sprite.id)returnOriginalGround();return;}
@@ -952,7 +958,8 @@ function PlaytestPage() {
       setOriginalHeld({id:sprite.id,before:originalSave});setOriginalSave(next);setHeldItemStart(position);setOriginalStatus(`Originalobjekt ${sprite.id} in der Hand · Fundort oder Charakterporträt anklicken.`);
     };
     return <g key={`original-${sprite.id}`} role={sprite.pickable?"button":undefined} tabIndex={sprite.pickable?0:undefined} aria-label={`Originalobjekt ${sprite.id} ${originalHeld?.id===sprite.id?"am Fundort ablegen":"aufheben"}`} onClick={e=>select({x:e.clientX,y:e.clientY})} onKeyDown={e=>{if(e.key==="Enter" || e.key===" "){e.preventDefault();select(heldItemStart);}}}>
-      <image href={asset.url} x={(VIEW_ORIGIN.x+sprite.x-(asset.width-1)/2)*640/256} y={(VIEW_ORIGIN.y-sprite.y-(asset.height-1)/2)*400/113} width={asset.width*640/256} height={asset.height*400/113} opacity={originalHeld?.id===sprite.id?0.2:1} preserveAspectRatio="none"/>
+      <image href={asset.url} x={(VIEW_ORIGIN.x+sprite.x-(asset.width-1)/2)*640/256} y={(VIEW_ORIGIN.y-sprite.y-(asset.height-1)/2)*400/113} width={asset.width*640/256} height={asset.height*400/113} opacity={originalHeld?.id===sprite.id?0.2:1} preserveAspectRatio="none" pointerEvents={sprite.id===9?"none":undefined}/>
+      {hit && <rect data-testid="original-ground-pick-9" data-game-bounds="116,104,141,123" x={hit.x*640/256} y={(hit.y-VIEW_FRAME.clipY0)*400/113} width={hit.width*640/256} height={hit.height*400/113} fill="transparent" pointerEvents="all"/>}
     </g>;
   }) : null;
   // A fresh camera scene gets fresh ALIS entities, as EAFF does. The engine's
@@ -1199,7 +1206,7 @@ function PlaytestPage() {
       const target = event.target as HTMLElement | null;
       if (target?.closest("input,textarea,select")) return;
       const key = event.key.toLowerCase();
-      if(shopSelector!==null){if(key==='escape'){if(shopHeld)setShopHeld(null);else setShopSelector(null);}return;}
+      if(shopSelector!==null){if(key==='escape'){if(shopHeld)setShopHeld(null);else leaveOriginalShop();}return;}
       if (["arrowup","arrowdown","arrowleft","arrowright","w","a","s","d"].includes(key)) event.preventDefault();
       if(key==="escape" && originalHeld){returnOriginalGround();return;}
       if(key==="escape" && selectedGroundItemId){setSelectedGroundItemId(null);return;}
@@ -1242,7 +1249,7 @@ function PlaytestPage() {
     <div className="ishar-play-shell">
       <div className="ishar-stage-row">
         <main className="ishar-view-panel">
-          {shopSelector!==null ? <OriginalShop selector={shopSelector} merchant={(game.originalMerchants??localMerchants).find(m=>m.selector===shopSelector)} pack={pack} resources={shopResources} canBuy={!!originalSave} held={shopHeld} onSelect={(purchase,position)=>{setShopHeld(purchase);setHeldItemStart(position);}} onReturn={()=>setShopHeld(null)} onExit={()=>setShopSelector(null)}/> : (hudPanel==="character" || hudPanel==="inventory") ? <section className="ishar-character-sheet" aria-label={`Charakterblatt ${selectedMember.name}`}>
+          {shopSelector!==null ? <OriginalShop selector={shopSelector} merchant={(game.originalMerchants??localMerchants).find(m=>m.selector===shopSelector)} pack={pack} resources={shopResources} canBuy={!!originalSave} held={shopHeld} onSelect={(purchase,position)=>{setShopHeld(purchase);setHeldItemStart(position);}} onReturn={()=>setShopHeld(null)} onExit={leaveOriginalShop}/> : (hudPanel==="character" || hudPanel==="inventory") ? <section className="ishar-character-sheet" aria-label={`Charakterblatt ${selectedMember.name}`}>
             <header className="ishar-sheet-header"><div><small>Charakterblatt · {selectedPartyIndex+1}/5</small><h2>{selectedMember.name}</h2></div><button onClick={()=>setHudPanel(null)} aria-label="Charakterblatt schließen">×</button></header>
             <div className="ishar-sheet-body">
               <div className="ishar-sheet-status"><h3>Figur</h3>
