@@ -223,15 +223,15 @@ Base bb42748, static only. FRISE.IO listing (Ishar 2).
 
 ### Variant C recommendation (visible change, item −25 = 4)
 - *(Savewerte → `private/pickup-contract-ishar2-savewerte.md`, SW-3)*
-  - file 1056/1057 = FF E7: c0 slot 10 = −25 (MAIN 0x2d8e + 2·10)
-  - file 1336 = 04: c0 armour consistent with the item already held
+  - file 1056/1057: c0 slot 10 = −25 (MAIN 0x2d8e + 2·10); Bytewerte privat (SW-PK2-ARM-C)
+  - file 1336: c0 armour consistent with the item already held; Bytewert privat (SW-PK2-ARM-C)
   - Slot 9 still holds −104 (armour 0), and object 9 is still on the ground (irrelevant here).
   - It reuses only the click points Alderaan already measured.
 - **Sequence:**
   1. Load `pick25`.
   2. Hands icon c0 (40,131).
   3. Click slot 10 (50,168): the item lifts onto the cursor.
-  4. Disk → SAVE → `pick25a`. Expected: Rüstungsbyte 1336 sinkt um den Rüstungswert des Gegenstands, 1056/57 → 00 00 (Werte: private).
+  4. Disk → SAVE → `pick25a`. Expected: Rüstungsbyte 1336 sinkt um den Rüstungswert des Gegenstands, 1056/57 geleert (Werte: privat (SW-PK2-ARM-C)).
   5. Click slot 10 (50,168) again: drop.
   6. SAVE → `pick25b`. Expected: 1336 steigt um den Rüstungswert, 1056/57 = Item-Code des Gegenstands (Werte → private SW-B2).
   - If saving while the cursor is holding the item is refused, skip step 4 and only check the A→B round trip (1336 unverändert), plus the screenshot of the armour display.
@@ -246,3 +246,46 @@ OBJET form 40 = origin [−12, 0, −4], extent [25, 1, 19]; form 16 = [−6, 0,
 - object 9 → mx 116..141, my 104..123 (unchanged)
 - object 10 → **mx 122..134** (previously 135), my 101..119
 The same formula reproduces Hoth's lever hit (152,58) with PCAVE form 0. proven. Details: hebel-tuer-trigger-ishar2.md, 2026-10-18 corrections.
+
+## Nachtrag 2026-11-14 (Europe/Berlin): Kit-Abgleich f4cf659, Code 10 am Porträt, Tausch, Ablage, Speichern
+Basis: Kit `workbench/playable-slice` `f4cf659` (statt `319819c`). Nur statische Arbeit. Quellen: FRISE.IO `27117c124caf`, SOURIS.IO `78df7c73f880` (Listings), Save-Offsets aus der IO.IO-Ableitung. Der Bestand bleibt stehen. Was folgt, korrigiert oder ergänzt ihn. Vollbericht: `pickup-contract-check-ishar2.md` (Nachtrag 32).
+
+1. **R6 widerlegt für Code 10 (known, Listing):**
+   - Im FRISE-Klickpfad liegt vor 0x007b1 die Prüfung bei 0x0032b. Bedingung: `0x7a == 1`, gehalten ≠ −6, `0x78 < 75` und **|0x2d16| == 10** (`oabs`).
+   - Ablauf:
+     - c = 0x76 / 64.
+     - Lebend-Prädikat wie 007C9 (0x0034d).
+     - → `L_04825`: Gold von c (Tausender T2d68[c], Einheiten T2d80[c]) += (0x4c94, 0x4c96) über `L_06865` (Übertrag > 999). Danach 0x4c94 = 0x4c96 = 0.
+     - Anschließend 0x2d16 = 0, `ckill 0x2fc0`, `cmouson` (0x0036b–0x00375).
+   - **Objekt 10 landet also über Porträt oder Handfeld nie im Gepäck. Es verschwindet** und gilt als Geldbeutel, wie −10 aus SOURIS 0x00761.
+   - Die Weltfelder waren schon beim Aufheben genullt.
+   - Ist c nicht handlungsfähig, passiert nichts, und das Objekt bleibt am Cursor.
+   - Save: 1006 + 2c, 1026 + 2c, 14–15, 16–17.
+   - Der „Variante A“-Erwartungswert gilt nur für Objekt 9.
+2. **R5 ergänzt (known):** Die Bodenablage schreibt auch **T50c8[id] = 0x2ab6** (SOURIS 0x009f0, Save 8039 + id).
+   - Zielfeld auf Karte 1: das Feld vor der Gruppe (0x008f0). Eine Begehbarkeitsprüfung gibt es hier nicht.
+   - Abbruch, das Objekt bleibt am Cursor:
+     - ein anderes Objekt mit Material 512 unter dem Cursor (0x008cf),
+     - Material 69 (0x00877; bei 9/10 ohne Wirkung),
+     - `0x4aa0 ≠ 0` (0x007b0).
+3. **R7 offen → geschlossen: Tausch bei belegtem Slot (0x03012–0x03347, known):**
+   - Slot = −125 → keine Aktion.
+   - Sonst, nur wenn alle T4bbc[0..19] == 0:
+     - neuer Cursor für den alten Code,
+     - Slot = gehaltener Code (0x0328b),
+     - T2f0e[c] += Rüstung(neu) (0x03302), 0x2d16 = alter Code, T2f0e[c] −= Rüstung(alt) (0x0333d).
+   - **Abweichung zur Ablage/Aufnahme:** Beim Tausch ist die Bedingung `code ≤ −26 AND code ≥ −29` (0x032d8/0x03313), also nur −29..−26. Bei Ablage/Aufnahme gilt die Tautologie (OR).
+   - Tauscht Objekt 9 z. B. −25 aus Handfeld 9/10 heraus, bleibt dessen Rüstung in 1336 + c stehen (known, Code).
+4. **Aufnahme aus Slot (Übergabe, known):**
+   - `L_02c0f` mit 0x2d16 == 0: Slot ≠ 0 und ≠ −125 → Cursor-OBJET, 0x2d16 = Code, Rüstung −= (Slots 9/10), danach **Slot = 0** (0x02dbb).
+   - Die Lücke 0x02cbb–0x02dba im Listing betrifft nur den Stapelzweig.
+5. **Speichern mit Item am Cursor ist im Original unmöglich (known):**
+   - Das Disk-Menü `L_05c6e` (lädt io.IO) wird nur bei 0x2d16 == 0 und 0x4aa0 == 0 geöffnet: Taste 0x002b0, Klick 0x00982.
+   - Bewegung über GERDEP `L_0055e` (0x00572) ist bei 0x2d16 ≠ 0 gesperrt (Umfang: suspected).
+6. **Code 9 als Übergabe in Szenen mit 0x4aa0 == 1 (known, Code):**
+   - SOURIS 0x00c74: Material 100 und gehalten == 9 → **0x4f13 = 3** (Save 20–21, IO.IO 0x00ac5 `cfwritev`), Freigabe.
+   - PP11 reagiert bei 0x000e9/0x000fc mit T449a[62] = 0 (Save 6905). Ob Material 100 zu PP11 gehört: suspected.
+7. **Freigabe:** Am Porträt, am Handfeld und beim Tausch nur, wenn alle T4bbc[0..19] == 0 (0x03c9b, 0x02fdb, 0x0315b).
+   - T4bbc ist transient und hält die Stapelmenge in Bewegung. Für 9/10 normalerweise 0 (suspected).
+   - Ein Wert ≠ 0 bedeutet: Slot geschrieben, Cursor nicht freigegeben.
+8. **Formfehler im JSON:** R3 `hit_rect_game.10` nennt noch 135. Gültig ist 134 laut Nachtrag 2026-10-18.
