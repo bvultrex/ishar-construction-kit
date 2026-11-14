@@ -1,0 +1,31 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "hoth-opcode75-graphic-record/1",
+ "type": "object",
+ "required": ["schema", "vectors"],
+ "properties": {
+  "schema": {"const": "hoth-opcode75-graphic-record/1"},
+  "vectors": {"type": "array", "items": {"$ref": "#/$defs/vector"}}
+ },
+ "$defs": {
+  "profile": {"type": "object", "required": ["profile", "exePrefix", "captureMemPrefix"],
+   "properties": {"profile": {"enum": ["ishar1", "ishar2"]}, "exePrefix": {"type": "string", "maxLength": 12}, "captureMemPrefix": {"type": "string", "maxLength": 12}}},
+  "record": {"type": "object", "required": ["addr", "state", "num", "screen", "next", "link"],
+   "properties": {"addr": {"type": "integer"}, "state": {"type": "integer", "minimum": -128, "maximum": 127}, "num": {"type": "integer", "minimum": -128, "maximum": 127},
+    "screen": {"type": "integer", "minimum": 0, "maximum": 65535}, "next": {"type": "integer"}, "link": {"type": "integer"}}},
+  "listState": {"type": "object", "required": ["head", "free", "ferase", "linkHeads", "records"],
+   "properties": {"head": {"type": "integer"}, "screenId": {"type": "integer"}, "free": {"type": "integer"}, "ferase": {"type": "integer"},
+    "linkHeads": {"type": "object", "additionalProperties": {"type": "integer"}}, "records": {"type": "array", "items": {"$ref": "#/$defs/record"}}}},
+  "vector": {"type": "object", "required": ["id", "kind", "case", "label", "profiles", "start", "input", "expected", "evidence"],
+   "properties": {
+    "id": {"type": "string"}, "kind": {"enum": ["record-list", "dispatch", "logo-path"]}, "case": {"type": "string"},
+    "label": {"enum": ["known", "suspected", "open"]}, "profiles": {"type": "array", "items": {"$ref": "#/$defs/profile"}, "minItems": 1},
+    "start": {"type": "object"}, "evidence": {"type": "string"},
+    "input": {"type": "object", "properties": {"ops": {"type": "array", "items": {"type": "object", "required": ["operand", "value"],
+      "properties": {"operand": {"enum": ["oimmb", "oimmw"]}, "value": {"type": "integer"}}}}}},
+    "expected": {"type": "object", "properties": {
+      "steps": {"type": "array", "items": {"type": "object", "required": ["returned"]}},
+      "after": {"$ref": "#/$defs/listState"}}}
+   }}
+ }
+}

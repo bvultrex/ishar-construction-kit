@@ -1,0 +1,3693 @@
+{
+ "schema": "hoth-opcode75-graphic-record/1",
+ "created": "2026-11-14",
+ "author": "Hoth (Grok Bot executor)",
+ "notes": [
+  "Opcode 75 = Byte 0x4B (cerasen), nicht csound (0x9D = 157).",
+  "Datensatzfelder synthetisch abstrahiert: state s8 @+0, num s8 @+1, screen u16 @+2, next u16 @+4, link u16 @+6. Adressen 0x30-Vielfache frei gewaehlt.",
+  "Kontext: head = Kontextwort BP-0x18, screenId = Kontextwort BP-0x16. Globals: free (Freilistenkopf), ferase (Flagbyte), linkHeads[screen] (Kopf der +6-Kette je Bildschirm-ID).",
+  "label: known = eigener reproduzierbarer Beleg; suspected = statisch/abgeleitet; open = nicht belegt.",
+  "expected.after.otherChanges zaehlt Bytes ausserhalb der Modellfelder, die die native Ausfuehrung veraendert hat (Kontextsegment, Datensatzsegment, Skript, SS-Globals ohne Stack)."
+ ],
+ "vectors": [
+  {
+   "id": "E01",
+   "case": "vorhanden-mitte",
+   "description": "Vorhandener Datensatz (num 5) in der Mitte, state 0",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 144,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 1,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E02",
+   "case": "erster",
+   "description": "Erster Eintrag (Kopf, num 9), state 0",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 9
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 9,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 96,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 1,
+       "num": 9,
+       "screen": 64,
+       "next": 96,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 0,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E03",
+   "case": "letzter",
+   "description": "Letzter Eintrag (num 2), state 0",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 2
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 2,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 96,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 0,
+       "num": 5,
+       "screen": 64,
+       "next": 0,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 1,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E04",
+   "case": "fehlend",
+   "description": "Fehlender Datensatz: num 7 liegt zwischen 9 und 5",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 7
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 7,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 96,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 0,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E05",
+   "case": "fehlend",
+   "description": "Fehlender Datensatz: num 1 kleiner als alle",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 1
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 1,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 96,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 0,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E06",
+   "case": "fehlend",
+   "description": "Fehlender Datensatz: num 12 groesser als alle",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 12
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 12,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 96,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 0,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E07",
+   "case": "leer",
+   "description": "Leere Liste (Kopf 0)",
+   "start": {
+    "head": 0,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {},
+    "records": []
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 0,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {},
+     "records": [],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E08",
+   "case": "einzeln",
+   "description": "Einziger Eintrag wird entfernt",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 0,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 1,
+       "num": 5,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E09",
+   "case": "doppelt",
+   "description": "Doppeltes Entfernen: zweimal num 5 nacheinander",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     },
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     },
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 144,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 1,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E10",
+   "case": "duplikat",
+   "description": "Zwei Datensaetze mit gleicher num 5: ein Aufruf entfernt beide",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 192,
+      "link": 192
+     },
+     {
+      "addr": 192,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 192,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 1,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 1,
+       "num": 5,
+       "screen": 64,
+       "next": 192,
+       "link": 192
+      },
+      {
+       "addr": 192,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E11",
+   "case": "duplikat",
+   "description": "Drei gleiche num 5: Liste danach leer",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 0,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 1,
+       "num": 5,
+       "screen": 64,
+       "next": 96,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 1,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 1,
+       "num": 5,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E12",
+   "case": "state-negativ",
+   "description": "state 0x80 (negativ): Datensatz wandert in die Freiliste, Link-Kette wird angepasst",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 3840,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": -128,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 96,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 96,
+       "state": -128,
+       "num": 5,
+       "screen": 64,
+       "next": 3840,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E13",
+   "case": "state-negativ",
+   "description": "state -1 am Kopf, zugleich Kopf der Link-Kette",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": -1,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 9
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 9,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 96,
+     "free": 48,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 96
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": -1,
+       "num": 9,
+       "screen": 64,
+       "next": 0,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 0,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E14",
+   "case": "state-negativ",
+   "description": "state -1 am Ende, letzter der Link-Kette",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": -1,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 2
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 2,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 144,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 96,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 0,
+       "num": 5,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      },
+      {
+       "addr": 144,
+       "state": -1,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E15",
+   "case": "state-positiv",
+   "description": "state 1 (bereits markiert): wird erneut nur ausgehaengt",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 1,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 144,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 1,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E16",
+   "case": "state-positiv",
+   "description": "state 127: Markierung auf 1, keine Freiliste",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 127,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 144,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 1,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E17",
+   "case": "ferase",
+   "description": "Flag ferase=1 vor dem Aufruf: Freilistenpfad trotz state 0, Flag danach 0",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 3840,
+    "ferase": 1,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 96,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 96,
+       "state": 0,
+       "num": 5,
+       "screen": 64,
+       "next": 3840,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E18",
+   "case": "ferase",
+   "description": "Flag ferase=1, num fehlt: nur Flag wird 0",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 1,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 7
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 7,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 96,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 0,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E19",
+   "case": "fremder-screen",
+   "description": "Gleiche num auf drei Bildschirm-IDs: nur die eigene wird entfernt",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "68": 48,
+     "64": 96,
+     "60": 144
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 5,
+      "screen": 68,
+      "next": 96,
+      "link": 0
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 0
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 5,
+      "screen": 60,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "68": 48,
+      "64": 96,
+      "60": 144
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 5,
+       "screen": 68,
+       "next": 144,
+       "link": 0
+      },
+      {
+       "addr": 96,
+       "state": 1,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 0
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 5,
+       "screen": 60,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E20",
+   "case": "fremder-screen",
+   "description": "Nur kleinere Bildschirm-ID vorhanden: Suche bricht ab, nichts entfernt",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "60": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 5,
+      "screen": 60,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "60": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 5,
+       "screen": 60,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E21",
+   "case": "fremder-screen",
+   "description": "Nur groessere Bildschirm-ID vorhanden: Ende der Liste, nichts entfernt",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "68": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 5,
+      "screen": 68,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "68": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 5,
+       "screen": 68,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E22",
+   "case": "unsortiert",
+   "description": "Unsortierte Liste: num 2 vor num 5 -> Suche bricht bei 2 ab, num 5 bleibt",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 96,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 0,
+       "num": 5,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E23",
+   "case": "operand",
+   "description": "oimmw 0x0105: nur das Lowbyte (5) zaehlt",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmw",
+      "value": 261
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 3,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 144,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 1,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E24",
+   "case": "operand",
+   "description": "Vorzeichenbehaftete num: oimmb(-1) findet num -1 hinter num 5",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": -1,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": -128,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": -1
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 255,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 1,
+       "num": -1,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": -128,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E25",
+   "case": "operand",
+   "description": "oimmw 0x00FF ergibt dl=0xFF = -1",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": -1,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": -128,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmw",
+      "value": 255
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 3,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 255,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 1,
+       "num": -1,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": -128,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E26",
+   "case": "screen-vorzeichen",
+   "description": "Bildschirm-ID >= 0x8000 (signed negativ), eigener Kontext gleich",
+   "start": {
+    "head": 48,
+    "screenId": 32772,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "32772": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 32772,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 32772,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 32772,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "32772": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 32772,
+       "next": 144,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 1,
+       "num": 5,
+       "screen": 32772,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 0,
+       "num": 2,
+       "screen": 32772,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E27",
+   "case": "link-mitte",
+   "description": "state negativ, Datensatz ist drittes Glied der Link-Kette",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 7,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": -128,
+      "num": 5,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 144,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 96,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 0,
+       "num": 7,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      },
+      {
+       "addr": 144,
+       "state": -128,
+       "num": 5,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E28",
+   "case": "inkonsistent",
+   "description": "state negativ, Datensatz fehlt in der Link-Kette (Kette: nur 0x30, link 0): Original haengt in 3B75..3B7B",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 0
+     },
+     {
+      "addr": 96,
+      "state": -128,
+      "num": 5,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": false,
+      "ipAfterLimit": "3B78",
+      "limit": 20000
+     }
+    ],
+    "after": {
+     "head": 48,
+     "free": 96,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      },
+      {
+       "addr": 96,
+       "state": -128,
+       "num": 5,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste; Ende per Befehlslimit 20000 (kein RET, IP in 3B75..3B7B). In-Game-Erreichbarkeit offen."
+  },
+  {
+   "id": "E29",
+   "case": "folge",
+   "description": "Folge: num 5, dann 9, dann 2 -> Liste leer",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 0,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 5
+     },
+     {
+      "operand": "oimmb",
+      "value": 9
+     },
+     {
+      "operand": "oimmb",
+      "value": 2
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 5,
+      "ferase": 0
+     },
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 9,
+      "ferase": 0
+     },
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 2,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 0,
+     "free": 0,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 48
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 1,
+       "num": 9,
+       "screen": 64,
+       "next": 144,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 1,
+       "num": 5,
+       "screen": 64,
+       "next": 144,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 1,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "E30",
+   "case": "folge",
+   "description": "Folge mit negativem state nach ferase: erst ferase-Pfad, danach Normalpfad",
+   "start": {
+    "head": 48,
+    "screenId": 64,
+    "free": 0,
+    "ferase": 1,
+    "linkHeads": {
+     "64": 48
+    },
+    "records": [
+     {
+      "addr": 48,
+      "state": 0,
+      "num": 9,
+      "screen": 64,
+      "next": 96,
+      "link": 96
+     },
+     {
+      "addr": 96,
+      "state": 0,
+      "num": 5,
+      "screen": 64,
+      "next": 144,
+      "link": 144
+     },
+     {
+      "addr": 144,
+      "state": 0,
+      "num": 2,
+      "screen": 64,
+      "next": 0,
+      "link": 0
+     }
+    ]
+   },
+   "input": {
+    "ops": [
+     {
+      "operand": "oimmb",
+      "value": 9
+     },
+     {
+      "operand": "oimmb",
+      "value": 2
+     }
+    ]
+   },
+   "label": "known",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ],
+   "profilesIdentical": true,
+   "expected": {
+    "steps": [
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 9,
+      "ferase": 0
+     },
+     {
+      "returned": true,
+      "siAdvance": 2,
+      "dsRestored": true,
+      "spRestored": true,
+      "esUnchangedReg": true,
+      "bpUnchangedReg": true,
+      "numByte": 2,
+      "ferase": 0
+     }
+    ],
+    "after": {
+     "head": 96,
+     "free": 48,
+     "ferase": 0,
+     "linkHeads": {
+      "64": 96
+     },
+     "records": [
+      {
+       "addr": 48,
+       "state": 0,
+       "num": 9,
+       "screen": 64,
+       "next": 0,
+       "link": 96
+      },
+      {
+       "addr": 96,
+       "state": 0,
+       "num": 5,
+       "screen": 64,
+       "next": 0,
+       "link": 144
+      },
+      {
+       "addr": 144,
+       "state": 1,
+       "num": 2,
+       "screen": 64,
+       "next": 0,
+       "link": 0
+      }
+     ],
+     "otherChanges": {
+      "es": 0,
+      "records": 0,
+      "script": 0,
+      "ssGlobals": []
+     }
+    }
+   },
+   "kind": "record-list",
+   "evidence": "native-isoliert: Originalbefehle ab Dispatch 1000:3A84 bis RET in Unicorn 2.1.4 auf eigener Startup-Speicheraufnahme beider Profile, ohne Stubs; synthetische Datensatzliste"
+  },
+  {
+   "id": "D01",
+   "kind": "dispatch",
+   "case": "dispatch",
+   "label": "known",
+   "description": "Dispatch-Tabelle CS:0024, Eintrag 75 (Byte 0x4B) zeigt in beiden Profilen auf 1000:3A84; Eintrag 157 (0x9D, csound) auf 1000:62BB",
+   "start": {
+    "table": "CS:0024",
+    "index": 75
+   },
+   "input": {
+    "read": "Wort CS:0024+2*75"
+   },
+   "expected": {
+    "handler": "1000:3A84",
+    "csoundHandler": "1000:62BB",
+    "helpers": [
+     "1000:69A6 Operand",
+     "1000:35CF Suche",
+     "1000:3AFA Aushaengen",
+     "1000:3B52 Link-Kette"
+    ]
+   },
+   "evidence": "eigene Speicheraufnahme beider start.exe (Kit-Skript capture-dos-first-interrupt.py), Wortlesen",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ]
+  },
+  {
+   "id": "D02",
+   "kind": "dispatch",
+   "case": "ishar2-vergleich",
+   "label": "known",
+   "description": "Handler 3A84..3AA3 und Helfer 35CF..35FF, 3AFA..3B91, 69A6..69CB sowie Operandentabelle CS:01F2 sind in Ishar 1 und Ishar 2 bytegleich",
+   "start": {
+    "ranges": [
+     "3A84-3AA3",
+     "35CF-35FF",
+     "3AFA-3B91",
+     "69A6-69CB",
+     "01F2-01F3"
+    ]
+   },
+   "input": {
+    "compare": "ishar1 vs ishar2"
+   },
+   "expected": {
+    "identical": true
+   },
+   "evidence": "Bytevergleich der beiden eigenen Speicheraufnahmen (Bytes nur privat); zusaetzlich liefern alle 30 record-list-Vektoren in beiden Profilen identische Ergebnisse",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ]
+  },
+  {
+   "id": "L01",
+   "kind": "logo-path",
+   "case": "logo-00F0-statisch",
+   "label": "known",
+   "description": "LOGO-Modul (entpackt) traegt an Bildoffset 0x00F0 Opcode 75 mit Operand oimmb(5), danach cstop; in Ishar 1 und Ishar 2 gleich",
+   "start": {
+    "module": "LOGO.IO",
+    "imageOffset": "0x00F0"
+   },
+   "input": {
+    "decode": "Kit-A1-Reader readAlisModule"
+   },
+   "expected": {
+    "opcode": 75,
+    "operand": "oimmb",
+    "value": 5,
+    "next": "cstop"
+   },
+   "evidence": "eigene Dekodierung beider LOGO.IO mit Kit-Reader; Listing-Abgleich",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ]
+  },
+  {
+   "id": "L02",
+   "kind": "logo-path",
+   "case": "logo-vorhanden",
+   "label": "known",
+   "description": "Im Lauf entfernt Opcode 75 bei 00F0 eine sichtbare Grafik: mit Operand 5 verschwindet sie, in der Kopie mit Operand 7 (mit Patch) bleibt sie dauerhaft stehen",
+   "start": {
+    "variants": [
+     "Kopie unveraendert",
+     "Kopie mit Patch: LOGO-Bildbyte 0x00F2 von 5 auf 7, neu gepackt (Kit-A1-Writer, Readback geprueft)"
+    ]
+   },
+   "input": {
+    "run": "DOSBox-X 2025.02.01, cycles=fixed 25000, eigenes Xvfb, 10 fps Fenstergrab; Ishar 2 mit Sprachwahl KP_3 nach 9 s"
+   },
+   "expected": {
+    "persistentDiffPx": 208,
+    "windowBBox": [
+     146,
+     375,
+     195,
+     412
+    ],
+    "frames": [
+     200,
+     440
+    ],
+    "sameVariantDiffPx": 0
+   },
+   "evidence": "je Spiel mindestens zwei Laeufe pro Variante; Pixel, die in allen Frames 200..440 zwischen den Varianten abweichen",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ]
+  },
+  {
+   "id": "L03",
+   "kind": "logo-path",
+   "case": "logo-fehlend",
+   "label": "known",
+   "description": "Fehlender Datensatz im Lauf: Operand 7 (mit Patch; keine num 7 vorhanden) fuehrt zu keinem Absturz oder Haenger; LOGO laeuft bis zur Funkelphase weiter",
+   "start": {
+    "variant": "Kopie mit Operand 7 (mit Patch)"
+   },
+   "input": {
+    "run": "wie L02"
+   },
+   "expected": {
+    "logoContinues": true
+   },
+   "evidence": "DOSBox-X-Laeufe wie L02 (Bildfolge bis Frame 440 bzw. 540)",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ]
+  },
+  {
+   "id": "L04",
+   "kind": "logo-path",
+   "case": "logo-welcher-datensatz",
+   "label": "suspected",
+   "description": "Der entfernte Datensatz ist die num-5-Grafik aus den drei Zeichenbefehlen bei 0x0081/0x008D/0x0099 (Ressource 11)",
+   "start": {},
+   "input": {},
+   "expected": {
+    "num": 5
+   },
+   "evidence": "statisch aus dem Listing; Liste im Lauf nicht ausgelesen (kein Debugger)",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ]
+  },
+  {
+   "id": "L05",
+   "kind": "logo-path",
+   "case": "logo-wiederholung",
+   "label": "suspected",
+   "description": "Opcode 75 bei 00F0 liegt in der Schleife 0x00BC..0x010C und wird mehrfach ausgefuehrt; ab dem zweiten Aufruf ist kein num-5-Datensatz mehr da (No-op wie E04/E09)",
+   "start": {},
+   "input": {},
+   "expected": {
+    "secondCallNoop": true
+   },
+   "evidence": "statisch (Schleife) plus Modell E09; Aufrufzahl im Lauf nicht gemessen",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ]
+  },
+  {
+   "id": "L06",
+   "kind": "logo-path",
+   "case": "logo-breakpoint",
+   "label": "open",
+   "description": "Datensatzliste am Breakpoint 1000:3A84 im echten LOGO-Lauf (vor/nach)",
+   "start": {},
+   "input": {},
+   "expected": {},
+   "evidence": "offen: installiertes DOSBox-X 2025.02.01 (Debian) ohne Debugger; keine Breakpoints/Speicherdumps moeglich",
+   "profiles": [
+    {
+     "profile": "ishar1",
+     "exePrefix": "3ea63234c97b",
+     "captureMemPrefix": "5ce2bfdfc836"
+    },
+    {
+     "profile": "ishar2",
+     "exePrefix": "5e35e58d2d13",
+     "captureMemPrefix": "f8ab017849e5"
+    }
+   ]
+  }
+ ]
+}
