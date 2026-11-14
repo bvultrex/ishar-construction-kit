@@ -34,6 +34,7 @@ jobs:
           npm run test:original-save-view
           npm run test:original-ground
           npm run test:original-inventory-transfer
+          npm run test:original-stack-transfer
           npm run test:original-commerce
           npm run test:legacy-ishar1-write-guard
           npm run test:ishar1-save-writer

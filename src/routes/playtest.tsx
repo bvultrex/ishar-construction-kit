@@ -7,6 +7,7 @@ import type { ReactNode } from "react";
 import { originalGroundSprites, originalGroundPickupBounds, pickOriginalGround, dropOriginalGround, receiveOriginalGround } from "@/lib/ishar/original-ground-runtime";
 import { readActorSave } from "@/lib/ishar/save-actors";
 import { patchOriginalSaveView } from "@/lib/ishar/original-save-view";
+import {takeOriginalStackItem,receiveOriginalStackItem,originalStackCode} from "@/lib/ishar/original-stack-runtime";
 import { takeOriginalInventoryItem, placeOriginalInventoryItem, simpleOriginalInventoryCode, originalPortraitItemDestination } from "@/lib/ishar/original-inventory-runtime";
 import { readOriginalCarrier,receiveOriginalPurchase,type OriginalPurchase } from "@/lib/ishar/original-commerce";
 import { readOriginalMerchants,readOriginalItemResources,type OriginalMerchant } from "@/lib/ishar/original-merchants";
@@ -835,7 +836,7 @@ function PlaytestPage() {
   const [selectedGroundItemId,setSelectedGroundItemId]=useState<string|null>(null);
   const [heldItemStart,setHeldItemStart]=useState({x:0,y:0});
   const [originalSave,setOriginalSave]=useState<Uint8Array|null>(null);
-  const [originalHeld,setOriginalHeld]=useState<{id:number;before:Uint8Array}|null>(null);
+  const [originalHeld,setOriginalHeld]=useState<{id:number;before:Uint8Array;quantity?:number}|null>(null);
   // FRISE T4f0a is transient: do not serialize this presentation state to SAV.
   const [originalHandPanels,setOriginalHandPanels]=useState<boolean[]>([false,false,false,false,false]);
   const [originalStatus,setOriginalStatus]=useState("");
@@ -919,14 +920,22 @@ function PlaytestPage() {
     const next=dropOriginalGround(originalSave,originalView,originalHeld.id);if(!next)return;
     setOriginalSave(next);setOriginalHeld(null);setOriginalStatus("Gegenstand auf dem Feld vor der Gruppe abgelegt.");
   }
-  function takeOriginalInventory(carrier:number,slot:number,position:{x:number;y:number}){
+  function takeOriginalInventory(carrier:number,slot:number,position:{x:number;y:number},single=false){
     if(!originalSave || originalHeld || shopHeld || selectedGroundItemId || shopSelector!==null)return;
-    const result=takeOriginalInventoryItem(originalSave,carrier,slot);if(!result)return;
-    setOriginalHeld({id:result.id,before:originalSave});setOriginalSave(result.bytes);setHeldItemStart(position);
+    const code=readOriginalCarrier(originalSave,carrier).slots[slot]!;
+    const result=originalStackCode(code)?takeOriginalStackItem(originalSave,carrier,slot,single):takeOriginalInventoryItem(originalSave,carrier,slot);if(!result)return;
+    setOriginalHeld({id:result.id,before:originalSave,quantity:'quantity' in result&&typeof result.quantity==='number'?result.quantity:undefined});setOriginalSave(result.bytes);setHeldItemStart(position);
     setOriginalStatus(`Objekt ${result.id} aus Charakter ${carrier+1}, Platz ${slot+1} aufgenommen. Empfänger oder freien Handplatz wählen.`);
   }
   function giveOriginalGround(carrier:number,handSlot?:9|10){
     if(!originalHeld || !originalSave)return;
+    if(originalHeld.quantity!==undefined){
+      if(handSlot!==undefined || originalHandPanels[carrier]){setOriginalStatus("Stapel über das Gepäck weitergeben: Handpanel schließen.");return;}
+      const result=receiveOriginalStackItem(originalSave,originalHeld.id,originalHeld.quantity,carrier);
+      if(!result){setOriginalStatus("Stapel nicht übernommen: Empfänger nicht handlungsfähig, Gepäck oder Stapel voll.");return;}
+      setOriginalSave(result.bytes);setOriginalHeld(result.remaining?{id:originalHeld.id,before:result.bytes,quantity:result.remaining}:null);
+      setOriginalStatus(`${result.accepted} Stück übernommen.${result.remaining?` ${result.remaining} Stück bleiben am Cursor.`:''}`);return;
+    }
     if(handSlot===undefined && originalPortraitItemDestination(originalHeld.id,originalHandPanels[carrier]??false)==='hand-panel'){
       setOriginalStatus(`Handpanel von Charakter ${carrier+1} ist offen. Einen freien Handplatz wählen.`);return;
     }
@@ -1238,8 +1247,9 @@ function PlaytestPage() {
         return <article key={carrier}><h3>Charakter {carrier+1}{person.present?'':' · leer'}</h3>
           {person.present && <><p>Vitalität: {person.hp} · Gold: {person.money[0]*1000+person.money[1]}</p><p>Rüstung: {person.armour}</p><button aria-expanded={originalHandPanels[carrier]??false} onClick={()=>setOriginalHandPanels(panels=>panels.map((open,index)=>index===carrier?!open:open))}>Charakter {carrier+1}: Handpanel {originalHandPanels[carrier]?'schließen':'öffnen'}</button><ol>{person.slots.slice(0,11).map((code,index)=>(index<9||originalHandPanels[carrier])&&<li key={index}>
             {index>=9?`Handplatz ${index}: `:''}{code===0?'leer':`Objekt ${code}${code>=-59&&code<=-49?` · ${person.stacks[code+59]} Stück`:''}`}
-            {simpleOriginalInventoryCode(code) && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY})}>Charakter {carrier+1}, Platz {index+1}: Objekt {code} aufnehmen</button>}
-            {originalHeld && index>=9 && <button disabled={(code!==0&&!simpleOriginalInventoryCode(code)&&originalHeld.id!==10)||person.hp<=0} onClick={()=>giveOriginalGround(carrier,index as 9|10)}>Charakter {carrier+1}: Handplatz {index} {code===0||originalHeld.id===10?'übernehmen':'tauschen'}</button>}
+            {(simpleOriginalInventoryCode(code)||originalStackCode(code)) && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY})}>Charakter {carrier+1}, Platz {index+1}: Objekt {code} aufnehmen</button>}
+            {originalStackCode(code) && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY},true)}>Charakter {carrier+1}, Platz {index+1}: Ein Stück aufnehmen</button>}
+            {originalHeld && index>=9 && <button disabled={originalHeld.quantity!==undefined||(code!==0&&!simpleOriginalInventoryCode(code)&&originalHeld.id!==10)||person.hp<=0} onClick={()=>giveOriginalGround(carrier,index as 9|10)}>Charakter {carrier+1}: Handplatz {index} {code===0||originalHeld.id===10?'übernehmen':'tauschen'}</button>}
           </li>)}</ol></>}
           {originalHeld && <button disabled={!person.present||person.hp<=0} onClick={()=>giveOriginalGround(carrier)}>Charakter {carrier+1}: {originalPortraitItemDestination(originalHeld.id,originalHandPanels[carrier]??false)==='hand-panel'?'Handplatz wählen':'Originalobjekt übernehmen'}</button>}
           {shopHeld && <button disabled={!person.present} onClick={()=>giveShopPurchase(carrier)}>Charakter {carrier+1}: Ware übernehmen</button>}
@@ -1320,7 +1330,7 @@ function PlaytestPage() {
         })}
       </div>
 
-      {originalHeld && <HeldGroundItemCursor item={{id:`original-${originalHeld.id}`,name:`Originalobjekt ${originalHeld.id}`,description:"Originales Bodenobjekt",assetId:originalAsset(originalHeld.id===9?115:originalHeld.id===10?90:shopResources[originalHeld.id]??-1)?.id}} pack={pack} position={heldItemStart}/>}
+      {originalHeld && <HeldGroundItemCursor item={{id:`original-${originalHeld.id}`,name:`Originalobjekt ${originalHeld.id}${originalHeld.quantity!==undefined?` · ${originalHeld.quantity} Stück`:''}`,description:"Originales Bodenobjekt",assetId:originalAsset(originalHeld.id===9?115:originalHeld.id===10?90:shopResources[originalHeld.id]??-1)?.id}} pack={pack} position={heldItemStart}/>}
       {shopHeld && <HeldGroundItemCursor item={{id:`purchase-${shopHeld.objectCode}`,name:`Objekt ${shopHeld.objectCode}`,description:'Ware',assetId:shopResources[shopHeld.objectCode]===undefined?undefined:originalAsset(shopResources[shopHeld.objectCode]!)?.id}} pack={pack} position={heldItemStart}/>}
       {selectedGroundItemId && <HeldGroundItemCursor key={selectedGroundItemId} item={heldItem} pack={pack} position={heldItemStart}/>}
 

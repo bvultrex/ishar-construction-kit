@@ -1,4 +1,5 @@
 import {readOriginalCarrier,ORIGINAL_COMMERCE_OFFSETS} from './original-commerce.ts';
+import {originalStackCode} from './original-stack-runtime.ts';
 
 /** Nonstack codes without FRISE's separate two-handed weapon branch. */
 export const simpleOriginalInventoryCode=(code:number)=>Number.isInteger(code)&&(code===9||(code>=-89&&code<=-60)||(code>=-29&&code<=-25));
@@ -8,7 +9,7 @@ export const originalItemArmour=(code:number)=>armour[code]??0;
 /** FRISE0032b precedes007e3: gold bypasses the transient T4f0a handpanel. */
 export function originalPortraitItemDestination(id:number,handPanelOpen:boolean){
   if(id===10)return 'gold' as const;
-  if(simpleOriginalInventoryCode(id))return handPanelOpen?'hand-panel' as const:'backpack' as const;
+  if(simpleOriginalInventoryCode(id)||originalStackCode(id))return handPanelOpen?'hand-panel' as const:'backpack' as const;
   return null;
 }
 
