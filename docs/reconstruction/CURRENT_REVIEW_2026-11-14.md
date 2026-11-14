@@ -1,14 +1,14 @@
 # Projektprüfung und verbindlicher nächster Arbeitsmodus
 
-Stand: 14.11.2026. Lokaler Code auf Basis155b22d plus uncommittete Arbeiten dieser Sitzung. Dies ist der aktuelle Einstieg; ältere nächste Schritte in PLAN/COVERAGE sind Historie. Kein vollständiger Originalspielablauf wird behauptet.
+Stand: 14.11.2026. Operativer Einstieg: [aktuelle Abnahmetabelle](ACCEPTANCE_STATUS.md), zuletzt gegen veröffentlichten Code26e290c und erfolgreiche CI geprüft. Das Gesamtziel ist offen. Die ursprüngliche Bestandsaufnahme und die Arbeitsnachträge unten dokumentieren den Verlauf; überholte Zustände sind keine aktuellen nächsten Schritte.
 
 ## Ziel und Kurs
 
 Endziel bleibt die vollständige nachvollziehbare Rekonstruktion beider lokalen DOS-Spiele und ein Toolkit zum Bearbeiten und Erweitern der erschlossenen Inhalte, einschließlich überprüfbarer Export-/Ausführungspfade. Die Browserdemo und die physische DOS-Rekonstruktion sind Zwischenstände.
 
-Bewertung: technische Richtung richtig, Lieferreihenfolge korrigieren. Native Opcode-, Grafik-, Scheduler- und Loadernachweise sind wertvolle Grundlagen. Der aktuelle LOGO-Fokus liefert jedoch noch keinen vollständigen NPC-/Itemablauf. Mehr LOGO-Stadien sind keine Voraussetzung für jeden Browser-Inhaltsadapter. Der sichtbare Steinwächter ist eine authored Begegnung mit festem Schaden; die Wahl von GOLEM1 Composite38 ersetzt keine originale KI oder Kampfsteuerung.
+Ursprüngliche Kursbewertung vor der Neupriorisierung: technische Richtung richtig, Lieferreihenfolge korrigieren. Native Opcode-, Grafik-, Scheduler- und Loadernachweise sind wertvolle Grundlagen. Der damalige LOGO-Fokus lieferte noch keinen vollständigen NPC-/Itemablauf. Mehr LOGO-Stadien sind keine Voraussetzung für jeden Browser-Inhaltsadapter. Der sichtbare Steinwächter ist eine authored Begegnung mit festem Schaden; die Wahl von GOLEM1 Composite38 ersetzt keine originale KI oder Kampfsteuerung.
 
-## Tatsächlicher Stand
+## Ursprüngliche Bestandsaufnahme (vor den Arbeitsnachträgen)
 
 | Bereich | Im Code vorhanden | Wesentliche Grenze |
 |---|---|---|
@@ -27,9 +27,9 @@ Frisch ausgeführte lokale Checks: check-items-scenes, check-npc-trading, check-
 1. Nur ein aktiver Produktablauf gleichzeitig. Primär jetzt Ishar2-Itemaufnahme→Charakterinventar→Export→Reload; danach ein konkreter NPC-/Shopablauf. Physische VM nur weiter bearbeiten, wenn sie diesen Ablauf blockiert oder als klar begrenzter separater Forschungsauftrag.
 2. Je Ablauf vier getrennte Stufen führen: Originalvertrag, lokaler Original-/nativer Nachweis, Browserintegration, gespeicherter/exportierter Zustand mit Reload. Kein Sammellabel wie „NPC fertig“ und keine Gesamtprozentzahl.
 3. Original- und authored Zustände ausdrücklich trennen. Keine Demo-Kampfwerte als Ersatz für originale Regeln; transiente Vorschauzustände nicht als gespeicherte Originalzustände ausweisen.
-4. Jeder checkpoint enthält Code, relevanten Prüfer, aktuelle Grenzen und kurze Testanleitung. Zusammengehörige Änderungen nach Prüfung als kleine Git-Commits sichern. Lokale Arbeitskopie ist derzeit noch uncommittet; nicht als veröffentlicht bezeichnen.
-5. Grok liefert abgegrenzte Verträge/Fixtures mit jeweils einem Abschlussbericht. Codex integriert nach Quellen-/Hash-/Verhaltenprüfung. Keine gegenseitigen Dauer-Weckschleifen. Quesh: tatsächlicher Opcode75-Grafikvertrag; Hoth: passende Listenfixtures; Alderaan: separate csound157-Geräteanalyse. Vor weiteren Forschungsaufträgen bestehende Reports/250 gemeldete Fixtures inventarisieren, Duplikate und bereits integrierte Fälle markieren.
-6. PLAN verweist auf diesen aktuellen Einstieg. Keine neuen „Next“-Absätze vor veraltete Absätze stapeln. Alte Nachweise bleiben als datierte Historie erhalten; aktive Aufgaben zentral hier pflegen.
+4. Jeder checkpoint enthält Code, relevanten Prüfer, aktuelle Grenzen und kurze Testanleitung. Zusammengehörige Änderungen nach Prüfung als kleine Git-Commits sichern. Veröffentlichung nur anhand des tatsächlich gepushten Commits und zugehöriger CI behaupten.
+5. Grok liefert abgegrenzte Verträge/Fixtures mit jeweils einem Abschlussbericht. Codex integriert nach Quellen-/Hash-/Verhaltenprüfung. Keine gegenseitigen Dauer-Weckschleifen. Die früheren Grafik-/Audioaufträge sind abgeschlossen. Aktuelle abgegrenzte Aufträge und ausstehende Lieferungen stehen ausschließlich in ACCEPTANCE_STATUS.md; abgeschlossene Pakete nicht erneut beauftragen.
+6. PLAN verweist auf diesen aktuellen Einstieg. Keine neuen „Next“-Absätze vor veraltete Absätze stapeln. Alte Nachweise bleiben als datierte Historie erhalten; aktive Aufgaben zentral in ACCEPTANCE_STATUS.md pflegen; Nachträge hier sind das Belegjournal.
 
 ## Nächste Abnahmen in Reihenfolge
 
@@ -37,7 +37,7 @@ A. Vorhandenen Ishar2-Itempfad reproduzierbar im Browser ausführen: konkretes O
 
 B. Einen passenden originalen Händler/NPC festlegen. Darstellung→Ansprache/Shop→Ware auswählen→Empfänger→Gold/Stapel→Export/Reload. Separat festhalten, ob Dialog/Verkauf/Bewegung fehlen. Keine neue KI beginnen, bevor dieser Teilpfad geschlossen ist.
 
-C. Ishar1-Save-Map aus c786e0f/neueren Grok-Verträgen mit lokalen Original-I/O-Belegen gegenprüfen. Widerlegte Kandidaten im Character Lab sperren/ersetzen, bevor weitere Schreibfunktionen darauf bauen. Die Widerlegung stammt bislang aus dem Remote-Handoff und ist hier noch kein neu reproduzierter Nachweis.
+C. Ishar1-Save-Map aus c786e0f/neueren Grok-Verträgen mit lokalen Original-I/O-Belegen gegenprüfen. Widerlegte Kandidaten im Character Lab sperren/ersetzen, bevor weitere Schreibfunktionen darauf bauen. Diese ursprüngliche Ausgangslage ist historisch; die inzwischen ausgeführten lokalen I/O-/Sperrprüfungen sind im aktuellen Abnahmestand belegt.
 
 D. Ersten vollständigen Modablauf je Spiel abschließen: minimale CONT-/Palettenänderung, sicherer Export, Originalstart und sichtbare Änderung in Arbeitskopie. Danach Erweiterungsgrenzen/neue Inhalte.
 

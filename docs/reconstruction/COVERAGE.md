@@ -1,6 +1,6 @@
 # Abdeckung und nächste Abnahmen
 
-> Aktueller Arbeitsstand und Priorisierung: [Projektprüfung 14.11.2026](CURRENT_REVIEW_2026-11-14.md). Die nachfolgenden älteren Fortsetzungsgrenzen sind historische Nachweise; aktive Reihenfolge: Itemablauf, NPC/Handel, Save-Map-Prüfung und Original-Modabnahme.
+> Aktueller Arbeitsstand und Priorisierung: [Abnahmetabelle](ACCEPTANCE_STATUS.md). [Projektprüfung und Arbeitsjournal](CURRENT_REVIEW_2026-11-14.md) enthalten die verbindlichen A–D-Anforderungen und Belege. Die folgenden älteren Fortsetzungsgrenzen sind Historie; der vollständige Zielumfang bleibt bestehen.
 
 Stand: 2026-10-18. Bezugsumfang: beide lokalen DOS-Profile aus
 [INVENTORY.md](INVENTORY.md), vollständige Rekonstruktion und Content-Toolkit.
