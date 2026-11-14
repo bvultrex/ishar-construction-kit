@@ -11,6 +11,7 @@ import {takeOriginalStackItem,receiveOriginalStackItem,originalStackCode} from "
 import { takeOriginalInventoryItem, placeOriginalInventoryItem, transferableOriginalInventoryCode, originalPortraitItemDestination } from "@/lib/ishar/original-inventory-runtime";
 import {readOriginalWeaponProfile,type OriginalWeaponProfile} from "@/lib/ishar/original-weapon-profile";
 import {placeOriginalHandItem} from "@/lib/ishar/original-hand-runtime";
+import {takeOriginalEquipmentItem,placeOriginalEquipmentItem} from "@/lib/ishar/original-equipment-runtime";
 import { readOriginalCarrier,receiveOriginalPurchase,type OriginalPurchase } from "@/lib/ishar/original-commerce";
 import { readOriginalMerchants,readOriginalItemResources,type OriginalMerchant } from "@/lib/ishar/original-merchants";
 import { originalShopEntry } from "@/lib/ishar/original-shop-entry";
@@ -926,9 +927,15 @@ function PlaytestPage() {
   function takeOriginalInventory(carrier:number,slot:number,position:{x:number;y:number},single=false){
     if(!originalSave || originalHeld || shopHeld || selectedGroundItemId || shopSelector!==null)return;
     const code=readOriginalCarrier(originalSave,carrier).slots[slot]!;
-    const result=originalStackCode(code)?takeOriginalStackItem(originalSave,carrier,slot,single):takeOriginalInventoryItem(originalSave,carrier,slot);if(!result)return;
+    const result=slot===12?takeOriginalEquipmentItem(originalSave,carrier,slot):originalStackCode(code)?takeOriginalStackItem(originalSave,carrier,slot,single):takeOriginalInventoryItem(originalSave,carrier,slot);if(!result)return;
     setOriginalHeld({id:result.id,before:originalSave,quantity:'quantity' in result&&typeof result.quantity==='number'?result.quantity:undefined});setOriginalSave(result.bytes);setHeldItemStart(position);
     setOriginalStatus(`Objekt ${result.id} aus Charakter ${carrier+1}, Platz ${slot+1} aufgenommen. Empfänger oder freien Handplatz wählen.`);
+  }
+  function giveOriginalEquipment(carrier:number){
+    if(!originalHeld||!originalSave||originalHeld.quantity!==undefined)return;
+    const result=placeOriginalEquipmentItem(originalSave,originalHeld.id,carrier,12);if(!result){setOriginalStatus("Dieser Ausrüstungsplatz kann den Gegenstand nicht übernehmen.");return;}
+    setOriginalSave(result.bytes);setOriginalHeld(result.held===null?null:{id:result.held,before:result.bytes});
+    setOriginalStatus(result.held===null?`Objekt ${originalHeld.id} ausgerüstet.`:`Ausrüstung getauscht. Objekt ${result.held} bleibt am Cursor.`);
   }
   function giveOriginalGround(carrier:number,handSlot?:9|10){
     if(!originalHeld || !originalSave)return;
@@ -1258,12 +1265,16 @@ function PlaytestPage() {
       <div className="module-grid">{Array.from({length:5},(_,carrier)=>{
         const person=readOriginalCarrier(originalSave,carrier);
         return <article key={carrier}><h3>Charakter {carrier+1}{person.present?'':' · leer'}</h3>
-          {person.present && <><p>Vitalität: {person.hp} · Gold: {person.money[0]*1000+person.money[1]}</p><p>Rüstung: {person.armour}</p><button aria-expanded={originalHandPanels[carrier]??false} onClick={()=>setOriginalHandPanels(panels=>panels.map((open,index)=>index===carrier?!open:open))}>Charakter {carrier+1}: Handpanel {originalHandPanels[carrier]?'schließen':'öffnen'}</button><ol>{person.slots.slice(0,11).map((code,index)=>(index<9||originalHandPanels[carrier])&&<li key={index}>
-            {index>=9?`Handplatz ${index}: `:''}{code===0?'leer':code===-125?'für Zweihandwaffe reserviert':`Objekt ${code}${code>=-59&&code<=-49?` · ${person.stacks[code+59]} Stück`:''}`}
-            {(transferableOriginalInventoryCode(code)||originalStackCode(code)) && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY})}>Charakter {carrier+1}, Platz {index+1}: Objekt {code} aufnehmen</button>}
-            {originalStackCode(code) && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY},true)}>Charakter {carrier+1}, Platz {index+1}: Ein Stück aufnehmen</button>}
-            {originalHeld && index>=9 && <button disabled={(originalHeld.id!==10&&!placeOriginalHandItem(originalSave,originalHeld,carrier,index as 9|10,originalWeapons??undefined))||person.hp<=0} onClick={()=>giveOriginalGround(carrier,index as 9|10)}>Charakter {carrier+1}: Handplatz {index} {code===0||originalHeld.id===10?'übernehmen':originalHeld.quantity!==undefined?'übergeben':'tauschen'}</button>}
-          </li>)}</ol></>}
+          {person.present && <><p>Vitalität: {person.hp} · Gold: {person.money[0]*1000+person.money[1]}</p><p>Rüstung: {person.armour}</p><button aria-expanded={originalHandPanels[carrier]??false} onClick={()=>setOriginalHandPanels(panels=>panels.map((open,index)=>index===carrier?!open:open))}>Charakter {carrier+1}: Hand-/Ausrüstungspanel {originalHandPanels[carrier]?'schließen':'öffnen'}</button><ol>{person.slots.map((code,index)=>{
+            if(index>=9&&!originalHandPanels[carrier]||index===11||index>=13)return null;const shown=index===12&&code!==0?code-1:code;
+            return <li key={index}>
+            {index===9||index===10?`Handplatz ${index}: `:index===12?'Ausrüstungsplatz 12: ':''}{code===0?'leer':code===-125?'für Zweihandwaffe reserviert':`Objekt ${shown}${index!==12&&code>=-59&&code<=-49?` · ${person.stacks[code+59]} Stück`:''}`}
+            {index<=10&&(transferableOriginalInventoryCode(code)||originalStackCode(code)) && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY})}>Charakter {carrier+1}, Platz {index+1}: Objekt {code} aufnehmen</button>}
+            {index<=10&&originalStackCode(code) && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY},true)}>Charakter {carrier+1}, Platz {index+1}: Ein Stück aufnehmen</button>}
+            {code!==0&&index===12&&<button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY})}>Charakter {carrier+1}: Ausrüstung {shown} ablegen</button>}
+            {originalHeld&&(index===9||index===10)&&<button disabled={(originalHeld.id!==10&&!placeOriginalHandItem(originalSave,originalHeld,carrier,index,originalWeapons??undefined))||person.hp<=0} onClick={()=>giveOriginalGround(carrier,index)}>Charakter {carrier+1}: Handplatz {index} {code===0||originalHeld.id===10?'übernehmen':originalHeld.quantity!==undefined?'übergeben':'tauschen'}</button>}
+            {originalHeld&&index===12&&<button disabled={originalHeld.quantity!==undefined||!placeOriginalEquipmentItem(originalSave,originalHeld.id,carrier,12)} onClick={()=>giveOriginalEquipment(carrier)}>Charakter {carrier+1}: Ausrüstungsplatz 12 {code===0?'übernehmen':'tauschen'}</button>}
+          </li>})}</ol></>}
           {originalHeld && <button disabled={!person.present||person.hp<=0} onClick={()=>giveOriginalGround(carrier)}>Charakter {carrier+1}: {originalPortraitItemDestination(originalHeld.id,originalHandPanels[carrier]??false)==='hand-panel'?'Handplatz wählen':'Originalobjekt übernehmen'}</button>}
           {shopHeld && <button disabled={!person.present} onClick={()=>giveShopPurchase(carrier)}>Charakter {carrier+1}: Ware übernehmen</button>}
         </article>;
