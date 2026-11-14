@@ -236,6 +236,12 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 - **Kit-Abweichungen:** `original-tavern.ts` Z. 10 prüft beim Essen die Klasse statt HP > 0 (eine belegte Figur mit HP ≤ 0 zahlt mit, isst aber nicht, known). Nahrung > 127: Original liest signed (+40-Zweig), Kit nimmt 100-Zweig (Vorkommen unknown).
 - Grenzen: Division mit Abschneiden gegen 0 suspected; nativ belegt nur Einzelzahler t = 2.
 
+### 5.4q Sichtbarer LOGO-Modtest Palette 6 / Index 5 (Nachtrag 49, 2026-11-14)
+- Berichte: `logo-palette6-visible-index.md` und `logo-palette6-visible-modtest.md` (Alderaan).
+- Kandidat (analytisch): Palette 6 / Index 5 in I1 und I2 (LOGO-Bilder identisch). Sichtbar 44093 von 64000 px (Hintergrund 44086, Emblem 7), deterministisch I1 43930 / I2 43934; Hintergrund opak, Index nicht animiert. Zweiter Platz Index 17 (3012 px). Index 0: 0 sichtbare px. Kit-Zahl 109307 zählt über alle dekodierten Bilder (Hintergrund 320×300 plus Einträge 12–15 und Emblem) und passt zum Kandidaten. Risiko: Einträge 12–15 nutzen ebenfalls Index 5.
+- Nativer Test (Kit c472220, known): `mod:logo-visible-probe` exit 0 in beiden Spielen, Ziel-Hashes stimmen (I1 6a1f8bf02cfb, I2 08caa6f1a1cc), geändert nur LOGO.IO plus Manifest. In je zwei Starts ca. 44000 px schwarz → rot, alle an Index-5-Positionen; Rest im Referenzrauschen. Rahmen, Index 17, Schrift und Emblem unverändert. Übergang nach dem Logo: Titel und Intro normal, 0 rote Pixel (Palette wird zurückgesetzt). Quellen vorher = nachher.
+- Risiken: Zwei I2-Läufe hingen im Logo wegen verlorener Leertasten der Tastenautomatik (auch bei der Referenz); mit Fokus-Tasten liefen alle vier Kontrollläufe normal. Spätere Programmteile mit eigenen Paletten ungeprüft. Kit-Feld `verification` steht weiter auf `prepared-not-tested-in-original`.
+
 ### 5.5 Danach
 
 - Save-Map Ishar 1 komplett in `save-maps.ts`:
