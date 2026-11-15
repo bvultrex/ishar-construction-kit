@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test:original-tavern-food": "node scripts/check-original-tavern-food.mjs",
+    "test:original-tavern-payment": "node scripts/check-original-tavern-payment.mjs",
     "test:original-tavern-food-local": "node scripts/check-original-tavern-food-local.mjs",
     "test:original-equipment-transfer": "node scripts/check-original-equipment-transfer.mjs",
     "test:original-equipment-local": "node scripts/check-original-equipment-local.mjs",

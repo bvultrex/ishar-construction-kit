@@ -39,6 +39,7 @@ jobs:
           npm run test:original-stack-hand
           npm run test:original-equipment-transfer
           npm run test:original-tavern-food
+          npm run test:original-tavern-payment
           npm run test:original-commerce
           npm run test:legacy-ishar1-write-guard
           npm run test:ishar1-save-writer
