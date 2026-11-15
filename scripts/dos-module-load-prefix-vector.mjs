@@ -1,0 +1,3 @@
+import {prepareOriginalDosModuleLoad} from '../src/lib/ishar/original-dos-module-load-prefix.ts';
+import {createHash} from 'node:crypto';
+let text='';for await(const chunk of process.stdin)text+=chunk;const r=JSON.parse(text),source=new Uint8Array(Buffer.from(r.memory,'base64')),before=source.slice(),{memory,...result}=prepareOriginalDosModuleLoad(source,r.ss,r.registers,r.engineSegment??0x1000);if(!source.every((v,i)=>v===before[i]))throw Error('Module-prefix input mutated');memory.fill(0,r.ss*16+r.stackMaskStart,r.ss*16+r.stackMaskEnd);console.log(JSON.stringify({...result,hash:createHash('sha256').update(memory).digest('hex')}));

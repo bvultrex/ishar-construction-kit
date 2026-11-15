@@ -1,0 +1,23 @@
+import assert from 'node:assert/strict';
+import {initializeOriginalDosVgaStartup as initialize,initializeOriginalDosVgaViewport} from '../src/lib/ishar/original-dos-vga-startup.ts';
+import {reserveOriginalDosPhysicalFramebuffer as reserve} from '../src/lib/ishar/original-dos-memory-layout.ts';
+const source=new Uint8Array(0x100000),ss=0x1000,graphics=0x2000;
+const reply={biosWrites:[{address:0x463,data:Uint8Array.of(0xd4,3)}],vectorOffset:0x1234,vectorSegment:0x7000,crtData:255,picMask:255,miscRead:128,retraceRead:8,irq0A:'none'};
+const reservation=reserve(source,ss,0x9fff),result=initialize(reservation.memory,ss,graphics,reply);
+const word=(at)=>result.memory[at]|result.memory[at+1]<<8;
+assert.equal(reservation.screenSegment,0x905f);
+assert.equal(word(ss*16+0x1dfb),0x905f);
+assert.equal(word(ss*16+0x1dd5),320);
+assert.equal(word(ss*16+0xb86),0xa000);
+assert.equal(word(0x28),0x1234);assert.equal(word(0x2a),0x7000);
+assert.equal(result.retracePolls,1);assert.equal(result.interruptsEnabled,false);
+assert.equal(initialize(reservation.memory,ss,graphics,{...reply,retraceRead:0}).retracePolls,650000);
+assert.ok(source.every(x=>x===0));
+assert.equal(new DataView(reservation.memory.buffer).getUint16(ss*16+0x1dd5,true),0);
+assert.throws(()=>initialize(source,ss,graphics,{...reply,irq0A:'delivered'}));
+assert.throws(()=>initialize(source,ss,graphics,{...reply,biosWrites:[{address:0xfffff,data:Uint8Array.of(1,2)}]}));
+assert.throws(()=>reserve(source,0xffff,0x9fff));
+console.log('VGA startup: reservation, pitch, vector restoration, timeout and immutable inputs passed');
+
+const viewport=initializeOriginalDosVgaViewport(reservation.memory,ss,graphics,reply),vp=new DataView(viewport.memory.buffer);
+assert.equal(vp.getUint16(ss*16+0x1dd1,true),319);assert.equal(vp.getUint16(ss*16+0x1dd3,true),199);assert.equal(vp.getUint16(ss*16+0x1dd5,true),320);assert.equal(vp.getUint16(ss*16+0xc22,true),80);

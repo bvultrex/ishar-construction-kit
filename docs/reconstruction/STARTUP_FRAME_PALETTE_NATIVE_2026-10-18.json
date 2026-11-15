@@ -1,0 +1,81 @@
+{
+  "caseCount": 2,
+  "cases": [
+    {
+      "checkpoint": "country33-mouse65535.bin",
+      "checkpointSha256": "b74eaaeb1adae77e39b227b8cab08d20ac5e3c7a890c07643f3614bac021f705",
+      "frameReturn": {
+        "registers": {
+          "ax": 65281,
+          "bx": 0,
+          "cx": 0,
+          "dx": 0,
+          "di": 116,
+          "si": 256,
+          "bp": 672,
+          "ds": 11563,
+          "es": 8430,
+          "sp": 2030
+        },
+        "phase": "return",
+        "entry": 9804,
+        "stackDelta": 62,
+        "records": 31,
+        "hidden": 0,
+        "hash": "daf1b38a60633d34faba954eaea534607e8d54c2d705eb75cac7769a822c25a6"
+      },
+      "palette": {
+        "ax": 0,
+        "interruptFlag": true,
+        "retraceReplies": 1,
+        "changed": 256,
+        "fade": true,
+        "hash": "daade4072270807544b983470392347a9c0907020e5d90639418d5ac84754dcf",
+        "eventSha256": "487f1efb3d02509e9775f51fc63a9825c66aa81521c26882d8a945313ca5df7b",
+        "eventCount": 1025,
+        "irqPrefixEventSha256": "2be9768394d416ead1a2f2be4d7fa2ded4812c246d6110552e261cf59dc2f232",
+        "boundary": 3529,
+        "outerIrqPending": true
+      }
+    },
+    {
+      "checkpoint": "country49-mouse65535.bin",
+      "checkpointSha256": "1f44395e61a649f6362fae39f1138bbb1ab23102fcc1a5f850838a16ee90a60c",
+      "frameReturn": {
+        "registers": {
+          "ax": 65281,
+          "bx": 0,
+          "cx": 0,
+          "dx": 0,
+          "di": 116,
+          "si": 256,
+          "bp": 672,
+          "ds": 11563,
+          "es": 8430,
+          "sp": 2030
+        },
+        "phase": "return",
+        "entry": 9804,
+        "stackDelta": 62,
+        "records": 31,
+        "hidden": 0,
+        "hash": "335b3e279382b44a32cbf82884a73e732d6630b471f4fd0fe560d018ac29db39"
+      },
+      "palette": {
+        "ax": 0,
+        "interruptFlag": true,
+        "retraceReplies": 1,
+        "changed": 256,
+        "fade": false,
+        "hash": "1b8ccc8df3782d0723c59d5c92a01301188df60087683265ade794e9fc9c6555",
+        "eventSha256": "487f1efb3d02509e9775f51fc63a9825c66aa81521c26882d8a945313ca5df7b",
+        "eventCount": 1025,
+        "irqPrefixEventSha256": "2be9768394d416ead1a2f2be4d7fa2ded4812c246d6110552e261cf59dc2f232",
+        "boundary": 3529,
+        "outerIrqPending": true
+      }
+    }
+  ],
+  "stackMask": "0798..07ED CPU scratch; original entry saves compared",
+  "limits": "Actual43D0 pixel/object/frame return to264C compared with existing saved CPU frames, full memory/registers; optional real installed IRQ entry and VGA palette callback compared through0DC9, outer IRQ tail/IRET not completed. Explicit retrace8, no BIOS-chain stub or colored-screen claim."
+}

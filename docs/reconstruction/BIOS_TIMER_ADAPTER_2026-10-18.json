@@ -1,0 +1,308 @@
+{
+  "explicitServiceTests": [
+    {
+      "cases": [
+        {
+          "explicitPlatformAdapter": true,
+          "nativeWaitExited": true,
+          "syntheticCountdownOverride": null,
+          "checkpoint": "country33-mouse0.bin",
+          "profile": "ishar1",
+          "sourceSha256": "eccf2b67d0cd8168beccc996adad7578f76ec8bafbee7d0c7938e7f4bcda2c17",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 0,
+              "si": 256,
+              "bp": 672,
+              "ds": 11126,
+              "es": 8430,
+              "sp": 2010
+            },
+            "phase": "iret",
+            "entry": 15716,
+            "segment": 4096,
+            "stackDelta": 0,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 15716,
+              "flags": 582,
+              "sp": 2010
+            },
+            "flags": 582,
+            "platformService": {
+              "profile": "dosbox-ega-unhooked",
+              "ticks": 1,
+              "savedHandler": {
+                "segment": 28672,
+                "entry": 4660
+              }
+            },
+            "hash": "860ceabc2bdbfaa539741a5afddc6bf7191d08fe96b4192d93a3dc3bd076ba3b"
+          },
+          "eventCount": 1031,
+          "eventSha256": "9b4fdd28531d3168fe1e7b998529a68bdad72d20f09c0788cb27e9c908bfa21e",
+          "counterBefore": 0,
+          "counterAfter": 1
+        },
+        {
+          "explicitPlatformAdapter": true,
+          "nativeWaitExited": true,
+          "syntheticCountdownOverride": null,
+          "checkpoint": "country33-mouse65535.bin",
+          "profile": "ishar1",
+          "sourceSha256": "5a21ea3eab96bd10e5b934e455cc25dabb3eabbb5ab6aedc86573b2254a8dbd7",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 0,
+              "si": 256,
+              "bp": 672,
+              "ds": 11126,
+              "es": 8430,
+              "sp": 2010
+            },
+            "phase": "iret",
+            "entry": 15716,
+            "segment": 4096,
+            "stackDelta": 0,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 15716,
+              "flags": 582,
+              "sp": 2010
+            },
+            "flags": 582,
+            "platformService": {
+              "profile": "dosbox-ega-unhooked",
+              "ticks": 1,
+              "savedHandler": {
+                "segment": 28672,
+                "entry": 4660
+              }
+            },
+            "hash": "901a30ca49ec5540f969a0cfd640ec04b0343cf5ab4479f1060d0e02e721eb3d"
+          },
+          "eventCount": 1031,
+          "eventSha256": "9b4fdd28531d3168fe1e7b998529a68bdad72d20f09c0788cb27e9c908bfa21e",
+          "counterBefore": 0,
+          "counterAfter": 1
+        },
+        {
+          "explicitPlatformAdapter": true,
+          "nativeWaitExited": true,
+          "syntheticCountdownOverride": null,
+          "checkpoint": "country49-mouse0.bin",
+          "profile": "ishar1",
+          "sourceSha256": "29b82eea75c11f4e6b2b308f15db5d10f617fa33d634e9bc32cac01419ad1e15",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 0,
+              "si": 256,
+              "bp": 672,
+              "ds": 11126,
+              "es": 8430,
+              "sp": 2010
+            },
+            "phase": "iret",
+            "entry": 15716,
+            "segment": 4096,
+            "stackDelta": 0,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 15716,
+              "flags": 582,
+              "sp": 2010
+            },
+            "flags": 582,
+            "platformService": {
+              "profile": "dosbox-ega-unhooked",
+              "ticks": 1,
+              "savedHandler": {
+                "segment": 28672,
+                "entry": 4660
+              }
+            },
+            "hash": "f01c42ec646b6943fae48e29a7e76a615d926e14432d00011f3e255df8b1eac3"
+          },
+          "eventCount": 1031,
+          "eventSha256": "9b4fdd28531d3168fe1e7b998529a68bdad72d20f09c0788cb27e9c908bfa21e",
+          "counterBefore": 0,
+          "counterAfter": 1
+        },
+        {
+          "explicitPlatformAdapter": true,
+          "nativeWaitExited": true,
+          "syntheticCountdownOverride": null,
+          "checkpoint": "country49-mouse65535.bin",
+          "profile": "ishar1",
+          "sourceSha256": "a01f73264eb9348c11126c484a642b3c4af36ac9b051fe4462dd5a6215f5c79e",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 0,
+              "si": 256,
+              "bp": 672,
+              "ds": 11126,
+              "es": 8430,
+              "sp": 2010
+            },
+            "phase": "iret",
+            "entry": 15716,
+            "segment": 4096,
+            "stackDelta": 0,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 15716,
+              "flags": 582,
+              "sp": 2010
+            },
+            "flags": 582,
+            "platformService": {
+              "profile": "dosbox-ega-unhooked",
+              "ticks": 1,
+              "savedHandler": {
+                "segment": 28672,
+                "entry": 4660
+              }
+            },
+            "hash": "4e9498ef77c95a13803a900af2684bde2b11c893ec4ea464f3183e4a32b60c14"
+          },
+          "eventCount": 1031,
+          "eventSha256": "9b4fdd28531d3168fe1e7b998529a68bdad72d20f09c0788cb27e9c908bfa21e",
+          "counterBefore": 0,
+          "counterAfter": 1
+        }
+      ],
+      "stackMask": "0798..07ED active CPU scratch, saved startup registers compared; hardware frame separately checked",
+      "limits": "Original installed IRQ, palette and tail; optional explicit DOSBox EGA/no-INT1C-hook platform service, independently applied to native CPU, NOT captured BIOS execution. Optional native wait exit checked. No countdown override unless separately requested. Originals unchanged; raw DAC data omitted."
+    },
+    {
+      "cases": [
+        {
+          "explicitPlatformAdapter": true,
+          "nativeWaitExited": false,
+          "syntheticCountdownOverride": null,
+          "checkpoint": "country33-mouse65535.bin",
+          "profile": "ishar2",
+          "sourceSha256": "002b464d10308bad45b2ad1ea5a7e4d0a849a933bb7f173e734a61193b049be9",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 116,
+              "si": 256,
+              "bp": 672,
+              "ds": 11563,
+              "es": 8430,
+              "sp": 2030
+            },
+            "phase": "iret",
+            "entry": 9804,
+            "segment": 4096,
+            "stackDelta": 0,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 9804,
+              "flags": 582,
+              "sp": 2030
+            },
+            "flags": 582,
+            "platformService": {
+              "profile": "dosbox-ega-unhooked",
+              "ticks": 1,
+              "savedHandler": {
+                "segment": 28672,
+                "entry": 4660
+              }
+            },
+            "hash": "a5f40a0c201a9ec8fecf5372381a4a992bf54d1a092960a9cd48427c7118c7f5"
+          },
+          "eventCount": 1031,
+          "eventSha256": "9b4fdd28531d3168fe1e7b998529a68bdad72d20f09c0788cb27e9c908bfa21e",
+          "counterBefore": 0,
+          "counterAfter": 1
+        },
+        {
+          "explicitPlatformAdapter": true,
+          "nativeWaitExited": false,
+          "syntheticCountdownOverride": null,
+          "checkpoint": "country49-mouse65535.bin",
+          "profile": "ishar2",
+          "sourceSha256": "67e4e3403b564f35c1de73d59f53f92c6d33aa08628ade5b13ebd9aeed902c80",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 116,
+              "si": 256,
+              "bp": 672,
+              "ds": 11563,
+              "es": 8430,
+              "sp": 2030
+            },
+            "phase": "iret",
+            "entry": 9804,
+            "segment": 4096,
+            "stackDelta": 0,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 9804,
+              "flags": 582,
+              "sp": 2030
+            },
+            "flags": 582,
+            "platformService": {
+              "profile": "dosbox-ega-unhooked",
+              "ticks": 1,
+              "savedHandler": {
+                "segment": 28672,
+                "entry": 4660
+              }
+            },
+            "hash": "fb1e32d045d1ae99ca4ef00e963d57bd38cfcc0faeb1b517a853c3a241328104"
+          },
+          "eventCount": 1031,
+          "eventSha256": "9b4fdd28531d3168fe1e7b998529a68bdad72d20f09c0788cb27e9c908bfa21e",
+          "counterBefore": 0,
+          "counterAfter": 1
+        }
+      ],
+      "stackMask": "0798..07ED active CPU scratch, saved startup registers compared; hardware frame separately checked",
+      "limits": "Original installed IRQ, palette and tail; optional explicit DOSBox EGA/no-INT1C-hook platform service, independently applied to native CPU, NOT captured BIOS execution. Optional native wait exit checked. No countdown override unless separately requested. Originals unchanged; raw DAC data omitted."
+    }
+  ],
+  "actualFirmwareExecuted": false,
+  "sourceCommit": "e8b4771a7de58a7d5c6d7c9c5b36c6ab09c6d93d",
+  "date": "2026-10-18",
+  "platformUnitCases": 48
+}

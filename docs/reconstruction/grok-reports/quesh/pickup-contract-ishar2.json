@@ -1,0 +1,307 @@
+{
+ "base_commit": "bb42748",
+ "code": "319819c",
+ "sha256": {
+  "AFFOBJ.IO": "40b882fbadff…",
+  "OBJET.IO": "51ec1fdf24be…",
+  "SOURIS.IO": "78df7c73f880…",
+  "FRISE.IO": "27117c124caf…",
+  "START.SAV": "→ private/pickup-contract-ishar2-savewerte.json#/sha256/START.SAV"
+ },
+ "routines": [
+  {
+   "id": "R1",
+   "script": "AFFOBJ.IO",
+   "range": [
+    "0x0003b",
+    "0x004f6"
+   ],
+   "evidence": "proven",
+   "writes_main": [],
+   "spawns": "OBJET(type4) +0=x,+2=d*99-10,+4=y,+0x0c=id"
+  },
+  {
+   "id": "R2",
+   "script": "OBJET.IO",
+   "range": [
+    "0x003ad",
+    "0x00405"
+   ],
+   "evidence": "proven",
+   "forms": {
+    "9": {
+     "form": 40,
+     "material": 521,
+     "origin": [
+      -12,
+      0,
+      -4
+     ],
+     "extent": [
+      25,
+      1,
+      19
+     ]
+    },
+    "10": {
+     "form": 16,
+     "material": 522,
+     "origin": [
+      -6,
+      0,
+      0
+     ],
+     "extent": [
+      13,
+      1,
+      18
+     ]
+    }
+   },
+   "sprite": {
+    "9": "115+depthIdx",
+    "10": "90+depthIdx"
+   },
+   "pickable": "depthIdx==0"
+  },
+  {
+   "id": "R3",
+   "script": "SOURIS.IO",
+   "range": [
+    "0x00409",
+    "0x0066b"
+   ],
+   "evidence": "proven",
+   "gates": "0x7a==1, x<256, y_up>72, 0x2ab7==0, 0x4fcf==0, 0x2d16==0, 0x49d3==0, 0x4b34==0",
+   "cursor_form": {
+    "origin": [
+     -128,
+     0,
+     -122
+    ],
+    "extent": [
+     0,
+     499,
+     0
+    ]
+   },
+   "writes_main": [
+    "0x2c4e+id=0",
+    "0x2aba+id=0",
+    "0x2b84+id=0",
+    "0x2fc0=handle",
+    "0x2d16=id"
+   ],
+   "hit_rect_game": {
+    "9": [
+     116,
+     141,
+     104,
+     123
+    ],
+    "10": [
+     122,
+     135,
+     101,
+     119
+    ],
+    "rating": "hypothesis"
+   }
+  },
+  {
+   "id": "R4",
+   "script": "OBJET.IO",
+   "range": [
+    "0x00a16",
+    "0x00a72"
+   ],
+   "evidence": "proven",
+   "state": {
+    "0x2d16": "held code",
+    "0x2fc0": "cursor entity"
+   },
+   "saved": false
+  },
+  {
+   "id": "R5",
+   "script": "SOURIS.IO",
+   "range": [
+    "0x007b0",
+    "0x00a1b"
+   ],
+   "evidence": "proven"
+  },
+  {
+   "id": "R6",
+   "script": "FRISE.IO",
+   "range": [
+    "0x007b1",
+    "0x03cce"
+   ],
+   "evidence": "proven",
+   "gate": "y_up<62, c=x/64, T4f0a[c]!=1",
+   "writes": "T2d8e[c*15+firstFree0..8]=0x2d16"
+  },
+  {
+   "id": "R7",
+   "script": "FRISE.IO",
+   "range": [
+    "0x0080c",
+    "0x0401b"
+   ],
+   "evidence": "proven",
+   "gate": "T4f0a[c]==1, 17<y_up<45, slot9 x in (14+64c,39+64c), slot10 x in (38+64c,63+64c)",
+   "armour": "T2f0e[c] += armour(code) on hand drop, -= on hand pickup",
+   "armour_table": {
+    "-85": 2,
+    "-83": 1,
+    "-79": 1,
+    "-77": 6,
+    "-75": 2,
+    "-71": 12,
+    "-69": 9,
+    "-67": 7,
+    "-65": 5,
+    "-63": 3,
+    "-61": 2,
+    "-29": 6,
+    "-28": 3,
+    "-27": 2,
+    "-26": 1,
+    "-25": 4,
+    "default": 0
+   },
+   "confirmed_by": "charsaves CH1N->CH2N 0x2f0e"
+  }
+ ],
+ "reference": {
+  "save": "→ private/pickup-contract-ishar2-savewerte.json#/reference/save",
+  "click_pick": [
+   128,
+   113
+  ],
+  "drop_portrait": [
+   32,
+   170
+  ],
+  "drop_hand10": [
+   50,
+   168
+  ],
+  "expected_diff": {
+   "regel": "Stückzahl-Byte der aufgenommenen/abgelegten Gegenstandsreihe (345/545/745) → 0; Handslot-Wort 1036-1037 (Variante A) bzw. 1056-1057 (Variante B) ← Item-ID",
+   "werte": "→ private/pickup-contract-ishar2-savewerte.md SW-B1"
+  }
+ },
+ "addendum_2026_10_18_armour": {
+  "status": "contract confirmed; L_03f22 complete; save offset 1336+c (byte table)",
+  "armour_table": {
+   "-89": 4,
+   "-87": 3,
+   "-85": 2,
+   "-83": 1,
+   "-79": 1,
+   "-77": 6,
+   "-75": 2,
+   "-71": 12,
+   "-69": 9,
+   "-67": 7,
+   "-65": 5,
+   "-63": 3,
+   "-61": 2,
+   "-29": 6,
+   "-28": 3,
+   "-27": 2,
+   "-26": 1,
+   "-25": 4,
+   "default": 0
+  },
+  "guard": "(code<=-26 or code>=-29) [always true] and slot in {9,10}; drop 0x02f68 (+=, 0x02f92), hand pickup 0x02c71 (-=, 0x02c9b); slots 9/10 identical; no class restriction",
+  "obj9_obj10": 0,
+  "variantC": {
+   "save": "codex-support/quesh/private/PICK25.SAV",
+   "sha256": "78d3fbdb51aa…",
+   "patch_of": "→ private/pickup-contract-ishar2-savewerte.json#/addendum_2026_10_18_armour/variantC/patch_of",
+   "bytes": {
+    "1056": "privat (SW-PK2-ARM-C)",
+    "1057": "privat (SW-PK2-ARM-C)",
+    "1336": "privat (SW-PK2-ARM-C)"
+   },
+   "clicks": [
+    "load pick25",
+    "(40,131) hands c0",
+    "(50,168) pick -> save pick25a: 1336 sinkt um Ruestungswert, 1056/57 geleert (Werte privat (SW-PK2-ARM-C))",
+    "(50,168) drop -> save pick25b: 1336 steigt um Ruestungswert, 1056/57 = Item-Code (Werte privat (SW-PK2-ARM-C))"
+   ],
+   "alt": "→ private/pickup-contract-ishar2-savewerte.json#/addendum_2026_10_18_armour/variantC/alt"
+  }
+ },
+ "addendum_2026_11_14_kit_f4cf659": {
+  "kit_commit": "f4cf659",
+  "vorher": "319819c",
+  "code10_portrait": {
+   "stufe": "known (Listing)",
+   "adresse": "FRISE 0x0032b-0x00375, L_04825, L_06865",
+   "bedingung": "0x7a==1, 0x2d16!=-6, 0x78<75, abs(0x2d16)==10, c=0x76/64 lebend (0x0034d)",
+   "writes": [
+    "T2d80[c]+=0x4c96 (Save 1026+2c)",
+    "T2d68[c]+=0x4c94 (+Uebertrag, Save 1006+2c)",
+    "0x4c94=0 (Save 14-15)",
+    "0x4c96=0 (Save 16-17)",
+    "0x2d16=0",
+    "ckill 0x2fc0"
+   ],
+   "folge": "Objekt 10 nie ins Gepaeck via Portraet/Handfeld; R6 fuer 10 widerlegt"
+  },
+  "R5_ground_drop_extra": {
+   "stufe": "known",
+   "write": "T50c8[id]=0x2ab6 (SOURIS 0x009f0, Save 8039+id)",
+   "abbruch": [
+    "Material-512-Objekt unter Cursor (0x008cf)",
+    "Material 69 (0x00877)",
+    "0x4aa0!=0 (0x007b0)"
+   ]
+  },
+  "R7_swap": {
+   "stufe": "known",
+   "range": [
+    "0x03012",
+    "0x03347"
+   ],
+   "blocked": "-125 -> keine Aktion",
+   "bedingung": "alle T4bbc[0..19]==0",
+   "writes": [
+    "Slot=gehalten (0x0328b)",
+    "T2f0e[c]+=armour(neu) nur -29..-26 (0x032d8/0x03302)",
+    "0x2d16=alt",
+    "T2f0e[c]-=armour(alt) nur -29..-26 (0x03313/0x0333d)"
+   ],
+   "asymmetrie": "Ablage/Aufnahme OR (immer), Tausch AND (-29..-26)"
+  },
+  "slot_pickup": {
+   "stufe": "known",
+   "adresse": "L_02c0f, Slot=0 bei 0x02dbb",
+   "listing_luecke": "0x02cbb-0x02dba (nur Stapelzweig)"
+  },
+  "save_with_cursor": {
+   "stufe": "known",
+   "adresse": "FRISE 0x002b0/0x00982 -> L_05c6e nur bei 0x2d16==0 und 0x4aa0==0"
+  },
+  "movement_with_cursor": {
+   "stufe": "suspected (Umfang)",
+   "adresse": "GERDEP 0x00572"
+  },
+  "code9_scene_handover": {
+   "stufe": "known (Code), Szene suspected",
+   "adresse": "SOURIS 0x00c74-0x00c91",
+   "write": "0x4f13=3 (Save 20-21)",
+   "folge": "PP11 0x000fc T449a[62]=0 (Save 6905)"
+  },
+  "release": {
+   "bedingung": "alle T4bbc[0..19]==0 (0x03c9b, 0x02fdb, 0x0315b)",
+   "stufe": "known; T4bbc fuer 9/10 normal 0 suspected"
+  },
+  "korrektur_hit_rect_10": "mx 122..134 (Nachtrag 2026-10-18); R3 hit_rect_game.10 nennt veraltet 135",
+  "bericht": "pickup-contract-check-ishar2.md (Nachtrag 32)"
+ }
+}

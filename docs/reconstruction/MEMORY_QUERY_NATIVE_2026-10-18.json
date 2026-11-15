@@ -1,0 +1,12 @@
+[
+  {
+    "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+    "caseCount": 168,
+    "verified": "Original1451..1564 memory selectors0..4 and unknown selector fallback; wrapped paragraph arithmetic, decimal KB truncation, remaining counts and0/1/3/501-node free chains; whole memory except FEC0..FF01 CPU stack, preserved AX/BX/CX/DI/ES, DX/SP and immutable source. DOS disk selectors A..D/a..d remain explicit unsupported boundaries."
+  },
+  {
+    "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+    "caseCount": 168,
+    "verified": "Original1451..1564 memory selectors0..4 and unknown selector fallback; wrapped paragraph arithmetic, decimal KB truncation, remaining counts and0/1/3/501-node free chains; whole memory except FEC0..FF01 CPU stack, preserved AX/BX/CX/DI/ES, DX/SP and immutable source. DOS disk selectors A..D/a..d remain explicit unsupported boundaries."
+  }
+]

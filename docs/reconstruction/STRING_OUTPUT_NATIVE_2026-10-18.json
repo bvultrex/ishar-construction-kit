@@ -1,0 +1,58 @@
+{
+  "description": "Original185 strings through normal glyph record output; no original text or graphics bytes",
+  "matrix": {
+    "es": [
+      20480,
+      7179
+    ],
+    "stringTags": [
+      4,
+      10,
+      34
+    ],
+    "fontBases": [
+      0,
+      65535
+    ],
+    "texts": [
+      [],
+      [
+        13,
+        10,
+        32
+      ],
+      [
+        65,
+        66
+      ],
+      [
+        64,
+        65,
+        66,
+        67,
+        32,
+        13,
+        10
+      ],
+      [
+        255,
+        65
+      ]
+    ]
+  },
+  "profiles": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 60,
+      "resultsSha256": "86b6f614a1bf39339ad7edd05cecbb4487f9c2ef70e7900bac6e924d6ecfd8f9"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 60,
+      "resultsSha256": "0595268762ce42fd08d07f83670a6ab33b5a05ba2a7e64be8009870a3f120be3"
+    }
+  ],
+  "limits": "Six script registers/SP and full physical memory except CPU stack saves. Normal glyph records; FE/unsupported string forms rejected; no pixels or hardware modeled."
+}

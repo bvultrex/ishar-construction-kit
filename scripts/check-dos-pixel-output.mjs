@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {prepareOriginalDosPixelBatch as batch} from '../src/lib/ishar/original-dos-pixel-batch.ts';
+import {prepareOriginalDosSpriteBlit as sprite} from '../src/lib/ishar/original-dos-sprite-blit.ts';
+import {fillOriginalDosSolidSprite as fill} from '../src/lib/ishar/original-dos-solid-blit.ts';
+const ss=0x1c0b,g=ss*16,r={ds:0x6000,es:0x7000,si:0,bp:0x200,dx:12,cx:34},m=new Uint8Array(0x100000),v=new DataView(m.buffer),w=(at,x)=>v.setUint16(at,x,true);
+m.fill(90,0x90000,0xa0000);m[0x60000]=1;m[0x60001]=173;w(0x60002,7);w(0x60004,3);w(0x7100c,2);w(0x7100e,1);for(const [at,x] of [[0x1dd5,16],[0x1dbf,32],[0x1dc1,0x9000],[0xc2c,4],[0xc2e,2],[0xc30,7],[0xc32,3]])w(g+at,x);
+const before=m.slice(),filled=fill(m,ss,r,0x1000);assert.deepEqual(m,before);assert.equal(filled.pixelWrites,8);assert.equal(filled.destination.start,68);assert.equal(filled.di,100);
+for(let at=0;at<128;at++)assert.equal(filled.memory[0x90000+at],at>=68&&at<72||at>=84&&at<88?173:90);
+m[0x71022]=1;assert.deepEqual(fill(m,ss,r,0x1000).memory.slice(0x90000,0xa0000),filled.memory.slice(0x90000,0xa0000));w(g+0x1dd5,0);const zeroPitch=fill(m,ss,r,0x1000);assert.equal(zeroPitch.destination.pitch,0);assert.equal([...zeroPitch.memory.slice(0x90000,0xa0000)].filter(value=>value!==90).length,4);
+w(g+0x1dc1,0x1e97);w(g+0x1dbf,0);w(g+0xc2c,0);w(g+0xc2e,0);const overlap=m.slice();assert.throws(()=>fill(m,ss,r,0x1000),/overlaps/);assert.deepEqual(m,overlap);
+const scene=new Uint8Array(0x100000),sv=new DataView(scene.buffer),sw=(at,x)=>sv.setUint16(at,x,true);
+for(const [at,x] of [[0xb32,0x300],[0xb34,0x5000],[0xbf6,0x200],[0xc16,0x100],[0xc2c,65531],[0xc2e,65526],[0xc30,30],[0xc32,40]])sw(g+at,x);scene[g+0xc18]=1;scene[0x50301]=64;sw(0x50302,0x200);sw(0x70216,319);sw(0x70218,199);sw(0x70206,0x1000);
+const sceneBefore=scene.slice(),selected=batch(scene,ss,{...r,ds:0x7000,es:0x5000,cx:0x200},0x200,0x1000),clip=new DataView(selected.memory.buffer);assert.deepEqual(scene,sceneBefore);assert.equal(selected.phase,'record');assert.equal(clip.getUint16(g+0xc1a,true),0);assert.equal(clip.getUint16(g+0xc1e,true),31);assert.equal(clip.getUint16(g+0xc22,true),4);
+sw(0x50304,0x100);scene[0x71022]=128;const cycle=scene.slice();assert.throws(()=>batch(scene,ss,{...r,ds:0x7000,es:0x5000,cx:0x200},0x200,0x1000),/cycle/);assert.deepEqual(scene,cycle);
+w(0x71008,0x100);w(0x7100a,0x6000);w(0x60100,0x100);w(0x60102,16);m[0x60210]=20;w(0x60212,16);w(0x60214,8);w(g+0xc40,0);w(g+0xc42,0);w(g+0xc44,39);w(g+0xc46,39);const chosen=sprite(m,ss,{...r,ds:0x7000,es:0x5000},0x1000);assert.equal(chosen.registers.ds,0x6021);assert.equal(chosen.entry,0x4bf);
+console.log('Indexed solid pixels/pitch/wrap guards, original clip alignment, cycle rejection and ROR format selection passed');

@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {prepareOriginalDosPaletteControl as prepare} from '../src/lib/ishar/original-dos-palette-control.ts';
+import {stepOriginalDosPhysicalScript as step} from '../src/lib/ishar/original-dos-physical-script.ts';
+const memory=new Uint8Array(0x100000),g=0x1c0b0,registers={ds:0x4000,es:0x5000,si:0,bp:0x200,dx:0x3456,cx:0x789a};memory.set([2,63,0],0x40000);
+memory[g+0xbf4]=0xff;let before=memory.slice(),result=prepare(memory,0x1c0b,registers);
+assert.equal(result.phase,'return');assert.equal(result.registers.dx,registers.dx);assert.equal(result.registers.cx,63);assert.equal(result.memory[g+0xbf4],0);assert.deepEqual(memory,before);
+memory[g+0xbf4]=0;memory[g+0x2897]=1;memory.fill(0x79,g+0x1743,g+0x1763);before=memory.slice();result=prepare(memory,0x1c0b,registers);
+assert.equal(result.phase,'upload');assert.equal(result.entry,0x5c4c);assert.deepEqual(result.memory.subarray(g+0xe43,g+0xe63),new Uint8Array(32).fill(0x79));assert.deepEqual(memory,before);
+const instruction=memory.slice();instruction.set([188,2,63,0],0x40000);const snapshot=instruction.slice();assert.throws(()=>step(instruction,0x1c0b,registers),/upload boundary/);assert.deepEqual(instruction,snapshot);
+assert.throws(()=>prepare(new Uint8Array(1),0x1c0b,registers),/1MiB/);
+console.log('Palette control source preservation, actual upload boundary and physical-step refusal passed');

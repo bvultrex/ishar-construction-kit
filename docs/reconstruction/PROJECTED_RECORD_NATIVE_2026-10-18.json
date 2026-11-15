@@ -1,0 +1,42 @@
+{
+  "description": "projected record native; no original resource bytes",
+  "matrix": {
+    "operations": [
+      "commit",
+      "retire"
+    ],
+    "ds": [
+      28672,
+      7179
+    ],
+    "positions": [
+      "head",
+      "middle"
+    ],
+    "targetStatuses": [
+      255,
+      2
+    ],
+    "bounds": [
+      "sentinel",
+      "existing"
+    ],
+    "scenarios": 8,
+    "scenarioCoverage": "Signed depth and priority/group boundaries, equal-key FF versus2 insertion, negative pending records and coordinate wrap"
+  },
+  "profiles": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 256,
+      "resultsSha256": "8ba9195952941e7a7d2f714efae13e5bbef52c37ae059d82d4fb301c7d788214"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 256,
+      "resultsSha256": "be9ccfaebb9fd4a9bc321ae5fc14c6d3d19d862545d68d9f548771f7d4f19e6c"
+    }
+  ],
+  "limits": "Six script registers, BX/DI, SP and full memory except CPU stack saves. Batch starts with normal first FF; stops before43FB. No pixels or hardware."
+}

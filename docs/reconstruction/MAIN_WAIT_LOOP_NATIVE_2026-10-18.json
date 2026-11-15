@@ -1,0 +1,2293 @@
+{
+  "profile": "ishar2",
+  "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+  "mainSha256": "bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95",
+  "requestedAdditionalCycles": 40,
+  "shiftFlags": 0,
+  "limits": "Controlled startup globals and explicit BIOS reply; persistent CPU and unmodified original MAIN; full memory except stack saves, six script registers and SP checked at every modeled boundary. No rendered pixels.",
+  "layouts": [
+    {
+      "segment": 12288,
+      "offset": 0,
+      "frontier": 24576,
+      "cycles": [
+        {
+          "cycle": 1,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "3ae54dbb9c16dfbabcedfe92675a43d67d8caf9b63a3ee5ddd6cce55c110305c"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "77e574e97411a4a21d13c01b769d0fd6b0c662f4c45c64d4a23e3c5fa10bc5d2"
+        },
+        {
+          "cycle": 2,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "0d22a4992d4f2b938f764ce3c46ff1de305a8de4ce23cfbf6680b7bfa9ed413a"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "3ae54dbb9c16dfbabcedfe92675a43d67d8caf9b63a3ee5ddd6cce55c110305c"
+        },
+        {
+          "cycle": 3,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "a87fecd0691a9be848089afea8d360a896162815da58f627fbf96dcd80acdb04"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "0d22a4992d4f2b938f764ce3c46ff1de305a8de4ce23cfbf6680b7bfa9ed413a"
+        },
+        {
+          "cycle": 4,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "fd20a09fe08aea8d1d90b54db348986a0df2dead7765d7c599b4cdc5900e1f70"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "a87fecd0691a9be848089afea8d360a896162815da58f627fbf96dcd80acdb04"
+        },
+        {
+          "cycle": 5,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "23834d1476bfd6709b62e9eb286567a92e67b9d368a61e248ab858f35122ca12"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "fd20a09fe08aea8d1d90b54db348986a0df2dead7765d7c599b4cdc5900e1f70"
+        },
+        {
+          "cycle": 6,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "2982e28c58a16324df05b0d9ff9cc0a6625d07d9acdf4c48613f7cf95285b8f4"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "23834d1476bfd6709b62e9eb286567a92e67b9d368a61e248ab858f35122ca12"
+        },
+        {
+          "cycle": 7,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "72c145805495394d5c3ed03ccf911472347c60bb16c640a7b0a456e1ca02823b"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "2982e28c58a16324df05b0d9ff9cc0a6625d07d9acdf4c48613f7cf95285b8f4"
+        },
+        {
+          "cycle": 8,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "9bde2cbb0a326794596729e4a253b4a9491d251ea696f03b78037b82adacdb15"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "72c145805495394d5c3ed03ccf911472347c60bb16c640a7b0a456e1ca02823b"
+        },
+        {
+          "cycle": 9,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "3a9e1c6d73ecb2274545e51c34bbe3e9401882e8ae9fbdfe47c2821a784f9b3d"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "9bde2cbb0a326794596729e4a253b4a9491d251ea696f03b78037b82adacdb15"
+        },
+        {
+          "cycle": 10,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "19aedf32842cd9eefcf41faee909c7cb54a13932edb523bcf4cc6e97e8967ec4"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "3a9e1c6d73ecb2274545e51c34bbe3e9401882e8ae9fbdfe47c2821a784f9b3d"
+        },
+        {
+          "cycle": 11,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "c787a08d94c8cf9c5872d66862a0a8a8698f1ebeb46244efdda5bf677e3e054e"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "19aedf32842cd9eefcf41faee909c7cb54a13932edb523bcf4cc6e97e8967ec4"
+        },
+        {
+          "cycle": 12,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "7d9d5b41aa01b373697cdb6d4589f5fb5ee1d7eef73c54aaadf9c5176a3cce97"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "c787a08d94c8cf9c5872d66862a0a8a8698f1ebeb46244efdda5bf677e3e054e"
+        },
+        {
+          "cycle": 13,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "d8bf034720e2d96dc1b82c84c557199bd081bd457711e92321cbeb8babeb560c"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "7d9d5b41aa01b373697cdb6d4589f5fb5ee1d7eef73c54aaadf9c5176a3cce97"
+        },
+        {
+          "cycle": 14,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "7ac4abdbab44b53dbf3182bb482b2d45ab9aa5b0208a2e84a445f1e72a039c06"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "d8bf034720e2d96dc1b82c84c557199bd081bd457711e92321cbeb8babeb560c"
+        },
+        {
+          "cycle": 15,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "27aa0ba96161aee96276e0cf327bbbf24e62ca303704859e0fb3717ffbe6d356"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "7ac4abdbab44b53dbf3182bb482b2d45ab9aa5b0208a2e84a445f1e72a039c06"
+        },
+        {
+          "cycle": 16,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "33b5415347140b099e66c8749853b53220d448188b80d2171588af427b9f5243"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "27aa0ba96161aee96276e0cf327bbbf24e62ca303704859e0fb3717ffbe6d356"
+        },
+        {
+          "cycle": 17,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "52c9599e66e126e0c2dc312408143114f490e49a7d2bb7579cb399875d3e7690"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "33b5415347140b099e66c8749853b53220d448188b80d2171588af427b9f5243"
+        },
+        {
+          "cycle": 18,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "db9c1600cceed4213a3ecbf6c9b8b78c92aac1fc5caaeb8eefe7f46178f091cc"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "52c9599e66e126e0c2dc312408143114f490e49a7d2bb7579cb399875d3e7690"
+        },
+        {
+          "cycle": 19,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "41f5f1f22dc59eb549ebc24daa2819a977403eb3c72383f55cbc6bdb91ef2011"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "db9c1600cceed4213a3ecbf6c9b8b78c92aac1fc5caaeb8eefe7f46178f091cc"
+        },
+        {
+          "cycle": 20,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "2579958876ea12f6827e46d4353bc45c03de0e71e2dcb816d2c4a8814267813a"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "41f5f1f22dc59eb549ebc24daa2819a977403eb3c72383f55cbc6bdb91ef2011"
+        },
+        {
+          "cycle": 21,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "fae796a383ebc62541d68ba3b0df2a4e257b26a28004b6ec703cc92f5fad8289"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "2579958876ea12f6827e46d4353bc45c03de0e71e2dcb816d2c4a8814267813a"
+        },
+        {
+          "cycle": 22,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "fdfee75f1db278eeda0e4a43da5e63eb82bd132caf99538191f4ef8ac41641ec"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "fae796a383ebc62541d68ba3b0df2a4e257b26a28004b6ec703cc92f5fad8289"
+        },
+        {
+          "cycle": 23,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "aa4541dffc29441a9534a8d41fa69624ec02da9c85505f240c25ff4f8438e802"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "fdfee75f1db278eeda0e4a43da5e63eb82bd132caf99538191f4ef8ac41641ec"
+        },
+        {
+          "cycle": 24,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "6340283b377bffa8f28d130871eb0390ac0e4d5f17d8f50b4f18976bb46e02a3"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "aa4541dffc29441a9534a8d41fa69624ec02da9c85505f240c25ff4f8438e802"
+        },
+        {
+          "cycle": 25,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "7ed30df480877a49cdab1bc98275c68f796d6e05e84f42555f58d641dc44f8b1"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "6340283b377bffa8f28d130871eb0390ac0e4d5f17d8f50b4f18976bb46e02a3"
+        },
+        {
+          "cycle": 26,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "08c2f2b73df42c44f78cf40cd3dfaf19e809e94433bbcb2716f792ee794eb888"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "7ed30df480877a49cdab1bc98275c68f796d6e05e84f42555f58d641dc44f8b1"
+        },
+        {
+          "cycle": 27,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "91e8b69d3b4f47909f96c85682f2243a6334f17e271f90e0c8aaec145d0255db"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "08c2f2b73df42c44f78cf40cd3dfaf19e809e94433bbcb2716f792ee794eb888"
+        },
+        {
+          "cycle": 28,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "7788d657db5cde33378047f59b2c52e5fb60cb2a53ee5761e68aad48b05e8ed7"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "91e8b69d3b4f47909f96c85682f2243a6334f17e271f90e0c8aaec145d0255db"
+        },
+        {
+          "cycle": 29,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 78,
+            "reason": "Error: Original opcode78 is not connected to physical script execution",
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 15009,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "ready",
+              "opcode": 17,
+              "hash": "e57b61f6d608924af41137ec8af8add27ac3b2d814e30a6ce4f6d6a27383ba0c"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "7788d657db5cde33378047f59b2c52e5fb60cb2a53ee5761e68aad48b05e8ed7"
+        }
+      ]
+    },
+    {
+      "segment": 12288,
+      "offset": 0,
+      "frontier": 36864,
+      "cycles": [
+        {
+          "cycle": 1,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "5f06e55af771f8656baac60c82527150a28a0983546ec2a2a3199c14b824ed6a"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "20bfd8edeab077837aead654e5c124e4419fecac4fd94b2511228e894d9b69ad"
+        },
+        {
+          "cycle": 2,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "9254307ca9a4dc8123718c323df15dfcf559a6d1e38ddbb801af149152e8675b"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "5f06e55af771f8656baac60c82527150a28a0983546ec2a2a3199c14b824ed6a"
+        },
+        {
+          "cycle": 3,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "e319716037048b7c7744ffed1b7d88d1d44f8fb8e149efb3fb673b47234fe810"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "9254307ca9a4dc8123718c323df15dfcf559a6d1e38ddbb801af149152e8675b"
+        },
+        {
+          "cycle": 4,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "0abe4627afceeaa594e17f40a7138be3fe2bf64a9af9e84fef39434edf9a9b1a"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "e319716037048b7c7744ffed1b7d88d1d44f8fb8e149efb3fb673b47234fe810"
+        },
+        {
+          "cycle": 5,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "7a9f79df0247f2201c5418301dcdebe7345df3e17f866cc44e387f0d9f1ca156"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "0abe4627afceeaa594e17f40a7138be3fe2bf64a9af9e84fef39434edf9a9b1a"
+        },
+        {
+          "cycle": 6,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "cc3774834b465856708290d2e4648e83fdbc5bf41b54da236adf6ad9027fbb50"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "7a9f79df0247f2201c5418301dcdebe7345df3e17f866cc44e387f0d9f1ca156"
+        },
+        {
+          "cycle": 7,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "85c3e5dfb831ed3db778d403d1375b3c88397505cb09693e5d815bd4c730bcca"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "cc3774834b465856708290d2e4648e83fdbc5bf41b54da236adf6ad9027fbb50"
+        },
+        {
+          "cycle": 8,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "e165074fb828fb6ba2df93f96e4bd7b7d4e6031ade9fb7da0bf8503ada8b41f2"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "85c3e5dfb831ed3db778d403d1375b3c88397505cb09693e5d815bd4c730bcca"
+        },
+        {
+          "cycle": 9,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "7257b590699a642deb093a672a801e1d2ec5ea7d84470ec586a88a661be574b1"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "e165074fb828fb6ba2df93f96e4bd7b7d4e6031ade9fb7da0bf8503ada8b41f2"
+        },
+        {
+          "cycle": 10,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "e7aa87523129c01301da0081e324f5f291a7f8a94ca324756019255874793761"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "7257b590699a642deb093a672a801e1d2ec5ea7d84470ec586a88a661be574b1"
+        },
+        {
+          "cycle": 11,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "4ab6c229127cf07911f133c99efdefda191c4f4f4df3108bc690599d6b39e3f1"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "e7aa87523129c01301da0081e324f5f291a7f8a94ca324756019255874793761"
+        },
+        {
+          "cycle": 12,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "7e5335a38cb685a5e0c9c4dbe9353785edfa84cca3c72c8c0dacb7561791dbb5"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "4ab6c229127cf07911f133c99efdefda191c4f4f4df3108bc690599d6b39e3f1"
+        },
+        {
+          "cycle": 13,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "85afec3cada4a335ad3b9fd3c03105b24694bcbba96c7e666b87b5bcf2ea805f"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "7e5335a38cb685a5e0c9c4dbe9353785edfa84cca3c72c8c0dacb7561791dbb5"
+        },
+        {
+          "cycle": 14,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "07009e607b9bb066709ff7dcbc170fa18de71269b877ed9688f629bd143a1eaa"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "85afec3cada4a335ad3b9fd3c03105b24694bcbba96c7e666b87b5bcf2ea805f"
+        },
+        {
+          "cycle": 15,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "3b22e41724bada8fcb35f3cdfdeb643decc0a1a8684a45a2067987b2ec8a149d"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "07009e607b9bb066709ff7dcbc170fa18de71269b877ed9688f629bd143a1eaa"
+        },
+        {
+          "cycle": 16,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "4f1fd036aa8e02c6aca8a9c7b344695edb04a683d32c1e5f06452900d56f18e4"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "3b22e41724bada8fcb35f3cdfdeb643decc0a1a8684a45a2067987b2ec8a149d"
+        },
+        {
+          "cycle": 17,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "9253fc6aabfe8aa943570f0d03c322a9036f1065476712833432773764d08d88"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "4f1fd036aa8e02c6aca8a9c7b344695edb04a683d32c1e5f06452900d56f18e4"
+        },
+        {
+          "cycle": 18,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "fba697a55f9cb150bb34f4d3efce3be5b9418c42a2631648f4305574f15a5625"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "9253fc6aabfe8aa943570f0d03c322a9036f1065476712833432773764d08d88"
+        },
+        {
+          "cycle": 19,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "7973e1255f82f2d121c2b4b3dea70fd9542933a351da54d5a27e3e6702058bba"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "fba697a55f9cb150bb34f4d3efce3be5b9418c42a2631648f4305574f15a5625"
+        },
+        {
+          "cycle": 20,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "37dab891186dfcff533ad3c71a4d0fb2870af704ecf929ee07a05897dc6f9df0"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "7973e1255f82f2d121c2b4b3dea70fd9542933a351da54d5a27e3e6702058bba"
+        },
+        {
+          "cycle": 21,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "62775d23160c00a0be1a27ae4d60907681950b0e26cd6eb626a53b5ecd6710fc"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "37dab891186dfcff533ad3c71a4d0fb2870af704ecf929ee07a05897dc6f9df0"
+        },
+        {
+          "cycle": 22,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "c62ff14d59631e69e9bd108e00a1b183a545a695dc61debca52b06e0ac96daf5"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "62775d23160c00a0be1a27ae4d60907681950b0e26cd6eb626a53b5ecd6710fc"
+        },
+        {
+          "cycle": 23,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "3f2d036921c1d818f2d8455a54d627b8900ddcf01e4d56e4de47db43e3d714cd"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "c62ff14d59631e69e9bd108e00a1b183a545a695dc61debca52b06e0ac96daf5"
+        },
+        {
+          "cycle": 24,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "95e475a9b34e463266810d71fa54953750060a2190167aebd30c3d0d1daac33c"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "3f2d036921c1d818f2d8455a54d627b8900ddcf01e4d56e4de47db43e3d714cd"
+        },
+        {
+          "cycle": 25,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "1314c733c7e2b96d7eedc17e4a56230bff69056334e4e4de49878eef94fa6106"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "95e475a9b34e463266810d71fa54953750060a2190167aebd30c3d0d1daac33c"
+        },
+        {
+          "cycle": 26,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "0a212cb9ccd8c865adfe44b4e2704b3cf27a526003dc4297a2a73627c764ef1e"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "1314c733c7e2b96d7eedc17e4a56230bff69056334e4e4de49878eef94fa6106"
+        },
+        {
+          "cycle": 27,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "4f95f01a3b8e8dc92870743470361c4c9210542bac745f1ec094049754291358"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "0a212cb9ccd8c865adfe44b4e2704b3cf27a526003dc4297a2a73627c764ef1e"
+        },
+        {
+          "cycle": 28,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "aada0749432cbab1d50c1b680ce12485f9f58e52db7af23c49c656236597a95c"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "4f95f01a3b8e8dc92870743470361c4c9210542bac745f1ec094049754291358"
+        },
+        {
+          "cycle": 29,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 78,
+            "reason": "Error: Original opcode78 is not connected to physical script execution",
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 15009,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "ready",
+              "opcode": 17,
+              "hash": "87ef63e114402a16499a723675ec412321f37d4d1e5919c9324370fcdc98f68a"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "aada0749432cbab1d50c1b680ce12485f9f58e52db7af23c49c656236597a95c"
+        }
+      ]
+    },
+    {
+      "segment": 20480,
+      "offset": 0,
+      "frontier": 36864,
+      "cycles": [
+        {
+          "cycle": 1,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "892b8af3aec98f4f08d9c8d29be16a54203f59c2ef896c98e6ded5cdb7461e16"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "d059dc43cbb1dd2cbcf8cc6064a93363f82d0a88804bc0979f2dca2ae729a334"
+        },
+        {
+          "cycle": 2,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "fc3bb2022dc2e518064858696f358af6901e930be8db6b7568360c4c4b9e5f4a"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "892b8af3aec98f4f08d9c8d29be16a54203f59c2ef896c98e6ded5cdb7461e16"
+        },
+        {
+          "cycle": 3,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "3c5eed0f6f3a24bb10821721971ff53e59fe1c183c6d025a46acf2ba31a04774"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "fc3bb2022dc2e518064858696f358af6901e930be8db6b7568360c4c4b9e5f4a"
+        },
+        {
+          "cycle": 4,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "e4d8bbafd1a5bea14ed70bdecb16dd86cb3a822865afb2e94537d93c83e212fc"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "3c5eed0f6f3a24bb10821721971ff53e59fe1c183c6d025a46acf2ba31a04774"
+        },
+        {
+          "cycle": 5,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "e0eb22fb40bedf99414ea012833cd5efa95426e6125a5cd5f1ddbb8b87a3c468"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "e4d8bbafd1a5bea14ed70bdecb16dd86cb3a822865afb2e94537d93c83e212fc"
+        },
+        {
+          "cycle": 6,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "c9d648f696200b7448ad2b0f10d301a62a4269d17f9f4d5663d78cf055729a1c"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "e0eb22fb40bedf99414ea012833cd5efa95426e6125a5cd5f1ddbb8b87a3c468"
+        },
+        {
+          "cycle": 7,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "6b0b9c0acc2b8b8966958cdafcf9ff136be889bf9255820ee92d665f04ad8391"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "c9d648f696200b7448ad2b0f10d301a62a4269d17f9f4d5663d78cf055729a1c"
+        },
+        {
+          "cycle": 8,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "0efb887f3f325787f8b6a92366958db5d21d2196e3583697fdf7d1a7899226ab"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "6b0b9c0acc2b8b8966958cdafcf9ff136be889bf9255820ee92d665f04ad8391"
+        },
+        {
+          "cycle": 9,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "003d42c58ad6870fba53c17a54a1d94236722a4cc55d789144ff2f1cdd5f4aec"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "0efb887f3f325787f8b6a92366958db5d21d2196e3583697fdf7d1a7899226ab"
+        },
+        {
+          "cycle": 10,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "e796b6e76fb4454eb1a26f2ea320c9040b63d1f1a3c3c7c4957ec7e45b45ddc2"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "003d42c58ad6870fba53c17a54a1d94236722a4cc55d789144ff2f1cdd5f4aec"
+        },
+        {
+          "cycle": 11,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "9d27bf04254071b13711d1f77765e9df91dac27d08dc32537ecd0fb0ccec7179"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "e796b6e76fb4454eb1a26f2ea320c9040b63d1f1a3c3c7c4957ec7e45b45ddc2"
+        },
+        {
+          "cycle": 12,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "249b21909bbbce7b8d88248e60635591f6bc4297e9a0714d2b58a8100258847c"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "9d27bf04254071b13711d1f77765e9df91dac27d08dc32537ecd0fb0ccec7179"
+        },
+        {
+          "cycle": 13,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "9a1615be4c7ac96237fb55fd1bbe562d03d398a519a8c7dd3d0a4192109c5a7a"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "249b21909bbbce7b8d88248e60635591f6bc4297e9a0714d2b58a8100258847c"
+        },
+        {
+          "cycle": 14,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "f5fb43bcba443bfb5340aee7a8a3da9036b8ed7737038ee7433f1f1d94e20358"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "9a1615be4c7ac96237fb55fd1bbe562d03d398a519a8c7dd3d0a4192109c5a7a"
+        },
+        {
+          "cycle": 15,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "235c62950834e547e09ea2a5263d0badf8386eac2ae8cf7a3493e81c5ce6b5ae"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "f5fb43bcba443bfb5340aee7a8a3da9036b8ed7737038ee7433f1f1d94e20358"
+        },
+        {
+          "cycle": 16,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "17e5c75bb75b412d8d04e22224cdfdb678e1b410aea91835459beb1173730913"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "235c62950834e547e09ea2a5263d0badf8386eac2ae8cf7a3493e81c5ce6b5ae"
+        },
+        {
+          "cycle": 17,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "7042eb3f17f7a01b96187162e72edab1d03ac0239971f59f2eae0a092b7eb2ca"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "17e5c75bb75b412d8d04e22224cdfdb678e1b410aea91835459beb1173730913"
+        },
+        {
+          "cycle": 18,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "d14f6b17f4931dc512b73232483737e19a90fdd25dd58dfce49c0a432b00c86e"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "7042eb3f17f7a01b96187162e72edab1d03ac0239971f59f2eae0a092b7eb2ca"
+        },
+        {
+          "cycle": 19,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "7494287d6d4c5b2b522da7057533884ed7bd34d2cd43992f4b58cbf7437c13ab"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "d14f6b17f4931dc512b73232483737e19a90fdd25dd58dfce49c0a432b00c86e"
+        },
+        {
+          "cycle": 20,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "baa91d58e709e1e85306c2153b8f13c65617e5af595c6dbedd94185e71c75826"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "7494287d6d4c5b2b522da7057533884ed7bd34d2cd43992f4b58cbf7437c13ab"
+        },
+        {
+          "cycle": 21,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "a83955641fb6d84592f18ee7cad741b6e94a7f5c31d3f7a4fe05b389b7386157"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "baa91d58e709e1e85306c2153b8f13c65617e5af595c6dbedd94185e71c75826"
+        },
+        {
+          "cycle": 22,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "cdd32f6bccec8b4bcb364471d070ca0162770c7bdb26e932daf898f74c82c417"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "a83955641fb6d84592f18ee7cad741b6e94a7f5c31d3f7a4fe05b389b7386157"
+        },
+        {
+          "cycle": 23,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "e0c333b23042058691b30b58963cfabb9c4a84d70baafdc99ba32f9ec8379284"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "cdd32f6bccec8b4bcb364471d070ca0162770c7bdb26e932daf898f74c82c417"
+        },
+        {
+          "cycle": 24,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "9e142c43344ac839bd83e8bc6de1b6132d52c6f1b6d2b0cc01cc51cfa37fb55e"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "e0c333b23042058691b30b58963cfabb9c4a84d70baafdc99ba32f9ec8379284"
+        },
+        {
+          "cycle": 25,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "c1e844b0418eb96290b06424908cc854b2ca6bd38bae3ed48b48aa660376ccfe"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "9e142c43344ac839bd83e8bc6de1b6132d52c6f1b6d2b0cc01cc51cfa37fb55e"
+        },
+        {
+          "cycle": 26,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "c0664cb97a76a393aca5f050d2d0f3fdab37c76fb1bb10405a187b29dfe28969"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "c1e844b0418eb96290b06424908cc854b2ca6bd38bae3ed48b48aa660376ccfe"
+        },
+        {
+          "cycle": 27,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "20b33dd9a08602fb88eb46d778199bef98a6645dc3c1acfbf59e16e2fee90b8f"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "c0664cb97a76a393aca5f050d2d0f3fdab37c76fb1bb10405a187b29dfe28969"
+        },
+        {
+          "cycle": 28,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "fba7578804eb69245a62b53b2584a50d948aab2d4821080e37d7fb656019b1bd"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "20b33dd9a08602fb88eb46d778199bef98a6645dc3c1acfbf59e16e2fee90b8f"
+        },
+        {
+          "cycle": 29,
+          "main": {
+            "steps": 2,
+            "nextOpcode": 78,
+            "reason": "Error: Original opcode78 is not connected to physical script execution",
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 15009,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 0
+              },
+              "status": "ready",
+              "opcode": 17,
+              "hash": "83bde4898c62d0153e6476951d64cfaee36f1c2e486d6c2b21b8d20bb1771f5f"
+            }
+          },
+          "callbackSteps": 7,
+          "framePhase": "return",
+          "frameHidden": 2,
+          "contextPhase": "main",
+          "contextHash": "fba7578804eb69245a62b53b2584a50d948aab2d4821080e37d7fb656019b1bd"
+        }
+      ]
+    }
+  ]
+}

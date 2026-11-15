@@ -1,0 +1,475 @@
+{
+  "actual": [
+    {
+      "cases": [
+        {
+          "checkpoint": "country33-mouse0.bin",
+          "profile": "ishar1",
+          "sourceSha256": "eccf2b67d0cd8168beccc996adad7578f76ec8bafbee7d0c7938e7f4bcda2c17",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 0,
+              "si": 256,
+              "bp": 672,
+              "ds": 11126,
+              "es": 8430,
+              "sp": 2004
+            },
+            "phase": "saved-handler",
+            "entry": 4660,
+            "segment": 28672,
+            "stackDelta": -6,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 15716,
+              "flags": 582,
+              "sp": 2010
+            },
+            "hash": "19020b4686c3c176a87435217bbb1a153c62f6d9bc5fd959323c562e5064f602"
+          },
+          "eventCount": 1030,
+          "eventSha256": "2f64b5aeacd97f99cce5e10f0cd64bdf4aa39d34848c13bc5a38793021c6e169",
+          "counterBefore": 0,
+          "counterAfter": 1
+        },
+        {
+          "checkpoint": "country33-mouse65535.bin",
+          "profile": "ishar1",
+          "sourceSha256": "5a21ea3eab96bd10e5b934e455cc25dabb3eabbb5ab6aedc86573b2254a8dbd7",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 0,
+              "si": 256,
+              "bp": 672,
+              "ds": 11126,
+              "es": 8430,
+              "sp": 2004
+            },
+            "phase": "saved-handler",
+            "entry": 4660,
+            "segment": 28672,
+            "stackDelta": -6,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 15716,
+              "flags": 582,
+              "sp": 2010
+            },
+            "hash": "a0e1b6a3fa2f5eb3f0e07c94e2f4da97622d140bf5137b224dd0abdaddfdae0f"
+          },
+          "eventCount": 1030,
+          "eventSha256": "2f64b5aeacd97f99cce5e10f0cd64bdf4aa39d34848c13bc5a38793021c6e169",
+          "counterBefore": 0,
+          "counterAfter": 1
+        },
+        {
+          "checkpoint": "country49-mouse0.bin",
+          "profile": "ishar1",
+          "sourceSha256": "29b82eea75c11f4e6b2b308f15db5d10f617fa33d634e9bc32cac01419ad1e15",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 0,
+              "si": 256,
+              "bp": 672,
+              "ds": 11126,
+              "es": 8430,
+              "sp": 2004
+            },
+            "phase": "saved-handler",
+            "entry": 4660,
+            "segment": 28672,
+            "stackDelta": -6,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 15716,
+              "flags": 582,
+              "sp": 2010
+            },
+            "hash": "1d214862dc6053b57d48cc0a6bd9e2e6326fbc07861ee97472e9d8f1a6240ae3"
+          },
+          "eventCount": 1030,
+          "eventSha256": "2f64b5aeacd97f99cce5e10f0cd64bdf4aa39d34848c13bc5a38793021c6e169",
+          "counterBefore": 0,
+          "counterAfter": 1
+        },
+        {
+          "checkpoint": "country49-mouse65535.bin",
+          "profile": "ishar1",
+          "sourceSha256": "a01f73264eb9348c11126c484a642b3c4af36ac9b051fe4462dd5a6215f5c79e",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 0,
+              "si": 256,
+              "bp": 672,
+              "ds": 11126,
+              "es": 8430,
+              "sp": 2004
+            },
+            "phase": "saved-handler",
+            "entry": 4660,
+            "segment": 28672,
+            "stackDelta": -6,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 15716,
+              "flags": 582,
+              "sp": 2010
+            },
+            "hash": "2fadabd6cdf55121e86b327b8123dff3679003f340cad6742bc221ebdabdc0a3"
+          },
+          "eventCount": 1030,
+          "eventSha256": "2f64b5aeacd97f99cce5e10f0cd64bdf4aa39d34848c13bc5a38793021c6e169",
+          "counterBefore": 0,
+          "counterAfter": 1
+        }
+      ],
+      "stackMask": "0798..07ED active CPU scratch, saved startup registers compared; hardware frame separately checked",
+      "limits": "Installed original IRQ entry, palette callback, post-palette tail and real BIOS far target or IRET. No BIOS handler body/async timing assumed; originals unchanged; raw DAC data omitted."
+    },
+    {
+      "cases": [
+        {
+          "checkpoint": "country33-mouse65535.bin",
+          "profile": "ishar2",
+          "sourceSha256": "002b464d10308bad45b2ad1ea5a7e4d0a849a933bb7f173e734a61193b049be9",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 116,
+              "si": 256,
+              "bp": 672,
+              "ds": 11563,
+              "es": 8430,
+              "sp": 2024
+            },
+            "phase": "saved-handler",
+            "entry": 4660,
+            "segment": 28672,
+            "stackDelta": -6,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 9804,
+              "flags": 582,
+              "sp": 2030
+            },
+            "hash": "5efb529be1f037a8c2ae5e59f7e330786640139de04e3719be42f55a893eaa45"
+          },
+          "eventCount": 1030,
+          "eventSha256": "2f64b5aeacd97f99cce5e10f0cd64bdf4aa39d34848c13bc5a38793021c6e169",
+          "counterBefore": 0,
+          "counterAfter": 1
+        },
+        {
+          "checkpoint": "country49-mouse65535.bin",
+          "profile": "ishar2",
+          "sourceSha256": "67e4e3403b564f35c1de73d59f53f92c6d33aa08628ade5b13ebd9aeed902c80",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 116,
+              "si": 256,
+              "bp": 672,
+              "ds": 11563,
+              "es": 8430,
+              "sp": 2024
+            },
+            "phase": "saved-handler",
+            "entry": 4660,
+            "segment": 28672,
+            "stackDelta": -6,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 9804,
+              "flags": 582,
+              "sp": 2030
+            },
+            "hash": "ef89735b10e5b478c55ea8aa38ad04ef0760a32e997cea11b2db7e8c1c994f3e"
+          },
+          "eventCount": 1030,
+          "eventSha256": "2f64b5aeacd97f99cce5e10f0cd64bdf4aa39d34848c13bc5a38793021c6e169",
+          "counterBefore": 0,
+          "counterAfter": 1
+        }
+      ],
+      "stackMask": "0798..07ED active CPU scratch, saved startup registers compared; hardware frame separately checked",
+      "limits": "Installed original IRQ entry, palette callback, post-palette tail and real BIOS far target or IRET. No BIOS handler body/async timing assumed; originals unchanged; raw DAC data omitted."
+    }
+  ],
+  "syntheticCountdown2": [
+    {
+      "cases": [
+        {
+          "syntheticCountdownOverride": 2,
+          "checkpoint": "country33-mouse0.bin",
+          "profile": "ishar1",
+          "sourceSha256": "eccf2b67d0cd8168beccc996adad7578f76ec8bafbee7d0c7938e7f4bcda2c17",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 0,
+              "si": 256,
+              "bp": 672,
+              "ds": 11126,
+              "es": 8430,
+              "sp": 2010
+            },
+            "phase": "iret",
+            "entry": 15716,
+            "segment": 4096,
+            "flags": 582,
+            "stackDelta": 0,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 15716,
+              "flags": 582,
+              "sp": 2010
+            },
+            "hash": "959bc815bd5a6a394d4692e9eac6e22c461f645af493dcff786b2542708c1b40"
+          },
+          "eventCount": 1030,
+          "eventSha256": "2f64b5aeacd97f99cce5e10f0cd64bdf4aa39d34848c13bc5a38793021c6e169",
+          "counterBefore": 0,
+          "counterAfter": 1
+        },
+        {
+          "syntheticCountdownOverride": 2,
+          "checkpoint": "country33-mouse65535.bin",
+          "profile": "ishar1",
+          "sourceSha256": "5a21ea3eab96bd10e5b934e455cc25dabb3eabbb5ab6aedc86573b2254a8dbd7",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 0,
+              "si": 256,
+              "bp": 672,
+              "ds": 11126,
+              "es": 8430,
+              "sp": 2010
+            },
+            "phase": "iret",
+            "entry": 15716,
+            "segment": 4096,
+            "flags": 582,
+            "stackDelta": 0,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 15716,
+              "flags": 582,
+              "sp": 2010
+            },
+            "hash": "09c88b64a3593e9a9c73fac6fc4a9d329ba4f0f72f2a71857e212827ae841211"
+          },
+          "eventCount": 1030,
+          "eventSha256": "2f64b5aeacd97f99cce5e10f0cd64bdf4aa39d34848c13bc5a38793021c6e169",
+          "counterBefore": 0,
+          "counterAfter": 1
+        },
+        {
+          "syntheticCountdownOverride": 2,
+          "checkpoint": "country49-mouse0.bin",
+          "profile": "ishar1",
+          "sourceSha256": "29b82eea75c11f4e6b2b308f15db5d10f617fa33d634e9bc32cac01419ad1e15",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 0,
+              "si": 256,
+              "bp": 672,
+              "ds": 11126,
+              "es": 8430,
+              "sp": 2010
+            },
+            "phase": "iret",
+            "entry": 15716,
+            "segment": 4096,
+            "flags": 582,
+            "stackDelta": 0,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 15716,
+              "flags": 582,
+              "sp": 2010
+            },
+            "hash": "daa715ee55026b12263fb41f318224facc08581b06dbe6705f8e0b63d1ee082d"
+          },
+          "eventCount": 1030,
+          "eventSha256": "2f64b5aeacd97f99cce5e10f0cd64bdf4aa39d34848c13bc5a38793021c6e169",
+          "counterBefore": 0,
+          "counterAfter": 1
+        },
+        {
+          "syntheticCountdownOverride": 2,
+          "checkpoint": "country49-mouse65535.bin",
+          "profile": "ishar1",
+          "sourceSha256": "a01f73264eb9348c11126c484a642b3c4af36ac9b051fe4462dd5a6215f5c79e",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 0,
+              "si": 256,
+              "bp": 672,
+              "ds": 11126,
+              "es": 8430,
+              "sp": 2010
+            },
+            "phase": "iret",
+            "entry": 15716,
+            "segment": 4096,
+            "flags": 582,
+            "stackDelta": 0,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 15716,
+              "flags": 582,
+              "sp": 2010
+            },
+            "hash": "a08253fb9ccd1519f4930d8f2fbc6bb02637802f334b156748ef58351b758542"
+          },
+          "eventCount": 1030,
+          "eventSha256": "2f64b5aeacd97f99cce5e10f0cd64bdf4aa39d34848c13bc5a38793021c6e169",
+          "counterBefore": 0,
+          "counterAfter": 1
+        }
+      ],
+      "stackMask": "0798..07ED active CPU scratch, saved startup registers compared; hardware frame separately checked",
+      "limits": "Installed original IRQ entry, palette callback, post-palette tail and real BIOS far target or IRET. No BIOS handler body/async timing assumed; originals unchanged; raw DAC data omitted."
+    },
+    {
+      "cases": [
+        {
+          "syntheticCountdownOverride": 2,
+          "checkpoint": "country33-mouse65535.bin",
+          "profile": "ishar2",
+          "sourceSha256": "002b464d10308bad45b2ad1ea5a7e4d0a849a933bb7f173e734a61193b049be9",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 116,
+              "si": 256,
+              "bp": 672,
+              "ds": 11563,
+              "es": 8430,
+              "sp": 2030
+            },
+            "phase": "iret",
+            "entry": 9804,
+            "segment": 4096,
+            "flags": 582,
+            "stackDelta": 0,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 9804,
+              "flags": 582,
+              "sp": 2030
+            },
+            "hash": "daade4072270807544b983470392347a9c0907020e5d90639418d5ac84754dcf"
+          },
+          "eventCount": 1030,
+          "eventSha256": "2f64b5aeacd97f99cce5e10f0cd64bdf4aa39d34848c13bc5a38793021c6e169",
+          "counterBefore": 0,
+          "counterAfter": 1
+        },
+        {
+          "syntheticCountdownOverride": 2,
+          "checkpoint": "country49-mouse65535.bin",
+          "profile": "ishar2",
+          "sourceSha256": "67e4e3403b564f35c1de73d59f53f92c6d33aa08628ade5b13ebd9aeed902c80",
+          "irq": {
+            "registers": {
+              "ax": 65281,
+              "bx": 0,
+              "cx": 0,
+              "dx": 0,
+              "di": 116,
+              "si": 256,
+              "bp": 672,
+              "ds": 11563,
+              "es": 8430,
+              "sp": 2030
+            },
+            "phase": "iret",
+            "entry": 9804,
+            "segment": 4096,
+            "flags": 582,
+            "stackDelta": 0,
+            "retraceReplies": 2,
+            "installedOffset": 3437,
+            "interrupted": {
+              "cs": 4096,
+              "ip": 9804,
+              "flags": 582,
+              "sp": 2030
+            },
+            "hash": "1b8ccc8df3782d0723c59d5c92a01301188df60087683265ade794e9fc9c6555"
+          },
+          "eventCount": 1030,
+          "eventSha256": "2f64b5aeacd97f99cce5e10f0cd64bdf4aa39d34848c13bc5a38793021c6e169",
+          "counterBefore": 0,
+          "counterAfter": 1
+        }
+      ],
+      "stackMask": "0798..07ED active CPU scratch, saved startup registers compared; hardware frame separately checked",
+      "limits": "Installed original IRQ entry, palette callback, post-palette tail and real BIOS far target or IRET. No BIOS handler body/async timing assumed; originals unchanged; raw DAC data omitted."
+    }
+  ],
+  "date": "2026-10-18"
+}

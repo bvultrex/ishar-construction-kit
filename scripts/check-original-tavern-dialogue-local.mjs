@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {readFileSync} from 'node:fs';
+import {join} from 'node:path';
+import {readAlisModule} from '../src/lib/ishar/alis-module.ts';
+const root=process.env.ISHAR2_DIR;assert.ok(root,'ISHAR2_DIR required');
+const load=(name,hash)=>{const raw=new Uint8Array(readFileSync(join(root,name)));assert.equal(createHash('sha256').update(raw).digest('hex'),hash);return readAlisModule(raw).image;};
+const tavern=load('TAVERNE.IO','ea315973f2187950f7ac72a6c6db4565dd0fd67ede241d56e8a73175fa8bf804');
+load('TEXTIND.IO','b36ded430e7d183ad29be627679aaf8823aeae5cb056394253dec118f048465d');
+assert.equal(Buffer.from(tavern.slice(0x150,0x15c)).toString('hex'),'40350014201e38006456120c');
+console.log('Original TAVERNE 0x150 selector path and TAVERNE/TEXTIND hashes verified locally. Native t=2 text and no-write result remain separately reported evidence.');

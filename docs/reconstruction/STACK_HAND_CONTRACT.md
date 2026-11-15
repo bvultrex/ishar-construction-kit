@@ -1,0 +1,46 @@
+# Ishar2: Stapel in Handplätzen
+
+Arbeitsstand14.11.2026, lokale FRISE.IO SHA25627117c124caf904a31568f5c58f615946083dd3429c02ade1dc1e17552cc2b64. Statischer Kontrollflussbefund und native Abnahme der zwei Browserkernfälle. Die bisherige Portraitweitergabe allein deckt diesen Pfad nicht ab.
+
+## Reihenfolge
+
+1.02e20 merkt sich den bisherigen Inhalt des angeklickten Platzes in local0100.
+2.02e2e ruft03580. Für gehaltene Codes-59..-49 werden zuerst die charakterweiten Mengen in T4bd4 erhöht und die gehaltene Menge T4bbc vermindert. Deckel10, für-49 Deckel20. Zielcode16 überspringt diesen Schritt wegen des gesonderten Umwandlungszweigs.
+3.02e32 ruft03b98: Gegenhandreservierung-125 wird unabhängig vom Gegenstandstyp freigegeben. Danach folgt die Waffenreservierung02e36.
+4.02f0c entscheidet anhand des vorher gemerkten Platzinhalts über leeren Platz oder Tausch. Diese Entscheidung erfolgt nach den Mengenschreiboperationen.
+
+## Leerer Platz oder gleicher Stapel
+
+-02f19..02f58 sucht für gehaltene Stapel nach einem bereits vorhandenen gleichen Code in den Plätzen0..10. Bei Treffer wird kein zweiter Slot angelegt; die Zählermenge wurde schon im Helper übertragen.
+-Andernfalls schreibt02f5a den gehaltenen Code in den gewählten Platz, auch wenn noch Restmenge am Cursor bleibt.
+-02fdb..0300e scannt alle20 Cursorzähler. Nur wenn alle null sind, wird auch der gehaltene Objektcode gelöscht und der Cursor freigegeben.
+-0301f..03043 führt einen Klick auf denselben Stapel ebenfalls zu02f19. Damit sind Ergänzung und Rest am Cursor möglich.
+
+## Verschiedene belegte Gegenstände
+
+-0315b..03181 verhindert den eigentlichen Tausch, solange irgendein Cursorzähler positiv ist. Die vorherige Teilübertragung nach03580 bleibt dabei erhalten. Beispiel: Gehalten-50×6, Empfänger besitzt-50×8 in einem anderen Slot; angeklickte Hand enthält9. Ergebnis: Zähler10, Hand weiterhin9, Cursor weiterhin-50×4.
+-Ist der Cursorzähler nach Übertragung null, läuft der Tausch weiter. Ein alter Stapel wird bei03212 mit seiner ganzen charakterweiten Menge in den Cursorzähler übernommen;0322c löscht seine Menge beim Charakter.
+-0323d..03289 sucht den eingehenden Stapelcode erneut in0..10. Existiert er schon anderswo, wird der angeklickte bisherige Slot gelöscht, anstatt den gleichen Stapel doppelt einzutragen. Andernfalls schreibt0328b den eingehenden Code in den Zielslot.
+-0330c setzt den vorherigen Zielcode als gehaltenen Code. Rüstungsänderungen verwenden den bereits belegten engen Tauschbereich-29..-26.
+
+## Konsequenzen für die Implementierung
+
+Ein Handtransfer-Ergebnis braucht aktualisierte SAV-Bytes und einen vollständigen Cursorzustand aus Code und Menge. „Tausch abgelehnt“ darf nicht pauschal unveränderte Bytes bedeuten. Die bisherige Schnittstelle `{held:number|null}` reicht für einen ausgetauschten alten Stapel nicht aus.
+
+Kein zweiter Inventarslot für einen schon vorhandenen Stapel. Mengenbilanz muss die charakterweiten Zähler und den Cursor erfassen; Slotanzahl ist keine Mengenbilanz. Prüfungen benötigen leere Hand, denselben Stapel, verschiedenen Stapel, Nichtstapel, existierenden Stapel anderswo, Teilübergabe und volle Deckel10/20.
+
+Queshs statischer Nachtrag45 schließt den Klick auf reservierten Zielplatz-125: Die frühe Mengenbuchung bleibt bestehen;03012 springt danach ohne Slot-Write und ohne Cursorfreigabe nach03348. Der Adapter bildet dies nun auch bei Restmenge0 ab. Keine hypothetische „Bereinigung“ ungültiger oder mehrfach belegter Stapelzustände implementieren.
+
+Der statisch und gegen die lokalen Imagebytes geprüfte Code16-Zweig03046..03150 überspringt die Empfänger-Stapelbuchung. Gehalten-59..-56 addiert Menge×1000/100/10/1 auf das gespeicherte signed16-Wort an SAV-Offset12; -55..-52 entsprechend auf Offset10; -51 setzt Offset10 auf-1. Danach werden Cursorcode und -menge vollständig geleert, während Slot16 und Charakterzähler unverändert bleiben. -50/-49 fallen nicht in die Umwandlung und bleiben ohne gespeicherte Änderung am Cursor. Addition verwendet16-Bit-Wrapping. Die Werte werden neutral als Effektakkumulatoren geführt; eine fachliche Bezeichnung ist nicht belegt.
+
+Lokaler Prüfer `npm run test:original-stack-hand-contract-local` bindet die entscheidenden Aufrufe, Sprünge und Schreiboperationen an die Originalbytes. Er beweist weder eine implementierte Handweitergabe noch einen Originallauf.
+
+## Adapterstand
+
+`original-hand-runtime.ts` implementiert nun die Reihenfolge für konsistente Stapelzustände, Code16 und die bisher unterstützten Nichtstapel-/Waffencodes. Das Ergebnis enthält vollständigen Cursorzustand, angenommene Menge und getrennte Tauschinformation.880 synthetische Handfälle plus gezielte Code16-, Teil-/Vollübertragungs-, Reservierungs-, Rüstungs- und Zweihandfälle bestehen. Der Adapter ist an die Originalinventar-Handbuttons angeschlossen. Ein nativer Code16-Originallauf bleibt offen.
+
+Browserprüfung40c8ae2: gehalten-50×6 auf Zielstapel8 bei belegter Hand9 übernimmt2, lässt Hand9 unverändert und hält4 am Cursor; Rest an dritte Figur. Danach tauscht Code9 gegen Handstapel-49×20; der alte Stapel bleibt mit Menge20 am Cursor und wird an eine weitere Figur übergeben. Export SHA323f0fc0bd9f521a520ef9bb57b2c81c6e2fc38aa97b7b26da770f4b7a1326de entspricht der unabhängig erzeugten Erwartungsdatei vollständig; Reload zeigt Stapel10, Rest4, beide Code9-Hände und-49×20 erneut. Privater Beleg: `../analysis-output/stack-hand-browser-2026-11-14/browser-check.json`.
+
+H1-Browserprüfung83852b4: Figur2 besitzt-50×9 und einen reservierten Handplatz-125; gehalten-50×3 übernimmt trotz Sentinel genau1, lässt-125 unverändert und hält2 am Cursor. Der Rest geht an Figur3. Export SHA759205d40941c60ea2bbb026b436af9a4096a0ecfd3f7172f9c760d102b0fb47 ist bytegleich zur separat erzeugten Erwartungsdatei; Reload zeigt10/2 und die Reservierung erneut. Privater Beleg: `../analysis-output/reserved-stack-browser-2026-11-14/browser-check.json`.
+
+Hoths nativer Nachtrag47 bestätigt die beiden Kernfälle: Teilübernahme-50 von8 auf10 mit Rest4 sowie Tausch von Code9 gegen-49×20 enden in allen Inventar- und Zählerbytes wie die Kit-Erwartung; Reload verändert keine dieser Bytes. Ein leerer Cursor nimmt im Original per einfachem Klick nur eine Einheit aus einem Stapel. Der ganze Stapel gelangt erst durch Tausch mit einem gehaltenen Nichtstapel an den Cursor. Die Browserbedienung verwendet deshalb für leeren Cursor nur noch Einzelentnahme; die bereits geprüfte Ganzstapel-Tauschlogik bleibt bestehen. Reservierung-125, Effektcode16 und weitere Sonderfälle wurden in diesem Originallauf nicht gespielt. Bericht: [hand-stack-native-check.md](grok-reports/hand-stack-native-check.md).

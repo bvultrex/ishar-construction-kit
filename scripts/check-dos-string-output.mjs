@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {stepOriginalDosPhysicalScript as step} from '../src/lib/ishar/original-dos-physical-script.ts';
+const ss=0x1c0b,g=ss*16,r={ds:0x4000,es:0x5000,si:0x100,bp:0x800,dx:12,cx:34},m=new Uint8Array(0x100000),v=new DataView(m.buffer),w=(at,x)=>v.setUint16(at,x,true);
+w(g+0xc58,0x802);w(g+0xc5a,0xa02);w(g+0xba0,65535);m[g+0xba2]=5;m[g+0xba4]=9;w(g+0xc02,10);w(g+0xc06,30);m.set([185,4,13,10,32,65,0],0x40100);
+const before=m.slice(),controls=step(m,ss,r),cv=new DataView(controls.memory.buffer);assert.deepEqual(m,before);assert.equal(cv.getUint16(g+0xc02,true),5);assert.equal(cv.getUint16(g+0xc06,true),21);assert.equal(cv.getUint16(g+0xc58,true),0xa02);assert.equal(cv.getUint16(g+0xc5a,true),0x802);assert.equal(controls.registers.cx,34);assert.equal(controls.registers.dx,12);assert.equal(controls.registers.si,0x107);
+w(g+0xba0,0);w(g+0xba8,65);w(g+0xba6,1);w(g+0xbf6,0x1000);w(g+0xbea,0x7000);w(g+0xbec,0x1000);w(0x50fec,0x100);w(0x50fee,0x6000);w(0x507ea,0x100);w(0x51102,0x200);w(0x6010e,0x100);w(0x60200,0x100);w(0x60300,0x100);m[0x60400]=1;m.set([185,4,65,0],0x40100);
+const glyph=step(m,ss,r),gv=new DataView(glyph.memory.buffer);assert.equal(gv.getUint16(0x507e8,true),0x1000);assert.equal(gv.getUint16(0x71016,true),10);assert.equal(gv.getUint16(g+0xc02,true),15);assert.equal(glyph.registers.si,0x104);
+m[0x60400]=254;const special=m.slice();assert.throws(()=>step(m,ss,r),/FE/);assert.deepEqual(m,special);
+m[0x40101]=255;const bad=m.slice();assert.throws(()=>step(m,ss,r),/not reconstructed/);assert.deepEqual(m,bad);
+console.log('Original185 buffer swap, CR/LF/space and disabled font, glyph records and atomic failure passed');

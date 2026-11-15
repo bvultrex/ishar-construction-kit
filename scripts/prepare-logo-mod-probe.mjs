@@ -1,0 +1,20 @@
+import {readFile} from 'node:fs/promises';
+import {join} from 'node:path';
+import {readAlisModule} from '../src/lib/ishar/alis-module.ts';
+import {describeAlisPalettes,editAlisPalette,extractAlisIndexedImages} from '../src/lib/ishar/alis-assets.ts';
+import {exportAlisMod} from './alis-mod.mjs';
+const args=process.argv.slice(2),flags=args.filter(arg=>arg.startsWith('--')),positionals=args.filter(arg=>!arg.startsWith('--'));
+if(flags.some(arg=>!/^--color=\d+$/.test(arg))||flags.filter(arg=>arg.startsWith('--color=')).length>1)throw Error('Only one optional --color=N flag is supported');
+const [game,installation,output]=positionals;
+if(!['ishar1','ishar2'].includes(game)||!installation||!output||positionals.length!==3)throw Error('Usage: prepare-logo-mod-probe.mjs [--color=N] <ishar1|ishar2> <original installation> <new mod directory>');
+const source=readAlisModule(new Uint8Array(await readFile(join(installation,'LOGO.IO'))));
+const palette=describeAlisPalettes(source.image).find(p=>p.entryIndex===6);
+if(!palette)throw Error('Expected LOGO palette6 is absent; no guessed replacement');
+const requested=flags.find(arg=>arg.startsWith('--color=')),color=requested?Number(requested.slice(8)):palette.firstColor;
+if(!Number.isInteger(color)||color<palette.firstColor||color>=palette.firstColor+palette.colorCount)throw Error('Requested colour is outside LOGO palette6');
+// One channel, high contrast: deterministic and easy to compare in a native frame.
+const rgb=[...palette.colors[color-palette.firstColor]];rgb[0]=rgb[0]===palette.maxChannel?0:palette.maxChannel;
+const indexedPixelOccurrences=extractAlisIndexedImages(source.image,'LOGO.IO').images.reduce((sum,image)=>sum+image.pixels.reduce((n,index)=>n+(index===color?1:0),0),0);
+const edited=editAlisPalette(source.image,6,color,rgb);
+const report=await exportAlisMod(installation,game,'LOGO.IO',edited,output);
+console.log(JSON.stringify({...report,probe:{palette:6,color,indexedPixelOccurrences,channel:'red',rule:'toggle between original maximum and zero',expectedEffect:indexedPixelOccurrences?'indexed image pixels use this colour; native visible effect still requires execution':'no indexed image pixel uses this colour; effect may be limited to transparent pixels or VGA border'}},null,2));

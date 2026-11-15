@@ -1,0 +1,12 @@
+[
+  {
+    "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+    "caseCount": 84,
+    "verified": "Original25E5..25FB and072D..0786, original SS/SP and nine saved registers; all output registers, DF and full memory except07E8..07ED call scratch; signed command length/character comparisons, uppercase flags, duplicates,127/128 boundaries. Explicit PSP bytes/BIOS mode; no configuration call included."
+  },
+  {
+    "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+    "caseCount": 84,
+    "verified": "Original25E5..25FB and072D..0786, original SS/SP and nine saved registers; all output registers, DF and full memory except07E8..07ED call scratch; signed command length/character comparisons, uppercase flags, duplicates,127/128 boundaries. Explicit PSP bytes/BIOS mode; no configuration call included."
+  }
+]

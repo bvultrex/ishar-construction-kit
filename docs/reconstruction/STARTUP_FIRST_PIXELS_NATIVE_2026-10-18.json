@@ -1,0 +1,296 @@
+{
+  "profile": "ishar2",
+  "caseCount": 2,
+  "cases": [
+    {
+      "checkpoint": "country33-mouse65535.bin",
+      "checkpointSha256": "8230423cb3b6203becd0ad438dde9349a60998786f242e8027c7dfb5b67488ea",
+      "owner": 738,
+      "object": {
+        "registers": {
+          "ds": 10368,
+          "es": 8430,
+          "si": 256,
+          "bp": 672,
+          "dx": 0,
+          "cx": 154
+        },
+        "phase": "new-record",
+        "entry": 16522,
+        "stackDelta": -26,
+        "marked": 0,
+        "visited": 1,
+        "di": 1332,
+        "bx": 154,
+        "status": 255,
+        "hash": "8daaa7fb127dd50494b8d4d3ff5a463fbc54520550970f73c3b324e6e50d9324"
+      },
+      "projection": {
+        "resource": {
+          "segment": 13116,
+          "offset": 0
+        },
+        "owner": 738,
+        "registers": {
+          "ds": 10368,
+          "es": 8430,
+          "si": 256,
+          "bp": 672,
+          "dx": 0,
+          "cx": 154
+        },
+        "stackMaskStart": 1950,
+        "hash": "76142700cfb17db1b4b0632e4968fd9ad5855f36b795abdec1dbf59a57e98c0a"
+      },
+      "committed": {
+        "registers": {
+          "ds": 10368,
+          "es": 8430,
+          "si": 256,
+          "bp": 672,
+          "dx": 0,
+          "cx": 154
+        },
+        "di": 154,
+        "bx": 154,
+        "stackMaskStart": 1950,
+        "hash": "9ab862ca6fd8c4b9164f7bd8365fdcc4f5ff298d81a09da2da8c473411123eae"
+      },
+      "batch": {
+        "registers": {
+          "ds": 10368,
+          "es": 8430,
+          "si": 256,
+          "bp": 672,
+          "dx": 0,
+          "cx": 154
+        },
+        "phase": "pixels",
+        "entry": 16744,
+        "stackDelta": -20,
+        "di": 1332,
+        "bx": 154,
+        "projected": 31,
+        "retired": 0,
+        "stackMaskStart": 1950,
+        "hash": "5bb839827c7219d5f384b9bb9cb1fb6b5a1e1a68900041acef8395fa7baab67a"
+      },
+      "pixels": {
+        "registers": {
+          "ds": 10368,
+          "es": 8430,
+          "si": 256,
+          "bp": 672,
+          "dx": 199,
+          "cx": 66
+        },
+        "phase": "record",
+        "entry": 17157,
+        "stackDelta": -32,
+        "bx": 738,
+        "di": 192,
+        "visited": 2,
+        "stackMaskStart": 1950,
+        "hash": "67778472e2b285f43c0ffbc7874f75ee1d9263a9673705b95c5204287eb94595"
+      },
+      "sprite": {
+        "registers": {
+          "ds": 12795,
+          "es": 10368,
+          "si": 14,
+          "bp": 672,
+          "dx": 199,
+          "cx": 319
+        },
+        "phase": "format",
+        "entry": 1730,
+        "graphicsSegment": 7831,
+        "stackDelta": -6,
+        "di": 192,
+        "type": 1,
+        "bx": 0,
+        "mirror": 0,
+        "stackMaskStart": 1950,
+        "hash": "67778472e2b285f43c0ffbc7874f75ee1d9263a9673705b95c5204287eb94595"
+      },
+      "solid": {
+        "registers": {
+          "ds": 12795,
+          "es": 57344,
+          "si": 22,
+          "bp": 0,
+          "dx": 320,
+          "cx": 320
+        },
+        "di": 64000,
+        "bx": 0,
+        "entry": 17162,
+        "stackDelta": 6,
+        "destination": {
+          "segment": 57344,
+          "offset": 0,
+          "start": 0,
+          "pitch": 320
+        },
+        "width": 320,
+        "rows": 200,
+        "color": 1,
+        "pixelWrites": 64000,
+        "stackMaskStart": 1950,
+        "hash": "149ead64c5f616c51aa1a56ade371aba96614b4970a2ea4588d9eae2b6d7a7e2"
+      },
+      "nativePixelWrites": 64000,
+      "distinctTargetAddresses": 64000,
+      "renderBufferSha256": "d147b06b531c26aa2e57565f57c286df48658b2116472855a0067fd0fe786d97",
+      "vgaSha256": "4f7988030a00d082fe445e00a2ac5dab502300ff1b80e8592dd569867b60ef74",
+      "boundary": 17162,
+      "sp": 1958
+    },
+    {
+      "checkpoint": "country49-mouse65535.bin",
+      "checkpointSha256": "0b3a0e9928504f28c0d2785b9200f2c0df3c705d62da41ceaa4828159267058e",
+      "owner": 738,
+      "object": {
+        "registers": {
+          "ds": 10368,
+          "es": 8430,
+          "si": 256,
+          "bp": 672,
+          "dx": 0,
+          "cx": 154
+        },
+        "phase": "new-record",
+        "entry": 16522,
+        "stackDelta": -26,
+        "marked": 0,
+        "visited": 1,
+        "di": 1332,
+        "bx": 154,
+        "status": 255,
+        "hash": "d74a1d4b33c53b30e02d6455c04fe95ad573206c9f3dfd5daa0d9264a68598a0"
+      },
+      "projection": {
+        "resource": {
+          "segment": 13116,
+          "offset": 0
+        },
+        "owner": 738,
+        "registers": {
+          "ds": 10368,
+          "es": 8430,
+          "si": 256,
+          "bp": 672,
+          "dx": 0,
+          "cx": 154
+        },
+        "stackMaskStart": 1950,
+        "hash": "0f7fdf1f7eb5379126f70a7a7175d91ac469cb6dc61a5c6abebe049dbbae56d8"
+      },
+      "committed": {
+        "registers": {
+          "ds": 10368,
+          "es": 8430,
+          "si": 256,
+          "bp": 672,
+          "dx": 0,
+          "cx": 154
+        },
+        "di": 154,
+        "bx": 154,
+        "stackMaskStart": 1950,
+        "hash": "655dd14e7f00b6f31578a253949c9a2245220b01ea65e4141a26586d5b477911"
+      },
+      "batch": {
+        "registers": {
+          "ds": 10368,
+          "es": 8430,
+          "si": 256,
+          "bp": 672,
+          "dx": 0,
+          "cx": 154
+        },
+        "phase": "pixels",
+        "entry": 16744,
+        "stackDelta": -20,
+        "di": 1332,
+        "bx": 154,
+        "projected": 31,
+        "retired": 0,
+        "stackMaskStart": 1950,
+        "hash": "1f129aae933a0a0a6434a54e24108fde00efd6b0468417c1831ac777f1481630"
+      },
+      "pixels": {
+        "registers": {
+          "ds": 10368,
+          "es": 8430,
+          "si": 256,
+          "bp": 672,
+          "dx": 199,
+          "cx": 66
+        },
+        "phase": "record",
+        "entry": 17157,
+        "stackDelta": -32,
+        "bx": 738,
+        "di": 192,
+        "visited": 2,
+        "stackMaskStart": 1950,
+        "hash": "24d70724333b34f6692c1a6883bf3006bd02c56b2432d33d3eb586fce9a4793b"
+      },
+      "sprite": {
+        "registers": {
+          "ds": 12795,
+          "es": 10368,
+          "si": 14,
+          "bp": 672,
+          "dx": 199,
+          "cx": 319
+        },
+        "phase": "format",
+        "entry": 1730,
+        "graphicsSegment": 7831,
+        "stackDelta": -6,
+        "di": 192,
+        "type": 1,
+        "bx": 0,
+        "mirror": 0,
+        "stackMaskStart": 1950,
+        "hash": "24d70724333b34f6692c1a6883bf3006bd02c56b2432d33d3eb586fce9a4793b"
+      },
+      "solid": {
+        "registers": {
+          "ds": 12795,
+          "es": 57344,
+          "si": 22,
+          "bp": 0,
+          "dx": 320,
+          "cx": 320
+        },
+        "di": 64000,
+        "bx": 0,
+        "entry": 17162,
+        "stackDelta": 6,
+        "destination": {
+          "segment": 57344,
+          "offset": 0,
+          "start": 0,
+          "pitch": 320
+        },
+        "width": 320,
+        "rows": 200,
+        "color": 1,
+        "pixelWrites": 64000,
+        "stackMaskStart": 1950,
+        "hash": "6c17b6639b0549ec9cb0a4cdc8e6d5c29db5a3cab3bbed2727ed5f597485691e"
+      },
+      "nativePixelWrites": 64000,
+      "distinctTargetAddresses": 64000,
+      "renderBufferSha256": "d147b06b531c26aa2e57565f57c286df48658b2116472855a0067fd0fe786d97",
+      "vgaSha256": "4f7988030a00d082fe445e00a2ac5dab502300ff1b80e8592dd569867b60ef74",
+      "boundary": 17162,
+      "sp": 1958
+    }
+  ],
+  "stackMask": "079E..07ED active CPU scratch; startup saves07EE..07FF compared",
+  "limits": "Verified actual-startup first-visible checkpoints; shared-memory object/projection/record/batch/clip/dispatch/first type1 fill compared at every boundary, script registers/SP and whole1MiB except explicit stack. No device/IRQ injection. Genuine320-pitch original-selected render-buffer writes; first solid rectangle only, not a complete displayed game frame."
+}

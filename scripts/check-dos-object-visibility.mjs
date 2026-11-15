@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {stepOriginalDosPhysicalScript as step} from '../src/lib/ishar/original-dos-physical-script.ts';
+const ss=0x1c0b,g=ss*16,r={ds:0x4000,es:0x5000,si:0x100,bp:0x800,dx:12,cx:34};
+const memory=new Uint8Array(0x100000),v=new DataView(memory.buffer),word=(at,n)=>v.setUint16(at,n,true);
+word(g+0xbf6,0x200);word(g+0xc16,0x100);word(0x50304,0x200);word(0x50404,0x300);word(0x50300,0x1240);memory.set([78,0,1],0x40100);
+const before=memory.slice(),shown=step(memory,ss,r),out=new DataView(shown.memory.buffer);
+assert.deepEqual(memory,before);assert.equal(out.getUint16(g+0xc16,true),0x200);assert.equal(out.getUint16(0x50504,true),0x100);assert.equal(out.getUint16(0x50304,true),0);assert.equal(out.getUint16(0x50300,true),0x1280);assert.equal(shown.registers.si,0x103);
+const hide=shown.memory.slice();hide[0x40100]=79;const hidden=step(hide,ss,r);assert.equal(hidden.memory[0x50300],0xc0);assert.equal(new DataView(hidden.memory.buffer).getUint16(g+0xc16,true),0x200);
+const cycle=memory.slice();cycle.set([78,0,4],0x40100);new DataView(cycle.buffer).setUint16(0x50504,0x200,true);const cycleBefore=cycle.slice();assert.throws(()=>step(cycle,ss,r),/cycle/);assert.deepEqual(cycle,cycleBefore);
+console.log('Object show/reorder, hide without unlink, flag preservation and atomic cycle rejection passed');

@@ -1,0 +1,3 @@
+import {prepareOriginalDosModuleHeader} from '../src/lib/ishar/original-dos-module-header.ts';
+import {createHash} from 'node:crypto';
+let text='';for await(const chunk of process.stdin)text+=chunk;const r=JSON.parse(text),source=new Uint8Array(Buffer.from(r.memory,'base64')),before=source.slice(),{memory,...result}=prepareOriginalDosModuleHeader(source,r.ss,r.registers,new Uint8Array(r.header),r.handle);if(!source.every((v,i)=>v===before[i]))throw Error('Module-header input mutated');memory.fill(0,r.ss*16+0x7a8,r.ss*16+0x7ee);console.log(JSON.stringify({...result,hash:createHash('sha256').update(memory).digest('hex')}));

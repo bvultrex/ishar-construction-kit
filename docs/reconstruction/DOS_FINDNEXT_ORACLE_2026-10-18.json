@@ -1,0 +1,583 @@
+{
+  "schema": "dos-findfirst-oracle-report-v1",
+  "reference": "local DOSBox installation; owned COM and owned fixture files only",
+  "runtime": {
+    "processExited": true,
+    "originalInstallationsMounted": false,
+    "dosBoxSha256": "e09f78e60b5be25a6af0381b71a90b8aa625f2ea42ecd427638edf2abb7130f0",
+    "configSha256": "171993b32a6fa34d10ca029346a1c47e7c5eec82c49f97b1424fa0ef3666f52f"
+  },
+  "cases": [
+    {
+      "pattern": "EXIST.AO",
+      "carry": false,
+      "ax": 0,
+      "cx": 0,
+      "defaultDtaOffset": 128,
+      "name": "EXIST.AO",
+      "size": 40,
+      "attributes": 32,
+      "dtaChanged": true,
+      "opaqueSearchStateChanged": true,
+      "dtaSha256": "5af46d3fe3b78619a1f38e024fbf3e429b7ee24288b4629ef8e59a7b55ceebf1",
+      "losslessRoundTrip": true
+    },
+    {
+      "pattern": "exist.ao",
+      "carry": false,
+      "ax": 0,
+      "cx": 0,
+      "defaultDtaOffset": 128,
+      "name": "EXIST.AO",
+      "size": 40,
+      "attributes": 32,
+      "dtaChanged": true,
+      "opaqueSearchStateChanged": true,
+      "dtaSha256": "b04ed500ce406fccb75d70ee76ec9aba6e36f2a8a8f5aa553f51e0a5e59c2866",
+      "losslessRoundTrip": true
+    },
+    {
+      "pattern": "MISSING.AO",
+      "carry": true,
+      "ax": 18,
+      "cx": 0,
+      "defaultDtaOffset": 128,
+      "name": "",
+      "size": 0,
+      "attributes": 0,
+      "dtaChanged": true,
+      "opaqueSearchStateChanged": true,
+      "dtaSha256": "1138b8c01366e8b489a9a63d991367d04571480c27dfe8eb6e68a7f63e89f3bb",
+      "losslessRoundTrip": true
+    },
+    {
+      "pattern": "*.AO",
+      "carry": false,
+      "ax": 0,
+      "cx": 0,
+      "defaultDtaOffset": 128,
+      "name": "EXIST.AO",
+      "size": 40,
+      "attributes": 32,
+      "dtaChanged": true,
+      "opaqueSearchStateChanged": true,
+      "dtaSha256": "8c7546058c5117766b65dcb7af57b54f8c46d2a3302452897abd81b56455d0f9",
+      "losslessRoundTrip": true
+    },
+    {
+      "pattern": "EXIST.*",
+      "carry": false,
+      "ax": 0,
+      "cx": 0,
+      "defaultDtaOffset": 128,
+      "name": "EXIST.AO",
+      "size": 40,
+      "attributes": 32,
+      "dtaChanged": true,
+      "opaqueSearchStateChanged": true,
+      "dtaSha256": "6be5ba224ee037369b13deacc5a402e01a659ecbd76c2aeb607015a2dce250c4",
+      "losslessRoundTrip": true
+    },
+    {
+      "pattern": "*.*",
+      "carry": false,
+      "ax": 0,
+      "cx": 0,
+      "defaultDtaOffset": 128,
+      "name": "A.TST",
+      "size": 1,
+      "attributes": 32,
+      "dtaChanged": true,
+      "opaqueSearchStateChanged": true,
+      "dtaSha256": "b8259a36c056fc5f2cc9035a3c4e325c9f1ea70628d50f8eb8b11cf14f58deea",
+      "losslessRoundTrip": true
+    },
+    {
+      "pattern": "NOFILE.*",
+      "carry": true,
+      "ax": 18,
+      "cx": 0,
+      "defaultDtaOffset": 128,
+      "name": "",
+      "size": 0,
+      "attributes": 0,
+      "dtaChanged": true,
+      "opaqueSearchStateChanged": true,
+      "dtaSha256": "ffa95131647a4c307a1cb9cc287c5735944451d4409525dfa7e0e9a8235bce00",
+      "losslessRoundTrip": true
+    },
+    {
+      "pattern": "",
+      "carry": true,
+      "ax": 2,
+      "cx": 0,
+      "defaultDtaOffset": 128,
+      "name": "",
+      "size": 0,
+      "attributes": 0,
+      "dtaChanged": false,
+      "opaqueSearchStateChanged": false,
+      "dtaSha256": "2ff05ca1210e957ab0dfbcb9a5413a3dc6e1cbea5be171cf3aca241962c495c0",
+      "losslessRoundTrip": true
+    }
+  ],
+  "enumerations": [
+    {
+      "pattern": "*.TST",
+      "customDta": false,
+      "dtaOffset": 128,
+      "rewindDta": false,
+      "rewindReplaysSecond": null,
+      "steps": [
+        {
+          "operation": "find-first",
+          "carry": false,
+          "ax": 0,
+          "cx": 0,
+          "name": "A.TST",
+          "size": 1,
+          "dtaChanged": true,
+          "searchStateChanged": true,
+          "dtaSha256": "f806ca57df34dbcc31e9a8d2be8846350777984a576bc58d186132f9f231ae95",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": false,
+          "ax": 0,
+          "cx": 0,
+          "name": "B.TST",
+          "size": 2,
+          "dtaChanged": true,
+          "searchStateChanged": false,
+          "dtaSha256": "e55ed6da49c0bf2f6f343e75437d51347e0eb87149c7764b71b1bbe1954288a2",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": false,
+          "ax": 0,
+          "cx": 0,
+          "name": "C.TST",
+          "size": 3,
+          "dtaChanged": true,
+          "searchStateChanged": false,
+          "dtaSha256": "d747f115395842be3a2e8532d099db88513ee74ffa0937f5fc253629f8ef80cb",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "d747f115395842be3a2e8532d099db88513ee74ffa0937f5fc253629f8ef80cb",
+          "losslessRoundTrip": true
+        }
+      ]
+    },
+    {
+      "pattern": "*.TST",
+      "customDta": true,
+      "dtaOffset": 722,
+      "rewindDta": false,
+      "rewindReplaysSecond": null,
+      "steps": [
+        {
+          "operation": "find-first",
+          "carry": false,
+          "ax": 0,
+          "cx": 0,
+          "name": "A.TST",
+          "size": 1,
+          "dtaChanged": true,
+          "searchStateChanged": true,
+          "dtaSha256": "b3840fbb10ff1f4c1909e8c24b05fd88a7ff254a2e87bbfcfa0150ca08a7d8c5",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": false,
+          "ax": 0,
+          "cx": 0,
+          "name": "B.TST",
+          "size": 2,
+          "dtaChanged": true,
+          "searchStateChanged": false,
+          "dtaSha256": "5d62d6faa7b1d25ba48a17ca38a55868d6e032ee951c02b02d23655d330e2cb0",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": false,
+          "ax": 0,
+          "cx": 0,
+          "name": "C.TST",
+          "size": 3,
+          "dtaChanged": true,
+          "searchStateChanged": false,
+          "dtaSha256": "8efca2a35801cf458171048376db3b32b17f00c55e10529ec736de11ebae9252",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "8efca2a35801cf458171048376db3b32b17f00c55e10529ec736de11ebae9252",
+          "losslessRoundTrip": true
+        }
+      ]
+    },
+    {
+      "pattern": "A.TST",
+      "customDta": false,
+      "dtaOffset": 128,
+      "rewindDta": false,
+      "rewindReplaysSecond": null,
+      "steps": [
+        {
+          "operation": "find-first",
+          "carry": false,
+          "ax": 0,
+          "cx": 0,
+          "name": "A.TST",
+          "size": 1,
+          "dtaChanged": true,
+          "searchStateChanged": true,
+          "dtaSha256": "32e701f1a354e81a06fa166144e02263927865cb5d2c80a9b46f3c571d562512",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "32e701f1a354e81a06fa166144e02263927865cb5d2c80a9b46f3c571d562512",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "32e701f1a354e81a06fa166144e02263927865cb5d2c80a9b46f3c571d562512",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "32e701f1a354e81a06fa166144e02263927865cb5d2c80a9b46f3c571d562512",
+          "losslessRoundTrip": true
+        }
+      ]
+    },
+    {
+      "pattern": "A.TST",
+      "customDta": true,
+      "dtaOffset": 722,
+      "rewindDta": false,
+      "rewindReplaysSecond": null,
+      "steps": [
+        {
+          "operation": "find-first",
+          "carry": false,
+          "ax": 0,
+          "cx": 0,
+          "name": "A.TST",
+          "size": 1,
+          "dtaChanged": true,
+          "searchStateChanged": true,
+          "dtaSha256": "453665e97f4ab466bd5a8715a4e3a88a32733ee022d7653d234e43fc51d8470d",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "453665e97f4ab466bd5a8715a4e3a88a32733ee022d7653d234e43fc51d8470d",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "453665e97f4ab466bd5a8715a4e3a88a32733ee022d7653d234e43fc51d8470d",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "453665e97f4ab466bd5a8715a4e3a88a32733ee022d7653d234e43fc51d8470d",
+          "losslessRoundTrip": true
+        }
+      ]
+    },
+    {
+      "pattern": "Z.TST",
+      "customDta": false,
+      "dtaOffset": 128,
+      "rewindDta": false,
+      "rewindReplaysSecond": null,
+      "steps": [
+        {
+          "operation": "find-first",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": true,
+          "searchStateChanged": true,
+          "dtaSha256": "7cc05a5fb893eeb33df78904ea637df026a855cb8ae5c4548051972be060b093",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "7cc05a5fb893eeb33df78904ea637df026a855cb8ae5c4548051972be060b093",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "7cc05a5fb893eeb33df78904ea637df026a855cb8ae5c4548051972be060b093",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "7cc05a5fb893eeb33df78904ea637df026a855cb8ae5c4548051972be060b093",
+          "losslessRoundTrip": true
+        }
+      ]
+    },
+    {
+      "pattern": "Z.TST",
+      "customDta": true,
+      "dtaOffset": 722,
+      "rewindDta": false,
+      "rewindReplaysSecond": null,
+      "steps": [
+        {
+          "operation": "find-first",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": true,
+          "searchStateChanged": true,
+          "dtaSha256": "e3af52deac9f26a6db420ab5037eac85dbce37a4f46fcaeb0a0b18bf8f72278c",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "e3af52deac9f26a6db420ab5037eac85dbce37a4f46fcaeb0a0b18bf8f72278c",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "e3af52deac9f26a6db420ab5037eac85dbce37a4f46fcaeb0a0b18bf8f72278c",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "e3af52deac9f26a6db420ab5037eac85dbce37a4f46fcaeb0a0b18bf8f72278c",
+          "losslessRoundTrip": true
+        }
+      ]
+    },
+    {
+      "pattern": "*.TST",
+      "customDta": false,
+      "dtaOffset": 128,
+      "rewindDta": true,
+      "rewindReplaysSecond": false,
+      "steps": [
+        {
+          "operation": "find-first",
+          "carry": false,
+          "ax": 0,
+          "cx": 0,
+          "name": "A.TST",
+          "size": 1,
+          "dtaChanged": true,
+          "searchStateChanged": true,
+          "dtaSha256": "260342e4418f8fd90bb599bb9307068a74656b7b6aea2283d1ee6efc858f9e8b",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": false,
+          "ax": 0,
+          "cx": 0,
+          "name": "B.TST",
+          "size": 2,
+          "dtaChanged": true,
+          "searchStateChanged": false,
+          "dtaSha256": "40ef7ffdf4938fee6d6f229455161a373617417d3739f3c14c442e7394dd7164",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": false,
+          "ax": 0,
+          "cx": 0,
+          "name": "C.TST",
+          "size": 3,
+          "dtaChanged": true,
+          "searchStateChanged": false,
+          "dtaSha256": "6ad13e6aad8711bf84876f881f51790c79fd22feb76e6410292dcac184aabc75",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "6ad13e6aad8711bf84876f881f51790c79fd22feb76e6410292dcac184aabc75",
+          "losslessRoundTrip": true
+        }
+      ]
+    },
+    {
+      "pattern": "*.TST",
+      "customDta": true,
+      "dtaOffset": 771,
+      "rewindDta": true,
+      "rewindReplaysSecond": false,
+      "steps": [
+        {
+          "operation": "find-first",
+          "carry": false,
+          "ax": 0,
+          "cx": 0,
+          "name": "A.TST",
+          "size": 1,
+          "dtaChanged": true,
+          "searchStateChanged": true,
+          "dtaSha256": "cc10b23133cf39c3d8f0492c3e9a1094623fae381f5e541b4aca10326cfb19af",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": false,
+          "ax": 0,
+          "cx": 0,
+          "name": "B.TST",
+          "size": 2,
+          "dtaChanged": true,
+          "searchStateChanged": false,
+          "dtaSha256": "662a54fbb55134e622f48473210ebd26811139f15c59ad4f2a7046b9aee2d6df",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": false,
+          "ax": 0,
+          "cx": 0,
+          "name": "C.TST",
+          "size": 3,
+          "dtaChanged": true,
+          "searchStateChanged": false,
+          "dtaSha256": "f554c3903ae83a880905b466c4f6b9b6eabdef6fbcc2128ab3061cd60d77fcac",
+          "losslessRoundTrip": true
+        },
+        {
+          "operation": "find-next",
+          "carry": true,
+          "ax": 18,
+          "cx": 0,
+          "name": null,
+          "size": null,
+          "dtaChanged": false,
+          "searchStateChanged": false,
+          "dtaSha256": "f554c3903ae83a880905b466c4f6b9b6eabdef6fbcc2128ab3061cd60d77fcac",
+          "losslessRoundTrip": true
+        }
+      ]
+    }
+  ],
+  "limits": "Observed emulator behavior, not universal DOS semantics or proof of the Ishar active DTA. Enumeration order and opaque21-byte search state remain unmodeled."
+}

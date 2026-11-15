@@ -1,0 +1,3610 @@
+{
+  "profile": "ishar2",
+  "present": true,
+  "allRecords": true,
+  "caseCount": 2,
+  "cases": [
+    {
+      "checkpoint": "country33-mouse65535.bin",
+      "checkpointSha256": "7d10fba63fe475fc173b3c2423fb2b95ed2dc88dc8cf12ddc4d72fcadadee0aa",
+      "presentation": {
+        "objectsEnd": {
+          "registers": {
+            "ds": 10368,
+            "es": 8430,
+            "si": 256,
+            "bp": 0,
+            "dx": 16,
+            "cx": 0
+          },
+          "bx": 738,
+          "di": 0,
+          "phase": "present",
+          "entry": 17183,
+          "stackDelta": -2,
+          "visited": 0,
+          "hash": "106b67d812a2bd6a51c95c281b6a2afff08d91d5d657e1c70c36c7208188cad0"
+        },
+        "copy": {
+          "sourceSegment": 57344,
+          "destinationSegment": 40960,
+          "sourceOffset": 0,
+          "destinationOffset": 0,
+          "pitch": 320,
+          "left": 0,
+          "top": 0,
+          "words": 160,
+          "rows": 200,
+          "copiedBytes": 64000,
+          "stackDelta": 4,
+          "entry": 17360,
+          "registers": {
+            "ds": 10368,
+            "es": 8430,
+            "si": 256,
+            "bp": 0,
+            "dx": 16,
+            "cx": 0
+          },
+          "hash": "fdf363aecdfe214db1c158fb3e72849dd4053ca70d24ca5a914924d9302bcbfe"
+        },
+        "nativeVgaWrites": 64000,
+        "vgaSha256": "b7818108955ecb9eb5aba0126ff9f5a3b78200dd125a346fbf3a61d49313d78c"
+      },
+      "steps": [
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 344,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "0423e7c4fed9c0ce1a7015e7a907f2a469758cf2d0f1c531e2e2275f8794a2c0"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12858,
+              "es": 10368,
+              "si": 2,
+              "bp": 0,
+              "dx": 80,
+              "cx": 146
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 344,
+            "type": 16,
+            "bx": 79,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "4fc1a533e48eaed50b47b116f5daafef93d93b60189eff79bbb237ba29cf4b14"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12858,
+              "es": 57344,
+              "si": 26,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 26051,
+            "bx": 206,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 2,
+            "pixelWrites": 5,
+            "destination": {
+              "segment": 57344,
+              "start": 25411,
+              "pitch": 320
+            },
+            "hash": "2224f395a905fa137a8cdca3d146bb5dda5c494f28469fc786bd2754e435ea09"
+          },
+          "nativePixelWrites": 5
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 206,
+            "di": 382,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "2224f395a905fa137a8cdca3d146bb5dda5c494f28469fc786bd2754e435ea09"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12956,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 84,
+              "cx": 158
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 382,
+            "type": 16,
+            "bx": 75,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "4718e2abb43e07cab1ab1cc2e198cdc294dd04ad07f996124a6a1458d6f0bd8f"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12956,
+              "es": 57344,
+              "si": 96,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 27343,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 40,
+            "destination": {
+              "segment": 57344,
+              "start": 24143,
+              "pitch": 320
+            },
+            "hash": "39147ab6c17b8f43802c6f9483033cc8621ea6cec6726ddd53577a9dcc75b438"
+          },
+          "nativePixelWrites": 40
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 420,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "39147ab6c17b8f43802c6f9483033cc8621ea6cec6726ddd53577a9dcc75b438"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13151,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 82,
+              "cx": 170
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 420,
+            "type": 16,
+            "bx": 77,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "fe82ee08f2044a789a8c757513faac8dc4e34ff7b4405fba7175302c6575b995"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13151,
+              "es": 57344,
+              "si": 56,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 26715,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 23,
+            "destination": {
+              "segment": 57344,
+              "start": 24795,
+              "pitch": 320
+            },
+            "hash": "bf992e5127c1d13f44f560bd41ac96c39b30d85365f5adb599ed161dd218b285"
+          },
+          "nativePixelWrites": 23
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 458,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "bf992e5127c1d13f44f560bd41ac96c39b30d85365f5adb599ed161dd218b285"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13109,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 85,
+              "cx": 176
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 458,
+            "type": 16,
+            "bx": 74,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "a9776e589a2123bf9dc32c39163b8bdd82905e1465975dc83daa3976ef9b7398"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13109,
+              "es": 57344,
+              "si": 112,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 27681,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 12,
+            "pixelWrites": 35,
+            "destination": {
+              "segment": 57344,
+              "start": 23841,
+              "pitch": 320
+            },
+            "hash": "6a9f2b6f58eb88b8ae17cb41c69744fa56afc15f9b7716ba8407b791c2ab2e6e"
+          },
+          "nativePixelWrites": 35
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 496,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "6a9f2b6f58eb88b8ae17cb41c69744fa56afc15f9b7716ba8407b791c2ab2e6e"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13141,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 85,
+              "cx": 182
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 496,
+            "type": 16,
+            "bx": 74,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "345682cc067b68ccc2fd212a4c4be5626beb93bbb45f0a80f81e2bf56a2714c3"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13141,
+              "es": 57344,
+              "si": 104,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 27687,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 12,
+            "pixelWrites": 13,
+            "destination": {
+              "segment": 57344,
+              "start": 23847,
+              "pitch": 320
+            },
+            "hash": "2683da055d0b97eb6b9678c1c194dabc21b6554f834d40d63aee4df84800b16d"
+          },
+          "nativePixelWrites": 13
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 534,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "2683da055d0b97eb6b9678c1c194dabc21b6554f834d40d63aee4df84800b16d"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13122,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 84,
+              "cx": 188
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 534,
+            "type": 16,
+            "bx": 75,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "c3f88100bce93b2085d5ac3ff5c09106b39782937211b3605a27e2435ea877a1"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13122,
+              "es": 57344,
+              "si": 96,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 27373,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 11,
+            "destination": {
+              "segment": 57344,
+              "start": 24173,
+              "pitch": 320
+            },
+            "hash": "bada1c91c1336f88a81dbcd406966093400e4ef398038f20ff7ddd4e3ddc8a42"
+          },
+          "nativePixelWrites": 11
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 572,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "bada1c91c1336f88a81dbcd406966093400e4ef398038f20ff7ddd4e3ddc8a42"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13174,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 82,
+              "cx": 194
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 572,
+            "type": 16,
+            "bx": 77,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "f47bf2f923523693972b11d290cc83fce86f1720edcb6abaaa600dbc8e2123a9"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13174,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 26739,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 19,
+            "destination": {
+              "segment": 57344,
+              "start": 24819,
+              "pitch": 320
+            },
+            "hash": "bcae39b4c7a32bab72cfad212814ce20691263101041f13023f202b913a6a570"
+          },
+          "nativePixelWrites": 19
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 610,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "bcae39b4c7a32bab72cfad212814ce20691263101041f13023f202b913a6a570"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13116,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 85,
+              "cx": 200
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 610,
+            "type": 16,
+            "bx": 74,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "f8a7bbad23851e81943ee5d917e685ed3b706c62459a97ba13b61efaa9f6d238"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13116,
+              "es": 57344,
+              "si": 104,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 27705,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 12,
+            "pixelWrites": 33,
+            "destination": {
+              "segment": 57344,
+              "start": 23865,
+              "pitch": 320
+            },
+            "hash": "04d04a8e4d16ee39ea74c39e6b87aacc2d66ac9a2fb52f03102d1b5c5cb954ed"
+          },
+          "nativePixelWrites": 33
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 648,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "04d04a8e4d16ee39ea74c39e6b87aacc2d66ac9a2fb52f03102d1b5c5cb954ed"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12874,
+              "es": 10368,
+              "si": 2,
+              "bp": 0,
+              "dx": 104,
+              "cx": 134
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 648,
+            "type": 16,
+            "bx": 95,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "9a7cb5e52cd1c413c7596e1fc5276557054b6b655faf51ffe5c9d6ced7052a2b"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12874,
+              "es": 57344,
+              "si": 90,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33719,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 28,
+            "destination": {
+              "segment": 57344,
+              "start": 30519,
+              "pitch": 320
+            },
+            "hash": "bff2f7646d597baf504b891e5a2fb6acde8afdcc2833b2c996aecc881491b8f1"
+          },
+          "nativePixelWrites": 28
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 686,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "bff2f7646d597baf504b891e5a2fb6acde8afdcc2833b2c996aecc881491b8f1"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12858,
+              "es": 10368,
+              "si": 2,
+              "bp": 0,
+              "dx": 100,
+              "cx": 146
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 686,
+            "type": 16,
+            "bx": 99,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "72d2301ff1eb6a4393e178608dbe7090369edede28651c35b918b1df3cfff396"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12858,
+              "es": 57344,
+              "si": 26,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 32451,
+            "bx": 206,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 2,
+            "pixelWrites": 5,
+            "destination": {
+              "segment": 57344,
+              "start": 31811,
+              "pitch": 320
+            },
+            "hash": "2952fe61de1bf798482359025dd386b36cf9eb45569b5402610ff3183bdd7521"
+          },
+          "nativePixelWrites": 5
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 206,
+            "di": 724,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "2952fe61de1bf798482359025dd386b36cf9eb45569b5402610ff3183bdd7521"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12962,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 104,
+              "cx": 158
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 724,
+            "type": 16,
+            "bx": 95,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "bebccd5ea2f77ee84ffac2219accab9f93274e88059f04a17a2167d7eddd38f7"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12962,
+              "es": 57344,
+              "si": 88,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33743,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 27,
+            "destination": {
+              "segment": 57344,
+              "start": 30543,
+              "pitch": 320
+            },
+            "hash": "b598b94aad3d99bebf2c08774addec53cdb2e716e8ac66e7e4e02049e02b0881"
+          },
+          "nativePixelWrites": 27
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 762,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "b598b94aad3d99bebf2c08774addec53cdb2e716e8ac66e7e4e02049e02b0881"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13171,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 102,
+              "cx": 170
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 762,
+            "type": 16,
+            "bx": 97,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "52c06575b2e14dc030be4bb39e675fb2c7da9b2e7b1330010288ef7b36cb5ddb"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13171,
+              "es": 57344,
+              "si": 56,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33115,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 13,
+            "destination": {
+              "segment": 57344,
+              "start": 31195,
+              "pitch": 320
+            },
+            "hash": "624ebaa35e167548af9ead07ece02017e91972988e10d3c9568530a371a3eea7"
+          },
+          "nativePixelWrites": 13
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 800,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "624ebaa35e167548af9ead07ece02017e91972988e10d3c9568530a371a3eea7"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13080,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 102,
+              "cx": 176
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 800,
+            "type": 16,
+            "bx": 97,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "f9d333d1214f8910cef2216a9f2f52d079aceb9037cc32c8d84d63d03ced126f"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13080,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33121,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 26,
+            "destination": {
+              "segment": 57344,
+              "start": 31201,
+              "pitch": 320
+            },
+            "hash": "859649af0ca11e2a8bcc63d275bf25301d8f13f61386d6c45962064adca77f9a"
+          },
+          "nativePixelWrites": 26
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 838,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "859649af0ca11e2a8bcc63d275bf25301d8f13f61386d6c45962064adca77f9a"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13151,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 102,
+              "cx": 182
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 838,
+            "type": 16,
+            "bx": 97,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "e0ef54cd3e66876fae968b4bab82de480a5615c53dbfd9216a994ebcdb0e8df6"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13151,
+              "es": 57344,
+              "si": 56,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33127,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 23,
+            "destination": {
+              "segment": 57344,
+              "start": 31207,
+              "pitch": 320
+            },
+            "hash": "6201a775054aa15ed350a3ab20085b38afea2e13f46a4d70fb701ea7abd8c0e2"
+          },
+          "nativePixelWrites": 23
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 876,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "6201a775054aa15ed350a3ab20085b38afea2e13f46a4d70fb701ea7abd8c0e2"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13265,
+              "es": 10368,
+              "si": 12,
+              "bp": 0,
+              "dx": 105,
+              "cx": 188
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 876,
+            "type": 16,
+            "bx": 94,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "314275122d43f98fb3a01962e169e44aadb980ea9922ad521b5be110cf71952e"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13265,
+              "es": 57344,
+              "si": 116,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 34093,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 12,
+            "pixelWrites": 29,
+            "destination": {
+              "segment": 57344,
+              "start": 30253,
+              "pitch": 320
+            },
+            "hash": "f4ca670c170809ebfc5643cfaa3639ef0aed65f13c9d6eb4799046f7a10092c7"
+          },
+          "nativePixelWrites": 29
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 914,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "f4ca670c170809ebfc5643cfaa3639ef0aed65f13c9d6eb4799046f7a10092c7"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13080,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 102,
+              "cx": 194
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 914,
+            "type": 16,
+            "bx": 97,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "ee71800dc1c379b5c27d896f3d4f592886cd87ab1e8f3935feacce1843de491a"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13080,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33139,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 26,
+            "destination": {
+              "segment": 57344,
+              "start": 31219,
+              "pitch": 320
+            },
+            "hash": "1742cb2eabc6dd8dcdbdf1edaf1ff69a9ba65b88b072b73ac5f87e80b1a6e807"
+          },
+          "nativePixelWrites": 26
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 952,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "1742cb2eabc6dd8dcdbdf1edaf1ff69a9ba65b88b072b73ac5f87e80b1a6e807"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13122,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 104,
+              "cx": 200
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 952,
+            "type": 16,
+            "bx": 95,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "4a5a684e9bc14a1de21a8f06153c6e0e80cf53296e7d1db346921c21d4188772"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13122,
+              "es": 57344,
+              "si": 96,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33785,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 11,
+            "destination": {
+              "segment": 57344,
+              "start": 30585,
+              "pitch": 320
+            },
+            "hash": "ff35ece4f57f3a51903bebb8022ec59c64ceb68fb87cdb11a7ab58b572d10735"
+          },
+          "nativePixelWrites": 11
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 990,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "ff35ece4f57f3a51903bebb8022ec59c64ceb68fb87cdb11a7ab58b572d10735"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13174,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 102,
+              "cx": 206
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 990,
+            "type": 16,
+            "bx": 97,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "7a221a07b77ee3c8d2b90b1f7d50cb73d72b08d3f91666b2e8c7be7904ef7653"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13174,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33151,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 19,
+            "destination": {
+              "segment": 57344,
+              "start": 31231,
+              "pitch": 320
+            },
+            "hash": "7157c2e353ce6ae2e7dc02eec4a5b8bbeed397235072d03822648bbb2714730c"
+          },
+          "nativePixelWrites": 19
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1028,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "7157c2e353ce6ae2e7dc02eec4a5b8bbeed397235072d03822648bbb2714730c"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12879,
+              "es": 10368,
+              "si": 10,
+              "bp": 0,
+              "dx": 124,
+              "cx": 134
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1028,
+            "type": 16,
+            "bx": 115,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "2c8f7c1effa81ced838f9e1e7d6df0005271b98c04cc9642abc82b0d6d367865"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12879,
+              "es": 57344,
+              "si": 98,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 40119,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 26,
+            "destination": {
+              "segment": 57344,
+              "start": 36919,
+              "pitch": 320
+            },
+            "hash": "ae8cb8688968900bc62cec5546bf65f1ce289892816b29bf6b4bbdc1d586477e"
+          },
+          "nativePixelWrites": 26
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1066,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "ae8cb8688968900bc62cec5546bf65f1ce289892816b29bf6b4bbdc1d586477e"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12858,
+              "es": 10368,
+              "si": 2,
+              "bp": 0,
+              "dx": 120,
+              "cx": 146
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1066,
+            "type": 16,
+            "bx": 119,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "2132d3649668c48cd87c6f82b12b0856815422b61f165613b83dbac0f90aeadc"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12858,
+              "es": 57344,
+              "si": 26,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 38851,
+            "bx": 206,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 2,
+            "pixelWrites": 5,
+            "destination": {
+              "segment": 57344,
+              "start": 38211,
+              "pitch": 320
+            },
+            "hash": "4701af17ed0ba6cbb1f433ec26826577aafb52d45b08ef4fc00baa274ecfa0b2"
+          },
+          "nativePixelWrites": 5
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 206,
+            "di": 1104,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "4701af17ed0ba6cbb1f433ec26826577aafb52d45b08ef4fc00baa274ecfa0b2"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12951,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 124,
+              "cx": 158
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1104,
+            "type": 16,
+            "bx": 115,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "632267c2742ca64f3cd62343637988958fae84a2e2d78445de1545a186d0427d"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12951,
+              "es": 57344,
+              "si": 88,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 40143,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 39,
+            "destination": {
+              "segment": 57344,
+              "start": 36943,
+              "pitch": 320
+            },
+            "hash": "cb76741f16127a0a8c72bfa7b9e192524a9ae94858ad4810a0cecd4d7a4e8172"
+          },
+          "nativePixelWrites": 39
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1142,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "cb76741f16127a0a8c72bfa7b9e192524a9ae94858ad4810a0cecd4d7a4e8172"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13099,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 122,
+              "cx": 170
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1142,
+            "type": 16,
+            "bx": 117,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "db5abfccc1c5a95e0aa1999e65476b1b331fbb4ab4ddfc81633998ecf08a2c16"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13099,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 39515,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 24,
+            "destination": {
+              "segment": 57344,
+              "start": 37595,
+              "pitch": 320
+            },
+            "hash": "7ba6501d8ad7fde28a406d50bef910fec8cfc936c62bf7ac79c248514be14490"
+          },
+          "nativePixelWrites": 24
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1180,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "7ba6501d8ad7fde28a406d50bef910fec8cfc936c62bf7ac79c248514be14490"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13183,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 122,
+              "cx": 176
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1180,
+            "type": 16,
+            "bx": 117,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "5963464f0a65305e6d86fbf26f16b89bc0f9591f61c8e1a61e8beb8071dd3805"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13183,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 39521,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 23,
+            "destination": {
+              "segment": 57344,
+              "start": 37601,
+              "pitch": 320
+            },
+            "hash": "4fe6aad269e18235428dfbf68aa58f312c9bdb5bc204364cb00b807b42d28368"
+          },
+          "nativePixelWrites": 23
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1218,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "4fe6aad269e18235428dfbf68aa58f312c9bdb5bc204364cb00b807b42d28368"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13178,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 124,
+              "cx": 182
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1218,
+            "type": 16,
+            "bx": 115,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "a2a091edfe43a184a8e4a7aac791cef60ff5e5bfa787d344e05be7ce89678a7e"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13178,
+              "es": 57344,
+              "si": 88,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 40167,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 13,
+            "destination": {
+              "segment": 57344,
+              "start": 36967,
+              "pitch": 320
+            },
+            "hash": "91e02901964a1c4c47591187e0d55fe88fc9d4c3c53a4ff777c13a33a02351fa"
+          },
+          "nativePixelWrites": 13
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1256,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "91e02901964a1c4c47591187e0d55fe88fc9d4c3c53a4ff777c13a33a02351fa"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13174,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 122,
+              "cx": 188
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1256,
+            "type": 16,
+            "bx": 117,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "e3920e52b117bfd8b40148638d79fed6696b93a0a76db2889ac7653fa8861694"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13174,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 39533,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 19,
+            "destination": {
+              "segment": 57344,
+              "start": 37613,
+              "pitch": 320
+            },
+            "hash": "aa0a549baf2a231239561ac2ab9c3979dae8583deac5642e7fd130a3c0295e75"
+          },
+          "nativePixelWrites": 19
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1294,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "aa0a549baf2a231239561ac2ab9c3979dae8583deac5642e7fd130a3c0295e75"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13090,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 122,
+              "cx": 194
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1294,
+            "type": 16,
+            "bx": 117,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "ea9afd7511782b9d7cf180b20b51011109c58e88bc666e4d1ad514a358742d84"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13090,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 39539,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 23,
+            "destination": {
+              "segment": 57344,
+              "start": 37619,
+              "pitch": 320
+            },
+            "hash": "78c6de1568e558914b573673a8271ac075d0cb3a8210c23c6fea8e69bb375499"
+          },
+          "nativePixelWrites": 23
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1332,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "78c6de1568e558914b573673a8271ac075d0cb3a8210c23c6fea8e69bb375499"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13116,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 125,
+              "cx": 200
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1332,
+            "type": 16,
+            "bx": 114,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "a2a433bae9b60e13fc085bac329a8f7f1d62e32079798a6b28efb15349fd6e0c"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13116,
+              "es": 57344,
+              "si": 104,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 40505,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 12,
+            "pixelWrites": 33,
+            "destination": {
+              "segment": 57344,
+              "start": 36665,
+              "pitch": 320
+            },
+            "hash": "106b67d812a2bd6a51c95c281b6a2afff08d91d5d657e1c70c36c7208188cad0"
+          },
+          "nativePixelWrites": 33
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 0,
+            "sp": 1970,
+            "stackDelta": 12,
+            "entry": 17455,
+            "phase": "next-object",
+            "skipped": 0,
+            "hash": "106b67d812a2bd6a51c95c281b6a2afff08d91d5d657e1c70c36c7208188cad0"
+          }
+        }
+      ],
+      "renderBufferSha256": "b7818108955ecb9eb5aba0126ff9f5a3b78200dd125a346fbf3a61d49313d78c",
+      "boundary": 17360
+    },
+    {
+      "checkpoint": "country49-mouse65535.bin",
+      "checkpointSha256": "58bcaa8747dd371cb5796d1429182a76693ead0e007ce5849db617cac73ddc86",
+      "presentation": {
+        "objectsEnd": {
+          "registers": {
+            "ds": 10368,
+            "es": 8430,
+            "si": 256,
+            "bp": 0,
+            "dx": 16,
+            "cx": 0
+          },
+          "bx": 738,
+          "di": 0,
+          "phase": "present",
+          "entry": 17183,
+          "stackDelta": -2,
+          "visited": 0,
+          "hash": "abe8346c87215b2f13e9cc1a2f3a19df4d96aa2d127e25dfbdd7c279488e4e20"
+        },
+        "copy": {
+          "sourceSegment": 57344,
+          "destinationSegment": 40960,
+          "sourceOffset": 0,
+          "destinationOffset": 0,
+          "pitch": 320,
+          "left": 0,
+          "top": 0,
+          "words": 160,
+          "rows": 200,
+          "copiedBytes": 64000,
+          "stackDelta": 4,
+          "entry": 17360,
+          "registers": {
+            "ds": 10368,
+            "es": 8430,
+            "si": 256,
+            "bp": 0,
+            "dx": 16,
+            "cx": 0
+          },
+          "hash": "87c724aa55de449c6996d04d2dbb0abbe4bf2054987331b47b0f23ba72b6d558"
+        },
+        "nativeVgaWrites": 64000,
+        "vgaSha256": "b7818108955ecb9eb5aba0126ff9f5a3b78200dd125a346fbf3a61d49313d78c"
+      },
+      "steps": [
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 344,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "e99fe6aa0e73ed992ed5cd5f41326551db3660e20c5628488946aafc28b4efaa"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12858,
+              "es": 10368,
+              "si": 2,
+              "bp": 0,
+              "dx": 80,
+              "cx": 146
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 344,
+            "type": 16,
+            "bx": 79,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "aef99fc0b709c1d271204fede34cac3f2095823a82accd233edcc36ca32e1266"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12858,
+              "es": 57344,
+              "si": 26,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 26051,
+            "bx": 206,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 2,
+            "pixelWrites": 5,
+            "destination": {
+              "segment": 57344,
+              "start": 25411,
+              "pitch": 320
+            },
+            "hash": "f1e42b749f6d068d5666a3dbffeed9757fda0286052e11586bd1846536dfde36"
+          },
+          "nativePixelWrites": 5
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 206,
+            "di": 382,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "f1e42b749f6d068d5666a3dbffeed9757fda0286052e11586bd1846536dfde36"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12956,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 84,
+              "cx": 158
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 382,
+            "type": 16,
+            "bx": 75,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "e32842a15699ae572e3669ed9f5cd7c8890bc23675c688eaf303669b9febb015"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12956,
+              "es": 57344,
+              "si": 96,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 27343,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 40,
+            "destination": {
+              "segment": 57344,
+              "start": 24143,
+              "pitch": 320
+            },
+            "hash": "021dafc43742c4921666c788eaf4d73baf3d673a96ae8a54fc041a89e46cd853"
+          },
+          "nativePixelWrites": 40
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 420,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "021dafc43742c4921666c788eaf4d73baf3d673a96ae8a54fc041a89e46cd853"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13151,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 82,
+              "cx": 170
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 420,
+            "type": 16,
+            "bx": 77,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "8a459bd48d94abaa7f6866a3f862e2d36222c0364135308d47634b28015ffd92"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13151,
+              "es": 57344,
+              "si": 56,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 26715,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 23,
+            "destination": {
+              "segment": 57344,
+              "start": 24795,
+              "pitch": 320
+            },
+            "hash": "93d738cc0ed9dd0784fe1fe20f15e63d2373bf1391a08c96b4a3f1421e9ba4d6"
+          },
+          "nativePixelWrites": 23
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 458,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "93d738cc0ed9dd0784fe1fe20f15e63d2373bf1391a08c96b4a3f1421e9ba4d6"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13109,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 85,
+              "cx": 176
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 458,
+            "type": 16,
+            "bx": 74,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "8091aab1bf02c343ec226df8dc3547801717d02a23f3deeac15950b3ef29ec1a"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13109,
+              "es": 57344,
+              "si": 112,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 27681,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 12,
+            "pixelWrites": 35,
+            "destination": {
+              "segment": 57344,
+              "start": 23841,
+              "pitch": 320
+            },
+            "hash": "1822432e7cffa8ad5d70dbc8a7c40700fc2a938eabaf9f0473b44ef66bb18b63"
+          },
+          "nativePixelWrites": 35
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 496,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "1822432e7cffa8ad5d70dbc8a7c40700fc2a938eabaf9f0473b44ef66bb18b63"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13141,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 85,
+              "cx": 182
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 496,
+            "type": 16,
+            "bx": 74,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "3ee9b86778f4a76818664c8f372778beff7f209230a637c4e3c8699ce9739736"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13141,
+              "es": 57344,
+              "si": 104,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 27687,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 12,
+            "pixelWrites": 13,
+            "destination": {
+              "segment": 57344,
+              "start": 23847,
+              "pitch": 320
+            },
+            "hash": "4e754d2eca43ac471b4921fe4d6e6a9ce0418ecca02c40c8b74b320742fcd794"
+          },
+          "nativePixelWrites": 13
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 534,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "4e754d2eca43ac471b4921fe4d6e6a9ce0418ecca02c40c8b74b320742fcd794"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13122,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 84,
+              "cx": 188
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 534,
+            "type": 16,
+            "bx": 75,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "0d8a3516c8ca8535abae49186b07f17eb3322c77eabfe84d8d74ebe899360c7b"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13122,
+              "es": 57344,
+              "si": 96,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 27373,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 11,
+            "destination": {
+              "segment": 57344,
+              "start": 24173,
+              "pitch": 320
+            },
+            "hash": "a2da86866db7232b0efcfe7a6134fd00310a0939ae2e8b355e50952f89d4e607"
+          },
+          "nativePixelWrites": 11
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 572,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "a2da86866db7232b0efcfe7a6134fd00310a0939ae2e8b355e50952f89d4e607"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13174,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 82,
+              "cx": 194
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 572,
+            "type": 16,
+            "bx": 77,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "f5e35c0765e8eabfdefdad9422b35601e2a3d3f44e2464d84783549e9f62cf07"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13174,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 26739,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 19,
+            "destination": {
+              "segment": 57344,
+              "start": 24819,
+              "pitch": 320
+            },
+            "hash": "5e31969d07362b9a716f995b33e95aa1e49877d2db25eac81bce80ed97426ffe"
+          },
+          "nativePixelWrites": 19
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 610,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "5e31969d07362b9a716f995b33e95aa1e49877d2db25eac81bce80ed97426ffe"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13116,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 85,
+              "cx": 200
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 610,
+            "type": 16,
+            "bx": 74,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "774a70118ac104f4fad77ff54db5fe8527a028cea79f076fc78ae6d0c1ad8f01"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13116,
+              "es": 57344,
+              "si": 104,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 27705,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 12,
+            "pixelWrites": 33,
+            "destination": {
+              "segment": 57344,
+              "start": 23865,
+              "pitch": 320
+            },
+            "hash": "749fa0dbe9593252c1675b70e03b7f4f7bfafca5343affca707f7cd436a0a01b"
+          },
+          "nativePixelWrites": 33
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 648,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "749fa0dbe9593252c1675b70e03b7f4f7bfafca5343affca707f7cd436a0a01b"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12874,
+              "es": 10368,
+              "si": 2,
+              "bp": 0,
+              "dx": 104,
+              "cx": 134
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 648,
+            "type": 16,
+            "bx": 95,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "17408f3d5dfb3b212a6a34f7ed43bd9681376127ef40f0ff33b04b934c77cb31"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12874,
+              "es": 57344,
+              "si": 90,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33719,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 28,
+            "destination": {
+              "segment": 57344,
+              "start": 30519,
+              "pitch": 320
+            },
+            "hash": "557e5898b2d58e724a327e8ef93d909b94b0e83c4c848df4c0a1e78e2b27be25"
+          },
+          "nativePixelWrites": 28
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 686,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "557e5898b2d58e724a327e8ef93d909b94b0e83c4c848df4c0a1e78e2b27be25"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12858,
+              "es": 10368,
+              "si": 2,
+              "bp": 0,
+              "dx": 100,
+              "cx": 146
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 686,
+            "type": 16,
+            "bx": 99,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "c6c0965737154fcae979e8bd817422b3d0528e7395189c0321e4b5556a0d90bd"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12858,
+              "es": 57344,
+              "si": 26,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 32451,
+            "bx": 206,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 2,
+            "pixelWrites": 5,
+            "destination": {
+              "segment": 57344,
+              "start": 31811,
+              "pitch": 320
+            },
+            "hash": "fd58a42e40b6da99035f9667750919ed3c61c12dfd559b6aea78b96ab9cc10a3"
+          },
+          "nativePixelWrites": 5
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 206,
+            "di": 724,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "fd58a42e40b6da99035f9667750919ed3c61c12dfd559b6aea78b96ab9cc10a3"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12962,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 104,
+              "cx": 158
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 724,
+            "type": 16,
+            "bx": 95,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "bcbe36481a13600edfa8e54a1b39910389ed9729e899fbba0a20e94dc0ed959f"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12962,
+              "es": 57344,
+              "si": 88,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33743,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 27,
+            "destination": {
+              "segment": 57344,
+              "start": 30543,
+              "pitch": 320
+            },
+            "hash": "f69c63016011bab6b5520480c5d776301cccbb2197e45767cd659dedc18bbc6f"
+          },
+          "nativePixelWrites": 27
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 762,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "f69c63016011bab6b5520480c5d776301cccbb2197e45767cd659dedc18bbc6f"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13171,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 102,
+              "cx": 170
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 762,
+            "type": 16,
+            "bx": 97,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "381183674f9ba646bde37d83e6dce94c73853f954018fdfc654cfde192b60fe7"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13171,
+              "es": 57344,
+              "si": 56,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33115,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 13,
+            "destination": {
+              "segment": 57344,
+              "start": 31195,
+              "pitch": 320
+            },
+            "hash": "1c860db0d62bdc048999862aa624f8d39a4cb3872bfcfb9b9b21dc430d8c9638"
+          },
+          "nativePixelWrites": 13
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 800,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "1c860db0d62bdc048999862aa624f8d39a4cb3872bfcfb9b9b21dc430d8c9638"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13080,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 102,
+              "cx": 176
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 800,
+            "type": 16,
+            "bx": 97,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "3aaf08c6e6f62655893cf84029a5eb3d0f48ccc2fbfdbdbfbb0a1ac14fe2e1c7"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13080,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33121,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 26,
+            "destination": {
+              "segment": 57344,
+              "start": 31201,
+              "pitch": 320
+            },
+            "hash": "4e54cf33219933c7b13462fc4fa794bcc6c0484ff3ad7f4017f7f945b22afe98"
+          },
+          "nativePixelWrites": 26
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 838,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "4e54cf33219933c7b13462fc4fa794bcc6c0484ff3ad7f4017f7f945b22afe98"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13151,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 102,
+              "cx": 182
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 838,
+            "type": 16,
+            "bx": 97,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "d0e87cac7b0d7b84ea6ed32cabd74a0cf5d7378461e4cdea582a935d3ce6505c"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13151,
+              "es": 57344,
+              "si": 56,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33127,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 23,
+            "destination": {
+              "segment": 57344,
+              "start": 31207,
+              "pitch": 320
+            },
+            "hash": "6b299f198aa201de7941432290f709cb837423168b3356f887646d45bebaf9f0"
+          },
+          "nativePixelWrites": 23
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 876,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "6b299f198aa201de7941432290f709cb837423168b3356f887646d45bebaf9f0"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13265,
+              "es": 10368,
+              "si": 12,
+              "bp": 0,
+              "dx": 105,
+              "cx": 188
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 876,
+            "type": 16,
+            "bx": 94,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "f8fbe631df1cb8e370af800f65d11f0a247a24610712e4a69ce3b6d4a888f6a4"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13265,
+              "es": 57344,
+              "si": 116,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 34093,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 12,
+            "pixelWrites": 29,
+            "destination": {
+              "segment": 57344,
+              "start": 30253,
+              "pitch": 320
+            },
+            "hash": "79161c684838928e28444e75c637537a0b2343fb914343d0748c58ff94bf26af"
+          },
+          "nativePixelWrites": 29
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 914,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "79161c684838928e28444e75c637537a0b2343fb914343d0748c58ff94bf26af"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13080,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 102,
+              "cx": 194
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 914,
+            "type": 16,
+            "bx": 97,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "fea4bcde3a1f2cd2da4a99396e157eac59f2d82ccbcd26a0e8d7726fc8943897"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13080,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33139,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 26,
+            "destination": {
+              "segment": 57344,
+              "start": 31219,
+              "pitch": 320
+            },
+            "hash": "22ee631ca2125de42aa99a66a863206c3ca5ae28be5bfca0d2292390caed5784"
+          },
+          "nativePixelWrites": 26
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 952,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "22ee631ca2125de42aa99a66a863206c3ca5ae28be5bfca0d2292390caed5784"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13122,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 104,
+              "cx": 200
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 952,
+            "type": 16,
+            "bx": 95,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "619ffb4e0418a61774272f4cb84ca538985a65c62ea574e725f795826aaa56e3"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13122,
+              "es": 57344,
+              "si": 96,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33785,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 11,
+            "destination": {
+              "segment": 57344,
+              "start": 30585,
+              "pitch": 320
+            },
+            "hash": "2a10c91675acd622149c7076616cb5c14fd4f17573935959a9fef54d2713d901"
+          },
+          "nativePixelWrites": 11
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 990,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "2a10c91675acd622149c7076616cb5c14fd4f17573935959a9fef54d2713d901"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13174,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 102,
+              "cx": 206
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 990,
+            "type": 16,
+            "bx": 97,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "7b0063e11eed15f1aa726195439c9b8f672ad77a8bc704172bcbdc9775da43cf"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13174,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 33151,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 19,
+            "destination": {
+              "segment": 57344,
+              "start": 31231,
+              "pitch": 320
+            },
+            "hash": "e7678d7631dffe16f5251747e223a88d55ff0d769c61eb26dbfa6387a36a866b"
+          },
+          "nativePixelWrites": 19
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1028,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "e7678d7631dffe16f5251747e223a88d55ff0d769c61eb26dbfa6387a36a866b"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12879,
+              "es": 10368,
+              "si": 10,
+              "bp": 0,
+              "dx": 124,
+              "cx": 134
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1028,
+            "type": 16,
+            "bx": 115,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "4551973bce14f3f5d6dfaa00ac9e7f2dd8c49f6f76bb1203eae52ba6c51fdc7e"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12879,
+              "es": 57344,
+              "si": 98,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 40119,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 26,
+            "destination": {
+              "segment": 57344,
+              "start": 36919,
+              "pitch": 320
+            },
+            "hash": "75244379806135903389779caf4b12aa3d981e01f05005723501377d46cff46e"
+          },
+          "nativePixelWrites": 26
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1066,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "75244379806135903389779caf4b12aa3d981e01f05005723501377d46cff46e"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12858,
+              "es": 10368,
+              "si": 2,
+              "bp": 0,
+              "dx": 120,
+              "cx": 146
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1066,
+            "type": 16,
+            "bx": 119,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "328e8f0a26b7a17434fcad347686784c2624c9bff8861a7be4d36ef934334089"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12858,
+              "es": 57344,
+              "si": 26,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 38851,
+            "bx": 206,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 2,
+            "pixelWrites": 5,
+            "destination": {
+              "segment": 57344,
+              "start": 38211,
+              "pitch": 320
+            },
+            "hash": "b887dfd256e393b921bb699d52e59409944cfd928ef34cc0167dfdf6398c084e"
+          },
+          "nativePixelWrites": 5
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 206,
+            "di": 1104,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "b887dfd256e393b921bb699d52e59409944cfd928ef34cc0167dfdf6398c084e"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 12951,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 124,
+              "cx": 158
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1104,
+            "type": 16,
+            "bx": 115,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "74e00ddbbd04ffd7a9459e34e5c980f8cd12f6091e0aab7798c52d365a1f2a6c"
+          },
+          "draw": {
+            "registers": {
+              "ds": 12951,
+              "es": 57344,
+              "si": 88,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 40143,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 39,
+            "destination": {
+              "segment": 57344,
+              "start": 36943,
+              "pitch": 320
+            },
+            "hash": "a3bdd372107b0b1f6ddc4aec552dbe2da1409a60bfe27788b116f0393296c03b"
+          },
+          "nativePixelWrites": 39
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1142,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "a3bdd372107b0b1f6ddc4aec552dbe2da1409a60bfe27788b116f0393296c03b"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13099,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 122,
+              "cx": 170
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1142,
+            "type": 16,
+            "bx": 117,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "ea2b76117a8d0f00dfb469a12e83b5c671aefe14f017d5892e5bd88cd560fc4b"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13099,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 39515,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 24,
+            "destination": {
+              "segment": 57344,
+              "start": 37595,
+              "pitch": 320
+            },
+            "hash": "1caa810ce3ea6b6e5d276c84b71a4e7a71ab4cfb2f94256562e9a1c5d4a60dc7"
+          },
+          "nativePixelWrites": 24
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1180,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "1caa810ce3ea6b6e5d276c84b71a4e7a71ab4cfb2f94256562e9a1c5d4a60dc7"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13183,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 122,
+              "cx": 176
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1180,
+            "type": 16,
+            "bx": 117,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "3c58a3afea530c4b8939fce7f80b5772a7f719a3bca3c4b4edaa388feb959bc7"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13183,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 39521,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 23,
+            "destination": {
+              "segment": 57344,
+              "start": 37601,
+              "pitch": 320
+            },
+            "hash": "d75a7290c932b5d6bd2fe12143be0b9ed652dae3561e414c1793119acc917374"
+          },
+          "nativePixelWrites": 23
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1218,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "d75a7290c932b5d6bd2fe12143be0b9ed652dae3561e414c1793119acc917374"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13178,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 124,
+              "cx": 182
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1218,
+            "type": 16,
+            "bx": 115,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "a1bc0201e2e40f9d9e500cdc37d062556ac3f75dbe09c3e53d45836f0b1b6687"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13178,
+              "es": 57344,
+              "si": 88,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 40167,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 10,
+            "pixelWrites": 13,
+            "destination": {
+              "segment": 57344,
+              "start": 36967,
+              "pitch": 320
+            },
+            "hash": "58736d4116dff3dae3dbf06345eaaea34fe4b4ae2dd22dd31c24f1020e892e5f"
+          },
+          "nativePixelWrites": 13
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1256,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "58736d4116dff3dae3dbf06345eaaea34fe4b4ae2dd22dd31c24f1020e892e5f"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13174,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 122,
+              "cx": 188
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1256,
+            "type": 16,
+            "bx": 117,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "a7e11c3e4aaae0e8c1c022ec2649a24fa559342146b36dd88fdaf040b6b7a109"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13174,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 39533,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 19,
+            "destination": {
+              "segment": 57344,
+              "start": 37613,
+              "pitch": 320
+            },
+            "hash": "dff0e42ad6edb8b290458f4773cc0e7d5b80998d608ad715fa9af56605b4c67a"
+          },
+          "nativePixelWrites": 19
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1294,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "dff0e42ad6edb8b290458f4773cc0e7d5b80998d608ad715fa9af56605b4c67a"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13090,
+              "es": 10368,
+              "si": 8,
+              "bp": 0,
+              "dx": 122,
+              "cx": 194
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1294,
+            "type": 16,
+            "bx": 117,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "e98669f6007caf585518d6eda103c279bee9cdc689fd2595092888bff4e2e5e2"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13090,
+              "es": 57344,
+              "si": 64,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 39539,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 6,
+            "pixelWrites": 23,
+            "destination": {
+              "segment": 57344,
+              "start": 37619,
+              "pitch": 320
+            },
+            "hash": "396228a75a5bacee359b08232523d14e6f1e9e655641cd486692ef7b1714798f"
+          },
+          "nativePixelWrites": 23
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 1332,
+            "sp": 1958,
+            "stackDelta": 0,
+            "entry": 17157,
+            "phase": "record",
+            "skipped": 0,
+            "hash": "396228a75a5bacee359b08232523d14e6f1e9e655641cd486692ef7b1714798f"
+          },
+          "sprite": {
+            "registers": {
+              "ds": 13116,
+              "es": 10368,
+              "si": 0,
+              "bp": 0,
+              "dx": 125,
+              "cx": 200
+            },
+            "phase": "format",
+            "entry": 1363,
+            "graphicsSegment": 7831,
+            "stackDelta": -6,
+            "di": 1332,
+            "type": 16,
+            "bx": 114,
+            "mirror": 0,
+            "stackMaskStart": 1944,
+            "hash": "3e01355c990d333d6d3723bb69718ed05ce9e3bd8e5cfbdc77e02491111d3eb6"
+          },
+          "draw": {
+            "registers": {
+              "ds": 13116,
+              "es": 57344,
+              "si": 104,
+              "bp": 0,
+              "dx": 16,
+              "cx": 16
+            },
+            "di": 40505,
+            "bx": 201,
+            "entry": 17162,
+            "stackDelta": 6,
+            "width": 16,
+            "rows": 12,
+            "pixelWrites": 33,
+            "destination": {
+              "segment": 57344,
+              "start": 36665,
+              "pitch": 320
+            },
+            "hash": "abe8346c87215b2f13e9cc1a2f3a19df4d96aa2d127e25dfbdd7c279488e4e20"
+          },
+          "nativePixelWrites": 33
+        },
+        {
+          "advance": {
+            "registers": {
+              "ds": 10368,
+              "es": 8430,
+              "si": 256,
+              "bp": 0,
+              "dx": 16,
+              "cx": 66
+            },
+            "bx": 201,
+            "di": 0,
+            "sp": 1970,
+            "stackDelta": 12,
+            "entry": 17455,
+            "phase": "next-object",
+            "skipped": 0,
+            "hash": "abe8346c87215b2f13e9cc1a2f3a19df4d96aa2d127e25dfbdd7c279488e4e20"
+          }
+        }
+      ],
+      "renderBufferSha256": "b7818108955ecb9eb5aba0126ff9f5a3b78200dd125a346fbf3a61d49313d78c",
+      "boundary": 17360
+    }
+  ],
+  "stackMask": "0798..07ED active CPU stack; original entry saves compared",
+  "limits": "Original430A saved-register return and next-record traversal, two solid fills and first unmirrored type16 against host, full1MiB except stack plus script registers/BX/DI/SP and pixel-write counts. No IRQ/device injection, no complete displayed frame or mirrored type16 claim."
+}

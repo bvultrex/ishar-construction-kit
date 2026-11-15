@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import {DosAlisEntities} from '../src/lib/ishar/original-alis-entities.ts';
+import {originalEntityFormHit} from '../src/lib/ishar/original-entity-hit.ts';
+const table=new DosAlisEntities(5,{id:0,vramBytes:100});
+table.writeWord(0,6,42);table.writeWord(0,0,-17);table.writeByte(0,12,99);table.writeByte(0,13,98);table.setMirror(0,true);
+const a=table.spawn(0,{id:3,vramBytes:20}),b=table.spawn(0,{id:35,vramBytes:20}),c=table.spawn(a,{id:255,vramBytes:20});
+assert.deepEqual([a,b,c],[6,12,18]);assert.deepEqual(table.ordered().map(e=>e.handle),[0,b,a,c]);
+assert.equal(table.readWord(a,0),65519);assert.equal(table.readWord(a,6),42);assert.equal(table.readByte(a,12),0);assert.equal(table.readByte(a,13),0);assert.equal(table.snapshot(a).mirror,false);assert.equal(table.snapshot(a).form,-1);
+table.writeByte(a,12,35);table.writeByte(b,12,35);table.writeByte(c,12,255);
+assert.deepEqual(table.findClass(0,35,true),[b,a]);assert.deepEqual(table.findClass(a,35,true),[b]);assert.deepEqual(table.findClass(0,-1,true),[c]);
+assert.deepEqual(table.findType(0,-1),[c]);assert.deepEqual(table.findType(a,3),[]);
+const exposed=table.snapshot(a);exposed.vram[0]=1;assert.equal(table.readWord(a,0),65519,'snapshots cannot mutate live state');
+assert.equal(table.spawn(c,{id:9,vramBytes:20}),24);assert.equal(table.spawn(c,{id:9,vramBytes:20}),-1);assert.equal(table.ordered().length,5);
+assert.throws(()=>table.writeWord(a,19,5));assert.equal(table.readByte(a,19),0,'failed word write is atomic');
+assert.throws(()=>table.spawn(300,{id:9,vramBytes:20}));assert.throws(()=>new DosAlisEntities(0,{id:0,vramBytes:20}));
+const hits=new DosAlisEntities(4,{id:0,vramBytes:20}),query=hits.spawn(0,{id:3,vramBytes:20}),first=hits.spawn(0,{id:35,vramBytes:20}),last=hits.spawn(0,{id:35,vramBytes:20});
+const box=(material,origin,extent)=>({index:0,offset:0,kind:'box',coordinateBytes:2,material,origin,extent});
+const forms=new Map([[3,[box(0,[0,0,0],[0,500,0])]],[35,[box(1,[-5,0,-5],[10,1,10])]]]);
+hits.setForm(first,0);hits.setForm(last,0);hits.writeWord(first,2,30);hits.writeWord(last,2,200);
+assert.deepEqual(originalEntityFormHit(hits,query,0,forms,32767),{entityId:last,material:1},'list order wins over nearer actor');
+hits.writeWord(last,6,2);assert.equal(originalEntityFormHit(hits,query,0,forms,32767).entityId,first,'inherited context word filters');
+assert.throws(()=>originalEntityFormHit(hits,query,0,new Map([[3,forms.get(3)]]),32767),/Missing form module/);
+console.log('DOS entity core: six-byte handles, insertion after caller, inheritance of exactly 11 bytes, reset form/mirror, class/type lookup, capacity, immutable snapshots and form hits in live order passed.');
+
+// killent structural subset: unlink one entity, preserve successors and reuse freed handles first.
+const life=new DosAlisEntities(5,{id:0,vramBytes:20});
+const parent=life.spawn(0,{id:35,vramBytes:20}),child=life.spawn(parent,{id:35,vramBytes:20}),head=life.spawn(0,{id:9,vramBytes:20});
+life.writeByte(parent,13,53);life.setForm(parent,0);life.setMirror(parent,true);
+assert.deepEqual(life.removeStructure(parent,child),{current:child,restartLoop:false,stopCurrent:false});
+assert.deepEqual(life.ordered().map(e=>e.handle),[0,head,child],'removal is not recursive');
+assert.throws(()=>life.snapshot(parent),/Unknown live/);
+assert.deepEqual(life.findType(0,35,true),[child]);
+assert.equal(life.spawn(child,{id:7,vramBytes:20}),parent,'freed handle precedes unused slots');
+assert.equal(life.readByte(parent,13),0);assert.equal(life.snapshot(parent).form,-1);assert.equal(life.snapshot(parent).mirror,false);
+assert.deepEqual(life.removeStructure(parent,parent),{current:child,restartLoop:true,stopCurrent:true},'current tail resumes at predecessor');
+assert.deepEqual(life.removeStructure(head,head),{current:0,restartLoop:true,stopCurrent:true},'current head resumes at MAIN');
+assert.equal(life.spawn(0,{id:8,vramBytes:20}),head,'most recently freed handle first');
+assert.equal(life.spawn(0,{id:8,vramBytes:20}),parent);
+const before=life.ordered();assert.throws(()=>life.removeStructure(0,child),/MAIN/);assert.throws(()=>life.removeStructure(child,300),/Unknown live/);assert.deepEqual(life.ordered(),before);
+life.removeStructure(child,0);assert.throws(()=>life.removeStructure(child,0),/Unknown live/);
+// A deleted target cannot remain clickable even if its old snapshot survives externally.
+const oldTarget=hits.snapshot(first);hits.removeStructure(first,query);
+assert.equal(oldTarget.form,0);assert.equal(originalEntityFormHit(hits,query,0,forms,32767),null);
+console.log('Entity structural removal: head/middle/tail, predecessor restart intent, surviving children, stale hits, LIFO reuse and reset state passed. Full killent side effects remain unimplemented.');

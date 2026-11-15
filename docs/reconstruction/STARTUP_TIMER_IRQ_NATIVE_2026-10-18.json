@@ -1,0 +1,4629 @@
+{
+  "scope": "Actual original IRQ handler/IRET execution and contiguous timer startup completion with controlled delivery",
+  "reports": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 16,
+      "cases": [
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 0,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 1,
+          "measurement": 0,
+          "registers": {
+            "ax": 0,
+            "bx": 40,
+            "dx": 1
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "7bf3caa0987d65e1fb407b4b45125a502e8b0b2cf9e1953fe6f83fc07abb39e8"
+        },
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 0,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 1,
+          "measurement": 0,
+          "registers": {
+            "ax": 0,
+            "bx": 40,
+            "dx": 1
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "7bf3caa0987d65e1fb407b4b45125a502e8b0b2cf9e1953fe6f83fc07abb39e8"
+        },
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 39,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 39
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40,
+          "measurement": 1,
+          "registers": {
+            "ax": 1,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "337c1c279349f4ee0f3f358bf8f55cd15fc9d6ef40cc9465222cf8978f25587b"
+        },
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 39,
+            "thirdAt": 39,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 39
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 39
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40,
+          "measurement": 1,
+          "registers": {
+            "ax": 1,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "337c1c279349f4ee0f3f358bf8f55cd15fc9d6ef40cc9465222cf8978f25587b"
+        },
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 79,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 79
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 80,
+          "measurement": 2,
+          "registers": {
+            "ax": 2,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "02f294f723beccc86ec690a77789b4f8d106a04d9491b0edc5ed9611ebae01a8"
+        },
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 79,
+            "thirdAt": 79,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 79
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 79
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 80,
+          "measurement": 2,
+          "registers": {
+            "ax": 2,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "02f294f723beccc86ec690a77789b4f8d106a04d9491b0edc5ed9611ebae01a8"
+        },
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 40000,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 40000
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40001,
+          "measurement": 819,
+          "registers": {
+            "ax": 819,
+            "bx": 40,
+            "dx": 7
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "7175eb099d0d75599c6ca8003377afb6ea79d5a91e6af3e885ed88212ba80412"
+        },
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 40000,
+            "thirdAt": 40000,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 40000
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 40000
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40001,
+          "measurement": 819,
+          "registers": {
+            "ax": 819,
+            "bx": 40,
+            "dx": 7
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "7175eb099d0d75599c6ca8003377afb6ea79d5a91e6af3e885ed88212ba80412"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 0,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 1,
+          "measurement": 0,
+          "registers": {
+            "ax": 0,
+            "bx": 40,
+            "dx": 1
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "0582b8804b272b98bdfe3870fd40f9f51486c550b72ae35ebb1823ab85f985c0"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 0,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 1,
+          "measurement": 0,
+          "registers": {
+            "ax": 0,
+            "bx": 40,
+            "dx": 1
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "0582b8804b272b98bdfe3870fd40f9f51486c550b72ae35ebb1823ab85f985c0"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 39,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 39
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40,
+          "measurement": 1,
+          "registers": {
+            "ax": 1,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "1f0ac0eca778066f957f67eada4d9c4511a92499b91c14c63393eda1d176dea4"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 39,
+            "thirdAt": 39,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 39
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 39
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40,
+          "measurement": 1,
+          "registers": {
+            "ax": 1,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "1f0ac0eca778066f957f67eada4d9c4511a92499b91c14c63393eda1d176dea4"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 79,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 79
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 80,
+          "measurement": 2,
+          "registers": {
+            "ax": 2,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "d2699a355bca6cb7964a26cbc8b2991ba1133c43d2bc63ee72ff8d9509dcc283"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 79,
+            "thirdAt": 79,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 79
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 79
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 80,
+          "measurement": 2,
+          "registers": {
+            "ax": 2,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "d2699a355bca6cb7964a26cbc8b2991ba1133c43d2bc63ee72ff8d9509dcc283"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 40000,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 40000
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40001,
+          "measurement": 819,
+          "registers": {
+            "ax": 819,
+            "bx": 40,
+            "dx": 7
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "1dabc452e80491e1023127c46e95b323f7c57ccb7bf4d06da675c5c0a61ee217"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 40000,
+            "thirdAt": 40000,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 40000
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 40000
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40001,
+          "measurement": 819,
+          "registers": {
+            "ax": 819,
+            "bx": 40,
+            "dx": 7
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "1dabc452e80491e1023127c46e95b323f7c57ccb7bf4d06da675c5c0a61ee217"
+        }
+      ],
+      "limits": "Original wait/measurement plus three real handler executions/IRETs with manually delivered hardware frames, no C9A injection; controlled idle callback state/ports and delivery indices; full memory except FEE4..FEFF, all IRQ-preserved registers/flags and final AX/BX/DX/SP checked; no nested IRQ, active callback or BIOS-chain claim"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 16,
+      "cases": [
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 0,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 1,
+          "measurement": 0,
+          "registers": {
+            "ax": 0,
+            "bx": 40,
+            "dx": 1
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "0c71418b885a904c667e48409d0b371c0139a4374cb8c650a4d9b7702f65931c"
+        },
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 0,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 1,
+          "measurement": 0,
+          "registers": {
+            "ax": 0,
+            "bx": 40,
+            "dx": 1
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "0c71418b885a904c667e48409d0b371c0139a4374cb8c650a4d9b7702f65931c"
+        },
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 39,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 39
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40,
+          "measurement": 1,
+          "registers": {
+            "ax": 1,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "76a0a2424630f03bc579aa3c61dad6748e977b708e3063235082b8f6837b1639"
+        },
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 39,
+            "thirdAt": 39,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 39
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 39
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40,
+          "measurement": 1,
+          "registers": {
+            "ax": 1,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "76a0a2424630f03bc579aa3c61dad6748e977b708e3063235082b8f6837b1639"
+        },
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 79,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 79
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 80,
+          "measurement": 2,
+          "registers": {
+            "ax": 2,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "9db2028a7f498b6acecae125e1f1a6d1e7a9f26253ad6eaf279d478cc11d2b2e"
+        },
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 79,
+            "thirdAt": 79,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 79
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 79
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 80,
+          "measurement": 2,
+          "registers": {
+            "ax": 2,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "9db2028a7f498b6acecae125e1f1a6d1e7a9f26253ad6eaf279d478cc11d2b2e"
+        },
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 40000,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 40000
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40001,
+          "measurement": 819,
+          "registers": {
+            "ax": 819,
+            "bx": 40,
+            "dx": 7
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "de71d128865fad57e539285477f18d1c81489bf7a208b379759e8b200e294ca9"
+        },
+        {
+          "handler": 3437,
+          "replies": {
+            "secondAt": 40000,
+            "thirdAt": 40000,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 1
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 40000
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 40000
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 0,
+              "repeat": 2
+            },
+            {
+              "kind": "in",
+              "port": 986,
+              "value": 8,
+              "repeat": 1
+            },
+            {
+              "kind": "out",
+              "port": 67,
+              "value": 54
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 155
+            },
+            {
+              "kind": "out",
+              "port": 64,
+              "value": 63
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40001,
+          "measurement": 819,
+          "registers": {
+            "ax": 819,
+            "bx": 40,
+            "dx": 7
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "de71d128865fad57e539285477f18d1c81489bf7a208b379759e8b200e294ca9"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 0,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 1,
+          "measurement": 0,
+          "registers": {
+            "ax": 0,
+            "bx": 40,
+            "dx": 1
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "6da1d375bb36816d8afdf132ec3dcd62e3503a86fc5ec7ffc89ea21b3b423c50"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 0,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 1,
+          "measurement": 0,
+          "registers": {
+            "ax": 0,
+            "bx": 40,
+            "dx": 1
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "6da1d375bb36816d8afdf132ec3dcd62e3503a86fc5ec7ffc89ea21b3b423c50"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 39,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 39
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40,
+          "measurement": 1,
+          "registers": {
+            "ax": 1,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "010b6adfb5d712c9434f5136914ff83216b28339dae69f6045380cee40a7260e"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 39,
+            "thirdAt": 39,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 39
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 39
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40,
+          "measurement": 1,
+          "registers": {
+            "ax": 1,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "010b6adfb5d712c9434f5136914ff83216b28339dae69f6045380cee40a7260e"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 79,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 79
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 80,
+          "measurement": 2,
+          "registers": {
+            "ax": 2,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "6cf122cc7033430ee1831fa610a949d95e271a557cc807adcb8c5af8c8bf3bcc"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 79,
+            "thirdAt": 79,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 79
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 79
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 80,
+          "measurement": 2,
+          "registers": {
+            "ax": 2,
+            "bx": 40,
+            "dx": 0
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "6cf122cc7033430ee1831fa610a949d95e271a557cc807adcb8c5af8c8bf3bcc"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 0,
+            "thirdAt": 40000,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 0
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 40000
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40001,
+          "measurement": 819,
+          "registers": {
+            "ax": 819,
+            "bx": 40,
+            "dx": 7
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "76f20e5114cedb9925ed0d88da756e9d3a84d634c0195bcac861fcde9e2c994c"
+        },
+        {
+          "handler": 3480,
+          "replies": {
+            "secondAt": 40000,
+            "thirdAt": 40000,
+            "retraceReads": [
+              [
+                0,
+                8
+              ],
+              [
+                8
+              ],
+              [
+                0,
+                0,
+                8
+              ]
+            ]
+          },
+          "events": [
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": -1
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 40000
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            },
+            {
+              "kind": "irq",
+              "vector": 8,
+              "loop": 40000
+            },
+            {
+              "kind": "out",
+              "port": 32,
+              "value": 96
+            }
+          ],
+          "iterations": 40001,
+          "measurement": 819,
+          "registers": {
+            "ax": 819,
+            "bx": 40,
+            "dx": 7
+          },
+          "boundary": 2303,
+          "stackDelta": 2,
+          "irqCount": 3,
+          "hash": "76f20e5114cedb9925ed0d88da756e9d3a84d634c0195bcac861fcde9e2c994c"
+        }
+      ],
+      "limits": "Original wait/measurement plus three real handler executions/IRETs with manually delivered hardware frames, no C9A injection; controlled idle callback state/ports and delivery indices; full memory except FEE4..FEFF, all IRQ-preserved registers/flags and final AX/BX/DX/SP checked; no nested IRQ, active callback or BIOS-chain claim"
+    },
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "settingsSha256": "d4eb29e43511a5af7e9dea13dcd64aba2679e995afffeefe560c89c90a332a9e",
+      "stackMask": "FEBC..FEFF after graphics; FEC0..FEFF on menu paths",
+      "timerComplete": true,
+      "timerPrefix": true,
+      "mouse": true,
+      "graphics": true,
+      "keyboard": true,
+      "audio": true,
+      "ems": true,
+      "blancpcSha256": "fa35da163339385cc8fb95b5469bc5fb52e8d31a803f84854da5c89d7196c229",
+      "earlyServices": true,
+      "callerSelect": true,
+      "caseCount": 32,
+      "cases": [
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2303,
+          "timerMeasurement": {
+            "ax": 2,
+            "bx": 40,
+            "dx": 0
+          },
+          "hash": "22fa23164f5420c97514d1546854be376713cc87fc9f41bd4fb0c2126870d955",
+          "traceSha256": "9f695db6f527c4fa63c0c56cae10f85f1100361d9c51c378bc9f741048ae1760"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "9faf6fa749ef6c9b9737285f8433996924839d8cc43970fb1fb5a1c2e2e49fa1",
+          "traceSha256": "c26227f571bc4d8b64836091d913e4d0ae0c783506b73e5992b96c5b1bf55065"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5c88ad1f1237e19c093ed5b6739ed56afcf196549f40ab353307c279d037f73a",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5c88ad1f1237e19c093ed5b6739ed56afcf196549f40ab353307c279d037f73a",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "b506cc207b07e0848177dc69ad8a519ebf3909daf382669558f213fc4232c181",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "b506cc207b07e0848177dc69ad8a519ebf3909daf382669558f213fc4232c181",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "320b9ab382ef852a881891c5c2e0df2be7505f0108d0b348fd67436fe4859118",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "320b9ab382ef852a881891c5c2e0df2be7505f0108d0b348fd67436fe4859118",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2303,
+          "timerMeasurement": {
+            "ax": 2,
+            "bx": 40,
+            "dx": 0
+          },
+          "hash": "77566eddf8973a103b6a37a11f1311434ef8e3882cfaac412573aea5f6758015",
+          "traceSha256": "9a50131d09401caa57374996600560a755459b71cac6563fdeeb35c30cbd9cc8"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "ca2373264ea582e67099bd83c1ced868bbda29a3dcc01298764fa261cbc0f680",
+          "traceSha256": "c26227f571bc4d8b64836091d913e4d0ae0c783506b73e5992b96c5b1bf55065"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f4c8379d01e4f7f5692005745e9e20b5277fb384196da3b64a06464796d468aa",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "f4c8379d01e4f7f5692005745e9e20b5277fb384196da3b64a06464796d468aa",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "2566237f412e8acde813ad37c3357223fcc15f7713f5f79d2213994a911cf4f8",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "2566237f412e8acde813ad37c3357223fcc15f7713f5f79d2213994a911cf4f8",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "595b3f1266d34226c7f0157bc91b01191ea552f0cfc64d2d19a8f2acebdff066",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "595b3f1266d34226c7f0157bc91b01191ea552f0cfc64d2d19a8f2acebdff066",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2303,
+          "timerMeasurement": {
+            "ax": 819,
+            "bx": 40,
+            "dx": 7
+          },
+          "hash": "5b0ef93a1095bb877b1da530eaee8eeabe74156a063b18ad57be358d9aa5d926",
+          "traceSha256": "965f45982278cd29fc4c2c2d05cacca690430f68835c158ada70d974b32a1211"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "9007def20abe3575676cd46e33e694be9d3c9f0b095765222a721a4ed4c12920",
+          "traceSha256": "5ed46aed1f4c293cd975c50080f7cee5238e7223c4c058b7065e17936e0f3e41"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "703dbc62fa97bd22cb0805a1a1602f870b71a933be1c9cb55f3fa0fc442099fa",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "703dbc62fa97bd22cb0805a1a1602f870b71a933be1c9cb55f3fa0fc442099fa",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "4081ee181c15cc9510a33c80c8a15fad35cccff0bc43e4b4b2320cd84bf12e1c",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "4081ee181c15cc9510a33c80c8a15fad35cccff0bc43e4b4b2320cd84bf12e1c",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "eea91efe32d690499ac3d0ec3d81ed697637bae0b5f626518e5c2bb517177a3f",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "eea91efe32d690499ac3d0ec3d81ed697637bae0b5f626518e5c2bb517177a3f",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2303,
+          "timerMeasurement": {
+            "ax": 819,
+            "bx": 40,
+            "dx": 7
+          },
+          "hash": "4e4bbd282db4c3d3dc6c70df0610b6e7d1c8182445fa6ec1d60dc40849b2f637",
+          "traceSha256": "8da4c6f10fb2a385cf3118b7a64c9709a1ecbf8ae8bf7a6b16f25b78d900ee2d"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "3a981f3315afcc0953256b2758942a96bde7b48da583a3158efbb5cab2a9aaea",
+          "traceSha256": "5ed46aed1f4c293cd975c50080f7cee5238e7223c4c058b7065e17936e0f3e41"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5f7052f37a3b720df59f20adc755df5fc37f17233a132df09c8206a49f94b110",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "5f7052f37a3b720df59f20adc755df5fc37f17233a132df09c8206a49f94b110",
+          "traceSha256": "443f713d94859d07b9a90189f62c8a52e4936994efa1e385c32d7b306be5a8bf"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "320edbcd1b9bd42d692a65aa9a7a909d53505982076d5c524ef8d84484e03284",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "320edbcd1b9bd42d692a65aa9a7a909d53505982076d5c524ef8d84484e03284",
+          "traceSha256": "09bb7898aca8fcf8890a5bb312a0079c447fba8788984a1e5bbb0f2b6764d504"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "979d93bd4dc3fd1d9c2b95650910cb68bc9fdecc8ae3368a32ffe64a6c90e9dd",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5272,
+          "hash": "979d93bd4dc3fd1d9c2b95650910cb68bc9fdecc8ae3368a32ffe64a6c90e9dd",
+          "traceSha256": "e8f31733d999dcc51ef76f59901b869787a6581cd9324b695ba7360d69860dd6"
+        }
+      ],
+      "limits": "Contiguous outer entry, or engine0787 through0832 with --early-services or0852 with --blancpc or08EA with --ems or08EF with --audio,08F5 with --keyboard,08F8 with --graphics,08FB with --mouse or0CFE wait with --timer-prefix (explicit absent SB/no delivered IRQs/callbacks), stopping at original menu entry on menu paths; no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except documented CPU stack mask and SP/events checked; menu body, non-VGA and joystick-axis branches excluded; original text only as trace hashes"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "settingsSha256": "d4eb29e43511a5af7e9dea13dcd64aba2679e995afffeefe560c89c90a332a9e",
+      "stackMask": "FEBC..FEFF after graphics; FEC0..FEFF on menu paths",
+      "timerComplete": true,
+      "timerPrefix": true,
+      "mouse": true,
+      "graphics": true,
+      "keyboard": true,
+      "audio": true,
+      "ems": true,
+      "blancpcSha256": "fa35da163339385cc8fb95b5469bc5fb52e8d31a803f84854da5c89d7196c229",
+      "earlyServices": true,
+      "callerSelect": true,
+      "caseCount": 32,
+      "cases": [
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2303,
+          "timerMeasurement": {
+            "ax": 2,
+            "bx": 40,
+            "dx": 0
+          },
+          "hash": "b73bc37b53d7179cbd4a68ab19acec7c2c92c4973020b7e589efefb073ef0bee",
+          "traceSha256": "82f408a39612e86708c3112d8e1fa332f19322d1d0ee5f7c21916ea413665fe6"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "972366206a48077d9e93f46687f06b1de6b0c5c9306598c16fe11481ea565923",
+          "traceSha256": "f1c2c73b8f53878fa42168cc5bed9675b69348c42e6b777ba0c916f36d624318"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "725bf801d622c8393211b1038fd8f2c5e608c914c95b7f98bb0afc1b09013290",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "725bf801d622c8393211b1038fd8f2c5e608c914c95b7f98bb0afc1b09013290",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "ced49e659543e526f23aad574d20f28f9f15023212a68440722232eeb89f1807",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "ced49e659543e526f23aad574d20f28f9f15023212a68440722232eeb89f1807",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "1089d2d402cbc44ca80fae3527c26abff4a39f236beac28841b2ce0a0b444025",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "1089d2d402cbc44ca80fae3527c26abff4a39f236beac28841b2ce0a0b444025",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2303,
+          "timerMeasurement": {
+            "ax": 2,
+            "bx": 40,
+            "dx": 0
+          },
+          "hash": "cd9885f98b68ebbfa624c90f1ce7b5ab07f45e23b4cf12acdeab6a62de7111c7",
+          "traceSha256": "08293bc2eb3bb8b9ef50ee50bd9fa085a0fd2a511724437cee9de2625ab5e5ca"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "92e8de0c4a782528d19f103c0f3ddad5d8345f260b950bf070cc0d17e6f442e5",
+          "traceSha256": "c8d3cfdeea07c7651eec73663e329c487a257bc2c5f06c4cb9cd22e741fcdd61"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "f7d96dc320f8b3e9e958368bd8d87e3dceaccce7d83546be2dc9a445f1da2baa",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "f7d96dc320f8b3e9e958368bd8d87e3dceaccce7d83546be2dc9a445f1da2baa",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "c1f88a86e98f0aa1cdc08b4ccb89895c49f343beba83a3e40958bbc878850ebc",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "c1f88a86e98f0aa1cdc08b4ccb89895c49f343beba83a3e40958bbc878850ebc",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "415d3578683b20dda831d28c1d79db09ff993855dd6766e8578cbcf7ae72861d",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 33,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "415d3578683b20dda831d28c1d79db09ff993855dd6766e8578cbcf7ae72861d",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2303,
+          "timerMeasurement": {
+            "ax": 819,
+            "bx": 40,
+            "dx": 7
+          },
+          "hash": "ba4726bb042936bc9bbd22c3e900a8940242735e5d21dc63f6309df1436ee65f",
+          "traceSha256": "d4ae3d8b097333ec924136df2d386b4ac8081ada2c3a87264e1f8b0537b18d44"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "f20d39b282edf46829baeaa23de17f00434c6e40d97095dd0e5fe7b7a9ca5ea5",
+          "traceSha256": "07b7024b5f4b44e0e4588de7d083d56f7134c091a75597caff273ea208a0df8d"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "bdd8b00f0fa4dace881d86a701fe13f7e9e61bbf7505806891187d52301a3ef6",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "bdd8b00f0fa4dace881d86a701fe13f7e9e61bbf7505806891187d52301a3ef6",
+          "traceSha256": "6eb884da4934146a46f4ec68ad4c8f02ecbbe6a5a91f7f9c8b6b11e891e95a37"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "0852ef30f61d56d573b5962f35c2a8ba8f26aacbcc8ff2ed91b9d11b5b69aae3",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "0852ef30f61d56d573b5962f35c2a8ba8f26aacbcc8ff2ed91b9d11b5b69aae3",
+          "traceSha256": "85322e38f71847fd1808d4db2a1d517c68515838593635bea0d64af0a34feb5b"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "13fe63dfab6bd4f964993d6e3c865943b0347fe77a40f7c94259f85f410658b7",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 0,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "13fe63dfab6bd4f964993d6e3c865943b0347fe77a40f7c94259f85f410658b7",
+          "traceSha256": "4c427ee4b76b40f903be19c8dbbf759f3ddac3a15677a910f5d6860ac7ce5b25"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 4096,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": false,
+          "reason": "return",
+          "boundary": 2303,
+          "timerMeasurement": {
+            "ax": 819,
+            "bx": 40,
+            "dx": 7
+          },
+          "hash": "0a4bdf05067d2e72e4b99a2be464e64393053a6c6e2d865ae26a10cfa29f15bb",
+          "traceSha256": "8a8aa7b1330fc2aed257d4d47503d1429c22f30553ba833aa87e9fc89cbfc9bb"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "none",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "7ebd819cb95f2535ce3a59fe93aa420aa5589ea278063ccf797f58d803b6c30a",
+          "traceSha256": "cd26a4ae968f8edf7a444779762707086d55a747f5e918e91b5aaca72aac349c"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "6f026bbe9281b4ed0bae3f7b81ed5563e977a10548564ed474af7e7003265fee",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "open",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "6f026bbe9281b4ed0bae3f7b81ed5563e977a10548564ed474af7e7003265fee",
+          "traceSha256": "cab691ef04863f08def6f651c29acbd56064c6b08272e37c8f1c84d899b6e07a"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "03205b5139b4c84cd934c007ec177e3cd21253bd5aceae78e6e1a7259090208c",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "read",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "03205b5139b4c84cd934c007ec177e3cd21253bd5aceae78e6e1a7259090208c",
+          "traceSha256": "e4add38ce3867fa935714c930bca3a8a037e27ba0edb95e306ec6632409aa4b4"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": false,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "3bde863abfd655c10d5c95aaa3a5abfc104ba0c1c509d14bc94765657c187dd6",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        },
+        {
+          "timerComplete": true,
+          "timerPrefix": true,
+          "mouse": true,
+          "graphics": true,
+          "keyboard": true,
+          "audio": true,
+          "ems": true,
+          "earlyServices": true,
+          "callerSelect": true,
+          "boundarySegment": 9175,
+          "countryAL": 49,
+          "mouseAX": 65535,
+          "failure": "close",
+          "configure": true,
+          "reason": "menu",
+          "boundary": 5484,
+          "hash": "3bde863abfd655c10d5c95aaa3a5abfc104ba0c1c509d14bc94765657c187dd6",
+          "traceSha256": "a0a5b428b4e2b7deb04db7f357d893c26458cef72ceffc4eb01cc07f6794cba5"
+        }
+      ],
+      "limits": "Contiguous outer entry, or engine0787 through0832 with --early-services or0852 with --blancpc or08EA with --ems or08EF with --audio,08F5 with --keyboard,08F8 with --graphics,08FB with --mouse or0CFE wait with --timer-prefix (explicit absent SB/no delivered IRQs/callbacks), stopping at original menu entry on menu paths; no component jumps/stubs; explicit DOS/BIOS/port replies, no real device/filesystem; memory except documented CPU stack mask and SP/events checked; menu body, non-VGA and joystick-axis branches excluded; original text only as trace hashes"
+    }
+  ]
+}

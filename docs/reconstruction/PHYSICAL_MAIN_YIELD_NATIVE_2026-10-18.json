@@ -1,0 +1,3471 @@
+{
+  "schema": "ishar-physical-main-yield-native-v1",
+  "main": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "mainSha256": "27c5834de005afc99d7819a0b2244e7d176421451c80a3befd6c273b0ef0bd7b",
+      "cases": 8,
+      "decodedBytes": 26384,
+      "decodeAndClose": true,
+      "rootCreation": true,
+      "decodeResults": [
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "64594a9950e34ddadfabc11cae02acf37b86823f62ac4ed75b9eb52ad28d62b2"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 14984,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "cb091561fb263113453a22556bccc672076658e2265ff645d53bd9bd8d5c6a40",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "652a0e4b3b8096b3454d5d7e2090245429217fde173178187ecbcb34e2c4002f"
+            },
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "61d23f685f61902fb4c560325d40f05910d6f725eb87a0027ab16e441df1ec82"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "c84419486dad96caacad5593c2b3a5c56fe2b65853763415e83d980c4ebaaefb"
+          },
+          "assignments": {
+            "steps": 7,
+            "nextOpcode": 7,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 793,
+                "bp": 672,
+                "dx": 11,
+                "cx": 15,
+                "bx": 10108,
+                "di": 15591,
+                "ax": 15591
+              },
+              "tag": 14,
+              "hash": "218e9345502ff51cdbba07cda99b5738bc0c0d1766c83d788a3d48cda9f6230c"
+            }
+          },
+          "execution": {
+            "steps": 17,
+            "opcodes": [
+              7,
+              10,
+              20,
+              30,
+              31
+            ],
+            "nextOpcode": 31,
+            "reason": "Error: Expression156 requires an explicit DOS FindFirst service",
+            "last": {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 1218,
+                "bp": 672,
+                "dx": 1,
+                "cx": 65535
+              },
+              "status": "ready",
+              "opcode": 30,
+              "hash": "01cbcf279df12ff66e026e6fffedde0530cb3f3d1b8c7669611edc5d008aa8b2"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "81206ca3101b79787804635bcab77c1467063a546ce3768917bc1166f71fd119"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 14984,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "8a10ff0dcc362abab52798504d1049867cb5584f673aa994e8505474a1f8aeb9",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "a39bffebd07795062e971177e4ec2384b5000f94c231c3958475312560924306"
+            },
+            {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "5ef2b41c738c58b091bcd8c3afcbd8849841803998134885ef6fb9fa0bcb0b35"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "75c5d39a2d4945113d9310a0852bca1f98b75c24e439e49707b4dbd48dc310bd"
+          },
+          "assignments": {
+            "steps": 7,
+            "nextOpcode": 7,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 793,
+                "bp": 672,
+                "dx": 11,
+                "cx": 15,
+                "bx": 10108,
+                "di": 15591,
+                "ax": 15591
+              },
+              "tag": 14,
+              "hash": "4d42bae1dceeb8e24e6b0bc69fb6f390af4106a58fea34b7b5123fce2f0b3383"
+            }
+          },
+          "execution": {
+            "steps": 17,
+            "opcodes": [
+              7,
+              10,
+              20,
+              30,
+              31
+            ],
+            "nextOpcode": 31,
+            "reason": "Error: Expression156 requires an explicit DOS FindFirst service",
+            "last": {
+              "registers": {
+                "ds": 14984,
+                "es": 12288,
+                "si": 1218,
+                "bp": 672,
+                "dx": 1,
+                "cx": 65535
+              },
+              "status": "ready",
+              "opcode": 30,
+              "hash": "6a4d3f1494478d3e95c4c2b3c50c1586c9b2dfbac3974ada8dc04f720e4749d0"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "4ede92d4e56ee2d047bb02b464bf9795b14d1baba3167ede1b9cd5eaae5c40c6"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "11839fb453d698870f44a73c287a21e49ecaae4a16f19d5b68e19fd6761885d0"
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 239744,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "d694480a5d6b63d2038e2d82268975166d0236aead29e596e0a817b8cc72fa62"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "11839fb453d698870f44a73c287a21e49ecaae4a16f19d5b68e19fd6761885d0"
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "42fd1046c8d71563fed9e8d200c700e53e61d203799d58cd0708abc71d678869"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "2308912a39f8f9b69add6e202a819d0710adcacaad27872b4bc3a494247e63ff",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 23176,
+            "es": 20480,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "fcb5b68834d5e24321cd96ba7b21d44a7e6f6d967ac863522de16ab4c3f223f7",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "8abc943a024722d5f1177a5c7e8e327e1f4e695776952f1ff231ce22c9d2be12"
+            },
+            {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "22bb9f111c887678fbb214c906bedff433deb3dfd796d011a07cb19b19dce2ae"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 117,
+            "si": 723,
+            "nextOpcode": 30,
+            "lastHash": "6dc3a9a7347c919d3a8928956ad0b2adadb427d80dee9278491322df39e66704"
+          },
+          "assignments": {
+            "steps": 7,
+            "nextOpcode": 7,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 793,
+                "bp": 672,
+                "dx": 11,
+                "cx": 15,
+                "bx": 10108,
+                "di": 15591,
+                "ax": 15591
+              },
+              "tag": 14,
+              "hash": "a54a1df4d35cda405d23b135f7f4cfcc26363c4800fe7bc36fb394f119003829"
+            }
+          },
+          "execution": {
+            "steps": 17,
+            "opcodes": [
+              7,
+              10,
+              20,
+              30,
+              31
+            ],
+            "nextOpcode": 31,
+            "reason": "Error: Expression156 requires an explicit DOS FindFirst service",
+            "last": {
+              "registers": {
+                "ds": 23176,
+                "es": 20480,
+                "si": 1218,
+                "bp": 672,
+                "dx": 1,
+                "cx": 65535
+              },
+              "status": "ready",
+              "opcode": 30,
+              "hash": "fd164371693ad05f731242971962725e235319dbf873f9f1dec07f2fefde59d1"
+            }
+          }
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 370816,
+          "packedReads": [
+            8000,
+            3218
+          ],
+          "writesPastDeclaredSize": 2,
+          "decodedSha256": "318578ec8e812179689b968d3e11b12a79668df45fec1b6b20952629a43429ab",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 76,
+            "groups": 1092,
+            "hash": "b140a9bbdfd55ca041bef2fc857268427243af71ac1f0f70412cf1caeececd6b"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": false,
+          "notificationWritesOverRegistry": 2,
+          "convertedModuleSha256": "f0618743c98547bae75d16b6b7532ded9be2acc5505b575ddca764bca69cb274"
+        }
+      ],
+      "result": "MAIN chain through requested initialization/decode/root boundary matches",
+      "limits": "controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "mainSha256": "bfab5e9175931dbb1c2c51f0576092ef423e0bf950579340c8a1715e8cf8db95",
+      "cases": 8,
+      "decodedBytes": 27752,
+      "decodeAndClose": true,
+      "rootCreation": true,
+      "decodeResults": [
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "22bab1ca1e85e9a28d40afdc5b5de42edf11d0f24c44b5198004ec377f2a3aed"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 15421,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "081786906b10e2b667fdd276d2202659b1cdee32ffc2dedef6d79b86bf157624",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "d029137af92865b1ea622b59fcba964b003b53e31474fe7b285ca9719639d4b5"
+            },
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "090a13c4d65953fdedf28989e7cc62f127174719e7422a084897716ef2301f55"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "e9797851adf999c96626f2c0d7918be8907ace185b84e99672b9852e2e50b643"
+          },
+          "assignments": {
+            "steps": 8,
+            "nextOpcode": 31,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 778,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 11,
+                "bx": 10108,
+                "di": 20929,
+                "ax": 20929
+              },
+              "tag": 6,
+              "hash": "ddba5b5b3695f0933a40c266c2c1929d6d04937e2991f9cc64ca9309aaa70e7f"
+            }
+          },
+          "execution": {
+            "steps": 15,
+            "opcodes": [
+              7,
+              20,
+              30,
+              31,
+              66,
+              188,
+              215
+            ],
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 30,
+                "cx": 2
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "762804c331f821435af7f3d057f8997dbc31edb96e5505d3f5b338ba15ace375"
+            }
+          },
+          "yieldFinish": {
+            "registers": {
+              "ds": 15421,
+              "es": 12288,
+              "si": 16277,
+              "bp": 672,
+              "dx": 30,
+              "cx": 2
+            },
+            "phase": "callback",
+            "entry": 9963,
+            "stackDelta": -2,
+            "delta": null,
+            "visited": 0,
+            "contextHead": 0,
+            "activeHead": 14,
+            "hash": "ac3dddb9b79f92d3c8c4c29c4d223ac5e7ab131dcfc82ec40f72a97f9f2bfbf4"
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "cad63e06b4e9ab4616305dffa8a3604f0a33c70cb859db6a193150f41949a787"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 15421,
+            "es": 12288,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "7f5b16bacda449a84641c3bc7cf3d6774a01f3566059ff432ce8e45a47e761d2",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "755cae8c9eeeaac65f05597248f0f757f065094cb4dbeb56ab4f09a1492062a8"
+            },
+            {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "71619062b92e0abe93e8164e95e18ba772294c963d51ae2b26cbb379c0607ae0"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "2ccad2889327135a5e87482497cc06bfe754270cd83b9a7e3325e2904dfae540"
+          },
+          "assignments": {
+            "steps": 8,
+            "nextOpcode": 31,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 778,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 11,
+                "bx": 10108,
+                "di": 20929,
+                "ax": 20929
+              },
+              "tag": 6,
+              "hash": "0892edaafd025d4764873777b1237be6a0453837267f25726b77b5fd2242504c"
+            }
+          },
+          "execution": {
+            "steps": 15,
+            "opcodes": [
+              7,
+              20,
+              30,
+              31,
+              66,
+              188,
+              215
+            ],
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 15421,
+                "es": 12288,
+                "si": 16103,
+                "bp": 672,
+                "dx": 30,
+                "cx": 2
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "614340c969bde2275ecf4467f1189cc624af00d6a0d4bd4a5a0361c664677900"
+            }
+          },
+          "yieldFinish": {
+            "registers": {
+              "ds": 15421,
+              "es": 12288,
+              "si": 16277,
+              "bp": 672,
+              "dx": 30,
+              "cx": 2
+            },
+            "phase": "callback",
+            "entry": 9963,
+            "stackDelta": -2,
+            "delta": null,
+            "visited": 0,
+            "contextHead": 0,
+            "activeHead": 14,
+            "hash": "75260ef4af76f893a00e17d9f3fce337cffebdb1bd224cf8ea7a4e2bea6cfaac"
+          }
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "aa6867a7f268d06e9ff6361e9bde8509f33dc6c44b41f32c331bcdd0a9b549da"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "47f4d32ff7c439330c646ee60de01a82a269c05f44d8af0db8a9dea0471cfe7e"
+        },
+        {
+          "tableBaseSegment": 12288,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 246736,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "25cc8ff1ea80b989f56d8dc33e4a1a8d46dc055491d1fe4be7ae5f2ccf5386a8"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "47f4d32ff7c439330c646ee60de01a82a269c05f44d8af0db8a9dea0471cfe7e"
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 24576,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 0,
+          "upperFrontier": 36864,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 672,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "565a3208f77005b70f07cf183653760df066a8c855a5b06f3956a3940919c8b5"
+          },
+          "registryOverlapsModule": false,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "f107502b745aac48420aeded62ef891a37bf3af1946f59771de4f1d8735b4656",
+          "scheduler": {
+            "bp": 672,
+            "si": 24,
+            "ds": 23613,
+            "es": 20480,
+            "bx": 0,
+            "phase": "main",
+            "entry": 9963,
+            "stackDelta": -2,
+            "hash": "3c2484a285da115fa50b4b254f03be29fdaa7ae8c232edaf11653b6504fa82d6",
+            "opcode": 70
+          },
+          "objects": [
+            {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 60,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "e960992c67890c6793cbce28833a5b83e545bf671719f18af83d9e16e27cff9a"
+            },
+            {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 96,
+                "bx": 140,
+                "di": 672,
+                "dx": 0,
+                "ax": 0,
+                "cx": 0
+              },
+              "error": null,
+              "stackDelta": 0,
+              "hash": "55549455d1ae2533b00d896e10333df499c19ca6d560912e102b2e0d507e6814"
+            }
+          ],
+          "nextOpcode": 41,
+          "blocks": {
+            "steps": 114,
+            "si": 702,
+            "nextOpcode": 30,
+            "lastHash": "2e92949de837fc6eaa5c35cb11d2500d17d527325d819c539264eeceb6a15279"
+          },
+          "assignments": {
+            "steps": 8,
+            "nextOpcode": 31,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 778,
+                "bp": 672,
+                "dx": 65535,
+                "cx": 11,
+                "bx": 10108,
+                "di": 20929,
+                "ax": 20929
+              },
+              "tag": 6,
+              "hash": "82bd3306cc164e57956af75ef4b37d7b8b7a4b29aa63f08dd121804731615ae3"
+            }
+          },
+          "execution": {
+            "steps": 15,
+            "opcodes": [
+              7,
+              20,
+              30,
+              31,
+              66,
+              188,
+              215
+            ],
+            "nextOpcode": 43,
+            "reason": null,
+            "last": {
+              "registers": {
+                "ds": 23613,
+                "es": 20480,
+                "si": 16103,
+                "bp": 672,
+                "dx": 30,
+                "cx": 2
+              },
+              "status": "yield",
+              "opcode": 66,
+              "hash": "bd1d006ccbfd2185dabb154712598917e1855795fa8cc1b1c54c59bce3f6b7d6"
+            }
+          },
+          "yieldFinish": {
+            "registers": {
+              "ds": 23613,
+              "es": 20480,
+              "si": 16277,
+              "bp": 672,
+              "dx": 30,
+              "cx": 2
+            },
+            "phase": "callback",
+            "entry": 9963,
+            "stackDelta": -2,
+            "delta": null,
+            "visited": 0,
+            "contextHead": 0,
+            "activeHead": 14,
+            "hash": "324fa7af347ef774d2e209215ab4cfd5df8abbf2de4a038b2025a08a9bad2ee4"
+          }
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 24576,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": 11
+        },
+        {
+          "tableBaseSegment": 20480,
+          "tableBaseOffset": 65520,
+          "upperFrontier": 36864,
+          "destination": 377808,
+          "packedReads": [
+            8000,
+            3960
+          ],
+          "writesPastDeclaredSize": 1,
+          "decodedSha256": "8cae49162991917d695025c0fb1cf0de7e87eeb67f019bccb7d3a3017162f125",
+          "rootError": null,
+          "rootContext": 656,
+          "rootEntry": 24,
+          "notificationCalls": [
+            71774,
+            71374
+          ],
+          "graphicsModel": {
+            "assets": 113,
+            "groups": 3824,
+            "hash": "c922ab1129f69dd31f0d318c40b3163dc519a0242a4d8b6876a20d3dd801bfec"
+          },
+          "registryOverlapsModule": true,
+          "registryPointerRetainedAfterNotifications": true,
+          "notificationWritesOverRegistry": 0,
+          "convertedModuleSha256": "d6a12dc7bdcb278e79e69827816266190aa55c572f4e75872ff9ae06bc4cc5bf"
+        }
+      ],
+      "result": "MAIN chain through requested initialization/decode/root boundary matches",
+      "limits": "controlled DOS replies; full-memory compare at initialization; root context/registry checked; normal185E host model matches native memory except stack saves;16CE and alternate graphics not reconstructed"
+    }
+  ],
+  "synthetic": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "cases": [
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "d1b3c8d04e420866336cfa8bfc73552379944e1eac6aedb5e1913acb4ea5c194"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "b533942d0da604e2ce4518ade730d61bf021f39a56d381437edee2837e2c03fc"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "8ac46adb2760e2d3c9864544b20426630946c2cda093d8a570434c0e59061a6a"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "dd870b56388355da5d28e28bc3fd25696a38d8a19ffe93dd43beed1f1945aa30"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "995197aef04f793e632c551bc0482dec21c3b0f19e10e6a621ce4925d189ddce"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "a317f689b4556788fc92a7ba081745ab88c61f009c95e87698d20b57f1a5e241"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "3b31428c91d41e7d1bf72a6363a45fe3159ccae152edebb586a8a6beab824339"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "e8a939b4ab30ab3a0f30e8f6a7fff62d63120ae88b8038ec88bb371b2b292f1d"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "ced158fe1f2027cb680076e71a2d036c83cdc8debd7618cf72ced118d596c494"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "5fdfdaf59bd20132ef7692de998c243ac54f1d42b75338949cc3bc3d849165e9"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "c6e2ca30172a46273a35796f7d3cb055d0632084f6dff645a5a3768a0450e350"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "a2c4435a82ccc5b5d1cbce25e33a689f6e3a12849b065c03f02b3287d5e54517"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "b2854a843ba26c265df0cd69ed7554bc4283c2d49aa2299b8eab18506dd83d17"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "192f2d45005532b8fa6081d78035790a8d1dc254734bc300116f9f999c31735a"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "1b7ab6597f5b28ed6695a1f5d708755cd6e62ea24cbcdfffcdcce73a2df8b515"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "625a6e6731bb289456d1bdc061f88976ca2458225dec8fe60153385565a8050b"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "223a1978d9499cfde836cc175d6ffe6416e34f6dc419c4a5729233f2cbaf4271"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "63852f7f969fe9a361f35094a53d250ba18395c5404c2e3f4526a91b037cf3fe"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "aaf1781ed3f961f26098762420a04c8f53d4d39f36cdc394d6c46b5e60318923"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "279076bddc6041b189fe33d73a7f7b13bd5335eb55fd513ea5f365fcd462af16"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "1ce79f02b05790981eed6173027ee804fd8e554c8f994948b7bf7d65236eb98d"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "72963a0e4e6dae7efa39dc404a3e6d5ccd234fcb09234f1b43ba0323fa21c229"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "2b214d832568d38bf4be7687937e5afaa3d3da8b2dd7ad85129ecc073ad7eeaf"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "0e03bd7602f4e29a20062226190c7bb2af6fb41cff179b8cbc93b7a1d8a16525"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "845cd444f2612d57539fb8549bf7e73eb133864ed780c84fccc9268110a8a06f"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "3521b237fd21b0f99e206be8634228e677077f3b6afb38cf22a8f77de24d4d05"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "055bffa3c645aed62c6a9d24007764f08f94aec03d6a13f87f5ea6e0dd550cc9"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "be82e04dbb4151165109cc780070c73695e6ac5458686aa07cfda699189bc7cc"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "2baee237378affc84dca7699a7150edf58df62d013d4d717e2a08d824c6f85d6"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "dc0a6011447ab81c8617d479921ba55042aff2380f7b9ac40befbaf21f455b71"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "f44b9acd3802d62411d5e658251eb5e27895b01d1399ef906f3ab2c9027bab8d"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "eaa79fe0fc1051b8ddf640bcb00db7be93b60c72ee9ca53b6a1972f0de2db371"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "7806e123c2681bf8ecce5290f5fc227044363cc3feb794afe79dfd9751b2d747"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "3e705c3dc2fc413fd98f70a22357d28e31dc6d74c894feff5233641d7fa2a623"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "77da6faf756c1ad4f5e74a1068061768b83adfc6ed83d0d4fea31e642ae655c8"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "12466641b856f32b5795a3776d65f3dc89f9cdcf319dabedeb36a4107698b3f2"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "fbbe1ff99c8cc405ebc80d42e8fde8d10a361f669d89de6e9c7a839952570e5a"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "26c31b9f90b4ab929bce3459f96ed47b1584e32298946559a0075b9243fa8f30"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "ef7c01a7cf260595f756f5f367a25c079f41cfbd983dc41e24a1236200914251"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "1f51bb6c8ae9bd14441826d5dc1fefb82d772deced224b27e85d3cec951cf45b"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "00be7fe86e714c778bdcec22da2923a30ad8bbbc696294ef273b8494ea87e313"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "328fe9afa2f4c0294f9f914168b4aad1a289551d0d5927447c3a6302cfaee738"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "3460325d6f219e5f9a9de59f7aa39a39859a5e0e8379ca03669dd11a316a90a4"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "a0dfe76d699a59b83ea655724031ce0a6e0c0a123c455e526b0d31f7646d06cd"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "9118dc1046d2368d8eee1f4606308687b87295d798421a589386691fc717f0d1"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "1832b91b00e87a688fd65b4d39704d54fed05b7d731e819ecb37a60ebc60b725"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "7e0dc95f3ef619b9128bfcaefb1043dd1997d88f1f672d69efe2e4ee5019fe8e"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "6eb36f785d771000fb2d396cd70b5d080d9a5c20e18c87f8b8badf5076f02f10"
+        }
+      ],
+      "limits": "six script registers and full memory except stack saves; callback/frame bodies and flags excluded"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "cases": [
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "fc4bf16f52f726783ad2b74881034d2ee933bd472ff9ae1596414e44d45a2b23"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "6201f89cb42efcdfcf806629a29455d286de0c88fa0e6427bf555ea6e052eac8"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "2044c385ff1e9d75c3ef1c164c34de31b0f2da71f4857bb80369c6b279e6ebf9"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "db299dbbad321e5a6ff8f25d51e5c2f36b56f78bc1a830021309acf93d528bd3"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "d7d356559a905ec9706f3491708cbed39dfe6d9a784d7159aa2384605bfefba9"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "7c3a98f549115bf300d86f693e4eafc8c731df7edda042ff279ac8a7d71f4c5f"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "4c29efe165bf010acc35cbde8d8b604ed092491394cfd9fdb011c6696c46f96a"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "41ed3a5c3731c0a67d53c7940f0aca234eb96a4336c09250d377cf89e3ff8c4d"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "23228cf95dcd16fee082c0d44c46c974636cc4749656ba922e9f6a16fb303c75"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "08ee50bfe6e3dbbd2ae269efb821b563eb3d404aecbeb44b316efca9d5b899d0"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "06a9717c703e44af92a349d09af91c8d1a32e4358d112b19bd371a47f02d0d2e"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "cd89b650cc87a9b0b7314158d423b460be375cada5ddf1e44d48fd3349d85c3a"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "1cce2b0b107e1b4165caefc5ed59b6dcdf331f3344b6f2371d170f276c1d3763"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "2ccb754311baa7ebbc78f2c1f99c39701bf169da88346523e85801464a135e01"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "cb0e700a73a6775d64e2fa45e1375efa264a6071c5c7050fe1643b24fcf83de2"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            1,
+            2,
+            3
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "728d4e89f3fa6e652ff8050a6306c274fb8f98834891e507fa2a31b442e2a41b"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "5d9edf78e65ab608c9ac00f0c225a7e6884b96b0d7a5675a23491355c14795f3"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "efaffc49463644b037af37bc6b8e98047962205c253ecfb344443e1ba866203a"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "05f0dba67181c38b2badb4093e28901ee30e7a6de5354cb154296d68969716da"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "1cea864cf09ce9eb395e9e0cf19d2c3e0296a19500ca277103ffcc6d9063a989"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "26001a0e1cc2a0af114c6e95df0f4ac9c56cd30af6506735225ffd3396ba2abb"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "frame",
+          "entry": 9801,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "f7977beecc5de2c2deda1dcbe17cf6c906b996933016306d141af6ccc03dda30"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 20480,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "48c2931c00b10f227f5d1b6a65d89222ad20d2a923de997be0e6ba499fb91ad1"
+        },
+        {
+          "callback": 0,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 24576,
+            "es": 20480,
+            "si": 256,
+            "bp": 1024,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "context",
+          "entry": 9807,
+          "stackDelta": 0,
+          "delta": [
+            65535,
+            65534,
+            65533
+          ],
+          "visited": 2,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "aae66f2f159035643ca910471f7cbe1aa4e1055a8f5ed2456f997b2867fb9670"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "a073ec04ac3d3e903c8b0ebedd32a789dd2a3e21a5230a271c012ac0fd456f72"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "fcac4112edbeba469c5113c343ede8bc79976a765d000b58ebcd616fef23eb0d"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "96051bb416efe9214d62e763f745c53f524256b5026f40fcfd861e0f6b98878e"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "bf9d362774abbefea1666f3aa2d8387e89c92a9ae38f24c0b031496b2818b14d"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "9c045a7a35920ecda62225096de669560722ab1c7ce095b8492063704a1719d2"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "1db1d4d9f384e2e3d1a0a29c1ea81938ed174f799fceba5539b88cffbf549322"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "d090a324b57995e724f900b84540ddbe9f866b19614fb6261607fd316ca50da5"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 0,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "a0cdc24d9f68f4e1dd6c922c57866f646204606adad5a295781a1951afcd05b4"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "dbfa85da3e7c6a5ff39659fed0894347b7521ab83d160e89b8b7c3efa5f2e346"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "9ae21cdd82fed6dddf33270388ef34efe7384fb5c0796f1da8040c2d04844466"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "e29c8c6307d2612af4794eb9d3bd0263aba2b2cf21b30faed5790ed16574bd3f"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "5fd163ed70262c6e685a3361effd4bfb135d897203f36d1fb80a5275a69ab2e2"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "fcd030ff0d89f44b2091739da4460cdac7c86a52e654dde542a87b30468e63f5"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "13d981c0ebcc8c6efeabd1bd7dfab6f00ccaaad1640d3428dabfe9d9ea889e4d"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "996b07bf7a59186c41995b4e5c178e04beec3eb73c8952760eaa5ef0af1e7150"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 1,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "a5ffdd7890c7f867f40315534af7da9ff676ca0034ad457aaf10aceb3e3cce46"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "28c99a54cd65cdfc8d09e7e49bc0c8a1c748cb162b6b73e717dd8d7ced4d99cd"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "cd30baa592227604030b689a45f48f24e215d93b93f851d17ff9f130d3a556e5"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "1a37025a7077490c5233c20b4494cc9055257362f5c2d8e2fa0aad324d85a802"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 0,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 0,
+          "activeHead": 14,
+          "hash": "6e14d7e1c725eb473df85af95d6bdcc62832f36f3692d761e540e24024aa447e"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "74477044d81d567a0ccb93a12e7a0833b27d3019e4038ca4ee626c5930ca40e3"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 0,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "35375482167fef101cd5a461d85fa01b264853b03a48787aa176454ef2db8356"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 20480,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "638ac5a18786bd5d33d1576a48d60220afaf0bb355311d4edab609adfd5b5600"
+        },
+        {
+          "callback": 20,
+          "inputDelta": 65535,
+          "head": 768,
+          "slot": 6,
+          "objectSegment": 24576,
+          "registers": {
+            "ds": 16384,
+            "es": 20480,
+            "si": 26,
+            "bp": 512,
+            "dx": 13398,
+            "cx": 30874
+          },
+          "phase": "callback",
+          "entry": 9963,
+          "stackDelta": -2,
+          "delta": null,
+          "visited": 0,
+          "contextHead": 768,
+          "activeHead": 14,
+          "hash": "0919c9a05f346a5bdb281abcff249d3c2a32b3fc4552e7d0e6bfc6bc7275d9b8"
+        }
+      ],
+      "limits": "six script registers and full memory except stack saves; callback/frame bodies and flags excluded"
+    }
+  ]
+}

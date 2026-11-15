@@ -1,0 +1,12 @@
+[
+  {
+    "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+    "caseCount": 320,
+    "verified": "Original0902..0952 through RET boundary or low-memory handler entry; full physical memory except FEF8..FEFF, AX/BX/DX/SP and BIOS/DOS text events. Timer150/151, adapter15/16, memory6F80/6F81 and 16-bit wrap boundaries. Handler0A6F body and BIOS/DOS internals excluded."
+  },
+  {
+    "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+    "caseCount": 320,
+    "verified": "Original0902..0952 through RET boundary or low-memory handler entry; full physical memory except FEF8..FEFF, AX/BX/DX/SP and BIOS/DOS text events. Timer150/151, adapter15/16, memory6F80/6F81 and 16-bit wrap boundaries. Handler0A6F body and BIOS/DOS internals excluded."
+  }
+]

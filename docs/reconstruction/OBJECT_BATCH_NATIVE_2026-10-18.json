@@ -1,0 +1,57 @@
+{
+  "description": "object batch native; no original resource bytes",
+  "matrix": {
+    "es": [
+      20480,
+      7179
+    ],
+    "dirty": [
+      false,
+      true
+    ],
+    "negativeGroup": [
+      false,
+      true
+    ],
+    "otherGroup": [
+      0,
+      1
+    ],
+    "tailStatuses": [
+      [],
+      [
+        255
+      ],
+      [
+        2
+      ],
+      [
+        1
+      ],
+      [
+        0
+      ],
+      [
+        255,
+        2,
+        1,
+        0
+      ]
+    ]
+  },
+  "profiles": [
+    {
+      "profile": "ishar1",
+      "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+      "caseCount": 96,
+      "resultsSha256": "1715f16c8ec6a6aae4263389007df64b300292d615c8aaa49f9932101fd33f81"
+    },
+    {
+      "profile": "ishar2",
+      "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+      "caseCount": 96,
+      "resultsSha256": "863e8274675a98f33d34e77e086d39bf8633637bfca941ee3a000713a5a46b2f"
+    }
+  ],
+  "limits": "Six script registers, BX/DI, SP and full memory except CPU stack saves. Batch starts with normal first FF; stops before43FB. No pixels or hardware."
+}

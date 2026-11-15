@@ -5,7 +5,8 @@ import type {
   PatchResult,
   SaveMap,
 } from "./types";
-import { ISHAR2_SAVE } from "./save-maps";
+import { ISHAR2_SAVE } from "./save-maps.ts";
+import { isOriginalSave, ORIGINAL_COMMERCE_OFFSETS } from './original-commerce.ts';
 
 export function readU16(buf: Uint8Array, offset: number, endian: Endian): number {
   if (offset + 1 >= buf.length) return 0;
@@ -44,6 +45,9 @@ export function readField(
 ): number {
   const spec = map.fields[fieldId];
   if (!spec) return 0;
+  if(map.game==='ishar2'&&fieldId==='gold'&&endian==='be'&&isOriginalSave(buf)) {
+    return readU16(buf,ORIGINAL_COMMERCE_OFFSETS.goldThousands+slot*2,endian)*1000+readU16(buf,ORIGINAL_COMMERCE_OFFSETS.goldRemainder+slot*2,endian);
+  }
   const off = fieldOffset(spec.offset, slot, spec.size);
   if (spec.size === 2) return readU16(buf, off, endian);
   return buf[off] ?? 0;
@@ -57,8 +61,15 @@ export function writeField(
   value: number,
   endian: Endian,
 ): number[] {
+  if(map.id==='ishar1-sav-debug')throw new Error('Ishar-1-Kandidatenlayout ist veraltet. Schreibzugriff bleibt bis zur geprüften Engine-Abbildung gesperrt.');
   const spec = map.fields[fieldId];
   if (!spec) return [];
+  if(map.game==='ishar2'&&fieldId==='gold'&&endian==='be'&&isOriginalSave(buf)) {
+    if(!Number.isSafeInteger(value)||value<0||value>65535999)throw new Error('Gold liegt außerhalb des Originalformats.');
+    const high=ORIGINAL_COMMERCE_OFFSETS.goldThousands+slot*2,low=ORIGINAL_COMMERCE_OFFSETS.goldRemainder+slot*2;
+    writeU16(buf,high,Math.floor(value/1000),endian);writeU16(buf,low,value%1000,endian);
+    return [high,high+1,low,low+1];
+  }
   const off = fieldOffset(spec.offset, slot, spec.size);
   const changed: number[] = [];
   if (spec.size === 2) {
@@ -207,6 +218,7 @@ export function patchParty(
   endian: Endian,
   party: CharacterView[],
 ): PatchResult {
+  if(map.id==='ishar1-sav-debug')throw new Error('Ishar-1-Kandidatenlayout ist veraltet. Patch-Export bleibt bis zur geprüften Engine-Abbildung gesperrt.');
   const bytes = new Uint8Array(original);
   const changedOffsets: number[] = [];
   for (const ch of party) {

@@ -1,9 +1,12 @@
+import {OriginalSaveMainEditor} from '@/components/original-save-main-editor';
 import { createFileRoute } from "@tanstack/react-router";
 import { useKit } from "@/lib/store";
 import { className, raceName, ISHAR1_SAVE, ISHAR2_SAVE } from "@/lib/ishar/save-maps";
 import { patchParty } from "@/lib/ishar/save-codec";
 import { downloadBytes } from "@/lib/utils";
 import type { CharacterView } from "@/lib/ishar/types";
+import { readActorSave, actorViewCandidate } from "@/lib/ishar/save-actors";
+import {readSaveWorldItems,worldItemViewCandidate} from '@/lib/ishar/save-world-items';
 
 export const Route = createFileRoute("/characters")({ component: CharacterLab });
 
@@ -18,7 +21,10 @@ function CharacterLab() {
   const state = useKit();
   const { party, selectedSlot, setSlot, game, endian, loadDemo, setGame, setEndian, loadSave, patchCharacter } = state;
   const map = game === "ishar1" ? ISHAR1_SAVE : ISHAR2_SAVE;
+  const legacyIshar1=map.id==='ishar1-sav-debug';
   const ch = party[selectedSlot];
+  const actorSave=game==="ishar2" && !state.isDemo && state.originalBytes ? readActorSave(state.originalBytes) : null;
+  const worldItems=actorSave&&state.originalBytes?readSaveWorldItems(state.originalBytes):null;
 
   async function openSave(file: File) {
     loadSave(file.name, new Uint8Array(await file.arrayBuffer()));
@@ -37,9 +43,11 @@ function CharacterLab() {
       <div className="toolbar">
         <label className="file-button">Save öffnen<input type="file" accept=".sav" onChange={(e)=>{ const f=e.currentTarget.files?.[0]; if(f) void openSave(f); }} /></label>
         <button onClick={loadDemo}>Demo</button>
-        <button className="secondary" disabled={!state.originalBytes} onClick={exportPatched}>Patch exportieren</button>
+        <button className="secondary" disabled={!state.originalBytes || legacyIshar1} onClick={exportPatched}>Patch exportieren</button>
       </div>
     </header>
+    {legacyIshar1 && <p role="alert">Ishar 1: Die bisherige Kandidatentabelle stimmt nicht mit dem lokalen DOS-Engine-Layout überein. Die Kandidatenwerte sind nur eine historische Ansicht; deren Bearbeitung und Patch-Export bleiben gesperrt. Das separate Werkzeug für belegte MAIN-Felder darunter benötigt die originale MAIN.IO.</p>}
+    <OriginalSaveMainEditor key={game} game={game==='ishar1'?'ishar1':'ishar2'}/>
     <div className="control-bar">
       <label>Spiel<select value={game} onChange={(e)=>setGame(e.target.value as "ishar1"|"ishar2")}><option value="ishar1">Ishar 1</option><option value="ishar2">Ishar 2</option></select></label>
       <label>Endian<select value={endian} onChange={(e)=>setEndian(e.target.value as "be"|"le")}><option value="be">Big endian</option><option value="le">Little endian</option></select></label>
@@ -59,10 +67,23 @@ function CharacterLab() {
         </article>
         <article className="editor-panel wide">
           <h2>Werte</h2>
-          <div className="field-grid">{editable.filter(([key])=>key in map.fields).map(([key,label])=><label key={String(key)}>{label}<input type="number" min="0" value={Number(ch[key])} onChange={(e)=>patchCharacter(ch.slot,{[key]:Number(e.target.value)} as Partial<CharacterView>)}/><small>{map.fields[String(key)]?.confidence}</small></label>)}</div>
+          <div className="field-grid">{editable.filter(([key])=>key in map.fields).map(([key,label])=><label key={String(key)}>{label}<input type="number" disabled={legacyIshar1} min="0" value={Number(ch[key])} onChange={(e)=>patchCharacter(ch.slot,{[key]:Number(e.target.value)} as Partial<CharacterView>)}/><small>{map.fields[String(key)]?.confidence}</small></label>)}</div>
         </article>
       </div>}
       <p className="audit-note">Export schreibt nur bekannte gemappte Felder in eine Kopie der geladenen Datei. Unbekannte Bytes bleiben unverändert. Namen bleiben bis zur Offset-Verifikation reine Projekt-Overlays.</p>
     </>}
+    {actorSave&&worldItems&&<article className="editor-panel"><h2>Original-Gegenstandspositionen</h2><p>Gespeicherte Objekttabellen, unabhängig von CONT. Aufgeführt sind Datensätze der aktuellen Karte. Der Renderer scannt IDs 0–110; weitere gespeicherte IDs werden als ungeprüft angezeigt.</p><div className="file-table-wrap"><table className="file-table"><thead><tr><th>Objekt-ID</th><th>r/c</th><th>Blick</th><th>Sichtkandidat</th></tr></thead><tbody>{worldItems.filter(item=>item.scene===actorSave.map).map(item=>{
+      const candidate=worldItemViewCandidate(actorSave,item);return <tr key={item.id}><td>{item.id}</td><td>{item.row}/{item.col}</td><td>{item.facing}</td><td>{item.id>110?'außerhalb AFFOBJ-Schleife':candidate?`Distanz ${candidate.distance}, seitlich ${candidate.lateral}`:'außerhalb'}</td></tr>;
+    })}</tbody></table></div></article>}
+    {actorSave && <article className="editor-panel">
+      <h2>NPC- und Kreaturenpositionen im Originalsave</h2>
+      <p>Karte {actorSave.map} · r{actorSave.row}/c{actorSave.col} · Originalblick {actorSave.facing} · Szene {actorSave.scene}</p>
+      <p>Originalslots 50–109 mit HP &gt; 0. „Sichtbereich“ prüft Szene, Blick und Entfernung; Verdeckung und Spriteauswahl werden separat geprüft. Diese Übersicht platziert noch keine NPCs im Playtest.</p>
+      <div className="file-table-wrap"><table className="file-table"><thead><tr><th>Slot</th><th>Typ</th><th>Position r/c</th><th>Blick</th><th>HP</th><th>Szene</th><th>Sichtbereich</th></tr></thead>
+        <tbody>{actorSave.actors.filter(a=>a.hp>0).map(actor=>{
+          const candidate=actorViewCandidate(actorSave,actor);
+          return <tr key={actor.id}><td>{actor.id}</td><td>{actor.type}</td><td>{actor.row}/{actor.col}</td><td>{actor.facing}</td><td>{actor.hp}</td><td>{actor.scene}</td><td>{candidate ? `Distanz ${candidate.distance}, seitlich ${candidate.lateral}` : "außerhalb"}</td></tr>;
+        })}</tbody></table></div>
+    </article>}
   </section>;
 }

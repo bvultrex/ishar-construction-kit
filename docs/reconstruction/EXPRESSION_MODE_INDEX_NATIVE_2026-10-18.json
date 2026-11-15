@@ -1,0 +1,613 @@
+{
+  "schema": "ishar-expression-mode-index-native-v1",
+  "profiles": [
+    {
+      "modes": {
+        "profile": "ishar1",
+        "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+        "cases": [
+          {
+            "mode": 0,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2000,
+            "cx": 0
+          },
+          {
+            "mode": 0,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2000,
+            "cx": 65535
+          },
+          {
+            "mode": 1,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2000,
+            "cx": 0
+          },
+          {
+            "mode": 1,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2000,
+            "cx": 65535
+          },
+          {
+            "mode": 2,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2000,
+            "cx": 0
+          },
+          {
+            "mode": 2,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2000,
+            "cx": 65535
+          },
+          {
+            "mode": 3,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2002,
+            "cx": 0
+          },
+          {
+            "mode": 3,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2002,
+            "cx": 65535
+          },
+          {
+            "mode": 5,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2004,
+            "cx": 0
+          },
+          {
+            "mode": 5,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2004,
+            "cx": 65535
+          },
+          {
+            "mode": 7,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2001,
+            "cx": 0
+          },
+          {
+            "mode": 7,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2001,
+            "cx": 65535
+          },
+          {
+            "mode": 8,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2000,
+            "cx": 0
+          },
+          {
+            "mode": 8,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2000,
+            "cx": 65535
+          },
+          {
+            "mode": 32768,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2000,
+            "cx": 0
+          },
+          {
+            "mode": 32768,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2000,
+            "cx": 65535
+          },
+          {
+            "mode": 65535,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2000,
+            "cx": 0
+          },
+          {
+            "mode": 65535,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2000,
+            "cx": 65535
+          }
+        ],
+        "result": "expression120 native output/registers and unchanged globals verified"
+      },
+      "indices": {
+        "profile": "ishar1",
+        "captureSha256": "5ce2bfdfc8365185eaa71d5c98fe5180db30b29181c610e416ec50ed782ed9b7",
+        "cases": [
+          {
+            "tag": 14,
+            "dimensions": 0,
+            "index": 0,
+            "si": 8,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "e4cd21e7848cc565301f0e950ac69eebc584e7703390460305c960bcf2d1227d"
+          },
+          {
+            "tag": 14,
+            "dimensions": 0,
+            "index": 3,
+            "si": 8,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "e4cd21e7848cc565301f0e950ac69eebc584e7703390460305c960bcf2d1227d"
+          },
+          {
+            "tag": 14,
+            "dimensions": 0,
+            "index": 65535,
+            "si": 8,
+            "dx": 0,
+            "cx": 30292,
+            "globalsHash": "e4cd21e7848cc565301f0e950ac69eebc584e7703390460305c960bcf2d1227d"
+          },
+          {
+            "tag": 14,
+            "dimensions": 1,
+            "index": 0,
+            "si": 12,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "a6be43ae3dd37df4fe3d43059e5549ba001d94eb99362a268261e0ff992ccde9"
+          },
+          {
+            "tag": 14,
+            "dimensions": 1,
+            "index": 3,
+            "si": 12,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "922e8793105d0394fb972e501864c680d0d76419135aa337a12ddf8a9c0c5d4b"
+          },
+          {
+            "tag": 14,
+            "dimensions": 1,
+            "index": 65535,
+            "si": 12,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "f28c389f5a7ef1c4ab1a6d5c85e9685efbdcb057891bea4518bd0e44a04a850d"
+          },
+          {
+            "tag": 14,
+            "dimensions": 2,
+            "index": 0,
+            "si": 16,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "471e7b105580269c6182eda6be4340b0672df7c021c4df9896b6b13776d9372d"
+          },
+          {
+            "tag": 14,
+            "dimensions": 2,
+            "index": 3,
+            "si": 16,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "b6b91919ae51a847549f658aafd334af02c8965353dfd6dee4f933702aa57a71"
+          },
+          {
+            "tag": 14,
+            "dimensions": 2,
+            "index": 65535,
+            "si": 16,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "43f55df60cc69a6739704fa03d84b3b9705426863d80c33c8398edaf6dcff635"
+          },
+          {
+            "tag": 16,
+            "dimensions": 0,
+            "index": 0,
+            "si": 8,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "e4cd21e7848cc565301f0e950ac69eebc584e7703390460305c960bcf2d1227d"
+          },
+          {
+            "tag": 16,
+            "dimensions": 0,
+            "index": 3,
+            "si": 8,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "e4cd21e7848cc565301f0e950ac69eebc584e7703390460305c960bcf2d1227d"
+          },
+          {
+            "tag": 16,
+            "dimensions": 0,
+            "index": 65535,
+            "si": 8,
+            "dx": 147,
+            "cx": 30292,
+            "globalsHash": "e4cd21e7848cc565301f0e950ac69eebc584e7703390460305c960bcf2d1227d"
+          },
+          {
+            "tag": 16,
+            "dimensions": 1,
+            "index": 0,
+            "si": 12,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "a6be43ae3dd37df4fe3d43059e5549ba001d94eb99362a268261e0ff992ccde9"
+          },
+          {
+            "tag": 16,
+            "dimensions": 1,
+            "index": 3,
+            "si": 12,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "cbe42f66dc86274e790df652cc88a289bd2da0e02e431ce774ee62749ccc39ef"
+          },
+          {
+            "tag": 16,
+            "dimensions": 1,
+            "index": 65535,
+            "si": 12,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "8704cf9e1e11ee7bf547cd66a09983b18a6c17de237e6f3fd82a330eccb64279"
+          },
+          {
+            "tag": 16,
+            "dimensions": 2,
+            "index": 0,
+            "si": 16,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "471e7b105580269c6182eda6be4340b0672df7c021c4df9896b6b13776d9372d"
+          },
+          {
+            "tag": 16,
+            "dimensions": 2,
+            "index": 3,
+            "si": 16,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "f83d931583801ac5e26ce203af2b8360a8df4f5ca615ace898a5b041e34abbcf"
+          },
+          {
+            "tag": 16,
+            "dimensions": 2,
+            "index": 65535,
+            "si": 16,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "2c77d87cfef966b5c28b2413f4cfb7b910d80ddc2104ed9ec2a46be86d352e1d"
+          }
+        ],
+        "limits": "disjoint segments, DF0; SI/DX/CX, globals and preserved sources checked; scratch registers/flags excluded"
+      }
+    },
+    {
+      "modes": {
+        "profile": "ishar2",
+        "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+        "cases": [
+          {
+            "mode": 0,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2000,
+            "cx": 0
+          },
+          {
+            "mode": 0,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2000,
+            "cx": 65535
+          },
+          {
+            "mode": 1,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2000,
+            "cx": 0
+          },
+          {
+            "mode": 1,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2000,
+            "cx": 65535
+          },
+          {
+            "mode": 2,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2000,
+            "cx": 0
+          },
+          {
+            "mode": 2,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2000,
+            "cx": 65535
+          },
+          {
+            "mode": 3,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2002,
+            "cx": 0
+          },
+          {
+            "mode": 3,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2002,
+            "cx": 65535
+          },
+          {
+            "mode": 5,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2004,
+            "cx": 0
+          },
+          {
+            "mode": 5,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2004,
+            "cx": 65535
+          },
+          {
+            "mode": 7,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2001,
+            "cx": 0
+          },
+          {
+            "mode": 7,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2001,
+            "cx": 65535
+          },
+          {
+            "mode": 8,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2000,
+            "cx": 0
+          },
+          {
+            "mode": 8,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2000,
+            "cx": 65535
+          },
+          {
+            "mode": 32768,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2000,
+            "cx": 0
+          },
+          {
+            "mode": 32768,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2000,
+            "cx": 65535
+          },
+          {
+            "mode": 65535,
+            "initialDx": 0,
+            "si": 1,
+            "dx": 2000,
+            "cx": 0
+          },
+          {
+            "mode": 65535,
+            "initialDx": 65535,
+            "si": 1,
+            "dx": 2000,
+            "cx": 65535
+          }
+        ],
+        "result": "expression120 native output/registers and unchanged globals verified"
+      },
+      "indices": {
+        "profile": "ishar2",
+        "captureSha256": "f8ab017849e50102a1c6d01e01439e153eb7d13c949d35a88c880561b3b12b04",
+        "cases": [
+          {
+            "tag": 14,
+            "dimensions": 0,
+            "index": 0,
+            "si": 8,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "e4cd21e7848cc565301f0e950ac69eebc584e7703390460305c960bcf2d1227d"
+          },
+          {
+            "tag": 14,
+            "dimensions": 0,
+            "index": 3,
+            "si": 8,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "e4cd21e7848cc565301f0e950ac69eebc584e7703390460305c960bcf2d1227d"
+          },
+          {
+            "tag": 14,
+            "dimensions": 0,
+            "index": 65535,
+            "si": 8,
+            "dx": 0,
+            "cx": 30292,
+            "globalsHash": "e4cd21e7848cc565301f0e950ac69eebc584e7703390460305c960bcf2d1227d"
+          },
+          {
+            "tag": 14,
+            "dimensions": 1,
+            "index": 0,
+            "si": 12,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "a6be43ae3dd37df4fe3d43059e5549ba001d94eb99362a268261e0ff992ccde9"
+          },
+          {
+            "tag": 14,
+            "dimensions": 1,
+            "index": 3,
+            "si": 12,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "922e8793105d0394fb972e501864c680d0d76419135aa337a12ddf8a9c0c5d4b"
+          },
+          {
+            "tag": 14,
+            "dimensions": 1,
+            "index": 65535,
+            "si": 12,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "f28c389f5a7ef1c4ab1a6d5c85e9685efbdcb057891bea4518bd0e44a04a850d"
+          },
+          {
+            "tag": 14,
+            "dimensions": 2,
+            "index": 0,
+            "si": 16,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "471e7b105580269c6182eda6be4340b0672df7c021c4df9896b6b13776d9372d"
+          },
+          {
+            "tag": 14,
+            "dimensions": 2,
+            "index": 3,
+            "si": 16,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "b6b91919ae51a847549f658aafd334af02c8965353dfd6dee4f933702aa57a71"
+          },
+          {
+            "tag": 14,
+            "dimensions": 2,
+            "index": 65535,
+            "si": 16,
+            "dx": 65427,
+            "cx": 30292,
+            "globalsHash": "43f55df60cc69a6739704fa03d84b3b9705426863d80c33c8398edaf6dcff635"
+          },
+          {
+            "tag": 16,
+            "dimensions": 0,
+            "index": 0,
+            "si": 8,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "e4cd21e7848cc565301f0e950ac69eebc584e7703390460305c960bcf2d1227d"
+          },
+          {
+            "tag": 16,
+            "dimensions": 0,
+            "index": 3,
+            "si": 8,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "e4cd21e7848cc565301f0e950ac69eebc584e7703390460305c960bcf2d1227d"
+          },
+          {
+            "tag": 16,
+            "dimensions": 0,
+            "index": 65535,
+            "si": 8,
+            "dx": 147,
+            "cx": 30292,
+            "globalsHash": "e4cd21e7848cc565301f0e950ac69eebc584e7703390460305c960bcf2d1227d"
+          },
+          {
+            "tag": 16,
+            "dimensions": 1,
+            "index": 0,
+            "si": 12,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "a6be43ae3dd37df4fe3d43059e5549ba001d94eb99362a268261e0ff992ccde9"
+          },
+          {
+            "tag": 16,
+            "dimensions": 1,
+            "index": 3,
+            "si": 12,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "cbe42f66dc86274e790df652cc88a289bd2da0e02e431ce774ee62749ccc39ef"
+          },
+          {
+            "tag": 16,
+            "dimensions": 1,
+            "index": 65535,
+            "si": 12,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "8704cf9e1e11ee7bf547cd66a09983b18a6c17de237e6f3fd82a330eccb64279"
+          },
+          {
+            "tag": 16,
+            "dimensions": 2,
+            "index": 0,
+            "si": 16,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "471e7b105580269c6182eda6be4340b0672df7c021c4df9896b6b13776d9372d"
+          },
+          {
+            "tag": 16,
+            "dimensions": 2,
+            "index": 3,
+            "si": 16,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "f83d931583801ac5e26ce203af2b8360a8df4f5ca615ace898a5b041e34abbcf"
+          },
+          {
+            "tag": 16,
+            "dimensions": 2,
+            "index": 65535,
+            "si": 16,
+            "dx": 37779,
+            "cx": 30292,
+            "globalsHash": "2c77d87cfef966b5c28b2413f4cfb7b910d80ddc2104ed9ec2a46be86d352e1d"
+          }
+        ],
+        "limits": "disjoint segments, DF0; SI/DX/CX, globals and preserved sources checked; scratch registers/flags excluded"
+      }
+    }
+  ]
+}
