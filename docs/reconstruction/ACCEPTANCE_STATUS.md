@@ -1,6 +1,6 @@
 # Aktueller Abnahmestand
 
-Stand: 14.11.2026, veröffentlichter und ausgelieferter Code83852b4, integrierte Nachträge bis45. Gesamtziel: vollständige Rekonstruktion **beider** DOS-Profile und Content-Toolkit; weiterhin offen. Diese Tabelle ist der operative Einstieg. [Projektprüfung](CURRENT_REVIEW_2026-11-14.md) enthält Anforderungen, Prozessregeln und die datierten Arbeitsnachträge; [PLAN](PLAN.md) und [COVERAGE](COVERAGE.md) behalten den vollständigen Umfang.
+Stand: 15.11.2026. Quellbasis0aa3c12; Nachträge bis49 selektiv übernommen. Bereits erzeugtes Testpaket0aa3c12; ältere Liefernotizen unten sind Historie. Gesamtziel: vollständige Rekonstruktion **beider** DOS-Profile und Content-Toolkit; weiterhin offen. Diese Tabelle ist der operative Einstieg. [Projektprüfung](CURRENT_REVIEW_2026-11-14.md) enthält Anforderungen, Prozessregeln und die datierten Arbeitsnachträge; [PLAN](PLAN.md) und [COVERAGE](COVERAGE.md) behalten den vollständigen Umfang.
 
 „Berichtet“ bezeichnet einen Original-EXE-Lauf von Grok mit lokal verglichenem Profil und Schreibvertrag. Dessen private Rohsaves liegen hier nicht vor. Hosttests, Browser und Originalausführung ersetzen einander nicht.
 
@@ -53,3 +53,9 @@ Nachtrag47 aus229885e selektiv übernommen: [nativer Stapel-Handtest](grok-repor
 ## Rest des Gesamtziels
 
 Auch nach A–D bleiben Ishar1-Produktintegration, vollständige Welt-/Übergangs-/Türzustände, originale KI/Kampf/Tod/Respawn, Magie, Dialoge/Quests, Audio, vollständige Originaldarstellung/VM/Boot, Ressourcenabhängigkeiten sowie neue Inhalte und ihre Speicher-/ID-/Originalexportgrenzen offen. Einzelne grüne Abläufe ergeben keine Gesamtquote und keinen Abschluss eines dieser Bereiche.
+
+## Fortsetzung 15.11.2026: Nachträge48/49
+
+[Queshs Tavernenvertrag](grok-reports/taverne-payment-contract.md) findet zwei Abweichungen im bisherigen Nahrungsadapter: HP>0 statt Klassenprüfung sowie signierte Nahrung. Beide korrigiert;2560 Fälle, gemischte Party, Subarray und vollständige Fremdbyteprüfung bestanden. Der lokale Originalprüfer bindet jetzt auch das HP-Gate0063f. Zahlung/Preis-/Zeitwriter und UI bleiben offen, ebenso native Mehrzahlerabnahme. Details: [Mahlzeitvertrag](TAVERN_MEAL_CONTRACT.md).
+
+[Alderaans sichtbarer LOGO-Modtest](grok-reports/logo-palette6-visible-modtest.md) bestätigt je zwei Originalstarts beider Spiele mit Palette6/Index5. Die vollständigen Zielhashes stimmen mit beiden lokalen vorbereiteten Kopien überein. Der rote Bildhintergrund und der Übergang zu Intro/Titel mit zurückgesetzter Farbe sind berichtet; private Rohbilder liegen hier nicht vor. Damit ist der zuvor offene Bildinhalt-Modfall auf Berichtsebene geschlossen. Vollständiger Spielstart, spätere Inhalte und neue Ressourcen bleiben offen. Keine neue lokale DOSBox-Ausführung.

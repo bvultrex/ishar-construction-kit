@@ -210,3 +210,10 @@ Die berichtigte Grok-Aussage zur bereits vorhandenen Nachtschließung aus89e2b41
 Die Zugänge4181 und4183 laufen jetzt beide aus der unveränderlichen Paketkopie `testbuild-1210da8`, nicht aus Repo-dist. Jeweils acht Routen, Buildkennung, alle Root-JS/CSS-Verweise und der optional konfigurierte lokale Händlerzugang geprüft. Vorhandene Browserseiten nach dem Wechsel neu laden. Enthalten sind beide gemessenen Original-Klickrechtecke, Nichtstapel-Handtausch, transientes Handpanel, ganze/einzelne Stapelweitergabe, Restmengen, Händlerkauf und Standort-/Inventar-SAV-Reload sowie der separate Ishar1-Feldeditor. Vollständiger Originalstart, allgemeine Formkollision, Waffen-/Stapelhandtausch und weitere Systeme bleiben offen.
 
 CI1210da8 erfolgreich:43642885087/43642890475 und43642890471. Das Testpaket wird nicht allein aufgrund grüner CI als vollständige Originalrekonstruktion eingestuft. Die separat beauftragten Originalgates sind weiterhin ausstehend.
+
+
+## Fortsetzung 15.11.2026: Tavernen-Korrektur und sichtbare Modabnahme
+
+Berichtsbranch explizit bis40258d8 aktualisiert; Nachträge48/49 selektiv übernommen. Queshs statischer TAVERNE-Vertrag widerlegt das Klassen-Gate des bisherigen Nahrungswriters. Das lokal direkt gebundene HP-Gate0063f prüft signierte HP>0. Der Adapter ist entsprechend korrigiert; signierte Nahrung einschließlich Rohbytes128..255 folgt nun der ALIS-Lesung und Bytearithmetik.2560 systematische Fälle, Mischgruppe, Subarrays und vollständige Fremdbyte-/Immutabilitätsprüfung sowie lokaler Originalbytevergleich und Typecheck bestanden. Zahlung, Zeitfelder und Tavernenoberfläche weiterhin offen; keine neue native Mahlzeitabnahme.
+
+Alderaans Bericht zu Palette6/Index5 übernommen. Lokale LOGO-Kopien vollständig hashgleich zu den vorbereiteten Erwartungswerten6a1f8bf02cfb… und08caa6f1a1cc…. Je zwei Originalstarts, sichtbarer roter Hintergrund und anschließendes Intro/Titel mit zurückgesetzter Farbe sind berichtet. Private Rohbilder verbleiben bei Grok; hier kein neuer Emulatorlauf. Der erste im eigentlichen Bild sichtbare Modfluss beider Profile ist damit auf Berichtsebene geschlossen, kein vollständiger Spielablauf.
