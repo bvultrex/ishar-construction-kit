@@ -8,6 +8,7 @@
     "test:original-tavern-payment": "node scripts/check-original-tavern-payment.mjs",
     "test:original-tavern-food-local": "node scripts/check-original-tavern-food-local.mjs",
     "test:original-tavern-time-local": "node scripts/check-original-tavern-time-local.mjs",
+    "prepare:original-tavern-browser": "node scripts/prepare-original-tavern-browser.mjs",
     "test:original-equipment-transfer": "node scripts/check-original-equipment-transfer.mjs",
     "test:original-equipment-local": "node scripts/check-original-equipment-local.mjs",
     "test:original-stack-hand": "node scripts/check-original-stack-hand.mjs",
