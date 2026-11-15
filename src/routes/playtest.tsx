@@ -16,6 +16,7 @@ import { readOriginalCarrier,receiveOriginalPurchase,type OriginalPurchase } fro
 import { readOriginalMerchants,readOriginalItemResources,type OriginalMerchant } from "@/lib/ishar/original-merchants";
 import { originalShopEntry } from "@/lib/ishar/original-shop-entry";
 import {beginOriginalTavernMeal,finishOriginalTavernMeal,originalTavernMealPrice} from "@/lib/ishar/original-tavern";
+import {originalTavernRumour} from "@/lib/ishar/original-tavern-dialogue";
 import { OriginalShop } from "@/components/original-shop";
 import { FACING_CODE } from "@/lib/ishar/grid-view";
 import { originalStarterItem, originalItemResource, authoredItemsInSight } from "@/lib/ishar/authored-item-view";
@@ -847,7 +848,7 @@ function PlaytestPage() {
   const [originalStatus,setOriginalStatus]=useState("");
   const [shopSelector,setShopSelector]=useState<number|null>(null);
   const [shopHeld,setShopHeld]=useState<OriginalPurchase|null>(null);
-  const [originalTavern,setOriginalTavern]=useState<{selector:number;phase:'offer'|'message'}|null>(null);
+  const [originalTavern,setOriginalTavern]=useState<{selector:number;phase:'offer'|'meal-message'|'listen-message'}|null>(null);
   const [actorListings,setActorListings]=useState<ActorListingBundle|null>(null);
   const [localMerchants,setLocalMerchants]=useState<OriginalMerchant[]>([]);
   const [shopResources,setShopResources]=useState<Record<number,number>>({});
@@ -915,16 +916,25 @@ function PlaytestPage() {
     if(!originalSave||!originalTavern||originalTavern.phase!=='offer')return;
     const result=beginOriginalTavernMeal(originalSave,originalTavern.selector);
     if(!result.ok){setOriginalStatus('Nicht genügend Gold für die Mahlzeit.');return;}
-    setOriginalSave(result.bytes);setOriginalTavern({...originalTavern,phase:'message'});setOriginalStatus(`Mahlzeit bestätigt · ${result.price} Gold. Zahlung und Nahrung folgen nach dem Schließen der Nachricht.`);
+    setOriginalSave(result.bytes);setOriginalTavern({...originalTavern,phase:'meal-message'});setOriginalStatus(`Mahlzeit bestätigt · ${result.price} Gold. Zahlung und Nahrung folgen nach dem Schließen der Nachricht.`);
   }
   function closeOriginalTavernMealMessage(){
-    if(!originalSave||!originalTavern||originalTavern.phase!=='message')return;
+    if(!originalSave||!originalTavern||originalTavern.phase!=='meal-message')return;
     const result=finishOriginalTavernMeal(originalSave,originalTavern.selector);
     if(!result.ok){setOriginalStatus('Tavernenzahlung konnte nicht abgeschlossen werden.');return;}
     setOriginalSave(result.bytes);setOriginalTavern({...originalTavern,phase:'offer'});setOriginalStatus(`Mahlzeit bezahlt · ${result.price} Gold. Nahrung und Originalzeit wurden fortgeschrieben.`);
   }
+  function listenOriginalTavern(){
+    if(!originalTavern||originalTavern.phase!=='offer')return;
+    const rumour=originalTavernRumour(originalTavern.selector);
+    setOriginalTavern({...originalTavern,phase:'listen-message'});setOriginalStatus(`Lauschen · Originalnachricht ${rumour.message}. Der Spielstand bleibt unverändert.`);
+  }
+  function closeOriginalTavernRumour(){
+    if(!originalTavern||originalTavern.phase!=='listen-message')return;
+    setOriginalTavern({...originalTavern,phase:'offer'});setOriginalStatus('Lauschen beendet · keine persistenten Werte verändert.');
+  }
   function leaveOriginalTavern(){
-    if(!originalTavern||originalTavern.phase==='message')return;
+    if(!originalTavern||originalTavern.phase!=='offer')return;
     setOriginalTavern(null);setFacing(value=>turnBack(value));
   }
   function exportOriginalSave(){
@@ -1303,7 +1313,7 @@ function PlaytestPage() {
     <div className="ishar-play-shell">
       <div className="ishar-stage-row">
         <main className="ishar-view-panel">
-          {originalTavern ? <section className="stone-card" aria-label={`Originaltaverne ${originalTavern.selector}`}><h2>Taverne</h2>{originalTavern.phase==='offer'?<><p>Preis für ein Essen: {originalTavernMealPrice(originalTavern.selector)} Gold</p><p>Die Zahlung wird wie im Original auf alle belegten Charakterplätze verteilt.</p><div className="toolbar"><button disabled={!originalSave} onClick={orderOriginalTavernMeal}>Essen</button><button onClick={leaveOriginalTavern}>Verlassen</button></div></>:<><p>Essensnachricht der Originalsequenz.</p><button onClick={closeOriginalTavernMealMessage}>Nachricht schließen</button></>}</section> : shopSelector!==null ? <OriginalShop selector={shopSelector} merchant={(game.originalMerchants??localMerchants).find(m=>m.selector===shopSelector)} pack={pack} resources={shopResources} canBuy={!!originalSave} held={shopHeld} onSelect={(purchase,position)=>{setShopHeld(purchase);setHeldItemStart(position);}} onReturn={()=>setShopHeld(null)} onExit={leaveOriginalShop}/> : (hudPanel==="character" || hudPanel==="inventory") ? <section className="ishar-character-sheet" aria-label={`Charakterblatt ${selectedMember.name}`}>
+          {originalTavern ? <section className="stone-card" aria-label={`Originaltaverne ${originalTavern.selector}`}><h2>Taverne</h2>{originalTavern.phase==='offer'?<><p>Preis für ein Essen: {originalTavernMealPrice(originalTavern.selector)} Gold</p><p>Die Zahlung wird wie im Original auf alle belegten Charakterplätze verteilt.</p><div className="toolbar"><button onClick={listenOriginalTavern}>Lauschen</button><button disabled={!originalSave} onClick={orderOriginalTavernMeal}>Essen</button><button onClick={leaveOriginalTavern}>Verlassen</button></div></>:originalTavern.phase==='meal-message'?<><p>Essensnachricht der Originalsequenz.</p><button onClick={closeOriginalTavernMealMessage}>Nachricht schließen</button></>:<><p>{originalTavernRumour(originalTavern.selector).text??`Originalnachricht ${originalTavernRumour(originalTavern.selector).message}; der Wortlaut ist noch nicht nativ erfasst.`}</p><button onClick={closeOriginalTavernRumour}>Nachricht schließen</button></>}</section> : shopSelector!==null ? <OriginalShop selector={shopSelector} merchant={(game.originalMerchants??localMerchants).find(m=>m.selector===shopSelector)} pack={pack} resources={shopResources} canBuy={!!originalSave} held={shopHeld} onSelect={(purchase,position)=>{setShopHeld(purchase);setHeldItemStart(position);}} onReturn={()=>setShopHeld(null)} onExit={leaveOriginalShop}/> : (hudPanel==="character" || hudPanel==="inventory") ? <section className="ishar-character-sheet" aria-label={`Charakterblatt ${selectedMember.name}`}>
             <header className="ishar-sheet-header"><div><small>Charakterblatt · {selectedPartyIndex+1}/5</small><h2>{selectedMember.name}</h2></div><button onClick={()=>setHudPanel(null)} aria-label="Charakterblatt schließen">×</button></header>
             <div className="ishar-sheet-body">
               <div className="ishar-sheet-status"><h3>Figur</h3>

@@ -18,6 +18,10 @@ prefix(0x326b,'1e000038125e4012123a288e'); // existing incoming stack -> empty s
 branch(0x3278,10,0x32d8);
 prefix(0x328b,'1e20162d38125e4012123a28');
 prefix(0x330c,'1e08000120162d'); // old code becomes held code
+prefix(0x3046,'1f380800014a00103a'); // selected slot code16 conversion gate
+prefix(0x308c,'203820162d56003b26bc4b5e02e8033a203a4c'); // -59: quantity*1000 -> word4c3a
+prefix(0x3138,'1e00ff20384c1e00003820162d'); // -51: word4c38=-1 and cursor count=0
+prefix(0x3596,'1f380800014a00103a'); // slot16 skips ordinary stack receive
 prefix(0x35fb,'203820162d56003b26bc4b3a');
 prefix(0x3615,'1e00003820162d56003b3a26');
 prefix(0x363e,'21121a3820162d56003b3a26');

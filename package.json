@@ -6,9 +6,12 @@
   "scripts": {
     "test:original-tavern-food": "node scripts/check-original-tavern-food.mjs",
     "test:original-tavern-payment": "node scripts/check-original-tavern-payment.mjs",
+    "test:original-tavern-dialogue": "node scripts/check-original-tavern-dialogue.mjs",
+    "test:original-tavern-dialogue-local": "node scripts/check-original-tavern-dialogue-local.mjs",
     "test:original-tavern-food-local": "node scripts/check-original-tavern-food-local.mjs",
     "test:original-tavern-time-local": "node scripts/check-original-tavern-time-local.mjs",
     "prepare:original-tavern-browser": "node scripts/prepare-original-tavern-browser.mjs",
+    "prepare:original-tavern-listen-browser": "node scripts/prepare-original-tavern-listen-browser.mjs",
     "test:original-equipment-transfer": "node scripts/check-original-equipment-transfer.mjs",
     "test:original-equipment-local": "node scripts/check-original-equipment-local.mjs",
     "test:original-stack-hand": "node scripts/check-original-stack-hand.mjs",

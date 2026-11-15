@@ -6,8 +6,8 @@ export interface OriginalHeldItem {id:number;quantity?:number}
 const limit=(id:number)=>id===-49?20:10;
 const swapArmour=(id:number)=>id>=-29&&id<=-26?originalItemArmour(id):0;
 
-/** FRISE02e20..03348. Supported inventory codes; effect16 and malformed stack
- * states remain outside this adapter's accepted inputs. A reserved target keeps
+/** FRISE02e20..03348. Supported inventory codes; malformed stack states outside
+ * the code16 conversion remain rejected. A reserved target keeps
  * its slot and cursor but still receives the original's early stack write.
  * A partial quantity transfer can succeed without exchanging the slot.
  */
@@ -16,8 +16,20 @@ export function placeOriginalHandItem(bytes:Uint8Array,held:OriginalHeldItem,car
  const incomingStack=originalStackCode(id),oldStack=old!==undefined&&originalStackCode(old);
  if(!person.present||person.hp<=0||(slot!==9&&slot!==10)||old===undefined)return null;
  if(!incomingStack&&!transferableOriginalInventoryCode(id))return null;
- if(old!==0&&old!==-125&&!oldStack&&!transferableOriginalInventoryCode(old))return null;
  if(incomingStack?(!Number.isInteger(held.quantity)||held.quantity!<1||held.quantity!>limit(id)):held.quantity!==undefined)return null;
+ // 03046..03150: slot code16 is a persistent effect converter, not an item
+ // exchange. L_03580 has already returned without touching carrier counters.
+ if(old===16){
+  if(id===-50||id===-49)return {bytes:Uint8Array.from(bytes),held:{id,quantity:held.quantity},accepted:0,swapped:false};
+  const copy=Uint8Array.from(bytes),view=new DataView(copy.buffer,copy.byteOffset,copy.byteLength),quantity=held.quantity!;
+  if(id===-51)view.setInt16(10,-1,false);
+  else {
+   const at=id>=-55?10:12,multiplier=[1000,100,10,1][id>=-55?id+55:id+59]!;
+   view.setInt16(at,view.getInt16(at,false)+quantity*multiplier,false);
+  }
+  return {bytes:copy,held:null,accepted:quantity,swapped:false};
+ }
+ if(old!==0&&old!==-125&&!oldStack&&!transferableOriginalInventoryCode(old))return null;
  if(!incomingStack&&!oldStack){
   const result=placeOriginalInventoryItem(bytes,id,carrier,slot,profile);
   return result?{bytes:result.bytes,held:result.held===null?null:{id:result.held} as OriginalHeldItem,accepted:0,swapped:old!==0}:null;

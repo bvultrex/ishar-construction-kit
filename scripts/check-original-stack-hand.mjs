@@ -39,4 +39,12 @@ assert.deepEqual(reservedFull.held,{id:-50,quantity:0});assert.equal(reservedFul
 put(reserved,0,0,-50);count(reserved,0,-50,9);const reservedRest=placeOriginalHandItem(reserved,{id:-50,quantity:3},0,9);
 assert.equal(readOriginalCarrier(reservedRest.bytes,0).slots[9],-125);assert.equal(readOriginalCarrier(reservedRest.bytes,0).stacks[9],10);
 assert.deepEqual(reservedRest.held,{id:-50,quantity:2});assert.equal(reservedRest.accepted,1);
-console.log(`${cases} stack hand cases plus partial/full existing-stack transfers, reserved-target early writes, reverse swaps, armour and two-hand interactions passed. Native and UI acceptance separate.`);
+// Slot16 converts -59..-51 into the two persistent effect words without
+// changing the slot or carrier counters. -50/-49 remain untouched on cursor.
+for(const [id,at,multiplier] of [[-59,12,1000],[-58,12,100],[-57,12,10],[-56,12,1],[-55,10,1000],[-54,10,100],[-53,10,10],[-52,10,1]]){
+ const b=base.slice();put(b,0,9,16);new DataView(b.buffer).setInt16(at,32000,false);const before=b.slice();
+ const r=placeOriginalHandItem(b,{id,quantity:3},0,9);assert.equal(r.accepted,3);assert.equal(r.held,null);assert.equal(new DataView(r.bytes.buffer).getInt16(at,false),(32000+3*multiplier+0x8000)%0x10000-0x8000);assert.equal(readOriginalCarrier(r.bytes,0).slots[9],16);assert.deepEqual(b,before);
+}
+{const b=base.slice();put(b,0,9,16);new DataView(b.buffer).setInt16(10,1234,false);const r=placeOriginalHandItem(b,{id:-51,quantity:7},0,9);assert.equal(new DataView(r.bytes.buffer).getInt16(10,false),-1);assert.equal(r.held,null);}
+for(const id of [-50,-49]){const b=base.slice();put(b,0,9,16);const r=placeOriginalHandItem(b,{id,quantity:4},0,9);assert.deepEqual(r.bytes,b);assert.deepEqual(r.held,{id,quantity:4});assert.equal(r.accepted,0);}
+console.log(`${cases} stack hand cases plus slot16 effects, reserved-target early writes, reverse swaps, armour and two-hand interactions passed. Native acceptance remains separate.`);
