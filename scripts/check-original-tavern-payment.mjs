@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {originalTavernMealPrice,payOriginalTavernMeal} from '../src/lib/ishar/original-tavern.ts';
+import {beginOriginalTavernMeal,finishOriginalTavernMeal,originalTavernMealPrice,payOriginalTavernMeal,ORIGINAL_TIME_OFFSETS as time} from '../src/lib/ishar/original-tavern.ts';
 import {ORIGINAL_COMMERCE_OFFSETS as offsets} from '../src/lib/ishar/original-commerce.ts';
 
 const make=(entries,hp=1)=>{const bytes=new Uint8Array(8359);bytes[1]=2;bytes.fill(255,offsets.classes,offsets.classes+5);const view=new DataView(bytes.buffer);for(const [c,t,e] of entries){bytes[offsets.classes+c]=c;view.setUint16(offsets.goldThousands+c*2,t,false);view.setUint16(offsets.goldRemainder+c*2,e,false);view.setInt16(offsets.hitPoints+c*2,hp,false);}return bytes;};
@@ -23,4 +23,8 @@ for(let seed=0;seed<500;seed++)for(let t=0;t<15;t++){
 }
 const wrapped=new Uint8Array(8373),sub=make([[0,1,0],[2,0,500]]);wrapped.set(sub,7);const outerBefore=wrapped.slice(),subResult=payOriginalTavernMeal(wrapped.subarray(7,8366),2);assert.equal(subResult.ok,true);assert.deepEqual(wrapped,outerBefore);
 assert.throws(()=>payOriginalTavernMeal(sub,-1));assert.throws(()=>payOriginalTavernMeal(sub,15));const invalid=sub.slice();invalid[1]=1;assert.throws(()=>payOriginalTavernMeal(invalid,2));const abnormal=sub.slice();new DataView(abnormal.buffer).setUint16(offsets.goldRemainder,1000,false);assert.throws(()=>payOriginalTavernMeal(abnormal,2),/normalisiert/);
+const timed=make([[0,1,0],[1,0,900]]),timedView=new DataView(timed.buffer);timedView.setUint16(time.hour,15,false);timedView.setUint16(time.day,2,false);timedView.setUint16(time.ticks,123,false);timedView.setInt16(offsets.hitPoints,1,false);timed[offsets.food]=60;
+const begun=beginOriginalTavernMeal(timed,2);assert.equal(begun.ok,true);assert.deepEqual(gold(begun.bytes,0),[1,0]);assert.equal(new DataView(begun.bytes.buffer).getUint16(time.hour,false),16);assert.equal(new DataView(begun.bytes.buffer).getUint16(time.ticks,false),999);
+const finished=finishOriginalTavernMeal(begun.bytes,2);assert.equal(finished.ok,true);const finishedView=new DataView(finished.bytes.buffer);assert.equal(finishedView.getUint16(time.hour,false),17);assert.equal(finishedView.getUint16(time.day,false),2);assert.equal(finishedView.getUint16(time.ticks,false),0);assert.equal(finished.bytes[offsets.food],100);assert.equal(gold(finished.bytes,0)[0]*1000+gold(finished.bytes,0)[1]+gold(finished.bytes,1)[1],1320);
+const midnight=make([[0,2,0]]),midnightView=new DataView(midnight.buffer);midnightView.setUint16(time.hour,23,false);midnightView.setUint16(time.day,9,false);const midnightBegin=beginOriginalTavernMeal(midnight,0);assert.equal(midnightBegin.ok,true);const midnightEnd=finishOriginalTavernMeal(midnightBegin.bytes,0);assert.equal(midnightEnd.ok,true);assert.equal(new DataView(midnightEnd.bytes.buffer).getUint16(time.hour,false),1);assert.equal(new DataView(midnightEnd.bytes.buffer).getUint16(time.day,false),10);
 console.log(`${cases} tavern payment cases plus five contract examples verify price, two-pass slot-order payment, insufficient funds, isolation and input immutability.`);

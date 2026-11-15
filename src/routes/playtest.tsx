@@ -15,6 +15,7 @@ import {takeOriginalEquipmentItem,placeOriginalEquipmentItem} from "@/lib/ishar/
 import { readOriginalCarrier,receiveOriginalPurchase,type OriginalPurchase } from "@/lib/ishar/original-commerce";
 import { readOriginalMerchants,readOriginalItemResources,type OriginalMerchant } from "@/lib/ishar/original-merchants";
 import { originalShopEntry } from "@/lib/ishar/original-shop-entry";
+import {beginOriginalTavernMeal,finishOriginalTavernMeal,originalTavernMealPrice} from "@/lib/ishar/original-tavern";
 import { OriginalShop } from "@/components/original-shop";
 import { FACING_CODE } from "@/lib/ishar/grid-view";
 import { originalStarterItem, originalItemResource, authoredItemsInSight } from "@/lib/ishar/authored-item-view";
@@ -846,6 +847,7 @@ function PlaytestPage() {
   const [originalStatus,setOriginalStatus]=useState("");
   const [shopSelector,setShopSelector]=useState<number|null>(null);
   const [shopHeld,setShopHeld]=useState<OriginalPurchase|null>(null);
+  const [originalTavern,setOriginalTavern]=useState<{selector:number;phase:'offer'|'message'}|null>(null);
   const [actorListings,setActorListings]=useState<ActorListingBundle|null>(null);
   const [localMerchants,setLocalMerchants]=useState<OriginalMerchant[]>([]);
   const [shopResources,setShopResources]=useState<Record<number,number>>({});
@@ -908,6 +910,22 @@ function PlaytestPage() {
     if(shopSelector===null || shopHeld)return;
     // MAIN0346f: leaving the original shop reverses 1<->3 and 2<->4.
     setShopSelector(null);setFacing(value=>turnBack(value));
+  }
+  function orderOriginalTavernMeal(){
+    if(!originalSave||!originalTavern||originalTavern.phase!=='offer')return;
+    const result=beginOriginalTavernMeal(originalSave,originalTavern.selector);
+    if(!result.ok){setOriginalStatus('Nicht genügend Gold für die Mahlzeit.');return;}
+    setOriginalSave(result.bytes);setOriginalTavern({...originalTavern,phase:'message'});setOriginalStatus(`Mahlzeit bestätigt · ${result.price} Gold. Zahlung und Nahrung folgen nach dem Schließen der Nachricht.`);
+  }
+  function closeOriginalTavernMealMessage(){
+    if(!originalSave||!originalTavern||originalTavern.phase!=='message')return;
+    const result=finishOriginalTavernMeal(originalSave,originalTavern.selector);
+    if(!result.ok){setOriginalStatus('Tavernenzahlung konnte nicht abgeschlossen werden.');return;}
+    setOriginalSave(result.bytes);setOriginalTavern({...originalTavern,phase:'offer'});setOriginalStatus(`Mahlzeit bezahlt · ${result.price} Gold. Nahrung und Originalzeit wurden fortgeschrieben.`);
+  }
+  function leaveOriginalTavern(){
+    if(!originalTavern||originalTavern.phase==='message')return;
+    setOriginalTavern(null);setFacing(value=>turnBack(value));
   }
   function exportOriginalSave(){
     if(!originalSave || originalHeld || shopHeld || !originalView || level?.grid?.game!=="ishar2")return;
@@ -1042,6 +1060,7 @@ function PlaytestPage() {
   function reset() {
     if(shopHeld)return;
     setShopSelector(null);
+    setOriginalTavern(null);
     const nextTrade={gold:game.startingGold??0,remaining:{},purchased:[]};tradeRef.current=nextTrade;setTrade(nextTrade);setActiveNpcId(null);
     setLocationId(game.startLocationId);
     setFacing(game.startFacing);
@@ -1082,7 +1101,7 @@ function PlaytestPage() {
   }
 
   function step(direction: Direction) {
-    if(shopSelector!==null)return;
+    if(shopSelector!==null||originalTavern!==null)return;
     if (!location || !encounterDone || defeated || selectedGroundItemId || originalHeld) return;
     // Test the original cell before consulting expanded exits: event cells are
     // intentionally not locations, but must still respond to a forward click.
@@ -1094,6 +1113,7 @@ function PlaytestPage() {
         const phase=originalSave?originalSave[91]!:1; // IO byte scalar MAIN519f
         const entry=result.message===17?originalShopEntry(result.value,phase):null;
         if(entry?.kind==='merchant'){setShopSelector(entry.selector);setHudPanel(null);setOriginalStatus('Ware wählen und anschließend das Charakterporträt anklicken.');return;}
+        if(entry?.kind==='tavern'){setOriginalTavern({selector:entry.selector,phase:'offer'});setHudPanel(null);setOriginalStatus(`Taverne ${entry.selector}: Mahlzeit kostet ${originalTavernMealPrice(entry.selector)} Gold.`);return;}
         if(entry?.kind==='closed'){setLog(x=>['Der Händler ist geschlossen.',...x]);return;}
         // Original event handlers are not implemented yet; do not disguise
         // their blocked interaction as an ordinary wall or invent a destination.
@@ -1233,6 +1253,7 @@ function PlaytestPage() {
       const target = event.target as HTMLElement | null;
       if (target?.closest("input,textarea,select")) return;
       const key = event.key.toLowerCase();
+      if(originalTavern){if(key==='escape'&&originalTavern.phase==='offer')leaveOriginalTavern();return;}
       if(shopSelector!==null){if(key==='escape'){if(shopHeld)setShopHeld(null);else leaveOriginalShop();}return;}
       if (["arrowup","arrowdown","arrowleft","arrowright","w","a","s","d"].includes(key)) event.preventDefault();
       if(key==="escape" && originalHeld){returnOriginalGround();return;}
@@ -1245,18 +1266,18 @@ function PlaytestPage() {
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [facing, locationId, encounterDone, defeated, openDoors, selectedGroundItemId, originalHeld,shopSelector,shopHeld]);
+  }, [facing, locationId, encounterDone, defeated, openDoors, selectedGroundItemId, originalHeld,shopSelector,shopHeld,originalTavern]);
 
   if (problems.length || !hero || !location) return <section><header className="page-head"><div><p className="eyebrow">Dungeon Playtest</p><h1>Projekt nicht spielbar</h1><p>Behebe zuerst die Raster- oder Referenzfehler im Adventure Builder.</p></div><Link className="file-button" to="/author">Zum Builder</Link></header><div className="empty-state">{problems.map((p,i)=><p key={i}>{p.path}: {p.message}</p>)}</div></section>;
 
   return <section className="crawler-page">
     <header className="page-head crawler-head">
       <div><p className="eyebrow">First-person dungeon runtime</p><h1>{project.name}</h1><p>WASD / Pfeiltasten: drehen und schrittweise bewegen.</p></div>
-      <div className="toolbar"><Link className="file-button" to="/author">Dungeon bearbeiten</Link><Link className="file-button" to="/assets">Assets</Link><label className="file-button">Originalspielstand laden<input type="file" accept=".sav" hidden disabled={!!originalHeld || !!shopHeld} onChange={e=>{const file=e.target.files?.[0];if(file)void loadOriginalGround(file);e.target.value="";}}/></label><button onClick={reset} disabled={!!originalHeld || !!shopHeld}>Neu starten</button></div>
+      <div className="toolbar"><Link className="file-button" to="/author">Dungeon bearbeiten</Link><Link className="file-button" to="/assets">Assets</Link><label className="file-button">Originalspielstand laden<input type="file" accept=".sav" hidden disabled={!!originalHeld || !!shopHeld || !!originalTavern} onChange={e=>{const file=e.target.files?.[0];if(file)void loadOriginalGround(file);e.target.value="";}}/></label><button onClick={reset} disabled={!!originalHeld || !!shopHeld || !!originalTavern}>Neu starten</button></div>
     </header>
 
     {originalStatus && <p role="status">{originalStatus}</p>}
-    {originalSave && <div className="toolbar"><button disabled={!!originalHeld || !!shopHeld || !originalView || level?.grid?.game!=="ishar2"} onClick={exportOriginalSave}>Geänderten Spielstand exportieren</button><button disabled={!!originalHeld || !!shopHeld} onClick={()=>{setOriginalSave(null);setOriginalStatus("");}}>Originalspielstand schließen</button></div>}
+    {originalSave && <div className="toolbar"><button disabled={!!originalHeld || !!shopHeld || !!originalTavern || !originalView || level?.grid?.game!=="ishar2"} onClick={exportOriginalSave}>Geänderten Spielstand exportieren</button><button disabled={!!originalHeld || !!shopHeld || !!originalTavern} onClick={()=>{setOriginalSave(null);setOriginalStatus("");}}>Originalspielstand schließen</button></div>}
     {originalHeld && [9,10].includes(originalHeld.id) && <button onClick={returnOriginalGround}>Gehaltenes Originalobjekt vor der Gruppe ablegen</button>}
     {originalSave && <section className="stone-card" aria-label="Originalinventar aller Charaktere">
       <h2>Originalinventar</h2><p>Gepäck aus dem geladenen Ishar-2-Spielstand. Diese Plätze sind unabhängig von der Demo-Party.</p>
@@ -1269,8 +1290,8 @@ function PlaytestPage() {
             if(index>=9&&!originalHandPanels[carrier]||index===11||index>=13)return null;const shown=index===12&&code!==0?code-1:code;
             return <li key={index}>
             {index===9||index===10?`Handplatz ${index}: `:index===12?'Ausrüstungsplatz 12: ':''}{code===0?'leer':code===-125?'für Zweihandwaffe reserviert':`Objekt ${shown}${index!==12&&code>=-59&&code<=-49?` · ${person.stacks[code+59]} Stück`:''}`}
-            {index<=10&&(transferableOriginalInventoryCode(code)||originalStackCode(code)) && <button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY},originalStackCode(code))}>Charakter {carrier+1}, Platz {index+1}: {originalStackCode(code)?'Ein Stück':'Objekt'} {code} aufnehmen</button>}
-            {code!==0&&index===12&&<button disabled={!!originalHeld||!!shopHeld||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY})}>Charakter {carrier+1}: Ausrüstung {shown} ablegen</button>}
+            {index<=10&&(transferableOriginalInventoryCode(code)||originalStackCode(code)) && <button disabled={!!originalHeld||!!shopHeld||!!originalTavern||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY},originalStackCode(code))}>Charakter {carrier+1}, Platz {index+1}: {originalStackCode(code)?'Ein Stück':'Objekt'} {code} aufnehmen</button>}
+            {code!==0&&index===12&&<button disabled={!!originalHeld||!!shopHeld||!!originalTavern||!!selectedGroundItemId||shopSelector!==null} onClick={event=>takeOriginalInventory(carrier,index,{x:event.clientX,y:event.clientY})}>Charakter {carrier+1}: Ausrüstung {shown} ablegen</button>}
             {originalHeld&&(index===9||index===10)&&<button disabled={(originalHeld.id!==10&&!placeOriginalHandItem(originalSave,originalHeld,carrier,index,originalWeapons??undefined))||person.hp<=0} onClick={()=>giveOriginalGround(carrier,index)}>Charakter {carrier+1}: Handplatz {index} {code===0||originalHeld.id===10?'übernehmen':originalHeld.quantity!==undefined?'übergeben':'tauschen'}</button>}
             {originalHeld&&index===12&&<button disabled={originalHeld.quantity!==undefined||!placeOriginalEquipmentItem(originalSave,originalHeld.id,carrier,12)} onClick={()=>giveOriginalEquipment(carrier)}>Charakter {carrier+1}: Ausrüstungsplatz 12 {code===0?'übernehmen':'tauschen'}</button>}
           </li>})}</ol></>}
@@ -1282,7 +1303,7 @@ function PlaytestPage() {
     <div className="ishar-play-shell">
       <div className="ishar-stage-row">
         <main className="ishar-view-panel">
-          {shopSelector!==null ? <OriginalShop selector={shopSelector} merchant={(game.originalMerchants??localMerchants).find(m=>m.selector===shopSelector)} pack={pack} resources={shopResources} canBuy={!!originalSave} held={shopHeld} onSelect={(purchase,position)=>{setShopHeld(purchase);setHeldItemStart(position);}} onReturn={()=>setShopHeld(null)} onExit={leaveOriginalShop}/> : (hudPanel==="character" || hudPanel==="inventory") ? <section className="ishar-character-sheet" aria-label={`Charakterblatt ${selectedMember.name}`}>
+          {originalTavern ? <section className="stone-card" aria-label={`Originaltaverne ${originalTavern.selector}`}><h2>Taverne</h2>{originalTavern.phase==='offer'?<><p>Preis für ein Essen: {originalTavernMealPrice(originalTavern.selector)} Gold</p><p>Die Zahlung wird wie im Original auf alle belegten Charakterplätze verteilt.</p><div className="toolbar"><button disabled={!originalSave} onClick={orderOriginalTavernMeal}>Essen</button><button onClick={leaveOriginalTavern}>Verlassen</button></div></>:<><p>Essensnachricht der Originalsequenz.</p><button onClick={closeOriginalTavernMealMessage}>Nachricht schließen</button></>}</section> : shopSelector!==null ? <OriginalShop selector={shopSelector} merchant={(game.originalMerchants??localMerchants).find(m=>m.selector===shopSelector)} pack={pack} resources={shopResources} canBuy={!!originalSave} held={shopHeld} onSelect={(purchase,position)=>{setShopHeld(purchase);setHeldItemStart(position);}} onReturn={()=>setShopHeld(null)} onExit={leaveOriginalShop}/> : (hudPanel==="character" || hudPanel==="inventory") ? <section className="ishar-character-sheet" aria-label={`Charakterblatt ${selectedMember.name}`}>
             <header className="ishar-sheet-header"><div><small>Charakterblatt · {selectedPartyIndex+1}/5</small><h2>{selectedMember.name}</h2></div><button onClick={()=>setHudPanel(null)} aria-label="Charakterblatt schließen">×</button></header>
             <div className="ishar-sheet-body">
               <div className="ishar-sheet-status"><h3>Figur</h3>
@@ -1321,11 +1342,11 @@ function PlaytestPage() {
           </section>}
           <div className="ishar-dpad" aria-label="Dungeon-Steuerung">
             <span/>
-            <button onClick={()=>step(facing)} disabled={!encounterDone || defeated || !!selectedGroundItemId || !!originalHeld || shopSelector!==null} aria-label="Vorwärts">▲</button>
+            <button onClick={()=>step(facing)} disabled={!encounterDone || defeated || !!selectedGroundItemId || !!originalHeld || shopSelector!==null || !!originalTavern} aria-label="Vorwärts">▲</button>
             <span/>
-            <button onClick={()=>setFacing(turnLeft(facing))} disabled={!!selectedGroundItemId || !!originalHeld || shopSelector!==null} aria-label="Links drehen">◀</button>
-            <button className="dpad-center" onClick={()=>step(turnBack(facing))} disabled={!encounterDone || defeated || !!selectedGroundItemId || !!originalHeld || shopSelector!==null} aria-label="Rückwärts">▼</button>
-            <button onClick={()=>setFacing(turnRight(facing))} disabled={!!selectedGroundItemId || !!originalHeld || shopSelector!==null} aria-label="Rechts drehen">▶</button>
+            <button onClick={()=>setFacing(turnLeft(facing))} disabled={!!selectedGroundItemId || !!originalHeld || shopSelector!==null || !!originalTavern} aria-label="Links drehen">◀</button>
+            <button className="dpad-center" onClick={()=>step(turnBack(facing))} disabled={!encounterDone || defeated || !!selectedGroundItemId || !!originalHeld || shopSelector!==null || !!originalTavern} aria-label="Rückwärts">▼</button>
+            <button onClick={()=>setFacing(turnRight(facing))} disabled={!!selectedGroundItemId || !!originalHeld || shopSelector!==null || !!originalTavern} aria-label="Rechts drehen">▶</button>
           </div>
                     {activeNpc && <section className="ishar-hud-panel" aria-label="NPC-Dialog"><button onClick={()=>setActiveNpcId(null)} aria-label="Gespräch beenden">×</button><h3>{activeNpc.name}</h3><p>{activeNpc.dialogue}</p>{activeNpc.stock && <><p>Gold: {trade.gold} · Für {selectedMember?.name}</p>{activeNpc.stock.map((stock,index)=>{const remaining=trade.remaining[stockKey(activeNpc.id,index)]??stock.quantity;return <button key={index} onClick={()=>buy(index)} disabled={remaining<=0 || trade.gold<stock.price || selectedMemberItems.length>=9}>{game.items.find(item=>item.id===stock.itemId)?.name??stock.itemId} kaufen · {stock.price} Gold ({remaining})</button>})}</>}</section>}
 <div className="ishar-context-buttons">{(location.npcIds??[]).map(id=>{const npc=game.npcs?.find(n=>n.id===id);return npc?<button key={id} onClick={()=>talkToNpc(id)} disabled={defeated || !encounterDone || !!selectedGroundItemId || !!originalHeld || shopSelector!==null}>{npc.name} ansprechen</button>:null;})}

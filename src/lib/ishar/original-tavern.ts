@@ -52,3 +52,35 @@ export function payOriginalTavernMeal(bytes:Uint8Array,tavern:number) {
  }
  return {ok:true as const,bytes:copy,price,paid:paid as [number,number,number,number,number]};
 }
+
+export const ORIGINAL_TIME_OFFSETS={hour:44,day:46,ticks:48} as const;
+export const ORIGINAL_DOS_TICKS_PER_HOUR=1000;
+
+/** TAVERNE 00443/00449: OK advances one hour and primes the next MAIN tick.
+ * The local DOS omodel is 2000..2004, hence MAIN selects 1000 ticks/hour.
+ */
+export function beginOriginalTavernMeal(bytes:Uint8Array,tavern:number) {
+ const affordable=payOriginalTavernMeal(bytes,tavern);
+ if(!affordable.ok)return affordable;
+ const copy=bytes.slice(),view=new DataView(copy.buffer,copy.byteOffset,copy.byteLength);
+ view.setUint16(ORIGINAL_TIME_OFFSETS.hour,(view.getUint16(ORIGINAL_TIME_OFFSETS.hour,false)+1)&0xffff,false);
+ view.setUint16(ORIGINAL_TIME_OFFSETS.ticks,ORIGINAL_DOS_TICKS_PER_HOUR-1,false);
+ return {ok:true as const,bytes:copy,price:affordable.price};
+}
+
+/** Close-message continuation: pay, feed, then model the first unpaused MAIN
+ * clock tick before the returned play view can be exported.
+ */
+export function finishOriginalTavernMeal(bytes:Uint8Array,tavern:number) {
+ const payment=payOriginalTavernMeal(bytes,tavern);
+ if(!payment.ok)return payment;
+ const copy=feedOriginalTavernParty(payment.bytes),view=new DataView(copy.buffer,copy.byteOffset,copy.byteLength);
+ let ticks=view.getUint16(ORIGINAL_TIME_OFFSETS.ticks,false)+1;
+ if(ticks>=ORIGINAL_DOS_TICKS_PER_HOUR){
+  ticks=0;let hour=view.getUint16(ORIGINAL_TIME_OFFSETS.hour,false)+1;
+  if(hour>=24){hour-=24;view.setUint16(ORIGINAL_TIME_OFFSETS.day,(view.getUint16(ORIGINAL_TIME_OFFSETS.day,false)+1)&0xffff,false);}
+  view.setUint16(ORIGINAL_TIME_OFFSETS.hour,hour&0xffff,false);
+ }
+ view.setUint16(ORIGINAL_TIME_OFFSETS.ticks,ticks,false);
+ return {...payment,bytes:copy};
+}

@@ -9,6 +9,7 @@
 - Der stat-unabhängige Ausrüstungsplatz12 unterstützt die belegten Codes -89..-82 einschließlich Rüstungswert, Tausch, Entnahme und Rückgabe. Zwei Export-/Reload-Rundläufe sind bytegenau geprüft.
 - Waffen -116..-90 lassen sich im Gepäck weitergeben. Für Handablage im Originalinventar die eigene Ishar2-PARAM.IO laden: Zweihandwaffen reservieren die Gegenhand; Entnahme und Handtausch lösen die alte Reservierung. Eine belegte Gegenhand verhindert die Ablage. Browserprüfung mit Zweihandwaffe, Export/Reload und Rückgabe bestanden.
 - Objekt10: Gold gutschreiben, Übertrag berücksichtigen und gehaltenen Beutelbetrag löschen; kein Inventareintrag.
+- Originale Tavernenfelder öffnen einen getrennten Mahlzeitablauf: Preis500+40·t, Geldmangel ohne Änderung, Bestätigung, Nachrichtenphase, Zwei-Pass-Zahlung über belegte Figuren, Nahrung und DOS-Zeitfortschreibung.
 - SAV-Export übernimmt die aktuelle Originalposition, Blickrichtung und Szene.
 - Separater hashgeprüfter Ishar1-MAIN/SAV-Feldeditor mit Undo/Redo. Alte unbestätigte Kandidatenmap bleibt schreibgesperrt.
 
@@ -23,6 +24,7 @@
 7. Für Waffen im Originalinventar „Waffenprofile laden (PARAM.IO)“ verwenden. Eine vorhandene Waffe aufnehmen, Handpanel der Zielfigur öffnen und einen verfügbaren Handplatz wählen. Bei Zweihandwaffen zeigt der andere Platz die Reservierung. Export/Reload prüfen; danach die Waffe entnehmen und ins Gepäck zurückgeben. Bei voller Gegenhand bleibt die entsprechende Ablage gesperrt.
 8. Für Stapel einen Stapel aus dem Gepäck auf einen belegten Handstapel legen. Bei Erreichen des Deckels muss der Rest am Cursor bleiben. Ein anderer unterstützter Gegenstand tauscht gegen den vollständigen alten Handstapel samt Menge.
 9. Für Ausrüstung das Hand-/Ausrüstungspanel öffnen. Einen Code -89..-82 aus dem Rucksack auf Platz12 übernehmen oder gegen vorhandene Ausrüstung tauschen; Rüstungswert, Export/Reload und anschließende Rückgabe prüfen.
+10. Auf einer importierten Ishar2-Karte einen Tavernen-Ereigniseingang betreten. „Essen“ wählen, die getrennte Nachricht schließen und danach die Taverne verlassen. Gold, Nahrung und Zeit im Originalinventar beziehungsweise nach SAV-Reload vergleichen. Bei zu wenig Gesamtgold darf sich der Save nicht ändern.
 
 ## Lokale Originalhändler
 
@@ -37,6 +39,6 @@ Die zugehörigen OBJET.IO.asm-, IO.IO.asm-, EAFF.IO.asm-, MAIN.IO.asm- und Figur
 
 ## Grenzen
 
-Dies ist ein Entwicklungsstand. Vollständiger Originalstart, alle NPCs, sämtliche Items und weitere Ausrüstungsregeln fehlen. Die zwei Stapel-Handkernfälle sind im Browser samt Export/Reload geprüft und in einem separat berichteten Original-EXE-Lauf bestätigt; Reservierung-125, Effektcode16 und weitere Sonderfälle bleiben nativ offen. Der stat-unabhängige Ausrüstungsplatz12 ist im Browser geprüft, aber noch nicht nativ abgenommen. Waffen-Handablage und Tausch sind anhand der lokalen Skripte und Hosttests angebunden; der Zweihand-Export/Reload ist im Browser geprüft, eine native Waffenabnahme steht aus. Objekt9 und10 auf CONT1 verwenden die im Original vermessenen Klickrechtecke. Original-Türmechanik und transiente NPC-Zustände werden nicht vollständig gespeichert. Außerhalb des belegten Umfangs keine vollständige Originalspiel-Kompatibilität annehmen.
+Dies ist ein Entwicklungsstand. Vollständiger Originalstart, alle NPCs, sämtliche Items und weitere Ausrüstungsregeln fehlen. Die zwei Stapel-Handkernfälle sind im Browser samt Export/Reload geprüft und in einem separat berichteten Original-EXE-Lauf bestätigt; Reservierung-125, Effektcode16 und weitere Sonderfälle bleiben nativ offen. Der stat-unabhängige Ausrüstungsplatz12 ist im Browser geprüft, aber noch nicht nativ abgenommen. Waffen-Handablage und Tausch sind anhand der lokalen Skripte und Hosttests angebunden; der Zweihand-Export/Reload ist im Browser geprüft, eine native Waffenabnahme steht aus. Der Tavernen-Mehrzahlerpfad ist statisch und lokal gebunden; nativ wurde bisher nur der Einzelzahlerfall beobachtet, Browserexport/Reload des neuen UI-Ablaufs steht noch aus. Objekt9 und10 auf CONT1 verwenden die im Original vermessenen Klickrechtecke. Original-Türmechanik und transiente NPC-Zustände werden nicht vollständig gespeichert. Außerhalb des belegten Umfangs keine vollständige Originalspiel-Kompatibilität annehmen.
 
 Originalnachweise, Browserintegration und Dateiroundtrips werden getrennt geführt. Hoths Originalspielbericht bestätigt die positiven Objekt9-/Gold10-Pfade; weitere Grenzen bleiben offen. Die genaue Quellrevision und Dateihashes stehen in BUILD_MANIFEST.json.
