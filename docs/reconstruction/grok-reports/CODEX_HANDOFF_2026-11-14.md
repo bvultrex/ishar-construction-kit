@@ -2,7 +2,9 @@
 
 Stand: 2026-11-14, Europe/Berlin. **Die Arbeit ruht seit 2026-11-03.** Seit der Pause gibt es keine neuen Commits auf den unten genannten Branches (geprüft am 2026-11-14).
 
-Dieses Dokument fasst alle Nachträge, die Fixtures, die Kit-Lücken und die offenen Punkte zusammen. **Nichts davon ist im Kit integriert.** Codex prüft und entscheidet über jede Integration.
+**Kontext (Stand 2026-11-16, Europe/Berlin):** Kit-Tip `workbench/playable-slice` `f2a77b9`. Nachträge bis 49 sind integriert. Neu ist Nachtrag 50 (§5.4r). Offene Aufträge laufen: Hoth `taverne-multipayer-native.md`, Alderaan `lauschen-t2-native.md`.
+
+Dieses Dokument fasst alle Nachträge, die Fixtures, die Kit-Lücken und die offenen Punkte zusammen. **Nichts davon ist im Kit integriert** (Stand 2026-11-14; den späteren Stand nennt der Kontext oben). Codex prüft und entscheidet über jede Integration.
 
 ## 1. Zweck und Regeln
 
@@ -241,6 +243,14 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 - Kandidat (analytisch): Palette 6 / Index 5 in I1 und I2 (LOGO-Bilder identisch). Sichtbar 44093 von 64000 px (Hintergrund 44086, Emblem 7), deterministisch I1 43930 / I2 43934; Hintergrund opak, Index nicht animiert. Zweiter Platz Index 17 (3012 px). Index 0: 0 sichtbare px. Kit-Zahl 109307 zählt über alle dekodierten Bilder (Hintergrund 320×300 plus Einträge 12–15 und Emblem) und passt zum Kandidaten. Risiko: Einträge 12–15 nutzen ebenfalls Index 5.
 - Nativer Test (Kit c472220, known): `mod:logo-visible-probe` exit 0 in beiden Spielen, Ziel-Hashes stimmen (I1 6a1f8bf02cfb, I2 08caa6f1a1cc), geändert nur LOGO.IO plus Manifest. In je zwei Starts ca. 44000 px schwarz → rot, alle an Index-5-Positionen; Rest im Referenzrauschen. Rahmen, Index 17, Schrift und Emblem unverändert. Übergang nach dem Logo: Titel und Intro normal, 0 rote Pixel (Palette wird zurückgesetzt). Quellen vorher = nachher.
 - Risiken: Zwei I2-Läufe hingen im Logo wegen verlorener Leertasten der Tastenautomatik (auch bei der Referenz); mit Fokus-Tasten liefen alle vier Kontrollläufe normal. Spätere Programmteile mit eigenen Paletten ungeprüft. Kit-Feld `verification` steht weiter auf `prepared-not-tested-in-original`.
+
+### 5.4r Nachtrag 50 – Code-16-Effekte (Quesh)
+- Bericht: `quesh/code16-effects-check-f2a77b9.md` (Quesh, 2026-11-16), statisch: Kit `f2a77b9` (`original-hand-runtime.ts` `placeOriginalHandItem`, `playtest.tsx`) gegen FRISE.IO 27117c124caf.
+- Stimmt (known): Gehaltene Stapel −59..−51 auf ein Handfeld mit Code 16 buchen in den Effektzweig 0x03069–0x03157: −59..−56 → Save 12 (main 0x4c3a) += q·1000/100/10/1, −55..−52 → Save 10 (main 0x4c38) += q·1000/100/10/1, −51 → Save 10 = −1; danach Cursor leer, kein Slot- oder Zählerwrite. −50/−49 auf 16: Abbruch ohne Tausch, im Kit und im Original gleich (0x03161).
+- **D1 (known):** Kit Z. 22–30 fängt jeden gehaltenen Code auf Code 16 ab, auch Nicht-Stapel. Ohne Menge entsteht NaN, Save 10 oder 12 wird auf 0 gesetzt und der Gegenstand verschwindet (`held: null`). Der Button ist aktiv (`playtest.tsx` Z. 1305). Das Original tauscht über `L_0315b` (0x03053): Code 16 an den Cursor, gehaltener Code in den Slot, Rüstungstausch. Bei Zweihandwaffen setzt 0x02ea1/0x02eea vorher −125 in der anderen Hand, sonst Abbruch bei 0x02f0b.
+  - **Empfehlung:** originalgetreuen Tausch umsetzen; mindestens ablehnen (`null`) statt Save 10/12 zu nullen. Betroffen: `original-hand-runtime.ts` Z. 22–30 und `playtest.tsx` Z. 1305.
+- **D2 (suspected):** `L_03b98` (0x02e32) gibt −125 der anderen Hand auch bei Ziel 16 frei; das Kit kehrt vorher zurück (Sentinel-Behandlung Z. 54). Der Zustand ist über belegte Pfade nicht erreichbar, nur über einen inkonsistenten Spielstand.
+- Offen (unknown): fachliche Bedeutung von Save 10/12 (main 0x4c38/0x4c3a); native Erreichbarkeit von D2; wie Code 16 in ein Handfeld gelangt.
 
 ### 5.5 Danach
 
