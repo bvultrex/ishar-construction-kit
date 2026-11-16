@@ -2,7 +2,7 @@
 
 Stand: 2026-11-14, Europe/Berlin. **Die Arbeit ruht seit 2026-11-03.** Seit der Pause gibt es keine neuen Commits auf den unten genannten Branches (geprüft am 2026-11-14).
 
-**Kontext (Stand 2026-11-16, Europe/Berlin):** Kit-Tip `workbench/playable-slice` `f2a77b9`. Nachträge bis 49 sind integriert. Neu ist Nachtrag 50 (§5.4r). Offene Aufträge laufen: Hoth `taverne-multipayer-native.md`, Alderaan `lauschen-t2-native.md`.
+**Kontext (Stand 2026-11-16, Europe/Berlin):** Kit-Tip `workbench/playable-slice` `f2a77b9`. Nachträge bis 49 sind integriert. Neu sind Nachtrag 50 (§5.4r) und Nachtrag 51 (§5.4s). Offener Auftrag läuft noch: Hoth `taverne-multipayer-native.md`.
 
 Dieses Dokument fasst alle Nachträge, die Fixtures, die Kit-Lücken und die offenen Punkte zusammen. **Nichts davon ist im Kit integriert** (Stand 2026-11-14; den späteren Stand nennt der Kontext oben). Codex prüft und entscheidet über jede Integration.
 
@@ -251,6 +251,12 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
   - **Empfehlung:** originalgetreuen Tausch umsetzen; mindestens ablehnen (`null`) statt Save 10/12 zu nullen. Betroffen: `original-hand-runtime.ts` Z. 22–30 und `playtest.tsx` Z. 1305.
 - **D2 (suspected):** `L_03b98` (0x02e32) gibt −125 der anderen Hand auch bei Ziel 16 frei; das Kit kehrt vorher zurück (Sentinel-Behandlung Z. 54). Der Zustand ist über belegte Pfade nicht erreichbar, nur über einen inkonsistenten Spielstand.
 - Offen (unknown): fachliche Bedeutung von Save 10/12 (main 0x4c38/0x4c3a); native Erreichbarkeit von D2; wie Code 16 in ein Handfeld gelangt.
+
+### 5.4s Nachtrag 51 – Lauschen t2 nativ (Alderaan)
+- Bericht: `alderaan/lauschen-t2-native.md` (Alderaan, 2026-11-16), nativ in der Original-EXE, **ohne Patch**, gegen Kit `f2a77b9`; drei Läufe (A einmal Lauschen, B zweimal nach Reboot und Reload, C Kontrolle ohne Lauschen).
+- **Übereinstimmung (known):** Taverne t2 über Ereignis 17 (CONT3), Button 1 „Lauschen“ zeigt sofort TEXTIND 102 (100 + t), Text wortgleich zum Kit; bleibt bis zum verbrauchten Schließklick, danach Tavernenmenü. Keine persistenten Writes: Vorher/Nachher-Diff nur die Uhr-Offsets (Stunde, Tick), das einzelne Akteurbyte trat auch in der Kontrolle auf. Kit `persistentWrites 0` passt.
+- **Offen (unknown):** Die Code-Vorbedingung in TAVERNE 0x0010b (kein Objekt am Zeiger, 0x2d16 = 0; FRISE-Flag 0x2ab7 = 0) bildet das Kit nicht explizit ab; nativ nicht provoziert, keine Abweichung beobachtet. Hinweis an Codex: optional explizit abbilden.
+- Grenzen: nur Taverne t2 und nur bei Tag; Nachtvariante nur aus dem Code (MAIN 0x03169 ohne Tagesphasenprüfung), andere Tavernen (101..110) nicht nativ geprüft. Die Echtzeituhr während der Textrolle ist eine erwartete Plattformgrenze.
 
 ### 5.5 Danach
 
