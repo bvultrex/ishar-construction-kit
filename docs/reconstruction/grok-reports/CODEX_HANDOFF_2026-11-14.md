@@ -2,7 +2,7 @@
 
 Stand: 2026-11-14, Europe/Berlin. **Die Arbeit ruht seit 2026-11-03.** Seit der Pause gibt es keine neuen Commits auf den unten genannten Branches (geprüft am 2026-11-14).
 
-**Kontext (Stand 2026-11-16, Europe/Berlin):** Kit-Tip `workbench/playable-slice` `f2a77b9`. Nachträge bis 49 sind integriert. Neu sind Nachtrag 50 (§5.4r) und Nachtrag 51 (§5.4s). Offener Auftrag läuft noch: Hoth `taverne-multipayer-native.md`.
+**Kontext (Stand 2026-11-16, Europe/Berlin):** Kit-Tip `workbench/playable-slice` `f2a77b9`. Nachträge bis 49 sind integriert. Neu sind die Nachträge 50–52 (§5.4r–§5.4t). Keine laufenden Aufträge.
 
 Dieses Dokument fasst alle Nachträge, die Fixtures, die Kit-Lücken und die offenen Punkte zusammen. **Nichts davon ist im Kit integriert** (Stand 2026-11-14; den späteren Stand nennt der Kontext oben). Codex prüft und entscheidet über jede Integration.
 
@@ -257,6 +257,17 @@ Insgesamt gibt es **26 Nachträge** zuzüglich Grundstock und diesem Handoff.
 - **Übereinstimmung (known):** Taverne t2 über Ereignis 17 (CONT3), Button 1 „Lauschen“ zeigt sofort TEXTIND 102 (100 + t), Text wortgleich zum Kit; bleibt bis zum verbrauchten Schließklick, danach Tavernenmenü. Keine persistenten Writes: Vorher/Nachher-Diff nur die Uhr-Offsets (Stunde, Tick), das einzelne Akteurbyte trat auch in der Kontrolle auf. Kit `persistentWrites 0` passt.
 - **Offen (unknown):** Die Code-Vorbedingung in TAVERNE 0x0010b (kein Objekt am Zeiger, 0x2d16 = 0; FRISE-Flag 0x2ab7 = 0) bildet das Kit nicht explizit ab; nativ nicht provoziert, keine Abweichung beobachtet. Hinweis an Codex: optional explizit abbilden.
 - Grenzen: nur Taverne t2 und nur bei Tag; Nachtvariante nur aus dem Code (MAIN 0x03169 ohne Tagesphasenprüfung), andere Tavernen (101..110) nicht nativ geprüft. Die Echtzeituhr während der Textrolle ist eine erwartete Plattformgrenze.
+
+### 5.4t Nachtrag 52 – Tavernenzahlung mit mehreren Zahlern nativ (Hoth)
+- Bericht: `hoth/taverne-multipayer-native.md` (Hoth, 2026-11-16), nativ in der Original-EXE gegen `payOriginalTavernMeal` (Kit `f2a77b9`, Mehrzahler `7aa9e34`); Taverne t = 2, Preis 580 = 500 + 40·2. Gold- und HP-Eingänge **mit Patch** (TMPA–TMPF), Save und Reload je Fall stabil.
+- **Übereinstimmungen (known):**
+  - Fall 1 (gemischte Goldstände, Borgen über die Tausendergrenze, Restschuld aus Fehlbeträgen): Gold und Nahrung bytegleich zum Kit. 58 Fremdbytes nur im ersten Lauf nach dem Booten, vermutet Welt-/Akteurzustand.
+  - Fall 2 (Restschuld in Pass 2, mehrere Beitragende): Endzustand bytegleich außer Uhr.
+  - Fall 3 (Summe 1 unter dem Preis): keine Preis-/ok-Leiste, Ablehnungsmeldung, kein Write; Meldungsindex −21 nur vermutet (kein Debugger).
+  - Fall 4b (Klasse 255, HP > 0): zahlt nicht, isst aber; Zahler-Gate (Klasse) und Esser-Gate (HP) auch nativ getrennt.
+- **Fall 4 (HP ≤ 0) nativ nicht erreichbar:** Der erste Bewegungsschritt wandelt eine belegte Figur mit HP ≤ 0 in einen Nicht-Zahler um (Klasse 255, Gold 0, dazu Writes auf 991/1478/7120/8036); ihr Gold wird nicht verteilt. Auf dem erreichbaren Zustand ist das Kit bytegleich.
+- **Vermutete Abweichung (suspected):** Dem Kit fehlt die Todesumwandlung beim Bewegungsschritt. Sie liegt vor `payOriginalTavernMeal` (kein Fehler der Zahlung) und ist im Browser ungeprüft; ein solcher Spielstand würde im Kit mit n = 5 statt n = 4 zahlen.
+- **Offen (unknown):** Preis ≥ 1000 (t ≥ 13); Teilung mit Rest (n = 3/4); Summe genau gleich Preis; Bedeutung der vier Bytes 991/1478/7120/8036; Reihenfolge der Writes und Null-Writes (kein Debugger).
 
 ### 5.5 Danach
 
